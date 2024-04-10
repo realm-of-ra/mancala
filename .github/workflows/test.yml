@@ -29,8 +29,8 @@ jobs:
 
       - name: Run Dojo Build
         run: |
-          cd contract && sozo build
+          cd contracts && sozo build
 
       - name: Run Dojo Test
         run: |
-          cd contract && sozo test -f mancala
+          cd contracts && sozo test -f mancala
