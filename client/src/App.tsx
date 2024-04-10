@@ -3,6 +3,7 @@ import { Entity } from "@dojoengine/recs";
 import { useEffect, useState } from "react";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "./dojo/useDojo";
+import { Button } from "@/components/ui/button";
 
 function App() {
   const {
@@ -55,17 +56,17 @@ function App() {
 
   return (
     <>
-      <button onClick={account?.create}>
+      <Button onClick={account?.create}>
         {account?.isDeploying ? "deploying burner" : "create burner"}
-      </button>
+      </Button>
       {account && account?.list().length > 0 && (
-        <button onClick={async () => await account?.copyToClipboard()}>
+        <Button onClick={async () => await account?.copyToClipboard()}>
           Save Burners to Clipboard
-        </button>
+        </Button>
       )}
-      <button onClick={handleRestoreBurners}>
+      <Button onClick={handleRestoreBurners}>
         Restore Burners from Clipboard
-      </button>
+      </Button>
       {clipboardStatus.message && (
         <div className={clipboardStatus.isError ? "error" : "success"}>
           {clipboardStatus.message}
@@ -90,12 +91,7 @@ function App() {
           </select>
         </div>
         <div>
-          <button
-            className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => account.clear()}
-          >
-            Clear burners
-          </button>
+          <Button onClick={() => account.clear()}>Clear burners</Button>
           <p>
             You will need to Authorise the contracts before you can use a
             burner. See readme.
