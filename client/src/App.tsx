@@ -1,7 +1,6 @@
 import { useComponentValue } from "@dojoengine/react";
 import { Entity } from "@dojoengine/recs";
 import { useEffect, useState } from "react";
-import "./App.css";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "./dojo/useDojo";
 
@@ -91,7 +90,12 @@ function App() {
           </select>
         </div>
         <div>
-          <button onClick={() => account.clear()}>Clear burners</button>
+          <button
+            className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={() => account.clear()}
+          >
+            Clear burners
+          </button>
           <p>
             You will need to Authorise the contracts before you can use a
             burner. See readme.
