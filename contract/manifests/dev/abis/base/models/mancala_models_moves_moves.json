@@ -170,55 +170,43 @@
   {
     "type": "impl",
     "name": "movesImpl",
-    "interface_name": "dojo_starter::models::moves::Imoves"
+    "interface_name": "mancala::models::moves::Imoves"
   },
   {
     "type": "enum",
-    "name": "dojo_starter::models::moves::Direction",
+    "name": "mancala::models::moves::Direction",
     "variants": [
       {
         "name": "None",
         "type": "()"
       },
       {
-        "name": "Left",
-        "type": "()"
-      },
-      {
         "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "Up",
-        "type": "()"
-      },
-      {
-        "name": "Down",
         "type": "()"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "dojo_starter::models::moves::Moves",
+    "name": "mancala::models::moves::Moves",
     "members": [
       {
         "name": "player",
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "remaining",
+        "name": "count",
         "type": "core::integer::u8"
       },
       {
-        "name": "last_direction",
-        "type": "dojo_starter::models::moves::Direction"
+        "name": "last_decision",
+        "type": "mancala::models::moves::Direction"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "dojo_starter::models::moves::Imoves",
+    "name": "mancala::models::moves::Imoves",
     "items": [
       {
         "type": "function",
@@ -226,7 +214,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "dojo_starter::models::moves::Moves"
+            "type": "mancala::models::moves::Moves"
           }
         ],
         "outputs": [],
@@ -236,7 +224,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::models::moves::moves::Event",
+    "name": "mancala::models::moves::moves::Event",
     "kind": "enum",
     "variants": []
   }

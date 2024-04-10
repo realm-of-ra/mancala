@@ -169,40 +169,52 @@
   },
   {
     "type": "impl",
-    "name": "positionImpl",
-    "interface_name": "dojo_starter::models::position::Iposition"
+    "name": "gameImpl",
+    "interface_name": "mancala::models::game::Igame"
   },
   {
-    "type": "struct",
-    "name": "dojo_starter::models::position::Vec2",
-    "members": [
+    "type": "enum",
+    "name": "mancala::models::player::PlayerSide",
+    "variants": [
       {
-        "name": "x",
-        "type": "core::integer::u32"
+        "name": "Left",
+        "type": "()"
       },
       {
-        "name": "y",
-        "type": "core::integer::u32"
+        "name": "Right",
+        "type": "()"
+      },
+      {
+        "name": "None",
+        "type": "()"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "dojo_starter::models::position::Position",
+    "name": "mancala::models::game::Game",
     "members": [
       {
-        "name": "player",
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "winner",
+        "type": "mancala::models::player::PlayerSide"
+      },
+      {
+        "name": "player_one",
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "vec",
-        "type": "dojo_starter::models::position::Vec2"
+        "name": "player_two",
+        "type": "core::starknet::contract_address::ContractAddress"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "dojo_starter::models::position::Iposition",
+    "name": "mancala::models::game::Igame",
     "items": [
       {
         "type": "function",
@@ -210,7 +222,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "dojo_starter::models::position::Position"
+            "type": "mancala::models::game::Game"
           }
         ],
         "outputs": [],
@@ -220,7 +232,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::models::position::position::Event",
+    "name": "mancala::models::game::game::Event",
     "kind": "enum",
     "variants": []
   }

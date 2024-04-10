@@ -1,0 +1,20 @@
+kind = "DojoModel"
+class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
+original_class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
+abi = "manifests/dev/abis/base/models/mancala_models_moves_moves.json"
+name = "mancala::models::moves::moves"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "count"
+type = "u8"
+key = false
+
+[[members]]
+name = "last_decision"
+type = "Direction"
+key = false

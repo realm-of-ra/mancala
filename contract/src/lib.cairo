@@ -1,12 +1,4 @@
-mod systems {
-    mod actions;
-}
-
-mod models {
-    mod moves;
-    mod position;
-}
-
-mod tests {
-    mod test_world;
-}
+mod constants;
+mod models;
+mod systems;
+mod tests;

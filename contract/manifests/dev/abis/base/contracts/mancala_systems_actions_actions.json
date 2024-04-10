@@ -55,56 +55,31 @@
   },
   {
     "type": "impl",
-    "name": "ActionsImpl",
-    "interface_name": "dojo_starter::systems::actions::IActions"
-  },
-  {
-    "type": "enum",
-    "name": "dojo_starter::models::moves::Direction",
-    "variants": [
-      {
-        "name": "None",
-        "type": "()"
-      },
-      {
-        "name": "Left",
-        "type": "()"
-      },
-      {
-        "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "Up",
-        "type": "()"
-      },
-      {
-        "name": "Down",
-        "type": "()"
-      }
-    ]
+    "name": "IActionsImpl",
+    "interface_name": "mancala::systems::actions::IActions"
   },
   {
     "type": "interface",
-    "name": "dojo_starter::systems::actions::IActions",
+    "name": "mancala::systems::actions::IActions",
     "items": [
       {
         "type": "function",
         "name": "spawn",
-        "inputs": [],
-        "outputs": [],
-        "state_mutability": "view"
-      },
-      {
-        "type": "function",
-        "name": "move",
         "inputs": [
           {
-            "name": "direction",
-            "type": "dojo_starter::models::moves::Direction"
+            "name": "player_one",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "player_two",
+            "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
-        "outputs": [],
+        "outputs": [
+          {
+            "type": "core::integer::u32"
+          }
+        ],
         "state_mutability": "view"
       }
     ]
@@ -158,7 +133,7 @@
   },
   {
     "type": "event",
-    "name": "dojo_starter::systems::actions::actions::Event",
+    "name": "mancala::systems::actions::actions::Event",
     "kind": "enum",
     "variants": [
       {

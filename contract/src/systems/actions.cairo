@@ -1,93 +1,41 @@
-use dojo_starter::models::moves::Direction;
-use dojo_starter::models::position::Position;
+use starknet::ContractAddress;
 
-// define the interface
 #[dojo::interface]
 trait IActions {
-    fn spawn();
-    fn move(direction: Direction);
+    fn spawn(player_one: ContractAddress, player_two: ContractAddress) -> u32;
 }
 
-// dojo decorator
 #[dojo::contract]
 mod actions {
-    use super::{IActions, next_position};
+    use mancala::models::game::{Game, GameTurn, GameTurnTrait};
+    use mancala::models::player::{Player, PlayerSide};
+    use mancala::models::seed::Seed;
+    use super::{ContractAddress, IActions};
 
-    use starknet::{ContractAddress, get_caller_address};
-    use dojo_starter::models::{position::{Position, Vec2}, moves::{Moves, Direction}};
-
-    // declaring custom starknet event 
-    // #[event]
-    // #[derive(Drop, starknet::Event)]
-    // enum Event {
-    //     Moved: Moved,
-    // }
-
-    //  declaring custom event struct
-    // #[derive(starknet::Event, Model, Copy, Drop, Serde)]
-    // struct Moved {
-    //     #[key]
-    //     player: ContractAddress,
-    //     direction: Direction
-    // }    
-    // impl: implement functions specified in trait
     #[abi(embed_v0)]
-    impl ActionsImpl of IActions<ContractState> {
-        fn spawn(world: IWorldDispatcher) {
-            // Get the address of the current caller, possibly the player's address.
-            let player = get_caller_address();
-            // Retrieve the player's current position from the world.
-            let position = get!(world, player, (Position));
+    impl IActionsImpl of IActions<ContractState> {
+        fn spawn(world: IWorldDispatcher, player_one: ContractAddress, player_two: ContractAddress) -> u32 {
+            let game_id = world.uuid();
 
-            // Update the world state with the new data.
-            // 1. Set the player's remaining moves to 100.
-            // 2. Move the player's position 10 units in both the x and y direction.
             set!(
-                world,
-                (
-                    Moves { player, remaining: 100, last_direction: Direction::None(()) },
-                    Position {
-                        player, vec: Vec2 { x: position.vec.x + 10, y: position.vec.y + 10 }
-                    },
-                )
+              world,
+              (
+                Player {
+                  game_id: game_id,
+                  side: PlayerSide::Left,
+                  address: player_one,
+                  pending_seeds: 26,
+                },
+                Player {
+                  game_id: game_id,
+                  side: PlayerSide::Right,
+                  address: player_two,
+                  pending_seeds: 26,
+                },
+              )
             );
-        }
 
-        // Implementation of the move function for the ContractState struct.
-        fn move(world: IWorldDispatcher, direction: Direction) {
-            // Get the address of the current caller, possibly the player's address.
-            let player = get_caller_address();
-
-            // Retrieve the player's current position and moves data from the world.
-            let (mut position, mut moves) = get!(world, player, (Position, Moves));
-
-            // Deduct one from the player's remaining moves.
-            let remaining = moves.remaining - 1;
-            moves.remaining = remaining;
-
-            // Update the last direction the player moved in.
-            moves.last_direction = direction;
-
-            // Calculate the player's next position based on the provided direction.
-            let next = next_position(position, direction);
-
-            // Update the world state with the new moves data and position.
-            set!(world, (moves, next));
-            // Emit an event to the world to notify about the player's move.
-            // emit!(world, Moved { player, direction });
-            emit!(world, (Moves { player, remaining, last_direction: direction }));
+            game_id
         }
     }
-}
-
-// Define function like this:
-fn next_position(mut position: Position, direction: Direction) -> Position {
-    match direction {
-        Direction::None => { return position; },
-        Direction::Left => { position.vec.x -= 1; },
-        Direction::Right => { position.vec.x += 1; },
-        Direction::Up => { position.vec.y -= 1; },
-        Direction::Down => { position.vec.y += 1; },
-    };
-    position
 }

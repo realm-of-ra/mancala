@@ -1,0 +1,25 @@
+kind = "DojoModel"
+class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
+original_class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
+abi = "manifests/dev/abis/base/models/mancala_models_game_game.json"
+name = "mancala::models::game::game"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "winner"
+type = "PlayerSide"
+key = false
+
+[[members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
