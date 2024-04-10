@@ -2,44 +2,74 @@
 
 import { defineComponent, Type as RecsType, World } from "@dojoengine/recs";
 
-export type ContractComponents = Awaited<
-    ReturnType<typeof defineContractComponents>
->;
+export type ContractComponents = Awaited<ReturnType<typeof defineContractComponents>>;
 
 export function defineContractComponents(world: World) {
-    return {
-        Moves: (() => {
-            return defineComponent(
-                world,
-                {
-                    player: RecsType.BigInt,
-                    remaining: RecsType.Number,
-                    last_direction: RecsType.String,
-                },
-                {
-                    metadata: {
-                        name: "Moves",
-                        types: ["contractaddress", "u8", "enum"],
-                        customTypes: ["Direction"],
-                    },
-                }
-            );
-        })(),
-        Position: (() => {
-            return defineComponent(
-                world,
-                {
-                    player: RecsType.BigInt,
-                    vec: { x: RecsType.Number, y: RecsType.Number },
-                },
-                {
-                    metadata: {
-                        name: "Position",
-                        types: ["contractaddress", "u32", "u32"],
-                        customTypes: ["Vec2"],
-                    },
-                }
-            );
-        })(),
-    };
+  return {
+    Game: (() => {
+      return defineComponent(
+        world,
+        { game_id: RecsType.Number, winner: RecsType.Number, player_one: RecsType.BigInt, player_two: RecsType.BigInt },
+        {
+          metadata: {
+            name: "Game",
+            types: ["u32","enum","contractaddress","contractaddress"],
+            customTypes: ["PlayerSide"],
+          },
+        }
+      );
+    })(),
+    GameTurn: (() => {
+      return defineComponent(
+        world,
+        { game_id: RecsType.Number, player_side: RecsType.Number },
+        {
+          metadata: {
+            name: "GameTurn",
+            types: ["u32","enum"],
+            customTypes: ["PlayerSide"],
+          },
+        }
+      );
+    })(),
+    Moves: (() => {
+      return defineComponent(
+        world,
+        { player: RecsType.BigInt, count: RecsType.Number, last_decision: RecsType.Number },
+        {
+          metadata: {
+            name: "Moves",
+            types: ["contractaddress","u8","enum"],
+            customTypes: ["Direction"],
+          },
+        }
+      );
+    })(),
+    Player: (() => {
+      return defineComponent(
+        world,
+        { game_id: RecsType.Number, address: RecsType.BigInt, pending_seeds: RecsType.Number, side: RecsType.Number },
+        {
+          metadata: {
+            name: "Player",
+            types: ["u32","contractaddress","u32","enum"],
+            customTypes: ["PlayerSide"],
+          },
+        }
+      );
+    })(),
+    Seed: (() => {
+      return defineComponent(
+        world,
+        { game_id: RecsType.Number, position: { x: RecsType.Number, y: RecsType.Number }, player_side: RecsType.Number },
+        {
+          metadata: {
+            name: "Seed",
+            types: ["u32","u32","u32","enum"],
+            customTypes: ["Vec2","PlayerSide"],
+          },
+        }
+      );
+    })(),
+  };
 }
