@@ -3,10 +3,10 @@ kind = "Contract"
 class_hash = "0x799bc4e9da10bfb3dd88e6f223c9cfbf7745435cd14f5d69675ea448e578cd"
 original_class_hash = "0x799bc4e9da10bfb3dd88e6f223c9cfbf7745435cd14f5d69675ea448e578cd"
 abi = "abis/deployments/dojo_world_world.json"
-address = "0x446f1f19ba951b59935df72974f8ba6060e5fbb411ca21d3e3e3812e3eb8df8"
-transaction_hash = "0x7f1456c94b5cc20a043c7acb7e183a31b57b6de82699b062498189f8aae9d0b"
+address = "0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"
+transaction_hash = "0x504f5faa64ad5218038b2ba2578751ab1b80a6a489fa35afe1c7247190736cf"
 block_number = 3
-seed = "dojo_starter"
+seed = "mancala"
 name = "dojo::world::world"
 
 [base]
@@ -17,22 +17,66 @@ name = "dojo::base::base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x7ec42d76c6d876b8f219c20b6a152fe35fe2afc62c471b29ba689c2f6a075b3"
-class_hash = "0x1d9defcdd0a85810e88f34def5030abb3f56c7f528db876092dd0a4adc879fd"
-original_class_hash = "0x1d9defcdd0a85810e88f34def5030abb3f56c7f528db876092dd0a4adc879fd"
+address = "0x5a5936e60c561c07cb2225ebfb7205f7d204c14f6ed5ee331a3aa989feeeb28"
+class_hash = "0x442d645452a318879e124c7d77b1218fd99cac6bff44b2980c142d18088e6bd"
+original_class_hash = "0x442d645452a318879e124c7d77b1218fd99cac6bff44b2980c142d18088e6bd"
 base_class_hash = "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76"
-abi = "abis/deployments/contracts/dojo_starter_systems_actions_actions.json"
+abi = "abis/deployments/contracts/mancala_systems_actions_actions.json"
 reads = []
 writes = []
 computed = []
-name = "dojo_starter::systems::actions::actions"
+name = "mancala::systems::actions::actions"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x23c28dcfad6be01ca6509fdb35fd2bed6622238397613c60da5d387a43c38d0"
-original_class_hash = "0x23c28dcfad6be01ca6509fdb35fd2bed6622238397613c60da5d387a43c38d0"
-abi = "abis/deployments/models/dojo_starter_models_moves_moves.json"
-name = "dojo_starter::models::moves::moves"
+class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
+original_class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
+abi = "abis/deployments/models/mancala_models_game_game.json"
+name = "mancala::models::game::game"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "winner"
+type = "PlayerSide"
+key = false
+
+[[models.members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x26560d64f3017bf49114c68ee8ba7cdedf67a05a8c99605958050c621635ac3"
+original_class_hash = "0x26560d64f3017bf49114c68ee8ba7cdedf67a05a8c99605958050c621635ac3"
+abi = "abis/deployments/models/mancala_models_game_game_turn.json"
+name = "mancala::models::game::game_turn"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "player_side"
+type = "PlayerSide"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
+original_class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
+abi = "abis/deployments/models/mancala_models_moves_moves.json"
+name = "mancala::models::moves::moves"
 
 [[models.members]]
 name = "player"
@@ -40,28 +84,60 @@ type = "ContractAddress"
 key = true
 
 [[models.members]]
-name = "remaining"
+name = "count"
 type = "u8"
 key = false
 
 [[models.members]]
-name = "last_direction"
+name = "last_decision"
 type = "Direction"
 key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x2e9c42b868b520d54bff1b7f4c9b91f39bb2e2ad1c39d6484fb5d8a95382e01"
-original_class_hash = "0x2e9c42b868b520d54bff1b7f4c9b91f39bb2e2ad1c39d6484fb5d8a95382e01"
-abi = "abis/deployments/models/dojo_starter_models_position_position.json"
-name = "dojo_starter::models::position::position"
+class_hash = "0x4967f36fd9c734502187436bd7845c9a5bdc30df3418cf72dd24822449192d3"
+original_class_hash = "0x4967f36fd9c734502187436bd7845c9a5bdc30df3418cf72dd24822449192d3"
+abi = "abis/deployments/models/mancala_models_player_player.json"
+name = "mancala::models::player::player"
 
 [[models.members]]
-name = "player"
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "address"
 type = "ContractAddress"
 key = true
 
 [[models.members]]
-name = "vec"
+name = "pending_seeds"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "side"
+type = "PlayerSide"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2ccfe3d90e9094720e0c00172f5c76bd9d71642bd80c098c954d0abf9919450"
+original_class_hash = "0x2ccfe3d90e9094720e0c00172f5c76bd9d71642bd80c098c954d0abf9919450"
+abi = "abis/deployments/models/mancala_models_seed_seed.json"
+name = "mancala::models::seed::seed"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "position"
 type = "Vec2"
+key = true
+
+[[models.members]]
+name = "player_side"
+type = "PlayerSide"
 key = false
