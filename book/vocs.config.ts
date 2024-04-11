@@ -1,15 +1,25 @@
 import { defineConfig } from 'vocs'
 
 export default defineConfig({
-  title: 'Docs',
+  socials: [
+      {
+        icon: 'github',
+        link: 'https://github.com/realm-of-ra/mancala',
+      },
+      {
+        icon: 'x',
+        link: 'https://twitter.com/starknetafrica',
+      },
+    ],
+  title: 'Mancala',
   sidebar: [
     {
-      text: 'Getting Started',
+      text: 'Overview',
       link: '/getting-started',
     },
     {
-      text: 'Example',
-      link: '/example',
+      text: 'Game Play',
+      link: '/game-play',
     },
   ],
 })

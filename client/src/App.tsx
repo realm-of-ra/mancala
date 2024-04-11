@@ -91,7 +91,9 @@ function App() {
           </select>
         </div>
         <div>
-          <Button onClick={() => account.clear()}>Clear burners</Button>
+          <Button variant={"destructive"} onClick={() => account.clear()}>
+            Clear burners
+          </Button>
           <p>
             You will need to Authorise the contracts before you can use a
             burner. See readme.
