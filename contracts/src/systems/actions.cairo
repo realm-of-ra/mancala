@@ -3,6 +3,8 @@ use starknet::ContractAddress;
 #[dojo::interface]
 trait IActions {
     fn spawn(player_one: ContractAddress, player_two: ContractAddress) -> u32;
+    fn play_turn(game_id: u32, player: ContractAddress, pit: u8);
+    fn capture(game_id: u32, player: ContractAddress, pit: u8);
 }
 
 #[dojo::contract]
