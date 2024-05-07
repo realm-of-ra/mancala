@@ -19,6 +19,9 @@ import end from "./assets/end.png";
 import muteImage from "./assets/mute.png";
 import unmuteImage from "./assets/unmute.png";
 import leaderboard from "./assets/leaderboard.png";
+import message from "./assets/messages.png";
+import clsx from 'clsx';
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 function App() {
   // const {
@@ -76,8 +79,8 @@ function App() {
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={2}
-        stroke="currentColor"
-        className={`${id === open ? "rotate-180" : ""} h-5 w-5 transition-transform`}
+        stroke="#27292F"
+        className={`${id === open ? "rotate-[360deg]" : "rotate-[180deg]"} h-5 w-5 transition-transform`}
       >
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
       </svg>
@@ -94,8 +97,66 @@ function App() {
     setMute(!mute);
   }
 
+  const animate = {
+    mount: { scale: 1 },
+    unmount: { scale: 0.9 },
+  };
+
+  const players = ["isreal", "eniola"]
+
+  const chat = [
+    {
+      user: "isreal",
+      avatar: israel,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "eniola",
+      avatar: eniola,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "isreal",
+      avatar: israel,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "eniola",
+      avatar: eniola,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "isreal",
+      avatar: israel,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "eniola",
+      avatar: eniola,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "isreal",
+      avatar: israel,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+    {
+      user: "eniola",
+      avatar: eniola,
+      message: "I will take it easy on you Eniola, but show me what you've got.",
+      date: "01:21pm"
+    },
+  ]
+
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center pb-5 overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <nav className="relative w-full h-40">
         <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
           <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
@@ -165,7 +226,7 @@ function App() {
             </div>
           </div>
           <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full'></div>
-          <div className='flex flex-row items-center justify-between mt-10'>
+          <div className='flex flex-row items-start justify-between mt-10'>
             <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
               <Button className='p-0 bg-transparent rounded-full' onClick={toggleMute}>
                 <img src={mute ? muteImage : unmuteImage} width={65} height={65} alt="restart" className='rounded-full' />
@@ -175,16 +236,48 @@ function App() {
                 <h4 className="text-sm text-[#656C7D] text-left">Storms in Africa</h4>
               </div>
             </div>
-            <div className='flex flex-row items-center justify-center space-x-5'>
+            <div className='flex flex-row items-start justify-center pb-5 space-x-5'>
               <Button className='p-0 rounded-full'>
                 <img src={leaderboard} width={65} height={65} alt="end game" className='rounded-full' />
               </Button>
-              <Accordion open={open === 1} icon={<Icon id={1} open={open} />} className='w-96'>
-                <AccordionHeader onClick={() => handleOpen(1)}>What is Material Tailwind?</AccordionHeader>
-                <AccordionBody>
-                  We&apos;re not always in the position that we want to be at. We&apos;re constantly
-                  growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
-                  ourselves and actualize our dreams.
+              <Accordion open={open === 1} icon={<Icon id={1} open={open} />} className={clsx(open && '-mt-64', 'w-96')} animate={animate}>
+                <AccordionHeader onClick={() => handleOpen(1)} className={clsx(open ? "border-t-0" : "border-t rounded-b-xl", 'border border-[#27292F] px-3.5 rounded-t-xl backdrop-blur-sm')}>
+                  <div className="flex flex-row space-x-2.5 items-center">
+                    <img src={message} width={25} height={25} alt="end game" className='rounded-full' />
+                    <p className='text-xl font-medium text-[#AAAEB7]'>Message <span className='text-white'>(0)</span></p>
+                  </div>
+                </AccordionHeader>
+                <AccordionBody className="border border-[#27292F] pt-1.5 px-3.5 rounded-b-xl h-72 bg-transparent backdrop-blur-sm">
+                  <div className='w-full h-full space-y-2.5'>
+                    <div className='flex-1 overflow-y-scroll max-h-56 space-y-2.5 hide-scrollbar'>
+                      {
+                        chat.map((item, index) => (
+                          <div key={index}>
+                            <div className={clsx(players[0] === item.user ? "items-start" : "items-end", 'flex flex-col space-y-2.5 w-full')}>
+                              <div className={clsx(players[0] === item.user ? 'items-start' : 'items-end', 'flex flex-row')}>
+                                <div className='flex flex-row space-x-1.5 items-center w-full'>
+                                  <img src={item.avatar} width={30} height={30} alt="end game" className='rounded-full' />
+                                  <p className="text-lg font-medium text-right text-white">{item.user}</p>
+                                </div>
+                              </div>
+                              <div className='w-[75%] p-2.5 bg-[#15181E] rounded-md'>
+                                <p className='text-white'>{item.message}</p>
+                                <p className='w-full text-xs text-white text-end'>{item.date}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                    <div>
+                      <div className='w-full h-10 border border-[#27292F] rounded-xl px-1 py-3.5 flex flex-row items-center'>
+                        <input className='w-full h-8 px-1.5 text-white bg-transparent outline-none ring-0' placeholder='Send message' />
+                        <Button className='p-0 w-12 h-8 bg-[#F58229] flex flex-col items-center justify-center'>
+                          <PaperAirplaneIcon className='w-4 h-4 text-black transform -rotate-45' />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </AccordionBody>
               </Accordion>
             </div>

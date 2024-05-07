@@ -20,6 +20,7 @@
     "@dojoengine/state": "0.6.122",
     "@dojoengine/torii-client": "0.6.122",
     "@dojoengine/utils": "0.6.122",
+    "@heroicons/react": "^2.1.3",
     "@latticexyz/react": "^2.0.4",
     "@latticexyz/utils": "^2.0.4",
     "@material-tailwind/react": "^2.1.9",
