@@ -104,6 +104,67 @@ function App() {
 
   const players = ["isreal", "eniola"]
 
+  const seeds = [
+    {
+      user: "isreal",
+      pots: [
+        {
+          pot: 1,
+          seeds: 4
+        },
+        {
+          pot: 2,
+          seeds: 4
+        },
+        {
+          pot: 3,
+          seeds: 4
+        },
+        {
+          pot: 4,
+          seeds: 4
+        },
+        {
+          pot: 5,
+          seeds: 4
+        },
+        {
+          pot: 6,
+          seeds: 4
+        }
+      ]
+    },
+    {
+      user: "eniola",
+      pots: [
+        {
+          pot: 1,
+          seeds: 4
+        },
+        {
+          pot: 2,
+          seeds: 4
+        },
+        {
+          pot: 3,
+          seeds: 4
+        },
+        {
+          pot: 4,
+          seeds: 4
+        },
+        {
+          pot: 5,
+          seeds: 4
+        },
+        {
+          pot: 6,
+          seeds: 4
+        }
+      ]
+    }
+  ]
+
   const chat = [
     {
       user: "isreal",
@@ -225,7 +286,49 @@ function App() {
               <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden" />
             </div>
           </div>
-          <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full'></div>
+          {/* Game board */}
+          <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full flex flex-col items-center justify-center bg-[#15181E]'>
+            <div className='w-[97%] h-[370px] rounded-l-full rounded-r-full flex flex-row items-center justify-between space-x-5 relative'>
+              <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative'>
+                <div className='absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg'>
+                  <p className='text-white'>0</p>
+                </div>
+              </div>
+              <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
+                {
+                  seeds.map((seed, index) => (
+                    <div key={index} className='h-[175px] w-full flex flex-row justify-between items-center'>
+                      {
+                        seed.pots.map((pot, index) => (
+                          <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                            <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+                              <p className='text-white'>{pot.seeds}</p>
+                            </div>
+                            <div className='flex flex-col items-center justify-center flex-1'>
+                              <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
+                                <div className='grid grid-cols-2 gap-1'>
+                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  ))
+                }
+              </div>
+              <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
+                <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
+                  <p className='text-white'>0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* End of game board */}
           <div className='flex flex-row items-start justify-between mt-10'>
             <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
               <Button className='p-0 bg-transparent rounded-full' onClick={toggleMute}>
@@ -240,6 +343,7 @@ function App() {
               <Button className='p-0 rounded-full'>
                 <img src={leaderboard} width={65} height={65} alt="end game" className='rounded-full' />
               </Button>
+              {/* chat */}
               <Accordion open={open === 1} icon={<Icon id={1} open={open} />} className={clsx(open && '-mt-64', 'w-96')} animate={animate}>
                 <AccordionHeader onClick={() => handleOpen(1)} className={clsx(open ? "border-t-0" : "border-t rounded-b-xl", 'border border-[#27292F] px-3.5 rounded-t-xl backdrop-blur-sm')}>
                   <div className="flex flex-row space-x-2.5 items-center">
@@ -280,6 +384,7 @@ function App() {
                   </div>
                 </AccordionBody>
               </Accordion>
+              {/* end of chat */}
             </div>
           </div>
         </div>
