@@ -105,69 +105,6 @@ function App() {
 
   const players = ["isreal", "eniola"]
 
-  const [player_1_seeds, setPlayer_1_seeds] = useState(24);
-
-  // const seeds = [
-  //   {
-  //     user: "isreal",
-  //     pots: [
-  //       {
-  //         pot: 1,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 2,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 3,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 4,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 5,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 6,
-  //         seeds: 4
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     user: "eniola",
-  //     pots: [
-  //       {
-  //         pot: 1,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 2,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 3,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 4,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 5,
-  //         seeds: 4
-  //       },
-  //       {
-  //         pot: 6,
-  //         seeds: 4
-  //       }
-  //     ]
-  //   }
-  // ]
-
   const chat = [
     {
       user: "isreal",
@@ -241,56 +178,44 @@ function App() {
   ]
 
   const initialSeeds = [
-    {
-      user: "isreal",
-      pots: [
-        { pot: 1, seeds: 4 },
-        { pot: 2, seeds: 4 },
-        { pot: 3, seeds: 4 },
-        { pot: 4, seeds: 4 },
-        { pot: 5, seeds: 4 },
-        { pot: 6, seeds: 4 }
-      ]
-    },
-    {
-      user: "eniola",
-      pots: [
-        { pot: 1, seeds: 4 },
-        { pot: 2, seeds: 4 },
-        { pot: 3, seeds: 4 },
-        { pot: 4, seeds: 4 },
-        { pot: 5, seeds: 4 },
-        { pot: 6, seeds: 4 }
-      ]
-    }
-  ];
+    { pot: 1, seeds: 4 },
+    { pot: 2, seeds: 4 },
+    { pot: 3, seeds: 4 },
+    { pot: 4, seeds: 4 },
+    { pot: 5, seeds: 4 },
+    { pot: 6, seeds: 4 },
+    { pot: 7, seeds: 4 },
+    { pot: 8, seeds: 4 },
+    { pot: 9, seeds: 4 },
+    { pot: 10, seeds: 4 },
+    { pot: 11, seeds: 4 },
+    { pot: 12, seeds: 4 },
+    { pot: 13, seeds: 4 },
+    { pot: 14, seeds: 4 },
+  ]
 
   const [seeds, setSeeds] = useState(initialSeeds);
 
-  const handlePotClick = (potIndex: number, playerIndex: number) => {
-    const totalPots = seeds[playerIndex].pots.length;
-    let seedsToDistribute = seeds[playerIndex].pots[potIndex].seeds;
+  const handlePotClick = (potIndex: number) => {
+    const seedsToDistribute = seeds[potIndex].seeds;
 
-    let currentPot = (potIndex + 1) % totalPots; // Start distributing to the next pot
+    setSeeds((prevSeeds) => {
+      const updatedSeeds = [...prevSeeds];
+      let remainingSeeds = seedsToDistribute;
+      let currentIndex = potIndex;
+      let nextIndex = (currentIndex + 1) % updatedSeeds.length; // Calculate the index of the next pot with wrapping
 
-    while (seedsToDistribute > 0) {
-      seedsToDistribute--;
+      updatedSeeds[currentIndex].seeds = 0; // Reset the seeds in the clicked pot
 
-      // Animate seed distribution using Framer Motion
-      const seedIndex = seeds[playerIndex].pots[potIndex].seeds - seedsToDistribute - 1;
-      const targetPot = currentPot;
+      while (remainingSeeds > 0) {
+        updatedSeeds[nextIndex].seeds++; // Increment the seeds in the next pot by 1
+        remainingSeeds--;
+        currentIndex = nextIndex;
+        nextIndex = (nextIndex + 1) % updatedSeeds.length; // Update the index of the next pot with wrapping
+      }
 
-      // Update the state to trigger re-render and animate the seed movement
-      setSeeds((prevSeeds) => {
-        const updatedSeeds = [...prevSeeds];
-        updatedSeeds[playerIndex].pots[potIndex].seeds--;
-        updatedSeeds[playerIndex].pots[targetPot].seeds++;
-        return updatedSeeds;
-      });
-
-      // Move to the next pot for distribution
-      currentPot = (currentPot + 1) % totalPots;
-    }
+      return updatedSeeds;
+    });
   };
 
   return (
@@ -399,38 +324,34 @@ function App() {
                     ))
                   } */}
 
-                  {
-                    Array.from({ length: Math.ceil(4) }, (_, groupIndex) => (
-                      <div key={groupIndex} className="flex flex-row justify-center space-x-5">
-                        {
-                          seeds[0].pots.slice(groupIndex * 6, (groupIndex + 1) * 6).map((pot, index) => (
-                            <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
-                              <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                                <p className='text-white'>{pot.seeds}</p>
-                              </div>
-                              <div className='flex flex-col items-center justify-center flex-1'>
-                                <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                                  onClick={() => handlePotClick(pot.pot - 1, 0)}>
-                                  <div className='grid grid-cols-2 gap-1'>
-                                    {
-                                      Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                        <motion.div
-                                          key={seedIndex}
-                                          className='w-[20px] h-[20px] bg-white rounded-full'
-                                          animate={selectedPotType?.player === 0 && selectedPotType.pot === pot.pot - 1 && player_1_animation[seedIndex]}
-                                          transition={{ duration: 1 }}
-                                        />
-                                      ))
-                                    }
-                                  </div>
-                                </div>
+                  <div className="flex flex-row justify-center space-x-5">
+                    {
+                      seeds.slice(0, 6).map((pot, index) => (
+                        <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                          <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+                            <p className='text-white'>{pot.seeds}</p>
+                          </div>
+                          <div className='flex flex-col items-center justify-center flex-1'>
+                            <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
+                              onClick={() => handlePotClick(pot.pot - 1)}>
+                              <div className='grid grid-cols-2 gap-1'>
+                                {
+                                  Array.from({ length: pot.seeds }, (_, seedIndex) => (
+                                    <motion.div
+                                      key={seedIndex}
+                                      className='w-[20px] h-[20px] bg-white rounded-full'
+                                      animate={selectedPotType?.player === 0 && selectedPotType.pot === pot.pot - 1 && player_1_animation[seedIndex]}
+                                      transition={{ duration: 1 }}
+                                    />
+                                  ))
+                                }
                               </div>
                             </div>
-                          ))
-                        }
-                      </div>
-                    ))
-                  }
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
 
                   {/* {
                     seeds[1].pots.map((pot, index) => (
@@ -451,6 +372,38 @@ function App() {
                       </div>
                     ))
                   } */}
+                </div>
+
+
+                <div className='h-[175px] w-full flex flex-row justify-between items-center'>
+                  <div className="flex flex-row justify-center space-x-5">
+                    {
+                      seeds.slice(7, 13).map((pot, index) => (
+                        <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                          <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+                            <p className='text-white'>{pot.seeds}</p>
+                          </div>
+                          <div className='flex flex-col items-center justify-center flex-1'>
+                            <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
+                              onClick={() => handlePotClick(pot.pot - 1)}>
+                              <div className='grid grid-cols-2 gap-1'>
+                                {
+                                  Array.from({ length: pot.seeds }, (_, seedIndex) => (
+                                    <motion.div
+                                      key={seedIndex}
+                                      className='w-[20px] h-[20px] bg-white rounded-full'
+                                      animate={selectedPotType?.player === 0 && selectedPotType.pot === pot.pot - 1 && player_1_animation[seedIndex]}
+                                      transition={{ duration: 1 }}
+                                    />
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
                 </div>
               </div>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
