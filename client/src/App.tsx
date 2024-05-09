@@ -217,6 +217,27 @@ function App() {
     },
   ]
 
+  const [selectedPotType, setSelectedPotType] = useState<number>();
+
+  const player_1_animation = [
+    {
+      x: 100,
+      y: 0
+    },
+    {
+      x: 0,
+      y: 0
+    },
+    {
+      x: 0,
+      y: 0
+    },
+    {
+      x: 0,
+      y: 0
+    },
+  ]
+
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <nav className="relative w-full h-40">
@@ -304,12 +325,17 @@ function App() {
                           <p className='text-white'>{pot.seeds}</p>
                         </div>
                         <div className='flex flex-col items-center justify-center flex-1'>
-                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
+                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
+                            onClick={() => setSelectedPotType(0)}>
                             <div className='grid grid-cols-2 gap-1'>
-                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              {
+                                Array.from({ length: pot.seeds }, (_, index) => index).map(
+                                  seed => <motion.div
+                                    className='w-[20px] h-[20px] bg-white rounded-full'
+                                    animate={selectedPotType === 0 && seed === index && player_1_animation[seed]}
+                                  />
+                                )
+                              }
                             </div>
                           </div>
                         </div>
@@ -325,7 +351,7 @@ function App() {
                           <p className='text-white'>{pot.seeds}</p>
                         </div>
                         <div className='flex flex-col items-center justify-center flex-1'>
-                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
+                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'>
                             <div className='grid grid-cols-2 gap-1'>
                               <div className='w-[20px] h-[20px] bg-white rounded-full' />
                               <div className='w-[20px] h-[20px] bg-white rounded-full' />
