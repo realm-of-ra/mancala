@@ -222,19 +222,19 @@ function App() {
   const player_1_animation = [
     {
       x: 132.5,
-      y: -10
+      y: -16
     },
     {
-      x: 0,
-      y: 0
+      x: 228.5,
+      y: -16
     },
     {
-      x: 0,
-      y: 0
+      x: 373.5,
+      y: -40
     },
     {
-      x: 0,
-      y: 0
+      x: 470.5,
+      y: -40
     },
   ]
 
@@ -333,6 +333,7 @@ function App() {
                                   seed => <motion.div
                                     className='w-[20px] h-[20px] bg-white rounded-full'
                                     animate={selectedPotType?.player === 0 && selectedPotType.pot === index && player_1_animation[seed]}
+                                    transition={{ duration: 1 }}
                                   />
                                 )
                               }
