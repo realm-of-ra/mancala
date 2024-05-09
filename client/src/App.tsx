@@ -217,12 +217,12 @@ function App() {
     },
   ]
 
-  const [selectedPotType, setSelectedPotType] = useState<number>();
+  const [selectedPotType, setSelectedPotType] = useState<{ pot: number, player: number }>();
 
   const player_1_animation = [
     {
-      x: 100,
-      y: 0
+      x: 132.5,
+      y: -10
     },
     {
       x: 0,
@@ -326,13 +326,13 @@ function App() {
                         </div>
                         <div className='flex flex-col items-center justify-center flex-1'>
                           <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                            onClick={() => setSelectedPotType(0)}>
+                            onClick={() => setSelectedPotType({ pot: index, player: 0 })}>
                             <div className='grid grid-cols-2 gap-1'>
                               {
                                 Array.from({ length: pot.seeds }, (_, index) => index).map(
                                   seed => <motion.div
                                     className='w-[20px] h-[20px] bg-white rounded-full'
-                                    animate={selectedPotType === 0 && seed === index && player_1_animation[seed]}
+                                    animate={selectedPotType?.player === 0 && selectedPotType.pot === index && player_1_animation[seed]}
                                   />
                                 )
                               }
