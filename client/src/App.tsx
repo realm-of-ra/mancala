@@ -22,6 +22,7 @@ import leaderboard from "./assets/leaderboard.png";
 import message from "./assets/messages.png";
 import clsx from 'clsx';
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { motion } from 'framer-motion';
 
 function App() {
   // const {
@@ -295,31 +296,48 @@ function App() {
                 </div>
               </div>
               <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
-                {
-                  seeds.map((seed, index) => (
-                    <div key={index} className='h-[175px] w-full flex flex-row justify-between items-center'>
-                      {
-                        seed.pots.map((pot, index) => (
-                          <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
-                            <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                              <p className='text-white'>{pot.seeds}</p>
-                            </div>
-                            <div className='flex flex-col items-center justify-center flex-1'>
-                              <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
-                                <div className='grid grid-cols-2 gap-1'>
-                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                                  <div className='w-[20px] h-[20px] bg-white rounded-full' />
-                                </div>
-                              </div>
+                <div className='h-[175px] w-full flex flex-row justify-between items-center'>
+                  {
+                    seeds[0].pots.map((pot, index) => (
+                      <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                        <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+                          <p className='text-white'>{pot.seeds}</p>
+                        </div>
+                        <div className='flex flex-col items-center justify-center flex-1'>
+                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
+                            <div className='grid grid-cols-2 gap-1'>
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
                             </div>
                           </div>
-                        ))
-                      }
-                    </div>
-                  ))
-                }
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+                <div className='h-[175px] w-full flex flex-row justify-between items-center'>
+                  {
+                    seeds[1].pots.map((pot, index) => (
+                      <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                        <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+                          <p className='text-white'>{pot.seeds}</p>
+                        </div>
+                        <div className='flex flex-col items-center justify-center flex-1'>
+                          <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center'>
+                            <div className='grid grid-cols-2 gap-1'>
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                              <div className='w-[20px] h-[20px] bg-white rounded-full' />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
               </div>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
                 <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
