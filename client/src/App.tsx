@@ -321,7 +321,7 @@ function App() {
                           <div className='flex flex-col items-center justify-center flex-1'>
                             <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
                               onClick={() => handlePotClick(pot.pot - 1)}>
-                              <div className={clsx(pot.seeds > 6 && 'grid-cols-3', 'grid gap-1 grid-cols-2')}>
+                              <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
                                 {
                                   Array.from({ length: pot.seeds }, (_, seedIndex) => (
                                     <motion.div
