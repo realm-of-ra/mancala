@@ -268,7 +268,7 @@ function App() {
       <div className='w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10'>
         <div className='flex flex-col justify-center space-y-5 w-fit'>
           <div className='space-y-1'>
-            <Button className='p-0 bg-transparent rounded-full'>
+            <Button className='p-0 bg-transparent rounded-full' onClick={() => setSeeds(initialSeeds)}>
               <img src={restart} width={75} height={75} alt="restart" className='rounded-full' />
             </Button>
             <p className='text-lg text-[#656C7D] font-medium text-center'>Restart</p>
