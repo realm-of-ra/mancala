@@ -354,6 +354,20 @@ function App() {
                 </div>
               </div>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
+                {/* Player 2 pot */}
+                <div className='flex flex-col justify-center h-full px-2.5'>
+                  <div className='flex flex-col space-y-1.5'>
+                    {
+                      Array.from({ length: seeds[7].seeds }, (_, seedIndex) => (
+                        <motion.div
+                          key={seedIndex}
+                          className='w-[20px] h-[20px] bg-white rounded-full'
+                          transition={{ duration: 1 }}
+                        />
+                      ))
+                    }
+                  </div>
+                </div>
                 <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
                   <p className='text-white'>0</p>
                 </div>
