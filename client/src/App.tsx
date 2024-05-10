@@ -184,14 +184,14 @@ function App() {
     { pot: 4, seeds: 4 },
     { pot: 5, seeds: 4 },
     { pot: 6, seeds: 4 },
-    { pot: 7, seeds: 4 },
+    { pot: 7, seeds: 0 },
     { pot: 8, seeds: 4 },
     { pot: 9, seeds: 4 },
     { pot: 10, seeds: 4 },
     { pot: 11, seeds: 4 },
     { pot: 12, seeds: 4 },
     { pot: 13, seeds: 4 },
-    { pot: 14, seeds: 4 },
+    { pot: 14, seeds: 0 },
   ]
 
   const [seeds, setSeeds] = useState(initialSeeds);
@@ -285,6 +285,20 @@ function App() {
           <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full flex flex-col items-center justify-center bg-[#15181E]'>
             <div className='w-[97%] h-[370px] rounded-l-full rounded-r-full flex flex-row items-center justify-between space-x-5 relative'>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative'>
+                {/* Player 1 pot */}
+                <div className='flex flex-row justify-end items-center h-full px-2.5'>
+                  <div className='flex flex-col space-y-1.5'>
+                    {
+                      Array.from({ length: seeds[6].seeds }, (_, seedIndex) => (
+                        <motion.div
+                          key={seedIndex}
+                          className='w-[20px] h-[20px] bg-white rounded-full'
+                          transition={{ duration: 1 }}
+                        />
+                      ))
+                    }
+                  </div>
+                </div>
                 <div className='absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg'>
                   <p className='text-white'>0</p>
                 </div>
@@ -294,8 +308,8 @@ function App() {
                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                   <div className="flex flex-row justify-center space-x-5">
                     {
-                      seeds.slice(0, 6).map((pot, index) => (
-                        <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                      seeds.slice(0, 6).reverse().map((pot, index) => (
+                        <div key={index} className='h-[170px] w-[15%] flex justify-between items-center flex-col'>
                           <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
                             <p className='text-white'>{pot.seeds}</p>
                           </div>
@@ -321,7 +335,7 @@ function App() {
                     }
                   </div>
                 </div>
-                {/* Player 1 */}
+                {/* Player 2 */}
                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                   <div className="flex flex-row justify-center space-x-5">
                     {
@@ -358,7 +372,7 @@ function App() {
                 <div className='flex flex-col justify-center h-full px-2.5'>
                   <div className='flex flex-col space-y-1.5'>
                     {
-                      Array.from({ length: seeds[7].seeds }, (_, seedIndex) => (
+                      Array.from({ length: seeds[13].seeds }, (_, seedIndex) => (
                         <motion.div
                           key={seedIndex}
                           className='w-[20px] h-[20px] bg-white rounded-full'
