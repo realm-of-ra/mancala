@@ -283,7 +283,7 @@ function App() {
         <div className='flex-1 w-full h-full'>
           <div className='flex flex-row items-center justify-end w-full -mt-10'>
             <div className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center">
-              <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden" />
+              <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden" children />
             </div>
           </div>
           {/* Game board */}
@@ -402,7 +402,7 @@ function App() {
             </div>
           </div>
           {/* End of game board */}
-          <div div className='flex flex-row items-start justify-between mt-10' >
+          <div className='flex flex-row items-start justify-between mt-10'>
             <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
               <Button className='p-0 bg-transparent rounded-full' onClick={toggleMute}>
                 <img src={mute ? muteImage : unmuteImage} width={65} height={65} alt="restart" className='rounded-full' />
