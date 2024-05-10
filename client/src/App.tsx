@@ -311,7 +311,7 @@ function App() {
               <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
                 {/* Player 1 */}
                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
-                  <div className="flex flex-row justify-center space-x-5">
+                  <div className="flex flex-row justify-center flex-1 space-x-5">
                     {
                       seeds.slice(0, 6).reverse().map((pot, index) => (
                         <div key={index} className='h-[170px] w-[15%] flex justify-between items-center flex-col'>
@@ -321,13 +321,12 @@ function App() {
                           <div className='flex flex-col items-center justify-center flex-1'>
                             <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
                               onClick={() => handlePotClick(pot.pot - 1)}>
-                              <div className='grid grid-cols-2 gap-1'>
+                              <div className={clsx(pot.seeds > 6 && 'grid-cols-3', 'grid gap-1 grid-cols-2')}>
                                 {
                                   Array.from({ length: pot.seeds }, (_, seedIndex) => (
                                     <motion.div
                                       key={seedIndex}
-                                      className='w-[20px] h-[20px] bg-white rounded-full'
-                                      animate={selectedPotType?.player === 0 && selectedPotType.pot === pot.pot - 1 && player_1_animation[seedIndex]}
+                                      className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]', 'w-[20px] h-[20px] bg-white rounded-full')}
                                       transition={{ duration: 1 }}
                                     />
                                   ))
@@ -342,7 +341,7 @@ function App() {
                 </div>
                 {/* Player 2 */}
                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
-                  <div className="flex flex-row justify-center space-x-5">
+                  <div className="flex flex-row justify-center flex-1 space-x-5">
                     {
                       seeds.slice(7, 13).map((pot, index) => (
                         <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
@@ -352,13 +351,12 @@ function App() {
                           <div className='flex flex-col items-center justify-center flex-1'>
                             <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
                               onClick={() => handlePotClick(pot.pot - 1)}>
-                              <div className='grid grid-cols-2 gap-1'>
+                              <div className={clsx(pot.seeds > 6 && 'grid-cols-3', 'grid gap-1 grid-cols-2')}>
                                 {
                                   Array.from({ length: pot.seeds }, (_, seedIndex) => (
                                     <motion.div
                                       key={seedIndex}
-                                      className='w-[20px] h-[20px] bg-white rounded-full'
-                                      animate={selectedPotType?.player === 0 && selectedPotType.pot === pot.pot - 1 && player_1_animation[seedIndex]}
+                                      className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]', 'w-[20px] h-[20px] bg-white rounded-full')}
                                       transition={{ duration: 1 }}
                                     />
                                   ))
