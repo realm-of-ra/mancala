@@ -291,8 +291,8 @@ function App() {
             <div className='w-[97%] h-[370px] rounded-l-full rounded-r-full flex flex-row items-center justify-between space-x-5 relative'>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative'>
                 {/* Player 1 pot */}
-                <div className='flex flex-row justify-end items-center h-full px-2.5'>
-                  <div className='flex flex-col space-y-1.5'>
+                <div className='flex flex-row justify-end items-center px-2.5 h-full'>
+                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-full gap-2 items-center justify-center px-1.5'>
                     {
                       Array.from({ length: seeds[6].seeds }, (_, seedIndex) => (
                         <motion.div
@@ -305,7 +305,7 @@ function App() {
                   </div>
                 </div>
                 <div className='absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg'>
-                  <p className='text-white'>0</p>
+                  <p className='text-white'>{seeds[6].seeds}</p>
                 </div>
               </div>
               <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
@@ -374,8 +374,8 @@ function App() {
               </div>
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
                 {/* Player 2 pot */}
-                <div className='flex flex-col justify-center h-full px-2.5'>
-                  <div className='flex flex-col space-y-1.5'>
+                <div className='flex flex-row justify-start items-center px-2.5 h-full'>
+                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-full gap-2 items-center justify-center px-1.5'>
                     {
                       Array.from({ length: seeds[13].seeds }, (_, seedIndex) => (
                         <motion.div
@@ -388,7 +388,7 @@ function App() {
                   </div>
                 </div>
                 <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
-                  <p className='text-white'>0</p>
+                  <p className='text-white'>{seeds[13].seeds}</p>
                 </div>
               </div>
             </div>
