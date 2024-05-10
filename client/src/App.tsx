@@ -292,7 +292,7 @@ function App() {
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative'>
                 {/* Player 1 pot */}
                 <div className='flex flex-row justify-end items-center px-2.5 h-full'>
-                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-full gap-2 items-center justify-center px-1.5'>
+                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5'>
                     {
                       Array.from({ length: seeds[6].seeds }, (_, seedIndex) => (
                         <motion.div
@@ -373,7 +373,7 @@ function App() {
               <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-r-[165px] relative rounded-l-3xl'>
                 {/* Player 2 pot */}
                 <div className='flex flex-row justify-start items-center px-2.5 h-full'>
-                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-full gap-2 items-center justify-center px-1.5'>
+                  <div className='flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5'>
                     {
                       Array.from({ length: seeds[13].seeds }, (_, seedIndex) => (
                         <motion.div
