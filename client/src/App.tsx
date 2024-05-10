@@ -197,25 +197,18 @@ function App() {
   const [seeds, setSeeds] = useState(initialSeeds);
 
   const handlePotClick = (potIndex: number) => {
-    const seedsToDistribute = seeds[potIndex].seeds;
 
     setSeeds((prevSeeds) => {
       const updatedSeeds = [...prevSeeds];
-      let remainingSeeds = seedsToDistribute;
-      let currentIndex = potIndex;
-      let nextIndex = (currentIndex + 1) % updatedSeeds.length; // Calculate the index of the next pot with wrapping
-
-      updatedSeeds[currentIndex].seeds = 0; // Reset the seeds in the clicked pot
-
-      while (remainingSeeds > 0) {
-        updatedSeeds[nextIndex].seeds++; // Increment the seeds in the next pot by 1
+      let remainingSeeds = updatedSeeds[potIndex].seeds;
+      updatedSeeds[potIndex].seeds = 0;
+      for (let i = potIndex + 1; i < updatedSeeds.length && remainingSeeds > 0; i++) {
+        updatedSeeds[i].seeds++;
         remainingSeeds--;
-        currentIndex = nextIndex;
-        nextIndex = (nextIndex + 1) % updatedSeeds.length; // Update the index of the next pot with wrapping
       }
-
       return updatedSeeds;
     });
+    console.log(seeds)
   };
 
   return (
