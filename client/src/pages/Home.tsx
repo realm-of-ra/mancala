@@ -19,6 +19,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
+import React from 'react';
 
 export default function Home() {
 
