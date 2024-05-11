@@ -3,13 +3,14 @@ import React from "react";
 
 import { Button } from "@material-tailwind/react";
 import eniola from "../assets/eniola.png";
-import israel from "../assets/israel.png";
-import energy from "../assets/energy.png";
 import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
 import { useState } from "react";
 import { connect, ConnectedStarknetWindowObject, disconnect } from 'starknetkit';
 import { truncateString } from "../lib/utils";
+import { Card, Typography } from "@material-tailwind/react";
+import clsx from "clsx";
+import { stats, table_head } from "@/lib/constants";
 
 export default function Leaderboard() {
     const [mute, setMute] = useState(true);
@@ -31,59 +32,8 @@ export default function Leaderboard() {
         setConnection(undefined);
         setAddress('');
     }
-
-    const stats = [
-        {
-            id: 1,
-            name: "Energy",
-            image: energy,
-            score: 500000
-        },
-        {
-            id: 2,
-            name: "Eniola",
-            image: eniola,
-            score: 450000
-        },
-        {
-            id: 3,
-            name: "Israel",
-            image: israel,
-            score: 300000
-        },
-        {
-            id: 4,
-            name: "Energy",
-            image: energy,
-            score: 250000
-        },
-        {
-            id: 5,
-            name: "Eniola",
-            image: eniola,
-            score: 200000
-        },
-        {
-            id: 6,
-            name: "Israel",
-            image: israel,
-            score: 150000
-        },
-        {
-            id: 7,
-            name: "Energy",
-            image: energy,
-            score: 100000
-        },
-        {
-            id: 8,
-            name: "Eniola",
-            image: eniola,
-            score: 50000
-        },
-    ]
     return (
-        <div className="bg-[#0F1116] min-h-screen w-full flex flex-col items-center">
+        <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
             <nav className="flex flex-row items-center justify-between w-full">
                 <div className="flex-1 w-full -mr-10">
                     <div className="flex flex-row space-x-2.5 items-center justify-end">
@@ -129,7 +79,7 @@ export default function Leaderboard() {
                     </div>
                 </div>
             </div>
-            <main className="flex flex-row items-center justify-center mt-56">
+            <main className="flex flex-col items-center justify-center mt-56">
                 <div className="flex flex-row items-center justify-between w-full max-w-5xl">
                     <div className="flex flex-row items-center justify-between w-full h-full">
                         <div className="bg-[url('./assets/left-leaf.png')] w-[250px] h-[350px] bg-contain bg-no-repeat bg-center -mt-48" />
@@ -177,7 +127,70 @@ export default function Leaderboard() {
                         <div className="bg-[url('./assets/right-leaf.png')] w-[250px] h-[350px] bg-center bg-contain bg-no-repeat -mt-48" />
                     </div>
                 </div>
-                <div></div>
+                <div className="w-full pb-10 mt-20">
+                    <Card className="w-full h-full overflow-scroll border-[0.1px] border-[#23272F] bg-transparent">
+                        <table className="w-full text-left table-auto min-w-max">
+                            <thead>
+                                <tr className="bg-[#0F1014] border-b border-[#23272F]">
+                                    {table_head.map((head) => (
+                                        <th
+                                            key={head}
+                                            className="p-4"
+                                        >
+                                            <Typography
+                                                variant="small"
+                                                className="font-normal leading-none text-[#BDC2CC]"
+                                            >
+                                                {head}
+                                            </Typography>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="bg-[#15181E]">
+                                {stats.slice(3).map(({ id, name, image, level, score }, index) => {
+                                    const isLast = index === stats.slice(3).length - 1;
+
+                                    return (
+                                        <tr key={name}>
+                                            <td className={clsx(!isLast && "border-b border-[#23272F]", "flex flex-row items-center p-4 space-x-5 w-full")}>
+                                                <p
+                                                    className="font-semibold"
+                                                >
+                                                    {id}
+                                                </p>
+                                                <div className="flex flex-row items-center space-x-5 w-fit">
+                                                    <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026]">
+                                                        <img src={image} width={35} height={35} alt={`${stats[2].name} profile picture`} className="rounded-full" />
+                                                    </div>
+                                                    <p
+                                                        className="font-normal text-white"
+                                                    >
+                                                        {name}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td className={clsx(!isLast && "border-b border-[#23272F]", "w-[33%]")}>
+                                                <p
+                                                    className="font-normal text-[#FAB580]"
+                                                >
+                                                    {level}
+                                                </p>
+                                            </td>
+                                            <td className={clsx(!isLast && "border-b border-[#23272F]", "w-[33%]")}>
+                                                <p
+                                                    className="font-normal text-[#F97E22]"
+                                                >
+                                                    {score.toLocaleString()}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </Card>
+                </div>
             </main>
         </div>
     )
