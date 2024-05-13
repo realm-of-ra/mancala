@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     Accordion,
     AccordionHeader,
@@ -19,9 +19,29 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
-import React from 'react';
+import { isPlaying as isPlayingAtom } from "../atom/atoms";
+import { useAtom } from "jotai";
+import audio from "../music/audio_1.mp3";
 
 export default function Home() {
+
+    const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
+    const audioRef = useRef(new Audio(audio));
+    useEffect(() => {
+        if (isPlaying) {
+            try {
+                audioRef.current.play();
+                audioRef.current.loop = true;
+            } catch (error) {
+                console.error("Error playing the audio", error);
+            }
+        } else {
+            audioRef.current.pause();
+        }
+        return () => {
+            audioRef.current.pause();
+        };
+    }, [isPlaying]);
 
     function Icon({ id, open }: { id: number, open: number }) {
         return (
@@ -38,14 +58,12 @@ export default function Home() {
         );
     }
 
-    const [mute, setMute] = useState(true);
-
     const [open, setOpen] = useState(0);
 
     const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
 
-    const toggleMute = () => {
-        setMute(!mute);
+    const togglePlay = () => {
+        setPlaying(!isPlaying);
     }
 
     const [seeds, setSeeds] = useState(initialSeeds);
@@ -258,8 +276,8 @@ export default function Home() {
                     {/* End of game board */}
                     <div className='flex flex-row items-start justify-between mt-10'>
                         <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
-                            <Button className='p-0 bg-transparent rounded-full' onClick={toggleMute}>
-                                <img src={mute ? muteImage : unmuteImage} width={65} height={65} alt="restart" className='rounded-full' />
+                            <Button className='p-0 bg-transparent rounded-full' onClick={togglePlay}>
+                                <img src={isPlaying ? unmuteImage : muteImage} width={65} height={65} alt="restart" className='rounded-full' />
                             </Button>
                             <div className='ml-2.5'>
                                 <h4 className="text-lg text-left text-[#9398A2]">Enya</h4>

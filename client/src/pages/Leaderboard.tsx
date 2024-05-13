@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Button } from "@material-tailwind/react";
 import eniola from "../assets/eniola.png";
@@ -11,14 +11,13 @@ import { truncateString } from "../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { stats, table_head } from "@/lib/constants";
+import { useAtom } from "jotai";
+import { isPlaying as isPlayingAtom } from "../atom/atoms";
+import audio from "../music/audio_1.mp3";
 
 export default function Leaderboard() {
-    const [mute, setMute] = useState(true);
     const [connection, setConnection] = useState<ConnectedStarknetWindowObject>();
     const [address, setAddress] = useState<string>();
-    const toggleMute = () => {
-        setMute(!mute);
-    }
     const connectWallet = async () => {
         await connect({ modalMode: "neverAsk" })
         const { wallet } = await connect({ modalMode: "canAsk" })
@@ -31,6 +30,26 @@ export default function Leaderboard() {
         await disconnect();
         setConnection(undefined);
         setAddress('');
+    }
+    const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
+    const audioRef = useRef(new Audio(audio));
+    useEffect(() => {
+        if (isPlaying) {
+            try {
+                audioRef.current.play();
+                audioRef.current.loop = true;
+            } catch (error) {
+                console.error("Error playing the audio", error);
+            }
+        } else {
+            audioRef.current.pause();
+        }
+        return () => {
+            audioRef.current.pause();
+        };
+    }, [isPlaying]);
+    const togglePlay = () => {
+        setPlaying(!isPlaying);
     }
     return (
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
@@ -54,8 +73,8 @@ export default function Leaderboard() {
                 </div>
                 <div className="flex-1 w-full -ml-16">
                     <div className="flex flex-row space-x-2.5 items-center justify-start">
-                        <Button className='p-0 bg-transparent rounded-full' onClick={toggleMute}>
-                            <img src={mute ? muteImage : unmuteImage} width={65} height={65} alt="restart" className='rounded-full' />
+                        <Button className='p-0 bg-transparent rounded-full' onClick={togglePlay}>
+                            <img src={isPlaying ? unmuteImage : muteImage} width={65} height={65} alt="restart" className='rounded-full' />
                         </Button>
                         {
                             connection?.isConnected ? <Button className="p-0" onClick={disconnectWallet}>
