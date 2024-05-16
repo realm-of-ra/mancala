@@ -1,30 +1,28 @@
-import React from "react"
-
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Leaderboard from "./pages/Leaderboard"
 import { Provider as JotaiProvider } from "jotai";
-import { argent, braavos, publicProvider, StarknetConfig, useInjectedConnectors, voyager } from "@starknet-react/core";
-import { mainnet, sepolia } from "@starknet-react/chains";
+import { InjectedConnector } from "starknetkit/injected";
+import { ArgentMobileConnector } from "starknetkit/argentMobile";
+import { WebWalletConnector } from "starknetkit/webwallet";
+import { mainnet } from "@starknet-react/chains";
+import { StarknetConfig, publicProvider } from "@starknet-react/core";
 
 export default function App() {
-  const { connectors } = useInjectedConnectors({
-    // Show these connectors if the user has no connector installed.
-    recommended: [
-      argent(),
-      braavos(),
-    ],
-    // Hide recommended connectors if the user has any connector installed.
-    includeRecommended: "onlyIfNoConnectors",
-    // Randomize the order of the connectors.
-    order: "random"
-  });
+  const chains = [
+    mainnet
+  ]
+  const connectors = [
+    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
+    new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
+    new WebWalletConnector({ url: "https://web.argent.xyz" }),
+    new ArgentMobileConnector(),
+  ]
   return (
     <StarknetConfig
-      chains={[mainnet, sepolia]}
+      chains={chains}
       provider={publicProvider()}
       connectors={connectors}
-      explorer={voyager}
     >
       <JotaiProvider>
         <BrowserRouter>

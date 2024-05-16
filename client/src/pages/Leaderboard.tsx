@@ -34,10 +34,10 @@ export default function Leaderboard() {
         if (wallet && wallet.isConnected) {
             const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
             setConnection(wallet);
+            setAddress(wallet.selectedAddress);
             setProfileData({
                 ...starkProfile,
             })
-            setAddress(wallet.selectedAddress);
         }
         console.log(profileData)
     }
@@ -45,6 +45,7 @@ export default function Leaderboard() {
         await disconnect();
         setConnection(undefined);
         setAddress('');
+        setProfileData({});
     }
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
@@ -74,7 +75,7 @@ export default function Leaderboard() {
                         profileData.name != undefined && (
                             <div className="flex flex-row space-x-2.5 items-center justify-end">
                                 <div>
-                                    <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : address}</h3>
+                                    <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : truncateString(address)}</h3>
                                     <h4 className="text-sm text-[#F58229] text-right">Level 6</h4>
                                 </div>
                                 <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
@@ -101,7 +102,7 @@ export default function Leaderboard() {
                                     <div className="px-3.5 py-4 bg-[#272A32] rounded-tl-lg rounded-bl-lg">
                                         <img src={connection.icon} className="w-6 h-6" />
                                     </div>
-                                    <div className="px-3.5 py-5 bg-[#171922] rounded-tr-lg rounded-br-lg"><p className="text-white">{truncateString(address || '')}</p></div>
+                                    <div className="px-3.5 py-5 bg-[#171922] rounded-tr-lg rounded-br-lg"><p className="text-white">{truncateString(address)}</p></div>
                                 </div>
                             </Button> : <Button className='w-40 bg-[#F58229] rounded-md' onClick={connectWallet}>
                                 Connect Wallet
