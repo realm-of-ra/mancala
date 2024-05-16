@@ -80,7 +80,7 @@ export default function Leaderboard() {
                                 <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
                                     <img src={profileData.profilePicture ? profileData.profilePicture : eniola} width={60} height={60} alt="Eniola" className="rounded-full" />
                                     <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                                        <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
+                                        <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
                                     </div>
                                 </div>
                             </div>
