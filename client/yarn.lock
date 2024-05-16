@@ -6509,15 +6509,15 @@ sponge-case@^1.0.1:
   dependencies:
     tslib "^2.0.3"
 
-starknet-types@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/starknet-types/-/starknet-types-0.0.4.tgz#1f92cdde4b2989e1da743c24827960b50057914b"
-  integrity sha512-PklqFeSp9gMqbzW5IbO8l1s3xsNZYkNG/x/gsytgYCIl6H/cqiwCZolVTneyTibvrdHOQ8kP3PXwfdsypudYqw==
+"starknet-types-07@npm:starknet-types@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/starknet-types/-/starknet-types-0.7.2.tgz#2a1be2392e6e568484afabdc1e83411b5105713b"
+  integrity sha512-r3JJ0rrK0g3FnVRGcFiLY+9YT5WZgxB4TKBfR44wYGevHtKEM6BM5B+Gn1eou1zV7xEAwz3GpmvLSQTUAzDhsw==
 
-starknet@^6.1.5:
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/starknet/-/starknet-6.7.0.tgz#004111004d93efd4a5a9da79bd8a97f8d7d50409"
-  integrity sha512-8NMedKBfkg/oZUgTYNw9lKeNoNYakL/Roah2HwKzrVyvDxBs0arrNrR8No8+tTq0wQg0HGu1w+JIObynjHAK3w==
+starknet@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/starknet/-/starknet-6.8.0.tgz#d7bb1dc1470035f31fe1bfd68e3aee5cbb190c10"
+  integrity sha512-HNGgTomnEYbx8UiHNX9vTpa7tg7a1+BHW3vmqfnoejc0L/XjZ6N6h56S18nf8ZGDbe//yfaqk50eGqTaw2oR0g==
   dependencies:
     "@noble/curves" "~1.4.0"
     "@scure/base" "~1.1.3"
@@ -6527,9 +6527,14 @@ starknet@^6.1.5:
     isomorphic-fetch "^3.0.0"
     lossless-json "^4.0.1"
     pako "^2.0.4"
-    starknet-types "^0.0.4"
+    starknet-types-07 "npm:starknet-types@^0.7.2"
     ts-mixer "^6.0.3"
     url-join "^4.0.1"
+
+starknetid.js@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/starknetid.js/-/starknetid.js-3.2.0.tgz#4b39af681402abc967ab3aa8c40d2d5056e00ff2"
+  integrity sha512-I0gJlNegP+DO3JPjSSfUdflqPah6oUoIUBMl33h1JMwrWSfVA+cPajze7fwRg2xNuJOadI2eeMWI7Q+OdLa+rg==
 
 starknetkit@^1.1.9:
   version "1.1.9"

@@ -1,5 +1,4 @@
-
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Button } from "@material-tailwind/react";
 import eniola from "../assets/eniola.png";
@@ -12,19 +11,35 @@ import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { stats, table_head } from "@/lib/constants";
 import { useAtom } from "jotai";
-import { isPlaying as isPlayingAtom } from "../atom/atoms";
+import { isPlaying as isPlayingAtom, profileData as profileDataAtom, address as addressAtom } from "../atom/atoms";
 import audio from "../music/audio_1.mp3";
+import { useProvider } from "@starknet-react/core";
+import { StarknetIdNavigator } from "starknetid.js";
+import { constants, type StarkProfile } from "starknet";
 
 export default function Leaderboard() {
     const [connection, setConnection] = useState<ConnectedStarknetWindowObject>();
-    const [address, setAddress] = useState<string>();
+    const [address, setAddress] = useAtom(addressAtom);
+    const [profileData, setProfileData] = useAtom<StarkProfile>(profileDataAtom)
+
+    const { provider } = useProvider();
+    const starknetIdNavigator = new StarknetIdNavigator(
+        provider,
+        constants.StarknetChainId.SN_MAIN
+    );
+
     const connectWallet = async () => {
         await connect({ modalMode: "neverAsk" })
         const { wallet } = await connect({ modalMode: "canAsk" })
         if (wallet && wallet.isConnected) {
+            const starkProfile = await starknetIdNavigator.getProfileData("0x0643948eef68D67CBd9A1853b6181B83f15D06953724Fd5347e922d40245B93C");
             setConnection(wallet);
+            setProfileData({
+                ...starkProfile,
+            })
             setAddress(wallet.selectedAddress);
         }
+        console.log(profileData)
     }
     const disconnectWallet = async () => {
         await disconnect();
@@ -55,18 +70,22 @@ export default function Leaderboard() {
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
             <nav className="flex flex-row items-center justify-between w-full">
                 <div className="flex-1 w-full -mr-10">
-                    <div className="flex flex-row space-x-2.5 items-center justify-end">
-                        <div>
-                            <h3 className="text-2xl text-right text-white">Eniola</h3>
-                            <h4 className="text-sm text-[#F58229] text-right">Level 6</h4>
-                        </div>
-                        <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                            <img src={eniola} width={60} height={60} alt="Eniola" className="rounded-full" />
-                            <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                                <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
+                    {
+                        profileData.name != undefined && profileData.profilePicture != undefined && (
+                            <div className="flex flex-row space-x-2.5 items-center justify-end">
+                                <div>
+                                    <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : address}</h3>
+                                    <h4 className="text-sm text-[#F58229] text-right">Level 6</h4>
+                                </div>
+                                <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                    <img src={profileData.profilePicture ? profileData.profilePicture : eniola} width={60} height={60} alt="Eniola" className="rounded-full" />
+                                    <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
+                                        <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        )
+                    }
                 </div>
                 <div className="h-[100px] w-[800px]">
                     <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat" />
