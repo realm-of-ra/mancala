@@ -71,7 +71,7 @@ export default function Leaderboard() {
             <nav className="flex flex-row items-center justify-between w-full">
                 <div className="flex-1 w-full -mr-10">
                     {
-                        profileData.name != undefined && profileData.profilePicture != undefined && (
+                        profileData.name != undefined && (
                             <div className="flex flex-row space-x-2.5 items-center justify-end">
                                 <div>
                                     <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : address}</h3>
