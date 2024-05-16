@@ -32,9 +32,9 @@ export default function Leaderboard() {
         await connect({ modalMode: "neverAsk" })
         const { wallet } = await connect({ modalMode: "canAsk" })
         if (wallet && wallet.isConnected) {
-            const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
             setConnection(wallet);
             setAddress(wallet.selectedAddress);
+            const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
             setProfileData({
                 ...starkProfile,
             })
