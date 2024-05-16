@@ -29,15 +29,18 @@ export default function Leaderboard() {
     );
 
     const connectWallet = async () => {
-        await connect({ modalMode: "neverAsk" })
-        const { wallet } = await connect({ modalMode: "canAsk" })
-        if (wallet && wallet.isConnected) {
-            setConnection(wallet);
-            setAddress(wallet.selectedAddress);
-            const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
-            setProfileData(starkProfile)
+        if (connection?.isConnected) {
+            disconnectWallet();
         }
-        console.log(profileData)
+        else {
+            const { wallet } = await connect({ modalMode: "canAsk" })
+            if (wallet && wallet.isConnected) {
+                setConnection(wallet);
+                setAddress(wallet.selectedAddress);
+                const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
+                setProfileData(starkProfile)
+            }
+        }
     }
     const disconnectWallet = async () => {
         await disconnect();
@@ -57,6 +60,9 @@ export default function Leaderboard() {
             }
         } else {
             audioRef.current.pause();
+        }
+        if (!connection?.isConnected) {
+            connectWallet();
         }
         return () => {
             audioRef.current.pause();
