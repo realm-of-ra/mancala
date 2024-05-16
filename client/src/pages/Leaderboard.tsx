@@ -35,9 +35,7 @@ export default function Leaderboard() {
             setConnection(wallet);
             setAddress(wallet.selectedAddress);
             const starkProfile = await starknetIdNavigator.getProfileData(wallet.selectedAddress);
-            setProfileData({
-                ...starkProfile,
-            })
+            setProfileData(starkProfile)
         }
         console.log(profileData)
     }
