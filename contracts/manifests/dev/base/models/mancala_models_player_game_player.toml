@@ -1,0 +1,50 @@
+kind = "DojoModel"
+class_hash = "0x62f296d1bbb85919111799c80c70422ae5cd414b9cb0d7fee53e34a73ea97a7"
+original_class_hash = "0x62f296d1bbb85919111799c80c70422ae5cd414b9cb0d7fee53e34a73ea97a7"
+abi = "manifests/dev/abis/base/models/mancala_models_player_game_player.json"
+name = "mancala::models::player::game_player"
+
+[[members]]
+name = "address"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "pit1"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit2"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit3"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit4"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit5"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit6"
+type = "u8"
+key = false
+
+[[members]]
+name = "mancala"
+type = "u8"
+key = false
