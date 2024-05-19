@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { Button } from "@material-tailwind/react";
+import mancala from "../assets/logo.png";
 import eniola from "../assets/eniola.png";
 import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
@@ -93,7 +94,11 @@ export default function Leaderboard() {
                     }
                 </div>
                 <div className="h-[100px] w-[800px]">
-                    <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat" />
+                    <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
+                        <a href="/" className="mb-4">
+                            <img src={mancala} className="h-10 w-36" />
+                        </a>
+                    </div>
                 </div>
                 <div className="flex-1 w-full -ml-16">
                     <div className="flex flex-row space-x-2.5 items-center justify-start">

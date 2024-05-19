@@ -16,7 +16,6 @@ import leaderboard from "../assets/leaderboard.png";
 import message from "../assets/messages.png";
 import clsx from 'clsx';
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
 import { isPlaying as isPlayingAtom } from "../atom/atoms";
@@ -133,9 +132,9 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
+                <a href='/' className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
                     <img src={logo} width={150} height={150} alt="Logo" className="-mt-10" />
-                </div>
+                </a>
             </nav>
             <div className='w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10'>
                 <div className='flex flex-col justify-center space-y-5 w-fit'>
@@ -167,10 +166,9 @@ export default function Home() {
                                     <div className='flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5'>
                                         {
                                             Array.from({ length: seeds[6].seeds }, (_, seedIndex) => (
-                                                <motion.div
+                                                <div
                                                     key={seedIndex}
                                                     className='w-[20px] h-[20px] bg-white rounded-full'
-                                                    transition={{ duration: 1 }}
                                                 />
                                             ))
                                         }
@@ -196,7 +194,7 @@ export default function Home() {
                                                             <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
                                                                 {
                                                                     Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <motion.div
+                                                                        <div
                                                                             key={seedIndex}
                                                                             className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
                                                                                 pot.seeds >= 12 && 'w-[12px] h-[12px]',
@@ -204,7 +202,6 @@ export default function Home() {
                                                                                 pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
                                                                                 'w-[20px] h-[20px] bg-white rounded-full')
                                                                             }
-                                                                            transition={{ duration: 1 }}
                                                                         />
                                                                     ))
                                                                 }
@@ -221,7 +218,7 @@ export default function Home() {
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
                                         {
                                             seeds.slice(7, 13).map((pot, index) => (
-                                                <div key={index} className='h-[170px] w-[15%] flex flex-col justify-between items-center'>
+                                                <div key={index} className='h-[170px] w-[15%] flex flex-col-reverse justify-between items-center'>
                                                     <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
                                                         <p className='text-white'>{pot.seeds}</p>
                                                     </div>
@@ -231,7 +228,7 @@ export default function Home() {
                                                             <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
                                                                 {
                                                                     Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <motion.div
+                                                                        <div
                                                                             key={seedIndex}
                                                                             className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
                                                                                 pot.seeds >= 12 && 'w-[12px] h-[12px]',
@@ -239,7 +236,6 @@ export default function Home() {
                                                                                 pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
                                                                                 'w-[20px] h-[20px] bg-white rounded-full')
                                                                             }
-                                                                            transition={{ duration: 1 }}
                                                                         />
                                                                     ))
                                                                 }
@@ -258,10 +254,9 @@ export default function Home() {
                                     <div className='flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5'>
                                         {
                                             Array.from({ length: seeds[13].seeds }, (_, seedIndex) => (
-                                                <motion.div
+                                                <div
                                                     key={seedIndex}
                                                     className='w-[20px] h-[20px] bg-white rounded-full'
-                                                    transition={{ duration: 1 }}
                                                 />
                                             ))
                                         }
@@ -293,7 +288,7 @@ export default function Home() {
                             </Link>
                             {/* chat */}
                             <Accordion open={open === 1} icon={<Icon id={1} open={open} />} className={clsx(open && '-mt-64', 'w-96')} animate={animate}>
-                                <AccordionHeader onClick={() => handleOpen(1)} className={clsx(open ? "border-t-0" : "border-t rounded-b-xl", 'border border-[#27292F] px-3.5 rounded-t-xl backdrop-blur-sm')}>
+                                <AccordionHeader onClick={() => handleOpen(1)} className={clsx(open ? "border-t-0" : "border-t rounded-b-3xl", 'border border-[#27292F] px-3.5 rounded-t-3xl backdrop-blur-sm')}>
                                     <div className="flex flex-row space-x-2.5 items-center">
                                         <img src={message} width={25} height={25} alt="end game" className='rounded-full' />
                                         <p className='text-xl font-medium text-[#AAAEB7]'>Message <span className='text-white'>(0)</span></p>
