@@ -39,5 +39,8 @@ mod actions {
 
             game_id
         }
+
+        fn play_turn(game_id: u32, player: ContractAddress, pit: u8){}
+        fn capture(game_id: u32, player: ContractAddress, pit: u8){}
     }
 }
