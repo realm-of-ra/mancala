@@ -30,3 +30,31 @@ impl GameTurnImpl of GameTurnTrait {
         }
     }
 }
+
+
+// todo this is just the game model base. Something that must be refined
+#[derive(Model, Copy, Drop, Serde)]
+struct MancalaGame {
+    #[key]
+    game_id: u128,
+    player_one: ContractAddress,
+    player_two: ContractAddress,
+    current_player: ContractAddress,
+    winner: ContractAddress,
+    score: u8,
+    is_finished: bool,
+    p1_pit1: u8,
+    p1_pit2: u8,
+    p1_pit3: u8,
+    p1_pit4: u8,
+    p1_pit5: u8,
+    p1_pit6: u8,
+    p2_pit1: u8,
+    p2_pit2: u8,
+    p2_pit3: u8,
+    p2_pit4: u8,
+    p2_pit5: u8,
+    p2_pit6: u8,
+    p1_store: u256,
+    p2_store: u256
+}

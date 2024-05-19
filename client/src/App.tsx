@@ -1,19 +1,37 @@
-import React from "react"
-
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Leaderboard from "./pages/Leaderboard"
 import { Provider as JotaiProvider } from "jotai";
+import { InjectedConnector } from "starknetkit/injected";
+import { ArgentMobileConnector } from "starknetkit/argentMobile";
+import { WebWalletConnector } from "starknetkit/webwallet";
+import { mainnet } from "@starknet-react/chains";
+import { StarknetConfig, publicProvider } from "@starknet-react/core";
 
 export default function App() {
+  const chains = [
+    mainnet
+  ]
+  const connectors = [
+    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
+    new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
+    new WebWalletConnector({ url: "https://web.argent.xyz" }),
+    new ArgentMobileConnector(),
+  ]
   return (
-    <JotaiProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-        </Routes>
-      </BrowserRouter>
-    </JotaiProvider>
+    <StarknetConfig
+      chains={chains}
+      provider={publicProvider()}
+      connectors={connectors}
+    >
+      <JotaiProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+          </Routes>
+        </BrowserRouter>
+      </JotaiProvider>
+    </StarknetConfig>
   )
 }

@@ -4,7 +4,7 @@ mod tests {
   use dojo::test_utils::{spawn_test_world, deploy_contract};
   use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
   use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
-  use mancala::models::player::{Player, PlayerSide};
+  use mancala::models::player::{Player, PlayerSide, player};
 
   fn setup_world() -> (IWorldDispatcher, IActionsDispatcher) {
     let mut models = array![
