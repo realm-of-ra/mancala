@@ -132,9 +132,11 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <a href='/' className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <img src={logo} width={150} height={150} alt="Logo" className="-mt-10" />
-                </a>
+                <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
+                    <a href="/">
+                        <img src={logo} width={150} height={150} alt="Logo" className="-mt-10" />
+                    </a>
+                </div>
             </nav>
             <div className='w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10'>
                 <div className='flex flex-col justify-center space-y-5 w-fit'>
