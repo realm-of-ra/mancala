@@ -154,13 +154,8 @@ export default function Home() {
                     </div>
                 </div>
                 <div className='flex-1 w-full h-full'>
-                    <div className='flex flex-row items-center justify-end w-full -mt-10'>
-                        <div className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center">
-                            <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden" children />
-                        </div>
-                    </div>
                     {/* Game board */}
-                    <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full flex flex-col items-center justify-center bg-[#15181E]'>
+                    <div className='w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full flex flex-col items-center justify-center bg-[#15181E] mt-24'>
                         <div className='w-[97%] h-[370px] rounded-l-full rounded-r-full flex flex-row items-center justify-between space-x-5 relative'>
                             <div className='w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative'>
                                 {/* Player 1 pot */}
