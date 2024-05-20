@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Home from "./pages/Home"
 import Leaderboard from "./pages/Leaderboard"
 import { Provider as JotaiProvider } from "jotai";
 import { InjectedConnector } from "starknetkit/injected";
@@ -7,6 +6,9 @@ import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { mainnet } from "@starknet-react/chains";
 import { StarknetConfig, publicProvider } from "@starknet-react/core";
+import Gameplay from "./pages/Gameplay";
+import Home from "./pages/Home";
+import Lobby from "./pages/Lobby";
 
 export default function App() {
   const chains = [
@@ -28,7 +30,9 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route index element={<Home />} />
+            <Route path="/lobby" element={<Lobby />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/gameplay" element={<Gameplay />} />
           </Routes>
         </BrowserRouter>
       </JotaiProvider>
