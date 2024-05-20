@@ -3,11 +3,13 @@ import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAtomValue } from "jotai";
 import connectionIcon from "../assets/connect.png";
+import PlayersLobby from "@/components/players-lobby";
+import DuelsLobby from "@/components/duels-lobby";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
     return (
-        <div className="w-full h-screen bg-[#15171E] space-y-8 fixed">
+        <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
             <div className="flex flex-row items-center justify-center">
                 <div className="w-[874px] h-[486px]">
@@ -41,11 +43,15 @@ export default function Lobby() {
                             connection?.isConnected ? (
                                 <>
                                     <TabsContent value="players">
-                                        <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-large.png')] bg-contain bg-no-repeat">
-
+                                        <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
+                                            <PlayersLobby />
                                         </div>
                                     </TabsContent>
-                                    <TabsContent value="duels"></TabsContent>
+                                    <TabsContent value="duels">
+                                        <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
+                                            <DuelsLobby />
+                                        </div>
+                                    </TabsContent>
                                     <TabsContent value="live"></TabsContent>
                                 </>
                             ) : (
