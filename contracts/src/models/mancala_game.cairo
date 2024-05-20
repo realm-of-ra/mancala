@@ -28,15 +28,18 @@ struct MancalaGame {
     // PENDING, IN_PROGRESS, FINISHED, FORFEITED
 }
 
+// todo NEED TO ADD CUSTOM EVENTS AND EVENT EMISSION?
+
 
 trait MancalaGameTrait{
+    fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame;
+    fn join_game(ref self: MancalaGame, player_two: GamePlayer);
     fn get_seeds(self: MancalaGame, player:GamePlayer, selected_pit: u8) -> u8;
     fn clear_pit(ref self: MancalaGame, ref player: GamePlayer, selected_pit: u8);
     fn distribute_seeds(ref self: MancalaGame, ref current_player: GamePlayer, ref opponent: GamePlayer, ref seeds: u8, selected_pit: u8);
     fn validate_move(self:MancalaGame, player: ContractAddress,  selected_pit: u8);
     fn handle_player_switch(ref self: MancalaGame, last_pit: u8, opponent: GamePlayer);
     fn capture(self: MancalaGame, last_pit: u8, ref current_player: GamePlayer, ref opponent: GamePlayer);
-    fn new(game_id: u128, player_one: ContractAddress, player_two: ContractAddress) -> MancalaGame;
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> bool;
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
@@ -46,17 +49,23 @@ trait MancalaGameTrait{
 impl MancalaImpl of MancalaGameTrait{
 
     // create the game
-    fn new(game_id: u128, player_one: ContractAddress, player_two: ContractAddress) -> MancalaGame{
+    fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame{
         let mancala_game: MancalaGame = MancalaGame {
             game_id: game_id,
             player_one: player_one,
-            player_two: player_two,
+            player_two: ContractAddressZeroable::zero(),
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
             is_finished: false,
         };
         mancala_game
     }
+
+    // player two can join the game
+    fn join_game(ref self: MancalaGame, player_two: GamePlayer){
+        self.player_two = player_two.address;
+    }
+
 
     // get the current player and the other player
     // the current player is the player who has the current turn
