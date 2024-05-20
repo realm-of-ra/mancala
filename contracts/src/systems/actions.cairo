@@ -7,7 +7,8 @@ use mancala::models::player::{GamePlayer, GamePlayerTrait};
 #[dojo::interface]
 trait IActions {
     fn create_initial_game_id();
-    fn create_game(player_1: ContractAddress, player_2: ContractAddress) -> MancalaGame;
+    fn create_game() -> MancalaGame;
+    fn join_game(game_id: u128, player_two_address: ContractAddress);
     fn move(game_id: u128, selected_pit: u8)-> ContractAddress;
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
@@ -38,19 +39,25 @@ mod actions {
             set!(world, (game_id));
         }
 
-        // create a game passing in two players
-        // todo better manage this logic
-        // -- how is the game first initiated?
-        //  - Player One creates the game and then someone joins?
-        //  - Or both players select at the same time?
-        fn create_game(world: IWorldDispatcher, player_1: ContractAddress, player_2: ContractAddress) -> MancalaGame{
+        // caller creates the initial game
+        fn create_game(world: IWorldDispatcher) -> MancalaGame{
+            let player_one_address = get_caller_address();
             let mut game_id: GameId = get!(world, 1, (GameId));
-            let p_one = GamePlayerTrait::new(game_id.game_id, player_1);
-            let p_two = GamePlayerTrait::new(game_id.game_id, player_2);
-            let mancala_game: MancalaGame = MancalaGameTrait::new(game_id.game_id, player_1, player_2);
+            let player_one = GamePlayerTrait::new(game_id.game_id, player_one_address);
+            let mancala_game: MancalaGame = MancalaGameTrait::new(game_id.game_id, player_one_address);
             game_id.game_id += 1;
-            set!(world, (p_one, p_two, mancala_game, game_id));
+            set!(world, (player_one, mancala_game, game_id));
             mancala_game
+        }
+
+        // player two can join the game
+        // todo in the unit tests using the set_caller_address was not working so for now passing in the player_two_address
+        fn join_game(world: IWorldDispatcher, game_id: u128, player_two_address: ContractAddress) {
+            let mut mancala_game = get!(world, game_id, (MancalaGame));
+            assert!(mancala_game.player_two == ContractAddressZeroable::zero(), "player_2 already set");
+            let player_two = GamePlayerTrait::new(mancala_game.game_id, player_two_address);
+            mancala_game.join_game(player_two);
+            set!(world, (player_two, mancala_game));
         }
 
         // taking in the game id and the players selected pit, make the move performing all logic
