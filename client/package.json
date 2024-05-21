@@ -12,6 +12,9 @@
     "codegen": "graphql-codegen",
     "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"
   },
+  "peerDependencies": {
+    "starknet": "6.8.0"
+  },
   "dependencies": {
     "@dojoengine/core": "^0.6.125",
     "@dojoengine/create-burner": "^0.6.125",
@@ -43,7 +46,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "rxjs": "^7.8.1",
-    "starknet": "^6.8.0",
     "starknetid.js": "^3.2.0",
     "starknetkit": "^1.1.9",
     "tailwind-merge": "^2.2.2",
