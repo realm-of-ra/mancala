@@ -48,30 +48,34 @@ export const DojoProvider = ({
         count,
         copyToClipboard,
         applyFromClipboard,
+        remove,
+        deselect
     } = useBurnerManager({
         burnerManager,
     });
 
     return (
-        <DojoContext.Provider
-            value={{
-                ...value,
-                masterAccount,
-                account: {
-                    create,
-                    list,
-                    get,
-                    select,
-                    clear,
-                    count,
-                    account: account ? account : masterAccount,
-                    isDeploying,
-                    copyToClipboard,
-                    applyFromClipboard,
-                },
-            }}
-        >
-            {children}
-        </DojoContext.Provider>
-    );
+			<DojoContext.Provider
+				value={{
+					...value,
+					masterAccount,
+					account: {
+						create,
+						list,
+						get,
+						select,
+						clear,
+						count,
+						account: account ? account : masterAccount,
+						isDeploying,
+						copyToClipboard,
+						applyFromClipboard,
+						remove,
+						deselect,
+					},
+				}}
+			>
+				{children}
+			</DojoContext.Provider>
+		);
 };

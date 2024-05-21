@@ -116,21 +116,28 @@
       {
         "type": "function",
         "name": "create_game",
-        "inputs": [
-          {
-            "name": "player_1",
-            "type": "core::starknet::contract_address::ContractAddress"
-          },
-          {
-            "name": "player_2",
-            "type": "core::starknet::contract_address::ContractAddress"
-          }
-        ],
+        "inputs": [],
         "outputs": [
           {
             "type": "mancala::models::mancala_game::MancalaGame"
           }
         ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "join_game",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "player_two_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
         "state_mutability": "view"
       },
       {
