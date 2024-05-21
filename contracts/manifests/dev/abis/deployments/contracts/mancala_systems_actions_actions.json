@@ -55,8 +55,52 @@
   },
   {
     "type": "impl",
-    "name": "IActionsImpl",
+    "name": "ActionsImpl",
     "interface_name": "mancala::systems::actions::IActions"
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "mancala::models::mancala_game::MancalaGame",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u128"
+      },
+      {
+        "name": "player_one",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "player_two",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "current_player",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "winner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "is_finished",
+        "type": "core::bool"
+      }
+    ]
   },
   {
     "type": "interface",
@@ -64,20 +108,86 @@
     "items": [
       {
         "type": "function",
-        "name": "spawn",
+        "name": "create_initial_game_id",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "create_game",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "mancala::models::mancala_game::MancalaGame"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "join_game",
         "inputs": [
           {
-            "name": "player_one",
-            "type": "core::starknet::contract_address::ContractAddress"
+            "name": "game_id",
+            "type": "core::integer::u128"
           },
           {
-            "name": "player_two",
+            "name": "player_two_address",
             "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "move",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "selected_pit",
+            "type": "core::integer::u8"
           }
         ],
         "outputs": [
           {
-            "type": "core::integer::u32"
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_score",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "(core::integer::u8, core::integer::u8)"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "is_game_finished",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::bool"
           }
         ],
         "state_mutability": "view"
