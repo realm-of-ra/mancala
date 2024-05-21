@@ -18,7 +18,6 @@ export function createSystemCalls(
   { Game, GameTurn, GameId, MancalaGame, Moves, GamePlayer, Player, Seed }: ClientComponents,
 ) {
   const create_initial_game = async (account: AccountInterface) => {
-    const entityId = getEntityIdFromKeys([BigInt(account.address)]) as Entity;
 
     const movesId = uuid();
 
