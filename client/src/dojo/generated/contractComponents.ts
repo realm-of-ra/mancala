@@ -32,6 +32,32 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    GameId: (() => {
+      return defineComponent(
+        world,
+        { id: RecsType.Number, game_id: RecsType.BigInt },
+        {
+          metadata: {
+            name: "GameId",
+            types: ["u32","u128"],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
+    MancalaGame: (() => {
+      return defineComponent(
+        world,
+        { game_id: RecsType.BigInt, player_one: RecsType.BigInt, player_two: RecsType.BigInt, current_player: RecsType.BigInt, winner: RecsType.BigInt, is_finished: RecsType.Boolean },
+        {
+          metadata: {
+            name: "MancalaGame",
+            types: ["u128","contractaddress","contractaddress","contractaddress","contractaddress","bool"],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
     Moves: (() => {
       return defineComponent(
         world,
@@ -45,15 +71,28 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    GamePlayer: (() => {
+      return defineComponent(
+        world,
+        { address: RecsType.BigInt, game_id: RecsType.BigInt, pit1: RecsType.Number, pit2: RecsType.Number, pit3: RecsType.Number, pit4: RecsType.Number, pit5: RecsType.Number, pit6: RecsType.Number, mancala: RecsType.Number },
+        {
+          metadata: {
+            name: "GamePlayer",
+            types: ["contractaddress","u128","u8","u8","u8","u8","u8","u8","u8"],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
     Player: (() => {
       return defineComponent(
         world,
-        { game_id: RecsType.Number, address: RecsType.BigInt, pending_seeds: RecsType.Number, side: RecsType.Number },
+        { address: RecsType.BigInt, games_won: RecsType.BigInt, games_lost: RecsType.BigInt },
         {
           metadata: {
             name: "Player",
-            types: ["u32","contractaddress","u32","enum"],
-            customTypes: ["PlayerSide"],
+            types: ["contractaddress","u256","u256"],
+            customTypes: [],
           },
         }
       );
