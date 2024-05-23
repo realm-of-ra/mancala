@@ -95,7 +95,7 @@ export default function Lobby() {
                                                     }
                                                     <p className="text-sm text-[#FCE3AA] font-medium">{gameUrl}</p>
                                                 </button>
-                                                <a href="">
+                                                <a href="/gameplay">
                                                     <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={gotoIcon} className="w-5 h-5" />
