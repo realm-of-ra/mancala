@@ -5,16 +5,16 @@ import mancala from "../assets/logo.png";
 import eniola from "../assets/eniola.png";
 import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
-import { useState } from "react";
-import { connect, ConnectedStarknetWindowObject, disconnect } from 'starknetkit';
+import { connect, disconnect } from 'starknetkit';
 import { useAtom } from "jotai";
 import { isPlaying as isPlayingAtom, profileData as profileDataAtom, address as addressAtom, connection as connectionAtom } from "../atom/atoms";
 import audio from "../music/audio_1.mp3";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
-import { constants, type StarkProfile } from "starknet";
+import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { StarkProfile } from "@/types";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);

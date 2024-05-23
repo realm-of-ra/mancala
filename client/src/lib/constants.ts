@@ -499,3 +499,117 @@ export const duels_stats = [
     date: '14 - 05 - 2024',
   },
 ]
+
+export const live_duels_header = [
+  {
+    id: 1,
+    name: 'Challenger',
+  },
+  {
+    id: 2,
+    name: 'Challenged',
+  },
+  {
+    id: 3,
+    name: 'Date',
+  },
+  {
+    id: 4,
+    name: 'Status',
+  },
+]
+
+export const live_duels_stats = [
+  {
+    id: 0,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 2,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 3,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 4,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 5,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 6,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 7,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+]
