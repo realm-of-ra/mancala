@@ -530,7 +530,7 @@ export const live_duels_stats = [
       name: 'Israel',
       image: israel,
     },
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Join Game',
   },
   {
@@ -540,7 +540,7 @@ export const live_duels_stats = [
       image: eniola,
     },
     challenged: null,
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Joined',
   },
   {
@@ -553,7 +553,7 @@ export const live_duels_stats = [
       name: 'Israel',
       image: israel,
     },
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Join Game',
   },
   {
@@ -563,7 +563,7 @@ export const live_duels_stats = [
       image: eniola,
     },
     challenged: null,
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Joined',
   },
   {
@@ -576,7 +576,7 @@ export const live_duels_stats = [
       name: 'Israel',
       image: israel,
     },
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Join Game',
   },
   {
@@ -586,7 +586,7 @@ export const live_duels_stats = [
       image: eniola,
     },
     challenged: null,
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Joined',
   },
   {
@@ -599,7 +599,7 @@ export const live_duels_stats = [
       name: 'Israel',
       image: israel,
     },
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Join Game',
   },
   {
@@ -609,7 +609,7 @@ export const live_duels_stats = [
       image: eniola,
     },
     challenged: null,
-    date: '14 - 05 - 2024',
+    date: '14 - 05 - 2024, 12:13PM',
     status: 'Joined',
   },
 ]

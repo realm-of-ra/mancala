@@ -29,6 +29,10 @@ export default function Lobby() {
         setGameUrl(undefined)
         setOpen(!open)
     };
+    const handleClip = (url: string) => {
+        navigator.clipboard.writeText(url)
+        setClipped(url)
+    }
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
@@ -81,7 +85,7 @@ export default function Lobby() {
                                             <div className="flex flex-col items-center justify-center space-y-5 -mt-36">
                                                 <img src={clip} className="w-20 h-20" />
                                                 <h3 className="text-[#BDC2CC] text-2xl font-bold">Share Invite</h3>
-                                                <button className="flex flex-row items-center justify-center space-x-1.5">
+                                                <button className="flex flex-row items-center justify-center space-x-1.5" onClick={() => handleClip(gameUrl)}>
                                                     {
                                                         clipped ? <button className="bg-[#F582291A]/10 p-1 rounded-md">
                                                             <CheckBadgeIcon className="w-4 h-4 text-[#F58229]" />
