@@ -90,7 +90,11 @@ export default function LiveDuels() {
                                             </p>
                                         </td>
                                         <td className="flex flex-row justify-center w-[200px]">
-                                            <Button className={clsx(status === "Join Game" ? "text-[#F58229]" : "text-[#BDC2CC80]/50", "bg-[#1A1D25] hover:bg-[#1A1D25] active:bg-[#1A1D25] rounded-3xl font-medium")} disabled={status === "Joined"}>{status}</Button>
+                                            <Button
+                                                className={clsx(status === "Join Game" ? "text-[#F58229]" : "text-[#BDC2CC80]/50", "bg-[#1A1D25] hover:bg-[#1A1D25] active:bg-[#1A1D25] rounded-3xl font-medium")}
+                                                disabled={status === "Joined"}
+                                                onClick={() => window.location.href = "/gameplay"}
+                                            >{status}</Button>
                                         </td>
                                     </tr>
                                 );
