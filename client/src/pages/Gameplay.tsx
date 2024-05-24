@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
 import { isPlaying as isPlayingAtom } from "../atom/atoms";
 import { useAtom } from "jotai";
-import audio from "../music/audio_1.mp3";
+import audio from "../music/audio_1.mp4";
 
 export default function Gameplay() {
 
