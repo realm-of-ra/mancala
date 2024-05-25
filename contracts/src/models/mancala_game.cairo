@@ -26,6 +26,8 @@ struct MancalaGame {
     is_finished: bool,  // todo implement logic to set this state
     // also maybe better to use and enum to track the status of the game
     // PENDING, IN_PROGRESS, FINISHED, FORFEITED
+    is_private: bool
+    // block_created: block
 }
 
 // todo NEED TO ADD CUSTOM EVENTS AND EVENT EMISSION?
@@ -57,6 +59,7 @@ impl MancalaImpl of MancalaGameTrait{
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
             is_finished: false,
+            is_private: false
         };
         mancala_game
     }

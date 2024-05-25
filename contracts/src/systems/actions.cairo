@@ -9,6 +9,7 @@ trait IActions {
     fn create_initial_game_id();
     fn create_game() -> MancalaGame;
     fn join_game(game_id: u128, player_two_address: ContractAddress);
+    fn create_private_game(player_two_address: ContractAddress) -> MancalaGame ;
     fn move(game_id: u128, selected_pit: u8)-> ContractAddress;
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
@@ -58,6 +59,21 @@ mod actions {
             let player_two = GamePlayerTrait::new(mancala_game.game_id, player_two_address);
             mancala_game.join_game(player_two);
             set!(world, (player_two, mancala_game));
+        }
+        
+        // this is logic to create a private game
+        // a user will be able to create the game supplying another users address
+        fn create_private_game(world: IWorldDispatcher, player_two_address: ContractAddress) -> MancalaGame {
+            let player_one_address = get_caller_address();
+            let mut game_id: GameId = get!(world, 1, (GameId));
+            let mut mancala_game: MancalaGame = MancalaGameTrait::new(game_id.game_id, player_one_address);
+            let player_one = GamePlayerTrait::new(mancala_game.game_id, player_one_address);
+            let player_two = GamePlayerTrait::new(mancala_game.game_id, player_two_address);
+            mancala_game.join_game(player_two);
+            mancala_game.is_private = true;
+            game_id.game_id += 1;
+            set!(world, (player_one, player_two, mancala_game, game_id));
+            mancala_game
         }
 
         // taking in the game id and the players selected pit, make the move performing all logic
