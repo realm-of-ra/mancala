@@ -56,6 +56,38 @@ mod tests {
 
     #[test]
     #[available_gas(3000000000000)]
+    fn test_create_private_game(){
+        let _player_one_address = starknet::contract_address_const::<0x0>();
+        let player_two_address = starknet::contract_address_const::<0x456>();
+        let mut models = array![mancala_game::TEST_CLASS_HASH];
+        let world = spawn_test_world(models);
+        let contract_address = world.deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+        actions_system.create_initial_game_id();
+        let mancala_game: MancalaGame = actions_system.create_private_game(player_two_address);
+
+        let player_one: GamePlayer =  get!(world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer));
+        let player_two: GamePlayer =  get!(world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer));
+        let mancala_game: MancalaGame = get!(world, (mancala_game.game_id), (MancalaGame));
+        
+        assert(mancala_game.is_private == true, 'mancala game is not private');
+        assert(player_one.pit1 == 4, 'p1 pit 1 not init correctly');
+        assert(player_one.pit2 == 4, 'p1 pit 2 not init correctly');
+        assert(player_one.pit3 == 4, 'p1 pit 3 not init correctly');
+        assert(player_one.pit4 == 4, 'p1 pit 4 not init correctly');
+        assert(player_one.pit5 == 4, 'p1 pit 5 not init correctly');
+        assert(player_one.pit6 == 4, 'p1 pit 6 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 1 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 2 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 3 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 4 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 5 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
     fn test_game_id_increments() {
         let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
 
