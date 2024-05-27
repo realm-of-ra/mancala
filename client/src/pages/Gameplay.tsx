@@ -5,20 +5,18 @@ import {
     AccordionHeader,
     AccordionBody,
 } from "@material-tailwind/react";
-import eniola from '../assets/eniola.png';
-import israel from "../assets/israel.png";
-import logo from "../assets/logo.png";
-import restart from "../assets/restart.png";
-import end from "../assets/end.png";
-import muteImage from "../assets/mute.png";
-import unmuteImage from "../assets/unmute.png";
-import leaderboard from "../assets/leaderboard.png";
-import message from "../assets/messages.png";
+
+import {
+  eniola, israel, logo, restart, end,
+  muteImage, unmuteImage, leaderboard,
+  message,
+} from "../constants/icons_store";
+
 import clsx from 'clsx';
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { Link } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
-import { isPlaying as isPlayingAtom } from "../atom/atoms";
+import { isPlayingAtom } from "../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../music/audio_1.mp4";
 

@@ -12,4 +12,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      // Ensure your assets are not externalized accidentally
+      external: [],
+    },
+  },
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.svg'], // Add this line to ensure assets are included
+
 })
+
