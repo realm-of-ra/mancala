@@ -7,7 +7,7 @@ import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
 import { connect, disconnect } from 'starknetkit';
 import { useAtom } from "jotai";
-import { isPlaying as isPlayingAtom, profileData as profileDataAtom, address as addressAtom, connection as connectionAtom } from "../atom/atoms";
+import { isPlayingAtom, profileDataAtom, addressAtom, connectionAtom } from "../atom/atoms";
 import audio from "../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";

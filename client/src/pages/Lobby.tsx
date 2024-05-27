@@ -1,4 +1,4 @@
-import { connection as connectionAtom } from "@/atom/atoms";
+import { connectionAtom } from "@/atom/atoms";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAtomValue } from "jotai";
