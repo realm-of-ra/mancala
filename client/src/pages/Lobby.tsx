@@ -18,6 +18,7 @@ import gotoIcon from "../assets/goto.png";
 import end from "../assets/end.png";
 import clip from "../assets/copied.png";
 import LiveDuels from "@/components/live-duels";
+import { useDojo } from "@/dojo/useDojo";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -32,6 +33,16 @@ export default function Lobby() {
     const handleClip = (url: string) => {
         navigator.clipboard.writeText(url)
         setClipped(url)
+    }
+    const { account, system } = useDojo()
+    const create_initial_game_id = async () => {
+        const result: any = await system.create_initial_game_id(account.account);
+        return result.data
+    }
+    create_initial_game_id();
+    const create_game = async () => {
+        const result = await system.create_game(account.account);
+        console.log(result)
     }
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -135,7 +146,7 @@ export default function Lobby() {
                                                         <p className="text-[#996E47] text-xs font-medium">Any player will be able to join the game after creation</p>
                                                     </div>
                                                 }
-                                                <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={() => setGameUrl("https://google.com?game_id=yooooooooo?can_play=any")}>
+                                                <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={create_game}>
                                                     <div className="flex flex-row items-center space-x-1">
                                                         <img src={createIcon} className="w-5 h-5" />
                                                         <p className="text-[#FCE3AA] font-semibold">Create Game</p>
