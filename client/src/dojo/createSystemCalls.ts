@@ -83,8 +83,8 @@ export function createSystemCalls(
 
   const create_private_game = async (
     account: AccountInterface,
-    setGameId: any,
     player_2: string,
+    setGameId: any,
   ) => {
     const movesId = uuid()
     try {
