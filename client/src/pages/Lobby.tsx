@@ -56,7 +56,7 @@ export default function Lobby() {
     }
     const create_private_game = async () => {
         setCreating(true)
-        await system.create_private_game(account.account, player2);
+        await system.create_private_game(account.account, player2, setGameId);
     }
     useEffect(() => {
         runOnceForever();

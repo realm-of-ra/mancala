@@ -83,6 +83,7 @@ export function createSystemCalls(
 
   const create_private_game = async (
     account: AccountInterface,
+    setGameId: any,
     player_2: string,
   ) => {
     const movesId = uuid()
@@ -108,6 +109,7 @@ export function createSystemCalls(
       const events = getEvents(waitForTransaction)
 
       setComponentsFromEvents(contractComponents, events)
+      setGameId(events[0].data[3])
     } catch (e) {
       console.log(e)
     } finally {
