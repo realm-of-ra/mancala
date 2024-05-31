@@ -33,7 +33,7 @@ export async function setupWorld(provider: DojoProvider) {
       try {
         return await provider.execute(account, contract_name, 'create_game', [])
       } catch (error) {
-        console.error('Error executing create_initial_game_id:', error)
+        console.error('Error executing create_game:', error)
         throw error
       }
     }

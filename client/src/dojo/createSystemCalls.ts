@@ -45,13 +45,12 @@ export function createSystemCalls(
       )
     } catch (e) {
       console.log(e)
-      GameId.removeOverride(movesId)
     } finally {
       GameId.removeOverride(movesId)
     }
   }
 
-  const create_game = async (account: AccountInterface) => {
+  const create_game = async (account: AccountInterface, setGameId: any) => {
     const movesId = uuid()
 
     try {
@@ -63,18 +62,19 @@ export function createSystemCalls(
         }),
       )
 
-      setComponentsFromEvents(
-        contractComponents,
-        getEvents(
-          await account.waitForTransaction(transaction_hash, {
-            retryInterval: 100,
-          }),
-        ),
+      const waitForTransaction = await account.waitForTransaction(
+        transaction_hash,
+        {
+          retryInterval: 100,
+        },
       )
+
+      const events = getEvents(waitForTransaction)
+
+      setComponentsFromEvents(contractComponents, events)
+      setGameId(events[0].data[3])
     } catch (e) {
       console.log(e)
-      GameId.removeOverride(movesId)
-      MancalaGame.removeOverride(movesId)
     } finally {
       GameId.removeOverride(movesId)
       MancalaGame.removeOverride(movesId)
