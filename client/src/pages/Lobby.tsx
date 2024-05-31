@@ -142,7 +142,13 @@ export default function Lobby() {
                                                     <p className="font-bold text-lg text-[#4F5666]">Get started with the Mancala Game</p>
                                                 </div>
                                                 <div className="flex gap-20">
-                                                    <RadioGroup defaultValue={type} className="flex flex-row space-x-10" onValueChange={(value) => setType(value)}>
+                                                    <RadioGroup defaultValue={type} className="flex flex-row space-x-10" onValueChange={(value) => {
+                                                        //prevent clip value from persisting when switching between private and public
+                                                        if (type != value) {
+                                                            setClipped(undefined)
+                                                        }
+                                                        setType(value)
+                                                    }}>
                                                         <div className="flex items-center space-x-2 hover:cursor-pointer">
                                                             <RadioGroupItem value="private" id="private" />
                                                             <Label htmlFor="private" className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer">Private</Label>
