@@ -81,8 +81,45 @@ export function createSystemCalls(
     }
   }
 
+  const create_private_game = async (
+    account: AccountInterface,
+    player_2: string,
+  ) => {
+    const movesId = uuid()
+    try {
+      const { transaction_hash } = await client.actions.create_private_game(
+        account,
+        player_2,
+      )
+
+      console.log(
+        await account.waitForTransaction(transaction_hash, {
+          retryInterval: 100,
+        }),
+      )
+
+      const waitForTransaction = await account.waitForTransaction(
+        transaction_hash,
+        {
+          retryInterval: 100,
+        },
+      )
+
+      const events = getEvents(waitForTransaction)
+
+      setComponentsFromEvents(contractComponents, events)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      GameId.removeOverride(movesId)
+      GamePlayer.removeOverride(movesId)
+      MancalaGame.removeOverride(movesId)
+    }
+  }
+
   return {
     create_initial_game_id,
     create_game,
+    create_private_game,
   }
 }

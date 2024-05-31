@@ -28,7 +28,11 @@ export default function Lobby() {
     const [clipped, setClipped] = useState<string | undefined>()
     const [gameId, setGameId] = useAtom(gameIdAtom)
     const [creating, setCreating] = useState(false)
+    const [player2, setPlayer2] = useState("")
     const handleOpen = () => {
+        setGameUrl(undefined)
+        setCreating(false)
+        setGameId(null)
         setOpen(!open)
     };
     const handleClip = (url: string) => {
@@ -49,6 +53,10 @@ export default function Lobby() {
     const create_game = async () => {
         setCreating(true)
         await system.create_game(account.account, setGameId);
+    }
+    const create_private_game = async () => {
+        setCreating(true)
+        await system.create_private_game(account.account, player2);
     }
     useEffect(() => {
         runOnceForever();
@@ -148,7 +156,7 @@ export default function Lobby() {
                                                 {
                                                     type === "private" ? <div className="space-y-5">
                                                         <input className="p-2.5 w-72 rounded-xl border-2 border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666] 
-                                                placeholder:font-medium text-[#4F5666] font-medium" placeholder="0x..." />
+                                                placeholder:font-medium text-[#4F5666] font-medium" placeholder="0x..." onChange={(e) => setPlayer2(e.target.value)} />
                                                         <div className="flex flex-row items-center justify-center space-x-1">
                                                             <InformationCircleIcon className="w-4 h-4 text-[#996E47]" />
                                                             <p className="text-[#996E47] text-xs font-medium">Paste a wallet address to invite a friend</p>
@@ -159,12 +167,12 @@ export default function Lobby() {
                                                     </div>
                                                 }
                                                 {
-                                                    gameId == null && creating == false ? <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={create_game}>
+                                                    gameId == null && creating == false ? <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={() => type == "private" ? create_private_game() : create_game()}>
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={createIcon} className="w-5 h-5" />
                                                             <p className="text-[#FCE3AA] font-semibold">Create Game</p>
                                                         </div>
-                                                    </Button> : <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={create_game}>
+                                                    </Button> : <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
                                                         <div className="flex flex-row items-center justify-center space-x-1">
                                                             <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                                 width="24" height="24">
