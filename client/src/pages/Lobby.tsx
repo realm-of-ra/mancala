@@ -53,10 +53,9 @@ export default function Lobby() {
     useEffect(() => {
         runOnceForever();
         if (gameId != null) {
-            setGameUrl(`localhost:3000/gameplay/${gameId}`)
+            setGameUrl(`${window.location.origin}/gameplay?id=${gameId}`)
         }
     }, [gameId])
-    console.log("gameId", gameId)
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
@@ -119,7 +118,7 @@ export default function Lobby() {
                                                     }
                                                     <p className="text-sm text-[#FCE3AA] font-medium">{gameUrl}</p>
                                                 </button>
-                                                <a href={`localhost:3000/gameplay/${gameId}`}>
+                                                <a href={`/gameplay?id=${gameId}`}>
                                                     <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={gotoIcon} className="w-5 h-5" />
