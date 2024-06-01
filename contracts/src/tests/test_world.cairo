@@ -12,7 +12,7 @@ mod tests {
     use mancala::{
         // systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{mancala_game::{MancalaGame, GameId, mancala_game}},
+        models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus}},
         models::{player::{GamePlayer}}
     };
 
@@ -147,5 +147,16 @@ mod tests {
     fn test_capture() {
         assert!(0 == 0, "todo implement");
     }
+
+    // this test should panic need to figure out how to assert that there is a panic in the test
+    // #[test]
+    // #[available_gas(3000000000000)]
+    // fn test_cannot_move_if_game_finished(){
+    //     let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
+    //     mancala_game.status = GameStatus::Finished;
+    //     set!(world, (mancala_game));
+    //     let selected_pit: u8 = 1;
+    //     actions_system.move(mancala_game.game_id, selected_pit);
+    // }
 
 }

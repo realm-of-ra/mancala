@@ -15,22 +15,26 @@ struct GameId {
     game_id: u128
 }
 
-#[derive(Model, Copy, Drop, Serde, Debug)]
+# [derive(Serde, Copy, Drop, Introspect, PartialEq)]
+enum GameStatus {
+   Pending: (),
+   InProgress: (),
+   Finished: (),
+   Forfeited: (),
+}
+
+#[derive(Model, Copy, Drop, Serde)]
 struct MancalaGame {
     #[key]
     game_id: u128,
     player_one: ContractAddress,
     player_two: ContractAddress,
     current_player: ContractAddress,
-    winner: ContractAddress, // todo implement logic to set this state
-    is_finished: bool,  // todo implement logic to set this state
-    // also maybe better to use and enum to track the status of the game
-    // PENDING, IN_PROGRESS, FINISHED, FORFEITED
+    winner: ContractAddress,
+    status: GameStatus,
     is_private: bool
     // block_created: block
 }
-
-// todo NEED TO ADD CUSTOM EVENTS AND EVENT EMISSION?
 
 
 trait MancalaGameTrait{
@@ -43,6 +47,7 @@ trait MancalaGameTrait{
     fn handle_player_switch(ref self: MancalaGame, last_pit: u8, opponent: GamePlayer);
     fn capture(self: MancalaGame, last_pit: u8, ref current_player: GamePlayer, ref opponent: GamePlayer);
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> bool;
+    fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer);
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
 }
@@ -58,7 +63,7 @@ impl MancalaImpl of MancalaGameTrait{
             player_two: ContractAddressZeroable::zero(),
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
-            is_finished: false,
+            status: GameStatus::Pending,
             is_private: false
         };
         mancala_game
@@ -67,8 +72,8 @@ impl MancalaImpl of MancalaGameTrait{
     // player two can join the game
     fn join_game(ref self: MancalaGame, player_two: GamePlayer){
         self.player_two = player_two.address;
+        self.status = GameStatus::InProgress;
     }
-
 
     // get the current player and the other player
     // the current player is the player who has the current turn
@@ -86,6 +91,7 @@ impl MancalaImpl of MancalaGameTrait{
     // perform validation to ensure that the caller is the current player 
     // also validate that the selected pit is within range
     fn validate_move(self: MancalaGame, player: ContractAddress, selected_pit: u8){
+        assert!(self.status != GameStatus::Finished, "Game is already Finished");
         if player != self.current_player {
             panic!("You are not the current player");
         }
@@ -230,10 +236,21 @@ impl MancalaImpl of MancalaGameTrait{
         }
     }
 
+    // todo this should be made private only to be called at the end of a move and a forfeit
+    fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer){
+        if current_player.mancala > opponent.mancala{
+            self.winner = current_player.address;
+        } else {
+            self.winner = opponent.address;
+        }
+    }
+
+
     // check to see if either players pits are all empty
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer)-> bool{
         player_one.is_finished() || player_two.is_finished()
     }
+
 
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8){
