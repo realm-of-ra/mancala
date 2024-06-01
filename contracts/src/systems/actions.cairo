@@ -13,6 +13,7 @@ trait IActions {
     fn move(game_id: u128, selected_pit: u8)-> ContractAddress;
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
+    fn restart(game_id: u128, player_one_address, player_two_address);
 }
 
 // dojo decorator
@@ -110,6 +111,13 @@ mod actions {
             let player_two: GamePlayer = get!(world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer));
             mancala_game.is_game_finished(player_one, player_two)
         }
-        
+
+        //function to restart the game
+        fn restart(game_id: u128, player_one_address, player_two_address){
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let player_one: GamePlayer = get!(world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer));
+            let player_two: GamePlayer = get!(world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer));
+            mancala_game.restart(player_one, player_two)
+        } 
     }
 }

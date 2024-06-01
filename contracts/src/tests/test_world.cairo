@@ -54,6 +54,11 @@ mod tests {
         assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
     }
 
+//#[test]
+//#[available_gas(3000000000000)]
+//fn test-restart(){
+
+//}
     #[test]
     #[available_gas(3000000000000)]
     fn test_create_private_game(){

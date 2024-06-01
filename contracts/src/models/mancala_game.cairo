@@ -45,6 +45,7 @@ trait MancalaGameTrait{
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> bool;
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
+    fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer);
 }
 
 
@@ -238,5 +239,9 @@ impl MancalaImpl of MancalaGameTrait{
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8){
         (player_one.mancala, player_two.mancala)
+    }
+
+    fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer){
+         player_one, player_two;
     }
 }
