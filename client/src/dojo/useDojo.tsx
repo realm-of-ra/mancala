@@ -11,5 +11,7 @@ export const useDojo = () => {
     return {
         setup: context,
         account: context.account,
+        burner: context.burnerManager,
+        system: context.systemCalls
     };
 };
