@@ -240,7 +240,7 @@ impl MancalaImpl of MancalaGameTrait{
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8){
         (player_one.mancala, player_two.mancala)
     }
-
+     // restart game
     fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer){
          player_one, player_two;
     }
