@@ -22,8 +22,8 @@ initializer_class_hash = "0xOkhai"
 [tool.dojo.env]
 rpc_url = "https://api.cartridge.gg/x/mancala/katana"
 # Default account for katana with seed = 0
-account_address = "0x2bc2070abd0aed2486bf97a9453d551c273aefa6f4e953c293c3425f9980999"
-private_key = "0x6b3d1e0a6993197cf065cdf4c6522b6192e0eb7bcafb38b8c8d3725eb5631e9"
+account_address = "0x56222ba517594e594255d81ca71ca851ce59f6d41e2870791a243778e5a6e57"
+private_key = "0x12349634f0f9fa69530a1aa52c23abca2801458dedc2548bc953f0d1498a0fc"
 world_address = "0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"  # Update this line with your world address
 
 [tool.dojo.world]
