@@ -10,16 +10,7 @@ export type SystemCalls = ReturnType<typeof createSystemCalls>
 export function createSystemCalls(
   { client }: { client: IWorld },
   contractComponents: ContractComponents,
-  {
-    Game,
-    GameTurn,
-    GameId,
-    MancalaGame,
-    Moves,
-    GamePlayer,
-    Player,
-    Seed,
-  }: ClientComponents,
+  { GameId, MancalaGame, GamePlayer, Player }: ClientComponents,
 ) {
   const create_initial_game_id = async (account: AccountInterface) => {
     const movesId = uuid()
