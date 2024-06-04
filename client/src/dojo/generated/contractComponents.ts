@@ -6,37 +6,6 @@ export type ContractComponents = Awaited<ReturnType<typeof defineContractCompone
 
 export function defineContractComponents(world: typeof World) {
 	return {
-		Game: (() => {
-			return defineComponent(
-				world,
-				{
-					game_id: RecsType.Number,
-					winner: RecsType.Number,
-					player_one: RecsType.BigInt,
-					player_two: RecsType.BigInt,
-				},
-				{
-					metadata: {
-						name: "Game",
-						types: ["u32", "enum", "contractaddress", "contractaddress"],
-						customTypes: ["PlayerSide"],
-					},
-				}
-			);
-		})(),
-		GameTurn: (() => {
-			return defineComponent(
-				world,
-				{ game_id: RecsType.Number, player_side: RecsType.Number },
-				{
-					metadata: {
-						name: "GameTurn",
-						types: ["u32", "enum"],
-						customTypes: ["PlayerSide"],
-					},
-				}
-			);
-		})(),
 		GameId: (() => {
 			return defineComponent(
 				world,
@@ -59,7 +28,8 @@ export function defineContractComponents(world: typeof World) {
 					player_two: RecsType.BigInt,
 					current_player: RecsType.BigInt,
 					winner: RecsType.BigInt,
-					is_finished: RecsType.Boolean,
+					status: RecsType.Number,
+					is_private: RecsType.Boolean,
 				},
 				{
 					metadata: {
@@ -70,26 +40,10 @@ export function defineContractComponents(world: typeof World) {
 							"contractaddress",
 							"contractaddress",
 							"contractaddress",
+							"enum",
 							"bool",
 						],
-						customTypes: [],
-					},
-				}
-			);
-		})(),
-		Moves: (() => {
-			return defineComponent(
-				world,
-				{
-					player: RecsType.BigInt,
-					count: RecsType.Number,
-					last_decision: RecsType.Number,
-				},
-				{
-					metadata: {
-						name: "Moves",
-						types: ["contractaddress", "u8", "enum"],
-						customTypes: ["Direction"],
+						customTypes: ["GameStatus"],
 					},
 				}
 			);
@@ -140,23 +94,6 @@ export function defineContractComponents(world: typeof World) {
 						name: "Player",
 						types: ["contractaddress", "u256", "u256"],
 						customTypes: [],
-					},
-				}
-			);
-		})(),
-		Seed: (() => {
-			return defineComponent(
-				world,
-				{
-					game_id: RecsType.Number,
-					position: { x: RecsType.Number, y: RecsType.Number },
-					player_side: RecsType.Number,
-				},
-				{
-					metadata: {
-						name: "Seed",
-						types: ["u32", "u32", "u32", "enum"],
-						customTypes: ["Vec2", "PlayerSide"],
 					},
 				}
 			);
