@@ -1,5 +1,4 @@
-use core::starknet::SyscallResultTrait;
-use core::starknet::ContractAddress;
+use core::starknet::{ContractAddress, SyscallResultTrait};
 use core::starknet::contract_address::ContractAddressZeroable;
 use core::starknet::info::get_execution_info_syscall;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
