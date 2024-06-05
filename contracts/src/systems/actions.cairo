@@ -86,7 +86,6 @@ mod actions {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
 
             // need to create validation for this status
-            assert!(mancala_game.status != GameStatus::Finished, "Game is already finished");
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
             assert!(
                 mancala_game.player_two != ContractAddressZeroable::zero(),
@@ -96,22 +95,27 @@ mod actions {
             let player: ContractAddress = get_caller_address();
 
             mancala_game.validate_move(player, selected_pit);
-            let (mut current_player, mut opponent) = mancala_game.get_players(world);
-            // Get seeds from the selected pit and validate it's not empty
-            let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
-            if seeds == 0 {
-                panic!("Selected pit is empty. Choose another pit.");
+
+            if mancala_game.status == GameStatus::InProgress {
+                let (mut current_player, mut opponent) = mancala_game.get_players(world);
+                // Get seeds from the selected pit and validate it's not empty
+                let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
+                if seeds == 0 {
+                    panic!("Selected pit is empty. Choose another pit.");
+                }
+                mancala_game.clear_pit(ref current_player, selected_pit);
+                mancala_game
+                    .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
+                if mancala_game.is_game_finished(current_player, opponent) {
+                    mancala_game.status = GameStatus::Finished;
+                    mancala_game.set_winner(current_player, opponent);
+                }
+                set!(world, (mancala_game, current_player, opponent));
+                // return the current player so client has ability to know
+                mancala_game.current_player
+            } else {
+                mancala_game.current_player
             }
-            mancala_game.clear_pit(ref current_player, selected_pit);
-            mancala_game
-                .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
-            if mancala_game.is_game_finished(current_player, opponent) {
-                mancala_game.status = GameStatus::Finished;
-                mancala_game.set_winner(current_player, opponent);
-            }
-            set!(world, (mancala_game, current_player, opponent));
-            // return the current player so client has ability to know
-            mancala_game.current_player
         }
 
         // read function to get the score of a game taking in the game

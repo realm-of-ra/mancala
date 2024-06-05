@@ -21,6 +21,7 @@ enum GameStatus {
     InProgress: (),
     Finished: (),
     Forfeited: (),
+    TimeOut: (),
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -49,7 +50,7 @@ trait MancalaGameTrait {
         ref seeds: u8,
         selected_pit: u8
     );
-    fn validate_move(self: MancalaGame, player: ContractAddress, selected_pit: u8);
+    fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8);
     fn handle_player_switch(ref self: MancalaGame, last_pit: u8, opponent: GamePlayer);
     fn capture(
         self: MancalaGame, last_pit: u8, ref current_player: GamePlayer, ref opponent: GamePlayer
@@ -102,8 +103,8 @@ impl MancalaImpl of MancalaGameTrait {
 
     // perform validation to ensure that the caller is the current player 
     // also validate that the selected pit is within range
-    fn validate_move(self: MancalaGame, player: ContractAddress, selected_pit: u8) {
-        assert!(self.status != GameStatus::Finished, "Game is already Finished");
+    fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8) {
+        assert!(self.status == GameStatus::InProgress, "Game is not in progress");
         if player != self.current_player {
             panic!("You are not the current player");
         }
@@ -114,8 +115,16 @@ impl MancalaImpl of MancalaGameTrait {
         let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
         let block_info = execution_info.block_info.unbox();
 
-        if player == self.player_one && self.last_move > block_info.block_timestamp + 100 {}
-        if player == self.player_two && self.last_move > block_info.block_timestamp + 100 {}
+        if player == self.player_one && self.last_move > block_info.block_number + 100 {
+            self.winner = self.player_two;
+            self.status = GameStatus::TimeOut;
+        }
+        if player == self.player_two && self.last_move > block_info.block_number + 100 {
+            self.winner = self.player_one;
+            self.status = GameStatus::TimeOut;
+        }
+
+        self.last_move = block_info.block_number;
     }
 
     // get the seeds in a pit

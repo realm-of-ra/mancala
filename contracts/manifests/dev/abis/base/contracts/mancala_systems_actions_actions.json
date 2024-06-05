@@ -77,6 +77,10 @@
       {
         "name": "Forfeited",
         "type": "()"
+      },
+      {
+        "name": "TimeOut",
+        "type": "()"
       }
     ]
   },
