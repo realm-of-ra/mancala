@@ -19,6 +19,7 @@ export async function setup({ ...config }: DojoConfig) {
         relayUrl: "",
         worldAddress: config.manifest.world.address || "",
     });
+    console.log(config.manifest.world.address);
 
     // create contract components
     const contractComponents = defineContractComponents(world);
