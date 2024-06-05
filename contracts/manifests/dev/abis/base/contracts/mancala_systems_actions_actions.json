@@ -115,6 +115,10 @@
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
+        "name": "last_move",
+        "type": "core::integer::u64"
+      },
+      {
         "name": "winner",
         "type": "core::starknet::contract_address::ContractAddress"
       },

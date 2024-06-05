@@ -1,6 +1,6 @@
-use starknet::{ContractAddress};
-use mancala::models::{mancala_game::{MancalaGame}};
+use core::starknet::ContractAddress;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use mancala::models::{mancala_game::{MancalaGame}};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // define the interface
@@ -18,12 +18,11 @@ trait IActions {
 // dojo decorator
 #[dojo::contract]
 mod actions {
-    use super::{IActions};
+    use super::IActions;
     use starknet::{ContractAddress, get_caller_address};
     use starknet::contract_address::ContractAddressZeroable;
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
     use mancala::models::{player::{GamePlayer, GamePlayerTrait}};
-    use core::array::Array;
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {

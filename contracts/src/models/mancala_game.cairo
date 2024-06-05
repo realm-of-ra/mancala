@@ -1,11 +1,8 @@
-use core::box::BoxTrait;
 use core::starknet::SyscallResultTrait;
-use core::traits::Into;
-use starknet::ContractAddress;
-use starknet::contract_address::ContractAddressZeroable;
-use starknet::info::get_execution_info_syscall;
+use core::starknet::ContractAddress;
+use core::starknet::contract_address::ContractAddressZeroable;
+use core::starknet::info::get_execution_info_syscall;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // this is the model to track the 
@@ -40,7 +37,6 @@ struct MancalaGame {
 // block_created: block
 }
 
-
 trait MancalaGameTrait {
     fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame;
     fn join_game(ref self: MancalaGame, player_two: GamePlayer);
@@ -63,7 +59,6 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
 }
-
 
 impl MancalaImpl of MancalaGameTrait {
     // create the game
@@ -275,12 +270,10 @@ impl MancalaImpl of MancalaGameTrait {
         }
     }
 
-
     // check to see if either players pits are all empty
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> bool {
         player_one.is_finished() || player_two.is_finished()
     }
-
 
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8) {
