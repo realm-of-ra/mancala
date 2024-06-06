@@ -19,7 +19,7 @@ import end from "../assets/end.png";
 import clip from "../assets/copied.png";
 import LiveDuels from "@/components/live-duels";
 import { useDojo } from "@/dojo/useDojo";
-import { gql, useQuery, useSubscription } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -202,7 +202,9 @@ export default function Lobby() {
                                                     </div>
                                                 }
                                                 {
-                                                    gameId == null && creating == false ? <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={() => type == "private" ? create_private_game() : create_game()}>
+                                                    gameId == null && creating == false ? <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
+                                                        onClick={() => type == "private" ? create_private_game() : create_game()}
+                                                        disabled={connection?.isConnected ? false : true}>
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={createIcon} className="w-5 h-5" />
                                                             <p className="text-[#FCE3AA] font-semibold">Create Game</p>
@@ -266,7 +268,7 @@ export default function Lobby() {
                                     </TabsContent>
                                 </>
                             ) : (
-                                <div className="bg-[url('./assets/lobby-box.png')] bg-contain bg-center bg-no-repeat
+                                <div className="bg-[url('./assets/lobby-box.png')] bg-contain bg-center bg-no-repeat w-[874px] h-[437px]
                                 flex flex-col items-center justify-center">
                                     <div className="flex flex-col items-center space-y-1.5">
                                         <img src={connectionIcon} alt="plug" className="w-16 h-16" />
