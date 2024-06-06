@@ -110,9 +110,55 @@ export function createSystemCalls(
     }
   }
 
+  const join_game = async (
+    account: AccountInterface,
+    game_id: string,
+    player_2_address: string,
+    setJoinStatus: any,
+    index: number,
+  ) => {
+    const movesId = uuid()
+
+    try {
+      const { transaction_hash } = await client.actions.join_game(
+        account,
+        game_id,
+        player_2_address,
+      )
+
+      console.log(
+        await account.waitForTransaction(transaction_hash, {
+          retryInterval: 100,
+        }),
+      )
+
+      setComponentsFromEvents(
+        contractComponents,
+        getEvents(
+          await account.waitForTransaction(transaction_hash, {
+            retryInterval: 100,
+          }),
+        ),
+      )
+      setJoinStatus({
+        status: 'SUCCESS',
+        index: index,
+      })
+    } catch (e) {
+      console.log(e)
+      setJoinStatus({
+        status: 'ERROR',
+        index: index,
+      })
+    } finally {
+      GamePlayer.removeOverride(movesId)
+    }
+  }
+
   return {
     create_initial_game_id,
     create_game,
     create_private_game,
+    join_game,
   }
 }
