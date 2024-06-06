@@ -19,11 +19,78 @@ import { animate, chat, initialSeeds, players } from '@/lib/constants';
 import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
+import { gql, useQuery } from '@apollo/client';
+import { useDojo } from '@/dojo/useDojo';
 
 export default function Gameplay() {
 
     const { gameId } = useParams();
-    console.log(gameId);
+    const metadata_query = gql`
+    query GameData($gameId: u128!) {
+        game_data: mancalaGameModels(where: { game_id: $gameId }) {
+            edges {
+                node {
+                    player_one
+                    player_two
+                    current_player
+                }
+            }
+        }
+    }
+    `
+    const play_query = gql`
+        query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
+                player_one: gamePlayerModels(where: { game_id: $gameId, address: $player_1 }, last: 1) {
+                    edges {
+                        node {
+                            address
+                            game_id
+                            pit1
+                            pit2
+                            pit3
+                            pit4
+                            pit5
+                            pit6
+                            mancala
+                        }
+                    }
+                }
+                player_two: gamePlayerModels(where: { game_id: $gameId, address: $player_2 }, last: 1) {
+                    edges {
+                        node {
+                            address
+                            game_id
+                            pit1
+                            pit2
+                            pit3
+                            pit4
+                            pit5
+                            pit6
+                            mancala
+                        }
+                    }
+            }
+        }
+    `
+    const { loading: game_metadata_loading, error: game_metadata_error, data: game_metadata, startPolling: startMetadataPolling } = useQuery(
+        metadata_query,
+        {
+            variables: { gameId }
+        }
+    )
+    startMetadataPolling(1000);
+
+    const { loading: game_players_loading, error: game_players_error, data: game_players, startPolling: startPlayersPolling } = useQuery(
+        play_query,
+        {
+            variables: { player_1: game_metadata?.game_data.edges[0].node.player_one, player_2: game_metadata?.game_data.edges[0].node.player_two, gameId: gameId }
+        }
+    )
+    startPlayersPolling(1000);
+
+    console.log("game metadata: ", game_metadata)
+
+    console.log("players metadata: ", game_players)
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
@@ -87,6 +154,8 @@ export default function Gameplay() {
             return updatedSeeds;
         });
     };
+
+    const { account } = useDojo()
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
@@ -267,7 +336,7 @@ export default function Gameplay() {
                         </div>
                     </div>
                     {/* End of game board */}
-                    <div className='flex flex-row items-start justify-between mt-10'>
+                    <div className='flex flex-row items-center justify-between mt-10'>
                         <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
                             <Button className='p-0 bg-transparent rounded-full' onClick={togglePlay}>
                                 <img src={isPlaying ? unmuteImage : muteImage} width={65} height={65} alt="restart" className='rounded-full' />
@@ -276,6 +345,15 @@ export default function Gameplay() {
                                 <h4 className="text-lg text-left text-[#9398A2]">Enya</h4>
                                 <h4 className="text-sm text-[#656C7D] text-left">Storms in Africa</h4>
                             </div>
+                        </div>
+                        <div className='border border-[#27292F] py-3.5 px-7 rounded-3xl backdrop-blur-sm'>
+                            <p className='text-[#AAAEB7]'>
+                                Game message: {(game_metadata_loading || game_players_loading) &&
+                                    "Loading game data..."} {(game_metadata_error || game_players_error) &&
+                                        "Error loading game data"} {(game_metadata && game_players) &&
+                                            (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
+                                            game_metadata?.game_data.edges[0].node.current_player === account.account.address ? "Make your move" : "Waiting for player 2" : "Player has not joined game"}
+                            </p>
                         </div>
                         <div className='flex flex-row items-start justify-center pb-5 space-x-5'>
                             {/* Goto leaderboard page */}
@@ -333,3 +411,46 @@ export default function Gameplay() {
         </main>
     )
 }
+
+
+// query {
+//     game_data: mancalaGameModels(where: { game_id: "0x1" }) {
+//       edges {
+//         node {
+//           player_one
+//           player_two
+//           current_player
+//         }
+//       }
+//     }
+//     player_one: gamePlayerModels(where: { game_id: "0x1", address: "0xb3aa44fd62c13784572f587fd730dca131c5a1afad8413b7c51e779b46e303" }, last: 1) {
+//       edges {
+//         node {
+//           address
+//           game_id
+//           pit1
+//           pit2
+//           pit3
+//           pit4
+//           pit5
+//           pit6
+//           mancala
+//               }
+//       }
+//     }
+//     player_two: gamePlayerModels(where: { game_id: "0x1", address: "0x7837a565c98505a88338ceb8245494af97c6cac2d0a23d9b08db5c052d7afa9" }, last: 1) {
+//       edges {
+//         node {
+//           address
+//           game_id
+//           pit1
+//           pit2
+//           pit3
+//           pit4
+//           pit5
+//           pit6
+//           mancala
+//               }
+//       }
+//     }
+//   }
