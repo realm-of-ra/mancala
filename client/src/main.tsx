@@ -5,6 +5,7 @@ import "./index.css";
 import { setup } from "./dojo/generated/setup.ts";
 import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.ts";
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 async function init() {
     const rootElement = document.getElementById("root");
@@ -13,11 +14,18 @@ async function init() {
 
     const setupResult = await setup(dojoConfig);
 
+    const client = new ApolloClient({
+        uri: 'https://api.cartridge.gg/x/mancala-v0/torii/graphql',
+        cache: new InMemoryCache(),
+    })
+
     root.render(
         <React.StrictMode>
-            <DojoProvider value={setupResult}>
-            <App />
-            </DojoProvider>
+            <ApolloProvider client={client}>
+                <DojoProvider value={setupResult}>
+                    <App />
+                </DojoProvider>
+            </ApolloProvider>
         </React.StrictMode>
     );
 }

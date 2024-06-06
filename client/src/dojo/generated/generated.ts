@@ -55,6 +55,22 @@ export async function setupWorld(provider: DojoProvider) {
       }
     }
 
+    const join_game = async (
+      account: AccountInterface,
+      game_id: string,
+      player_2_address: string,
+    ) => {
+      try {
+        return await provider.execute(account, contract_name, 'join_game', [
+          game_id,
+          player_2_address,
+        ])
+      } catch (error) {
+        console.error('Error executing join_game:', error)
+        throw error
+      }
+    }
+
     const spawn = async ({ account }: { account: AccountInterface }) => {
       try {
         return await provider.execute(account, contract_name, 'spawn', [])
@@ -80,6 +96,7 @@ export async function setupWorld(provider: DojoProvider) {
       create_initial_game_id,
       create_game,
       create_private_game,
+      join_game,
     }
   }
   return {
