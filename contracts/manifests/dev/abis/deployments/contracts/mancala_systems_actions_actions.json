@@ -60,6 +60,28 @@
   },
   {
     "type": "enum",
+    "name": "mancala::models::mancala_game::GameStatus",
+    "variants": [
+      {
+        "name": "Pending",
+        "type": "()"
+      },
+      {
+        "name": "InProgress",
+        "type": "()"
+      },
+      {
+        "name": "Finished",
+        "type": "()"
+      },
+      {
+        "name": "Forfeited",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
     "name": "core::bool",
     "variants": [
       {
@@ -97,7 +119,11 @@
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "is_finished",
+        "name": "status",
+        "type": "mancala::models::mancala_game::GameStatus"
+      },
+      {
+        "name": "is_private",
         "type": "core::bool"
       }
     ]
@@ -138,6 +164,22 @@
           }
         ],
         "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "create_private_game",
+        "inputs": [
+          {
+            "name": "player_two_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "mancala::models::mancala_game::MancalaGame"
+          }
+        ],
         "state_mutability": "view"
       },
       {

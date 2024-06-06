@@ -4,7 +4,7 @@ class_hash = "0x799bc4e9da10bfb3dd88e6f223c9cfbf7745435cd14f5d69675ea448e578cd"
 original_class_hash = "0x799bc4e9da10bfb3dd88e6f223c9cfbf7745435cd14f5d69675ea448e578cd"
 abi = "abis/deployments/dojo_world_world.json"
 address = "0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"
-transaction_hash = "0x6f4ba70c2eec0bbb03cd9e8f29eb12cfed9a70a2b16acd02c384fbf8b0ea15a"
+transaction_hash = "0x639b7aa292ceb1539a3fee8a8d2320b8394e94098e97db7eb19f9b9af262c74"
 block_number = 3
 seed = "mancala"
 name = "dojo::world::world"
@@ -18,58 +18,14 @@ name = "dojo::base::base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x5a5936e60c561c07cb2225ebfb7205f7d204c14f6ed5ee331a3aa989feeeb28"
-class_hash = "0x30d87d194cdafb81fa2f06629f703bd0dca8856af7e1692a8b44930ebebe017"
-original_class_hash = "0x30d87d194cdafb81fa2f06629f703bd0dca8856af7e1692a8b44930ebebe017"
+class_hash = "0x1f1a020216c90fa4c144aad3586554aa7b36715d9925b2fa2eb3080eff318f"
+original_class_hash = "0x1f1a020216c90fa4c144aad3586554aa7b36715d9925b2fa2eb3080eff318f"
 base_class_hash = "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76"
 abi = "abis/deployments/contracts/mancala_systems_actions_actions.json"
 reads = []
 writes = []
 computed = []
 name = "mancala::systems::actions::actions"
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
-original_class_hash = "0x15609571ef85a3a0fd4bb6dd571a9a82240d04d332b0368d354494ff5079bfa"
-abi = "abis/deployments/models/mancala_models_game_game.json"
-name = "mancala::models::game::game"
-
-[[models.members]]
-name = "game_id"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "winner"
-type = "PlayerSide"
-key = false
-
-[[models.members]]
-name = "player_one"
-type = "ContractAddress"
-key = false
-
-[[models.members]]
-name = "player_two"
-type = "ContractAddress"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x26560d64f3017bf49114c68ee8ba7cdedf67a05a8c99605958050c621635ac3"
-original_class_hash = "0x26560d64f3017bf49114c68ee8ba7cdedf67a05a8c99605958050c621635ac3"
-abi = "abis/deployments/models/mancala_models_game_game_turn.json"
-name = "mancala::models::game::game_turn"
-
-[[models.members]]
-name = "game_id"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "player_side"
-type = "PlayerSide"
-key = false
 
 [[models]]
 kind = "DojoModel"
@@ -90,8 +46,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x5ed89d877180fa5eb1f919347c1bc9eee61b4430c1869b0731cb42991e287ec"
-original_class_hash = "0x5ed89d877180fa5eb1f919347c1bc9eee61b4430c1869b0731cb42991e287ec"
+class_hash = "0x2af0729b10b86352efca71c1632101b5629a923d27f96049e8e1f1121f304a5"
+original_class_hash = "0x2af0729b10b86352efca71c1632101b5629a923d27f96049e8e1f1121f304a5"
 abi = "abis/deployments/models/mancala_models_mancala_game_mancala_game.json"
 name = "mancala::models::mancala_game::mancala_game"
 
@@ -121,30 +77,13 @@ type = "ContractAddress"
 key = false
 
 [[models.members]]
-name = "is_finished"
+name = "status"
+type = "GameStatus"
+key = false
+
+[[models.members]]
+name = "is_private"
 type = "bool"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
-original_class_hash = "0x1ba36b39ba5397313244a9e062e4db6a28be10227381e36049749ab9768382b"
-abi = "abis/deployments/models/mancala_models_moves_moves.json"
-name = "mancala::models::moves::moves"
-
-[[models.members]]
-name = "player"
-type = "ContractAddress"
-key = true
-
-[[models.members]]
-name = "count"
-type = "u8"
-key = false
-
-[[models.members]]
-name = "last_decision"
-type = "Direction"
 key = false
 
 [[models]]
@@ -219,26 +158,4 @@ key = false
 [[models.members]]
 name = "games_lost"
 type = "u256"
-key = false
-
-[[models]]
-kind = "DojoModel"
-class_hash = "0x2ccfe3d90e9094720e0c00172f5c76bd9d71642bd80c098c954d0abf9919450"
-original_class_hash = "0x2ccfe3d90e9094720e0c00172f5c76bd9d71642bd80c098c954d0abf9919450"
-abi = "abis/deployments/models/mancala_models_seed_seed.json"
-name = "mancala::models::seed::seed"
-
-[[models.members]]
-name = "game_id"
-type = "u32"
-key = true
-
-[[models.members]]
-name = "position"
-type = "Vec2"
-key = true
-
-[[models.members]]
-name = "player_side"
-type = "PlayerSide"
 key = false
