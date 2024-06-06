@@ -273,10 +273,10 @@ impl MancalaImpl of MancalaGameTrait {
     }
      // restart game
     fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer) -> bool{
-        if (player_one.restart() ||  player_two.restart() == true){
-            restart()
+        if (player_one.restart() &&  player_two.restart() == true){
+            restart();
         } else{
-            GamePlayer.restart() == true
+            GamePlayer.restart() == true;
         };
     }
 }
