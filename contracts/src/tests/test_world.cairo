@@ -17,8 +17,7 @@ mod tests {
     };
 
     fn setup_game() -> (
-        GamePlayer, GamePlayer, IWorldDispatcher, IActionsDispatcher, MancalaGame, ContractAddress
-    ) {
+        GamePlayer, GamePlayer, IWorldDispatcher, IActionsDispatcher, MancalaGame, ContractAddress) {
         let player_one_address = starknet::contract_address_const::<0x0>();
         let player_two_address = starknet::contract_address_const::<0x456>();
         let mut models = array![mancala_game::TEST_CLASS_HASH];
@@ -57,9 +56,9 @@ mod tests {
         assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
     }
 
- #[test]
+    #[test]
     #[available_gas(3000000000000)]
-    fn test-restart(){
+    fn test_restart(){
         let (player_one, player_two,) = setup_game();
 
         actions_system.restart_game(game.game_id, player_one_address, player_two_address);
@@ -80,7 +79,7 @@ mod tests {
         assert(player_two.pit6 == 4, 'p2 pit 4 not init correctly');
         assert(player_two.pit6 == 4, 'p2 pit 5 not init correctly');
         assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');       
-}
+    }
 
 
     #[test]
