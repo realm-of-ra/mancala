@@ -25,16 +25,15 @@ struct GamePlayer {
     mancala: u8
 }
 
-trait GamePlayerTrait{
+trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
 }
 
-impl GamePlayerImpl of GamePlayerTrait{
-
+impl GamePlayerImpl of GamePlayerTrait {
     // logic to create the game player
-    fn new(game_id: u128, address: ContractAddress) -> GamePlayer{
-        let game_player = GamePlayer{
+    fn new(game_id: u128, address: ContractAddress) -> GamePlayer {
+        let game_player = GamePlayer {
             address: address,
             game_id: game_id,
             pit1: 4_u8,
@@ -47,30 +46,41 @@ impl GamePlayerImpl of GamePlayerTrait{
         };
         game_player
     }
-    
+
     // check to see if a players pits are all empty
     fn is_finished(self: GamePlayer) -> bool {
-
         let mut count: u8 = 1;
         let mut empty_count: u8 = 0;
 
         while count < 6 {
             match count {
-                0 => panic!("Invalid pit selected"), 
-                1 => if self.pit1 == 0 {empty_count += 1;},
-                2 => if self.pit2 == 0 {empty_count += 1;},
-                3 => if self.pit3 == 0 {empty_count += 1;},
-                4 => if self.pit4 == 0 {empty_count += 1;},
-                5 => if self.pit5 == 0 {empty_count += 1;},
-                6 => if self.pit6 == 0 {empty_count += 1;},
+                0 => panic!("Invalid pit selected"),
+                1 => if self.pit1 == 0 {
+                    empty_count += 1;
+                },
+                2 => if self.pit2 == 0 {
+                    empty_count += 1;
+                },
+                3 => if self.pit3 == 0 {
+                    empty_count += 1;
+                },
+                4 => if self.pit4 == 0 {
+                    empty_count += 1;
+                },
+                5 => if self.pit5 == 0 {
+                    empty_count += 1;
+                },
+                6 => if self.pit6 == 0 {
+                    empty_count += 1;
+                },
                 _ => panic!("Invalid pit selected"),
             };
             count += 1;
         };
-        
-        if (empty_count == 6){
+
+        if (empty_count == 6) {
             true
-        } else{
+        } else {
             false
         }
     }
