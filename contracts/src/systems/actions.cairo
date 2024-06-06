@@ -113,7 +113,7 @@ mod actions {
         }
 
         //function to restart the game
-        fn restart(game_id: u128, player_one_address, player_two_address){
+        fn restart(world: IWorldDispatcher, game_id: u128, player_one_address, player_two_address) -> bool{
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             let player_one: GamePlayer = get!(world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer));
             let player_two: GamePlayer = get!(world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer));

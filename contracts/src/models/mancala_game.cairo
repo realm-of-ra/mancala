@@ -228,7 +228,7 @@ impl MancalaImpl of MancalaGameTrait{
                     _ => {panic!("not valid");},
                 }
             }
-        }
+        } 
     }
 
     // check to see if either players pits are all empty
@@ -241,7 +241,11 @@ impl MancalaImpl of MancalaGameTrait{
         (player_one.mancala, player_two.mancala)
     }
      // restart game
-    fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer){
-         player_one, player_two;
+    fn restart(self: mancalaGame, player_one: Gameplayer, player_two: GamePlayer) -> bool{
+        if (player_one.restart() ||  player_two.restart() == true){
+            restart()
+        } else{
+            GamePlayer.restart() == true
+        };
     }
 }

@@ -54,7 +54,7 @@ mod tests {
         assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
     }
 
-    #[test]
+ #[test]
     #[available_gas(3000000000000)]
     fn test-restart(){
         let (player_one, player_two,) = setup_game();
@@ -62,9 +62,24 @@ mod tests {
         actions_system.restart_game(game.game_id, player_one_address, player_two_address);
         let player_one: GamePlayer =  get!(world, (player_one_address, game.game_id), (GamePlayer));
         let player_two: GamePlayer =  get!(world, (player_two_address, game.game_id), (GamePlayer));
-        
-        (player_one, player_two, world, actions_system, game, contract_address)
+       (player_one, player_two, world, actions_system, game, contract_address)
+
+        assert(mancala_game.restart === true, 'game already restart');
+        assert(player_one.pit1 == 4, 'p1 pit 1 not init correctly');
+        assert(player_one.pit2 == 4, 'p1 pit 2 not init correctly');
+        assert(player_one.pit3 == 4, 'p1 pit 3 not init correctly');
+        assert(player_one.pit4 == 4, 'p1 pit 4 not init correctly');
+        assert(player_one.pit5 == 4, 'p1 pit 5 not init correctly');
+        assert(player_one.pit6 == 4, 'p1 pit 6 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 1 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 2 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 3 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 4 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 5 not init correctly');
+        assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');       
 }
+
+
     #[test]
     #[available_gas(3000000000000)]
     fn test_create_private_game(){
