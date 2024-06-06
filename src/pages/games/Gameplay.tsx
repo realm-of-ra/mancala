@@ -7,20 +7,23 @@ import {
 } from "@material-tailwind/react";
 
 import {
-  eniola, israel, logo, restart, end,
-  muteImage, unmuteImage, leaderboard,
-  message,
-} from "../constants/icons_store";
+    eniola, israel, logo, restart, end,
+    muteImage, unmuteImage, leaderboard,
+    message,
+} from "../../constants/icons_store";
 
 import clsx from 'clsx';
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
-import { isPlayingAtom } from "../atom/atoms";
+import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
-import audio from "../music/audio_1.mp4";
+import audio from "../../music/audio_1.mp4";
 
 export default function Gameplay() {
+
+    const { gameId } = useParams();
+    console.log(gameId);
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));

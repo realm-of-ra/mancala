@@ -126,24 +126,24 @@ export function createSystemCalls(
         player_2_address,
       )
 
-      console.log(
-        await account.waitForTransaction(transaction_hash, {
-          retryInterval: 100,
-        }),
-      )
-
-      setComponentsFromEvents(
-        contractComponents,
-        getEvents(
-          await account.waitForTransaction(transaction_hash, {
-            retryInterval: 100,
-          }),
-        ),
-      )
-      setJoinStatus({
-        status: 'SUCCESS',
-        index: index,
+      const receipt = await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
       })
+
+      console.log(receipt)
+
+      setComponentsFromEvents(contractComponents, getEvents(receipt))
+      if (receipt.statusReceipt == 'success') {
+        setJoinStatus({
+          status: 'SUCCESS',
+          index: index,
+        })
+      } else {
+        setJoinStatus({
+          status: 'ERROR',
+          index: index,
+        })
+      }
     } catch (e) {
       console.log(e)
       setJoinStatus({
