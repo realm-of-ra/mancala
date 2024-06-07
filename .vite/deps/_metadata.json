@@ -1,0 +1,188 @@
+{
+  "hash": "e267702d",
+  "browserHash": "68153a55",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "e9507f63",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "ff2d0485",
+      "needsInterop": true
+    },
+    "@dojoengine/create-burner": {
+      "src": "../../node_modules/.pnpm/@dojoengine+create-burner@0.6.125_react@18.3.1_starknet@6.8.0_typescript@5.4.5_zod@3.23.8/node_modules/@dojoengine/create-burner/dist/index.js",
+      "file": "@dojoengine_create-burner.js",
+      "fileHash": "d1950750",
+      "needsInterop": false
+    },
+    "starknet": {
+      "src": "../../node_modules/.pnpm/starknet@6.8.0/node_modules/starknet/dist/index.mjs",
+      "file": "starknet.js",
+      "fileHash": "f8d8bce2",
+      "needsInterop": false
+    },
+    "@dojoengine/state": {
+      "src": "../../node_modules/.pnpm/@dojoengine+state@0.6.125_starknet@6.8.0_typescript@5.4.5_zod@3.23.8/node_modules/@dojoengine/state/dist/index.js",
+      "file": "@dojoengine_state.js",
+      "fileHash": "7e048b05",
+      "needsInterop": false
+    },
+    "@dojoengine/core": {
+      "src": "../../node_modules/.pnpm/@dojoengine+core@0.6.125_starknet@6.8.0_typescript@5.4.5_zod@3.23.8/node_modules/@dojoengine/core/dist/index.js",
+      "file": "@dojoengine_core.js",
+      "fileHash": "a1ad160a",
+      "needsInterop": false
+    },
+    "@dojoengine/torii-client": {
+      "src": "../../node_modules/.pnpm/@dojoengine+torii-client@0.6.125/node_modules/@dojoengine/torii-client/dist/index.js",
+      "file": "@dojoengine_torii-client.js",
+      "fileHash": "34bb58cb",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/.pnpm/react-router-dom@6.23.1_react-dom@18.3.1_react@18.3.1/node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "112faf99",
+      "needsInterop": false
+    },
+    "jotai": {
+      "src": "../../node_modules/.pnpm/jotai@2.8.3_@types+react@18.2.42_react@18.3.1/node_modules/jotai/esm/index.mjs",
+      "file": "jotai.js",
+      "fileHash": "0385b6f3",
+      "needsInterop": false
+    },
+    "starknetkit/injected": {
+      "src": "../../node_modules/.pnpm/starknetkit@1.1.9_starknet@6.8.0/node_modules/starknetkit/dist/injectedConnector.js",
+      "file": "starknetkit_injected.js",
+      "fileHash": "9220e05e",
+      "needsInterop": false
+    },
+    "starknetkit/argentMobile": {
+      "src": "../../node_modules/.pnpm/starknetkit@1.1.9_starknet@6.8.0/node_modules/starknetkit/dist/argentMobile.js",
+      "file": "starknetkit_argentMobile.js",
+      "fileHash": "67e1778a",
+      "needsInterop": false
+    },
+    "starknetkit/webwallet": {
+      "src": "../../node_modules/.pnpm/starknetkit@1.1.9_starknet@6.8.0/node_modules/starknetkit/dist/webwalletConnector.js",
+      "file": "starknetkit_webwallet.js",
+      "fileHash": "2409984e",
+      "needsInterop": false
+    },
+    "@starknet-react/chains": {
+      "src": "../../node_modules/.pnpm/@starknet-react+chains@0.1.7/node_modules/@starknet-react/chains/dist/index.js",
+      "file": "@starknet-react_chains.js",
+      "fileHash": "c6f671d7",
+      "needsInterop": false
+    },
+    "@starknet-react/core": {
+      "src": "../../node_modules/.pnpm/@starknet-react+core@2.8.2_get-starknet-core@3.3.0_react@18.3.1_starknet@6.8.0/node_modules/@starknet-react/core/dist/index.js",
+      "file": "@starknet-react_core.js",
+      "fileHash": "b7b71217",
+      "needsInterop": false
+    },
+    "@dojoengine/recs": {
+      "src": "../../node_modules/.pnpm/@dojoengine+recs@0.1.35_typescript@5.4.5_zod@3.23.8/node_modules/@dojoengine/recs/dist/index.js",
+      "file": "@dojoengine_recs.js",
+      "fileHash": "d798d185",
+      "needsInterop": false
+    },
+    "@latticexyz/utils": {
+      "src": "../../node_modules/.pnpm/@latticexyz+utils@2.0.12/node_modules/@latticexyz/utils/dist/index.js",
+      "file": "@latticexyz_utils.js",
+      "fileHash": "d25313bc",
+      "needsInterop": false
+    },
+    "@dojoengine/utils": {
+      "src": "../../node_modules/.pnpm/@dojoengine+utils@0.6.125_starknet@6.8.0_typescript@5.4.5_zod@3.23.8/node_modules/@dojoengine/utils/dist/index.js",
+      "file": "@dojoengine_utils.js",
+      "fileHash": "26fdbef2",
+      "needsInterop": false
+    },
+    "@material-tailwind/react": {
+      "src": "../../node_modules/.pnpm/@material-tailwind+react@2.1.9_react-dom@18.3.1_react@18.3.1/node_modules/@material-tailwind/react/index.js",
+      "file": "@material-tailwind_react.js",
+      "fileHash": "4badb724",
+      "needsInterop": true
+    },
+    "clsx": {
+      "src": "../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs",
+      "file": "clsx.js",
+      "fileHash": "7e42db7b",
+      "needsInterop": false
+    },
+    "@heroicons/react/24/outline": {
+      "src": "../../node_modules/.pnpm/@heroicons+react@2.1.3_react@18.3.1/node_modules/@heroicons/react/24/outline/esm/index.js",
+      "file": "@heroicons_react_24_outline.js",
+      "fileHash": "045fa680",
+      "needsInterop": false
+    },
+    "@heroicons/react/24/solid": {
+      "src": "../../node_modules/.pnpm/@heroicons+react@2.1.3_react@18.3.1/node_modules/@heroicons/react/24/solid/esm/index.js",
+      "file": "@heroicons_react_24_solid.js",
+      "fileHash": "3b9134a9",
+      "needsInterop": false
+    },
+    "starknetid.js": {
+      "src": "../../node_modules/.pnpm/starknetid.js@3.2.2_@babel+core@7.24.7_starknet@6.8.0/node_modules/starknetid.js/packages/core/dist/index.js",
+      "file": "starknetid__js.js",
+      "fileHash": "b922fdd4",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "index-00451f1a-2CCPIANK": {
+      "file": "index-00451f1a-2CCPIANK.js"
+    },
+    "chunk-NS6I2LM4": {
+      "file": "chunk-NS6I2LM4.js"
+    },
+    "chunk-5PXFP6GF": {
+      "file": "chunk-5PXFP6GF.js"
+    },
+    "chunk-ABGJYFXF": {
+      "file": "chunk-ABGJYFXF.js"
+    },
+    "chunk-OUD7UKAV": {
+      "file": "chunk-OUD7UKAV.js"
+    },
+    "chunk-FGLWLMLJ": {
+      "file": "chunk-FGLWLMLJ.js"
+    },
+    "chunk-5654ECAM": {
+      "file": "chunk-5654ECAM.js"
+    },
+    "chunk-A6J2VAW2": {
+      "file": "chunk-A6J2VAW2.js"
+    },
+    "chunk-4RUCNEUM": {
+      "file": "chunk-4RUCNEUM.js"
+    },
+    "chunk-REUMKYAQ": {
+      "file": "chunk-REUMKYAQ.js"
+    },
+    "chunk-TQUWFIKU": {
+      "file": "chunk-TQUWFIKU.js"
+    },
+    "chunk-ELN4VAZN": {
+      "file": "chunk-ELN4VAZN.js"
+    },
+    "chunk-OPAFF7F5": {
+      "file": "chunk-OPAFF7F5.js"
+    },
+    "chunk-UDYUSZ34": {
+      "file": "chunk-UDYUSZ34.js"
+    },
+    "chunk-T22XXT7L": {
+      "file": "chunk-T22XXT7L.js"
+    },
+    "chunk-J32WSRGE": {
+      "file": "chunk-J32WSRGE.js"
+    }
+  }
+}
