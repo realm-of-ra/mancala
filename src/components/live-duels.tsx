@@ -1,8 +1,8 @@
-import { live_duels_header, live_duels_stats, player_header, player_stats } from "@/lib/constants";
+import { live_duels_header, player_header } from "@/lib/constants";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "./ui/button";
-import { useProvider, useStarkProfile } from "@starknet-react/core";
+import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
@@ -16,8 +16,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
             provider,
             constants.StarknetChainId.SN_MAIN
         );
-    }, [])
-    const [fetching, setFetching] = useState(false)
+    }, [provider])
     const [challengers, setChallengers] = useState<StarkProfile[]>();
     const [challenged, setChallenged] = useState<StarkProfile[]>();
     const [joinStatus, setJoinStatus] = useState<{
@@ -29,14 +28,12 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     useEffect(() => {
         if (!starknetIdNavigator || !challengerAddresses) return;
         (async () => {
-            setFetching(true)
             const challengerData = await starknetIdNavigator?.getStarkProfiles(challengerAddresses)
             const challengedData = await starknetIdNavigator?.getStarkProfiles(challengedAddresses)
             if (!challengerData) return;
             if (challengerData) setChallengers(challengerData);
             if (!challengedData) return;
             if (challengedData) setChallenged(challengedData);
-            setFetching(false)
         })();
     }, [challengerAddresses, challengedAddresses, starknetIdNavigator]);
     const data = challengers?.map((challenger, index) => {
@@ -134,7 +131,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                                         >
                                                             {data.challenged.name ? data.challenged.name : truncateString((games[index].node.player_two))}
                                                         </p>
-                                                    </div> : <p className="text-white">Macthmaking</p>
+                                                    </div> : <p className="text-white">Matchmaking</p>
                                                 }
                                             </td>
                                             <td className="w-[200px] text-center">
@@ -147,7 +144,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                             <td className="flex flex-row justify-center w-[200px]">
                                                 <Button
                                                     className={clsx((games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address || (joinStatus?.status === "SUCCESS" && joinStatus.index === index)) ? "text-[#F58229]" : "text-[#BDC2CC80]/50", "bg-[#1A1D25] hover:bg-[#1A1D25] active:bg-[#1A1D25] rounded-3xl font-medium")}
-                                                    onClick={(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? () => window.location.href = "/gameplay" : () => join_game(games[index].node.game_id, index)}
+                                                    onClick={(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? () => window.location.href = `/games/${games[index].game_id}` : () => join_game(games[index].node.game_id, index)}
                                                 >{(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? "Go to game" :
                                                     joinStatus?.status === "JOINING" && joinStatus.index == index ? <div className="flex flex-row items-center justify-center space-x-1">
                                                         <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +158,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                                             </path>
                                                         </svg>
                                                         <p className="text-[#FCE3AA] font-semibold">Joining...</p>
-                                                    </div> : joinStatus?.status === "ERROR" && joinStatus.index === index ? "Error joining game" :
+                                                    </div> : joinStatus?.status === "ERROR" && joinStatus.index === index ? "Cannot join game" :
                                                         joinStatus?.status === "SUCCESS" && joinStatus.index === index ? "Go to game" : "Join game"}</Button>
                                             </td>
                                         </tr>
