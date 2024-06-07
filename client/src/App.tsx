@@ -6,7 +6,7 @@ import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { mainnet } from "@starknet-react/chains";
 import { StarknetConfig, publicProvider } from "@starknet-react/core";
-import Gameplay from "./pages/Gameplay";
+import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import { useEffect, useState } from "react";
@@ -44,13 +44,13 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="/lobby" element={<Lobby />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/gameplay" element={<Gameplay />} />
+            <Route path="/games/:gameId" element={<Gameplay />} />
           </Routes>
         </BrowserRouter>
       </JotaiProvider>
       {isSmallScreen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 text-white backdrop-blur-sm z-50">
-          <div className="text-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-75 backdrop-blur-sm">
+          <div className="p-4 text-center">
             <h1 className="text-2xl font-bold">
               This game is not optimized for this device screen!
             </h1>
