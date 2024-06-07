@@ -7,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 
 import {
-    eniola, israel, logo, restart, end,
+    logo, restart, end,
     muteImage, unmuteImage, leaderboard,
     message,
 } from "../../constants/icons_store";
@@ -25,6 +25,7 @@ import { useProvider } from '@starknet-react/core';
 import { StarknetIdNavigator } from 'starknetid.js';
 import { constants, StarkProfile } from 'starknet';
 import { truncateString } from '@/lib/utils';
+import Pit from '@/components/pit';
 
 export default function Gameplay() {
 
@@ -135,26 +136,6 @@ export default function Gameplay() {
 
     const [seeds, setSeeds] = useState(initialSeeds);
 
-    const handlePotClick = (potIndex: number) => {
-        setSeeds((prevSeeds) => {
-            const updatedSeeds = [...prevSeeds];
-            let remainingSeeds = updatedSeeds[potIndex].seeds;
-            updatedSeeds[potIndex].seeds = 0;
-
-            let currentIndex = potIndex + 1;
-            while (remainingSeeds > 0) {
-                if (currentIndex === updatedSeeds.length) {
-                    currentIndex = 0; // Wrap around to the beginning
-                }
-                updatedSeeds[currentIndex].seeds++;
-                remainingSeeds--;
-                currentIndex++;
-            }
-
-            return updatedSeeds;
-        });
-    };
-
     const { account } = useDojo()
 
     const { provider } = useProvider();
@@ -169,14 +150,15 @@ export default function Gameplay() {
     const [profiles, setProfiles] = useState<StarkProfile[]>()
 
     useEffect(() => {
-        if (!starknetIdNavigator || !game_players?.player_one.edges[0].node.address || !game_players?.player_two.edges[0].node.address) return;
+        if (!starknetIdNavigator || !game_players?.player_one.edges[0]?.node.address || !game_players?.player_two.edges[0]?.node.address) return;
         (async () => {
             const profileData = await starknetIdNavigator?.getStarkProfiles([game_players?.player_one.edges[0].node.address, game_players?.player_two.edges[0].node.address])
-            console.log("data: ", profileData)
             if (!profileData) return;
             if (profileData) return setProfiles(profileData)
         })()
     }, [game_players?.player_one.edges, game_players?.player_two.edges, starknetIdNavigator])
+
+    const [moveMessage, setMoveMessage] = useState<string | undefined>()
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
@@ -206,7 +188,7 @@ export default function Gameplay() {
                     <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
                         <div className="flex flex-row-reverse space-x-2.5 items-center justify-center ml-56 2xl:ml-80 4xl:ml-56">
                             <div className='ml-2.5'>
-                                <h3 className="text-3xl text-left text-white">{profiles?.[1].name ? profiles?.[1].name : truncateString(game_players?.player_two.edges[0].node.address)}</h3>
+                                <h3 className="text-3xl text-left text-white">{profiles?.[1].name ? profiles?.[1].name : truncateString(game_players?.player_two.edges[0]?.node.address)}</h3>
                                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
                             </div>
                             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
@@ -263,76 +245,102 @@ export default function Gameplay() {
                                     </div>
                                 </div>
                                 <div className='absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg'>
-                                    <p className='text-white'>{seeds[6].seeds}</p>
+                                    <p className='text-white'>{game_players?.player_one.edges[0]?.node.mancala}</p>
                                 </div>
                             </div>
                             <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
                                 {/* Player 1 */}
                                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
-                                        {
-                                            seeds.slice(0, 6).reverse().map((pot, index) => (
-                                                <div key={index} className='h-[170px] w-[15%] flex justify-between items-center flex-col'>
-                                                    <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                                                        <p className='text-white'>{pot.seeds}</p>
-                                                    </div>
-                                                    <div className='flex flex-col items-center justify-center flex-1'>
-                                                        <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                                                            onClick={() => handlePotClick(pot.pot - 1)}>
-                                                            <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
-                                                                {
-                                                                    Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <div
-                                                                            key={seedIndex}
-                                                                            className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
-                                                                                pot.seeds >= 12 && 'w-[12px] h-[12px]',
-                                                                                pot.seeds >= 16 && 'w-[10px] h-[10px]',
-                                                                                pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
-                                                                                'w-[20px] h-[20px] bg-white rounded-full')
-                                                                            }
-                                                                        />
-                                                                    ))
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit1}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit1'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit2}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit2'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit3}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit3'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit4}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit4'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit5}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit5'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit6}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit='pit6'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
                                     </div>
                                 </div>
                                 {/* Player 2 */}
                                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
-                                        {
-                                            seeds.slice(7, 13).map((pot, index) => (
-                                                <div key={index} className='h-[170px] w-[15%] flex flex-col-reverse justify-between items-center'>
-                                                    <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                                                        <p className='text-white'>{pot.seeds}</p>
-                                                    </div>
-                                                    <div className='flex flex-col items-center justify-center flex-1'>
-                                                        <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                                                            onClick={() => handlePotClick(pot.pot - 1)}>
-                                                            <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
-                                                                {
-                                                                    Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <div
-                                                                            key={seedIndex}
-                                                                            className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
-                                                                                pot.seeds >= 12 && 'w-[12px] h-[12px]',
-                                                                                pot.seeds >= 16 && 'w-[10px] h-[10px]',
-                                                                                pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
-                                                                                'w-[20px] h-[20px] bg-white rounded-full')
-                                                                            }
-                                                                        />
-                                                                    ))
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit1}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit1'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit2}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit2'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit3}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit3'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit4}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit4'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit5}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit5'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit6}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit='pit6'
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -351,7 +359,7 @@ export default function Gameplay() {
                                     </div>
                                 </div>
                                 <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
-                                    <p className='text-white'>{seeds[13].seeds}</p>
+                                    <p className='text-white'>{game_players?.player_two.edges[0]?.node.mancala}</p>
                                 </div>
                             </div>
                         </div>
@@ -372,7 +380,10 @@ export default function Gameplay() {
                                 Game message: {(game_metadata_error || game_players_error) &&
                                     "Error loading game data"} {(game_metadata_loading || game_players_loading) ? "Loading game data..." : (game_metadata && game_players) &&
                                         (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
-                                        game_metadata?.game_data.edges[0].node.current_player === account.account.address ? "Make your move" : "Waiting for player 2" : "Player has not joined game"}
+                                        game_metadata?.game_data.edges[0].node.current_player === account.account.address ?
+                                            (game_metadata?.game_data.edges[0].node.player_one === '' || game_metadata?.game_data.edges[0].node.player_two === '')
+                                                ? "Waiting for another player to join" : moveMessage != '' ? moveMessage : "Make your move" :
+                                            "Waiting for player 2" : "Player has not joined game"}
                             </p>
                         </div>
                         <div className='flex flex-row items-start justify-center pb-5 space-x-5'>

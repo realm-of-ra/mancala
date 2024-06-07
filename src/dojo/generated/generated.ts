@@ -71,6 +71,22 @@ export async function setupWorld(provider: DojoProvider) {
       }
     }
 
+    const move = async (
+      account: AccountInterface,
+      game_id: string,
+      selected_pit: string,
+    ) => {
+      try {
+        return await provider.execute(account, contract_name, 'move', [
+          game_id,
+          selected_pit,
+        ])
+      } catch (error) {
+        console.error('Error executing move:', error)
+        throw error
+      }
+    }
+
     const spawn = async ({ account }: { account: AccountInterface }) => {
       try {
         return await provider.execute(account, contract_name, 'spawn', [])
@@ -80,23 +96,13 @@ export async function setupWorld(provider: DojoProvider) {
       }
     }
 
-    const move = async ({ account, direction }: MoveProps) => {
-      try {
-        return await provider.execute(account, contract_name, 'move', [
-          direction,
-        ])
-      } catch (error) {
-        console.error('Error executing move:', error)
-        throw error
-      }
-    }
     return {
       spawn,
-      move,
       create_initial_game_id,
       create_game,
       create_private_game,
       join_game,
+      move,
     }
   }
   return {
