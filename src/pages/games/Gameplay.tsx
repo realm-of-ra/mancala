@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     Accordion,
     AccordionHeader,
@@ -21,6 +21,10 @@ import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
 import { gql, useQuery } from '@apollo/client';
 import { useDojo } from '@/dojo/useDojo';
+import { useProvider } from '@starknet-react/core';
+import { StarknetIdNavigator } from 'starknetid.js';
+import { constants, StarkProfile } from 'starknet';
+import { truncateString } from '@/lib/utils';
 
 export default function Gameplay() {
 
@@ -88,10 +92,6 @@ export default function Gameplay() {
     )
     startPlayersPolling(1000);
 
-    console.log("game metadata: ", game_metadata)
-
-    console.log("players metadata: ", game_players)
-
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
     useEffect(() => {
@@ -157,18 +157,39 @@ export default function Gameplay() {
 
     const { account } = useDojo()
 
+    const { provider } = useProvider();
+
+    const starknetIdNavigator = useMemo(() => {
+        return new StarknetIdNavigator(
+            provider,
+            constants.StarknetChainId.SN_MAIN
+        );
+    }, [provider])
+
+    const [profiles, setProfiles] = useState<StarkProfile[]>()
+
+    useEffect(() => {
+        if (!starknetIdNavigator || !game_players?.player_one.edges[0].node.address || !game_players?.player_two.edges[0].node.address) return;
+        (async () => {
+            const profileData = await starknetIdNavigator?.getStarkProfiles([game_players?.player_one.edges[0].node.address, game_players?.player_two.edges[0].node.address])
+            console.log("data: ", profileData)
+            if (!profileData) return;
+            if (profileData) return setProfiles(profileData)
+        })()
+    }, [game_players?.player_one.edges, game_players?.player_two.edges, starknetIdNavigator])
+
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
                 <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
                     <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
-                        <div className="flex flex-row space-x-2.5 items-center justify-center mr-20 3xl:mr-36 4xl:mr-20">
+                        <div className="flex flex-row space-x-2.5 items-center justify-center mr-56 2xl:mr-80 4xl:mr-56">
                             <div>
-                                <h3 className="text-3xl text-right text-white">Eniola</h3>
+                                <h3 className="text-3xl text-right text-white">{profiles?.[0].name ? profiles?.[0].name : truncateString(game_players?.player_one.edges[0].node.address)}</h3>
                                 <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
                             </div>
                             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img src={eniola} width={65} height={65} alt="Eniola" className="rounded-full" />
+                                <img src={profiles?.[0].profilePicture} width={65} height={65} alt={`${profiles?.[0].name} profile picture`} className="rounded-full" />
                                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
                                 </div>
@@ -183,13 +204,13 @@ export default function Gameplay() {
                 </div>
                 <div className="bg-[url('./assets/right-entry.png')] h-40 w-[45%] bg-cover bg-center absolute top-0 right-0 bg-no-repeat">
                     <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
-                        <div className="flex flex-row-reverse space-x-2.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
+                        <div className="flex flex-row-reverse space-x-2.5 items-center justify-center ml-56 2xl:ml-80 4xl:ml-56">
                             <div className='ml-2.5'>
-                                <h3 className="text-3xl text-left text-white">Israel</h3>
+                                <h3 className="text-3xl text-left text-white">{profiles?.[1].name ? profiles?.[1].name : truncateString(game_players?.player_two.edges[0].node.address)}</h3>
                                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
                             </div>
                             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img src={israel} width={65} height={65} alt="Eniola" className="rounded-full" />
+                                <img src={profiles?.[1].profilePicture} width={65} height={65} alt={`${profiles?.[1].name} profile picture`} className="rounded-full" />
                                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
                                 </div>

@@ -1,8 +1,8 @@
-import { live_duels_header, live_duels_stats, player_header, player_stats } from "@/lib/constants";
+import { live_duels_header, player_header } from "@/lib/constants";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "./ui/button";
-import { useProvider, useStarkProfile } from "@starknet-react/core";
+import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
@@ -16,8 +16,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
             provider,
             constants.StarknetChainId.SN_MAIN
         );
-    }, [])
-    const [fetching, setFetching] = useState(false)
+    }, [provider])
     const [challengers, setChallengers] = useState<StarkProfile[]>();
     const [challenged, setChallenged] = useState<StarkProfile[]>();
     const [joinStatus, setJoinStatus] = useState<{
@@ -29,14 +28,12 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     useEffect(() => {
         if (!starknetIdNavigator || !challengerAddresses) return;
         (async () => {
-            setFetching(true)
             const challengerData = await starknetIdNavigator?.getStarkProfiles(challengerAddresses)
             const challengedData = await starknetIdNavigator?.getStarkProfiles(challengedAddresses)
             if (!challengerData) return;
             if (challengerData) setChallengers(challengerData);
             if (!challengedData) return;
             if (challengedData) setChallenged(challengedData);
-            setFetching(false)
         })();
     }, [challengerAddresses, challengedAddresses, starknetIdNavigator]);
     const data = challengers?.map((challenger, index) => {
