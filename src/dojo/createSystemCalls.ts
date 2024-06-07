@@ -157,7 +157,7 @@ export function createSystemCalls(
   const move = async (
     account: AccountInterface,
     game_id: string,
-    selected_pit: string,
+    selected_pit: number,
   ) => {
     const movesId = uuid()
     try {

@@ -255,42 +255,42 @@ export default function Gameplay() {
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit1}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit1'
+                                            pit={1}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit2}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit2'
+                                            pit={2}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit3}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit3'
+                                            pit={3}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit4}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit4'
+                                            pit={4}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit5}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit5'
+                                            pit={5}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit6}
                                             address={game_players?.player_one.edges[0]?.node.address}
-                                            pit='pit6'
+                                            pit={6}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
@@ -302,42 +302,42 @@ export default function Gameplay() {
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit1}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit1'
+                                            pit={1}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit2}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit2'
+                                            pit={2}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit3}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit3'
+                                            pit={3}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit4}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit4'
+                                            pit={4}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit5}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit5'
+                                            pit={5}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit6}
                                             address={game_players?.player_two.edges[0]?.node.address}
-                                            pit='pit6'
+                                            pit={6}
                                             game_id={gameId || ''}
                                             message={setMoveMessage}
                                         />

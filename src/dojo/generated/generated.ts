@@ -74,7 +74,7 @@ export async function setupWorld(provider: DojoProvider) {
     const move = async (
       account: AccountInterface,
       game_id: string,
-      selected_pit: string,
+      selected_pit: number,
     ) => {
       try {
         return await provider.execute(account, contract_name, 'move', [

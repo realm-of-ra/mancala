@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
 
 export default function Pit({ amount, address, pit, game_id, message }: {
-    amount: number, address: string, pit: string,
+    amount: number, address: string, pit: number,
     game_id: string, message: Dispatch<SetStateAction<string | undefined>>
 }) {
     const { account: userAccount, system } = useDojo()
