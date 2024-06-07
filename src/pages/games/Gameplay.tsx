@@ -160,6 +160,8 @@ export default function Gameplay() {
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>()
 
+    console.log("burner: ", account.account.address)
+
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
