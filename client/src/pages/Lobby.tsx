@@ -90,7 +90,7 @@ export default function Lobby() {
     useEffect(() => {
         runOnceForever();
         if (gameId != null) {
-            setGameUrl(`${window.location.origin}/gameplay?id=${gameId}`)
+            setGameUrl(`${window.location.origin}/games/${gameId}`)
         }
     }, [gameId])
     return (
@@ -124,7 +124,8 @@ export default function Lobby() {
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
                                     <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
                                 </a>
-                                <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={handleOpen}>
+                                <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
+                                    disabled={connection?.isConnected ? false : true} onClick={handleOpen}>
                                     <div className="flex flex-row items-center space-x-1">
                                         <img src={createIcon} className="w-5 h-5" />
                                         <p className="text-[#FCE3AA] font-medium">Create Game</p>
@@ -155,7 +156,7 @@ export default function Lobby() {
                                                     }
                                                     <p className="text-sm text-[#FCE3AA] font-medium">{gameUrl}</p>
                                                 </button>
-                                                <a href={`/gameplay?id=${gameId}`}>
+                                                <a href={`/games/${gameId}`}>
                                                     <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={gotoIcon} className="w-5 h-5" />
@@ -203,8 +204,7 @@ export default function Lobby() {
                                                 }
                                                 {
                                                     gameId == null && creating == false ? <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                                                        onClick={() => type == "private" ? create_private_game() : create_game()}
-                                                        disabled={connection?.isConnected ? false : true}>
+                                                        onClick={() => type == "private" ? create_private_game() : create_game()}>
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={createIcon} className="w-5 h-5" />
                                                             <p className="text-[#FCE3AA] font-semibold">Create Game</p>

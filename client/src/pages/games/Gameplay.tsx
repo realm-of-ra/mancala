@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     Accordion,
     AccordionHeader,
@@ -7,20 +7,91 @@ import {
 } from "@material-tailwind/react";
 
 import {
-  eniola, israel, logo, restart, end,
-  muteImage, unmuteImage, leaderboard,
-  message,
-} from "../constants/icons_store";
+    logo, restart, end,
+    muteImage, unmuteImage, leaderboard,
+    message,
+} from "../../constants/icons_store";
 
 import clsx from 'clsx';
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { animate, chat, initialSeeds, players } from '@/lib/constants';
-import { isPlayingAtom } from "../atom/atoms";
+import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
-import audio from "../music/audio_1.mp4";
+import audio from "../../music/audio_1.mp4";
+import { gql, useQuery } from '@apollo/client';
+import { useDojo } from '@/dojo/useDojo';
+import { useProvider } from '@starknet-react/core';
+import { StarknetIdNavigator } from 'starknetid.js';
+import { constants, StarkProfile } from 'starknet';
+import { truncateString } from '@/lib/utils';
+import Pit from '@/components/pit';
 
 export default function Gameplay() {
+
+    const { gameId } = useParams();
+    const metadata_query = gql`
+    query GameData($gameId: u128!) {
+        game_data: mancalaGameModels(where: { game_id: $gameId }) {
+            edges {
+                node {
+                    player_one
+                    player_two
+                    current_player
+                }
+            }
+        }
+    }
+    `
+    const play_query = gql`
+        query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
+                player_one: gamePlayerModels(where: { game_id: $gameId, address: $player_1 }, last: 1) {
+                    edges {
+                        node {
+                            address
+                            game_id
+                            pit1
+                            pit2
+                            pit3
+                            pit4
+                            pit5
+                            pit6
+                            mancala
+                        }
+                    }
+                }
+                player_two: gamePlayerModels(where: { game_id: $gameId, address: $player_2 }, last: 1) {
+                    edges {
+                        node {
+                            address
+                            game_id
+                            pit1
+                            pit2
+                            pit3
+                            pit4
+                            pit5
+                            pit6
+                            mancala
+                        }
+                    }
+            }
+        }
+    `
+    const { loading: game_metadata_loading, error: game_metadata_error, data: game_metadata, startPolling: startMetadataPolling } = useQuery(
+        metadata_query,
+        {
+            variables: { gameId }
+        }
+    )
+    startMetadataPolling(1000);
+
+    const { loading: game_players_loading, error: game_players_error, data: game_players, startPolling: startPlayersPolling } = useQuery(
+        play_query,
+        {
+            variables: { player_1: game_metadata?.game_data.edges[0].node.player_one, player_2: game_metadata?.game_data.edges[0].node.player_two, gameId: gameId }
+        }
+    )
+    startPlayersPolling(1000);
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
@@ -65,38 +136,44 @@ export default function Gameplay() {
 
     const [seeds, setSeeds] = useState(initialSeeds);
 
-    const handlePotClick = (potIndex: number) => {
-        setSeeds((prevSeeds) => {
-            const updatedSeeds = [...prevSeeds];
-            let remainingSeeds = updatedSeeds[potIndex].seeds;
-            updatedSeeds[potIndex].seeds = 0;
+    const { account } = useDojo()
 
-            let currentIndex = potIndex + 1;
-            while (remainingSeeds > 0) {
-                if (currentIndex === updatedSeeds.length) {
-                    currentIndex = 0; // Wrap around to the beginning
-                }
-                updatedSeeds[currentIndex].seeds++;
-                remainingSeeds--;
-                currentIndex++;
-            }
+    const { provider } = useProvider();
 
-            return updatedSeeds;
-        });
-    };
+    const starknetIdNavigator = useMemo(() => {
+        return new StarknetIdNavigator(
+            provider,
+            constants.StarknetChainId.SN_MAIN
+        );
+    }, [provider])
+
+    const [profiles, setProfiles] = useState<StarkProfile[]>()
+
+    useEffect(() => {
+        if (!starknetIdNavigator || !game_players?.player_one.edges[0]?.node.address || !game_players?.player_two.edges[0]?.node.address) return;
+        (async () => {
+            const profileData = await starknetIdNavigator?.getStarkProfiles([game_players?.player_one.edges[0].node.address, game_players?.player_two.edges[0].node.address])
+            if (!profileData) return;
+            if (profileData) return setProfiles(profileData)
+        })()
+    }, [game_players?.player_one.edges, game_players?.player_two.edges, starknetIdNavigator])
+
+    const [moveMessage, setMoveMessage] = useState<string | undefined>()
+
+    console.log("burner: ", account.account.address)
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
                 <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
                     <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
-                        <div className="flex flex-row space-x-2.5 items-center justify-center mr-20 3xl:mr-36 4xl:mr-20">
+                        <div className="flex flex-row space-x-2.5 items-center justify-center mr-56 2xl:mr-80 4xl:mr-56">
                             <div>
-                                <h3 className="text-3xl text-right text-white">Eniola</h3>
+                                <h3 className="text-3xl text-right text-white">{profiles?.[0].name ? profiles?.[0].name : truncateString(game_players?.player_one.edges[0].node.address)}</h3>
                                 <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
                             </div>
                             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img src={eniola} width={65} height={65} alt="Eniola" className="rounded-full" />
+                                <img src={profiles?.[0].profilePicture} width={65} height={65} alt={`${profiles?.[0].name} profile picture`} className="rounded-full" />
                                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
                                 </div>
@@ -111,13 +188,13 @@ export default function Gameplay() {
                 </div>
                 <div className="bg-[url('./assets/right-entry.png')] h-40 w-[45%] bg-cover bg-center absolute top-0 right-0 bg-no-repeat">
                     <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
-                        <div className="flex flex-row-reverse space-x-2.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
+                        <div className="flex flex-row-reverse space-x-2.5 items-center justify-center ml-56 2xl:ml-80 4xl:ml-56">
                             <div className='ml-2.5'>
-                                <h3 className="text-3xl text-left text-white">Israel</h3>
+                                <h3 className="text-3xl text-left text-white">{profiles?.[1].name ? profiles?.[1].name : truncateString(game_players?.player_two.edges[0]?.node.address)}</h3>
                                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
                             </div>
                             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img src={israel} width={65} height={65} alt="Eniola" className="rounded-full" />
+                                <img src={profiles?.[1].profilePicture} width={65} height={65} alt={`${profiles?.[1].name} profile picture`} className="rounded-full" />
                                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
                                 </div>
@@ -170,76 +247,102 @@ export default function Gameplay() {
                                     </div>
                                 </div>
                                 <div className='absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg'>
-                                    <p className='text-white'>{seeds[6].seeds}</p>
+                                    <p className='text-white'>{game_players?.player_one.edges[0]?.node.mancala}</p>
                                 </div>
                             </div>
                             <div className='w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2'>
                                 {/* Player 1 */}
                                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
-                                        {
-                                            seeds.slice(0, 6).reverse().map((pot, index) => (
-                                                <div key={index} className='h-[170px] w-[15%] flex justify-between items-center flex-col'>
-                                                    <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                                                        <p className='text-white'>{pot.seeds}</p>
-                                                    </div>
-                                                    <div className='flex flex-col items-center justify-center flex-1'>
-                                                        <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                                                            onClick={() => handlePotClick(pot.pot - 1)}>
-                                                            <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
-                                                                {
-                                                                    Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <div
-                                                                            key={seedIndex}
-                                                                            className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
-                                                                                pot.seeds >= 12 && 'w-[12px] h-[12px]',
-                                                                                pot.seeds >= 16 && 'w-[10px] h-[10px]',
-                                                                                pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
-                                                                                'w-[20px] h-[20px] bg-white rounded-full')
-                                                                            }
-                                                                        />
-                                                                    ))
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit1}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={1}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit2}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={2}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit3}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={3}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit4}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={4}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit5}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={5}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_one.edges[0]?.node.pit6}
+                                            address={game_players?.player_one.edges[0]?.node.address}
+                                            pit={6}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
                                     </div>
                                 </div>
                                 {/* Player 2 */}
                                 <div className='h-[175px] w-full flex flex-row justify-between items-center'>
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
-                                        {
-                                            seeds.slice(7, 13).map((pot, index) => (
-                                                <div key={index} className='h-[170px] w-[15%] flex flex-col-reverse justify-between items-center'>
-                                                    <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
-                                                        <p className='text-white'>{pot.seeds}</p>
-                                                    </div>
-                                                    <div className='flex flex-col items-center justify-center flex-1'>
-                                                        <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
-                                                            onClick={() => handlePotClick(pot.pot - 1)}>
-                                                            <div className={clsx(pot.seeds > 6 && 'grid-cols-3', pot.seeds >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
-                                                                {
-                                                                    Array.from({ length: pot.seeds }, (_, seedIndex) => (
-                                                                        <div
-                                                                            key={seedIndex}
-                                                                            className={clsx(pot.seeds > 6 && 'w-[14px] h-[14px]',
-                                                                                pot.seeds >= 12 && 'w-[12px] h-[12px]',
-                                                                                pot.seeds >= 16 && 'w-[10px] h-[10px]',
-                                                                                pot.seeds >= 20 && 'w-[7.5px] h-[7.5px]',
-                                                                                'w-[20px] h-[20px] bg-white rounded-full')
-                                                                            }
-                                                                        />
-                                                                    ))
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit1}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={1}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit2}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={2}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit3}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={3}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit4}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={4}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit5}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={5}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
+                                        <Pit
+                                            amount={game_players?.player_two.edges[0]?.node.pit6}
+                                            address={game_players?.player_two.edges[0]?.node.address}
+                                            pit={6}
+                                            game_id={gameId || ''}
+                                            message={setMoveMessage}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -258,13 +361,13 @@ export default function Gameplay() {
                                     </div>
                                 </div>
                                 <div className='absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg'>
-                                    <p className='text-white'>{seeds[13].seeds}</p>
+                                    <p className='text-white'>{game_players?.player_two.edges[0]?.node.mancala}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {/* End of game board */}
-                    <div className='flex flex-row items-start justify-between mt-10'>
+                    <div className='flex flex-row items-center justify-between mt-10'>
                         <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
                             <Button className='p-0 bg-transparent rounded-full' onClick={togglePlay}>
                                 <img src={isPlaying ? unmuteImage : muteImage} width={65} height={65} alt="restart" className='rounded-full' />
@@ -273,6 +376,17 @@ export default function Gameplay() {
                                 <h4 className="text-lg text-left text-[#9398A2]">Enya</h4>
                                 <h4 className="text-sm text-[#656C7D] text-left">Storms in Africa</h4>
                             </div>
+                        </div>
+                        <div className='border border-[#27292F] py-3.5 px-7 rounded-3xl backdrop-blur-sm'>
+                            <p className='text-[#AAAEB7]'>
+                                Game message: {(game_metadata_error || game_players_error) &&
+                                    "Error loading game data"} {(game_metadata_loading || game_players_loading) ? "Loading game data..." : (game_metadata && game_players) &&
+                                        (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
+                                        game_metadata?.game_data.edges[0].node.current_player === account.account.address ?
+                                            (game_metadata?.game_data.edges[0].node.player_one === '' || game_metadata?.game_data.edges[0].node.player_two === '')
+                                                ? "Waiting for another player to join" : moveMessage === undefined ? moveMessage : "Not your pit" :
+                                            "Waiting for player 2" : "Player has not joined game"}
+                            </p>
                         </div>
                         <div className='flex flex-row items-start justify-center pb-5 space-x-5'>
                             {/* Goto leaderboard page */}
