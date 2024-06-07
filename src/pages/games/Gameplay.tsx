@@ -369,11 +369,10 @@ export default function Gameplay() {
                         </div>
                         <div className='border border-[#27292F] py-3.5 px-7 rounded-3xl backdrop-blur-sm'>
                             <p className='text-[#AAAEB7]'>
-                                Game message: {(game_metadata_loading || game_players_loading) &&
-                                    "Loading game data..."} {(game_metadata_error || game_players_error) &&
-                                        "Error loading game data"} {(game_metadata && game_players) &&
-                                            (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
-                                            game_metadata?.game_data.edges[0].node.current_player === account.account.address ? "Make your move" : "Waiting for player 2" : "Player has not joined game"}
+                                Game message: {(game_metadata_error || game_players_error) &&
+                                    "Error loading game data"} {(game_metadata_loading || game_players_loading) ? "Loading game data..." : (game_metadata && game_players) &&
+                                        (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
+                                        game_metadata?.game_data.edges[0].node.current_player === account.account.address ? "Make your move" : "Waiting for player 2" : "Player has not joined game"}
                             </p>
                         </div>
                         <div className='flex flex-row items-start justify-center pb-5 space-x-5'>
