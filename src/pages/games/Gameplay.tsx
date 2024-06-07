@@ -382,7 +382,7 @@ export default function Gameplay() {
                                         (game_metadata?.game_data.edges[0].node.player_one === account.account.address || game_metadata?.game_data.edges[0].node.player_two === account.account.address) ?
                                         game_metadata?.game_data.edges[0].node.current_player === account.account.address ?
                                             (game_metadata?.game_data.edges[0].node.player_one === '' || game_metadata?.game_data.edges[0].node.player_two === '')
-                                                ? "Waiting for another player to join" : moveMessage != '' ? moveMessage : "Make your move" :
+                                                ? "Waiting for another player to join" : moveMessage === undefined ? moveMessage : "Not your pit" :
                                             "Waiting for player 2" : "Player has not joined game"}
                             </p>
                         </div>

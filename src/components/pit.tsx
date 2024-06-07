@@ -10,13 +10,11 @@ export default function Pit({ amount, address, pit, game_id, message }: {
     console.log(userAccount.account.address)
     const handleMove = async () => {
         if (address === userAccount.account.address) {
+            message(undefined)
             await system.move(userAccount.account, game_id, pit)
         }
         else {
-            setTimeout(() => {
-                message('Not your turn')
-            }, 1500);
-            message('')
+            message('Not your pit')
         }
     }
     return (
