@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../node_modules/.pnpm/starknetkit@1.1.9_starknet@6.8.0/node_modules/starknetkit/dist/publicRcpNodes-be041588.js"],
-  "sourcesContent": ["const a = {\n  mainnet: \"https://starknet-mainnet.public.blastapi.io\",\n  testnet: \"https://starknet-sepolia.public.blastapi.io\"\n}, e = {\n  mainnet: \"https://rpc.starknet.lava.build\",\n  testnet: \"https://rpc.starknet-sepolia.lava.build\"\n}, t = [a, e];\nfunction s() {\n  const n = Math.floor(Math.random() * t.length);\n  return t[n];\n}\nexport {\n  s as g\n};\n"],
-  "mappings": ";AAAA,IAAM,IAAI;AAAA,EACR,SAAS;AAAA,EACT,SAAS;AACX;AAHA,IAGG,IAAI;AAAA,EACL,SAAS;AAAA,EACT,SAAS;AACX;AANA,IAMG,IAAI,CAAC,GAAG,CAAC;AACZ,SAAS,IAAI;AACX,QAAM,IAAI,KAAK,MAAM,KAAK,OAAO,IAAI,EAAE,MAAM;AAC7C,SAAO,EAAE,CAAC;AACZ;",
-  "names": []
-}
