@@ -29,7 +29,6 @@ export default function Pit({ amount, address, pit, game_id, status, winner, mes
             }
         }
     }
-    console.log('winner: ', winner, 'status:', status)
     return (
         <div className='h-[170px] w-[15%] flex justify-between items-center flex-col' onClick={handleMove}>
             <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
