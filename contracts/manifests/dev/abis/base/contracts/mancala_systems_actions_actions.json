@@ -197,7 +197,7 @@
         ],
         "outputs": [
           {
-            "type": "core::starknet::contract_address::ContractAddress"
+            "type": "(core::starknet::contract_address::ContractAddress, mancala::models::mancala_game::GameStatus)"
           }
         ],
         "state_mutability": "view"
