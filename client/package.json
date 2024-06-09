@@ -25,6 +25,8 @@
     "@latticexyz/react": "^2.0.4",
     "@latticexyz/utils": "^2.0.4",
     "@material-tailwind/react": "^2.1.9",
+    "@pushprotocol/restapi": "^1.7.22",
+    "@pushprotocol/socket": "^0.5.3",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-radio-group": "^1.1.3",

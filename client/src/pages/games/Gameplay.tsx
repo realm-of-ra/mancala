@@ -41,6 +41,8 @@ export default function Gameplay() {
 						player_one
 						player_two
 						current_player
+                        status
+                        winner
 					}
 				}
 			}
@@ -194,8 +196,6 @@ export default function Gameplay() {
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
 
-    console.log("burner: ", account.account.address);
-
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
@@ -319,7 +319,7 @@ export default function Gameplay() {
                                 {/* Player 1 pot */}
                                 <div className="flex flex-row justify-end items-center px-2.5 h-full">
                                     <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
-                                        {Array.from({ length: seeds[6].seeds }, (_, seedIndex) => (
+                                        {Array.from({ length: game_players?.player_one.edges[0].node.mancala }, (_, seedIndex) => (
                                             <div
                                                 key={seedIndex}
                                                 className="w-[20px] h-[20px] bg-white rounded-full"
@@ -343,6 +343,8 @@ export default function Gameplay() {
                                             pit={6}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit5}
@@ -350,6 +352,8 @@ export default function Gameplay() {
                                             pit={5}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit4}
@@ -357,6 +361,8 @@ export default function Gameplay() {
                                             pit={4}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit3}
@@ -364,6 +370,8 @@ export default function Gameplay() {
                                             pit={3}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit2}
@@ -371,6 +379,8 @@ export default function Gameplay() {
                                             pit={2}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_one.edges[0]?.node.pit1}
@@ -378,6 +388,8 @@ export default function Gameplay() {
                                             pit={1}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                     </div>
                                 </div>
@@ -390,6 +402,8 @@ export default function Gameplay() {
                                             pit={1}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit2}
@@ -397,6 +411,8 @@ export default function Gameplay() {
                                             pit={2}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit3}
@@ -404,6 +420,8 @@ export default function Gameplay() {
                                             pit={3}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit4}
@@ -411,6 +429,8 @@ export default function Gameplay() {
                                             pit={4}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit5}
@@ -418,6 +438,8 @@ export default function Gameplay() {
                                             pit={5}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                         <Pit
                                             amount={game_players?.player_two.edges[0]?.node.pit6}
@@ -425,6 +447,8 @@ export default function Gameplay() {
                                             pit={6}
                                             game_id={gameId || ""}
                                             message={setMoveMessage}
+                                            status={game_metadata?.game_data.edges[0].node.status}
+                                            winner={game_metadata?.game_data.edges[0].node.winner}
                                         />
                                     </div>
                                 </div>
@@ -433,7 +457,7 @@ export default function Gameplay() {
                                 {/* Player 2 pot */}
                                 <div className="flex flex-row justify-start items-center px-2.5 h-full">
                                     <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5">
-                                        {Array.from({ length: seeds[13].seeds }, (_, seedIndex) => (
+                                        {Array.from({ length: game_players?.player_two.edges[0].node.mancala }, (_, seedIndex) => (
                                             <div
                                                 key={seedIndex}
                                                 className="w-[20px] h-[20px] bg-white rounded-full"
