@@ -30,6 +30,7 @@ import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
+import MessageArea from "@/components/message-area.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -496,30 +497,16 @@ export default function Gameplay() {
                             </div>
                         </div>
                         <div className="border border-[#27292F] py-3.5 px-7 rounded-3xl backdrop-blur-sm">
-                            <p className="text-[#AAAEB7]">
-                                Game message:{" "}
-                                {(game_metadata_error || game_players_error) &&
-                                    "Error loading game data"}{" "}
-                                {game_metadata_loading || game_players_loading
-                                    ? "Loading game data..."
-                                    : game_metadata &&
-                                        game_players &&
-                                        (game_metadata?.game_data.edges[0].node.player_one ===
-                                            account.account.address ||
-                                            game_metadata?.game_data.edges[0].node.player_two ===
-                                            account.account.address)
-                                        ? game_metadata?.game_data.edges[0].node.current_player ===
-                                            account.account.address
-                                            ? game_metadata?.game_data.edges[0].node.player_one ===
-                                                "" ||
-                                                game_metadata?.game_data.edges[0].node.player_two === ""
-                                                ? "Waiting for another player to join"
-                                                : moveMessage === undefined
-                                                    ? moveMessage
-                                                    : "Not your pit"
-                                            : "Waiting for player 2"
-                                        : "Player has not joined game"}
-                            </p>
+                            <MessageArea
+                                game_metadata_error={game_metadata_error}
+                                game_players_error={game_metadata_error}
+                                game_metadata={game_metadata}
+                                account={account}
+                                game_metadata_loading={game_metadata_loading}
+                                moveMessage={moveMessage}
+                                game_players_loading={game_players_loading}
+                                game_players={game_players}
+                            />
                         </div>
                         <div className="flex flex-row items-start justify-center pb-5 space-x-5">
                             {/* Goto leaderboard page */}
