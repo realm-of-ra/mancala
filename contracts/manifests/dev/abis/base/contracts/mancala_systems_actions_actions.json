@@ -123,6 +123,10 @@
         "type": "core::integer::u64"
       },
       {
+        "name": "time_between_move",
+        "type": "core::integer::u64"
+      },
+      {
         "name": "winner",
         "type": "core::starknet::contract_address::ContractAddress"
       },
@@ -208,6 +212,18 @@
             "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "time_out",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          }
+        ],
+        "outputs": [],
         "state_mutability": "view"
       },
       {

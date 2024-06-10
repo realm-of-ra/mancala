@@ -11,6 +11,7 @@ trait IActions {
     fn join_game(game_id: u128, player_two_address: ContractAddress);
     fn create_private_game(player_two_address: ContractAddress) -> MancalaGame;
     fn move(game_id: u128, selected_pit: u8) -> ContractAddress;
+    fn time_out(game_id: u128);
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
 }
@@ -18,11 +19,12 @@ trait IActions {
 // dojo decorator
 #[dojo::contract]
 mod actions {
-    use super::IActions;
-    use starknet::{ContractAddress, get_caller_address};
-    use starknet::contract_address::ContractAddressZeroable;
+    use core::starknet::{ContractAddress, get_caller_address, SyscallResultTrait};
+    use core::starknet::contract_address::ContractAddressZeroable;
+    use core::starknet::info::get_execution_info_syscall;
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
     use mancala::models::{player::{GamePlayer, GamePlayerTrait}};
+    use super::IActions;
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
@@ -116,6 +118,23 @@ mod actions {
             } else {
                 mancala_game.current_player
             }
+        }
+
+        // set the game as `TimeOut` if a player hasn't made a move
+        fn time_out(world: IWorldDispatcher, game_id: u128) {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
+
+            let (_, mut opponent) = mancala_game.get_players(world);
+            let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
+            let block_info = execution_info.block_info.unbox();
+            assert!(
+                mancala_game.last_move <= block_info.block_number + mancala_game.time_between_move,
+                "Game is in progress"
+            );
+
+            mancala_game.status = GameStatus::TimeOut;
+            mancala_game.winner = opponent.address;
         }
 
         // read function to get the score of a game taking in the game

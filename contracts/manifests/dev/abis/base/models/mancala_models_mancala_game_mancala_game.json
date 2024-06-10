@@ -237,6 +237,10 @@
         "type": "core::integer::u64"
       },
       {
+        "name": "time_between_move",
+        "type": "core::integer::u64"
+      },
+      {
         "name": "winner",
         "type": "core::starknet::contract_address::ContractAddress"
       },

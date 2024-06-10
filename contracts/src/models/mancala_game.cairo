@@ -31,6 +31,7 @@ struct MancalaGame {
     player_two: ContractAddress,
     current_player: ContractAddress,
     last_move: u64,
+    time_between_move: u64,
     winner: ContractAddress,
     status: GameStatus,
     is_private: bool
@@ -58,6 +59,7 @@ trait MancalaGameTrait {
     fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer);
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
+    fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
 }
 
 impl MancalaImpl of MancalaGameTrait {
@@ -73,6 +75,7 @@ impl MancalaImpl of MancalaGameTrait {
                 .block_info
                 .unbox()
                 .block_timestamp,
+            time_between_move: 100,
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
             status: GameStatus::Pending,
@@ -114,11 +117,13 @@ impl MancalaImpl of MancalaGameTrait {
         let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
         let block_info = execution_info.block_info.unbox();
 
-        if player == self.player_one && self.last_move > block_info.block_number + 100 {
+        if player == self.player_one && self.last_move > block_info.block_number
+            + self.time_between_move {
             self.winner = self.player_two;
             self.status = GameStatus::TimeOut;
         }
-        if player == self.player_two && self.last_move > block_info.block_number + 100 {
+        if player == self.player_two && self.last_move > block_info.block_number
+            + self.time_between_move {
             self.winner = self.player_one;
             self.status = GameStatus::TimeOut;
         }
@@ -286,5 +291,10 @@ impl MancalaImpl of MancalaGameTrait {
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8) {
         (player_one.mancala, player_two.mancala)
+    }
+
+    // get the mancalas of players
+    fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
+        self.last_move
     }
 }
