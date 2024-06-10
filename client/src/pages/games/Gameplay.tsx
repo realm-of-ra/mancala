@@ -319,7 +319,7 @@ export default function Gameplay() {
                                 {/* Player 1 pot */}
                                 <div className="flex flex-row justify-end items-center px-2.5 h-full">
                                     <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
-                                        {Array.from({ length: game_players?.player_one.edges[0].node.mancala }, (_, seedIndex) => (
+                                        {Array.from({ length: game_players?.player_two.edges[0]?.node.mancala || 0 }, (_, seedIndex) => (
                                             <div
                                                 key={seedIndex}
                                                 className="w-[20px] h-[20px] bg-white rounded-full"
@@ -457,7 +457,7 @@ export default function Gameplay() {
                                 {/* Player 2 pot */}
                                 <div className="flex flex-row justify-start items-center px-2.5 h-full">
                                     <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5">
-                                        {Array.from({ length: game_players?.player_two.edges[0].node.mancala }, (_, seedIndex) => (
+                                        {Array.from({ length: game_players?.player_two.edges[0]?.node.mancala || 0 }, (_, seedIndex) => (
                                             <div
                                                 key={seedIndex}
                                                 className="w-[20px] h-[20px] bg-white rounded-full"
