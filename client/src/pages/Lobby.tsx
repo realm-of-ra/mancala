@@ -20,6 +20,7 @@ import clip from "../assets/copied.png";
 import LiveDuels from "@/components/live-duels";
 import { useDojo } from "@/dojo/useDojo";
 import { gql, useQuery } from "@apollo/client";
+import {Link} from "react-router-dom";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -156,14 +157,14 @@ export default function Lobby() {
                                                     }
                                                     <p className="text-sm text-[#FCE3AA] font-medium">{gameUrl}</p>
                                                 </button>
-                                                <a href={`/games/${gameId}`}>
+                                                <Link to={`/games/${gameId}`}>
                                                     <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
                                                         <div className="flex flex-row items-center space-x-1">
                                                             <img src={gotoIcon} className="w-5 h-5" />
                                                             <p className="text-[#FCE3AA] font-semibold">Go to game</p>
                                                         </div>
                                                     </Button>
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div> : <div className="flex flex-col items-center justify-center w-full h-full">
                                             <div className="flex flex-col items-center justify-center space-y-5 -mt-36">
