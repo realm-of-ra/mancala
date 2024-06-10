@@ -677,8 +677,8 @@
     {
       "kind": "DojoContract",
       "address": "0x5a5936e60c561c07cb2225ebfb7205f7d204c14f6ed5ee331a3aa989feeeb28",
-      "class_hash": "0x1f1a020216c90fa4c144aad3586554aa7b36715d9925b2fa2eb3080eff318f",
-      "original_class_hash": "0x1f1a020216c90fa4c144aad3586554aa7b36715d9925b2fa2eb3080eff318f",
+      "class_hash": "0x762a832d3e5e0fd136abc0a664ebca1dea90347a7ffb955a749655771085e54",
+      "original_class_hash": "0x762a832d3e5e0fd136abc0a664ebca1dea90347a7ffb955a749655771085e54",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
       "abi": [
         {
@@ -879,7 +879,7 @@
               ],
               "outputs": [
                 {
-                  "type": "core::starknet::contract_address::ContractAddress"
+                  "type": "(core::starknet::contract_address::ContractAddress, mancala::models::mancala_game::GameStatus)"
                 }
               ],
               "state_mutability": "view"

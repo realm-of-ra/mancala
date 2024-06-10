@@ -61,7 +61,7 @@ export default function Header() {
             audioRef.current.pause();
         }
         if (!connection?.isConnected) {
-            connectWallet();
+            connectWallet()
         }
         return () => {
             audioRef.current.pause();

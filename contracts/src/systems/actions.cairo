@@ -84,7 +84,9 @@ mod actions {
         }
 
         // taking in the game id and the players selected pit, make the move performing all logic
-        fn move(world: IWorldDispatcher, game_id: u128, selected_pit: u8) -> ContractAddress {
+        fn move(
+            world: IWorldDispatcher, game_id: u128, selected_pit: u8
+        ) -> (ContractAddress, GameStatus) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
 
             // need to create validation for this status
