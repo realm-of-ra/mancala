@@ -293,7 +293,7 @@ impl MancalaImpl of MancalaGameTrait {
         (player_one.mancala, player_two.mancala)
     }
 
-    // get the mancalas of players
+    // get the block number of the last move
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
         self.last_move
     }
