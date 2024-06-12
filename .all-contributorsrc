@@ -1,4 +1,21 @@
 {
   "projectName": "mancala",
-  "projectOwner": "realm-of-ra"
+  "projectOwner": "realm-of-ra",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "Israelrex9",
+      "name": "IsraelRex",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46507005?v=4",
+      "profile": "http://www.israelrex.com",
+      "contributions": [
+        "design"
+      ]
+    }
+  ]
 }
