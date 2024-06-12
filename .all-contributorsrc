@@ -1,4 +1,21 @@
 {
   "projectName": "mancala",
-  "projectOwner": "realm-of-ra"
+  "projectOwner": "realm-of-ra",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "okhaimie-dev",
+      "name": "okhai.stark ( Tony Stark )",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57156589?v=4",
+      "profile": "https://okhaimie.com",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
 }
