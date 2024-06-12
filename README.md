@@ -75,6 +75,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
       <td align="center" valign="top" width="14.28%"><a href="https://okhaimie.com"><img src="https://avatars.githubusercontent.com/u/57156589?v=4?s=100" width="100px;" alt="okhai.stark ( Tony Stark )"/><br /><sub><b>okhai.stark ( Tony Stark )</b></sub></a><br /><a href="#code-okhaimie-dev" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.zachcook.io/"><img src="https://avatars.githubusercontent.com/u/95892639?v=4?s=100" width="100px;" alt="Zach Cook"/><br /><sub><b>Zach Cook</b></sub></a><br /><a href="#code-web3technologies" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.israelrex.com"><img src="https://avatars.githubusercontent.com/u/46507005?v=4?s=100" width="100px;" alt="IsraelRex"/><br /><sub><b>IsraelRex</b></sub></a><br /><a href="#design-Israelrex9" title="Design">🎨</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Ajiboyeniola"><img src="https://avatars.githubusercontent.com/u/56792944?v=4?s=100" width="100px;" alt="Eniola Ajiboye"/><br /><sub><b>Eniola Ajiboye</b></sub></a><br /><a href="#code-Ajiboyeniola" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
