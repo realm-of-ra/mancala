@@ -76,6 +76,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
       <td align="center" valign="top" width="14.28%"><a href="https://www.zachcook.io/"><img src="https://avatars.githubusercontent.com/u/95892639?v=4?s=100" width="100px;" alt="Zach Cook"/><br /><sub><b>Zach Cook</b></sub></a><br /><a href="#code-web3technologies" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.israelrex.com"><img src="https://avatars.githubusercontent.com/u/46507005?v=4?s=100" width="100px;" alt="IsraelRex"/><br /><sub><b>IsraelRex</b></sub></a><br /><a href="#design-Israelrex9" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/supreme2580"><img src="https://avatars.githubusercontent.com/u/100731397?v=4?s=100" width="100px;" alt="Supreme Labs"/><br /><sub><b>Supreme Labs</b></sub></a><br /><a href="#code-supreme2580" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://portfolio-xpanvictor.vercel.app/"><img src="https://avatars.githubusercontent.com/u/77200702?v=4?s=100" width="100px;" alt="Xpan Victor"/><br /><sub><b>Xpan Victor</b></sub></a><br /><a href="#code-xpanvictor" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
