@@ -77,6 +77,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
       <td align="center" valign="top" width="14.28%"><a href="http://www.israelrex.com"><img src="https://avatars.githubusercontent.com/u/46507005?v=4?s=100" width="100px;" alt="IsraelRex"/><br /><sub><b>IsraelRex</b></sub></a><br /><a href="#design-Israelrex9" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/supreme2580"><img src="https://avatars.githubusercontent.com/u/100731397?v=4?s=100" width="100px;" alt="Supreme Labs"/><br /><sub><b>Supreme Labs</b></sub></a><br /><a href="#code-supreme2580" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://portfolio-xpanvictor.vercel.app/"><img src="https://avatars.githubusercontent.com/u/77200702?v=4?s=100" width="100px;" alt="Xpan Victor"/><br /><sub><b>Xpan Victor</b></sub></a><br /><a href="#code-xpanvictor" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Oshioke-Salaki"><img src="https://avatars.githubusercontent.com/u/105825121?v=4?s=100" width="100px;" alt="Oshioke Salaki"/><br /><sub><b>Oshioke Salaki</b></sub></a><br /><a href="#code-Oshioke-Salaki" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
