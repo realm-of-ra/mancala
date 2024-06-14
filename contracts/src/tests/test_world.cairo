@@ -176,4 +176,29 @@ mod tests {
         let selected_pit: u8 = 1;
         actions_system.move(mancala_game.game_id, selected_pit);
     }
+
+
+    #[test]
+    fn test_game_should_be_finished() {
+        let (mut player_one, _, world, actions_system, mancala_game, _) = setup_game();
+        player_one.pit1 = 0;
+        player_one.pit2 = 0;
+        player_one.pit3 = 0;
+        player_one.pit4 = 0;
+        player_one.pit5 = 0;
+        player_one.pit6 = 1;
+        set!(world, (player_one));
+
+        let selected_pit: u8 = 6;
+        actions_system.move(mancala_game.game_id, selected_pit);
+        let mancala_game_after_move = get!(world, (mancala_game.game_id), (MancalaGame));
+        assert!(
+            actions_system.is_game_finished(mancala_game_after_move.game_id) == true,
+            "game is not finished"
+        );
+        assert!(
+            mancala_game_after_move.status == GameStatus::Finished, "game status is not Finished"
+        );
+        assert!(mancala_game_after_move.winner == player_one.address, "winner is not player one");
+    }
 }

@@ -109,7 +109,6 @@ mod actions {
             mancala_game
                 .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
             if mancala_game.is_game_finished(current_player, opponent) {
-                mancala_game.status = GameStatus::Finished;
                 mancala_game.set_winner(current_player, opponent);
             }
             set!(world, (mancala_game, current_player, opponent));
