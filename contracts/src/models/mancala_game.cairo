@@ -252,6 +252,7 @@ impl MancalaImpl of MancalaGameTrait {
 
     // todo this should be made private only to be called at the end of a move and a forfeit
     fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer) {
+        self.status = GameStatus::Finished;
         if current_player.mancala > opponent.mancala {
             self.winner = current_player.address;
         } else {
