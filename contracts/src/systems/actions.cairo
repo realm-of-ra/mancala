@@ -13,6 +13,7 @@ trait IActions {
     fn move(game_id: u128, selected_pit: u8) -> (ContractAddress, GameStatus);
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
+    fn test_func(game_id: u128) -> bool;
 }
 
 // dojo decorator
@@ -137,6 +138,11 @@ mod actions {
                 world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
             );
             mancala_game.is_game_finished(player_one, player_two)
+        }
+
+        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool{
+            let _mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            true
         }
     }
 }
