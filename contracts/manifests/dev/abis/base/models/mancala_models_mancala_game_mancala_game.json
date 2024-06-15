@@ -169,38 +169,52 @@
   },
   {
     "type": "impl",
-    "name": "gameImpl",
-    "interface_name": "mancala::models::game::Igame"
+    "name": "mancala_gameImpl",
+    "interface_name": "mancala::models::mancala_game::Imancala_game"
   },
   {
     "type": "enum",
-    "name": "mancala::models::player::PlayerSide",
+    "name": "mancala::models::mancala_game::GameStatus",
     "variants": [
       {
-        "name": "Left",
+        "name": "Pending",
         "type": "()"
       },
       {
-        "name": "Right",
+        "name": "InProgress",
         "type": "()"
       },
       {
-        "name": "None",
+        "name": "Finished",
+        "type": "()"
+      },
+      {
+        "name": "Forfeited",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
         "type": "()"
       }
     ]
   },
   {
     "type": "struct",
-    "name": "mancala::models::game::Game",
+    "name": "mancala::models::mancala_game::MancalaGame",
     "members": [
       {
         "name": "game_id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "winner",
-        "type": "mancala::models::player::PlayerSide"
+        "type": "core::integer::u128"
       },
       {
         "name": "player_one",
@@ -209,12 +223,28 @@
       {
         "name": "player_two",
         "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "current_player",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "winner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "status",
+        "type": "mancala::models::mancala_game::GameStatus"
+      },
+      {
+        "name": "is_private",
+        "type": "core::bool"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "mancala::models::game::Igame",
+    "name": "mancala::models::mancala_game::Imancala_game",
     "items": [
       {
         "type": "function",
@@ -222,7 +252,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "mancala::models::game::Game"
+            "type": "mancala::models::mancala_game::MancalaGame"
           }
         ],
         "outputs": [],
@@ -232,7 +262,7 @@
   },
   {
     "type": "event",
-    "name": "mancala::models::game::game::Event",
+    "name": "mancala::models::mancala_game::mancala_game::Event",
     "kind": "enum",
     "variants": []
   }

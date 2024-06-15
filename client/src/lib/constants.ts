@@ -137,3 +137,479 @@ export const stats = [
     score: 50000,
   },
 ]
+
+export const player_header = [
+  {
+    id: 1,
+    name: 'Player',
+  },
+  {
+    id: 2,
+    name: 'Level',
+  },
+  {
+    id: 3,
+    name: 'Score',
+  },
+  {
+    id: 4,
+    name: 'Duels',
+  },
+  {
+    id: 5,
+    name: 'Wins',
+  },
+  {
+    id: 6,
+    name: 'Losses',
+  },
+  {
+    id: 7,
+    name: 'Draws',
+  },
+]
+
+export const player_stats = [
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 1,
+    image: israel,
+    name: 'Israel',
+    level: 'Level 5',
+    score: '5982.10',
+    duels: 16,
+    wins: 12,
+    losses: 3,
+    draws: 1,
+  },
+  {
+    id: 2,
+    image: eniola,
+    name: 'Eniola',
+    level: 'Level 3',
+    score: '3982.10',
+    duels: 12,
+    wins: 8,
+    losses: 3,
+    draws: 1,
+  },
+]
+
+export const duels_header = [
+  {
+    id: 1,
+    name: 'Challenger',
+  },
+  {
+    id: 2,
+    name: 'Challenged',
+  },
+  {
+    id: 3,
+    name: 'Winner',
+  },
+  {
+    id: 4,
+    name: 'Date',
+  },
+  {
+    id: 5,
+    name: 'More',
+  },
+]
+
+export const duels_stats = [
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    winner: 'Eniola',
+    date: '14 - 05 - 2024',
+  },
+]
+
+export const live_duels_header = [
+  {
+    id: 1,
+    name: 'Challenger',
+  },
+  {
+    id: 2,
+    name: 'Challenged',
+  },
+  {
+    id: 3,
+    name: 'Date',
+  },
+  {
+    id: 4,
+    name: 'Status',
+  },
+]
+
+export const live_duels_stats = [
+  {
+    id: 0,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 1,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 2,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 3,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 4,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 5,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+  {
+    id: 6,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: {
+      name: 'Israel',
+      image: israel,
+    },
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Join Game',
+  },
+  {
+    id: 7,
+    challenger: {
+      name: 'Eniola',
+      image: eniola,
+    },
+    challenged: null,
+    date: '14 - 05 - 2024, 12:13PM',
+    status: 'Joined',
+  },
+]

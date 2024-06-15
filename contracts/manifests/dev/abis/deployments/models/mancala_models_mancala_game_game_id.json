@@ -169,62 +169,26 @@
   },
   {
     "type": "impl",
-    "name": "seedImpl",
-    "interface_name": "mancala::models::seed::Iseed"
+    "name": "game_idImpl",
+    "interface_name": "mancala::models::mancala_game::Igame_id"
   },
   {
     "type": "struct",
-    "name": "mancala::models::seed::Vec2",
+    "name": "mancala::models::mancala_game::GameId",
     "members": [
       {
-        "name": "x",
+        "name": "id",
         "type": "core::integer::u32"
       },
-      {
-        "name": "y",
-        "type": "core::integer::u32"
-      }
-    ]
-  },
-  {
-    "type": "enum",
-    "name": "mancala::models::player::PlayerSide",
-    "variants": [
-      {
-        "name": "Left",
-        "type": "()"
-      },
-      {
-        "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "None",
-        "type": "()"
-      }
-    ]
-  },
-  {
-    "type": "struct",
-    "name": "mancala::models::seed::Seed",
-    "members": [
       {
         "name": "game_id",
-        "type": "core::integer::u32"
-      },
-      {
-        "name": "position",
-        "type": "mancala::models::seed::Vec2"
-      },
-      {
-        "name": "player_side",
-        "type": "mancala::models::player::PlayerSide"
+        "type": "core::integer::u128"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "mancala::models::seed::Iseed",
+    "name": "mancala::models::mancala_game::Igame_id",
     "items": [
       {
         "type": "function",
@@ -232,7 +196,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "mancala::models::seed::Seed"
+            "type": "mancala::models::mancala_game::GameId"
           }
         ],
         "outputs": [],
@@ -242,7 +206,7 @@
   },
   {
     "type": "event",
-    "name": "mancala::models::seed::seed::Event",
+    "name": "mancala::models::mancala_game::game_id::Event",
     "kind": "enum",
     "variants": []
   }

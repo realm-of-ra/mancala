@@ -173,20 +173,16 @@
     "interface_name": "mancala::models::player::Iplayer"
   },
   {
-    "type": "enum",
-    "name": "mancala::models::player::PlayerSide",
-    "variants": [
+    "type": "struct",
+    "name": "core::integer::u256",
+    "members": [
       {
-        "name": "Left",
-        "type": "()"
+        "name": "low",
+        "type": "core::integer::u128"
       },
       {
-        "name": "Right",
-        "type": "()"
-      },
-      {
-        "name": "None",
-        "type": "()"
+        "name": "high",
+        "type": "core::integer::u128"
       }
     ]
   },
@@ -195,20 +191,16 @@
     "name": "mancala::models::player::Player",
     "members": [
       {
-        "name": "game_id",
-        "type": "core::integer::u32"
-      },
-      {
         "name": "address",
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "pending_seeds",
-        "type": "core::integer::u32"
+        "name": "games_won",
+        "type": "core::integer::u256"
       },
       {
-        "name": "side",
-        "type": "mancala::models::player::PlayerSide"
+        "name": "games_lost",
+        "type": "core::integer::u256"
       }
     ]
   },
