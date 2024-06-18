@@ -119,6 +119,7 @@ mod actions {
                 // return the current player so client has ability to know
                 (mancala_game.current_player, mancala_game.status)
             } else {
+                set!(world, (mancala_game));
                 (mancala_game.current_player, mancala_game.status)
             }
         }
