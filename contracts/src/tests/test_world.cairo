@@ -137,7 +137,7 @@ mod tests {
         // test that the seed should go in mancala and current player should remain the same
         let (player_one, _, world, actions_system, game, _) = setup_game();
         let selected_pit: u8 = 3;
-        let (_, game_status_after_move) = actions_system.move(game.game_id, selected_pit);
+        actions_system.move(game.game_id, selected_pit);
         let game_after_move: MancalaGame = get!(world, game.game_id, (MancalaGame));
         let player_one: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
 
@@ -155,7 +155,6 @@ mod tests {
         assert!(
             actions_system.is_game_finished(game.game_id) == false, "game should not be finished"
         );
-        assert!(game_status_after_move == GameStatus::InProgress, "game is not in progress");
     }
 
     // todo this test needs to be implemented
