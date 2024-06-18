@@ -132,7 +132,7 @@ mod actions {
             let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
             let block_info = execution_info.block_info.unbox();
             assert!(
-                mancala_game.last_move <= block_info.block_number + mancala_game.time_between_move,
+                block_info.block_number >= mancala_game.last_move + mancala_game.time_between_move,
                 "Game is in progress"
             );
 
