@@ -1,6 +1,6 @@
 use core::starknet::ContractAddress;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use mancala::models::{mancala_game::{MancalaGame}};
+use mancala::models::{mancala_game::{MancalaGame, GameStatus}};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // define the interface
@@ -10,7 +10,7 @@ trait IActions {
     fn create_game() -> MancalaGame;
     fn join_game(game_id: u128, player_two_address: ContractAddress);
     fn create_private_game(player_two_address: ContractAddress) -> MancalaGame;
-    fn move(game_id: u128, selected_pit: u8) -> ContractAddress;
+    fn move(game_id: u128, selected_pit: u8) -> (ContractAddress, GameStatus);
     fn time_out(game_id: u128);
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
@@ -87,7 +87,7 @@ mod actions {
         // taking in the game id and the players selected pit, make the move performing all logic
         fn move(
             world: IWorldDispatcher, game_id: u128, selected_pit: u8
-        ) -> ContractAddress {
+        ) -> (ContractAddress, GameStatus) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
 
             // need to create validation for this status
@@ -117,9 +117,9 @@ mod actions {
                 }
                 set!(world, (mancala_game, current_player, opponent));
                 // return the current player so client has ability to know
-                mancala_game.current_player
+                (mancala_game.current_player, mancala_game.status)
             } else {
-                mancala_game.current_player
+                (mancala_game.current_player, mancala_game.status)
             }
         }
 
