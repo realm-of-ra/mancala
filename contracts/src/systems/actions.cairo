@@ -101,26 +101,22 @@ mod actions {
 
             mancala_game.validate_move(player, selected_pit);
 
-            if mancala_game.status == GameStatus::InProgress {
-                let (mut current_player, mut opponent) = mancala_game.get_players(world);
-                // Get seeds from the selected pit and validate it's not empty
-                let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
-                if seeds == 0 {
-                    panic!("Selected pit is empty. Choose another pit.");
-                }
-                mancala_game.clear_pit(ref current_player, selected_pit);
-                mancala_game
-                    .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
-                if mancala_game.is_game_finished(current_player, opponent) {
-                    mancala_game.status = GameStatus::Finished;
-                    mancala_game.set_winner(current_player, opponent);
-                }
-                set!(world, (mancala_game, current_player, opponent));
-                // return the current player so client has ability to know
-                (mancala_game.current_player, mancala_game.status)
-            } else {
-                (mancala_game.current_player, mancala_game.status)
+            let (mut current_player, mut opponent) = mancala_game.get_players(world);
+            // Get seeds from the selected pit and validate it's not empty
+            let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
+            if seeds == 0 {
+                panic!("Selected pit is empty. Choose another pit.");
             }
+            mancala_game.clear_pit(ref current_player, selected_pit);
+            mancala_game
+                .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
+            if mancala_game.is_game_finished(current_player, opponent) {
+                mancala_game.status = GameStatus::Finished;
+                mancala_game.set_winner(current_player, opponent);
+            }
+            set!(world, (mancala_game, current_player, opponent));
+            // return the current player so client has ability to know
+            (mancala_game.current_player, mancala_game.status)
         }
 
         // set the game as `TimeOut` if a player hasn't made a move
@@ -163,7 +159,7 @@ mod actions {
             mancala_game.is_game_finished(player_one, player_two)
         }
 
-        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool{
+        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool {
             let _mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             true
         }
