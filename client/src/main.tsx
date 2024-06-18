@@ -15,7 +15,7 @@ async function init() {
     const setupResult = await setup(dojoConfig);
 
     const client = new ApolloClient({
-        uri: 'https://api.cartridge.gg/x/mancala-v0/torii/graphql',
+        uri: 'https://api.cartridge.gg/x/mancala/torii/graphql',
         cache: new InMemoryCache(),
     })
 

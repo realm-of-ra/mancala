@@ -1,0 +1,66 @@
+{
+  "projectName": "mancala",
+  "projectOwner": "realm-of-ra",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "okhaimie-dev",
+      "name": "okhai.stark ( Tony Stark )",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57156589?v=4",
+      "profile": "https://okhaimie.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "web3technologies",
+      "name": "Zach Cook",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95892639?v=4",
+      "profile": "https://www.zachcook.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Israelrex9",
+      "name": "IsraelRex",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46507005?v=4",
+      "profile": "http://www.israelrex.com",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "supreme2580",
+      "name": "Supreme Labs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/100731397?v=4",
+      "profile": "https://github.com/supreme2580",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "xpanvictor",
+      "name": "Xpan Victor",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77200702?v=4",
+      "profile": "http://portfolio-xpanvictor.vercel.app/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Oshioke-Salaki",
+      "name": "Oshioke Salaki",
+      "avatar_url": "https://avatars.githubusercontent.com/u/105825121?v=4",
+      "profile": "https://github.com/Oshioke-Salaki",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}

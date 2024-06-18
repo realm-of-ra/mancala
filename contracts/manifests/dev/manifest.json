@@ -661,7 +661,7 @@
       }
     ],
     "address": "0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192",
-    "transaction_hash": "0x639b7aa292ceb1539a3fee8a8d2320b8394e94098e97db7eb19f9b9af262c74",
+    "transaction_hash": "0x15670ff19c3db269b2988ef5ceb63f5c39f4f1043e12382173f0f253aa07b57",
     "block_number": 3,
     "seed": "mancala",
     "name": "dojo::world::world"
@@ -677,8 +677,8 @@
     {
       "kind": "DojoContract",
       "address": "0x5a5936e60c561c07cb2225ebfb7205f7d204c14f6ed5ee331a3aa989feeeb28",
-      "class_hash": "0x762a832d3e5e0fd136abc0a664ebca1dea90347a7ffb955a749655771085e54",
-      "original_class_hash": "0x762a832d3e5e0fd136abc0a664ebca1dea90347a7ffb955a749655771085e54",
+      "class_hash": "0x406f2e6c39c5be0ded2412b889195e41368562aab43a0e82490f60464d51f6e",
+      "original_class_hash": "0x406f2e6c39c5be0ded2412b889195e41368562aab43a0e82490f60464d51f6e",
       "base_class_hash": "0x679177a2cb757694ac4f326d01052ff0963eac0bc2a17116a2b87badcdf6f76",
       "abi": [
         {
@@ -903,6 +903,22 @@
             {
               "type": "function",
               "name": "is_game_finished",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::bool"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "test_func",
               "inputs": [
                 {
                   "name": "game_id",

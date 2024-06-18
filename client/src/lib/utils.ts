@@ -11,3 +11,7 @@ export function truncateString(str?: string) {
 
   }
 }
+
+export function isEmptyString(str?: string): boolean {
+  return !str || typeof str != "string" || str.trim() === "";
+}

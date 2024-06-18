@@ -52,7 +52,7 @@ impl GamePlayerImpl of GamePlayerTrait {
         let mut count: u8 = 1;
         let mut empty_count: u8 = 0;
 
-        while count < 6 {
+        while count <= 6 {
             match count {
                 0 => panic!("Invalid pit selected"),
                 1 => if self.pit1 == 0 {
@@ -83,5 +83,25 @@ impl GamePlayerImpl of GamePlayerTrait {
         } else {
             false
         }
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::{GamePlayer, GamePlayerTrait};
+
+    #[test]
+    fn test_is_finished() {
+        let player_one_address = starknet::contract_address_const::<0x0>();
+        let mut player_1: GamePlayer = GamePlayerTrait::new(1, player_one_address);
+
+        player_1.pit1 = 0;
+        player_1.pit2 = 0;
+        player_1.pit3 = 0;
+        player_1.pit4 = 0;
+        player_1.pit5 = 0;
+        player_1.pit6 = 0;
+        assert!(player_1.is_finished() == true, "player is not finished");
     }
 }
