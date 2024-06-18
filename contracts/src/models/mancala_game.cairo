@@ -106,7 +106,6 @@ impl MancalaImpl of MancalaGameTrait {
     // perform validation to ensure that the caller is the current player 
     // also validate that the selected pit is within range
     fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8) {
-        assert!(self.status == GameStatus::InProgress, "Game is not in progress");
         if player != self.current_player {
             panic!("You are not the current player");
         }

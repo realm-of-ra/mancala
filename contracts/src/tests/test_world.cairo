@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use starknet::{ContractAddress, get_caller_address};
-    use starknet::class_hash::Felt252TryIntoClassHash;
-    use starknet::testing::set_caller_address;
+    use core::starknet::{ContractAddress, get_caller_address};
+    use core::starknet::class_hash::Felt252TryIntoClassHash;
+    use core::starknet::testing::set_caller_address;
     // import world dispatcher
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     // import test utils
