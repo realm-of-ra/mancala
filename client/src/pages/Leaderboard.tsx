@@ -3,8 +3,12 @@ import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { stats, table_head } from "@/lib/constants";
 import Header from "@/components/header";
+import {useNavigate} from "react-router-dom";
 
 export default function Leaderboard() {
+
+    const navigate = useNavigate();
+
     return (
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
             {/* Start of header */}
@@ -12,7 +16,10 @@ export default function Leaderboard() {
             <div className="absolute flex flex-row items-center justify-between w-full max-w-5xl top-24">
                 <div className='flex flex-row items-center justify-end w-full'>
                     <div className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center">
-                        <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden" children />
+                        <Button
+                            ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden"
+                            children onClick={() => navigate('/')}
+                        />
                     </div>
                 </div>
             </div>
