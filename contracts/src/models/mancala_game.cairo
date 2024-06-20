@@ -51,6 +51,7 @@ trait MancalaGameTrait {
         selected_pit: u8
     );
     fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8);
+    fn validate_time_out(ref self: MancalaGame, player: ContractAddress);
     fn handle_player_switch(ref self: MancalaGame, last_pit: u8, opponent: GamePlayer);
     fn capture(
         self: MancalaGame, last_pit: u8, ref current_player: GamePlayer, ref opponent: GamePlayer
@@ -112,7 +113,11 @@ impl MancalaImpl of MancalaGameTrait {
         if selected_pit < 1 || selected_pit > 6 {
             panic!("Invalid pit, choose between 1 and 6");
         }
+    }
 
+    // perform validation to ensure that the current player did not exceed
+    // the time allocated to make a move
+    fn validate_time_out(ref self: MancalaGame, player: ContractAddress) {
         let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
         let block_info = execution_info.block_info.unbox();
 

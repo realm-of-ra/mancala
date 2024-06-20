@@ -100,6 +100,7 @@ mod actions {
             let player: ContractAddress = get_caller_address();
 
             mancala_game.validate_move(player, selected_pit);
+            mancala_game.validate_time_out(player);
 
             if mancala_game.status == GameStatus::InProgress {
                 let (mut current_player, mut opponent) = mancala_game.get_players(world);
