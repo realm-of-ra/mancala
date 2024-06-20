@@ -139,6 +139,8 @@ mod actions {
 
             mancala_game.status = GameStatus::TimeOut;
             mancala_game.winner = opponent.address;
+
+            set!(world, (mancala_game));
         }
 
         // read function to get the score of a game taking in the game

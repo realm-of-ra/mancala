@@ -182,26 +182,27 @@ mod tests {
     fn test_cannot_move_if_game_timeout() {
         let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
         mancala_game.status = GameStatus::TimeOut;
-        // the below line should panic
         set!(world, (mancala_game));
         let selected_pit: u8 = 1;
+        // the below line should panic
         actions_system.move(mancala_game.game_id, selected_pit);
     }
 
     #[test]
     #[should_panic(expected: ("Game is in progress", 0x454e545259504f494e545f4641494c4544))]
     fn test_cannot_call_timeout_if_move_is_allowed() {
-        // test that the seed should go in mancala and current player should remain the same
         let (_, _, _, actions_system, game, _) = setup_game();
+        // the below line should panic
         actions_system.time_out(game.game_id);
     }
 
     #[test]
     fn test_can_call_timeout_once_enough_time_has_passed() {
-        // test that the seed should go in mancala and current player should remain the same
-        let (_, _, _, actions_system, game, _) = setup_game();
+        let (_, _, world, actions_system, game, _) = setup_game();
         set_block_number(10000);
         actions_system.time_out(game.game_id);
+        let mancala_game_after_move = get!(world, (game.game_id), (MancalaGame));
+        assert!(mancala_game_after_move.status == GameStatus::TimeOut, "Game is not timed out")
     }
 
     #[test]
