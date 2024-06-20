@@ -198,11 +198,12 @@ mod tests {
 
     #[test]
     fn test_can_call_timeout_once_enough_time_has_passed() {
-        let (_, _, world, actions_system, game, _) = setup_game();
+        let (_, player_two, world, actions_system, game, _) = setup_game();
         set_block_number(10000);
         actions_system.time_out(game.game_id);
         let mancala_game_after_move = get!(world, (game.game_id), (MancalaGame));
-        assert!(mancala_game_after_move.status == GameStatus::TimeOut, "Game is not timed out")
+        assert!(mancala_game_after_move.status == GameStatus::TimeOut, "Game is not timed out");
+        assert!(mancala_game_after_move.winner == player_two.address, "winner is not player one");
     }
 
     #[test]
