@@ -1,4 +1,5 @@
 import { Button } from "@material-tailwind/react";
+import React from 'react';
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Accordion,
@@ -14,6 +15,12 @@ import {
     unmuteImage,
     leaderboard,
     message,
+    play,
+    pause,
+    playnext,
+    playprevious,
+    arrowup,
+    arrowdown
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
@@ -196,7 +203,23 @@ export default function Gameplay() {
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+   
+   
+    const [volume, setVolume] = useState(0.5);
+    const [volumeDisplayValue, setVolumeDisplayValue] = useState(50);
+    const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newVolume: number = parseFloat(event.target.value);
+      setVolume(newVolume);
+      audioRef.current.volume = newVolume;
+      setVolumeDisplayValue(Math.round(newVolume * 100)); // Use newVolume instead of volume
+    };
+   
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
@@ -475,28 +498,115 @@ export default function Gameplay() {
                         </div>
                     </div>
                     {/* End of game board */}
-                    <div className="flex flex-row items-center justify-between mt-10">
-                        <div className="flex flex-row space-x-1.5 items-center justify-center ml-14 3xl:ml-28 4xl:ml-14">
-                            <Button
-                                className="p-0 bg-transparent rounded-full"
-                                onClick={togglePlay}
+                    <div className="flex flex-row items-center justify-between w-full mt-10">
+                    <div className="relative flex flex-row space-x-4 items-center justify-center border border-gray-800 rounded-full p-4">
+                            <button
+                            className="p-0 bg-transparent rounded-full"
+                            onClick={togglePlay}
                             >
+                            <img
+                                src={isPlaying ? unmuteImage : muteImage}
+                                width={45}
+                                height={45}
+                                alt="toggle play"
+                                className="rounded-full"
+                            />
+                            </button>
+                            <div className="w-full flex gap-2 justify-center items-center">
+                            <h4 className="text-sm text-left text-[#656C7D]">Playing:</h4>
+                            <h4 className="text-lg text-[#9398A2] text-left">
+                                Storms in Africa
+                            </h4>
+                            </div>
+                            <img
+                            src={isDropdownOpen? arrowdown : arrowup}
+                            alt="see song"
+                            width={20}
+                            height={20}
+                            className="ml-4 cursor-pointer"
+                            onClick={toggleDropdown}
+                            />
+
+
+                            {isDropdownOpen && (
+                            <div className="absolute bottom-20 left-[7%] bg-[#191c226c] rounded-md shadow-lg px-6 py-4 z-50 w-[240px]">
+                                <div className="flex items-center justify-evenly">
                                 <img
-                                    src={isPlaying ? unmuteImage : muteImage}
-                                    width={65}
-                                    height={65}
-                                    alt="restart"
+                                    src={playprevious}
+                                    width={30}
+                                    height={30}
+                                    alt="toggle play previous"
                                     className="rounded-full"
                                 />
-                            </Button>
-                            <div className="ml-2.5">
-                                <h4 className="text-lg text-left text-[#9398A2]">Enya</h4>
-                                <h4 className="text-sm text-[#656C7D] text-left">
-                                    Storms in Africa
-                                </h4>
+                                <img
+                                    src={isPlaying ? pause : play}
+                                    width={50}
+                                    height={50}
+                                    alt="toggle play"
+                                    className="rounded-full"
+                                    onClick={togglePlay}
+                                />
+                                <img
+                                    src={playnext}
+                                    width={30}
+                                    height={30}
+                                    alt="toggle play next"
+                                    className="rounded-full"
+                                />
+                                </div>
+                                <div className="flex items-center justify-center mt-2 gap-2 bg-[#0c0c0c65] px-2 py-1 rounded-full">
+                                <img
+                                    src={unmuteImage}
+                                    width={15}
+                                    height={15}
+                                    alt="toggle play"
+                                    className="rounded-full"
+                                />
+                                <input
+                                    type="range"
+                                    name="volume"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value={volume}
+                                    onChange={handleVolumeChange}
+                                    style={{
+                                    // Custom track styling
+                                    background: `linear-gradient(to right, #da782dce 0%, #da782dce ${volume * 100}%, #F58229 ${volume * 100}%, #F58229 100%)`,
+                                    // Hide the thumb by making it transparent and very small
+                                    WebkitAppearance: "none",
+                                    appearance: "none",
+                                    width: "100%",
+                                    height: "6px",
+                                    borderRadius: "full",
+                                    }}
+                                    className="w-20 h-4 rounded-full"
+                                />
+                                <span className="flex text-sm text-[#e7a470e7]">{volumeDisplayValue}</span>
+                                <style>{`
+                                    /* Custom styles for the input thumb */
+                                    input[type="range"]::-webkit-slider-thumb {
+                                    -webkit-appearance: none;
+                                    appearance: none;
+                                    width: 0; /* width of the thumb */
+                                    height: 0; /* height of the thumb */
+                                    background: transparent; /* thumb background color */
+                                    cursor: pointer;
+                                    }
+                                
+                                    input[type="range"]::-moz-range-thumb {
+                                    width: 0;
+                                    height: 0;
+                                    background: transparent;
+                                    border: none;
+                                    cursor: pointer;
+                                    }
+                                `}</style>
+                                </div>
                             </div>
+                            )}
                         </div>
-                        <div className="border border-[#27292F] py-3.5 px-7 rounded-3xl backdrop-blur-sm">
+                        <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
                             <MessageArea
                                 game_metadata_error={game_metadata_error}
                                 game_players_error={game_metadata_error}
