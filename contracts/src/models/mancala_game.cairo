@@ -58,6 +58,7 @@ trait MancalaGameTrait {
     fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer);
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
+    fn restart_game(game_id: u128, player_one: ContractAddress, player_two: ContractAddress)-> MancalaGame;
 }
 
 
@@ -75,6 +76,7 @@ impl MancalaImpl of MancalaGameTrait {
         };
         mancala_game
     }
+
 
     // player two can join the game
     fn join_game(ref self: MancalaGame, player_two: GamePlayer) {
@@ -270,5 +272,19 @@ impl MancalaImpl of MancalaGameTrait {
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8) {
         (player_one.mancala, player_two.mancala)
+    }
+
+    // restart the game 
+    fn restart_game(game_id: u128, player_one: ContractAddress, player_two: ContractAddress)-> MancalaGame{
+     let mancala_game: MancalaGame = MancalaGame {
+            game_id: game_id,
+            player_one: player_one,
+            player_two: player_two,
+            winner: ContractAddressZeroable::zero(),
+            current_player: player_one,
+            status: GameStatus::Pending,
+            is_private: false
+        };
+        mancala_game
     }
 }
