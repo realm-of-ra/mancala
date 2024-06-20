@@ -15,6 +15,7 @@ import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
+import {Link} from "react-router-dom";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);
@@ -107,9 +108,9 @@ export default function Header() {
             </div>
             <div className="h-[100px] w-[800px]">
                 <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
-                    <a href="/" className="mb-4">
-                        <img src={mancala} className="h-10 w-36" />
-                    </a>
+                    <Link to="/" className="mb-4">
+                        <img alt={"Mancala logo"} src={mancala} className="h-10 w-36" />
+                    </Link>
                 </div>
             </div>
             <div className="flex-1 w-full -ml-16">
