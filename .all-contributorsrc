@@ -61,6 +61,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "TAdev0",
+      "name": "Tristan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/122918260?v=4",
+      "profile": "https://nodeguardians.io/character/tadev-guardian ",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ]
 }
