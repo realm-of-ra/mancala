@@ -191,6 +191,10 @@
       {
         "name": "Forfeited",
         "type": "()"
+      },
+      {
+        "name": "TimeOut",
+        "type": "()"
       }
     ]
   },
@@ -227,6 +231,14 @@
       {
         "name": "current_player",
         "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "last_move",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "time_between_move",
+        "type": "core::integer::u64"
       },
       {
         "name": "winner",
