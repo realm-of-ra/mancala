@@ -1,8 +1,7 @@
-use core::traits::Into;
-use starknet::ContractAddress;
-use starknet::contract_address::ContractAddressZeroable;
+use core::starknet::{ContractAddress, SyscallResultTrait};
+use core::starknet::contract_address::ContractAddressZeroable;
+use core::starknet::info::get_execution_info_syscall;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // this is the model to track the 
@@ -21,6 +20,7 @@ enum GameStatus {
     InProgress: (),
     Finished: (),
     Forfeited: (),
+    TimeOut: (),
 }
 
 #[derive(Model, Copy, Drop, Serde)]
@@ -30,12 +30,13 @@ struct MancalaGame {
     player_one: ContractAddress,
     player_two: ContractAddress,
     current_player: ContractAddress,
+    last_move: u64,
+    time_between_move: u64,
     winner: ContractAddress,
     status: GameStatus,
     is_private: bool
 // block_created: block
 }
-
 
 trait MancalaGameTrait {
     fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame;
@@ -49,7 +50,8 @@ trait MancalaGameTrait {
         ref seeds: u8,
         selected_pit: u8
     );
-    fn validate_move(self: MancalaGame, player: ContractAddress, selected_pit: u8);
+    fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8);
+    fn validate_time_out(ref self: MancalaGame, player: ContractAddress);
     fn handle_player_switch(ref self: MancalaGame, last_pit: u8, opponent: GamePlayer);
     fn capture(
         self: MancalaGame, last_pit: u8, ref current_player: GamePlayer, ref opponent: GamePlayer
@@ -58,8 +60,8 @@ trait MancalaGameTrait {
     fn set_winner(ref self: MancalaGame, current_player: GamePlayer, opponent: GamePlayer);
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
+    fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
 }
-
 
 impl MancalaImpl of MancalaGameTrait {
     // create the game
@@ -68,6 +70,13 @@ impl MancalaImpl of MancalaGameTrait {
             game_id: game_id,
             player_one: player_one,
             player_two: ContractAddressZeroable::zero(),
+            last_move: get_execution_info_syscall()
+                .unwrap_syscall()
+                .unbox()
+                .block_info
+                .unbox()
+                .block_timestamp,
+            time_between_move: 100,
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
             status: GameStatus::Pending,
@@ -97,14 +106,33 @@ impl MancalaImpl of MancalaGameTrait {
 
     // perform validation to ensure that the caller is the current player 
     // also validate that the selected pit is within range
-    fn validate_move(self: MancalaGame, player: ContractAddress, selected_pit: u8) {
-        assert!(self.status != GameStatus::Finished, "Game is already Finished");
+    fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8) {
         if player != self.current_player {
             panic!("You are not the current player");
         }
         if selected_pit < 1 || selected_pit > 6 {
             panic!("Invalid pit, choose between 1 and 6");
         }
+    }
+
+    // perform validation to ensure that the current player did not exceed
+    // the time allocated to make a move
+    fn validate_time_out(ref self: MancalaGame, player: ContractAddress) {
+        let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
+        let block_info = execution_info.block_info.unbox();
+
+        if player == self.player_one && self.last_move > block_info.block_number
+            + self.time_between_move {
+            self.winner = self.player_two;
+            self.status = GameStatus::TimeOut;
+        }
+        if player == self.player_two && self.last_move > block_info.block_number
+            + self.time_between_move {
+            self.winner = self.player_one;
+            self.status = GameStatus::TimeOut;
+        }
+
+        self.last_move = block_info.block_number;
     }
 
     // get the seeds in a pit
@@ -260,15 +288,18 @@ impl MancalaImpl of MancalaGameTrait {
         }
     }
 
-
     // check to see if either players pits are all empty
     fn is_game_finished(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> bool {
         player_one.is_finished() || player_two.is_finished()
     }
 
-
     // get the mancalas of players
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8) {
         (player_one.mancala, player_two.mancala)
+    }
+
+    // get the block number of the last move
+    fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
+        self.last_move
     }
 }

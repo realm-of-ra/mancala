@@ -1,4 +1,4 @@
-use starknet::ContractAddress;
+use core::starknet::ContractAddress;
 
 // useful for the leaderboard to track statistics
 #[derive(Model, Copy, Drop, Serde)]
