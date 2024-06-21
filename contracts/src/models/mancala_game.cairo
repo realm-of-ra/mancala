@@ -61,6 +61,7 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
+    fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
 }
 
 impl MancalaImpl of MancalaGameTrait {
@@ -301,5 +302,17 @@ impl MancalaImpl of MancalaGameTrait {
     // get the block number of the last move
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
         self.last_move
+    }
+
+    // player forfeit action
+    fn forfeit_game(ref self: MancalaGame, player: ContractAddress) {
+        if player == self.player_one {
+            self.winner = self.player_two;
+            self.status = GameStatus::Forfeited;
+        }
+        if player == self.player_two {
+            self.winner = self.player_one;
+            self.status = GameStatus::Forfeited;
+        }
     }
 }
