@@ -19,7 +19,7 @@ import {
     pause,
     playnext,
     playprevious,
-    arrowup,
+    speaker,
     arrowdown
 } from "../../constants/icons_store";
 
@@ -499,27 +499,27 @@ export default function Gameplay() {
                     </div>
                     {/* End of game board */}
                     <div className="flex flex-row items-center justify-between w-full mt-10">
-                    <div className="relative flex flex-row space-x-4 items-center justify-center border border-gray-800 rounded-full p-4">
+                    <div className="relative flex flex-row gap-2 items-center justify-center border border-gray-800 rounded-full py-2 px-4 cursor-pointer" onClick={toggleDropdown}>
                             <button
-                            className="p-0 bg-transparent rounded-full"
+                            className="p-0 bg-transparent rounded-full cursor-pointer"
                             onClick={togglePlay}
                             >
                             <img
                                 src={isPlaying ? unmuteImage : muteImage}
-                                width={45}
+                                width={65}
                                 height={45}
                                 alt="toggle play"
                                 className="rounded-full"
                             />
                             </button>
-                            <div className="w-full flex gap-2 justify-center items-center">
-                            <h4 className="text-sm text-left text-[#656C7D]">Playing:</h4>
-                            <h4 className="text-lg text-[#9398A2] text-left">
+                            <div className="w-full flex gap-2 -ml-2 justify-center items-center">
+                            <h4 className="text-sm text-left text-[#656C7D]">Playing -</h4>
+                            <h4 className="text-md text-[#e6e6e6] text-left">
                                 Storms in Africa
                             </h4>
                             </div>
                             <img
-                            src={isDropdownOpen? arrowdown : arrowup}
+                            src={arrowdown}
                             alt="see song"
                             width={20}
                             height={20}
@@ -529,21 +529,21 @@ export default function Gameplay() {
 
 
                             {isDropdownOpen && (
-                            <div className="absolute bottom-20 left-[7%] bg-[#191c226c] rounded-md shadow-lg px-6 py-4 z-50 w-[240px]">
-                                <div className="flex items-center justify-evenly">
+                                <div className="absolute bottom-20 left-[7%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[240px]">
+                                <div className="flex items-center gap-1 justify-center">
                                 <img
                                     src={playprevious}
                                     width={30}
                                     height={30}
                                     alt="toggle play previous"
-                                    className="rounded-full"
+                                    className="rounded-full cursor-pointer"
                                 />
                                 <img
-                                    src={isPlaying ? pause : play}
-                                    width={50}
-                                    height={50}
+                                    src={isPlaying ? unmuteImage : muteImage}
+                                    width={70}
+                                    height={70}
                                     alt="toggle play"
-                                    className="rounded-full"
+                                    className="rounded-full cursor-pointer"
                                     onClick={togglePlay}
                                 />
                                 <img
@@ -551,14 +551,14 @@ export default function Gameplay() {
                                     width={30}
                                     height={30}
                                     alt="toggle play next"
-                                    className="rounded-full"
+                                    className="rounded-full cursor-pointer"
                                 />
                                 </div>
                                 <div className="flex items-center justify-center mt-2 gap-2 bg-[#0c0c0c65] px-2 py-1 rounded-full">
                                 <img
-                                    src={unmuteImage}
-                                    width={15}
-                                    height={15}
+                                    src={speaker}
+                                    width={20}
+                                    height={20}
                                     alt="toggle play"
                                     className="rounded-full"
                                 />
@@ -572,36 +572,17 @@ export default function Gameplay() {
                                     onChange={handleVolumeChange}
                                     style={{
                                     // Custom track styling
-                                    background: `linear-gradient(to right, #da782dce 0%, #da782dce ${volume * 100}%, #F58229 ${volume * 100}%, #F58229 100%)`,
+                                    background: `linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)`,
                                     // Hide the thumb by making it transparent and very small
                                     WebkitAppearance: "none",
                                     appearance: "none",
                                     width: "100%",
-                                    height: "6px",
+                                    height: "12px",
                                     borderRadius: "full",
                                     }}
-                                    className="w-20 h-4 rounded-full"
+                                    className="w-20 h-4 rounded-full cursor-grab"
                                 />
-                                <span className="flex text-sm text-[#e7a470e7]">{volumeDisplayValue}</span>
-                                <style>{`
-                                    /* Custom styles for the input thumb */
-                                    input[type="range"]::-webkit-slider-thumb {
-                                    -webkit-appearance: none;
-                                    appearance: none;
-                                    width: 0; /* width of the thumb */
-                                    height: 0; /* height of the thumb */
-                                    background: transparent; /* thumb background color */
-                                    cursor: pointer;
-                                    }
-                                
-                                    input[type="range"]::-moz-range-thumb {
-                                    width: 0;
-                                    height: 0;
-                                    background: transparent;
-                                    border: none;
-                                    cursor: pointer;
-                                    }
-                                `}</style>
+                                <span className="flex text-sm text-[#FCE3AA]">{volumeDisplayValue}</span>
                                 </div>
                             </div>
                             )}
