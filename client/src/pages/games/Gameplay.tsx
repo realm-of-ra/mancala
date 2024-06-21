@@ -15,12 +15,10 @@ import {
   unmuteImage,
   leaderboard,
   message,
-  play,
-  pause,
   playnext,
   playprevious,
   speaker,
-  arrowdown,
+  arrowup,
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
@@ -532,7 +530,7 @@ export default function Gameplay() {
                 </h4>
               </div>
               <img
-                src={arrowdown}
+                src={arrowup}
                 alt="see song"
                 width={20}
                 height={20}
