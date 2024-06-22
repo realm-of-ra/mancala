@@ -249,6 +249,26 @@
           }
         ],
         "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "restart_game",
+        "inputs": [
+          {
+            "name": "player_two_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          },
+          {
+            "name": "private",
+            "type": "core::bool"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "mancala::models::mancala_game::MancalaGame"
+          }
+        ],
+        "state_mutability": "view"
       }
     ]
   },

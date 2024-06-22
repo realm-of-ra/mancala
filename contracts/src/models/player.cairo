@@ -28,11 +28,28 @@ struct GamePlayer {
 trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer;
 }
 
 impl GamePlayerImpl of GamePlayerTrait {
     // logic to create the game player
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer {
+        let game_player = GamePlayer {
+            address: address,
+            game_id: game_id,
+            pit1: 4_u8,
+            pit2: 4_u8,
+            pit3: 4_u8,
+            pit4: 4_u8,
+            pit5: 4_u8,
+            pit6: 4_u8,
+            mancala: 0
+        };
+        game_player
+    }
+
+    // restart the game 
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer {
         let game_player = GamePlayer {
             address: address,
             game_id: game_id,

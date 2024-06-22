@@ -108,6 +108,22 @@ mod tests {
 
     #[test]
     #[available_gas(3000000000000)]
+    fn test_restart_function() {
+        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
+        let player_two_address = starknet::contract_address_const::<0x456>();
+
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+        let game_two: MancalaGame = actions_system.create_game();
+        assert!(game_two.game_id == 2, "incorrect id set");
+        let game_three: MancalaGame = actions_system.restart_game(player_two_address, true);
+        assert!(game_three.game_id == 3, "incorrect id set 3");
+        assert!(game_three.player_two == player_two_address, "incorrect player 2");
+        assert!(game_three.is_private == true, "incorrect is_private result");
+    }
+
+
+    #[test]
+    #[available_gas(3000000000000)]
     fn test_move_pit1() {
         let (player_one, player_two, world, actions_system, game, _) = setup_game();
         let selected_pit: u8 = 1;

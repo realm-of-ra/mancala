@@ -14,6 +14,7 @@ trait IActions {
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
     fn test_func(game_id: u128) -> bool;
+    fn restart_game(player_two_address: ContractAddress, private: bool) -> MancalaGame;
 }
 
 // dojo decorator
@@ -51,6 +52,7 @@ mod actions {
             set!(world, (player_one, mancala_game, game_id));
             mancala_game
         }
+
 
         // player two can join the game
         // todo in the unit tests using the set_caller_address was not working so for now passing in the player_two_address
@@ -140,9 +142,23 @@ mod actions {
             mancala_game.is_game_finished(player_one, player_two)
         }
 
-        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool{
+        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool {
             let _mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             true
+        }
+
+        fn restart_game(
+            world: IWorldDispatcher, player_two_address: ContractAddress, private: bool
+        ) -> MancalaGame {
+            let player_one_address = get_caller_address();
+            let mut game_id: GameId = get!(world, 1, (GameId));
+            let player_one = GamePlayerTrait::restart_game(game_id.game_id, player_one_address);
+            let mancala_game: MancalaGame = MancalaGameTrait::restart_game(
+                game_id.game_id, player_one_address, player_two_address, private
+            );
+            game_id.game_id += 1;
+            set!(world, (player_one, mancala_game, game_id));
+            mancala_game
         }
     }
 }
