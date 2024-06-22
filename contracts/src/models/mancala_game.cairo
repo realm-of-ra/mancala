@@ -233,6 +233,9 @@ impl MancalaImpl of MancalaGameTrait {
         second_player.pit5 = 4;
         second_player.pit6 = 4;
         second_player.mancala = 0;
+        //after the game resets the reset parameter should go back to false
+        self.player_one_restart == false;
+        self.player_two_restart == false;
     }
 
     // todo make this a private function
