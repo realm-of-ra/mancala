@@ -141,6 +141,48 @@
     ]
   },
   {
+    "type": "struct",
+    "name": "mancala::models::player::GamePlayer",
+    "members": [
+      {
+        "name": "address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "game_id",
+        "type": "core::integer::u128"
+      },
+      {
+        "name": "pit1",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "pit2",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "pit3",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "pit4",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "pit5",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "pit6",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "mancala",
+        "type": "core::integer::u8"
+      }
+    ]
+  },
+  {
     "type": "interface",
     "name": "mancala::systems::actions::IActions",
     "items": [
@@ -173,6 +215,26 @@
           {
             "name": "player_two_address",
             "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "reset_game",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "player_one",
+            "type": "mancala::models::player::GamePlayer"
+          },
+          {
+            "name": "player_two",
+            "type": "mancala::models::player::GamePlayer"
           }
         ],
         "outputs": [],

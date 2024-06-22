@@ -9,6 +9,7 @@ trait IActions {
     fn create_initial_game_id();
     fn create_game() -> MancalaGame;
     fn join_game(game_id: u128, player_two_address: ContractAddress);
+    fn reset_game(game_id: u128, player_one: GamePlayer, player_two: GamePlayer);
     fn create_private_game(player_two_address: ContractAddress) -> MancalaGame;
     fn move(game_id: u128, selected_pit: u8) -> (ContractAddress, GameStatus);
     fn time_out(game_id: u128);
@@ -63,6 +64,14 @@ mod actions {
             let player_two = GamePlayerTrait::new(mancala_game.game_id, player_two_address);
             mancala_game.join_game(player_two);
             set!(world, (player_two, mancala_game));
+        }
+
+        //reset all pits to the initial state
+        fn reset_game(world: IWorldDispatcher, game_id: u128, player_one: GamePlayer, player_two: GamePlayer) {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress. Cannot reset game");
+            mancala_game.reset_game(player_one, player_two);
+            set!(world, (mancala_game));
         }
 
         // this is logic to create a private game

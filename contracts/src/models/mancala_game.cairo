@@ -43,6 +43,7 @@ trait MancalaGameTrait {
     fn join_game(ref self: MancalaGame, player_two: GamePlayer);
     fn get_seeds(self: MancalaGame, player: GamePlayer, selected_pit: u8) -> u8;
     fn clear_pit(ref self: MancalaGame, ref player: GamePlayer, selected_pit: u8);
+    fn reset_game(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer);
     fn distribute_seeds(
         ref self: MancalaGame,
         ref current_player: GamePlayer,
@@ -201,6 +202,25 @@ impl MancalaImpl of MancalaGameTrait {
         };
         self.handle_player_switch(last_pit, opponent);
         self.capture(last_pit, ref current_player, ref opponent);
+    }
+
+    fn reset_game(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) {
+        let mut first_player = player_one;
+        let mut second_player = player_two;
+        first_player.pit1 = 4;
+        first_player.pit2 = 4;
+        first_player.pit3 = 4;
+        first_player.pit4 = 4;
+        first_player.pit5 = 4;
+        first_player.pit6 = 4;
+        first_player.mancala = 0;
+        second_player.pit1 = 4;
+        second_player.pit2 = 4;
+        second_player.pit3 = 4;
+        second_player.pit4 = 4;
+        second_player.pit5 = 4;
+        second_player.pit6 = 4;
+        second_player.mancala = 0;
     }
 
     // todo make this a private function
