@@ -114,7 +114,7 @@ export default function Header() {
                             </div>
                             <div>
                                 <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : truncateString(address)}</h3>
-                                <h4 className="text-sm text-[#F58229] text-start">{player[0]?.wins < 4 ? "Level 1" : `Level ${Math.round(player[0]?.wins % 4)}`}</h4>
+                                <h4 className="text-sm text-[#F58229] text-start">{player[0]?.wins < 4 ? "Level 1" : `Level ${player[0]?.wins < 4 ? 1 : (Math.floor(player[0]?.wins / 4))}`}</h4>
                             </div>
                         </div>
                     ) : (

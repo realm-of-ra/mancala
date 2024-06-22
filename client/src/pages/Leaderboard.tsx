@@ -163,7 +163,7 @@ export default function Leaderboard() {
                                                 <p
                                                     className="font-normal text-[#FAB580]"
                                                 >
-                                                    Level {wins < 4 ? 1 : Math.round(wins % 4)}
+                                                    Level {wins < 4 ? 1 : (Math.floor(wins / 4))}
                                                 </p>
                                             </td>
                                             <td className={clsx(!isLast && "border-b border-[#23272F]", "w-[33%]")}>
