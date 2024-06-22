@@ -75,7 +75,7 @@ export default function PlayersLobby({ data }: { data: any }) {
                                             </Typography>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4))}</Typography>
+                                            <Typography className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4) + 1)}</Typography>
                                         </td>
                                         <td>
                                             <Typography className="font-normal text-[#FAB580] text-center">{wins * 50}</Typography>
