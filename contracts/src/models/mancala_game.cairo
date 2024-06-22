@@ -30,6 +30,8 @@ struct MancalaGame {
     player_one: ContractAddress,
     player_two: ContractAddress,
     current_player: ContractAddress,
+    player_one_restart: bool,
+    player_two_restart: bool,
     last_move: u64,
     time_between_move: u64,
     winner: ContractAddress,
@@ -81,6 +83,8 @@ impl MancalaImpl of MancalaGameTrait {
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
             status: GameStatus::Pending,
+            player_one_restart: false,
+            player_two_restart: false,
             is_private: false
         };
         mancala_game
@@ -207,6 +211,14 @@ impl MancalaImpl of MancalaGameTrait {
     fn reset_game(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) {
         let mut first_player = player_one;
         let mut second_player = player_two;
+        //change my restart status to true
+        if self.current_player == self.player_one {
+            self.player_one_restart = true;
+        } else {
+            self.player_two_restart = true;
+        }
+        //validate that both players have agreed to restart the game
+        assert!(self.player_one_restart == true && self.player_two_restart == true, "Both players have not agreed to restart the game");
         first_player.pit1 = 4;
         first_player.pit2 = 4;
         first_player.pit3 = 4;
