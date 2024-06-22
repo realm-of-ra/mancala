@@ -57,8 +57,6 @@ export default function Leaderboard() {
         })()
     }, [addresses]);
 
-    console.log(data);
-
     return (
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
             {/* Start of header */}

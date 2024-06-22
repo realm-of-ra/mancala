@@ -51,3 +51,34 @@ export function getPlayers(data: any) {
   }, []);
   return players;
 }
+
+export function getPlayer(data: any, address: string) {
+  const playerStats = data?.reduce((acc: any, edge: any) => {
+    const { player_one, player_two, winner } = edge.node;
+
+    if (player_one === address || player_two === address) {
+      const playerAddress = player_one === address ? player_one : player_two;
+      const isWinner = winner === address;
+
+      const playerIndex = acc.findIndex((player: any) => player.address === playerAddress);
+      if (playerIndex !== -1) {
+        if (isWinner) {
+          acc[playerIndex].wins++;
+        } else {
+          acc[playerIndex].losses++;
+        }
+        acc[playerIndex].totalAppearances++;
+      } else {
+        acc.push({ address: playerAddress, wins: isWinner ? 1 : 0, losses: isWinner ? 0 : 1, totalAppearances: 1 });
+      }
+    }
+
+    return acc;
+  }, []);
+
+  if (playerStats?.length === 0) {
+    return [{ address, wins: 0, losses: 0, totalAppearances: 0 }];
+  }
+
+  return playerStats;
+}
