@@ -12,7 +12,7 @@ mod tests {
     use mancala::{
         // systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus}},
+        models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus, MancalaImpl}},
         models::{player::{GamePlayer}}
     };
 
@@ -163,7 +163,16 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_capture() {
-        assert!(0 == 0, "todo implement");
+        let (mut player1, mut player2, _, _, mut game, _) = setup_game();
+        game.status = GameStatus::InProgress;
+        let last_pit: u8 = 3;
+        assert!(game.status == GameStatus::InProgress, "Game is not in progress");
+        player1.pit3 = 1;
+        let pit4 = player2.pit4;
+        assert!(player1.mancala == 0, "incorrect initial mancala count");
+        MancalaImpl::capture(game, last_pit, ref player1, ref player2);
+        assert!(player1.pit3 == 0, "pit3 does not have correct count");
+        assert!(player1.mancala == pit4 + 1, "pit not captured");
     }
 
     #[test]
