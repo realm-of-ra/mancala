@@ -3,17 +3,13 @@ mod tests {
     use core::starknet::{ContractAddress, get_caller_address};
     use core::starknet::class_hash::Felt252TryIntoClassHash;
     use core::starknet::testing::{set_block_number, set_caller_address};
-    // import world dispatcher
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    // import test utils
     use dojo::test_utils::{spawn_test_world, deploy_contract};
-    // import test utils
 
     use mancala::{
-        // systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus}},
-        models::{player::{GamePlayer}}
+        models::{player::{GamePlayer, Player}}
     };
 
     fn setup_game() -> (
@@ -29,9 +25,6 @@ mod tests {
         let actions_system = IActionsDispatcher { contract_address: contract_address };
         actions_system.create_initial_game_id();
         let game: MancalaGame = actions_system.create_game();
-        // set caller address to address two so game can be joined
-        // for some reason this is not working in the test
-        // set_caller_address(player_two_address);
         actions_system.join_game(game.game_id, player_two_address);
         let player_one: GamePlayer = get!(world, (player_one_address, game.game_id), (GamePlayer));
         let player_two: GamePlayer = get!(world, (player_two_address, game.game_id), (GamePlayer));
@@ -134,7 +127,6 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_move_pit3() {
-        // test that the seed should go in mancala and current player should remain the same
         let (player_one, _, world, actions_system, game, _) = setup_game();
         let selected_pit: u8 = 3;
         let (_, game_status_after_move) = actions_system.move(game.game_id, selected_pit);
@@ -158,20 +150,11 @@ mod tests {
         assert!(game_status_after_move == GameStatus::InProgress, "game is not in progress");
     }
 
-    // todo this test needs to be implemented
-    // need to figure out how to change the caller address when calling actions_system.move()
-    #[test]
-    #[available_gas(3000000000000)]
-    fn test_capture() {
-        assert!(0 == 0, "todo implement");
-    }
-
     #[test]
     #[should_panic]
     fn test_cannot_move_if_game_finished() {
         let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
         mancala_game.status = GameStatus::Finished;
-        // the below line should panic
         set!(world, (mancala_game));
         let selected_pit: u8 = 1;
         actions_system.move(mancala_game.game_id, selected_pit);
@@ -184,7 +167,6 @@ mod tests {
         mancala_game.status = GameStatus::TimeOut;
         set!(world, (mancala_game));
         let selected_pit: u8 = 1;
-        // the below line should panic
         actions_system.move(mancala_game.game_id, selected_pit);
     }
 
@@ -192,7 +174,6 @@ mod tests {
     #[should_panic(expected: ("Game is in progress", 0x454e545259504f494e545f4641494c4544))]
     fn test_cannot_call_timeout_if_move_is_allowed() {
         let (_, _, _, actions_system, game, _) = setup_game();
-        // the below line should panic
         actions_system.time_out(game.game_id);
     }
 
@@ -229,4 +210,46 @@ mod tests {
         );
         assert!(mancala_game_after_move.winner == player_one.address, "winner is not player one");
     }
-}
+
+    // New tests for the updated Player model
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_initialize_player() {
+        let world = spawn_test_world(array![mancala_game::TEST_CLASS_HASH]);
+        let contract_address = world
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        let player_address = starknet::contract_address_const::<0x123>();
+        actions_system.initialize_player(player_address);
+
+        let player: Player = get!(world, player_address, (Player));
+        assert!(player.address == player_address, "Player address not set correctly");
+        assert!(player.games_won.len() == 0, "Games won should be empty");
+        assert!(player.games_lost.len() == 0, "Games lost should be empty");
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_finish_game() {
+        let (player_one, player_two, world, actions_system, game, _) = setup_game();
+        
+        // Initialize players
+        actions_system.initialize_player(player_one.address);
+        actions_system.initialize_player(player_two.address);
+
+        // Set game as finished with player_one as winner
+        let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
+        mancala_game.status = GameStatus::Finished;
+        mancala_game.winner = player_one.address;
+        set!(world, (mancala_game));
+
+        actions_system.finish_game(game.game_id);
+
+        let winner: Player = get!(world, player_one.address, (Player));
+        let loser: Player = get!(world, player_two.address, (Player));
+
+        assert!(winner.games_won.len() == 1, "Winner should have 1 game won");
+        assert!(winner.games_won[0] == game.game_id, "Winner's game ID should match");
+        assert!(winner.games_lost.len() == 0, "Winner should have 0 games lost");
