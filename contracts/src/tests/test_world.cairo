@@ -253,3 +253,72 @@ mod tests {
         assert!(winner.games_won.len() == 1, "Winner should have 1 game won");
         assert!(winner.games_won[0] == game.game_id, "Winner's game ID should match");
         assert!(winner.games_lost.len() == 0, "Winner should have 0 games lost");
+
+        assert!(loser.games_lost.len() == 1, "Loser should have 1 game lost");
+        assert!(loser.games_lost[0] == game.game_id, "Loser's game ID should match");
+        assert!(loser.games_won.len() == 0, "Loser should have 0 games won");
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_get_player_history() {
+        let world = spawn_test_world(array![mancala_game::TEST_CLASS_HASH]);
+        let contract_address = world
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        let player_address = starknet::contract_address_const::<0x123>();
+        actions_system.initialize_player(player_address);
+
+        // Manually add some game IDs to the player's history
+        let mut player: Player = get!(world, player_address, (Player));
+        player.games_won.append(1);
+        player.games_won.append(2);
+        player.games_lost.append(3);
+        set!(world, (player));
+
+        let (games_won, games_lost) = actions_system.get_player_history(player_address);
+
+        assert!(games_won.len() == 2, "Should have 2 games won");
+        assert!(games_won[0] == 1, "First won game should be 1");
+        assert!(games_won[1] == 2, "Second won game should be 2");
+        assert!(games_lost.len() == 1, "Should have 1 game lost");
+        assert!(games_lost[0] == 3, "Lost game should be 3");
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_move_updates_player_history() {
+        let (player_one, player_two, world, actions_system, game, _) = setup_game();
+        
+        // Initialize players
+        actions_system.initialize_player(player_one.address);
+        actions_system.initialize_player(player_two.address);
+
+        // Set up the game so it will finish after one move
+        let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
+        let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+        p1.pit1 = 1;
+        p1.pit2 = 0;
+        p1.pit3 = 0;
+        p1.pit4 = 0;
+        p1.pit5 = 0;
+        p1.pit6 = 0;
+        set!(world, (mancala_game, p1));
+
+        // Make the move that should finish the game
+        actions_system.move(game.game_id, 1);
+
+        // Check player histories
+        let (p1_won, p1_lost) = actions_system.get_player_history(player_one.address);
+        let (p2_won, p2_lost) = actions_system.get_player_history(player_two.address);
+
+        assert!(p1_won.len() == 1, "Player one should have won 1 game");
+        assert!(p1_won[0] == game.game_id, "Player one's won game should match");
+        assert!(p1_lost.len() == 0, "Player one should have lost 0 games");
+
+        assert!(p2_won.len() == 0, "Player two should have won 0 games");
+        assert!(p2_lost.len() == 1, "Player two should have lost 1 game");
+        assert!(p2_lost[0] == game.game_id, "Player two's lost game should match");
+    }
+}
