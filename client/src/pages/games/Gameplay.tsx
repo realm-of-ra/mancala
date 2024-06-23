@@ -506,9 +506,10 @@ export default function Gameplay() {
             </div>
           </div>
           {/* End of game board */}
-          <div className="flex flex-row items-center justify-between w-full mt-10">
+          <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <div
-              className="relative flex flex-row gap-2 items-center justify-center border border-gray-800 rounded-full py-2 px-4 cursor-pointer"
+              className="flex flex-row gap-2 items-center justify-center border border-gray-800 rounded-full py-2 px-4 cursor-pointer"
+              onClick={toggleDropdown}
             >
               <button
                 className="p-0 bg-transparent rounded-full cursor-pointer"
@@ -536,9 +537,9 @@ export default function Gameplay() {
                 className={`ml-4 cursor-pointer transform transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : "rotate-0"} opacity-40`}
                 onClick={toggleDropdown}
               />
-
-              {isDropdownOpen && (
-                <div className="absolute bottom-20 left-[5%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-12 py-4 z-50">
+            </div>
+            {isDropdownOpen && (
+                <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
                   <div className="flex items-center gap-1 justify-center">
                     <img
                       src={playprevious}
@@ -597,7 +598,6 @@ export default function Gameplay() {
                   </div>
                 </div>
               )}
-            </div>
             <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
               <MessageArea
                 game_metadata_error={game_metadata_error}
