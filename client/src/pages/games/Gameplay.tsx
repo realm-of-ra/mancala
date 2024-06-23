@@ -509,7 +509,6 @@ export default function Gameplay() {
           <div className="flex flex-row items-center justify-between w-full mt-10">
             <div
               className="relative flex flex-row gap-2 items-center justify-center border border-gray-800 rounded-full py-2 px-4 cursor-pointer"
-              onClick={toggleDropdown}
             >
               <button
                 className="p-0 bg-transparent rounded-full cursor-pointer"
