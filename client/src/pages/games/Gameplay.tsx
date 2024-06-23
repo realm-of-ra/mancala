@@ -538,7 +538,7 @@ export default function Gameplay() {
               />
 
               {isDropdownOpen && (
-                <div className="absolute bottom-20 left-[7%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[240px]">
+                <div className="absolute bottom-20 left-[5%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-12 py-4 z-50">
                   <div className="flex items-center gap-1 justify-center">
                     <img
                       src={playprevious}
