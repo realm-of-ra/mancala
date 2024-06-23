@@ -56,7 +56,7 @@ export default function PlayersLobby({ data }: { data: any }) {
                                 ))}
                             </tr>
                             <div className="w-full border-b border-[#313640] h-1 absolute inset-x-0 top-10" />
-                        </thead >
+                        </thead>
                         <tbody>
                             {players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
                                 const isLast = index === players.length - 1;
