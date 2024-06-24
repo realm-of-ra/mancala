@@ -1,4 +1,5 @@
 
+
 export default function DuelLoader() {
     return (
         <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
