@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
-import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
+import { LoadingSkeleton } from "@/components/loading-skeleton"
 
 export default function DuelsLobby({ games, transactions }: { games: any, transactions: any }) {
     const { provider } = useProvider();
