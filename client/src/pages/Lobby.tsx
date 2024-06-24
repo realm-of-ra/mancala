@@ -94,35 +94,6 @@ export default function Lobby() {
             setGameUrl(`${window.location.origin}/games/${gameId}`)
         }
     }, [gameId])
-
-    const { loading: yourDuelsLoading, error: yourDuelsError, data: yourDuelsData, startPolling: startYourDuelsPolling } = useQuery(
-        gql`
-            query {
-                mancalaGameModels(where: { current_player: "${account.account.address}" }) {
-                    edges {
-                    node {
-                        game_id
-                        player_one
-                        player_two
-                        current_player
-                        winner
-                        status
-                        is_private
-                    }
-                    }
-                }
-                transactions {
-                    edges {
-                    node {
-                        executedAt
-                            }
-                    }
-                }
-            }
-        `
-    )
-    startYourDuelsPolling(1000);
-
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
@@ -284,9 +255,9 @@ export default function Lobby() {
                                         }
                                     </TabsContent>
                                     <TabsContent value="duels">
-                                        {yourDuelsData && <DuelsLobby games={yourDuelsData.mancalaGameModels.edges} transactions={yourDuelsData.transactions.edges} />}
+                                        {data && <DuelsLobby games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
                                         {
-                                            yourDuelsLoading && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                            data && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
 
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24">
@@ -301,7 +272,7 @@ export default function Lobby() {
                                             </div>
                                         }
                                         {
-                                            yourDuelsError && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                            error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <p className="text-white">Error fetching your duels</p>
                                             </div>
                                         }
@@ -309,7 +280,7 @@ export default function Lobby() {
                                     <TabsContent value="live">
                                         {data && <LiveDuels games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
                                         {
-                                            loading && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                            loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24">
                                                     <path
@@ -320,10 +291,7 @@ export default function Lobby() {
                                                         stroke="#FCE3AA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" className="text-gray-900">
                                                     </path>
                                                 </svg>
-                                            </div>
-                                        }
-                                        {
-                                            error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                            </div> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <p className="text-white">Error fetching live duels</p>
                                             </div>
                                         }
