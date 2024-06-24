@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use starknet::{ContractAddress, get_caller_address};
-    use starknet::class_hash::Felt252TryIntoClassHash;
-    use starknet::testing::set_caller_address;
+    use core::starknet::{ContractAddress, get_caller_address};
+    use core::starknet::class_hash::Felt252TryIntoClassHash;
+    use core::starknet::testing::{set_block_number, set_caller_address};
     // import world dispatcher
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     // import test utils
@@ -177,6 +177,34 @@ mod tests {
         actions_system.move(mancala_game.game_id, selected_pit);
     }
 
+    #[test]
+    #[should_panic(expected: ("Game is not in progress", 0x454e545259504f494e545f4641494c4544))]
+    fn test_cannot_move_if_game_timeout() {
+        let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
+        mancala_game.status = GameStatus::TimeOut;
+        set!(world, (mancala_game));
+        let selected_pit: u8 = 1;
+        // the below line should panic
+        actions_system.move(mancala_game.game_id, selected_pit);
+    }
+
+    #[test]
+    #[should_panic(expected: ("Game is in progress", 0x454e545259504f494e545f4641494c4544))]
+    fn test_cannot_call_timeout_if_move_is_allowed() {
+        let (_, _, _, actions_system, game, _) = setup_game();
+        // the below line should panic
+        actions_system.time_out(game.game_id);
+    }
+
+    #[test]
+    fn test_can_call_timeout_once_enough_time_has_passed() {
+        let (_, player_two, world, actions_system, game, _) = setup_game();
+        set_block_number(10000);
+        actions_system.time_out(game.game_id);
+        let mancala_game_after_move = get!(world, (game.game_id), (MancalaGame));
+        assert!(mancala_game_after_move.status == GameStatus::TimeOut, "Game is not timed out");
+        assert!(mancala_game_after_move.winner == player_two.address, "winner is not player two");
+    }
 
     #[test]
     fn test_game_should_be_finished() {

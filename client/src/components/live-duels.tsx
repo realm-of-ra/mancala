@@ -143,7 +143,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                             </td>
                                             <td className="flex flex-row justify-center w-[200px]">
                                                 <Button
-                                                    className={clsx((games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address || (joinStatus?.status === "SUCCESS" && joinStatus.index === index)) ? "text-[#F58229]" : "text-[#BDC2CC80]/50", "bg-[#1A1D25] hover:bg-[#1A1D25] active:bg-[#1A1D25] rounded-3xl font-medium")}
+                                                    className={"text-[#F58229] bg-transparent active:bg-transparent hover:bg-transparent"}
                                                     onClick={(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? () => window.location.href = `/games/${games[index].node.game_id}` : () => join_game(games[index].node.game_id, index)}
                                                 >{(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? "Go to game" :
                                                     joinStatus?.status === "JOINING" && joinStatus.index == index ? <div className="flex flex-row items-center justify-center space-x-1">

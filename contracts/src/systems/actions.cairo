@@ -1,6 +1,6 @@
-use starknet::{ContractAddress};
-use mancala::models::{mancala_game::{MancalaGame, GameStatus}};
+use core::starknet::ContractAddress;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use mancala::models::{mancala_game::{MancalaGame, GameStatus}};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // define the interface
@@ -11,6 +11,7 @@ trait IActions {
     fn join_game(game_id: u128, player_two_address: ContractAddress);
     fn create_private_game(player_two_address: ContractAddress) -> MancalaGame;
     fn move(game_id: u128, selected_pit: u8) -> (ContractAddress, GameStatus);
+    fn time_out(game_id: u128);
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
     fn test_func(game_id: u128) -> bool;
@@ -19,12 +20,12 @@ trait IActions {
 // dojo decorator
 #[dojo::contract]
 mod actions {
-    use super::{IActions};
-    use starknet::{ContractAddress, get_caller_address};
-    use starknet::contract_address::ContractAddressZeroable;
+    use core::starknet::{ContractAddress, get_caller_address, SyscallResultTrait};
+    use core::starknet::contract_address::ContractAddressZeroable;
+    use core::starknet::info::get_execution_info_syscall;
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
     use mancala::models::{player::{GamePlayer, GamePlayerTrait}};
-    use core::array::Array;
+    use super::IActions;
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
@@ -90,7 +91,6 @@ mod actions {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
 
             // need to create validation for this status
-            assert!(mancala_game.status != GameStatus::Finished, "Game is already finished");
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
             assert!(
                 mancala_game.player_two != ContractAddressZeroable::zero(),
@@ -100,21 +100,48 @@ mod actions {
             let player: ContractAddress = get_caller_address();
 
             mancala_game.validate_move(player, selected_pit);
-            let (mut current_player, mut opponent) = mancala_game.get_players(world);
-            // Get seeds from the selected pit and validate it's not empty
-            let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
-            if seeds == 0 {
-                panic!("Selected pit is empty. Choose another pit.");
+            mancala_game.validate_time_out(player);
+
+            if mancala_game.status == GameStatus::InProgress {
+                let (mut current_player, mut opponent) = mancala_game.get_players(world);
+                // Get seeds from the selected pit and validate it's not empty
+                let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
+                if seeds == 0 {
+                    panic!("Selected pit is empty. Choose another pit.");
+                }
+                mancala_game.clear_pit(ref current_player, selected_pit);
+                mancala_game
+                    .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
+                if mancala_game.is_game_finished(current_player, opponent) {
+                    mancala_game.status = GameStatus::Finished;
+                    mancala_game.set_winner(current_player, opponent);
+                }
+                set!(world, (mancala_game, current_player, opponent));
+                // return the current player so client has ability to know
+                (mancala_game.current_player, mancala_game.status)
+            } else {
+                set!(world, (mancala_game));
+                (mancala_game.current_player, mancala_game.status)
             }
-            mancala_game.clear_pit(ref current_player, selected_pit);
-            mancala_game
-                .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
-            if mancala_game.is_game_finished(current_player, opponent) {
-                mancala_game.set_winner(current_player, opponent);
-            }
-            set!(world, (mancala_game, current_player, opponent));
-            // return the current player so client has ability to know
-            (mancala_game.current_player, mancala_game.status)
+        }
+
+        // set the game as `TimeOut` if a player hasn't made a move
+        fn time_out(world: IWorldDispatcher, game_id: u128) {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
+
+            let (_, mut opponent) = mancala_game.get_players(world);
+            let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
+            let block_info = execution_info.block_info.unbox();
+            assert!(
+                block_info.block_number >= mancala_game.last_move + mancala_game.time_between_move,
+                "Game is in progress"
+            );
+
+            mancala_game.status = GameStatus::TimeOut;
+            mancala_game.winner = opponent.address;
+
+            set!(world, (mancala_game));
         }
 
         // read function to get the score of a game taking in the game
