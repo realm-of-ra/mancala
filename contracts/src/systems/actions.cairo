@@ -17,8 +17,7 @@ trait IActions {
     fn initialize_player(player_address: ContractAddress);
     fn finish_game(game_id: u128);
     fn get_player_history(player_address: ContractAddress) -> (Array<u128>, Array<u128>);
-    fn player_one_forfeit(game_id: u128);
-    fn player_two_forfeit(game_id: u128);
+    fn forfeited(game_id: u128, player_address: ContractAddress);
 }
 
 #[dojo::contract]
@@ -208,20 +207,26 @@ mod actions {
             (player.games_won, player.games_lost)
         }
 
-        fn player_one_forfeit(world: IWorldDispatcher, game_id: u128){
+        fn forfeited(world: IWorldDispatcher, game_id: u128, player_address: ContractAddress){
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let current_player: GamePlayer = get!(
+                world, (mancala_game.current_player, mancala_game.game_id), (GamePlayer)
+            );
             let player_one: GamePlayer = get!(
                 world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
             );
-            mancala_game.forfeit_game(player_one)
-        }
-
-        fn player_two_forfeit(world: IWorldDispatcher, game_id: u128){
-            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             let player_two: GamePlayer = get!(
                 world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
             );
-            mancala_game.forfeit_game(player_two)
+            if player_address == player_one.address {
+                mancala_game.forfeit_game(player_one);
+            }
+            if player_address == player_two.address {
+                mancala_game.forfeit_game(player_two);
+            }
+            else {
+                mancala_game.forfeit_game(current_player)
+            }
         }
     }
 }

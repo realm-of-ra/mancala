@@ -338,4 +338,20 @@ mod tests {
         assert!(p2_lost.len() == 1, "Player two should have lost 1 game");
         assert!(p2_lost[0] == game.game_id, "Player two's lost game should match");
     }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_forfeited() {
+        let (player_one, player_two, world, actions_system, game, _) = setup_game();
+
+        // Initialize players
+        actions_system.initialize_player(player_one.address);
+        actions_system.initialize_player(player_two.address);
+        
+        //player_one forfeits
+        actions_system.forfeited(game.game_id, player_one.address);
+        let mancala_game_after = get!(world, (game.game_id), (MancalaGame));
+        assert!(mancala_game_after.status == GameStatus::InProgress, "Game is forfeited");
+        assert!(mancala_game_after.winner == player_one.address, "player_two is the winner");
+    }
 }
