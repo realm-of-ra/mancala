@@ -21,6 +21,7 @@ import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
+import DuelLoader from "@/components/lobby/duel-loader.tsx";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -61,7 +62,7 @@ export default function Lobby() {
         await system.create_private_game(account.account, player2, setGameId);
     }
 
-    const { loading, error, data, startPolling } = useQuery(
+    const { loading, error, data: lobbyPlayersData, startPolling } = useQuery(
         gql`
             query {
                 mancalaGameModels {
@@ -87,6 +88,7 @@ export default function Lobby() {
             }
         `
     )
+
     startPolling(1000);
     useEffect(() => {
         runOnceForever();
@@ -94,6 +96,9 @@ export default function Lobby() {
             setGameUrl(`${window.location.origin}/games/${gameId}`)
         }
     }, [gameId])
+
+    const isConnected = !!(connection?.isConnected);
+
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
@@ -126,7 +131,7 @@ export default function Lobby() {
                                     <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
                                 </Link>
                                 <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                                    disabled={!connection?.isConnected} onClick={handleOpen}>
+                                    disabled={!isConnected} onClick={handleOpen}>
                                     <div className="flex flex-row items-center space-x-1">
                                         <img src={createIcon} className="w-5 h-5" />
                                         <p className="text-[#FCE3AA] font-medium">Create Game</p>
@@ -233,10 +238,10 @@ export default function Lobby() {
                             </div>
                         </Dialog>
                         {
-                            connection?.isConnected ? (
+                            isConnected ? (
                                 <>
                                     <TabsContent value="players">
-                                        {data && <Players data={data.mancalaGameModels.edges} />}
+                                        {lobbyPlayersData && <Players data={lobbyPlayersData.mancalaGameModels.edges} />}
                                         {
                                             loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +260,7 @@ export default function Lobby() {
                                         }
                                     </TabsContent>
                                     <TabsContent value="duels">
-                                        {data && <Duels games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
+                                        {lobbyPlayersData&& <Duels games={lobbyPlayersData.mancalaGameModels.edges} transactions={lobbyPlayersData.transactions.edges} />}
                                         {
                                             loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -274,20 +279,12 @@ export default function Lobby() {
                                         }
                                     </TabsContent>
                                     <TabsContent value="live">
-                                        {data && <LiveDuels games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
+                                        {lobbyPlayersData && <LiveDuels games={lobbyPlayersData.mancalaGameModels.edges} transactions={lobbyPlayersData.transactions.edges} />}
                                         {
-                                            loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                    width="24" height="24">
-                                                    <path
-                                                        d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-                                                        stroke="#F58229" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    <path
-                                                        d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-                                                        stroke="#FCE3AA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" className="text-gray-900">
-                                                    </path>
-                                                </svg>
-                                            </div> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                            loading ?
+                                                <DuelLoader />
+                                                :
+                                                error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <p className="text-white">Error fetching live duels</p>
                                             </div>
                                         }
