@@ -85,3 +85,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for the input thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0; /* width of the thumb */
+  height: 0; /* height of the thumb */
+  background: transparent; /* thumb background color */
+  cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  }

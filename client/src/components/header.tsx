@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import { truncateString } from "../lib/utils";
+import { getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import eniola from "../assets/eniola.png";
 import muteImage from "../assets/mute.png";
@@ -15,6 +15,8 @@ import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
+import { useQuery, gql } from "@apollo/client";
+import { useDojo } from "@/dojo/useDojo";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);
@@ -70,6 +72,34 @@ export default function Header() {
     const togglePlay = () => {
         setPlaying(!isPlaying);
     }
+
+    const { account } = useDojo()
+
+    const { loading, error, data, startPolling } = useQuery(
+        gql`
+            query {
+                mancalaGameModels {
+                    edges {
+                        node {
+                            game_id
+                            player_one
+                            player_two
+                            current_player
+                            winner
+                            status
+                            is_private
+                        }
+                    }
+                }
+            }
+        `
+    )
+    startPolling(1000);
+
+    const player = getPlayer(data?.mancalaGameModels.edges, account.account.address);
+
+    console.log(player)
+
     return (
         <div className="flex flex-row items-center justify-between w-full">
             <div className="flex-1 w-full -mr-10">
@@ -84,7 +114,7 @@ export default function Header() {
                             </div>
                             <div>
                                 <h3 className="text-2xl text-right text-white">{profileData.name ? profileData.name : truncateString(address)}</h3>
-                                <h4 className="text-sm text-[#F58229] text-start">Level 6</h4>
+                                <h4 className="text-sm text-[#F58229] text-start">{player[0]?.wins < 4 ? "Level 1" : `Level ${player[0]?.wins < 4 ? 1 : (Math.floor(player[0]?.wins / 4) + 1)}`}</h4>
                             </div>
                         </div>
                     ) : (
