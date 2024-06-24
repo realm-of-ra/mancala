@@ -1,6 +1,6 @@
-import { eniola } from "@/constants/icons_store";
-import { player_header, player_stats } from "@/lib/constants";
-import { getPlayers, truncateString } from "@/lib/utils";
+import { eniola } from "@/constants/icons_store.ts";
+import { player_header, player_stats } from "@/lib/constants.ts";
+import { getPlayers, truncateString } from "@/lib/utils.ts";
 import { useQuery, gql } from "@apollo/client";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 
-export default function PlayersLobby({ data }: { data: any }) {
+export default function Players({ data }: { data: any }) {
 
     const { provider } = useProvider();
 

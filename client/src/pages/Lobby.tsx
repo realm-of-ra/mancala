@@ -3,8 +3,8 @@ import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAtom, useAtomValue } from "jotai";
 import connectionIcon from "../assets/connect.png";
-import PlayersLobby from "@/components/players-lobby";
-import DuelsLobby from "@/components/duels-lobby";
+import Players from "@/components/lobby/players.tsx";
+import Duels from "@/components/lobby/duels.tsx";
 import {
     Dialog
 } from "@material-tailwind/react";
@@ -17,7 +17,7 @@ import createIcon from "../assets/createIcon.png";
 import gotoIcon from "../assets/goto.png";
 import end from "../assets/end.png";
 import clip from "../assets/copied.png";
-import LiveDuels from "@/components/live-duels";
+import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
@@ -126,7 +126,7 @@ export default function Lobby() {
                                     <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
                                 </Link>
                                 <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                                    disabled={connection?.isConnected ? false : true} onClick={handleOpen}>
+                                    disabled={!connection?.isConnected} onClick={handleOpen}>
                                     <div className="flex flex-row items-center space-x-1">
                                         <img src={createIcon} className="w-5 h-5" />
                                         <p className="text-[#FCE3AA] font-medium">Create Game</p>
@@ -236,7 +236,7 @@ export default function Lobby() {
                             connection?.isConnected ? (
                                 <>
                                     <TabsContent value="players">
-                                        {data && <PlayersLobby data={data.mancalaGameModels.edges} />}
+                                        {data && <Players data={data.mancalaGameModels.edges} />}
                                         {
                                             loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +255,7 @@ export default function Lobby() {
                                         }
                                     </TabsContent>
                                     <TabsContent value="duels">
-                                        {data && <DuelsLobby games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
+                                        {data && <Duels games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
                                         {
                                             loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
