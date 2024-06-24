@@ -17,6 +17,8 @@ trait IActions {
     fn initialize_player(player_address: ContractAddress);
     fn finish_game(game_id: u128);
     fn get_player_history(player_address: ContractAddress) -> (Array<u128>, Array<u128>);
+    fn player_one_forfeit(game_id: u128);
+    fn player_two_forfeit(game_id: u128);
 }
 
 #[dojo::contract]
@@ -204,6 +206,22 @@ mod actions {
         fn get_player_history(world: IWorldDispatcher, player_address: ContractAddress) -> (Array<u128>, Array<u128>) {
             let player = get!(world, player_address, (Player));
             (player.games_won, player.games_lost)
+        }
+
+        fn player_one_forfeit(world: IWorldDispatcher, game_id: u128){
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let player_one: GamePlayer = get!(
+                world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
+            );
+            mancala_game.forfeit_game(player_one)
+        }
+
+        fn player_two_forfeit(world: IWorldDispatcher, game_id: u128){
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let player_two: GamePlayer = get!(
+                world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
+            );
+            mancala_game.forfeit_game(player_two)
         }
     }
 }
