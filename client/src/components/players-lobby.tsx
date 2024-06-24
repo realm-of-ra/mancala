@@ -89,9 +89,6 @@ export default function PlayersLobby({ data }: { data: any }) {
                                         <td>
                                             <Typography className="font-normal text-[#FAB580] text-center">{losses}</Typography>
                                         </td>
-                                        <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">0</Typography>
-                                        </td>
                                     </tr>
                                 );
                             })}

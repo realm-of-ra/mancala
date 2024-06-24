@@ -227,8 +227,8 @@ export default function Gameplay() {
                   {profiles?.[0].name
                     ? profiles?.[0].name
                     : truncateString(
-                        game_players?.player_one.edges[0].node.address
-                      )}
+                      game_players?.player_one.edges[0].node.address
+                    )}
                 </h3>
                 <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
               </div>
@@ -245,11 +245,6 @@ export default function Gameplay() {
                 </div>
               </div>
             </div>
-            <div className="absolute bottom-0 right-48 2xl:right-64">
-              <div className="h-20 w-20 bg-[url('./assets/score-badge.png')] bg-contain bg-center bg-no-repeat bg-transparent flex flex-col items-center justify-center text-white">
-                <h3 className="text-3xl font-semibold text-white">8</h3>
-              </div>
-            </div>
           </div>
         </div>
         <div className="bg-[url('./assets/right-entry.png')] h-40 w-[45%] bg-cover bg-center absolute top-0 right-0 bg-no-repeat">
@@ -260,8 +255,8 @@ export default function Gameplay() {
                   {profiles?.[1].name
                     ? profiles?.[1].name
                     : truncateString(
-                        game_players?.player_two.edges[0]?.node.address
-                      )}
+                      game_players?.player_two.edges[0]?.node.address
+                    )}
                 </h3>
                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
               </div>
@@ -276,11 +271,6 @@ export default function Gameplay() {
                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                   <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
                 </div>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-48 2xl:left-64">
-              <div className="h-20 w-20 bg-[url('./assets/score-badge.png')] bg-contain bg-center bg-no-repeat bg-transparent flex flex-col items-center justify-center text-white">
-                <h3 className="text-3xl font-semibold text-white">8</h3>
               </div>
             </div>
           </div>
@@ -508,7 +498,7 @@ export default function Gameplay() {
           {/* End of game board */}
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <div
-              className="flex flex-row gap-2 items-center justify-center border border-gray-800 rounded-full py-2 px-4 cursor-pointer"
+              className="flex flex-row items-center justify-center gap-2 px-4 py-2 border border-gray-800 rounded-full cursor-pointer"
               onClick={toggleDropdown}
             >
               <button
@@ -523,7 +513,7 @@ export default function Gameplay() {
                   className="rounded-full"
                 />
               </button>
-              <div className="w-full flex gap-2 -ml-2 justify-center items-center">
+              <div className="flex items-center justify-center w-full gap-2 -ml-2">
                 <h4 className="text-sm text-left text-[#656C7D]">Playing -</h4>
                 <h4 className="text-md text-[#e6e6e6] text-left">
                   Storms in Africa
@@ -539,65 +529,65 @@ export default function Gameplay() {
               />
             </div>
             {isDropdownOpen && (
-                <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
-                  <div className="flex items-center gap-1 justify-center">
-                    <img
-                      src={playprevious}
-                      width={30}
-                      height={30}
-                      alt="toggle play previous"
-                      className="rounded-full cursor-pointer"
-                    />
-                    <img
-                      src={isPlaying ? unmuteImage : muteImage}
-                      width={70}
-                      height={70}
-                      alt="toggle play"
-                      className="rounded-full cursor-pointer"
-                      onClick={togglePlay}
-                    />
-                    <img
-                      src={playnext}
-                      width={30}
-                      height={30}
-                      alt="toggle play next"
-                      className="rounded-full cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center mt-2 gap-2 bg-[#0c0c0c65] px-2 py-1 rounded-full">
-                    <img
-                      src={speaker}
-                      width={20}
-                      height={20}
-                      alt="toggle play"
-                      className="rounded-full"
-                    />
-                    <input
-                      type="range"
-                      name="volume"
-                      min="0"
-                      max="1"
-                      step="0.01"
-                      value={volume}
-                      onChange={handleVolumeChange}
-                      style={{
-                        // Custom track styling
-                        background: `linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)`,
-                        // Hide the thumb by making it transparent and very small
-                        WebkitAppearance: "none",
-                        appearance: "none",
-                        width: "100%",
-                        height: "12px",
-                        borderRadius: "full",
-                      }}
-                      className="w-20 h-4 rounded-full cursor-grab"
-                    />
-                    <span className="flex text-sm text-[#FCE3AA]">
-                      {volumeDisplayValue}
-                    </span>
-                  </div>
+              <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
+                <div className="flex items-center justify-center gap-1">
+                  <img
+                    src={playprevious}
+                    width={30}
+                    height={30}
+                    alt="toggle play previous"
+                    className="rounded-full cursor-pointer"
+                  />
+                  <img
+                    src={isPlaying ? unmuteImage : muteImage}
+                    width={70}
+                    height={70}
+                    alt="toggle play"
+                    className="rounded-full cursor-pointer"
+                    onClick={togglePlay}
+                  />
+                  <img
+                    src={playnext}
+                    width={30}
+                    height={30}
+                    alt="toggle play next"
+                    className="rounded-full cursor-pointer"
+                  />
                 </div>
-              )}
+                <div className="flex items-center justify-center mt-2 gap-2 bg-[#0c0c0c65] px-2 py-1 rounded-full">
+                  <img
+                    src={speaker}
+                    width={20}
+                    height={20}
+                    alt="toggle play"
+                    className="rounded-full"
+                  />
+                  <input
+                    type="range"
+                    name="volume"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    style={{
+                      // Custom track styling
+                      background: `linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)`,
+                      // Hide the thumb by making it transparent and very small
+                      WebkitAppearance: "none",
+                      appearance: "none",
+                      width: "100%",
+                      height: "12px",
+                      borderRadius: "full",
+                    }}
+                    className="w-20 h-4 rounded-full cursor-grab"
+                  />
+                  <span className="flex text-sm text-[#FCE3AA]">
+                    {volumeDisplayValue}
+                  </span>
+                </div>
+              </div>
+            )}
             <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
               <MessageArea
                 game_metadata_error={game_metadata_error}
