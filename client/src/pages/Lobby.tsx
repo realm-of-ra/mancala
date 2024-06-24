@@ -250,15 +250,14 @@ export default function Lobby() {
                                                     </path>
                                                 </svg>
                                             </div> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <p className="text-white">Error fetching live duels</p>
+                                                <p className="text-white">Error fetching players</p>
                                             </div>
                                         }
                                     </TabsContent>
                                     <TabsContent value="duels">
                                         {data && <DuelsLobby games={data.mancalaGameModels.edges} transactions={data.transactions.edges} />}
                                         {
-                                            data && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-
+                                            loading ? <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
                                                 <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
                                                     width="24" height="24">
                                                     <path
@@ -269,11 +268,8 @@ export default function Lobby() {
                                                         stroke="#FCE3AA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" className="text-gray-900">
                                                     </path>
                                                 </svg>
-                                            </div>
-                                        }
-                                        {
-                                            error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <p className="text-white">Error fetching your duels</p>
+                                            </div> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
+                                                <p className="text-white">Error fetching user duels</p>
                                             </div>
                                         }
                                     </TabsContent>
