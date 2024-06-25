@@ -9,7 +9,7 @@ mod tests {
     use mancala::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
         models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus, MancalaImpl}},
-        models::{player::{GamePlayer}}
+        models::{player::{GamePlayer, Player}}
     };
 
     fn setup_game() -> (
@@ -19,9 +19,8 @@ mod tests {
         let player_two_address = starknet::contract_address_const::<0x456>();
         let mut models = array![mancala_game::TEST_CLASS_HASH];
         let world = spawn_test_world(models);
-        let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
-
+        let init_calldata: Span<felt252> = array!['test'].span();
+        let contract_address = world.deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
         let actions_system = IActionsDispatcher { contract_address: contract_address };
         actions_system.create_initial_game_id();
         let game: MancalaGame = actions_system.create_game();
@@ -53,12 +52,13 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_create_private_game() {
+        let init_calldata: Span<felt252> = array!['test'].span();
         let _player_one_address = starknet::contract_address_const::<0x0>();
         let player_two_address = starknet::contract_address_const::<0x456>();
         let mut models = array![mancala_game::TEST_CLASS_HASH];
         let world = spawn_test_world(models);
         let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
 
         let actions_system = IActionsDispatcher { contract_address: contract_address };
         actions_system.create_initial_game_id();
@@ -233,9 +233,10 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_initialize_player() {
+        let init_calldata: Span<felt252> = array!['test'].span();
         let world = spawn_test_world(array![mancala_game::TEST_CLASS_HASH]);
         let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
         let actions_system = IActionsDispatcher { contract_address: contract_address };
 
         let player_address = starknet::contract_address_const::<0x123>();
@@ -251,7 +252,7 @@ mod tests {
     #[available_gas(3000000000000)]
     fn test_finish_game() {
         let (player_one, player_two, world, actions_system, game, _) = setup_game();
-        
+
         // Initialize players
         actions_system.initialize_player(player_one.address);
         actions_system.initialize_player(player_two.address);
@@ -279,9 +280,10 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_get_player_history() {
+        let init_calldata: Span<felt252> = array!['test'].span();
         let world = spawn_test_world(array![mancala_game::TEST_CLASS_HASH]);
         let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
         let actions_system = IActionsDispatcher { contract_address: contract_address };
 
         let player_address = starknet::contract_address_const::<0x123>();
@@ -307,7 +309,7 @@ mod tests {
     #[available_gas(3000000000000)]
     fn test_move_updates_player_history() {
         let (player_one, player_two, world, actions_system, game, _) = setup_game();
-        
+
         // Initialize players
         actions_system.initialize_player(player_one.address);
         actions_system.initialize_player(player_two.address);
