@@ -1,5 +1,4 @@
-import { duels_header, player_header, player_stats } from "@/lib/constants";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
+import { duels_header } from "@/lib/constants";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
@@ -7,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
-import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
+import { DuelsSkeleton } from "./duels-skeleton";
 
 export default function DuelsLobby({ games, transactions }: { games: any, transactions: any }) {
     const { provider } = useProvider();
@@ -55,7 +54,7 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                             {duels_header.map((head) => (
                                 <th
                                     key={head.id}
-                                    className="p-4"
+                                    className="p-4 mr-10"
                                 >
                                     <Typography
                                         variant="small"
@@ -71,7 +70,7 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                         <table className="w-full text-left table-auto">
                             <thead className="border-b border-[#313640] hidden">
                                 <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
-                                    {player_header.map((head) => (
+                                    {duels_header.map((head) => (
                                         <th
                                             key={head.id}
                                             className="p-4"
@@ -92,7 +91,7 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                                     const date = new Date(item.date)
                                     return (
                                         <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-full bg-[#0F1116] flex flex-row items-center")}>
-                                            <td className="flex flex-row items-center p-4 space-x-5 w-[175px] justify-start">
+                                            <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
                                                 <div className="flex flex-row items-center space-x-5 w-fit">
                                                     <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" />
                                                     <p
@@ -102,7 +101,7 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td className="flex flex-row items-center p-4 space-x-5 w-[175px] justify-center">
+                                            <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-center">
                                                 {
                                                     games[index].node.player_two !== "0x0" ? <div className="flex flex-row items-center space-x-2.5 w-fit">
                                                         <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" />
@@ -114,26 +113,23 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                                                     </div> : <p className="text-white">Matchmaking</p>
                                                 }
                                             </td>
-                                            <td className="w-[175px] text-center">
+                                            <td className="w-[200px] text-center ml-8">
                                                 <p
                                                     className="font-normal text-[#FAB580]"
                                                 >
                                                     {item.winner.name ? item.winner.name : truncateString((games[index].node.winner))}
                                                 </p>
                                             </td>
-                                            <td className="w-[175px] text-center">
+                                            <td className="w-[200px] text-end pr-12">
                                                 <p
                                                     className="font-normal text-[#F97E22]"
                                                 >
                                                     {date.toLocaleDateString()}
                                                 </p>
                                             </td>
-                                            <td className="w-[175px] flex flex-row justify-center">
-                                                <EllipsisHorizontalIcon className="w-6 h-6 text-white" />
-                                            </td>
                                         </tr>
                                     );
-                                }) : <LoadingSkeleton />}
+                                }) : <DuelsSkeleton />}
                             </tbody>
                         </table>
                     </tbody>

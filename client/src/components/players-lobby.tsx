@@ -1,13 +1,12 @@
-import { eniola } from "@/constants/icons_store";
-import { player_header, player_stats } from "@/lib/constants";
+import { player_header } from "@/lib/constants";
 import { getPlayers, truncateString } from "@/lib/utils";
-import { useQuery, gql } from "@apollo/client";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
+import PlayersSkeleton from "./players-skeleton";
 
 export default function PlayersLobby({ data }: { data: any }) {
 
@@ -58,14 +57,14 @@ export default function PlayersLobby({ data }: { data: any }) {
                             <div className="w-full border-b border-[#313640] h-1 absolute inset-x-0 top-10" />
                         </thead>
                         <tbody>
-                            {players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
+                            {players?.length ? players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
                                 const isLast = index === players.length - 1;
                                 return (
                                     <tr key={index} className={clsx(!isLast ? "border-b border-[#23272F]" : "", "bg-[#0F1116]")}>
                                         <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
                                             <Typography>
                                                 <div className="flex flex-row items-center space-x-5 w-fit">
-                                                    <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="rounded-full" />
+                                                    <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" />
                                                     <p
                                                         className="font-normal text-white"
                                                     >
@@ -91,7 +90,7 @@ export default function PlayersLobby({ data }: { data: any }) {
                                         </td>
                                     </tr>
                                 );
-                            })}
+                            }) : <PlayersSkeleton />}
                         </tbody>
                     </table >
                 </Card >
