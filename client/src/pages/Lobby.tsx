@@ -3,11 +3,10 @@ import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAtom, useAtomValue } from "jotai";
 import connectionIcon from "../assets/connect.png";
+import { Dialog } from "@material-tailwind/react";
 import Players from "@/components/lobby/players.tsx";
 import Duels from "@/components/lobby/duels.tsx";
-import {
-    Dialog
-} from "@material-tailwind/react";
+
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { InformationCircleIcon, ClipboardDocumentCheckIcon, CheckBadgeIcon } from "@heroicons/react/24/outline";
@@ -22,6 +21,8 @@ import { useDojo } from "@/dojo/useDojo";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import DuelLoader from "@/components/lobby/duel-loader.tsx";
+import PlayersLobby from "@/components/lobby/players.tsx";
+import DuelsLobby from "@/components/lobby/duels.tsx";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -242,30 +243,13 @@ export default function Lobby() {
                                 <>
                                     <TabsContent value="players">
                                         {lobbyPlayersData && <Players data={lobbyPlayersData.mancalaGameModels.edges} />}
-                                        {
-                                            loading ? <DuelLoader /> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <p className="text-white">Error fetching players</p>
-                                            </div>
-                                        }
+                                        <PlayersLobby data={lobbyPlayersData?.mancalaGameModels.edges} />
                                     </TabsContent>
                                     <TabsContent value="duels">
-                                        {lobbyPlayersData&& <Duels games={lobbyPlayersData.mancalaGameModels.edges} transactions={lobbyPlayersData.transactions.edges} />}
-                                        {
-                                            loading ? <DuelLoader /> : error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <p className="text-white">Error fetching user duels</p>
-                                            </div>
-                                        }
+                                        <DuelsLobby games={lobbyPlayersData?.mancalaGameModels.edges} transactions={lobbyPlayersData?.transactions.edges} />
                                     </TabsContent>
                                     <TabsContent value="live">
-                                        {lobbyPlayersData && <LiveDuels games={lobbyPlayersData.mancalaGameModels.edges} transactions={lobbyPlayersData.transactions.edges} />}
-                                        {
-                                            loading ?
-                                                <DuelLoader />
-                                                :
-                                                error && <div className="w-[874px] h-[437px] flex flex-col items-center justify-center">
-                                                <p className="text-white">Error fetching live duels</p>
-                                            </div>
-                                        }
+                                        <LiveDuels games={lobbyPlayersData?.mancalaGameModels.edges} transactions={lobbyPlayersData?.transactions.edges} />
                                     </TabsContent>
                                 </>
                             ) : (
