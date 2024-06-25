@@ -1,7 +1,8 @@
 use core::starknet::ContractAddress;
 
 // useful for the leaderboard to track statistics
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Drop, Serde)]
+#[dojo::model]
 struct Player {
     #[key]
     address: ContractAddress,
@@ -10,7 +11,8 @@ struct Player {
 }
 
 // The GamePlayer is the store for the state in each game
-#[derive(Model, Copy, Drop, Serde, Debug)]
+#[derive(Copy, Drop, Serde, Debug)]
+#[dojo::model]
 struct GamePlayer {
     #[key]
     address: ContractAddress,

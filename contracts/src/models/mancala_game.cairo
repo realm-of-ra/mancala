@@ -5,7 +5,8 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // this is the model to track the 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct GameId {
     #[key]
     // statically set to 1
@@ -23,7 +24,8 @@ enum GameStatus {
     TimeOut: (),
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct MancalaGame {
     #[key]
     game_id: u128,

@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x76f6d0cb196ab99665601e7d2132cecf5a83d11c5d8d7c96469d70aa0d3ad08"
-original_class_hash = "0x76f6d0cb196ab99665601e7d2132cecf5a83d11c5d8d7c96469d70aa0d3ad08"
+class_hash = "0xdb89747801cdcd3bc7df959974c149596121fafcdd3cb8a388d7841f510cb8"
+original_class_hash = "0xdb89747801cdcd3bc7df959974c149596121fafcdd3cb8a388d7841f510cb8"
 abi = "manifests/dev/abis/base/models/mancala_models_mancala_game_mancala_game.json"
 name = "mancala::models::mancala_game::mancala_game"
 
