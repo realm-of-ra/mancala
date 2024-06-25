@@ -1,9 +1,8 @@
 use core::starknet::ContractAddress;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use mancala::models::{mancala_game::{MancalaGame, GameStatus}};
-use mancala::models::player::{GamePlayer, GamePlayerTrait};
+use mancala::models::player::{GamePlayer, GamePlayerTrait, Player};
 
-// define the interface
 #[dojo::interface]
 trait IActions {
     fn create_initial_game_id();
@@ -15,22 +14,22 @@ trait IActions {
     fn get_score(game_id: u128) -> (u8, u8);
     fn is_game_finished(game_id: u128) -> bool;
     fn test_func(game_id: u128) -> bool;
+    fn initialize_player(player_address: ContractAddress);
+    fn finish_game(game_id: u128);
+    fn get_player_history(player_address: ContractAddress) -> (Array<u128>, Array<u128>);
 }
 
-// dojo decorator
 #[dojo::contract]
 mod actions {
     use core::starknet::{ContractAddress, get_caller_address, SyscallResultTrait};
     use core::starknet::contract_address::ContractAddressZeroable;
     use core::starknet::info::get_execution_info_syscall;
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
-    use mancala::models::{player::{GamePlayer, GamePlayerTrait}};
+    use mancala::models::{player::{GamePlayer, GamePlayerTrait, Player}};
     use super::IActions;
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
-        // logic to create the global game id tracker
-        // this function should only be run once
         fn create_initial_game_id(world: IWorldDispatcher) {
             let existing_game_id = get!(world, 1, (GameId));
             if (existing_game_id.game_id > 0) {
@@ -40,7 +39,6 @@ mod actions {
             set!(world, (game_id));
         }
 
-        // caller creates the initial game
         fn create_game(world: IWorldDispatcher) -> MancalaGame {
             let player_one_address = get_caller_address();
             let mut game_id: GameId = get!(world, 1, (GameId));
@@ -53,8 +51,6 @@ mod actions {
             mancala_game
         }
 
-        // player two can join the game
-        // todo in the unit tests using the set_caller_address was not working so for now passing in the player_two_address
         fn join_game(world: IWorldDispatcher, game_id: u128, player_two_address: ContractAddress) {
             let mut mancala_game = get!(world, game_id, (MancalaGame));
             assert!(
@@ -65,8 +61,6 @@ mod actions {
             set!(world, (player_two, mancala_game));
         }
 
-        // this is logic to create a private game
-        // a user will be able to create the game supplying another users address
         fn create_private_game(
             world: IWorldDispatcher, player_two_address: ContractAddress
         ) -> MancalaGame {
@@ -84,13 +78,11 @@ mod actions {
             mancala_game
         }
 
-        // taking in the game id and the players selected pit, make the move performing all logic
         fn move(
             world: IWorldDispatcher, game_id: u128, selected_pit: u8
         ) -> (ContractAddress, GameStatus) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
 
-            // need to create validation for this status
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
             assert!(
                 mancala_game.player_two != ContractAddressZeroable::zero(),
@@ -104,7 +96,6 @@ mod actions {
 
             if mancala_game.status == GameStatus::InProgress {
                 let (mut current_player, mut opponent) = mancala_game.get_players(world);
-                // Get seeds from the selected pit and validate it's not empty
                 let mut seeds = mancala_game.get_seeds(current_player, selected_pit);
                 if seeds == 0 {
                     panic!("Selected pit is empty. Choose another pit.");
@@ -115,17 +106,22 @@ mod actions {
                 if mancala_game.is_game_finished(current_player, opponent) {
                     mancala_game.status = GameStatus::Finished;
                     mancala_game.set_winner(current_player, opponent);
+                    set!(world, (mancala_game, current_player, opponent));
+                    
+                    // Call finish_game to update player records
+                    ActionsImpl::finish_game(world, game_id);
+                    
+                    (mancala_game.current_player, mancala_game.status)
+                } else {
+                    set!(world, (mancala_game, current_player, opponent));
+                    (mancala_game.current_player, mancala_game.status)
                 }
-                set!(world, (mancala_game, current_player, opponent));
-                // return the current player so client has ability to know
-                (mancala_game.current_player, mancala_game.status)
             } else {
                 set!(world, (mancala_game));
                 (mancala_game.current_player, mancala_game.status)
             }
         }
 
-        // set the game as `TimeOut` if a player hasn't made a move
         fn time_out(world: IWorldDispatcher, game_id: u128) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
@@ -142,9 +138,11 @@ mod actions {
             mancala_game.winner = opponent.address;
 
             set!(world, (mancala_game));
+            
+            // Call finish_game to update player records
+            ActionsImpl::finish_game(world, game_id);
         }
 
-        // read function to get the score of a game taking in the game
         fn get_score(world: IWorldDispatcher, game_id: u128) -> (u8, u8) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             let player_one: GamePlayer = get!(
@@ -167,9 +165,86 @@ mod actions {
             mancala_game.is_game_finished(player_one, player_two)
         }
 
-        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool{
+        fn test_func(world: IWorldDispatcher, game_id: u128) -> bool {
             let _mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
             true
         }
+
+        fn initialize_player(world: IWorldDispatcher, player_address: ContractAddress) {
+            let player = Player {
+                address: player_address,
+                games_won: ArrayTrait::new(),
+                games_lost: ArrayTrait::new()
+            };
+            set!(world, (player));
+        }
+
+        fn finish_game(world: IWorldDispatcher, game_id: u128) {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            assert!(mancala_game.status == GameStatus::Finished || mancala_game.status == GameStatus::TimeOut, "Game is not finished");
+
+            let winner_address = mancala_game.winner;
+            let loser_address = if winner_address == mancala_game.player_one {
+                mancala_game.player_two
+            } else {
+                mancala_game.player_one
+            };
+
+            // Update winner's record
+            let mut winner = get!(world, winner_address, (Player));
+            winner.games_won.append(game_id);
+            set!(world, (winner));
+
+            // Update loser's record
+            let mut loser = get!(world, loser_address, (Player));
+            loser.games_lost.append(game_id);
+            set!(world, (loser));
+        }
+
+        fn get_player_history(world: IWorldDispatcher, player_address: ContractAddress) -> (Array<u128>, Array<u128>) {
+            let player = get!(world, player_address, (Player));
+            (player.games_won, player.games_lost)
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_player_history() {
+        let world = IWorldDispatcher::new();
+        
+        // Initialize game ID
+        ActionsImpl::create_initial_game_id(world);
+
+        // Create players
+        let player1 = ContractAddress::from(1u256);
+        let player2 = ContractAddress::from(2u256);
+        ActionsImpl::initialize_player(world, player1);
+        ActionsImpl::initialize_player(world, player2);
+
+        // Create and finish a game
+        let game = ActionsImpl::create_game(world);
+        ActionsImpl::join_game(world, game.game_id, player2);
+
+        // Simulate game play and finish
+        // ... (implement game play logic)
+
+        // Finish the game
+        ActionsImpl::finish_game(world, game.game_id);
+
+        // Check player histories
+        let (player1_wins, player1_losses) = ActionsImpl::get_player_history(world, player1);
+        let (player2_wins, player2_losses) = ActionsImpl::get_player_history(world, player2);
+
+        assert_eq!(player1_wins.len(), 1);
+        assert_eq!(player1_wins[0], game.game_id);
+        assert_eq!(player1_losses.len(), 0);
+
+        assert_eq!(player2_wins.len(), 0);
+        assert_eq!(player2_losses.len(), 1);
+        assert_eq!(player2_losses[0], game.game_id);
     }
 }
