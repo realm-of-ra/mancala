@@ -287,7 +287,7 @@ export default function Gameplay() {
                 </div>
                 <div
                     className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <a href="/">
+                    <Link to="/">
                         <img
                             src={logo}
                             width={150}
@@ -295,7 +295,7 @@ export default function Gameplay() {
                             alt="Logo"
                             className="-mt-10"
                         />
-                    </a>
+                    </Link>
                 </div>
             </nav>
             <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
@@ -374,6 +374,7 @@ export default function Gameplay() {
                                                 .reverse()
                                                 .map(pit_key => (
                                                 <Pit
+                                                    key={pit_key}
                                                     amount={game_players?.player_one.edges[0]?.node.pit6}
                                                     address={game_players?.player_one.edges[0]?.node.address}
                                                     pit={pit_key}
@@ -396,6 +397,7 @@ export default function Gameplay() {
                                             )
                                                 .map(pit_key => {
                                                 return (<Pit
+                                                    key={pit_key}
                                                     amount={game_players?.player_two?.edges[0]?.node?.pit1}
                                                     address={game_players?.player_two?.edges[0]?.node?.address}
                                                     pit={pit_key}
