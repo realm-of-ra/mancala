@@ -10,31 +10,31 @@ dependencies:
     version: 3.10.4(@types/react@18.2.42)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
   '@dojoengine/core':
     specifier: ^0.7.3
-    version: 0.7.5(starknet@6.8.0)(typescript@5.0.3)
+    version: 0.7.5(starknet@6.1.5)(typescript@5.5.2)
   '@dojoengine/create-burner':
-    specifier: ^0.7.3
-    version: 0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)
+    specifier: ^0.7.5
+    version: 0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)
   '@dojoengine/react':
     specifier: ^0.7.3
-    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8)
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/recs':
     specifier: ^2.0.13
-    version: 2.0.13(typescript@5.0.3)(zod@3.23.8)
+    version: 2.0.13(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/state':
     specifier: ^0.7.3
-    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/torii-client':
     specifier: ^0.7.3
     version: 0.7.5
   '@dojoengine/utils':
     specifier: ^0.7.3
-    version: 0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    version: 0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
   '@heroicons/react':
     specifier: ^2.1.3
     version: 2.1.3(react@18.2.0)
   '@latticexyz/react':
     specifier: ^2.0.12
-    version: 2.0.12(typescript@5.0.3)(zod@3.23.8)
+    version: 2.0.12(typescript@5.5.2)(zod@3.23.8)
   '@latticexyz/utils':
     specifier: ^2.0.12
     version: 2.0.12
@@ -43,7 +43,7 @@ dependencies:
     version: 2.1.9(react-dom@18.2.0)(react@18.2.0)
   '@pushprotocol/restapi':
     specifier: ^1.7.22
-    version: 1.7.22(@types/react@18.2.42)(ethers@5.7.2)(react@18.2.0)(typescript@5.0.3)(zod@3.23.8)
+    version: 1.7.22(@types/react@18.2.42)(ethers@5.7.2)(react@18.2.0)(typescript@5.5.2)(zod@3.23.8)
   '@pushprotocol/socket':
     specifier: ^0.5.3
     version: 0.5.3(ethers@5.7.2)
@@ -67,7 +67,7 @@ dependencies:
     version: 0.1.7
   '@starknet-react/core':
     specifier: ^2.8.0
-    version: 2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
+    version: 2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5)
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -114,14 +114,14 @@ dependencies:
     specifier: ^7.8.1
     version: 7.8.1
   starknet:
-    specifier: 6.8.0
-    version: 6.8.0
+    specifier: 6.1.5
+    version: 6.1.5
   starknetid.js:
     specifier: ^3.2.0
-    version: 3.2.0(@babel/core@7.24.7)(starknet@6.8.0)
+    version: 3.2.0(@babel/core@7.24.7)(starknet@6.1.5)
   starknetkit:
     specifier: ^1.1.9
-    version: 1.1.9(starknet@6.8.0)
+    version: 1.1.9(starknet@6.1.5)
   tailwind-merge:
     specifier: ^2.2.2
     version: 2.2.2
@@ -138,7 +138,7 @@ dependencies:
 devDependencies:
   '@graphql-codegen/cli':
     specifier: ^5.0.0
-    version: 5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.3)
+    version: 5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.5.2)
   '@graphql-codegen/typescript':
     specifier: ^4.0.1
     version: 4.0.1(graphql@16.8.1)
@@ -159,10 +159,10 @@ devDependencies:
     version: 18.0.11
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.59.0
-    version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.3)
+    version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.5.2)
   '@typescript-eslint/parser':
     specifier: ^5.59.0
-    version: 5.59.0(eslint@8.38.0)(typescript@5.0.3)
+    version: 5.59.0(eslint@8.38.0)(typescript@5.5.2)
   '@vitejs/plugin-react':
     specifier: ^4.0.0
     version: 4.0.0(vite@4.3.9)
@@ -185,8 +185,8 @@ devDependencies:
     specifier: ^3.4.3
     version: 3.4.3
   typescript:
-    specifier: ^5.0.3
-    version: 5.0.3
+    specifier: ^5.0.4
+    version: 5.5.2
   vite:
     specifier: ^4.3.9
     version: 4.3.9(@types/node@20.12.7)
@@ -875,14 +875,14 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  /@dojoengine/core@0.7.5(starknet@6.8.0)(typescript@5.0.3):
+  /@dojoengine/core@0.7.5(starknet@6.1.5)(typescript@5.5.2):
     resolution: {integrity: sha512-QUBMoj+AgMeGT6q2Mg3W1rFxN453aHKJ1zBiz59vqSrhxDhJvbPoUwpQqd9pADiNSdj5U3pjxvbEhN25HpLzlQ==}
     hasBin: true
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
-      starknet: 6.8.0
+      '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
+      starknet: 6.1.5
       zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
@@ -890,47 +890,47 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@dojoengine/create-burner@0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3):
+  /@dojoengine/create-burner@0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2):
     resolution: {integrity: sha512-g3/Qmx/7Z02PkGOKUncrCc4BMlBrrMAVxbyo3l0Gu/a+UgmHfnsU5ULxLloq/MJ9g6S8fWhrtXBxEQM2W4BA8g==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/core': 0.7.5(starknet@6.8.0)(typescript@5.0.3)
+      '@dojoengine/core': 0.7.5(starknet@6.1.5)(typescript@5.5.2)
       '@scure/bip32': 1.4.0
-      '@starknet-react/core': 2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
+      '@starknet-react/core': 2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5)
       encoding: 0.1.13
-      get-starknet-core: 3.3.0(starknet@6.8.0)
+      get-starknet-core: 3.3.0(starknet@6.1.5)
       js-cookie: 3.0.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      starknet: 6.8.0
+      starknet: 6.1.5
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
     dev: false
 
-  /@dojoengine/react@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8):
+  /@dojoengine/react@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-QnUjtifqTlvJA1nQ2BDDXpXZIoT2DDLGj4RA2o2JN7FlQHFyVv+sLNjjnvKMdf1X54vwuogdp31zO0uyQWKg4w==}
     peerDependencies:
       react: ^18.2.0
       starknet: ^6.1.5
       type-fest: ^2.14.0
     dependencies:
-      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
-      '@dojoengine/state': 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
+      '@dojoengine/state': 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
       '@dojoengine/torii-client': 0.7.5
-      '@dojoengine/utils': 0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/utils': 0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
       encoding: 0.1.13
       fast-deep-equal: 3.1.3
-      get-starknet-core: 3.3.0(starknet@6.8.0)
+      get-starknet-core: 3.3.0(starknet@6.1.5)
       js-cookie: 3.0.5
       react: 18.2.0
       rxjs: 7.5.5
-      starknet: 6.8.0
+      starknet: 6.1.5
       type-fest: 2.19.0
       zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
@@ -942,10 +942,10 @@ packages:
       - zod
     dev: false
 
-  /@dojoengine/recs@2.0.13(typescript@5.0.3)(zod@3.23.8):
+  /@dojoengine/recs@2.0.13(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-Cgz4Unlnk2FSDoFTYKrJexX/KiSYPMFMxftxQkC+9LUKS5yNGkgFQM7xu4/L1HvpDAenL7NjUmH6ynRAS7Iifw==}
     dependencies:
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
       mobx: 6.9.0
       rxjs: 7.5.5
@@ -956,15 +956,15 @@ packages:
       - zod
     dev: false
 
-  /@dojoengine/state@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
+  /@dojoengine/state@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-eRUMgsNqca1FUwMA95uxGByseLII2fgdLxC1cCXLwgIznLMgKf84z8D8LmyGiLYdX0BZtLM9xIYqgrLgJspdCQ==}
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
       '@dojoengine/torii-client': 0.7.5
       '@latticexyz/utils': 2.0.12
-      starknet: 6.8.0
+      starknet: 6.1.5
       zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -980,23 +980,23 @@ packages:
     resolution: {integrity: sha512-CIE618c16xPNkFyj067LUG7Po7ldWtyBDqEwc3h1hbl7sUjlyZjJm+PCoZf/gSksWfT5y+gtz9jjtHgaOAL2zA==}
     dependencies:
       '@dojoengine/torii-wasm': 0.7.5
-      typescript: 5.0.3
+      typescript: 5.5.2
     dev: false
 
   /@dojoengine/torii-wasm@0.7.5:
     resolution: {integrity: sha512-qQfnh+jPTiTUB6dj9JPNIbwjSr9Ab3ZfEo9zdDwMkxT2aaqD0OtOb8EQAHKZCVMN3EAOARJm92S6k1OzxPR4Tw==}
     dev: false
 
-  /@dojoengine/utils@0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
+  /@dojoengine/utils@0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-pglYhEjCu52WtT1aT5J4s4uCtRq9fCywqvxgPRC/SUARjKlLhPHCoEio7MpCGNKIKXMNbzboFIsptDWBMryzeQ==}
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
       mathjs: 12.4.3
       micro-starknet: 0.2.3
-      starknet: 6.8.0
+      starknet: 6.1.5
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -1602,7 +1602,7 @@ packages:
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
     dev: false
 
-  /@graphql-codegen/cli@5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.3):
+  /@graphql-codegen/cli@5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.5.2):
     resolution: {integrity: sha512-A7J7+be/a6e+/ul2KI5sfJlpoqeqwX8EzktaKCeduyVKgOLA6W5t+NUGf6QumBDXU8PEOqXk3o3F+RAwCWOiqA==}
     hasBin: true
     peerDependencies:
@@ -1629,11 +1629,11 @@ packages:
       '@graphql-tools/utils': 10.2.2(graphql@16.8.1)
       '@whatwg-node/fetch': 0.8.8
       chalk: 4.1.2
-      cosmiconfig: 8.3.6(typescript@5.0.3)
+      cosmiconfig: 8.3.6(typescript@5.5.2)
       debounce: 1.2.1
       detect-indent: 6.1.0
       graphql: 16.8.1
-      graphql-config: 5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.3)
+      graphql-config: 5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.5.2)
       inquirer: 8.2.6
       is-glob: 4.0.3
       jiti: 1.21.6
@@ -2312,7 +2312,7 @@ packages:
     resolution: {integrity: sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew==}
     dev: true
 
-  /@latticexyz/common@2.0.12(typescript@5.0.3)(zod@3.23.8):
+  /@latticexyz/common@2.0.12(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-B077Ss6N6PO/KVDkXvOKCDR1BN6WP+xYGXGegiyCenvgR4qPvx3EHRe/yPcRXfNJx7vOX0i7zwhaLYcaB5QO/w==}
     peerDependencies:
       '@aws-sdk/client-kms': 3.x
@@ -2323,7 +2323,7 @@ packages:
       asn1.js:
         optional: true
     dependencies:
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
       '@solidity-parser/parser': 0.16.2
       debug: 4.3.5
       execa: 7.2.0
@@ -2331,7 +2331,7 @@ packages:
       p-retry: 5.1.2
       prettier: 3.2.5
       prettier-plugin-solidity: 1.3.1(prettier@3.2.5)
-      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.5.2)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -2340,14 +2340,14 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/config@2.0.12(typescript@5.0.3):
+  /@latticexyz/config@2.0.12(typescript@5.5.2):
     resolution: {integrity: sha512-M9OvNabwuaQEAamv0270mMgT7+S8UpExwvS4OS9rSgRoSd6Y+7cmtNXW3VNXzSjHkLcEk8TFU5ZYp3aAPly+tQ==}
     dependencies:
-      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/common': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
       esbuild: 0.17.19
       find-up: 6.3.0
-      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.5.2)(zod@3.23.8)
       zod: 3.23.8
       zod-validation-error: 1.5.0(zod@3.23.8)
     transitivePeerDependencies:
@@ -2359,14 +2359,14 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@latticexyz/protocol-parser@2.0.12(typescript@5.0.3)(zod@3.23.8):
+  /@latticexyz/protocol-parser@2.0.12(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-2P+4nLPPC6ZG9BmAIvS7GBr8+ZiCxeFP5yzHyNrEEPUhZHXyXXPsElupcXV4IptfiFDipwJWkGx9nzF9p4g8ZQ==}
     dependencies:
-      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/config': 2.0.12(typescript@5.0.3)
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
-      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/common': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      '@latticexyz/config': 2.0.12(typescript@5.5.2)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      abitype: 1.0.0(typescript@5.5.2)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.5.2)(zod@3.23.8)
     transitivePeerDependencies:
       - '@aws-sdk/client-kms'
       - asn1.js
@@ -2377,11 +2377,11 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/react@2.0.12(typescript@5.0.3)(zod@3.23.8):
+  /@latticexyz/react@2.0.12(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-BHVLITgl0WXtmJwiEhRfq4EeYlKb3m4YSJmSSAuEG2khwUQLZygyMv6ua1iatkEzbmOm3LsPNSCOVNAIHyYdTQ==}
     dependencies:
-      '@latticexyz/recs': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/store': 2.0.12(typescript@5.0.3)
+      '@latticexyz/recs': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      '@latticexyz/store': 2.0.12(typescript@5.5.2)
       fast-deep-equal: 3.1.3
       mobx: 6.9.0
       react: 18.2.0
@@ -2396,10 +2396,10 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/recs@2.0.12(typescript@5.0.3)(zod@3.23.8):
+  /@latticexyz/recs@2.0.12(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-8tl1uZKsG/C4P+nnPYgQOIYR/QE0ZbIvnVSQGrWvuif/17oCRSpK6RUIY5DBzv93f95RndmJWi1iQ18KCkynCA==}
     dependencies:
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
       mobx: 6.9.0
       rxjs: 7.5.5
@@ -2410,11 +2410,11 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/schema-type@2.0.12(typescript@5.0.3)(zod@3.23.8):
+  /@latticexyz/schema-type@2.0.12(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-QDnHU3iCQmY8e24CGR3hKUEprHrrNUfFTiUaSuj3J0d/x9iaIafYT2+dWydxgcpCmK4Xl7PgurvJiAVCmcLokg==}
     dependencies:
-      abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
-      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
+      abitype: 1.0.0(typescript@5.5.2)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.5.2)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -2422,17 +2422,17 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/store@2.0.12(typescript@5.0.3):
+  /@latticexyz/store@2.0.12(typescript@5.5.2):
     resolution: {integrity: sha512-dSN3nX4mt8SkHq2pjQ2DEYreRV4/3FVPoy0vhvpbpkpa0QocroYBWzykVMmxYVOcWWUp8pznq0LNBuzyo26H4w==}
     dependencies:
       '@arktype/util': 0.0.29
-      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/config': 2.0.12(typescript@5.0.3)
-      '@latticexyz/protocol-parser': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
-      abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/common': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      '@latticexyz/config': 2.0.12(typescript@5.5.2)
+      '@latticexyz/protocol-parser': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.5.2)(zod@3.23.8)
+      abitype: 1.0.0(typescript@5.5.2)(zod@3.23.8)
       arktype: 1.0.29-alpha
-      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.5.2)(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
       - '@aws-sdk/client-kms'
@@ -2792,7 +2792,7 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@pushprotocol/restapi@1.7.22(@types/react@18.2.42)(ethers@5.7.2)(react@18.2.0)(typescript@5.0.3)(zod@3.23.8):
+  /@pushprotocol/restapi@1.7.22(@types/react@18.2.42)(ethers@5.7.2)(react@18.2.0)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-El4v6m+yLlN/dHtN6ruDkOhKV8z8MA/R0KCv2P1xwO9rOI15XMPbBZ3dui/9/vrrQWsd9t6LvnoECgd1XeDbWg==}
     peerDependencies:
       ethers: ^5.0.0 || ^6.0.0
@@ -2816,7 +2816,7 @@ packages:
       unique-names-generator: 4.7.1
       uuid: 9.0.1
       video-stream-merger: 4.0.1
-      viem: 1.21.4(typescript@5.0.3)(zod@3.23.8)
+      viem: 1.21.4(typescript@5.5.2)(zod@3.23.8)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -3433,7 +3433,7 @@ packages:
     resolution: {integrity: sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==}
     dev: false
 
-  /@starknet-react/core@2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0):
+  /@starknet-react/core@2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5):
     resolution: {integrity: sha512-8g9d0Gs811gJnQJHVMxQoXYhv+y5/qug7NQ0lnJ51uytdBhr/Zz5wgeTHW4ZQ5Igljyvf+ks+yhp4P1iSvnSqA==}
     peerDependencies:
       get-starknet-core: ^3.2.0
@@ -3443,14 +3443,14 @@ packages:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.45.1(react@18.2.0)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.0(starknet@6.8.0)
+      get-starknet-core: 3.3.0(starknet@6.1.5)
       immutable: 4.3.6
       react: 18.2.0
-      starknet: 6.8.0
+      starknet: 6.1.5
       zod: 3.23.8
     dev: false
 
-  /@starknet-react/core@2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0):
+  /@starknet-react/core@2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5):
     resolution: {integrity: sha512-fTvTK/YdXLjb/sJ61Z1JpdO0CjtRgsfF4MTh4QioPmmqWCcOyLtoPipgxMDLDMTzNEsqxrDYjZfhYPHqUyoaag==}
     peerDependencies:
       get-starknet-core: ^3.2.0
@@ -3460,10 +3460,10 @@ packages:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.45.1(react@18.2.0)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.0(starknet@6.8.0)
+      get-starknet-core: 3.3.0(starknet@6.1.5)
       immutable: 4.3.6
       react: 18.2.0
-      starknet: 6.8.0
+      starknet: 6.1.5
       zod: 3.23.8
     dev: false
 
@@ -3666,7 +3666,7 @@ packages:
       '@types/node': 20.12.7
     dev: true
 
-  /@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.3):
+  /@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.5.2):
     resolution: {integrity: sha512-p0QgrEyrxAWBecR56gyn3wkG15TJdI//eetInP3zYRewDh0XS+DhB3VUAd3QqvziFsfaQIoIuZMxZRB7vXYaYw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3678,23 +3678,23 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.10.1
-      '@typescript-eslint/parser': 5.59.0(eslint@8.38.0)(typescript@5.0.3)
+      '@typescript-eslint/parser': 5.59.0(eslint@8.38.0)(typescript@5.5.2)
       '@typescript-eslint/scope-manager': 5.59.0
-      '@typescript-eslint/type-utils': 5.59.0(eslint@8.38.0)(typescript@5.0.3)
-      '@typescript-eslint/utils': 5.59.0(eslint@8.38.0)(typescript@5.0.3)
+      '@typescript-eslint/type-utils': 5.59.0(eslint@8.38.0)(typescript@5.5.2)
+      '@typescript-eslint/utils': 5.59.0(eslint@8.38.0)(typescript@5.5.2)
       debug: 4.3.5
       eslint: 8.38.0
       grapheme-splitter: 1.0.4
       ignore: 5.3.1
       natural-compare-lite: 1.4.0
       semver: 7.6.2
-      tsutils: 3.21.0(typescript@5.0.3)
-      typescript: 5.0.3
+      tsutils: 3.21.0(typescript@5.5.2)
+      typescript: 5.5.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.0.3):
+  /@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.5.2):
     resolution: {integrity: sha512-qK9TZ70eJtjojSUMrrEwA9ZDQ4N0e/AuoOIgXuNBorXYcBDk397D2r5MIe1B3cok/oCtdNC5j+lUUpVB+Dpb+w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3706,10 +3706,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.59.0
       '@typescript-eslint/types': 5.59.0
-      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.0.3)
+      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.5.2)
       debug: 4.3.5
       eslint: 8.38.0
-      typescript: 5.0.3
+      typescript: 5.5.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3722,7 +3722,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.59.0
     dev: true
 
-  /@typescript-eslint/type-utils@5.59.0(eslint@8.38.0)(typescript@5.0.3):
+  /@typescript-eslint/type-utils@5.59.0(eslint@8.38.0)(typescript@5.5.2):
     resolution: {integrity: sha512-d/B6VSWnZwu70kcKQSCqjcXpVH+7ABKH8P1KNn4K7j5PXXuycZTPXF44Nui0TEm6rbWGi8kc78xRgOC4n7xFgA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3732,12 +3732,12 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.0.3)
-      '@typescript-eslint/utils': 5.59.0(eslint@8.38.0)(typescript@5.0.3)
+      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.5.2)
+      '@typescript-eslint/utils': 5.59.0(eslint@8.38.0)(typescript@5.5.2)
       debug: 4.3.5
       eslint: 8.38.0
-      tsutils: 3.21.0(typescript@5.0.3)
-      typescript: 5.0.3
+      tsutils: 3.21.0(typescript@5.5.2)
+      typescript: 5.5.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3747,7 +3747,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@typescript-eslint/typescript-estree@5.59.0(typescript@5.0.3):
+  /@typescript-eslint/typescript-estree@5.59.0(typescript@5.5.2):
     resolution: {integrity: sha512-sUNnktjmI8DyGzPdZ8dRwW741zopGxltGs/SAPgGL/AAgDpiLsCFLcMNSpbfXfmnNeHmK9h3wGmCkGRGAoUZAg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3762,13 +3762,13 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.6.2
-      tsutils: 3.21.0(typescript@5.0.3)
-      typescript: 5.0.3
+      tsutils: 3.21.0(typescript@5.5.2)
+      typescript: 5.5.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/utils@5.59.0(eslint@8.38.0)(typescript@5.0.3):
+  /@typescript-eslint/utils@5.59.0(eslint@8.38.0)(typescript@5.5.2):
     resolution: {integrity: sha512-GGLFd+86drlHSvPgN/el6dRQNYYGOvRSDVydsUaQluwIW3HvbXuxyuD5JETvBt/9qGYe+lOrDk6gRrWOHb/FvA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -3779,7 +3779,7 @@ packages:
       '@types/semver': 7.5.8
       '@typescript-eslint/scope-manager': 5.59.0
       '@typescript-eslint/types': 5.59.0
-      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.0.3)
+      '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.5.2)
       eslint: 8.38.0
       eslint-scope: 5.1.1
       semver: 7.6.2
@@ -4168,7 +4168,7 @@ packages:
       yargs: 17.7.2
     dev: false
 
-  /abitype@0.9.8(typescript@5.0.3)(zod@3.23.8):
+  /abitype@0.9.8(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-puLifILdm+8sjyss4S+fsUN09obiT1g2YW6CtcQF+QDzxR0euzgEB29MZujC6zMk2a6SVmtttq1fc6+YFA7WYQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4179,11 +4179,11 @@ packages:
       zod:
         optional: true
     dependencies:
-      typescript: 5.0.3
+      typescript: 5.5.2
       zod: 3.23.8
     dev: false
 
-  /abitype@1.0.0(typescript@5.0.3)(zod@3.23.8):
+  /abitype@1.0.0(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-NMeMah//6bJ56H5XRj8QCV4AwuW6hB6zqz2LnhhLdcWVQOsXki6/Pn3APeqxCma62nXIcmZWdu1DlHWS74umVQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -4194,7 +4194,7 @@ packages:
       zod:
         optional: true
     dependencies:
-      typescript: 5.0.3
+      typescript: 5.5.2
       zod: 3.23.8
     dev: false
 
@@ -4821,7 +4821,7 @@ packages:
     requiresBuild: true
     dev: false
 
-  /cosmiconfig@8.3.6(typescript@5.0.3):
+  /cosmiconfig@8.3.6(typescript@5.5.2):
     resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -4834,7 +4834,7 @@ packages:
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
-      typescript: 5.0.3
+      typescript: 5.5.2
     dev: true
 
   /cross-fetch@3.1.8:
@@ -5628,13 +5628,13 @@ packages:
     resolution: {integrity: sha512-Gxc29eLs1fbn6LQ4jSU4vXjlwyZhF5HsGuMAa7gqBP4Rw4yxxltyDUuF5MBclFzDTXO+ACchGQoeela4DSfzdQ==}
     dev: false
 
-  /get-starknet-core@3.3.0(starknet@6.8.0):
+  /get-starknet-core@3.3.0(starknet@6.1.5):
     resolution: {integrity: sha512-TG17zIBdjHIyO0CTjkB7lkuvo24OHLrkB/rZSEdspEAcwcysMpZOVgwrNPIzD89kU8gZ3m1UANarFNPVLULS5Q==}
     peerDependencies:
       starknet: ^5.18.0
     dependencies:
       '@module-federation/runtime': 0.1.21
-      starknet: 6.8.0
+      starknet: 6.1.5
     dev: false
 
   /get-stream@6.0.1:
@@ -5713,7 +5713,7 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /graphql-config@5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.3):
+  /graphql-config@5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.5.2):
     resolution: {integrity: sha512-BNGZaoxIBkv9yy6Y7omvsaBUHOzfFcII3UN++tpH8MGOKFPFkCPZuwx09ggANMt8FgyWP1Od8SWPmrUEZca4NQ==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
@@ -5729,7 +5729,7 @@ packages:
       '@graphql-tools/merge': 9.0.4(graphql@16.8.1)
       '@graphql-tools/url-loader': 8.0.2(@types/node@20.12.7)(graphql@16.8.1)
       '@graphql-tools/utils': 10.2.2(graphql@16.8.1)
-      cosmiconfig: 8.3.6(typescript@5.0.3)
+      cosmiconfig: 8.3.6(typescript@5.5.2)
       graphql: 16.8.1
       jiti: 1.21.6
       minimatch: 4.2.3
@@ -7691,15 +7691,10 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /starknet-types@0.7.2:
-    resolution: {integrity: sha512-r3JJ0rrK0g3FnVRGcFiLY+9YT5WZgxB4TKBfR44wYGevHtKEM6BM5B+Gn1eou1zV7xEAwz3GpmvLSQTUAzDhsw==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dev: false
-
-  /starknet@6.8.0:
-    resolution: {integrity: sha512-HNGgTomnEYbx8UiHNX9vTpa7tg7a1+BHW3vmqfnoejc0L/XjZ6N6h56S18nf8ZGDbe//yfaqk50eGqTaw2oR0g==}
+  /starknet@6.1.5:
+    resolution: {integrity: sha512-mhkadsHf3uoqax0UEfb7VMdfbY5UK8DAlDMnEVKYtG9PstE3ajLWoTu2KKdG0F2CWtPlYqTejuJ0fOEhwIwoPA==}
     dependencies:
-      '@noble/curves': 1.4.0
+      '@noble/curves': 1.3.0
       '@scure/base': 1.1.7
       '@scure/starknet': 1.0.0
       abi-wan-kanabi: 2.2.2
@@ -7707,14 +7702,13 @@ packages:
       isomorphic-fetch: 3.0.0
       lossless-json: 4.0.1
       pako: 2.1.0
-      starknet-types-07: /starknet-types@0.7.2
       ts-mixer: 6.0.4
       url-join: 4.0.1
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.8.0):
+  /starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.1.5):
     resolution: {integrity: sha512-I0gJlNegP+DO3JPjSSfUdflqPah6oUoIUBMl33h1JMwrWSfVA+cPajze7fwRg2xNuJOadI2eeMWI7Q+OdLa+rg==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -7722,10 +7716,10 @@ packages:
       starknet: ^5.25.0
     dependencies:
       '@babel/core': 7.24.7
-      starknet: 6.8.0
+      starknet: 6.1.5
     dev: false
 
-  /starknetkit@1.1.9(starknet@6.8.0):
+  /starknetkit@1.1.9(starknet@6.1.5):
     resolution: {integrity: sha512-KarnNS9sJoImTdpTKizyNzDlQSAOutbzuZ6CzHQpJHWzaf8ION9aIf+d87sY7hSlbmD7cqGRUG28Hpke24arCg==}
     peerDependencies:
       starknet: ^6.7.0
@@ -7737,9 +7731,9 @@ packages:
       detect-browser: 5.3.0
       eventemitter3: 5.0.1
       events: 3.3.0
-      get-starknet-core: 3.3.0(starknet@6.8.0)
+      get-starknet-core: 3.3.0(starknet@6.1.5)
       lodash-es: 4.17.21
-      starknet: 6.8.0
+      starknet: 6.1.5
       svelte-forms: 2.3.1
       trpc-browser: 1.4.2(@trpc/client@10.45.2)(@trpc/server@10.45.2)
     transitivePeerDependencies:
@@ -8052,14 +8046,14 @@ packages:
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  /tsutils@3.21.0(typescript@5.0.3):
+  /tsutils@3.21.0(typescript@5.5.2):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 5.0.3
+      typescript: 5.5.2
     dev: true
 
   /tus-js-client@3.1.3:
@@ -8109,9 +8103,9 @@ packages:
     engines: {node: '>= 18'}
     dev: false
 
-  /typescript@5.0.3:
-    resolution: {integrity: sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==}
-    engines: {node: '>=12.20'}
+  /typescript@5.5.2:
+    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   /ua-parser-js@1.0.38:
@@ -8327,7 +8321,7 @@ packages:
     resolution: {integrity: sha512-VazYSr8tk6S/zkOq5jpR/ryy1HnGxm5XCw+d2Ejpqy1m6d71oZpyFG82dUkgAo7dg/lk3k4TqvJPtuRUtR8URA==}
     dev: false
 
-  /viem@1.21.4(typescript@5.0.3)(zod@3.23.8):
+  /viem@1.21.4(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-BNVYdSaUjeS2zKQgPs+49e5JKocfo60Ib2yiXOWBT6LuVxY1I/6fFX3waEtpXvL1Xn4qu+BVitVtMh9lyThyhQ==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -8340,9 +8334,9 @@ packages:
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 0.9.8(typescript@5.0.3)(zod@3.23.8)
+      abitype: 0.9.8(typescript@5.5.2)(zod@3.23.8)
       isows: 1.0.3(ws@8.13.0)
-      typescript: 5.0.3
+      typescript: 5.5.2
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
@@ -8350,7 +8344,7 @@ packages:
       - zod
     dev: false
 
-  /viem@2.9.20(typescript@5.0.3)(zod@3.23.8):
+  /viem@2.9.20(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-PHb1MrBHMrSZ8Ayuk3Y/6wUTcMbzlACQaM6AJBSv9kRKX3xYSZ/kehi+gvS0swQJeAlTQ4eZM7jsHQJNAOarmg==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -8363,9 +8357,9 @@ packages:
       '@noble/hashes': 1.3.2
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
-      abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
+      abitype: 1.0.0(typescript@5.5.2)(zod@3.23.8)
       isows: 1.0.3(ws@8.13.0)
-      typescript: 5.0.3
+      typescript: 5.5.2
       ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
