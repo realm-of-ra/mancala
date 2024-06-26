@@ -1,39 +1,43 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@apollo/client':
     specifier: ^3.10.4
     version: 3.10.4(@types/react@18.2.42)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
   '@dojoengine/core':
-    specifier: ^0.6.125
-    version: 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^0.7.3
+    version: 0.7.5(starknet@6.8.0)(typescript@5.0.3)
   '@dojoengine/create-burner':
-    specifier: ^0.6.125
-    version: 0.6.125(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^0.7.3
+    version: 0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)
   '@dojoengine/react':
-    specifier: ^0.6.125
-    version: 0.6.125(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^0.7.3
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8)
   '@dojoengine/recs':
-    specifier: ^0.1.35
-    version: 0.1.35(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^2.0.13
+    version: 2.0.13(typescript@5.0.3)(zod@3.23.8)
   '@dojoengine/state':
-    specifier: ^0.6.125
-    version: 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^0.7.3
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
   '@dojoengine/torii-client':
-    specifier: ^0.6.125
-    version: 0.6.125
+    specifier: ^0.7.3
+    version: 0.7.5
   '@dojoengine/utils':
-    specifier: ^0.6.125
-    version: 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^0.7.3
+    version: 0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
   '@heroicons/react':
     specifier: ^2.1.3
     version: 2.1.3(react@18.2.0)
   '@latticexyz/react':
-    specifier: ^2.0.4
-    version: 2.0.4(typescript@5.0.3)(zod@3.23.8)
+    specifier: ^2.0.12
+    version: 2.0.12(typescript@5.0.3)(zod@3.23.8)
   '@latticexyz/utils':
-    specifier: ^2.0.4
-    version: 2.0.4
+    specifier: ^2.0.12
+    version: 2.0.12
   '@material-tailwind/react':
     specifier: ^2.1.9
     version: 2.1.9(react-dom@18.2.0)(react@18.2.0)
@@ -193,10 +197,6 @@ packages:
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
     dev: false
 
-  /@adraffy/ens-normalize@1.9.4:
-    resolution: {integrity: sha512-UK0bHA7hh9cR39V+4gl2/NnBBjoXIxkuWAPCaY4X7fbH4L/azIi7ilWOCjMUYfpJgraLUAqkRi2BqrjME8Rynw==}
-    dev: false
-
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
@@ -285,8 +285,8 @@ packages:
       - encoding
     dev: true
 
-  /@arktype/util@0.0.27:
-    resolution: {integrity: sha512-ZkPuSU8Q56YVgPInFhojLTujejM+VPfaZx6Guop41CvnozWFOTlC0uAHuDqvY4nYq3zXsMkRwm8LmaRZ3mslMg==}
+  /@arktype/util@0.0.29:
+    resolution: {integrity: sha512-fDTBSVzxLj9k1ZjinkawmaQdcXFKMBVK8c+vqMPxwoa94mPMZxBo84yQcqyFVcIcWIkg6qQQmH1ozyT4nqFT/g==}
     dev: false
 
   /@babel/code-frame@7.24.7:
@@ -875,54 +875,55 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  /@dojoengine/core@0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-bsNihnQ8q1VUVqq6BPxbI8hvO9XK5U+nSrzbelUBuu5wZVgod1Wspo1LDZ1xzRTqkEAqz+Fw7htv8onWnHVDCg==}
+  /@dojoengine/core@0.7.5(starknet@6.8.0)(typescript@5.0.3):
+    resolution: {integrity: sha512-QUBMoj+AgMeGT6q2Mg3W1rFxN453aHKJ1zBiz59vqSrhxDhJvbPoUwpQqd9pADiNSdj5U3pjxvbEhN25HpLzlQ==}
     hasBin: true
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 0.1.35(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
       starknet: 6.8.0
+      zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
-      - zod
     dev: false
 
-  /@dojoengine/create-burner@0.6.125(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-M2SedOlkMFURPYOnDEov73K7ruUe1e38FNz0QWBzDGbqfUU/KdJJJxZzFAqGaIgojZXa4rePvOVBykQl+iF2rw==}
+  /@dojoengine/create-burner@0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3):
+    resolution: {integrity: sha512-g3/Qmx/7Z02PkGOKUncrCc4BMlBrrMAVxbyo3l0Gu/a+UgmHfnsU5ULxLloq/MJ9g6S8fWhrtXBxEQM2W4BA8g==}
     peerDependencies:
       react: ^18.2.0
+      react-dom: ^18.2.0
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/core': 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/core': 0.7.5(starknet@6.8.0)(typescript@5.0.3)
       '@scure/bip32': 1.4.0
       '@starknet-react/core': 2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
       encoding: 0.1.13
       get-starknet-core: 3.3.0(starknet@6.8.0)
       js-cookie: 3.0.5
       react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       starknet: 6.8.0
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
-      - zod
     dev: false
 
-  /@dojoengine/react@0.6.125(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-FiBr7B2bsMMUXvjI9NYX1vvmcdPiGFYKxcTtvGl91pZkfrViJSEoj6iVbkyZXi9Y4HVuFrO8RsaRwTrxSQ42XQ==}
+  /@dojoengine/react@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-QnUjtifqTlvJA1nQ2BDDXpXZIoT2DDLGj4RA2o2JN7FlQHFyVv+sLNjjnvKMdf1X54vwuogdp31zO0uyQWKg4w==}
     peerDependencies:
       react: ^18.2.0
       starknet: ^6.1.5
       type-fest: ^2.14.0
     dependencies:
-      '@dojoengine/recs': 0.1.35(typescript@5.0.3)(zod@3.23.8)
-      '@dojoengine/state': 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
-      '@dojoengine/torii-client': 0.6.125
-      '@dojoengine/utils': 0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/utils': 2.0.4
+      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/state': 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/torii-client': 0.7.5
+      '@dojoengine/utils': 0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/utils': 2.0.12
       encoding: 0.1.13
       fast-deep-equal: 3.1.3
       get-starknet-core: 3.3.0(starknet@6.8.0)
@@ -931,18 +932,21 @@ packages:
       rxjs: 7.5.5
       starknet: 6.8.0
       type-fest: 2.19.0
+      zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
+      - '@types/react'
       - bufferutil
+      - immer
       - typescript
       - utf-8-validate
       - zod
     dev: false
 
-  /@dojoengine/recs@0.1.35(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-wWXcH5hCRByGVLbkQ/pdo80xk3fmXoUmXF7cVVdbiKS/Kh/f1iQjjBSudAaogUDPqViXvWNdpmnH/0fas/xzSQ==}
+  /@dojoengine/recs@2.0.13(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-Cgz4Unlnk2FSDoFTYKrJexX/KiSYPMFMxftxQkC+9LUKS5yNGkgFQM7xu4/L1HvpDAenL7NjUmH6ynRAS7Iifw==}
     dependencies:
-      '@latticexyz/schema-type': 2.0.0-next.12(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/utils': 2.0.0-next.12
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/utils': 2.0.12
       mobx: 6.9.0
       rxjs: 7.5.5
     transitivePeerDependencies:
@@ -952,40 +956,44 @@ packages:
       - zod
     dev: false
 
-  /@dojoengine/state@0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-0yg097MiQesPJLzU8nqxCHrzcpo9lwMGEFXgg/r6u2ffhlR3fc55gbhw8cOL2gQhj5UTXiBAysBFcrpDKlHQvA==}
+  /@dojoengine/state@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-eRUMgsNqca1FUwMA95uxGByseLII2fgdLxC1cCXLwgIznLMgKf84z8D8LmyGiLYdX0BZtLM9xIYqgrLgJspdCQ==}
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 0.1.35(typescript@5.0.3)(zod@3.23.8)
-      '@dojoengine/torii-client': 0.6.125
-      '@latticexyz/utils': 2.0.4
+      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
+      '@dojoengine/torii-client': 0.7.5
+      '@latticexyz/utils': 2.0.12
       starknet: 6.8.0
+      zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
+      - '@types/react'
       - bufferutil
+      - immer
+      - react
       - typescript
       - utf-8-validate
       - zod
     dev: false
 
-  /@dojoengine/torii-client@0.6.125:
-    resolution: {integrity: sha512-uxr3KG/AtKNtuwjShsdqndzqyEHh6uxLFcqJkfmf1f4TyHNWDBkgZPP6jaGaFLg13dmeIpS8yJGn3QFSjmxD8g==}
+  /@dojoengine/torii-client@0.7.5:
+    resolution: {integrity: sha512-CIE618c16xPNkFyj067LUG7Po7ldWtyBDqEwc3h1hbl7sUjlyZjJm+PCoZf/gSksWfT5y+gtz9jjtHgaOAL2zA==}
     dependencies:
-      '@dojoengine/torii-wasm': 0.6.125
+      '@dojoengine/torii-wasm': 0.7.5
       typescript: 5.0.3
     dev: false
 
-  /@dojoengine/torii-wasm@0.6.125:
-    resolution: {integrity: sha512-HUTblcadQ5MOcwoODbvj6w3nzIx4+JoYuRXgEWQcRaEOL4FKrBWYTmY960pSbskjwvpMtIg2BDNG9pIis6ip0g==}
+  /@dojoengine/torii-wasm@0.7.5:
+    resolution: {integrity: sha512-qQfnh+jPTiTUB6dj9JPNIbwjSr9Ab3ZfEo9zdDwMkxT2aaqD0OtOb8EQAHKZCVMN3EAOARJm92S6k1OzxPR4Tw==}
     dev: false
 
-  /@dojoengine/utils@0.6.125(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-bAn5zpQqTr5vrnhGeWi81xuccWW/VuqsLkXULTZbiWf0MsFGlInOn8dwvy6LYf9cEUZMokKDI9xdAG90PITFJQ==}
+  /@dojoengine/utils@0.7.5(starknet@6.8.0)(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-pglYhEjCu52WtT1aT5J4s4uCtRq9fCywqvxgPRC/SUARjKlLhPHCoEio7MpCGNKIKXMNbzboFIsptDWBMryzeQ==}
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/recs': 0.1.35(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/utils': 2.0.4
+      '@dojoengine/recs': 2.0.13(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/utils': 2.0.12
       mathjs: 12.4.3
       micro-starknet: 0.2.3
       starknet: 6.8.0
@@ -1006,6 +1014,7 @@ packages:
 
   /@emotion/memoize@0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -2303,10 +2312,18 @@ packages:
     resolution: {integrity: sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew==}
     dev: true
 
-  /@latticexyz/common@2.0.4(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-tPxlaX0xym/y75WTfEVN0eBwCPh7Njs8sNTF6taJB+T/PGEXwWgPsUJ16KZR21Hm55DQj7eQtrYrlWYe6FmJQQ==}
+  /@latticexyz/common@2.0.12(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-B077Ss6N6PO/KVDkXvOKCDR1BN6WP+xYGXGegiyCenvgR4qPvx3EHRe/yPcRXfNJx7vOX0i7zwhaLYcaB5QO/w==}
+    peerDependencies:
+      '@aws-sdk/client-kms': 3.x
+      asn1.js: 5.x
+    peerDependenciesMeta:
+      '@aws-sdk/client-kms':
+        optional: true
+      asn1.js:
+        optional: true
     dependencies:
-      '@latticexyz/schema-type': 2.0.4(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
       '@solidity-parser/parser': 0.16.2
       debug: 4.3.5
       execa: 7.2.0
@@ -2314,7 +2331,7 @@ packages:
       p-retry: 5.1.2
       prettier: 3.2.5
       prettier-plugin-solidity: 1.3.1(prettier@3.2.5)
-      viem: 2.7.12(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -2323,32 +2340,36 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/config@2.0.4(typescript@5.0.3):
-    resolution: {integrity: sha512-aXMrPoblJEdq5aWEkC8cBHvEVfRScljQev5GfB6Lg/hgfXnnMQL8K54dvuBL7YOcbNNlxxRuW8E59+kiSPqKzg==}
+  /@latticexyz/config@2.0.12(typescript@5.0.3):
+    resolution: {integrity: sha512-M9OvNabwuaQEAamv0270mMgT7+S8UpExwvS4OS9rSgRoSd6Y+7cmtNXW3VNXzSjHkLcEk8TFU5ZYp3aAPly+tQ==}
     dependencies:
-      '@latticexyz/common': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/schema-type': 2.0.4(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
       esbuild: 0.17.19
       find-up: 6.3.0
-      viem: 2.7.12(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
       zod: 3.23.8
       zod-validation-error: 1.5.0(zod@3.23.8)
     transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
       - bufferutil
       - supports-color
       - typescript
       - utf-8-validate
     dev: false
 
-  /@latticexyz/protocol-parser@2.0.4(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-a0yejaGlcfDiSjhynNfGjjO2nYC8mVwBdS1a+rAYKX2QqF1fxS4ajM0wNUktqay3dCXBXxRrMkn06p5lTNhTPQ==}
+  /@latticexyz/protocol-parser@2.0.12(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-2P+4nLPPC6ZG9BmAIvS7GBr8+ZiCxeFP5yzHyNrEEPUhZHXyXXPsElupcXV4IptfiFDipwJWkGx9nzF9p4g8ZQ==}
     dependencies:
-      '@latticexyz/common': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/config': 2.0.4(typescript@5.0.3)
-      '@latticexyz/schema-type': 2.0.4(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/config': 2.0.12(typescript@5.0.3)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
       abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
-      viem: 2.7.12(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
     transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
       - bufferutil
       - supports-color
       - typescript
@@ -2356,16 +2377,18 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/react@2.0.4(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-mfJQacu0HVu728pISD211cyMr88DpQLX7kcUJTbuAMI+y22yzCt1e2fIPy9bnNCIXxs5kneNQ8enNGYLsCjscQ==}
+  /@latticexyz/react@2.0.12(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-BHVLITgl0WXtmJwiEhRfq4EeYlKb3m4YSJmSSAuEG2khwUQLZygyMv6ua1iatkEzbmOm3LsPNSCOVNAIHyYdTQ==}
     dependencies:
-      '@latticexyz/recs': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/store': 2.0.4(typescript@5.0.3)
+      '@latticexyz/recs': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/store': 2.0.12(typescript@5.0.3)
       fast-deep-equal: 3.1.3
       mobx: 6.9.0
       react: 18.2.0
       rxjs: 7.5.5
     transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
       - bufferutil
       - supports-color
       - typescript
@@ -2373,11 +2396,11 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/recs@2.0.4(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-W+5w6zyHp3oe5vMi5IUEwLrQEuam57cZzzTXCWswVWSCPpJMrZ9udw792ym1lQ4t6C7VCyFP2XggFQFzw3slsQ==}
+  /@latticexyz/recs@2.0.12(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-8tl1uZKsG/C4P+nnPYgQOIYR/QE0ZbIvnVSQGrWvuif/17oCRSpK6RUIY5DBzv93f95RndmJWi1iQ18KCkynCA==}
     dependencies:
-      '@latticexyz/schema-type': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/utils': 2.0.4
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/utils': 2.0.12
       mobx: 6.9.0
       rxjs: 7.5.5
     transitivePeerDependencies:
@@ -2387,23 +2410,11 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/schema-type@2.0.0-next.12(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-GmWdDmXKPc48KP9LRUB3YJ7UTzjMe08MbWfniR9ChTwJrESZcB8ussCeHL4liuM+6Ts5xKc5fO9p02kd+VqNrQ==}
-    dependencies:
-      abitype: 0.9.8(typescript@5.0.3)(zod@3.23.8)
-      viem: 1.14.0(typescript@5.0.3)(zod@3.23.8)
-    transitivePeerDependencies:
-      - bufferutil
-      - typescript
-      - utf-8-validate
-      - zod
-    dev: false
-
-  /@latticexyz/schema-type@2.0.4(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-wf+ohAZO/5IoMc8D4DPaZz8yrYfgSrUyATpuAh5KZ+qadp2WgKac38b1ql8OQDrJL3gQhRqija2106wxXIy/pQ==}
+  /@latticexyz/schema-type@2.0.12(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-QDnHU3iCQmY8e24CGR3hKUEprHrrNUfFTiUaSuj3J0d/x9iaIafYT2+dWydxgcpCmK4Xl7PgurvJiAVCmcLokg==}
     dependencies:
       abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
-      viem: 2.7.12(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -2411,39 +2422,29 @@ packages:
       - zod
     dev: false
 
-  /@latticexyz/store@2.0.4(typescript@5.0.3):
-    resolution: {integrity: sha512-h9jqRsrqyz90cKalGsKThFapVt2/JDTohLd+ADGuGdsjYcBn5dR/kVnDgLpkdMNk4ahWvRLE8pZqRgYWhxSPag==}
+  /@latticexyz/store@2.0.12(typescript@5.0.3):
+    resolution: {integrity: sha512-dSN3nX4mt8SkHq2pjQ2DEYreRV4/3FVPoy0vhvpbpkpa0QocroYBWzykVMmxYVOcWWUp8pznq0LNBuzyo26H4w==}
     dependencies:
-      '@arktype/util': 0.0.27
-      '@latticexyz/common': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/config': 2.0.4(typescript@5.0.3)
-      '@latticexyz/protocol-parser': 2.0.4(typescript@5.0.3)(zod@3.23.8)
-      '@latticexyz/schema-type': 2.0.4(typescript@5.0.3)(zod@3.23.8)
+      '@arktype/util': 0.0.29
+      '@latticexyz/common': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/config': 2.0.12(typescript@5.0.3)
+      '@latticexyz/protocol-parser': 2.0.12(typescript@5.0.3)(zod@3.23.8)
+      '@latticexyz/schema-type': 2.0.12(typescript@5.0.3)(zod@3.23.8)
       abitype: 1.0.0(typescript@5.0.3)(zod@3.23.8)
       arktype: 1.0.29-alpha
-      viem: 2.7.12(typescript@5.0.3)(zod@3.23.8)
+      viem: 2.9.20(typescript@5.0.3)(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
       - bufferutil
       - supports-color
       - typescript
       - utf-8-validate
     dev: false
 
-  /@latticexyz/utils@2.0.0-next.12:
-    resolution: {integrity: sha512-xJMFZs2thDsCB4pXB1b5xcSk5ur6e/GVpFYZuR4yeEFFvw7tRkXdduSEiI7vB60CN8ATyeKLnVXLZYo1Q2pT2A==}
-    dependencies:
-      ethers: 5.7.2
-      mobx: 6.9.0
-      proxy-deep: 3.1.1
-      rxjs: 7.5.5
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
-  /@latticexyz/utils@2.0.4:
-    resolution: {integrity: sha512-v4XZ0LzN6ftOdeN0sSoECY29Q1Lc5JM6k3ZrNBAf9J5ynU3aULFMGasDWV19mLKJtdLWOnfS/wl+3Uyf6cMvvg==}
+  /@latticexyz/utils@2.0.12:
+    resolution: {integrity: sha512-AwniovUlWY7YL92Mjz/3R0V9g8c5wYg5t3agRmMZ9wgktUB6BYZC65n+sKp88wUuN3DrMLb51UFZOycGh0JD2w==}
     dependencies:
       mobx: 6.9.0
       proxy-deep: 3.1.1
@@ -2704,6 +2705,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.7
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -3662,6 +3664,7 @@ packages:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
     dependencies:
       '@types/node': 20.12.7
+    dev: true
 
   /@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.3):
     resolution: {integrity: sha512-p0QgrEyrxAWBecR56gyn3wkG15TJdI//eetInP3zYRewDh0XS+DhB3VUAd3QqvziFsfaQIoIuZMxZRB7vXYaYw==}
@@ -6135,14 +6138,6 @@ packages:
       - encoding
     dev: false
 
-  /isomorphic-ws@5.0.0(ws@8.13.0):
-    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
-    peerDependencies:
-      ws: '*'
-    dependencies:
-      ws: 8.13.0
-    dev: false
-
   /isomorphic-ws@5.0.0(ws@8.17.1):
     resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
     peerDependencies:
@@ -6690,6 +6685,10 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
 
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
@@ -8328,30 +8327,6 @@ packages:
     resolution: {integrity: sha512-VazYSr8tk6S/zkOq5jpR/ryy1HnGxm5XCw+d2Ejpqy1m6d71oZpyFG82dUkgAo7dg/lk3k4TqvJPtuRUtR8URA==}
     dev: false
 
-  /viem@1.14.0(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-4d+4/H3lnbkSAbrpQ15i1nBA7hne06joLFy3L3m0ZpMc+g+Zr3D4nuSTyeiqbHAYs9m2P9Kjap0HlyGkehasgg==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.4
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@scure/bip32': 1.3.2
-      '@scure/bip39': 1.2.1
-      '@types/ws': 8.5.10
-      abitype: 0.9.8(typescript@5.0.3)(zod@3.23.8)
-      isomorphic-ws: 5.0.0(ws@8.13.0)
-      typescript: 5.0.3
-      ws: 8.13.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-    dev: false
-
   /viem@1.21.4(typescript@5.0.3)(zod@3.23.8):
     resolution: {integrity: sha512-BNVYdSaUjeS2zKQgPs+49e5JKocfo60Ib2yiXOWBT6LuVxY1I/6fFX3waEtpXvL1Xn4qu+BVitVtMh9lyThyhQ==}
     peerDependencies:
@@ -8375,8 +8350,8 @@ packages:
       - zod
     dev: false
 
-  /viem@2.7.12(typescript@5.0.3)(zod@3.23.8):
-    resolution: {integrity: sha512-NbV+Bycw0I4X8y6A04mgJ6+Imt7xXwflgnqisR3JXoJRNc77YSaQCscFN/dmwGLESTkgegJvi+j4nZY32GTpwQ==}
+  /viem@2.9.20(typescript@5.0.3)(zod@3.23.8):
+    resolution: {integrity: sha512-PHb1MrBHMrSZ8Ayuk3Y/6wUTcMbzlACQaM6AJBSv9kRKX3xYSZ/kehi+gvS0swQJeAlTQ4eZM7jsHQJNAOarmg==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
