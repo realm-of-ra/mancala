@@ -20,11 +20,11 @@ dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.7.2" }
 initializer_class_hash = "0xOkhai"
 
 [tool.dojo.env]
-rpc_url = "http://192.168.86.222:8080/"
+rpc_url = "https://api.cartridge.gg/x/mancala/katana"
 # Default account for katana with seed = 0
-account_address = "0xb3ff441a68610b30fd5e2abbf3a1548eb6ba6f3559f2862bf2dc757e5828ca"
-private_key = "0x2bbf4f9fd0bbb2e60b0316c1fe0b76cf7a4d0198bd493ced9b8df2a3a24d68a"
-world_address = ""  # Update this line with your world address
+account_address = "0x6d5530ec2165401daec7062186a74a7311f1ec6de29eb3a6d9e187435b8faa1"
+private_key = "0x1b13dbd252d90b07a504c29a6660d5597c62132284665ff6f1580a40d532110"
+world_address = "0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"  # Update this line with your world address
 
 [tool.dojo.world]
 name = "Mancala"
