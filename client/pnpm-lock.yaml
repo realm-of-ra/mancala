@@ -10,25 +10,25 @@ dependencies:
     version: 3.10.4(@types/react@18.2.42)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
   '@dojoengine/core':
     specifier: ^0.7.3
-    version: 0.7.5(starknet@6.1.5)(typescript@5.5.2)
+    version: 0.7.5(starknet@6.8.0)(typescript@5.5.2)
   '@dojoengine/create-burner':
     specifier: ^0.7.5
-    version: 0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)
+    version: 0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.5.2)
   '@dojoengine/react':
     specifier: ^0.7.3
-    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8)
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/recs':
     specifier: ^2.0.13
     version: 2.0.13(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/state':
     specifier: ^0.7.3
-    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
+    version: 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8)
   '@dojoengine/torii-client':
     specifier: ^0.7.3
     version: 0.7.5
   '@dojoengine/utils':
     specifier: ^0.7.3
-    version: 0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
+    version: 0.7.5(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8)
   '@heroicons/react':
     specifier: ^2.1.3
     version: 2.1.3(react@18.2.0)
@@ -67,7 +67,7 @@ dependencies:
     version: 0.1.7
   '@starknet-react/core':
     specifier: ^2.8.0
-    version: 2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5)
+    version: 2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -114,14 +114,14 @@ dependencies:
     specifier: ^7.8.1
     version: 7.8.1
   starknet:
-    specifier: 6.1.5
-    version: 6.1.5
+    specifier: 6.8.0
+    version: 6.8.0
   starknetid.js:
     specifier: ^3.2.0
-    version: 3.2.0(@babel/core@7.24.7)(starknet@6.1.5)
+    version: 3.2.0(@babel/core@7.24.7)(starknet@6.8.0)
   starknetkit:
     specifier: ^1.1.9
-    version: 1.1.9(starknet@6.1.5)
+    version: 1.1.9(starknet@6.8.0)
   tailwind-merge:
     specifier: ^2.2.2
     version: 2.2.2
@@ -875,14 +875,14 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  /@dojoengine/core@0.7.5(starknet@6.1.5)(typescript@5.5.2):
+  /@dojoengine/core@0.7.5(starknet@6.8.0)(typescript@5.5.2):
     resolution: {integrity: sha512-QUBMoj+AgMeGT6q2Mg3W1rFxN453aHKJ1zBiz59vqSrhxDhJvbPoUwpQqd9pADiNSdj5U3pjxvbEhN25HpLzlQ==}
     hasBin: true
     peerDependencies:
       starknet: ^6.1.5
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
-      starknet: 6.1.5
+      starknet: 6.8.0
       zod: 3.23.8
     transitivePeerDependencies:
       - bufferutil
@@ -890,29 +890,29 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@dojoengine/create-burner@0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2):
+  /@dojoengine/create-burner@0.7.5(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.5.2):
     resolution: {integrity: sha512-g3/Qmx/7Z02PkGOKUncrCc4BMlBrrMAVxbyo3l0Gu/a+UgmHfnsU5ULxLloq/MJ9g6S8fWhrtXBxEQM2W4BA8g==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
       starknet: ^6.1.5
     dependencies:
-      '@dojoengine/core': 0.7.5(starknet@6.1.5)(typescript@5.5.2)
+      '@dojoengine/core': 0.7.5(starknet@6.8.0)(typescript@5.5.2)
       '@scure/bip32': 1.4.0
-      '@starknet-react/core': 2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5)
+      '@starknet-react/core': 2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
       encoding: 0.1.13
-      get-starknet-core: 3.3.0(starknet@6.1.5)
+      get-starknet-core: 3.3.0(starknet@6.8.0)
       js-cookie: 3.0.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      starknet: 6.1.5
+      starknet: 6.8.0
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
     dev: false
 
-  /@dojoengine/react@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8):
+  /@dojoengine/react@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-QnUjtifqTlvJA1nQ2BDDXpXZIoT2DDLGj4RA2o2JN7FlQHFyVv+sLNjjnvKMdf1X54vwuogdp31zO0uyQWKg4w==}
     peerDependencies:
       react: ^18.2.0
@@ -920,17 +920,17 @@ packages:
       type-fest: ^2.14.0
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
-      '@dojoengine/state': 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
+      '@dojoengine/state': 0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8)
       '@dojoengine/torii-client': 0.7.5
-      '@dojoengine/utils': 0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8)
+      '@dojoengine/utils': 0.7.5(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
       encoding: 0.1.13
       fast-deep-equal: 3.1.3
-      get-starknet-core: 3.3.0(starknet@6.1.5)
+      get-starknet-core: 3.3.0(starknet@6.8.0)
       js-cookie: 3.0.5
       react: 18.2.0
       rxjs: 7.5.5
-      starknet: 6.1.5
+      starknet: 6.8.0
       type-fest: 2.19.0
       zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
@@ -956,7 +956,7 @@ packages:
       - zod
     dev: false
 
-  /@dojoengine/state@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8):
+  /@dojoengine/state@0.7.5(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-eRUMgsNqca1FUwMA95uxGByseLII2fgdLxC1cCXLwgIznLMgKf84z8D8LmyGiLYdX0BZtLM9xIYqgrLgJspdCQ==}
     peerDependencies:
       starknet: ^6.1.5
@@ -964,7 +964,7 @@ packages:
       '@dojoengine/recs': 2.0.13(typescript@5.5.2)(zod@3.23.8)
       '@dojoengine/torii-client': 0.7.5
       '@latticexyz/utils': 2.0.12
-      starknet: 6.1.5
+      starknet: 6.8.0
       zustand: 4.5.2(@types/react@18.2.42)(immer@10.1.1)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -987,7 +987,7 @@ packages:
     resolution: {integrity: sha512-qQfnh+jPTiTUB6dj9JPNIbwjSr9Ab3ZfEo9zdDwMkxT2aaqD0OtOb8EQAHKZCVMN3EAOARJm92S6k1OzxPR4Tw==}
     dev: false
 
-  /@dojoengine/utils@0.7.5(starknet@6.1.5)(typescript@5.5.2)(zod@3.23.8):
+  /@dojoengine/utils@0.7.5(starknet@6.8.0)(typescript@5.5.2)(zod@3.23.8):
     resolution: {integrity: sha512-pglYhEjCu52WtT1aT5J4s4uCtRq9fCywqvxgPRC/SUARjKlLhPHCoEio7MpCGNKIKXMNbzboFIsptDWBMryzeQ==}
     peerDependencies:
       starknet: ^6.1.5
@@ -996,7 +996,7 @@ packages:
       '@latticexyz/utils': 2.0.12
       mathjs: 12.4.3
       micro-starknet: 0.2.3
-      starknet: 6.1.5
+      starknet: 6.8.0
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -3433,7 +3433,7 @@ packages:
     resolution: {integrity: sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==}
     dev: false
 
-  /@starknet-react/core@2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5):
+  /@starknet-react/core@2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0):
     resolution: {integrity: sha512-8g9d0Gs811gJnQJHVMxQoXYhv+y5/qug7NQ0lnJ51uytdBhr/Zz5wgeTHW4ZQ5Igljyvf+ks+yhp4P1iSvnSqA==}
     peerDependencies:
       get-starknet-core: ^3.2.0
@@ -3443,14 +3443,14 @@ packages:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.45.1(react@18.2.0)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.0(starknet@6.1.5)
+      get-starknet-core: 3.3.0(starknet@6.8.0)
       immutable: 4.3.6
       react: 18.2.0
-      starknet: 6.1.5
+      starknet: 6.8.0
       zod: 3.23.8
     dev: false
 
-  /@starknet-react/core@2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.1.5):
+  /@starknet-react/core@2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0):
     resolution: {integrity: sha512-fTvTK/YdXLjb/sJ61Z1JpdO0CjtRgsfF4MTh4QioPmmqWCcOyLtoPipgxMDLDMTzNEsqxrDYjZfhYPHqUyoaag==}
     peerDependencies:
       get-starknet-core: ^3.2.0
@@ -3460,10 +3460,10 @@ packages:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.45.1(react@18.2.0)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.0(starknet@6.1.5)
+      get-starknet-core: 3.3.0(starknet@6.8.0)
       immutable: 4.3.6
       react: 18.2.0
-      starknet: 6.1.5
+      starknet: 6.8.0
       zod: 3.23.8
     dev: false
 
@@ -5628,13 +5628,13 @@ packages:
     resolution: {integrity: sha512-Gxc29eLs1fbn6LQ4jSU4vXjlwyZhF5HsGuMAa7gqBP4Rw4yxxltyDUuF5MBclFzDTXO+ACchGQoeela4DSfzdQ==}
     dev: false
 
-  /get-starknet-core@3.3.0(starknet@6.1.5):
+  /get-starknet-core@3.3.0(starknet@6.8.0):
     resolution: {integrity: sha512-TG17zIBdjHIyO0CTjkB7lkuvo24OHLrkB/rZSEdspEAcwcysMpZOVgwrNPIzD89kU8gZ3m1UANarFNPVLULS5Q==}
     peerDependencies:
       starknet: ^5.18.0
     dependencies:
       '@module-federation/runtime': 0.1.21
-      starknet: 6.1.5
+      starknet: 6.8.0
     dev: false
 
   /get-stream@6.0.1:
@@ -7691,10 +7691,15 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /starknet@6.1.5:
-    resolution: {integrity: sha512-mhkadsHf3uoqax0UEfb7VMdfbY5UK8DAlDMnEVKYtG9PstE3ajLWoTu2KKdG0F2CWtPlYqTejuJ0fOEhwIwoPA==}
+  /starknet-types@0.7.2:
+    resolution: {integrity: sha512-r3JJ0rrK0g3FnVRGcFiLY+9YT5WZgxB4TKBfR44wYGevHtKEM6BM5B+Gn1eou1zV7xEAwz3GpmvLSQTUAzDhsw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    dev: false
+
+  /starknet@6.8.0:
+    resolution: {integrity: sha512-HNGgTomnEYbx8UiHNX9vTpa7tg7a1+BHW3vmqfnoejc0L/XjZ6N6h56S18nf8ZGDbe//yfaqk50eGqTaw2oR0g==}
     dependencies:
-      '@noble/curves': 1.3.0
+      '@noble/curves': 1.4.0
       '@scure/base': 1.1.7
       '@scure/starknet': 1.0.0
       abi-wan-kanabi: 2.2.2
@@ -7702,13 +7707,14 @@ packages:
       isomorphic-fetch: 3.0.0
       lossless-json: 4.0.1
       pako: 2.1.0
+      starknet-types-07: /starknet-types@0.7.2
       ts-mixer: 6.0.4
       url-join: 4.0.1
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.1.5):
+  /starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.8.0):
     resolution: {integrity: sha512-I0gJlNegP+DO3JPjSSfUdflqPah6oUoIUBMl33h1JMwrWSfVA+cPajze7fwRg2xNuJOadI2eeMWI7Q+OdLa+rg==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -7716,10 +7722,10 @@ packages:
       starknet: ^5.25.0
     dependencies:
       '@babel/core': 7.24.7
-      starknet: 6.1.5
+      starknet: 6.8.0
     dev: false
 
-  /starknetkit@1.1.9(starknet@6.1.5):
+  /starknetkit@1.1.9(starknet@6.8.0):
     resolution: {integrity: sha512-KarnNS9sJoImTdpTKizyNzDlQSAOutbzuZ6CzHQpJHWzaf8ION9aIf+d87sY7hSlbmD7cqGRUG28Hpke24arCg==}
     peerDependencies:
       starknet: ^6.7.0
@@ -7731,9 +7737,9 @@ packages:
       detect-browser: 5.3.0
       eventemitter3: 5.0.1
       events: 3.3.0
-      get-starknet-core: 3.3.0(starknet@6.1.5)
+      get-starknet-core: 3.3.0(starknet@6.8.0)
       lodash-es: 4.17.21
-      starknet: 6.1.5
+      starknet: 6.8.0
       svelte-forms: 2.3.1
       trpc-browser: 1.4.2(@trpc/client@10.45.2)(@trpc/server@10.45.2)
     transitivePeerDependencies:
