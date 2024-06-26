@@ -1020,8 +1020,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4c00feb6faf81e57c108d77846295d6633e17b0c687a9675d51853e45e96699",
-      "class_hash": "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990",
-      "original_class_hash": "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990",
+      "class_hash": "0x38c4404441c9d7ccbb43752cd5ecaa0edb26a7a79507ad294c353cebe0c5faa",
+      "original_class_hash": "0x38c4404441c9d7ccbb43752cd5ecaa0edb26a7a79507ad294c353cebe0c5faa",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {
@@ -1396,6 +1396,115 @@
       "computed": [],
       "init_calldata": [],
       "name": "mancala::systems::actions::actions"
+    },
+    {
+      "kind": "DojoContract",
+      "address": null,
+      "class_hash": "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec",
+      "original_class_hash": "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec",
+      "base_class_hash": "0x0",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "DummyGamePassImpl",
+          "interface_name": "mancala::systems::dummy_game_pass::IDummyGamePass"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "mancala::systems::dummy_game_pass::IDummyGamePass",
+          "items": [
+            {
+              "type": "function",
+              "name": "balanceOf",
+              "inputs": [
+                {
+                  "name": "account",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::integer::u256"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "balance_of",
+              "inputs": [
+                {
+                  "name": "account",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::integer::u256"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "ownerOf",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u256"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "owner_of",
+              "inputs": [
+                {
+                  "name": "token_id",
+                  "type": "core::integer::u256"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "mancala::systems::dummy_game_pass::DummyGamePass::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ],
+      "reads": [],
+      "writes": [],
+      "computed": [],
+      "init_calldata": [],
+      "name": "mancala::systems::dummy_game_pass::DummyGamePass"
     }
   ],
   "models": [

@@ -30,6 +30,8 @@ mod actions {
     use core::starknet::info::get_execution_info_syscall;
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
     use mancala::models::{player::{GamePlayer, GamePlayerTrait, Player}};
+    use mancala::systems::dummy_game_pass::IDummyGamePassDispatcherTrait;
+    use mancala::systems::dummy_game_pass::IDummyGamePassDispatcher;
     use super::IActions;
 
     #[abi(embed_v0)]
@@ -45,6 +47,12 @@ mod actions {
 
         fn create_game(ref world: IWorldDispatcher) -> MancalaGame {
             let player_one_address = get_caller_address();
+            let contract_address = player_one_address;
+            let balance = IDummyGamePassDispatcher { contract_address }.balance_of(contract_address);
+            let isOwner = IDummyGamePassDispatcher { contract_address }.owner_of(balance);
+            if (player_one_address != isOwner) {
+                panic!("Player doesn't own a Game Pass NFT");
+            };
             let mut game_id: GameId = get!(world, 1, (GameId));
             let player_one = GamePlayerTrait::new(game_id.game_id, player_one_address);
             let mancala_game: MancalaGame = MancalaGameTrait::new(
@@ -59,6 +67,12 @@ mod actions {
             ref world: IWorldDispatcher, game_id: u128, player_two_address: ContractAddress
         ) {
             let mut mancala_game = get!(world, game_id, (MancalaGame));
+            let contract_address = player_two_address;
+            let balance = IDummyGamePassDispatcher { contract_address }.balance_of(contract_address);
+            let isOwner = IDummyGamePassDispatcher { contract_address }.owner_of(balance);
+            if (player_two_address != isOwner) {
+                panic!("Player doesn't own a Game Pass NFT");
+            };
             assert!(
                 mancala_game.player_two == ContractAddressZeroable::zero(), "player_2 already set"
             );

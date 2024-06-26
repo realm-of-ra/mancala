@@ -1,5 +1,6 @@
 mod systems {
     mod actions;
+    mod dummy_game_pass;
 }
 
 mod models {
