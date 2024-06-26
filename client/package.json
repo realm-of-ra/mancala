@@ -10,7 +10,7 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "codegen": "graphql-codegen",
-    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e""
+    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
