@@ -11,6 +11,7 @@ import { isPlayingAtom, profileDataAtom, addressAtom, connectionAtom } from "../
 import audio from "../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
+import { Link } from "react-router-dom";
 import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -195,19 +196,20 @@ export default function Header() {
             <div className="absolute top-1/2 transform translate-y-4 w-[259px] right-0 mt-2 py-2 w-48 border border-gray-400 p-4 bg-[#171922] text-white rounded-md shadow-xl z-20">
                 <span className="flex">
                     <img src={lobby} />
-                    <a href="#" className="block px-4 py-2 text-white">Lobby</a>
+                    <Link to="/" className="block px-4 py-2 text-white">Lobby</Link>
                 </span>
                 <span className="flex">
                     <img src={leader} />
-                    <a href="#" className="block px-4 py-2 text-white">Leadership</a>
+                    <Link to="/" className="block px-4 py-2 text-white">Leadership</Link>
                 </span>
                 <span className="flex">
                     <img src={profile} />
-                    <a href="#" className="block px-4 py-2 text-white">Profile</a>
+                    <Link to="/" className="block px-4 py-2 text-white">Profile</Link>
                 </span>
                 <span className="flex">
                     <img src={connectB} />
-                    <a href="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</a>
+                    {/* <a href="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</a> */}
+                    <Link to="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</Link>
                 </span>
             </div>
         )}
@@ -226,19 +228,19 @@ export default function Header() {
         <div className="absolute top-1/2 transform translate-y-4 w-[259px] right-0 mt-2 py-2 w-48 border border-gray-400 p-4 bg-[#171922] text-white rounded-md shadow-xl z-20">
             <span className="flex">
                 <img src={lobby} />
-                <a href="#" className="block px-4 py-2 text-white">Lobby</a>
+                <Link to="/" className="block px-4 py-2 text-white">Lobby</Link>
             </span>
             <span className="flex">
                 <img src={leader} />
-                <a href="#" className="block px-4 py-2 text-white">Leadership</a>
+                <Link to="/" className="block px-4 py-2 text-white">Leadership</Link>
             </span>
             <span className="flex">
-                <img src={profile} />
-                <a href="#" className="block px-4 py-2 text-white">Profile</a>
+                <img src={profile} alt="profile icon"/>
+                <Link to="/" className="block px-4 py-2 text-white">Profile</Link>
             </span>
             <span className="flex">
                 <img src={connectB} />
-                <a href="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleConnect}>connect Wallet</a>
+                <Link to="/lobby" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleConnect}>connect Wallet</Link>
             </span>
         </div>
     )}
