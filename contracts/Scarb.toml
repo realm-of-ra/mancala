@@ -1,7 +1,7 @@
 [package]
-cairo-version = "2.5.4"
+cairo-version = "2.6.3"
 name = "mancala"
-version = "0.6.0"
+version = "0.7.0"
 
 [cairo]
 sierra-replace-ids = true
@@ -12,7 +12,7 @@ spawn = "./scripts/spawn.sh"
 move = "./scripts/move.sh"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.6.0" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.7.2" }
 
 [[target.dojo]]
 
@@ -22,9 +22,9 @@ initializer_class_hash = "0xOkhai"
 [tool.dojo.env]
 rpc_url = "https://api.cartridge.gg/x/mancala/katana"
 # Default account for katana with seed = 0
-account_address = "0x320607066f250fdee3ce6bd69090ff49eaf8ed42eb9d92c260d4183b917f935"
-private_key = "0x13236cdb9a35b52f5ef8932a3d9fe42830eb43a2cc60a47409bc141a90561c7"
-world_address = "0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"  # Update this line with your world address
+account_address = "0x6d5530ec2165401daec7062186a74a7311f1ec6de29eb3a6d9e187435b8faa1"
+private_key = "0x1b13dbd252d90b07a504c29a6660d5597c62132284665ff6f1580a40d532110"
+world_address = "0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"  # Update this line with your world address
 
 [tool.dojo.world]
 name = "Mancala"
