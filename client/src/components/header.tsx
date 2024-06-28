@@ -26,6 +26,7 @@ import connectB from './connect.svg'
 import leader from './leader.svg'
 import profile from './profile.svg'
 import lobby from './lobby.svg'
+import { Link } from "react-router-dom";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);
@@ -167,9 +168,9 @@ export default function Header() {
             </div>
             <div className="h-[100px] w-[800px]">
                 <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
-                    <a href="/" className="mb-4">
+                    <Link to="/" className="mb-4">
                         <img src={mancala} className="h-10 w-36" />
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className="flex-1 w-full -ml-16">
