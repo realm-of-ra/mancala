@@ -208,7 +208,6 @@ export default function Header() {
                 </span>
                 <span className="flex">
                     <img src={connectB} />
-                    {/* <a href="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</a> */}
                     <Link to="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</Link>
                 </span>
             </div>
