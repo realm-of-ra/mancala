@@ -26,7 +26,6 @@ import connectB from './connect.svg'
 import leader from './leader.svg'
 import profile from './profile.svg'
 import lobby from './lobby.svg'
-import { Link } from "react-router-dom";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);
