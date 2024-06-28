@@ -180,67 +180,67 @@ export default function Header() {
                     <div className="relative">
     {connection?.isConnected ? (
         <div className="relative">
-        <Button className="p-0 flex justify-between relative items-center bg-[#171922] w-[259px] text-sm white whitespace-nowrap rounded-full " >
+        <Button className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-[259px] text-sm text-[#BFC5D4] whitespace-nowrap rounded-full " onClick={handleDropdownToggleClose} >
             <div className="flex w-[259px] flex-row items-center">
-                <div className="px-3.5 py-4 bg-[#272A32] rounded-tl-lg rounded-bl-lg">
+                <div className="px-3.5 py-4 bg-[#272A32] rounded-tl-[30px] rounded-bl-[30px]">
                     <img src={connection.icon} className="w-6 h-6" />
                 </div>
-                <div className="px-3.5 py-5 rounded-tr-lg rounded-br-lg">
-                    <p className="text-white">{truncateString(address)}</p>
+                <div className="px-3.5 py-5">
+                    <p className="">{truncateString(address)}</p>
                 </div>
-                <img src={iconArr} className={`ml-3 transition duration-300 ${isDropdownClose ? 'transform rotate-180' : ''}`} onClick={handleDropdownToggleClose} />
+                <img src={iconArr} className={`ml-3 transition duration-300 ${isDropdownClose ? 'transform rotate-180' : ''}`} />
             </div>
         </Button>
     
         {isDropdownClose && (
-            <div className="absolute top-1/2 transform translate-y-4 w-[259px] right-0 mt-2 py-2 w-48 border border-gray-400 p-4 bg-[#171922] text-white rounded-md shadow-xl z-20">
-                <span className="flex">
+            <div className="absolute top-1/2 font-medium transform translate-y-6 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
+                <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
                     <img src={lobby} />
-                    <Link to="/" className="block px-4 py-2 text-white">Lobby</Link>
+                    <Link to="/" className="block px-4 py-2">Lobby</Link>
                 </span>
-                <span className="flex">
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                     <img src={leader} />
-                    <Link to="/" className="block px-4 py-2 text-white">Leadership</Link>
+                    <Link to="/" className="block px-4 py-2">Leaderboard</Link>
                 </span>
-                <span className="flex">
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                     <img src={profile} />
-                    <Link to="/" className="block px-4 py-2 text-white">Profile</Link>
+                    <Link to="/" className="block px-4 py-2">Profile</Link>
                 </span>
-                <span className="flex">
+                <span className="flex w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer" onClick={handleDisconnect}>
                     <img src={connectB} />
-                    <Link to="#" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleDisconnect}>Disconnect Wallet</Link>
+                    <Link to="#" className="block px-4 py-2 text-[#F58229] whitespace-nowrap">Disconnect Wallet</Link>
                 </span>
             </div>
         )}
     </div>
     ) : (
-        <Button className='flex justify-between relative items-center bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full' onClick={() => console.log()}>
+        <Button className='flex justify-between font-medium relative items-center bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full' onClick={handleDropdownToggle}>
             <span className="bg-[#FFA158] h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
                 <img src={icon3} className="text-left" />
             </span> 
-            <span className="ml-12">Connect Wallet</span>
-            <img src={iconArr} className={`ml-3 transition duration-300 ${isDropdownOpen ? 'transform rotate-180' : ''}`} onClick={handleDropdownToggle} />
+            <span className="ml-12 text-[#FCE3AA]">Connect Wallet</span>
+            <img src={iconArr} className={`ml-3 transition duration-300  ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
         </Button>
     )}
 
     {isDropdownOpen && (
-        <div className="absolute top-1/2 transform translate-y-4 w-[259px] right-0 mt-2 py-2 w-48 border border-gray-400 p-4 bg-[#171922] text-white rounded-md shadow-xl z-20">
-            <span className="flex">
-                <img src={lobby} />
-                <Link to="/" className="block px-4 py-2 text-white">Lobby</Link>
-            </span>
-            <span className="flex">
-                <img src={leader} />
-                <Link to="/" className="block px-4 py-2 text-white">Leadership</Link>
-            </span>
-            <span className="flex">
-                <img src={profile} alt="profile icon"/>
-                <Link to="/" className="block px-4 py-2 text-white">Profile</Link>
-            </span>
-            <span className="flex">
-                <img src={connectB} />
-                <Link to="/lobby" className="block px-4 py-2 text-white whitespace-nowrap" onClick={handleConnect}>connect Wallet</Link>
-            </span>
+        <div className="absolute top-1/2 transform font-medium translate-y-5 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
+                <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
+                    <img src={lobby} />
+                    <Link to="/" className="block px-4 py-2">Lobby</Link>
+                </span>
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                    <img src={leader} />
+                    <Link to="/" className="block px-4 py-2">Leaderboard</Link>
+                </span>
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                    <img src={profile} />
+                    <Link to="/" className="block px-4 py-2">Profile</Link>
+                </span>
+                <span className="flex w-full px-4 py-2 rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                    <img src={connectB} />
+                    <Link to="/lobby" className="block px-4 py-2 text-[#F58229] whitespace-nowrap" onClick={handleConnect}>connect Wallet</Link>
+                </span>
         </div>
     )}
 </div>
