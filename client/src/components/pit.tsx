@@ -16,7 +16,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, mes
             if (address !== userAccount.account.address) {
                 message('Not your pit')
             }
-            else if (status !== 'InProgress') {
+            else if (status !== 'InProgress' && status !== 'TimeOut') {
                 message('Game over')
             }
             else {
