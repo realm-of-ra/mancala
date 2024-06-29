@@ -22,8 +22,8 @@ name = "dojo::base::base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4c00feb6faf81e57c108d77846295d6633e17b0c687a9675d51853e45e96699"
-class_hash = "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990"
-original_class_hash = "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990"
+class_hash = "0x38c4404441c9d7ccbb43752cd5ecaa0edb26a7a79507ad294c353cebe0c5faa"
+original_class_hash = "0x38c4404441c9d7ccbb43752cd5ecaa0edb26a7a79507ad294c353cebe0c5faa"
 base_class_hash = "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46"
 abi = "manifests/dev/abis/deployments/contracts/mancala_systems_actions_actions.json"
 reads = []
@@ -31,6 +31,18 @@ writes = []
 computed = []
 init_calldata = []
 name = "mancala::systems::actions::actions"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec"
+original_class_hash = "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec"
+base_class_hash = "0x0"
+abi = "manifests/dev/abis/deployments/contracts/mancala_systems_dummy_game_pass_DummyGamePass.json"
+reads = []
+writes = []
+computed = []
+init_calldata = []
+name = "mancala::systems::dummy_game_pass::DummyGamePass"
 
 [[models]]
 kind = "DojoModel"

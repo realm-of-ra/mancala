@@ -1,0 +1,10 @@
+kind = "DojoContract"
+class_hash = "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec"
+original_class_hash = "0x3b9055ee5e0b7a24d89b056ed89ab53f4fff384de6333ff6aa9871890212aec"
+base_class_hash = "0x0"
+abi = "manifests/dev/abis/base/contracts/mancala_systems_dummy_game_pass_DummyGamePass.json"
+reads = []
+writes = []
+computed = []
+init_calldata = []
+name = "mancala::systems::dummy_game_pass::DummyGamePass"
