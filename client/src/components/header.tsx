@@ -19,14 +19,14 @@ import { StarkProfile } from "@/types";
 import { useQuery, gql } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
-import icon1 from './Logo - Golden 2.svg'
-import icon2 from './Logo - Golden 2.svg'
-import icon3 from './LogoW.svg'
-import iconArr from './logo-arrow.svg'
-import connectB from './connect.svg'
-import leader from './leader.svg'
-import profile from './profile.svg'
-import lobby from './lobby.svg'
+import icon1 from '../assets/Logo - Golden 2.svg'
+import icon2 from '../assets/Logo - Golden 2.svg'
+import icon3 from '../assets/LogoW.svg'
+import iconArr from '../assets/logo-arrow.svg'
+import connectB from '../assets/connect.svg'
+import leader from '../assets/leader.svg'
+import profile from '../assets/profile.svg'
+import lobby from '../assets/lobby.svg'
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);
