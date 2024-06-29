@@ -17,7 +17,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
 import { useQuery, gql } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Header() {
     const [connection, setConnection] = useAtom(connectionAtom);

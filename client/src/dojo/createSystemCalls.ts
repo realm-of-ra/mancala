@@ -10,7 +10,7 @@ export type SystemCalls = ReturnType<typeof createSystemCalls>
 export function createSystemCalls(
   { client }: { client: IWorld },
   contractComponents: ContractComponents,
-  { GameId, MancalaGame, GamePlayer, Player }: ClientComponents,
+  { GameId, MancalaGame, GamePlayer }: ClientComponents,
 ) {
   const create_initial_game_id = async (account: AccountInterface) => {
     const movesId = uuid()
@@ -18,12 +18,6 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.create_initial_game_id(
         account,
-      )
-
-      console.log(
-        await account.waitForTransaction(transaction_hash, {
-          retryInterval: 100,
-        }),
       )
 
       setComponentsFromEvents(
@@ -47,27 +41,16 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.create_game(account)
 
-      console.log(
-        await account.waitForTransaction(transaction_hash, {
-          retryInterval: 100,
-        }),
-      )
+      const transaction = await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      })
 
-      const waitForTransaction = await account.waitForTransaction(
-        transaction_hash,
-        {
-          retryInterval: 100,
-        },
-      )
+      const events = getEvents(transaction)
 
-      const events = getEvents(waitForTransaction)
-
-      setComponentsFromEvents(contractComponents, events)
       setGameId(events[0].data[3])
     } catch (e) {
       console.log(e)
     } finally {
-      GameId.removeOverride(movesId)
       MancalaGame.removeOverride(movesId)
     }
   }
@@ -84,12 +67,6 @@ export function createSystemCalls(
         player_2,
       )
 
-      console.log(
-        await account.waitForTransaction(transaction_hash, {
-          retryInterval: 100,
-        }),
-      )
-
       const waitForTransaction = await account.waitForTransaction(
         transaction_hash,
         {
@@ -99,7 +76,6 @@ export function createSystemCalls(
 
       const events = getEvents(waitForTransaction)
 
-      setComponentsFromEvents(contractComponents, events)
       setGameId(events[0].data[3])
     } catch (e) {
       console.log(e)
@@ -129,9 +105,6 @@ export function createSystemCalls(
         retryInterval: 100,
       })
 
-      console.log(receipt)
-
-      setComponentsFromEvents(contractComponents, getEvents(receipt))
       if (receipt.statusReceipt == 'success') {
         setJoinStatus({
           status: 'SUCCESS',
@@ -165,12 +138,6 @@ export function createSystemCalls(
         account,
         game_id,
         selected_pit,
-      )
-
-      console.log(
-        await account.waitForTransaction(transaction_hash, {
-          retryInterval: 100,
-        }),
       )
 
       const waitForTransaction = await account.waitForTransaction(

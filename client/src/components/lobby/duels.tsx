@@ -1,11 +1,15 @@
-import { duels_header } from "@/lib/constants";
+import { live_duels_header, player_header } from "@/lib/constants";
 import { Card, Typography } from "@material-tailwind/react";
-import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
-import { useEffect, useMemo, useState } from "react";
+import { Button } from "../ui/button";
+import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
+import { useEffect, useMemo, useState } from "react";
+import { useDojo } from "@/dojo/useDojo";
+import { LiveSkeleton } from "../live-skeleton";
+import { Link } from "react-router-dom";
 import { DuelsSkeleton } from "@/components/duels-skeleton.tsx";
 
 export default function DuelsLobby({ games, transactions }: { games: any, transactions: any }) {
@@ -18,47 +22,56 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
     }, [provider])
     const [challengers, setChallengers] = useState<StarkProfile[]>([]);
     const [challenged, setChallenged] = useState<StarkProfile[]>();
-    const [winners, setWinners] = useState<StarkProfile[]>();
-    const challengerAddresses = games.map((game: any) => game.node.player_one);
-    const challengedAddresses = games.map((game: any) => game.node.player_two);
-    const winnerAddresses = games.map((game: any) => game.node.winner);
+    const [joinStatus, setJoinStatus] = useState<{
+        status: string;
+        index: number;
+    }>();
+    const challengerAddresses = games?.map((game: any) => game.node.player_one);
+    const challengedAddresses = games?.map((game: any) => game.node.player_two);
     useEffect(() => {
         if (!starknetIdNavigator || !challengerAddresses) return;
         (async () => {
             const challengerData = await starknetIdNavigator?.getStarkProfiles(challengerAddresses)
             const challengedData = await starknetIdNavigator?.getStarkProfiles(challengedAddresses)
-            const winnersData = await starknetIdNavigator?.getStarkProfiles(winnerAddresses)
+            // const winnersData = await starknetIdNavigator?.getStarkProfiles(winnerAddresses)
             if (!challengerData) return;
             if (challengerData) setChallengers(challengerData);
             if (!challengedData) return;
             if (challengedData) setChallenged(challengedData);
-            if (!winnersData) return;
-            if (winnersData) setWinners(winnersData)
+            // if (!winnersData) return;
+            // if (winnersData) setWinners(winnersData)
         })();
-    }, [challengerAddresses, challengedAddresses, winnerAddresses, starknetIdNavigator]);
+    }, [challengerAddresses, challengedAddresses, starknetIdNavigator]);
     const data = challengers?.map((challenger, index) => {
         return {
             challenger: challenger,
             challenged: challenged ? challenged[index] : null,
-            winner: winners ? winners[index] : null,
             date: transactions[index].node.executedAt,
         }
     })
-
+    const { account, system } = useDojo()
+    const join_game = async (game_id: string, index: number) => {
+        setJoinStatus({
+            status: "JOINING",
+            index: index,
+        })
+        const player_2_address = account.account.address;
+        await system.join_game(account.account, game_id, player_2_address, setJoinStatus, index);
+    }
     return (
         <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
             <Card className="w-full h-full bg-transparent">
                 <table className="w-full text-left bg-transparent table-auto">
                     <thead className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
                         <tr className="flex flex-row items-center justify-between w-full">
-                            {duels_header.map((head) => (
+                            {live_duels_header.map((head) => (
                                 <th
                                     key={head.id}
-                                    className="p-4 mr-10"
+                                    className={clsx(head.id === 1 ? "text-start" : head.id === 4 ? "text-end" : "text-center", "w-[200px] p-4")}
                                 >
                                     <Typography
                                         variant="small"
-                                        className="font-medium leading-none text-[#BDC2CC]"
+                                        className={clsx(head.id === 4 && "hidden", "font-medium leading-none text-[#BDC2CC]")}
                                     >
                                         {head.name}
                                     </Typography>
@@ -66,11 +79,11 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="absolute h-[450px] w-[814px] overflow-y-scroll">
+                    <tbody className="absolute h-[450px] w-[814px] overflow-x-clip overflow-y-scroll">
                         <table className="w-full text-left table-auto">
                             <thead className="border-b border-[#313640] hidden">
                                 <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
-                                    {duels_header.map((head) => (
+                                    {player_header.map((head) => (
                                         <th
                                             key={head.id}
                                             className="p-4"
@@ -85,56 +98,71 @@ export default function DuelsLobby({ games, transactions }: { games: any, transa
                                     ))}
                                 </tr>
                             </thead>
-                            <tbody className="w-full max-h-[450px] overflow-y-scroll">
-                                {data.length ? data.map((item: any, index: number) => {
-                                    const isLast = index === data.length - 1;
-                                    const date = new Date(item.date)
+                            <tbody className="max-h-[450px] overflow-y-scroll overflow-x-clip">
+                                {data?.length ? data?.map((data: any, index: number) => {
+                                    const isLast = index === games?.length - 1;
+                                    const date = new Date(data.date)
                                     return (
                                         <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-full bg-[#0F1116] flex flex-row items-center")}>
                                             <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
-                                                <div className="flex flex-row items-center space-x-5 w-fit">
-                                                    <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" />
+                                                <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
+                                                    <img src={data.challenger.profilePicture} width={35} height={35} alt={`${data.challenger.name} profile picture`} className="rounded-full" />
                                                     <p
                                                         className="font-normal text-white"
                                                     >
-                                                        {item.challenger.name ? item.challenger.name : truncateString(games[index].node.player_one)}
+                                                        {data.challenger.name ? data.challenger.name : truncateString(games[index].node.player_one)}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-center">
                                                 {
                                                     games[index].node.player_two !== "0x0" ? <div className="flex flex-row items-center space-x-2.5 w-fit">
-                                                        <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" />
+                                                        <img src={data.challenged.profilePicture} width={35} height={35} alt={`${data.challenged.name} profile picture`} className="rounded-full" />
                                                         <p
                                                             className="font-normal text-white"
                                                         >
-                                                            {item.challenged.name ? item.challenged.name : truncateString((games[index].node.player_two))}
+                                                            {data.challenged.name ? data.challenged.name : truncateString((games[index].node.player_two))}
                                                         </p>
                                                     </div> : <p className="text-white">Matchmaking</p>
                                                 }
                                             </td>
-                                            <td className="w-[200px] text-center ml-8">
+                                            <td className="w-[200px] text-center">
                                                 <p
-                                                    className="font-normal text-[#FAB580]"
-                                                >
-                                                    {item.winner.name ? item.winner.name : truncateString((games[index].node.winner))}
-                                                </p>
-                                            </td>
-                                            <td className="w-[200px] text-end pr-12">
-                                                <p
-                                                    className="font-normal text-[#F97E22]"
+                                                    className="font-normal text-[#BDC2CC]"
                                                 >
                                                     {date.toLocaleDateString()}
                                                 </p>
                                             </td>
+                                            <td className="flex flex-row justify-center w-[200px]">
+                                                <Link to={(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? `/games/${games[index].node.game_id}` : ''}>
+                                                    <Button
+                                                        className={"text-[#F58229] bg-transparent active:bg-transparent hover:bg-transparent"}
+                                                        onClick={() => !(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) && join_game(games[index].node.game_id, index)}
+                                                    >{(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? "Go to game" :
+                                                        joinStatus?.status === "JOINING" && joinStatus.index == index ? <div className="flex flex-row items-center justify-center space-x-1">
+                                                            <svg className="text-white animate-spin w-fit" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                                width="24" height="24">
+                                                                <path
+                                                                    d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+                                                                    stroke="#F58229" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"></path>
+                                                                <path
+                                                                    d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                                                                    stroke="#FCE3AA" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-900">
+                                                                </path>
+                                                            </svg>
+                                                            <p className="text-[#FCE3AA] font-semibold">Joining...</p>
+                                                        </div> : joinStatus?.status === "ERROR" && joinStatus.index === index ? "Cannot join game" :
+                                                            joinStatus?.status === "SUCCESS" && joinStatus.index === index ? "Go to game" : "Join game"}</Button>
+                                                </Link>
+                                            </td>
                                         </tr>
                                     );
-                                }) : <DuelsSkeleton />}
+                                }) : <LiveSkeleton />}
                             </tbody>
                         </table>
                     </tbody>
-                </table >
-            </Card >
-        </div>
+                </table>
+            </Card>
+        </div >
     )
 }

@@ -2,10 +2,11 @@ use core::starknet::{ContractAddress, SyscallResultTrait};
 use core::starknet::contract_address::ContractAddressZeroable;
 use core::starknet::info::get_execution_info_syscall;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use mancala::models::player::{GamePlayer, GamePlayerTrait};
+use mancala::models::player::{GamePlayer, GamePlayerTrait, Player};
 
 // this is the model to track the 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct GameId {
     #[key]
     // statically set to 1
@@ -23,7 +24,8 @@ enum GameStatus {
     TimeOut: (),
 }
 
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
 struct MancalaGame {
     #[key]
     game_id: u128,
@@ -61,6 +63,7 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
+    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
 }
 
 impl MancalaImpl of MancalaGameTrait {
@@ -302,4 +305,30 @@ impl MancalaImpl of MancalaGameTrait {
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
         self.last_move
     }
+
+    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player){
+        assert!(
+            self.status == GameStatus::Finished
+                || self.status == GameStatus::TimeOut,
+            "Game is not finished"
+        );
+
+        let winner_address = self.winner;
+        let loser_address = if winner_address == self.player_one {
+            self.player_two
+        } else {
+            self.player_one
+        };
+
+        // Update winner's record
+        let mut winner = get!(world, winner_address, (Player));
+        winner.games_won.append(game_id);
+
+        // Update loser's record
+        let mut loser = get!(world, loser_address, (Player));
+        loser.games_lost.append(game_id);
+        (loser, winner)
+    }
+
+
 }
