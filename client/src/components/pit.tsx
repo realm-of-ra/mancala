@@ -35,7 +35,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, mes
                 <p className='text-white'>{amount}</p>
             </div>
             <div className='flex flex-col items-center justify-center flex-1'>
-                <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
+                <div className='w-[90px] h-[90px] border-2 border-[#3A3E49] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'
                 >
                     <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')}>
                         {
@@ -46,7 +46,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, mes
                                         amount >= 12 && 'w-[12px] h-[12px]',
                                         amount >= 16 && 'w-[10px] h-[10px]',
                                         amount >= 20 && 'w-[7.5px] h-[7.5px]',
-                                        'w-[20px] h-[20px] bg-white rounded-full')
+                                        'w-[20px] h-[20px] bg-[#D9D9D9] rounded-full')
                                     }
                                 />
                             ))
