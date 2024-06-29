@@ -1,14 +1,14 @@
-import { live_duels_header, player_header } from "@/lib/constants";
+import { live_duels_header, player_header } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button.tsx";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
-import { truncateString } from "@/lib/utils";
+import { truncateString } from "@/lib/utils.ts";
 import { useEffect, useMemo, useState } from "react";
-import { useDojo } from "@/dojo/useDojo";
-import { LiveSkeleton } from "./live-skeleton";
+import { useDojo } from "@/dojo/useDojo.tsx";
+import { LiveSkeleton } from "./live-skeleton.tsx";
 import { Link } from "react-router-dom";
 
 export default function LiveDuels({ games, transactions }: { games: any, transactions: any }) {
