@@ -276,7 +276,7 @@ export default function Gameplay() {
           </div>
         </div>
         <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-          <a href="/">
+          <Link to="/">
             <img
               src={logo}
               width={150}
@@ -284,7 +284,7 @@ export default function Gameplay() {
               alt="Logo"
               className="-mt-10"
             />
-          </a>
+          </Link>
         </div>
       </nav>
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">

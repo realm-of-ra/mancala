@@ -124,10 +124,10 @@ export default function Lobby() {
                                 </TabsTrigger>
                             </TabsList>
                             <div className="flex flex-row items-center space-x-5">
-                                <a href="/leaderboard" className="flex flex-row items-center justify-center space-x-1">
+                                <Link to="/leaderboard" className="flex flex-row items-center justify-center space-x-1">
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat"/>
                                     <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
-                                </a>
+                                </Link>
                                 <Button
                                     className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                                     disabled={!isConnected} onClick={handleOpen}>

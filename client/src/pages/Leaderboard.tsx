@@ -9,11 +9,12 @@ import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { getPlayers, truncateString } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Leaderboard() {
 
     const { provider } = useProvider();
+    const navigate = useNavigate();
 
     const starknetIdNavigator = new StarknetIdNavigator(
         provider,
@@ -63,9 +64,10 @@ export default function Leaderboard() {
             <Header />
             <div className="absolute flex flex-row items-center justify-between w-full max-w-5xl top-24">
                 <div className='flex flex-row items-center justify-end w-full'>
-                    <Link to="/lobby" className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center hover:shadow-none">
-                        <Button ripple={false} className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden hover:shadow-none" children />
-                    </Link>
+                    <span className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center hover:shadow-none">
+                        <Button ripple={false} children onClick={() => navigate("/")}
+                                className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden hover:shadow-none" />
+                    </span>
                 </div>
             </div>
             <main className="flex flex-col items-center justify-center mt-56">
