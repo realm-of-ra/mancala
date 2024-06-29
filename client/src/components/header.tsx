@@ -187,7 +187,7 @@ export default function Header() {
                 <div className="px-3.5 py-5">
                     <p className="">{truncateString(address)}</p>
                 </div>
-                <ChevronDownIcon className={clsx(connection?.isConnected ? "text-[#3156cf]" : "text-[#ecb533]", "w-4 h-4 ml-3 transition duration-300", { 'transform rotate-180': isDropdownClose })} />
+                <ChevronDownIcon className={clsx(connection?.isConnected ? "text-[#C7CAD4]" : "text-[#FCE3AA]", "w-4 h-4 ml-3 transition duration-300", { 'transform rotate-180': isDropdownClose })} />
             </div>
         </Button>
     
