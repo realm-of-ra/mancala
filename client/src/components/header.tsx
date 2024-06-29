@@ -14,10 +14,11 @@ import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
 import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
 import { useQuery, gql } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
+import clsx from "clsx";
 import icon1 from './Logo - Golden 2.svg'
 import icon2 from './Logo - Golden 2.svg'
 import icon3 from './LogoW.svg'
@@ -36,7 +37,7 @@ export default function Header() {
     const starknetIdNavigator = new StarknetIdNavigator(
         provider,
         constants.StarknetChainId.SN_MAIN
-    );
+    ); 
 
     const connectWallet = async () => {
         if (connection?.isConnected) {
@@ -71,13 +72,11 @@ export default function Header() {
         } else {
             audioRef.current.pause();
         }
-        if (!connection?.isConnected) {
-            connectWallet()
-        }
         return () => {
             audioRef.current.pause();
         };
     }, [isPlaying]);
+    
     const togglePlay = () => {
         setPlaying(!isPlaying);
     }
@@ -188,7 +187,7 @@ export default function Header() {
                 <div className="px-3.5 py-5">
                     <p className="">{truncateString(address)}</p>
                 </div>
-                <img src={iconArr} className={`ml-3 transition duration-300 ${isDropdownClose ? 'transform rotate-180' : ''}`} />
+                <ChevronDownIcon className={clsx(connection?.isConnected ? "text-[#3156cf]" : "text-[#ecb533]", "w-4 h-4 ml-3 transition duration-300", { 'transform rotate-180': isDropdownClose })} />
             </div>
         </Button>
     
@@ -219,7 +218,7 @@ export default function Header() {
                 <img src={icon3} className="text-left" />
             </span> 
             <span className="ml-12 text-[#FCE3AA]">Connect Wallet</span>
-            <img src={iconArr} className={`ml-3 transition duration-300  ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
+            <ChevronDownIcon className={clsx("w-4 h-4 ml-3 transition duration-300", { 'transform rotate-180': isDropdownOpen })} />
         </Button>
     )}
 
