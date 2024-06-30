@@ -8,7 +8,7 @@ import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
 
-export default function PlayersLobby({ data }: { data: any }) {
+export default function Players({ data }: { data: any }) {
 
     const { provider } = useProvider();
 
