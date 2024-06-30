@@ -21,6 +21,7 @@ trait IActions {
     fn get_player_history(
         world: @IWorldDispatcher, player_address: ContractAddress
     ) -> (Array<u128>, Array<u128>);
+    fn forfeited(ref world: IWorldDispatcher, game_id: u128, player_address: ContractAddress);
 }
 
 #[dojo::contract]
@@ -187,7 +188,26 @@ mod actions {
             (player.games_won, player.games_lost)
         }
 
+        // todo this function is not a production ready function
+        // the player_address should not be passed. The current caller should be used
+        fn forfeited(ref world: IWorldDispatcher, game_id: u128, player_address: ContractAddress) {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let is_a_game_player: bool = mancala_game.player_one == player_address
+                || mancala_game.player_two == player_address;
+            assert!(is_a_game_player == true, "the passed address is not a game player");
+            let player_one: GamePlayer = get!(
+                world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
+            );
+            let player_two: GamePlayer = get!(
+                world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
+            );
+            if player_address == player_one.address {
+                mancala_game.forfeit_game(player_one.address);
+            } else {
+                mancala_game.forfeit_game(player_two.address);
+            }
+            set!(world, (mancala_game));
+        }
     }
 }
-
 

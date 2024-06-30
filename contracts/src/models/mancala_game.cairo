@@ -63,6 +63,7 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
+    fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
     fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
 }
 
@@ -306,10 +307,21 @@ impl MancalaImpl of MancalaGameTrait {
         self.last_move
     }
 
-    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player){
+    // player forfeit action
+    fn forfeit_game(ref self: MancalaGame, player: ContractAddress) {
+        if player == self.player_one {
+            self.winner = self.player_two;
+            self.status = GameStatus::Forfeited;
+        }
+        if player == self.player_two {
+            self.winner = self.player_one;
+            self.status = GameStatus::Forfeited;
+        }
+    }
+
+    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player) {
         assert!(
-            self.status == GameStatus::Finished
-                || self.status == GameStatus::TimeOut,
+            self.status == GameStatus::Finished || self.status == GameStatus::TimeOut,
             "Game is not finished"
         );
 
@@ -329,6 +341,4 @@ impl MancalaImpl of MancalaGameTrait {
         loser.games_lost.append(game_id);
         (loser, winner)
     }
-
-
 }

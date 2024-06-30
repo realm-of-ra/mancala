@@ -1020,8 +1020,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4c00feb6faf81e57c108d77846295d6633e17b0c687a9675d51853e45e96699",
-      "class_hash": "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990",
-      "original_class_hash": "0x253760f6c7a93d429d0061d0d35383905c84a08bd8d85d1adb3dd557309e990",
+      "class_hash": "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a",
+      "original_class_hash": "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {
@@ -1310,6 +1310,22 @@
                 }
               ],
               "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "forfeited",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "player_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
             }
           ]
         },
