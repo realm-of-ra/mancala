@@ -5,19 +5,23 @@ use mancala::models::player::{GamePlayer, GamePlayerTrait, Player};
 
 #[dojo::interface]
 trait IActions {
-    fn create_initial_game_id();
-    fn create_game() -> MancalaGame;
-    fn join_game(game_id: u128, player_two_address: ContractAddress);
-    fn create_private_game(player_two_address: ContractAddress) -> MancalaGame;
-    fn move(game_id: u128, selected_pit: u8) -> (ContractAddress, GameStatus);
-    fn time_out(game_id: u128);
-    fn get_score(game_id: u128) -> (u8, u8);
-    fn is_game_finished(game_id: u128) -> bool;
-    fn test_func(game_id: u128) -> bool;
-    fn initialize_player(player_address: ContractAddress);
-    fn finish_game(game_id: u128);
-    fn get_player_history(player_address: ContractAddress) -> (Array<u128>, Array<u128>);
-    fn forfeited(game_id: u128, player_address: ContractAddress);
+    fn create_initial_game_id(ref world: IWorldDispatcher);
+    fn create_game(ref world: IWorldDispatcher) -> MancalaGame;
+    fn join_game(ref world: IWorldDispatcher, game_id: u128, player_two_address: ContractAddress);
+    fn create_private_game(
+        ref world: IWorldDispatcher, player_two_address: ContractAddress
+    ) -> MancalaGame;
+    fn move(
+        ref world: IWorldDispatcher, game_id: u128, selected_pit: u8
+    ) -> (ContractAddress, GameStatus);
+    fn time_out(ref world: IWorldDispatcher, game_id: u128);
+    fn get_score(ref world: IWorldDispatcher, game_id: u128) -> (u8, u8);
+    fn is_game_finished(ref world: IWorldDispatcher, game_id: u128) -> bool;
+    fn initialize_player(ref world: IWorldDispatcher, player_address: ContractAddress);
+    fn get_player_history(
+        world: @IWorldDispatcher, player_address: ContractAddress
+    ) -> (Array<u128>, Array<u128>);
+    fn forfeited(ref world: IWorldDispatcher, game_id: u128, player_address: ContractAddress);
 }
 
 #[dojo::contract]
@@ -184,11 +188,13 @@ mod actions {
             (player.games_won, player.games_lost)
         }
 
-        fn forfeited(world: IWorldDispatcher, game_id: u128, player_address: ContractAddress){
+        // todo this function is not a production ready function
+        // the player_address should not be passed. The current caller should be used
+        fn forfeited(ref world: IWorldDispatcher, game_id: u128, player_address: ContractAddress) {
             let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
-            let current_player: GamePlayer = get!(
-                world, (mancala_game.current_player, mancala_game.game_id), (GamePlayer)
-            );
+            let is_a_game_player: bool = mancala_game.player_one == player_address
+                || mancala_game.player_two == player_address;
+            assert!(is_a_game_player == true, "the passed address is not a game player");
             let player_one: GamePlayer = get!(
                 world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
             );
@@ -196,16 +202,12 @@ mod actions {
                 world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
             );
             if player_address == player_one.address {
-                mancala_game.forfeit_game(player_one);
+                mancala_game.forfeit_game(player_one.address);
+            } else {
+                mancala_game.forfeit_game(player_two.address);
             }
-            if player_address == player_two.address {
-                mancala_game.forfeit_game(player_two);
-            }
-            else {
-                mancala_game.forfeit_game(current_player)
-            }
+            set!(world, (mancala_game));
         }
     }
 }
-
 

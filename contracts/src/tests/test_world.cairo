@@ -20,7 +20,8 @@ mod tests {
         let mut models = array![mancala_game::TEST_CLASS_HASH];
         let mut world = spawn_test_world(models);
         let init_calldata: Span<felt252> = array![].span();
-        let contract_address = world.deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
+        let contract_address = world
+            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
         let actions_system = IActionsDispatcher { contract_address: contract_address };
         actions_system.create_initial_game_id();
         let game: MancalaGame = actions_system.create_game();
@@ -264,7 +265,7 @@ mod tests {
         set!(world, (mancala_game));
 
         let (loser, winner) = mancala_game.finish_game(world, game.game_id);
-        
+
         set!(world, (loser, winner));
 
         let winner: Player = get!(world, player_one.address, (Player));
@@ -304,7 +305,7 @@ mod tests {
         // assert!(games_won[0] == 1, "First won game should be 1");
         // assert!(games_won[1] == 2, "Second won game should be 2");
         assert!(games_lost.len() == 1, "Should have 1 game lost");
-        // assert!(games_lost[0] == 3, "Lost game should be 3");
+    // assert!(games_lost[0] == 3, "Lost game should be 3");
     }
 
     #[test]
@@ -340,7 +341,7 @@ mod tests {
 
         assert!(p2_won.len() == 0, "Player two should have won 0 games");
         assert!(p2_lost.len() == 1, "Player two should have lost 1 game");
-        // assert!(p2_lost[0] == game.game_id, "Player two's lost game should match");
+    // assert!(p2_lost[0] == game.game_id, "Player two's lost game should match");
     }
 
 
@@ -352,13 +353,12 @@ mod tests {
         // Initialize players
         actions_system.initialize_player(player_one.address);
         actions_system.initialize_player(player_two.address);
-        
+
         //player_one forfeits
         actions_system.forfeited(game.game_id, player_one.address);
         let mancala_game_after = get!(world, (game.game_id), (MancalaGame));
-        assert!(mancala_game_after.status == GameStatus::InProgress, "Game is forfeited");
-        assert!(mancala_game_after.winner == player_one.address, "player_two is the winner");
+        assert!(mancala_game_after.status == GameStatus::Forfeited, "Game is forfeited");
+        assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
     }
-
 }
 
