@@ -12,13 +12,13 @@ export default function Home() {
               Go to lobby
             </button>
           </Link>
-          <a
-            href="/"
+          <Link
+            to="/"
             className="flex flex-row items-center justify-center space-x-1"
           >
                   <p className="text-[#C7CAD4]">Learn more</p>
             <img src={link} width={16} height={16} alt="link" />
-          </a>
+          </Link>
         </div>
       </div>
       <p className="text-[#C7CAD4] absolute bottom-5">by Realm of Ra Studios</p>

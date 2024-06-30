@@ -1,14 +1,14 @@
-import { duels_header } from "@/lib/constants";
+import { duels_header } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
 import { useEffect, useMemo, useState } from "react";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
-import { truncateString } from "@/lib/utils";
-import { DuelsSkeleton } from "./duels-skeleton";
+import { truncateString } from "@/lib/utils.ts";
+import { DuelsSkeleton } from "./duels-skeleton.tsx";
 
-export default function DuelsLobby({ games, transactions }: { games: any, transactions: any }) {
+export default function Duels({ games, transactions }: { games: any, transactions: any }) {
     const { provider } = useProvider();
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(
