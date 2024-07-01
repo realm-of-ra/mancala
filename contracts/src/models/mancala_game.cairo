@@ -317,6 +317,12 @@ impl MancalaImpl of MancalaGameTrait {
                 + player_two.pit4
                 + player_two.pit5
                 + player_two.pit6;
+            player_two.pit1 = 0;
+            player_two.pit2 = 0;
+            player_two.pit3 = 0;
+            player_two.pit4 = 0;
+            player_two.pit5 = 0;
+            player_two.pit6 = 0;
         } else if player_two.is_finished() {
             player_one.mancala += player_one.pit1
                 + player_one.pit2
@@ -324,6 +330,12 @@ impl MancalaImpl of MancalaGameTrait {
                 + player_one.pit4
                 + player_one.pit5
                 + player_one.pit6;
+            player_one.pit1 = 0;
+            player_one.pit2 = 0;
+            player_one.pit3 = 0;
+            player_one.pit4 = 0;
+            player_one.pit5 = 0;
+            player_one.pit6 = 0;
         }
     }
 
