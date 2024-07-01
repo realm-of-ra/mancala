@@ -24,12 +24,15 @@ struct GamePlayer {
     pit4: u8,
     pit5: u8,
     pit6: u8,
-    mancala: u8
+    mancala: u8,
+    restart_requested: bool
 }
 
 trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer;
+
 }
 
 impl GamePlayerImpl of GamePlayerTrait {
@@ -44,10 +47,13 @@ impl GamePlayerImpl of GamePlayerTrait {
             pit4: 4_u8,
             pit5: 4_u8,
             pit6: 4_u8,
-            mancala: 0
+            mancala: 0,
+            restart_requested: false
         };
         game_player
     }
+
+    
 
     // check to see if a players pits are all empty
     fn is_finished(self: GamePlayer) -> bool {
@@ -85,6 +91,23 @@ impl GamePlayerImpl of GamePlayerTrait {
         } else {
             false
         }
+    }
+
+      // restart the game 
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer {
+        let game_player = GamePlayer {
+            address: address,
+            game_id: game_id,
+            pit1: 4_u8,
+            pit2: 4_u8,
+            pit3: 4_u8,
+            pit4: 4_u8,
+            pit5: 4_u8,
+            pit6: 4_u8,
+            mancala: 0,
+            restart_requested: false
+        };
+        game_player
     }
 }
 
