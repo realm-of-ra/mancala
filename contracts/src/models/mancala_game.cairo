@@ -63,6 +63,7 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
+    fn final_capture(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer);
     fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
     fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
 }
@@ -125,15 +126,14 @@ impl MancalaImpl of MancalaGameTrait {
         let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
         let block_info = execution_info.block_info.unbox();
 
-        if player == self.player_one && self.last_move > block_info.block_number
-            + self.time_between_move {
-            self.winner = self.player_two;
-            self.status = GameStatus::TimeOut;
-        }
-        if player == self.player_two && self.last_move > block_info.block_number
-            + self.time_between_move {
-            self.winner = self.player_one;
-            self.status = GameStatus::TimeOut;
+        if self.last_move > block_info.block_number + self.time_between_move {
+            if player == self.player_one {
+                self.winner = self.player_two;
+                self.status = GameStatus::TimeOut;
+            } else if player == self.player_two {
+                self.winner = self.player_one;
+                self.status = GameStatus::TimeOut;
+            }
         }
 
         self.last_move = block_info.block_number;
@@ -305,6 +305,26 @@ impl MancalaImpl of MancalaGameTrait {
     // get the block number of the last move
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64 {
         self.last_move
+    }
+
+    // capture all remaining seeds on the final player side before calling the `set_winner` function
+    // this ensures there is no seed left on the board before setting the winner
+    fn final_capture(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) {
+        if player_one.is_finished() {
+            player_two.mancala += player_two.pit1
+                + player_two.pit2
+                + player_two.pit3
+                + player_two.pit4
+                + player_two.pit5
+                + player_two.pit6;
+        } else if player_two.is_finished() {
+            player_one.mancala += player_one.pit1
+                + player_one.pit2
+                + player_one.pit3
+                + player_one.pit4
+                + player_one.pit5
+                + player_one.pit6;
+        }
     }
 
     // player forfeit action
