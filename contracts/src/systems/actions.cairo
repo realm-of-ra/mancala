@@ -211,7 +211,7 @@ mod actions {
             set!(world, (mancala_game));
         }
 
-         fn request_restart_game(ref world: IWorldDispatcher, game_id: u128) {
+        fn request_restart_game(ref world: IWorldDispatcher, game_id: u128) {
             let player: ContractAddress = get_caller_address();
 
             let mut player_info: GamePlayer = get!(world, (player, game_id), (GamePlayer));

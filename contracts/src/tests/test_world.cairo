@@ -469,7 +469,5 @@ mod tests {
         assert(player_two_game.pit6 == 4, 'p2 pit 5 not init correctly');
         assert(player_two_game.pit6 == 4, 'p2 pit 6 not init correctly');
     }
-
-
 }
 

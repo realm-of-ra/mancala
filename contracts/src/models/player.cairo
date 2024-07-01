@@ -32,7 +32,6 @@ trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
     fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer;
-
 }
 
 impl GamePlayerImpl of GamePlayerTrait {
@@ -53,7 +52,6 @@ impl GamePlayerImpl of GamePlayerTrait {
         game_player
     }
 
-    
 
     // check to see if a players pits are all empty
     fn is_finished(self: GamePlayer) -> bool {
@@ -93,7 +91,7 @@ impl GamePlayerImpl of GamePlayerTrait {
         }
     }
 
-      // restart the game 
+    // restart the game 
     fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer {
         let game_player = GamePlayer {
             address: address,
