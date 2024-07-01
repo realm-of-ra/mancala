@@ -80,7 +80,7 @@ impl MancalaImpl of MancalaGameTrait {
                 .unbox()
                 .block_info
                 .unbox()
-                .block_timestamp,
+                .block_number,
             time_between_move: 100,
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
