@@ -22,6 +22,8 @@ trait IActions {
         world: @IWorldDispatcher, player_address: ContractAddress
     ) -> (Array<u128>, Array<u128>);
     fn forfeited(ref world: IWorldDispatcher, game_id: u128, player_address: ContractAddress);
+    fn request_restart_game(ref world: IWorldDispatcher, game_id: u128);
+    fn restart_game(ref world: IWorldDispatcher, game_id: u128, private: bool) -> MancalaGame;
 }
 
 #[dojo::contract]
@@ -208,6 +210,42 @@ mod actions {
                 mancala_game.forfeit_game(player_two.address);
             }
             set!(world, (mancala_game));
+        }
+
+        fn request_restart_game(ref world: IWorldDispatcher, game_id: u128) {
+            let player: ContractAddress = get_caller_address();
+
+            let mut player_info: GamePlayer = get!(world, (player, game_id), (GamePlayer));
+
+            player_info.restart_requested = true;
+            set!(world, (player_info));
+        }
+
+        fn restart_game(ref world: IWorldDispatcher, game_id: u128, private: bool) -> MancalaGame {
+            let mut mancala_game: MancalaGame = get!(world, game_id, (MancalaGame));
+            let player_one_info: GamePlayer = get!(
+                world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
+            );
+            let player_two_info: GamePlayer = get!(
+                world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
+            );
+
+            assert(player_one_info.restart_requested == true, 'player one did not restart');
+            if (player_two_info.address != ContractAddressZeroable::zero()) {
+                assert(player_two_info.restart_requested == true, 'player two did not restart');
+            }
+
+            let player_one: GamePlayer = GamePlayerTrait::restart_game(
+                game_id, mancala_game.player_one
+            );
+            let player_two: GamePlayer = GamePlayerTrait::restart_game(
+                game_id, mancala_game.player_two
+            );
+            let mancala_game: MancalaGame = MancalaGameTrait::restart_game(
+                game_id, mancala_game.player_one, mancala_game.player_two, private
+            );
+            set!(world, (player_one, player_two, mancala_game));
+            mancala_game
         }
     }
 }

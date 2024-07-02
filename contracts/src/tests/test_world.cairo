@@ -2,7 +2,7 @@
 mod tests {
     use core::starknet::{ContractAddress, get_caller_address};
     use core::starknet::class_hash::Felt252TryIntoClassHash;
-    use core::starknet::testing::{set_block_number, set_caller_address};
+    use core::starknet::testing::{set_block_number, set_caller_address, set_contract_address};
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use dojo::test_utils::{spawn_test_world, deploy_contract};
 
@@ -409,6 +409,114 @@ mod tests {
         assert!(player_two.pit6 == 0, "pit5 does not have correct count");
 
         assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    #[should_panic(expected: ('player two did not restart', 'ENTRYPOINT_FAILED'))]
+    fn test_should_revert_if_only_player_one_has_requested_to_restart() {
+        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
+        let player_one_address = starknet::contract_address_const::<0x456>();
+        let player_two_address = starknet::contract_address_const::<0x455>();
+
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        set_contract_address(player_one_address);
+        let game_two: MancalaGame = actions_system.create_game();
+
+        set_contract_address(player_two_address);
+        actions_system.join_game(game_two.game_id, player_two_address);
+        // player 1 requests to restart
+        set_contract_address(player_one_address);
+        actions_system.request_restart_game(2);
+
+        actions_system.restart_game(2, true);
+    }
+    #[test]
+    #[available_gas(3000000000000)]
+    #[should_panic(expected: ('player one did not restart', 'ENTRYPOINT_FAILED'))]
+    fn test_should_revert_if_only_player_two_has_requested_to_restart() {
+        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
+        let player_one_address = starknet::contract_address_const::<0x456>();
+        let player_two_address = starknet::contract_address_const::<0x455>();
+
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        set_contract_address(player_one_address);
+        let game_two: MancalaGame = actions_system.create_game();
+
+        set_contract_address(player_two_address);
+        actions_system.join_game(game_two.game_id, player_two_address);
+        // player 1 requests to restart
+        set_contract_address(player_two_address);
+        actions_system.request_restart_game(2);
+
+        actions_system.restart_game(2, true);
+    }
+
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_restart_function_with_two_players() {
+        let (_player_one, _player_two, world, _, _, contract_address) = setup_game();
+        let player_one_address = starknet::contract_address_const::<0x456>();
+        let player_two_address = starknet::contract_address_const::<0x455>();
+
+        let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        set_contract_address(player_one_address);
+        let game_two: MancalaGame = actions_system.create_game();
+
+        set_contract_address(player_two_address);
+        actions_system.join_game(game_two.game_id, player_two_address);
+
+        //  player one moves
+        let selected_pit: u8 = 1;
+        set_contract_address(player_one_address);
+        actions_system.move(game_two.game_id, selected_pit);
+        let player_one_game: GamePlayer = get!(
+            world, (player_one_address, game_two.game_id), (GamePlayer)
+        );
+
+        assert!(player_one_game.pit1 == 0, "pit1 not cleared");
+
+        // player two moves
+        set_contract_address(player_two_address);
+        actions_system.move(game_two.game_id, selected_pit);
+        let player_two_game: GamePlayer = get!(
+            world, (player_one_address, game_two.game_id), (GamePlayer)
+        );
+
+        assert!(player_two_game.pit1 == 0, "pit1 b not cleared");
+
+        // player 1 requests to restart
+        set_contract_address(player_one_address);
+        actions_system.request_restart_game(2);
+
+        // player 2 requests to restart
+        set_contract_address(player_two_address);
+        actions_system.request_restart_game(2);
+
+        let mancala_game: MancalaGame = actions_system.restart_game(2, true);
+        let player_one_game: GamePlayer = get!(
+            world, (player_one_address, game_two.game_id), (GamePlayer)
+        );
+        let player_two_game: GamePlayer = get!(
+            world, (player_one_address, game_two.game_id), (GamePlayer)
+        );
+
+        assert(mancala_game.is_private == true, 'mancala game is not private');
+        assert(player_one_game.pit1 == 4, 'p1 pit 1 not init correctly');
+        assert(player_one_game.pit2 == 4, 'p1 pit 2 not init correctly');
+        assert(player_one_game.pit3 == 4, 'p1 pit 3 not init correctly');
+        assert(player_one_game.pit4 == 4, 'p1 pit 4 not init correctly');
+        assert(player_one_game.pit5 == 4, 'p1 pit 5 not init correctly');
+        assert(player_one_game.pit6 == 4, 'p1 pit 6 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 1 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 2 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 3 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 4 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 5 not init correctly');
+        assert(player_two_game.pit6 == 4, 'p2 pit 6 not init correctly');
     }
 }
 
