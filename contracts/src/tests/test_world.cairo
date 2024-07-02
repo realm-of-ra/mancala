@@ -360,5 +360,45 @@ mod tests {
         assert!(mancala_game_after.status == GameStatus::Forfeited, "Game is forfeited");
         assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
     }
+// #[test]
+// #[available_gas(3000000000000)]
+// fn test_final_capture() {
+//     let (player_one, player_two, world, actions_system, game, _) = setup_game();
+
+//     // Initialize players
+//     actions_system.initialize_player(player_one.address);
+//     actions_system.initialize_player(player_two.address);
+
+//     // Set up the game so it will finish after one move
+//     let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
+//     let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+//     p1.pit1 = 1;
+//     p1.pit2 = 0;
+//     p1.pit3 = 0;
+//     p1.pit4 = 0;
+//     p1.pit5 = 0;
+//     p1.pit6 = 0;
+//     set!(world, (mancala_game, p1));
+
+//     let selected_pit: u8 = 1;
+//     actions_system.move(game.game_id, selected_pit);
+//     let game_after_move: MancalaGame = get!(world, game.game_id, (MancalaGame));
+//     let player_one: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+
+//     assert!(player_one.game_id == game.game_id, "player_one game id not correct");
+//     assert!(player_two.game_id == game.game_id, "player_two game id not correct");
+//     assert!(player_one.pit1 == 0, "pit1 not cleared");
+//     assert!(player_one.pit2 == 5, "pit2 does not have correct count");
+//     assert!(player_one.pit3 == 5, "pit3 does not have correct count");
+//     assert!(player_one.pit4 == 5, "pit4 does not have correct count");
+//     assert!(player_one.pit5 == 5, "pit5 does not have correct count");
+//     assert!(player_one.pit6 == 4, "pit5 does not have correct count");
+//     assert!(
+//         game_after_move.current_player == player_two.address, "current player did not switch"
+//     );
+//     assert!(
+//         actions_system.is_game_finished(game.game_id) == false, "game should not be finished"
+//     );
+// }
 }
 
