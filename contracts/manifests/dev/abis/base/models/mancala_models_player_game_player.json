@@ -323,6 +323,20 @@
     "interface_name": "mancala::models::player::Igame_player"
   },
   {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
     "type": "struct",
     "name": "mancala::models::player::GamePlayer",
     "members": [
@@ -361,6 +375,10 @@
       {
         "name": "mancala",
         "type": "core::integer::u8"
+      },
+      {
+        "name": "restart_requested",
+        "type": "core::bool"
       }
     ]
   },

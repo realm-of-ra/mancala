@@ -66,6 +66,9 @@ trait MancalaGameTrait {
     fn final_capture(ref self: MancalaGame, ref player_one: GamePlayer, ref player_two: GamePlayer);
     fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
     fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
+    fn restart_game(
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
+    ) -> MancalaGame;
 }
 
 impl MancalaImpl of MancalaGameTrait {
@@ -374,5 +377,27 @@ impl MancalaImpl of MancalaGameTrait {
         let mut loser = get!(world, loser_address, (Player));
         loser.games_lost.append(game_id);
         (loser, winner)
+    }
+    // restart the game 
+    fn restart_game(
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
+    ) -> MancalaGame {
+        let mancala_game: MancalaGame = MancalaGame {
+            game_id: game_id,
+            player_one: player_one,
+            player_two: player_two,
+            current_player: player_one,
+            last_move: get_execution_info_syscall()
+                .unwrap_syscall()
+                .unbox()
+                .block_info
+                .unbox()
+                .block_number,
+            time_between_move: 100,
+            winner: ContractAddressZeroable::zero(),
+            status: GameStatus::Pending,
+            is_private: private
+        };
+        mancala_game
     }
 }
