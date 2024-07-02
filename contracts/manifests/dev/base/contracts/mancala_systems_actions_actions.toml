@@ -1,6 +1,6 @@
 kind = "DojoContract"
-class_hash = "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a"
-original_class_hash = "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a"
+class_hash = "0x342711033061bbd4450f2b01102059115490e167965bc0a91cd79575e396565"
+original_class_hash = "0x342711033061bbd4450f2b01102059115490e167965bc0a91cd79575e396565"
 base_class_hash = "0x0"
 abi = "manifests/dev/abis/base/contracts/mancala_systems_actions_actions.json"
 reads = []
