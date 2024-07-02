@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x2af0729b10b86352efca71c1632101b5629a923d27f96049e8e1f1121f304a5"
-original_class_hash = "0x2af0729b10b86352efca71c1632101b5629a923d27f96049e8e1f1121f304a5"
+class_hash = "0xdb89747801cdcd3bc7df959974c149596121fafcdd3cb8a388d7841f510cb8"
+original_class_hash = "0xdb89747801cdcd3bc7df959974c149596121fafcdd3cb8a388d7841f510cb8"
 abi = "manifests/dev/abis/base/models/mancala_models_mancala_game_mancala_game.json"
 name = "mancala::models::mancala_game::mancala_game"
 
@@ -22,6 +22,16 @@ key = false
 [[members]]
 name = "current_player"
 type = "ContractAddress"
+key = false
+
+[[members]]
+name = "last_move"
+type = "u64"
+key = false
+
+[[members]]
+name = "time_between_move"
+type = "u64"
 key = false
 
 [[members]]

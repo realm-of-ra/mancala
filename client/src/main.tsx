@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
@@ -19,12 +19,16 @@ async function init() {
         cache: new InMemoryCache(),
     })
 
+    const Loading = () => <div className="text-4xl text-black">Loading...</div>;
+
     root.render(
         <React.StrictMode>
             <ApolloProvider client={client}>
-                <DojoProvider value={setupResult}>
-                    <App />
-                </DojoProvider>
+                <Suspense fallback={<Loading />}>
+                    <DojoProvider value={setupResult}>
+                        <App />
+                    </DojoProvider>
+                </Suspense>
             </ApolloProvider>
         </React.StrictMode>
     );

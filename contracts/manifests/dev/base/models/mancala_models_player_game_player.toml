@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x62f296d1bbb85919111799c80c70422ae5cd414b9cb0d7fee53e34a73ea97a7"
-original_class_hash = "0x62f296d1bbb85919111799c80c70422ae5cd414b9cb0d7fee53e34a73ea97a7"
+class_hash = "0x7e1830563f39a43e5e88fef3c6b005aca7c8694d522f2a093e183556021f2f8"
+original_class_hash = "0x7e1830563f39a43e5e88fef3c6b005aca7c8694d522f2a093e183556021f2f8"
 abi = "manifests/dev/abis/base/models/mancala_models_player_game_player.json"
 name = "mancala::models::player::game_player"
 
@@ -47,4 +47,9 @@ key = false
 [[members]]
 name = "mancala"
 type = "u8"
+key = false
+
+[[members]]
+name = "restart_requested"
+type = "bool"
 key = false

@@ -163,10 +163,6 @@ export const player_header = [
     id: 6,
     name: 'Losses',
   },
-  {
-    id: 7,
-    name: 'Draws',
-  },
 ]
 
 export const player_stats = [
@@ -386,10 +382,6 @@ export const duels_header = [
   {
     id: 4,
     name: 'Date',
-  },
-  {
-    id: 5,
-    name: 'More',
   },
 ]
 

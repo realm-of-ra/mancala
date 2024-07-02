@@ -1,16 +1,18 @@
-use starknet::ContractAddress;
+use core::starknet::ContractAddress;
 
 // useful for the leaderboard to track statistics
-#[derive(Model, Copy, Drop, Serde)]
+#[derive(Drop, Serde)]
+#[dojo::model]
 struct Player {
     #[key]
     address: ContractAddress,
-    games_won: u256,
-    games_lost: u256
+    games_won: Array<u128>,
+    games_lost: Array<u128>
 }
 
 // The GamePlayer is the store for the state in each game
-#[derive(Model, Copy, Drop, Serde, Debug)]
+#[derive(Copy, Drop, Serde, Debug)]
+#[dojo::model]
 struct GamePlayer {
     #[key]
     address: ContractAddress,
@@ -22,12 +24,14 @@ struct GamePlayer {
     pit4: u8,
     pit5: u8,
     pit6: u8,
-    mancala: u8
+    mancala: u8,
+    restart_requested: bool
 }
 
 trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer;
 }
 
 impl GamePlayerImpl of GamePlayerTrait {
@@ -42,7 +46,8 @@ impl GamePlayerImpl of GamePlayerTrait {
             pit4: 4_u8,
             pit5: 4_u8,
             pit6: 4_u8,
-            mancala: 0
+            mancala: 0,
+            restart_requested: false
         };
         game_player
     }
@@ -83,6 +88,22 @@ impl GamePlayerImpl of GamePlayerTrait {
         } else {
             false
         }
+    }
+    // restart the game 
+    fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer {
+        let game_player = GamePlayer {
+            address: address,
+            game_id: game_id,
+            pit1: 4_u8,
+            pit2: 4_u8,
+            pit3: 4_u8,
+            pit4: 4_u8,
+            pit5: 4_u8,
+            pit6: 4_u8,
+            mancala: 0,
+            restart_requested: false
+        };
+        game_player
     }
 }
 

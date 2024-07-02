@@ -13,7 +13,7 @@ export function defineContractComponents(world: typeof World) {
         {
           metadata: {
             name: "GameId",
-            types: ["u32","u128"],
+            types: ["u32", "u128"],
             customTypes: [],
           },
         }
@@ -22,11 +22,11 @@ export function defineContractComponents(world: typeof World) {
     MancalaGame: (() => {
       return defineComponent(
         world,
-        { game_id: RecsType.BigInt, player_one: RecsType.BigInt, player_two: RecsType.BigInt, current_player: RecsType.BigInt, winner: RecsType.BigInt, status: RecsType.Number, is_private: RecsType.Boolean },
+        { game_id: RecsType.BigInt, player_one: RecsType.BigInt, player_two: RecsType.BigInt, current_player: RecsType.BigInt, last_move: RecsType.BigInt, time_between_move: RecsType.BigInt, winner: RecsType.BigInt, status: RecsType.Number, is_private: RecsType.Boolean },
         {
           metadata: {
             name: "MancalaGame",
-            types: ["u128","contractaddress","contractaddress","contractaddress","contractaddress","enum","bool"],
+            types: ["u128", "contractaddress", "contractaddress", "contractaddress", "u64", "u64", "contractaddress", "enum", "bool"],
             customTypes: ["GameStatus"],
           },
         }
@@ -39,7 +39,7 @@ export function defineContractComponents(world: typeof World) {
         {
           metadata: {
             name: "GamePlayer",
-            types: ["contractaddress","u128","u8","u8","u8","u8","u8","u8","u8"],
+            types: ["contractaddress", "u128", "u8", "u8", "u8", "u8", "u8", "u8", "u8"],
             customTypes: [],
           },
         }
@@ -48,11 +48,11 @@ export function defineContractComponents(world: typeof World) {
     Player: (() => {
       return defineComponent(
         world,
-        { address: RecsType.BigInt, games_won: RecsType.BigInt, games_lost: RecsType.BigInt },
+        { address: RecsType.BigInt, games_won: undefined, games_lost: undefined },
         {
           metadata: {
             name: "Player",
-            types: ["contractaddress","u256","u256"],
+            types: ["contractaddress"],
             customTypes: [],
           },
         }

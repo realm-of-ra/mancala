@@ -77,6 +77,10 @@
       {
         "name": "Forfeited",
         "type": "()"
+      },
+      {
+        "name": "TimeOut",
+        "type": "()"
       }
     ]
   },
@@ -115,6 +119,14 @@
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
+        "name": "last_move",
+        "type": "core::integer::u64"
+      },
+      {
+        "name": "time_between_move",
+        "type": "core::integer::u64"
+      },
+      {
         "name": "winner",
         "type": "core::starknet::contract_address::ContractAddress"
       },
@@ -137,7 +149,7 @@
         "name": "create_initial_game_id",
         "inputs": [],
         "outputs": [],
-        "state_mutability": "view"
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -148,7 +160,7 @@
             "type": "mancala::models::mancala_game::MancalaGame"
           }
         ],
-        "state_mutability": "view"
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -164,7 +176,7 @@
           }
         ],
         "outputs": [],
-        "state_mutability": "view"
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -180,7 +192,7 @@
             "type": "mancala::models::mancala_game::MancalaGame"
           }
         ],
-        "state_mutability": "view"
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -200,7 +212,19 @@
             "type": "(core::starknet::contract_address::ContractAddress, mancala::models::mancala_game::GameStatus)"
           }
         ],
-        "state_mutability": "view"
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "time_out",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -216,7 +240,7 @@
             "type": "(core::integer::u8, core::integer::u8)"
           }
         ],
-        "state_mutability": "view"
+        "state_mutability": "external"
       },
       {
         "type": "function",
@@ -232,22 +256,100 @@
             "type": "core::bool"
           }
         ],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "initialize_player",
+        "inputs": [
+          {
+            "name": "player_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "get_player_history",
+        "inputs": [
+          {
+            "name": "player_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "(core::array::Array::<core::integer::u128>, core::array::Array::<core::integer::u128>)"
+          }
+        ],
         "state_mutability": "view"
       },
       {
         "type": "function",
-        "name": "test_func",
+        "name": "forfeited",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "player_address",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "request_restart_game",
         "inputs": [
           {
             "name": "game_id",
             "type": "core::integer::u128"
           }
         ],
-        "outputs": [
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "restart_game",
+        "inputs": [
           {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "private",
             "type": "core::bool"
           }
         ],
+        "outputs": [
+          {
+            "type": "mancala::models::mancala_game::MancalaGame"
+          }
+        ],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "IDojoInitImpl",
+    "interface_name": "mancala::systems::actions::actions::IDojoInit"
+  },
+  {
+    "type": "interface",
+    "name": "mancala::systems::actions::actions::IDojoInit",
+    "items": [
+      {
+        "type": "function",
+        "name": "dojo_init",
+        "inputs": [],
+        "outputs": [],
         "state_mutability": "view"
       }
     ]

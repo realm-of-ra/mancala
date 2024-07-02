@@ -10,20 +10,20 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "codegen": "graphql-codegen",
-    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x1ee592601cde2eb4147136aadf1f2f07d4519d510e0cd013a4339dd09a1e192"
+    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
-    "@dojoengine/core": "^0.6.125",
-    "@dojoengine/create-burner": "^0.6.125",
-    "@dojoengine/react": "^0.6.125",
-    "@dojoengine/recs": "^0.1.35",
-    "@dojoengine/state": "^0.6.125",
-    "@dojoengine/torii-client": "^0.6.125",
-    "@dojoengine/utils": "^0.6.125",
+    "@dojoengine/core": "0.7.2",
+    "@dojoengine/create-burner": "0.7.2",
+    "@dojoengine/react": "0.7.2",
+    "@dojoengine/recs": "^2.0.13",
+    "@dojoengine/state": "0.7.2",
+    "@dojoengine/torii-client": "0.7.2",
+    "@dojoengine/utils": "0.7.2",
     "@heroicons/react": "^2.1.3",
-    "@latticexyz/react": "^2.0.4",
-    "@latticexyz/utils": "^2.0.4",
+    "@latticexyz/react": "2.0.4",
+    "@latticexyz/utils": "2.0.4",
     "@material-tailwind/react": "^2.1.9",
     "@pushprotocol/restapi": "^1.7.22",
     "@pushprotocol/socket": "^0.5.3",
@@ -74,7 +74,7 @@
     "eslint-plugin-react-refresh": "^0.3.4",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "^4.3.9"
   }
 }
