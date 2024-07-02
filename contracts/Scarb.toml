@@ -1,5 +1,5 @@
 [package]
-cairo-version = "2.6.4"
+cairo-version = "2.6.3"
 name = "mancala"
 version = "0.7.0"
 

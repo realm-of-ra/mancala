@@ -207,7 +207,7 @@ mod tests {
 
     #[test]
     fn test_game_should_be_finished() {
-        let (mut player_one, _, world, actions_system, mancala_game, _) = setup_game();
+        let (mut player_one, mut player_two, world, actions_system, mancala_game, _) = setup_game();
         player_one.pit1 = 0;
         player_one.pit2 = 0;
         player_one.pit3 = 0;
@@ -226,7 +226,7 @@ mod tests {
         assert!(
             mancala_game_after_move.status == GameStatus::Finished, "game status is not Finished"
         );
-        assert!(mancala_game_after_move.winner == player_one.address, "winner is not player one");
+        assert!(mancala_game_after_move.winner == player_two.address, "winner is not player two");
     }
 
     // New tests for the updated Player model
@@ -320,13 +320,21 @@ mod tests {
         // Set up the game so it will finish after one move
         let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
         let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+        let mut p2: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
         p1.pit1 = 1;
         p1.pit2 = 0;
         p1.pit3 = 0;
         p1.pit4 = 0;
         p1.pit5 = 0;
         p1.pit6 = 0;
+        p2.pit1 = 0;
+        p2.pit2 = 0;
+        p2.pit3 = 0;
+        p2.pit4 = 0;
+        p2.pit5 = 0;
+        p2.pit6 = 0;
         set!(world, (mancala_game, p1));
+        set!(world, (mancala_game, p2));
 
         // Make the move that should finish the game
         actions_system.move(game.game_id, 1);
@@ -360,45 +368,47 @@ mod tests {
         assert!(mancala_game_after.status == GameStatus::Forfeited, "Game is forfeited");
         assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
     }
-// #[test]
-// #[available_gas(3000000000000)]
-// fn test_final_capture() {
-//     let (player_one, player_two, world, actions_system, game, _) = setup_game();
 
-//     // Initialize players
-//     actions_system.initialize_player(player_one.address);
-//     actions_system.initialize_player(player_two.address);
+    #[test]
+    #[available_gas(3000000000000)]
+    fn test_final_capture() {
+        let (player_one, player_two, world, actions_system, game, _) = setup_game();
 
-//     // Set up the game so it will finish after one move
-//     let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
-//     let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
-//     p1.pit1 = 1;
-//     p1.pit2 = 0;
-//     p1.pit3 = 0;
-//     p1.pit4 = 0;
-//     p1.pit5 = 0;
-//     p1.pit6 = 0;
-//     set!(world, (mancala_game, p1));
+        // Initialize players
+        actions_system.initialize_player(player_one.address);
+        actions_system.initialize_player(player_two.address);
 
-//     let selected_pit: u8 = 1;
-//     actions_system.move(game.game_id, selected_pit);
-//     let game_after_move: MancalaGame = get!(world, game.game_id, (MancalaGame));
-//     let player_one: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+        // Set up the game so it will finish after one move
+        let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
+        let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+        let mut p2: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
+        p1.pit1 = 1;
+        p1.pit2 = 0;
+        p1.pit3 = 0;
+        p1.pit4 = 0;
+        p1.pit5 = 0;
+        p1.pit6 = 0;
+        set!(world, (mancala_game, p1));
+        set!(world, (mancala_game, p2));
 
-//     assert!(player_one.game_id == game.game_id, "player_one game id not correct");
-//     assert!(player_two.game_id == game.game_id, "player_two game id not correct");
-//     assert!(player_one.pit1 == 0, "pit1 not cleared");
-//     assert!(player_one.pit2 == 5, "pit2 does not have correct count");
-//     assert!(player_one.pit3 == 5, "pit3 does not have correct count");
-//     assert!(player_one.pit4 == 5, "pit4 does not have correct count");
-//     assert!(player_one.pit5 == 5, "pit5 does not have correct count");
-//     assert!(player_one.pit6 == 4, "pit5 does not have correct count");
-//     assert!(
-//         game_after_move.current_player == player_two.address, "current player did not switch"
-//     );
-//     assert!(
-//         actions_system.is_game_finished(game.game_id) == false, "game should not be finished"
-//     );
-// }
+        let selected_pit: u8 = 1;
+        actions_system.move(game.game_id, selected_pit);
+
+        let mancala_game_after = get!(world, (game.game_id), (MancalaGame));
+        let player_two: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
+
+        assert!(player_one.game_id == game.game_id, "player_one game id not correct");
+        assert!(player_two.game_id == game.game_id, "player_two game id not correct");
+
+        // assert all pits are cleared on the board
+        assert!(player_two.pit1 == 0, "pit1 not cleared");
+        assert!(player_two.pit2 == 0, "pit2 does not have correct count");
+        assert!(player_two.pit3 == 0, "pit3 does not have correct count");
+        assert!(player_two.pit4 == 0, "pit4 does not have correct count");
+        assert!(player_two.pit5 == 0, "pit5 does not have correct count");
+        assert!(player_two.pit6 == 0, "pit5 does not have correct count");
+
+        assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
+    }
 }
 

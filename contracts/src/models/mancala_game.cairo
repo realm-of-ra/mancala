@@ -63,7 +63,7 @@ trait MancalaGameTrait {
     fn get_players(self: MancalaGame, world: IWorldDispatcher) -> (GamePlayer, GamePlayer);
     fn get_score(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> (u8, u8);
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
-    fn final_capture(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer);
+    fn final_capture(ref self: MancalaGame, ref player_one: GamePlayer, ref player_two: GamePlayer);
     fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
     fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
 }
@@ -309,7 +309,9 @@ impl MancalaImpl of MancalaGameTrait {
 
     // capture all remaining seeds on the final player side before calling the `set_winner` function
     // this ensures there is no seed left on the board before setting the winner
-    fn final_capture(ref self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) {
+    fn final_capture(
+        ref self: MancalaGame, ref player_one: GamePlayer, ref player_two: GamePlayer
+    ) {
         if player_one.is_finished() {
             player_two.mancala += player_two.pit1
                 + player_two.pit2

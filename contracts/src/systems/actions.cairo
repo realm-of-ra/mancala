@@ -112,7 +112,7 @@ mod actions {
                     .distribute_seeds(ref current_player, ref opponent, ref seeds, selected_pit);
 
                 if mancala_game.is_game_finished(current_player, opponent) {
-                    mancala_game.final_capture(current_player, opponent);
+                    mancala_game.final_capture(ref current_player, ref opponent);
                     mancala_game.set_winner(current_player, opponent);
                     set!(world, (mancala_game, current_player, opponent));
 
