@@ -11,7 +11,7 @@ import CreateLoaderSVG from "./components/ui/svgs/create-loader.tsx";
 export default function AppWrapper() {
   const [setupResult, setSetupResult] = useState<any>(null)
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error|null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setup(dojoConfig)
@@ -24,7 +24,7 @@ export default function AppWrapper() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return (
+  if (loading || (!error && !setupResult)) return (
     <div className="w-full h-screen grid place-items-center bg-primary">
       <div
         className="flex flex-row items-center justify-center space-x-1">
@@ -36,13 +36,12 @@ export default function AppWrapper() {
 
   if (error) throw error;
 
-  return (
+  if (setupResult) return (
     <ApolloProvider client={appoloClient}>
       <DojoProvider value={setupResult}>
         <App />
       </DojoProvider>
     </ApolloProvider>
-
   )
 }
 

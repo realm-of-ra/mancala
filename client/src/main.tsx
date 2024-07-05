@@ -1,13 +1,7 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
-import { setup } from "./dojo/generated/setup.ts";
-import { DojoProvider } from "./dojo/DojoContext.tsx";
-import { dojoConfig } from "../dojoConfig.ts";
-import { ApolloProvider } from '@apollo/client';
 import ErrorBoundary from "./components/boundaries/error-boundary.tsx";
-import appoloClient from "./lib/appolo-client.ts";
 import AppWrapper from "./AppWrapper.tsx";
 
 async function init() {
