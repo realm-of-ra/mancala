@@ -19,9 +19,9 @@ export default function Duels({ games, transactions }: { games: any, transaction
     const [challengers, setChallengers] = useState<StarkProfile[]>([]);
     const [challenged, setChallenged] = useState<StarkProfile[]>();
     const [winners, setWinners] = useState<StarkProfile[]>();
-    const challengerAddresses = games.map((game: any) => game.node.player_one);
-    const challengedAddresses = games.map((game: any) => game.node.player_two);
-    const winnerAddresses = games.map((game: any) => game.node.winner);
+    const challengerAddresses = games?.map((game: any) => game.node.player_one);
+    const challengedAddresses = games?.map((game: any) => game.node.player_two);
+    const winnerAddresses = games?.map((game: any) => game.node.winner);
     useEffect(() => {
         if (!starknetIdNavigator || !challengerAddresses) return;
         (async () => {
