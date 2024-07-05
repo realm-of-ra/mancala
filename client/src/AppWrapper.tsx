@@ -36,7 +36,7 @@ export default function AppWrapper() {
 
   if (error) throw error;
 
-  if (setupResult) return (
+  return (
     <ApolloProvider client={appoloClient}>
       <DojoProvider value={setupResult}>
         <App />
