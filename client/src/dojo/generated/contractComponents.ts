@@ -2,7 +2,9 @@
 
 import { defineComponent, Type as RecsType, World } from "@dojoengine/recs";
 
-export type ContractComponents = Awaited<ReturnType<typeof defineContractComponents>>;
+export type ContractComponents = Awaited<
+  ReturnType<typeof defineContractComponents>
+>;
 
 export function defineContractComponents(world: typeof World) {
   return {
@@ -16,46 +18,92 @@ export function defineContractComponents(world: typeof World) {
             types: ["u32", "u128"],
             customTypes: [],
           },
-        }
+        },
       );
     })(),
     MancalaGame: (() => {
       return defineComponent(
         world,
-        { game_id: RecsType.BigInt, player_one: RecsType.BigInt, player_two: RecsType.BigInt, current_player: RecsType.BigInt, last_move: RecsType.BigInt, time_between_move: RecsType.BigInt, winner: RecsType.BigInt, status: RecsType.Number, is_private: RecsType.Boolean },
+        {
+          game_id: RecsType.BigInt,
+          player_one: RecsType.BigInt,
+          player_two: RecsType.BigInt,
+          current_player: RecsType.BigInt,
+          last_move: RecsType.BigInt,
+          time_between_move: RecsType.BigInt,
+          winner: RecsType.BigInt,
+          status: RecsType.Number,
+          is_private: RecsType.Boolean,
+        },
         {
           metadata: {
             name: "MancalaGame",
-            types: ["u128", "contractaddress", "contractaddress", "contractaddress", "u64", "u64", "contractaddress", "enum", "bool"],
+            types: [
+              "u128",
+              "contractaddress",
+              "contractaddress",
+              "contractaddress",
+              "u64",
+              "u64",
+              "contractaddress",
+              "enum",
+              "bool",
+            ],
             customTypes: ["GameStatus"],
           },
-        }
+        },
       );
     })(),
     GamePlayer: (() => {
       return defineComponent(
         world,
-        { address: RecsType.BigInt, game_id: RecsType.BigInt, pit1: RecsType.Number, pit2: RecsType.Number, pit3: RecsType.Number, pit4: RecsType.Number, pit5: RecsType.Number, pit6: RecsType.Number, mancala: RecsType.Number },
+        {
+          address: RecsType.BigInt,
+          game_id: RecsType.BigInt,
+          pit1: RecsType.Number,
+          pit2: RecsType.Number,
+          pit3: RecsType.Number,
+          pit4: RecsType.Number,
+          pit5: RecsType.Number,
+          pit6: RecsType.Number,
+          mancala: RecsType.Number,
+          restart_requested: RecsType.Boolean,
+        },
         {
           metadata: {
             name: "GamePlayer",
-            types: ["contractaddress", "u128", "u8", "u8", "u8", "u8", "u8", "u8", "u8"],
+            types: [
+              "contractaddress",
+              "u128",
+              "u8",
+              "u8",
+              "u8",
+              "u8",
+              "u8",
+              "u8",
+              "u8",
+              "bool",
+            ],
             customTypes: [],
           },
-        }
+        },
       );
     })(),
     Player: (() => {
       return defineComponent(
         world,
-        { address: RecsType.BigInt, games_won: undefined, games_lost: undefined },
+        {
+          address: RecsType.BigInt,
+          games_won: RecsType.StringArray,
+          games_lost: RecsType.StringArray,
+        },
         {
           metadata: {
             name: "Player",
             types: ["contractaddress"],
             customTypes: [],
           },
-        }
+        },
       );
     })(),
   };

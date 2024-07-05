@@ -1000,7 +1000,7 @@
       }
     ],
     "address": "0x4404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e",
-    "transaction_hash": "0x46101c98f2329991aa818a28705eb7d79fef37ae334a62f090b6fd046a541ae",
+    "transaction_hash": "0x40dbdad0648056b826a9f933e505f01aa5f839eb50beb59c540dadbc69c8931",
     "block_number": 3,
     "seed": "mancala",
     "metadata": {
@@ -1020,8 +1020,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4c00feb6faf81e57c108d77846295d6633e17b0c687a9675d51853e45e96699",
-      "class_hash": "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a",
-      "original_class_hash": "0x6e9331b226cf8f6698aebc4b1b9df5113835c5af8ce684bc400cde81106fa7a",
+      "class_hash": "0x4543302a703b8c2e2275cfc1e823a2ed423ecc74b5a4c7dd7c9e16f8705d029",
+      "original_class_hash": "0x4543302a703b8c2e2275cfc1e823a2ed423ecc74b5a4c7dd7c9e16f8705d029",
       "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
       "abi": [
         {
@@ -1325,6 +1325,38 @@
                 }
               ],
               "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "request_restart_game",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "restart_game",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "private",
+                  "type": "core::bool"
+                }
+              ],
+              "outputs": [
+                {
+                  "type": "mancala::models::mancala_game::MancalaGame"
+                }
+              ],
               "state_mutability": "external"
             }
           ]
@@ -2327,10 +2359,15 @@
           "name": "mancala",
           "type": "u8",
           "key": false
+        },
+        {
+          "name": "restart_requested",
+          "type": "bool",
+          "key": false
         }
       ],
-      "class_hash": "0x114ce09d47eeb865877597efe7090b5d7f9273e0ef52ab00cea3473638a61e8",
-      "original_class_hash": "0x114ce09d47eeb865877597efe7090b5d7f9273e0ef52ab00cea3473638a61e8",
+      "class_hash": "0x7e1830563f39a43e5e88fef3c6b005aca7c8694d522f2a093e183556021f2f8",
+      "original_class_hash": "0x7e1830563f39a43e5e88fef3c6b005aca7c8694d522f2a093e183556021f2f8",
       "abi": [
         {
           "type": "impl",
@@ -2656,6 +2693,20 @@
           "interface_name": "mancala::models::player::Igame_player"
         },
         {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
           "type": "struct",
           "name": "mancala::models::player::GamePlayer",
           "members": [
@@ -2694,6 +2745,10 @@
             {
               "name": "mancala",
               "type": "core::integer::u8"
+            },
+            {
+              "name": "restart_requested",
+              "type": "core::bool"
             }
           ]
         },
