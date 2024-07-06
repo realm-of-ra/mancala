@@ -17,9 +17,10 @@ import end from "../assets/end.png";
 import clip from "../assets/copied.png";
 import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
+import { gql } from "@/__generated__";
 
 export default function Lobby() {
     const connection = useAtomValue(connectionAtom)
@@ -61,7 +62,7 @@ export default function Lobby() {
     }
 
     const { loading, error, data, startPolling } = useQuery(
-        gql`
+        gql(`
             query {
                 mancalaGameModels {
                     edges {
@@ -84,7 +85,7 @@ export default function Lobby() {
                     }
                 }
             }
-        `
+        `)
     )
     startPolling(1000);
     useEffect(() => {

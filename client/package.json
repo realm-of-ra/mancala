@@ -10,6 +10,7 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "codegen": "graphql-codegen",
+    "codegen-watch": "graphql-codegen -w",
     "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
   },
   "dependencies": {
@@ -36,7 +37,6 @@
     "clsx": "^2.1.0",
     "ethers": "^5.7.2",
     "framer-motion": "^11.1.9",
-    "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "jotai": "^2.8.0",
     "lucide-react": "^0.367.0",
@@ -58,9 +58,11 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.3.2",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-graphql-request": "^5.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@types/node": "^20.12.7",
     "@types/react": "18.2.42",
     "@types/react-dom": "^18.0.11",
@@ -71,6 +73,7 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "graphql": "^16.8.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.0.4",
