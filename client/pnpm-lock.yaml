@@ -10,6 +10,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^3.10.4
+<<<<<<< HEAD
         version: 3.10.4(@types/react@18.2.42)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@dojoengine/core':
         specifier: ^0.7.9
@@ -20,18 +21,38 @@ importers:
       '@dojoengine/react':
         specifier: ^0.7.9
         version: 0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(type-fest@2.19.0)(typescript@5.0.4)(zod@3.23.8)
+=======
+        version: 3.10.4(@types/react@18.2.42)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)
+      '@dojoengine/core':
+        specifier: ^0.7.9
+        version: 0.7.9(starknet@6.8.0)(typescript@5.0.4)
+      '@dojoengine/create-burner':
+        specifier: ^0.7.9
+        version: 0.7.9(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.4)
+      '@dojoengine/react':
+        specifier: ^0.7.9
+        version: 0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.4)(zod@3.23.8)
+>>>>>>> develop
       '@dojoengine/recs':
         specifier: ^2.0.13
         version: 2.0.13(typescript@5.0.4)(zod@3.23.8)
       '@dojoengine/state':
         specifier: ^0.7.9
+<<<<<<< HEAD
         version: 0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)(zod@3.23.8)
+=======
+        version: 0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.4)(zod@3.23.8)
+>>>>>>> develop
       '@dojoengine/torii-client':
         specifier: ^0.7.9
         version: 0.7.9
       '@dojoengine/utils':
         specifier: ^0.7.9
+<<<<<<< HEAD
         version: 0.7.9(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)(zod@3.23.8)
+=======
+        version: 0.7.9(starknet@6.8.0)(typescript@5.0.4)(zod@3.23.8)
+>>>>>>> develop
       '@heroicons/react':
         specifier: ^2.1.3
         version: 2.1.3(react@18.2.0)
@@ -43,6 +64,7 @@ importers:
         version: 2.0.12
       '@material-tailwind/react':
         specifier: ^2.1.9
+<<<<<<< HEAD
         version: 2.1.9(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
@@ -53,18 +75,38 @@ importers:
       '@radix-ui/react-radio-group':
         specifier: ^1.1.3
         version: 1.1.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+=======
+        version: 2.1.9(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-accordion':
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-label':
+        specifier: ^2.0.2
+        version: 2.0.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-radio-group':
+        specifier: ^1.1.3
+        version: 1.1.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)
+>>>>>>> develop
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.42)(react@18.2.0)
       '@radix-ui/react-tabs':
         specifier: ^1.0.4
+<<<<<<< HEAD
         version: 1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+=======
+        version: 1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)
+>>>>>>> develop
       '@starknet-react/chains':
         specifier: ^0.1.7
         version: 0.1.7
       '@starknet-react/core':
         specifier: ^2.8.0
+<<<<<<< HEAD
         version: 2.8.0(get-starknet-core@3.3.0(starknet@6.8.0(encoding@0.1.13)))(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))
+=======
+        version: 2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)
+>>>>>>> develop
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -76,10 +118,20 @@ importers:
         version: 5.7.2
       framer-motion:
         specifier: ^11.1.9
+<<<<<<< HEAD
         version: 11.1.9(@emotion/is-prop-valid@0.8.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       graphql-request:
         specifier: ^6.1.0
         version: 6.1.0(encoding@0.1.13)(graphql@16.8.1)
+=======
+        version: 11.1.9(react-dom@18.2.0)(react@18.2.0)
+      graphql:
+        specifier: ^16.8.1
+        version: 16.8.1
+      graphql-request:
+        specifier: ^6.1.0
+        version: 6.1.0(graphql@16.8.1)
+>>>>>>> develop
       jotai:
         specifier: ^2.8.0
         version: 2.8.0(@types/react@18.2.42)(react@18.2.0)
@@ -103,15 +155,23 @@ importers:
         version: 4.0.13(react@18.2.0)
       react-query:
         specifier: ^3.39.3
+<<<<<<< HEAD
         version: 3.39.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-router-dom:
         specifier: ^6.23.1
         version: 6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+=======
+        version: 3.39.3(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom:
+        specifier: ^6.23.1
+        version: 6.23.1(react-dom@18.2.0)(react@18.2.0)
+>>>>>>> develop
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
       starknet:
         specifier: 6.8.0
+<<<<<<< HEAD
         version: 6.8.0(encoding@0.1.13)
       starknetid.js:
         specifier: ^3.2.0
@@ -119,6 +179,15 @@ importers:
       starknetkit:
         specifier: ^1.1.9
         version: 1.1.9(encoding@0.1.13)(starknet@6.8.0(encoding@0.1.13))
+=======
+        version: 6.8.0
+      starknetid.js:
+        specifier: ^3.2.0
+        version: 3.2.0(@babel/core@7.24.7)(starknet@6.8.0)
+      starknetkit:
+        specifier: ^1.1.9
+        version: 1.1.9(starknet@6.8.0)
+>>>>>>> develop
       tailwind-merge:
         specifier: ^2.2.2
         version: 2.2.2
@@ -127,6 +196,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.3)
       vite-plugin-top-level-await:
         specifier: ^1.3.1
+<<<<<<< HEAD
         version: 1.3.1(rollup@4.18.0)(vite@4.3.9(@types/node@20.12.7))
       vite-plugin-wasm:
         specifier: ^3.2.2
@@ -150,6 +220,25 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
+=======
+        version: 1.3.1(vite@4.3.9)
+      vite-plugin-wasm:
+        specifier: ^3.2.2
+        version: 3.2.2(vite@4.3.9)
+    devDependencies:
+      '@graphql-codegen/cli':
+        specifier: ^5.0.0
+        version: 5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.4)
+      '@graphql-codegen/typescript':
+        specifier: ^4.0.1
+        version: 4.0.1(graphql@16.8.1)
+      '@graphql-codegen/typescript-graphql-request':
+        specifier: ^5.0.0
+        version: 5.0.0(graphql-request@6.1.0)(graphql-tag@2.12.6)(graphql@16.8.1)
+      '@graphql-codegen/typescript-operations':
+        specifier: ^4.0.1
+        version: 4.0.1(graphql@16.8.1)
+>>>>>>> develop
       '@types/node':
         specifier: ^20.12.7
         version: 20.12.7
@@ -161,13 +250,21 @@ importers:
         version: 18.0.11
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.0
+<<<<<<< HEAD
         version: 5.59.0(@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.0.4))(eslint@8.38.0)(typescript@5.0.4)
+=======
+        version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.4)
+>>>>>>> develop
       '@typescript-eslint/parser':
         specifier: ^5.59.0
         version: 5.59.0(eslint@8.38.0)(typescript@5.0.4)
       '@vitejs/plugin-react':
         specifier: ^4.0.0
+<<<<<<< HEAD
         version: 4.0.0(vite@4.3.9(@types/node@20.12.7))
+=======
+        version: 4.0.0(vite@4.3.9)
+>>>>>>> develop
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -180,9 +277,12 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.3.4
         version: 0.3.4(eslint@8.38.0)
+<<<<<<< HEAD
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
+=======
+>>>>>>> develop
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
@@ -981,11 +1081,14 @@ packages:
   '@floating-ui/utils@0.2.3':
     resolution: {integrity: sha512-XGndio0l5/Gvd6CLIABvsav9HHezgDFFhDfHk1bvLfr9ni8dojqLSvBbotJEjmIwNHL7vK4QzBJTdBRoB+c1ww==}
 
+<<<<<<< HEAD
   '@graphql-codegen/add@5.0.3':
     resolution: {integrity: sha512-SxXPmramkth8XtBlAHu4H4jYcYXM/o3p01+psU+0NADQowA8jtYkK6MW5rV6T+CxkEaNZItfSmZRPgIuypcqnA==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/cli@5.0.0':
     resolution: {integrity: sha512-A7J7+be/a6e+/ul2KI5sfJlpoqeqwX8EzktaKCeduyVKgOLA6W5t+NUGf6QumBDXU8PEOqXk3o3F+RAwCWOiqA==}
     hasBin: true
@@ -996,21 +1099,27 @@ packages:
       '@parcel/watcher':
         optional: true
 
+<<<<<<< HEAD
   '@graphql-codegen/client-preset@4.3.2':
     resolution: {integrity: sha512-42jHyG6u2uFDIVNvzue8zR529aPT16EYIJQmvMk8XuYHo3PneQVlWmQ3j2fBy+RuWCBzpJKPKm7IGSKiw19nmg==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/core@4.0.2':
     resolution: {integrity: sha512-IZbpkhwVqgizcjNiaVzNAzm/xbWT6YnGgeOLwVjm4KbJn3V2jchVtuzHH09G5/WkkLSk2wgbXNdwjM41JxO6Eg==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+<<<<<<< HEAD
   '@graphql-codegen/gql-tag-operations@4.0.9':
     resolution: {integrity: sha512-lVgu1HClel896HqZAEjynatlU6eJrYOw+rh05DPgM150xvmb7Gz5TnRHA2vfwlDNIXDaToAIpz5RFfkjjnYM1Q==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/plugin-helpers@2.7.2':
     resolution: {integrity: sha512-kln2AZ12uii6U59OQXdjLk5nOlh1pHis1R98cDZGFnfaiAbX9V3fxcZ1MMJkB7qFUymTALzyjZoXXdyVmPMfRg==}
     peerDependencies:
@@ -1031,11 +1140,14 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+<<<<<<< HEAD
   '@graphql-codegen/typed-document-node@5.0.9':
     resolution: {integrity: sha512-Wx6fyA4vpfIbfNTMiWUECGnjqzKkJdEbZHxVMIegiCBPzBYPAJV4mZZcildLAfm2FtZcgW4YKtFoTbnbXqPB3w==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/typescript-graphql-request@5.0.0':
     resolution: {integrity: sha512-BM9UzZD/5q3b3Q4c+VOy/QoPWgsnfs1GAnGJjh9xtuty6YsCprwhh12BaV16F+xndNUd6qkghigGyjR8m8RdkA==}
     peerDependencies:
@@ -1048,21 +1160,27 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+<<<<<<< HEAD
   '@graphql-codegen/typescript-operations@4.2.3':
     resolution: {integrity: sha512-6z7avSSOr03l5SyKbeDs7MzRyGwnQFSCqQm8Om5wIuoIgXVu2gXRmcJAY/I7SLdAy9xbF4Sho7XNqieFM2CAFQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/typescript@4.0.1':
     resolution: {integrity: sha512-3YziQ21dCVdnHb+Us1uDb3pA6eG5Chjv0uTK+bt9dXeMlwYBU8MbtzvQTo4qvzWVC1AxSOKj0rgfNu1xCXqJyA==}
     peerDependencies:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+<<<<<<< HEAD
   '@graphql-codegen/typescript@4.0.9':
     resolution: {integrity: sha512-0O35DMR4d/ctuHL1Zo6mRUUzp0BoszKfeWsa6sCm/g70+S98+hEfTwZNDkQHylLxapiyjssF9uw/F+sXqejqLw==}
     peerDependencies:
       graphql: ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-codegen/visitor-plugin-common@2.13.1':
     resolution: {integrity: sha512-mD9ufZhDGhyrSaWQGrU1Q1c5f01TeWtSWy/cDwXYjJcHIj1Y/DG2x0tOflEfCvh5WcnmHNIw4lzDsg1W7iFJEg==}
     peerDependencies:
@@ -1073,11 +1191,14 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+<<<<<<< HEAD
   '@graphql-codegen/visitor-plugin-common@5.3.1':
     resolution: {integrity: sha512-MktoBdNZhSmugiDjmFl1z6rEUUaqyxtFJYWnDilE7onkPgyw//O0M+TuPBJPBWdyV6J2ond0Hdqtq+rkghgSIQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
+=======
+>>>>>>> develop
   '@graphql-tools/apollo-engine-loader@8.0.1':
     resolution: {integrity: sha512-NaPeVjtrfbPXcl+MLQCJLWtqe2/E4bbAqcauEOQ+3sizw1Fc2CNmhHRF8a6W4D0ekvTRRXAMptXYgA2uConbrA==}
     engines: {node: '>=16.0.0'}
@@ -1102,12 +1223,15 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
+<<<<<<< HEAD
   '@graphql-tools/documents@1.0.1':
     resolution: {integrity: sha512-aweoMH15wNJ8g7b2r4C4WRuJxZ0ca8HtNO54rkye/3duxTkW4fGBEutCx03jCIr5+a1l+4vFJNP859QnAVBVCA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
+=======
+>>>>>>> develop
   '@graphql-tools/executor-graphql-ws@1.1.2':
     resolution: {integrity: sha512-+9ZK0rychTH1LUv4iZqJ4ESbmULJMTsv3XlFooPUngpxZkk00q6LqHKJRrsLErmQrVaC7cwQCaRBJa0teK17Lg==}
     engines: {node: '>=16.0.0'}
@@ -3387,9 +3511,12 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
+<<<<<<< HEAD
   lodash.sortby@4.7.0:
     resolution: {integrity: sha512-HDWXG8isMntAyRF5vZ7xKuEvOhT4AhlRt/3czTSjvGUxjYCBVRQY48ViDHyfYz9VIoBkW4TMGQNapx+l3RUwdA==}
 
+=======
+>>>>>>> develop
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
@@ -3537,6 +3664,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+<<<<<<< HEAD
+=======
+  napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+
+>>>>>>> develop
   natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
 
@@ -4822,7 +4955,11 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
+<<<<<<< HEAD
   '@apollo/client@3.10.4(@types/react@18.2.42)(graphql-ws@5.16.0(graphql@16.8.1))(graphql@16.8.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+  '@apollo/client@3.10.4(@types/react@18.2.42)(graphql@16.8.1)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       '@wry/caches': 1.0.1
@@ -4846,7 +4983,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
+<<<<<<< HEAD
   '@ardatan/relay-compiler@12.0.0(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@ardatan/relay-compiler@12.0.0(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@babel/core': 7.24.7
       '@babel/generator': 7.24.7
@@ -4870,7 +5011,11 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@ardatan/sync-fetch@0.0.1(encoding@0.1.13)':
+=======
+  '@ardatan/sync-fetch@0.0.1':
+>>>>>>> develop
     dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
@@ -5247,7 +5392,11 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
+<<<<<<< HEAD
   '@dojoengine/core@0.7.9(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)':
+=======
+  '@dojoengine/core@0.7.9(starknet@6.8.0)(typescript@5.0.4)':
+>>>>>>> develop
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.0.4)(zod@3.23.8)
       starknet: 6.8.0(encoding@0.1.13)
@@ -5257,7 +5406,11 @@ snapshots:
       - typescript
       - utf-8-validate
 
+<<<<<<< HEAD
   '@dojoengine/create-burner@0.7.9(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)':
+=======
+  '@dojoengine/create-burner@0.7.9(react-dom@18.2.0)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.4)':
+>>>>>>> develop
     dependencies:
       '@dojoengine/core': 0.7.9(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)
       '@scure/bip32': 1.4.0
@@ -5273,7 +5426,11 @@ snapshots:
       - typescript
       - utf-8-validate
 
+<<<<<<< HEAD
   '@dojoengine/react@0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(type-fest@2.19.0)(typescript@5.0.4)(zod@3.23.8)':
+=======
+  '@dojoengine/react@0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(type-fest@2.19.0)(typescript@5.0.4)(zod@3.23.8)':
+>>>>>>> develop
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.0.4)(zod@3.23.8)
       '@dojoengine/state': 0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)(zod@3.23.8)
@@ -5322,7 +5479,11 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
   '@dojoengine/state@0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)(zod@3.23.8)':
+=======
+  '@dojoengine/state@0.7.9(@types/node@20.12.7)(@types/react@18.2.42)(react@18.2.0)(starknet@6.8.0)(typescript@5.0.4)(zod@3.23.8)':
+>>>>>>> develop
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.0.4)(zod@3.23.8)
       '@dojoengine/torii-client': 0.7.9
@@ -5359,7 +5520,11 @@ snapshots:
 
   '@dojoengine/torii-wasm@0.7.9': {}
 
+<<<<<<< HEAD
   '@dojoengine/utils@0.7.9(starknet@6.8.0(encoding@0.1.13))(typescript@5.0.4)(zod@3.23.8)':
+=======
+  '@dojoengine/utils@0.7.9(starknet@6.8.0)(typescript@5.0.4)(zod@3.23.8)':
+>>>>>>> develop
     dependencies:
       '@dojoengine/recs': 2.0.13(typescript@5.0.4)(zod@3.23.8)
       '@latticexyz/utils': 2.0.12
@@ -5802,13 +5967,21 @@ snapshots:
       '@floating-ui/core': 1.6.3
       '@floating-ui/utils': 0.2.3
 
+<<<<<<< HEAD
   '@floating-ui/react-dom@1.3.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+  '@floating-ui/react-dom@1.3.0(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@floating-ui/dom': 1.6.6
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
+<<<<<<< HEAD
   '@floating-ui/react@0.19.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+  '@floating-ui/react@0.19.0(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@floating-ui/react-dom': 1.3.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       aria-hidden: 1.2.4
@@ -5818,6 +5991,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.3': {}
 
+<<<<<<< HEAD
   '@graphql-codegen/add@5.0.3(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -5825,6 +5999,9 @@ snapshots:
       tslib: 2.6.3
 
   '@graphql-codegen/cli@5.0.0(@parcel/watcher@2.4.1)(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)(typescript@5.0.4)':
+=======
+  '@graphql-codegen/cli@5.0.0(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.4)':
+>>>>>>> develop
     dependencies:
       '@babel/generator': 7.24.7
       '@babel/template': 7.24.7
@@ -5873,6 +6050,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
+<<<<<<< HEAD
   '@graphql-codegen/client-preset@4.3.2(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@babel/helper-plugin-utils': 7.24.7
@@ -5893,6 +6071,8 @@ snapshots:
       - encoding
       - supports-color
 
+=======
+>>>>>>> develop
   '@graphql-codegen/core@4.0.2(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -5901,6 +6081,7 @@ snapshots:
       graphql: 16.8.1
       tslib: 2.6.3
 
+<<<<<<< HEAD
   '@graphql-codegen/gql-tag-operations@4.0.9(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -5913,6 +6094,8 @@ snapshots:
       - encoding
       - supports-color
 
+=======
+>>>>>>> develop
   '@graphql-codegen/plugin-helpers@2.7.2(graphql@16.8.1)':
     dependencies:
       '@graphql-tools/utils': 8.13.1(graphql@16.8.1)
@@ -5950,6 +6133,7 @@ snapshots:
       graphql: 16.8.1
       tslib: 2.6.3
 
+<<<<<<< HEAD
   '@graphql-codegen/typed-document-node@5.0.9(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -5963,6 +6147,9 @@ snapshots:
       - supports-color
 
   '@graphql-codegen/typescript-graphql-request@5.0.0(encoding@0.1.13)(graphql-request@6.1.0(encoding@0.1.13)(graphql@16.8.1))(graphql-tag@2.12.6(graphql@16.8.1))(graphql@16.8.1)':
+=======
+  '@graphql-codegen/typescript-graphql-request@5.0.0(graphql-request@6.1.0)(graphql-tag@2.12.6)(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 3.1.2(graphql@16.8.1)
       '@graphql-codegen/visitor-plugin-common': 2.13.1(encoding@0.1.13)(graphql@16.8.1)
@@ -5975,7 +6162,11 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-codegen/typescript-operations@4.0.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-codegen/typescript-operations@4.0.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
       '@graphql-codegen/typescript': 4.0.1(encoding@0.1.13)(graphql@16.8.1)
@@ -5987,6 +6178,7 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-codegen/typescript-operations@4.2.3(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -6000,6 +6192,9 @@ snapshots:
       - supports-color
 
   '@graphql-codegen/typescript@4.0.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-codegen/typescript@4.0.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
       '@graphql-codegen/schema-ast': 4.0.2(graphql@16.8.1)
@@ -6011,6 +6206,7 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-codegen/typescript@4.0.9(encoding@0.1.13)(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
@@ -6024,6 +6220,9 @@ snapshots:
       - supports-color
 
   '@graphql-codegen/visitor-plugin-common@2.13.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-codegen/visitor-plugin-common@2.13.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 2.7.2(graphql@16.8.1)
       '@graphql-tools/optimize': 1.4.0(graphql@16.8.1)
@@ -6040,7 +6239,11 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-codegen/visitor-plugin-common@4.0.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-codegen/visitor-plugin-common@4.0.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
       '@graphql-tools/optimize': 2.0.0(graphql@16.8.1)
@@ -6057,7 +6260,11 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-codegen/visitor-plugin-common@5.3.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/apollo-engine-loader@8.0.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.4(graphql@16.8.1)
       '@graphql-tools/optimize': 2.0.0(graphql@16.8.1)
@@ -6113,12 +6320,15 @@ snapshots:
       graphql: 16.8.1
       tslib: 2.6.3
 
+<<<<<<< HEAD
   '@graphql-tools/documents@1.0.1(graphql@16.8.1)':
     dependencies:
       graphql: 16.8.1
       lodash.sortby: 4.7.0
       tslib: 2.6.3
 
+=======
+>>>>>>> develop
   '@graphql-tools/executor-graphql-ws@1.1.2(graphql@16.8.1)':
     dependencies:
       '@graphql-tools/utils': 10.2.2(graphql@16.8.1)
@@ -6178,7 +6388,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-tools/github-loader@8.0.1(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/github-loader@8.0.1(@types/node@20.12.7)(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@ardatan/sync-fetch': 0.0.1(encoding@0.1.13)
       '@graphql-tools/executor-http': 1.0.9(@types/node@20.12.7)(graphql@16.8.1)
@@ -6254,7 +6468,11 @@ snapshots:
       graphql: 16.8.1
       tslib: 2.6.3
 
+<<<<<<< HEAD
   '@graphql-tools/prisma-loader@8.0.4(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/prisma-loader@8.0.4(@types/node@20.12.7)(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@graphql-tools/url-loader': 8.0.2(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)
       '@graphql-tools/utils': 10.2.2(graphql@16.8.1)
@@ -6280,7 +6498,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+<<<<<<< HEAD
   '@graphql-tools/relay-operation-optimizer@6.5.18(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/relay-operation-optimizer@6.5.18(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@ardatan/relay-compiler': 12.0.0(encoding@0.1.13)(graphql@16.8.1)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
@@ -6290,7 +6512,11 @@ snapshots:
       - encoding
       - supports-color
 
+<<<<<<< HEAD
   '@graphql-tools/relay-operation-optimizer@7.0.1(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/relay-operation-optimizer@7.0.1(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@ardatan/relay-compiler': 12.0.0(encoding@0.1.13)(graphql@16.8.1)
       '@graphql-tools/utils': 10.2.2(graphql@16.8.1)
@@ -6308,7 +6534,11 @@ snapshots:
       tslib: 2.6.3
       value-or-promise: 1.0.12
 
+<<<<<<< HEAD
   '@graphql-tools/url-loader@8.0.2(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)':
+=======
+  '@graphql-tools/url-loader@8.0.2(@types/node@20.12.7)(graphql@16.8.1)':
+>>>>>>> develop
     dependencies:
       '@ardatan/sync-fetch': 0.0.1(encoding@0.1.13)
       '@graphql-tools/delegate': 10.0.11(graphql@16.8.1)
@@ -6525,7 +6755,11 @@ snapshots:
       proxy-deep: 3.1.1
       rxjs: 7.5.5
 
+<<<<<<< HEAD
   '@material-tailwind/react@2.1.9(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+  '@material-tailwind/react@2.1.9(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@floating-ui/react': 0.19.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       classnames: 2.3.2
@@ -6645,6 +6879,10 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.7
+<<<<<<< HEAD
+=======
+      napi-wasm: 1.1.0
+>>>>>>> develop
 
   '@parcel/watcher-win32-arm64@2.4.1':
     optional: true
@@ -6700,7 +6938,11 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
 
+<<<<<<< HEAD
   '@radix-ui/react-accordion@1.1.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+  '@radix-ui/react-accordion@1.1.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/primitive': 1.0.1
@@ -6714,11 +6956,16 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-collapsible@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-collapsible@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/primitive': 1.0.1
@@ -6731,11 +6978,16 @@ snapshots:
       '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-collection@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-collection@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.42)(react@18.2.0)
@@ -6744,71 +6996,103 @@ snapshots:
       '@radix-ui/react-slot': 1.0.2(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
+=======
+>>>>>>> develop
 
   '@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-context@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-direction@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-id@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
 
   '@radix-ui/react-label@2.0.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-label@2.0.2(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-presence@1.0.1(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-presence@1.0.1(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-primitive@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-primitive@1.0.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-slot': 1.0.2(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-radio-group@1.1.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-radio-group@1.1.3(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/primitive': 1.0.1
@@ -6823,11 +7107,16 @@ snapshots:
       '@radix-ui/react-use-size': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
 
   '@radix-ui/react-roving-focus@1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-roving-focus@1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/primitive': 1.0.1
@@ -6841,19 +7130,27 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
+=======
+>>>>>>> develop
 
   '@radix-ui/react-slot@1.0.2(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
 
   '@radix-ui/react-tabs@1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+=======
+
+  '@radix-ui/react-tabs@1.0.4(@types/react-dom@18.0.11)(@types/react@18.2.42)(react-dom@18.2.0)(react@18.2.0)':
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/primitive': 1.0.1
@@ -6866,54 +7163,76 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       '@types/react-dom': 18.0.11
+=======
+>>>>>>> develop
 
   '@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-use-controllable-state@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-use-callback-ref': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-use-previous@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@radix-ui/react-use-size@1.0.1(@types/react@18.2.42)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.2.42)(react@18.2.0)
       react: 18.2.0
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
+=======
+>>>>>>> develop
 
   '@remix-run/router@1.16.1': {}
 
   '@repeaterjs/repeater@3.0.6': {}
 
+<<<<<<< HEAD
   '@rollup/plugin-virtual@3.0.2(rollup@4.18.0)':
     optionalDependencies:
       rollup: 4.18.0
+=======
+  '@rollup/plugin-virtual@3.0.2': {}
+>>>>>>> develop
 
   '@rollup/rollup-android-arm-eabi@4.18.0':
     optional: true
@@ -7077,7 +7396,11 @@ snapshots:
 
   '@starknet-react/chains@0.1.7': {}
 
+<<<<<<< HEAD
   '@starknet-react/core@2.3.0(get-starknet-core@3.3.0(starknet@6.8.0(encoding@0.1.13)))(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))':
+=======
+  '@starknet-react/core@2.3.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)':
+>>>>>>> develop
     dependencies:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.48.0(react@18.2.0)
@@ -7088,7 +7411,11 @@ snapshots:
       starknet: 6.8.0(encoding@0.1.13)
       zod: 3.23.8
 
+<<<<<<< HEAD
   '@starknet-react/core@2.8.0(get-starknet-core@3.3.0(starknet@6.8.0(encoding@0.1.13)))(react@18.2.0)(starknet@6.8.0(encoding@0.1.13))':
+=======
+  '@starknet-react/core@2.8.0(get-starknet-core@3.3.0)(react@18.2.0)(starknet@6.8.0)':
+>>>>>>> develop
     dependencies:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.48.0(react@18.2.0)
@@ -7196,7 +7523,11 @@ snapshots:
     dependencies:
       '@types/node': 20.12.7
 
+<<<<<<< HEAD
   '@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.0.4))(eslint@8.38.0)(typescript@5.0.4)':
+=======
+  '@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.4)':
+>>>>>>> develop
     dependencies:
       '@eslint-community/regexpp': 4.10.1
       '@typescript-eslint/parser': 5.59.0(eslint@8.38.0)(typescript@5.0.4)
@@ -7280,7 +7611,11 @@ snapshots:
       '@typescript-eslint/types': 5.59.0
       eslint-visitor-keys: 3.4.3
 
+<<<<<<< HEAD
   '@vitejs/plugin-react@4.0.0(vite@4.3.9(@types/node@20.12.7))':
+=======
+  '@vitejs/plugin-react@4.0.0(vite@4.3.9)':
+>>>>>>> develop
     dependencies:
       '@babel/core': 7.24.7
       '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.24.7)
@@ -7319,7 +7654,11 @@ snapshots:
       loupe: 2.3.7
       pretty-format: 29.7.0
 
+<<<<<<< HEAD
   '@walletconnect/core@2.13.3(encoding@0.1.13)':
+=======
+  '@walletconnect/core@2.13.3':
+>>>>>>> develop
     dependencies:
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-provider': 1.0.14
@@ -7441,7 +7780,11 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
+<<<<<<< HEAD
   '@walletconnect/sign-client@2.13.3(encoding@0.1.13)':
+=======
+  '@walletconnect/sign-client@2.13.3':
+>>>>>>> develop
     dependencies:
       '@walletconnect/core': 2.13.3(encoding@0.1.13)
       '@walletconnect/events': 1.0.1
@@ -7601,7 +7944,11 @@ snapshots:
       yargs: 17.7.2
 
   abitype@1.0.0(typescript@5.0.4)(zod@3.23.8):
+<<<<<<< HEAD
     optionalDependencies:
+=======
+    dependencies:
+>>>>>>> develop
       typescript: 5.0.4
       zod: 3.23.8
 
@@ -8007,7 +8354,11 @@ snapshots:
     optionalDependencies:
       typescript: 5.0.4
 
+<<<<<<< HEAD
   cross-fetch@3.1.8(encoding@0.1.13):
+=======
+  cross-fetch@3.1.8:
+>>>>>>> develop
     dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
     transitivePeerDependencies:
@@ -8387,7 +8738,11 @@ snapshots:
 
   fbjs-css-vars@1.0.2: {}
 
+<<<<<<< HEAD
   fbjs@3.0.5(encoding@0.1.13):
+=======
+  fbjs@3.0.5:
+>>>>>>> develop
     dependencies:
       cross-fetch: 3.1.8(encoding@0.1.13)
       fbjs-css-vars: 1.0.2
@@ -8450,15 +8805,25 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
+<<<<<<< HEAD
   framer-motion@11.1.9(@emotion/is-prop-valid@0.8.8)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+=======
+  framer-motion@11.1.9(react-dom@18.2.0)(react@18.2.0):
+>>>>>>> develop
     dependencies:
       tslib: 2.6.3
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+<<<<<<< HEAD
 
   framer-motion@6.5.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+=======
+      tslib: 2.6.3
+
+  framer-motion@6.5.1(react-dom@18.2.0)(react@18.2.0):
+>>>>>>> develop
     dependencies:
       '@motionone/dom': 10.12.0
       framesync: 6.0.1
@@ -8496,10 +8861,17 @@ snapshots:
 
   get-port-please@3.1.2: {}
 
+<<<<<<< HEAD
   get-starknet-core@3.3.0(starknet@6.8.0(encoding@0.1.13)):
     dependencies:
       '@module-federation/runtime': 0.1.21
       starknet: 6.8.0(encoding@0.1.13)
+=======
+  get-starknet-core@3.3.0(starknet@6.8.0):
+    dependencies:
+      '@module-federation/runtime': 0.1.21
+      starknet: 6.8.0
+>>>>>>> develop
 
   get-stream@6.0.1: {}
 
@@ -8550,7 +8922,11 @@ snapshots:
 
   grapheme-splitter@1.0.4: {}
 
+<<<<<<< HEAD
   graphql-config@5.0.3(@types/node@20.12.7)(encoding@0.1.13)(graphql@16.8.1)(typescript@5.0.4):
+=======
+  graphql-config@5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.0.4):
+>>>>>>> develop
     dependencies:
       '@graphql-tools/graphql-file-loader': 8.0.1(graphql@16.8.1)
       '@graphql-tools/json-file-loader': 8.0.1(graphql@16.8.1)
@@ -8571,7 +8947,11 @@ snapshots:
       - typescript
       - utf-8-validate
 
+<<<<<<< HEAD
   graphql-request@6.1.0(encoding@0.1.13)(graphql@16.8.1):
+=======
+  graphql-request@6.1.0(graphql@16.8.1):
+>>>>>>> develop
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
       cross-fetch: 3.1.8(encoding@0.1.13)
@@ -8784,14 +9164,22 @@ snapshots:
 
   isexe@2.0.0: {}
 
+<<<<<<< HEAD
   isomorphic-fetch@3.0.0(encoding@0.1.13):
+=======
+  isomorphic-fetch@3.0.0:
+>>>>>>> develop
     dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
       whatwg-fetch: 3.6.20
     transitivePeerDependencies:
       - encoding
 
+<<<<<<< HEAD
   isomorphic-unfetch@3.1.0(encoding@0.1.13):
+=======
+  isomorphic-unfetch@3.1.0:
+>>>>>>> develop
     dependencies:
       node-fetch: 2.7.0(encoding@0.1.13)
       unfetch: 4.2.0
@@ -8819,7 +9207,11 @@ snapshots:
   jose@5.6.2: {}
 
   jotai@2.8.0(@types/react@18.2.42)(react@18.2.0):
+<<<<<<< HEAD
     optionalDependencies:
+=======
+    dependencies:
+>>>>>>> develop
       '@types/react': 18.2.42
       react: 18.2.0
 
@@ -8934,10 +9326,15 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
+<<<<<<< HEAD
   lodash.sortby@4.7.0: {}
 
   lodash@4.17.21: {}
 
+=======
+  lodash@4.17.21: {}
+
+>>>>>>> develop
   log-symbols@4.1.0:
     dependencies:
       chalk: 4.1.2
@@ -9008,7 +9405,11 @@ snapshots:
   merge2@1.4.1: {}
 
   meros@1.3.0(@types/node@20.12.7):
+<<<<<<< HEAD
     optionalDependencies:
+=======
+    dependencies:
+>>>>>>> develop
       '@types/node': 20.12.7
 
   micro-starknet@0.2.3:
@@ -9076,10 +9477,19 @@ snapshots:
 
   nanoid@3.3.7: {}
 
+<<<<<<< HEAD
   natural-compare-lite@1.4.0: {}
 
   natural-compare@1.4.0: {}
 
+=======
+  napi-wasm@1.1.0: {}
+
+  natural-compare-lite@1.4.0: {}
+
+  natural-compare@1.4.0: {}
+
+>>>>>>> develop
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
@@ -9089,7 +9499,11 @@ snapshots:
 
   node-fetch-native@1.6.4: {}
 
+<<<<<<< HEAD
   node-fetch@2.7.0(encoding@0.1.13):
+=======
+  node-fetch@2.7.0:
+>>>>>>> develop
     dependencies:
       whatwg-url: 5.0.0
     optionalDependencies:
@@ -9442,7 +9856,11 @@ snapshots:
 
   react-is@18.3.1: {}
 
+<<<<<<< HEAD
   react-query@3.39.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+=======
+  react-query@3.39.3(react-dom@18.2.0)(react@18.2.0):
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       broadcast-channel: 3.7.0
@@ -9453,7 +9871,11 @@ snapshots:
 
   react-refresh@0.14.2: {}
 
+<<<<<<< HEAD
   react-router-dom@6.23.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+=======
+  react-router-dom@6.23.1(react-dom@18.2.0)(react@18.2.0):
+>>>>>>> develop
     dependencies:
       '@remix-run/router': 1.16.1
       react: 18.2.0
@@ -9492,11 +9914,19 @@ snapshots:
   regenerator-runtime@0.14.1: {}
 
   rehackt@0.1.0(@types/react@18.2.42)(react@18.2.0):
+<<<<<<< HEAD
     optionalDependencies:
       '@types/react': 18.2.42
       react: 18.2.0
 
   relay-runtime@12.0.0(encoding@0.1.13):
+=======
+    dependencies:
+      '@types/react': 18.2.42
+      react: 18.2.0
+
+  relay-runtime@12.0.0:
+>>>>>>> develop
     dependencies:
       '@babel/runtime': 7.24.7
       fbjs: 3.0.5(encoding@0.1.13)
@@ -9672,7 +10102,11 @@ snapshots:
 
   starknet-types@0.7.2: {}
 
+<<<<<<< HEAD
   starknet@6.8.0(encoding@0.1.13):
+=======
+  starknet@6.8.0:
+>>>>>>> develop
     dependencies:
       '@noble/curves': 1.4.0
       '@scure/base': 1.1.7
@@ -9688,12 +10122,21 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+<<<<<<< HEAD
   starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.8.0(encoding@0.1.13)):
     dependencies:
       '@babel/core': 7.24.7
       starknet: 6.8.0(encoding@0.1.13)
 
   starknetkit@1.1.9(encoding@0.1.13)(starknet@6.8.0(encoding@0.1.13)):
+=======
+  starknetid.js@3.2.0(@babel/core@7.24.7)(starknet@6.8.0):
+    dependencies:
+      '@babel/core': 7.24.7
+      starknet: 6.8.0
+
+  starknetkit@1.1.9(starknet@6.8.0):
+>>>>>>> develop
     dependencies:
       '@trpc/client': 10.45.2(@trpc/server@10.45.2)
       '@trpc/server': 10.45.2
@@ -9891,7 +10334,11 @@ snapshots:
 
   tr46@0.0.3: {}
 
+<<<<<<< HEAD
   trpc-browser@1.4.2(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2):
+=======
+  trpc-browser@1.4.2(@trpc/client@10.45.2)(@trpc/server@10.45.2):
+>>>>>>> develop
     dependencies:
       '@trpc/client': 10.45.2(@trpc/server@10.45.2)
       '@trpc/server': 10.45.2
@@ -10070,7 +10517,11 @@ snapshots:
       - supports-color
       - terser
 
+<<<<<<< HEAD
   vite-plugin-top-level-await@1.3.1(rollup@4.18.0)(vite@4.3.9(@types/node@20.12.7)):
+=======
+  vite-plugin-top-level-await@1.3.1(vite@4.3.9):
+>>>>>>> develop
     dependencies:
       '@rollup/plugin-virtual': 3.0.2(rollup@4.18.0)
       '@swc/core': 1.6.5
@@ -10080,7 +10531,11 @@ snapshots:
       - '@swc/helpers'
       - rollup
 
+<<<<<<< HEAD
   vite-plugin-wasm@3.2.2(vite@4.3.9(@types/node@20.12.7)):
+=======
+  vite-plugin-wasm@3.2.2(vite@4.3.9):
+>>>>>>> develop
     dependencies:
       vite: 4.3.9(@types/node@20.12.7)
 
@@ -10099,6 +10554,13 @@ snapshots:
       postcss: 8.4.39
       rollup: 4.18.0
     optionalDependencies:
+<<<<<<< HEAD
+=======
+      fsevents: 2.3.3
+
+  vitest@1.6.0(@types/node@20.12.7):
+    dependencies:
+>>>>>>> develop
       '@types/node': 20.12.7
       fsevents: 2.3.3
 
@@ -10262,3 +10724,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.42
       react: 18.2.0
+<<<<<<< HEAD
+=======
+      use-sync-external-store: 1.2.0(react@18.2.0)
+>>>>>>> develop
