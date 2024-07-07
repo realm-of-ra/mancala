@@ -6,7 +6,7 @@ export const dojoConfig = createDojoConfig({
   rpcUrl: "https://api.cartridge.gg/x/mancala/katana",
   toriiUrl: "https://api.cartridge.gg/x/mancala/torii",
   masterAddress:
-    "0x70db2adccadd984b16676dec668d39d3fac9e65fd368222c0d47e234fdde7d4",
+    "0x895235a21ada3de80b96e9d884c37a091959c0ba57de6228a7e5281b92412e",
   masterPrivateKey:
-    "0x6f9c267cbd5825905828c4dc06edf348768a157176d10ca2a98770064f5c648",
+    "0x4de2ed8a2db222d7a8c2f7b8fba2562dcab06ab63abf836c0293fcb20e92059",
 });
