@@ -177,20 +177,20 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (player === account.account.address && game_players?.player_one?.edges) {
-            if (player === game_players?.player_one.edges[0]?.node?.address) {
-                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div>`
+        if (player === account.account.address) {
+            if (player === game_players?.player_one.edges[0].node.address) {
+                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
             }
             else {
-                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div>`
+                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)))
             }
         }
         else {
-            if (game_players?.player_one?.edges && player === game_players?.player_one?.edges[0]?.node?.address) {
-                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div> move`
+            if (player === game_players?.player_one.edges[0].node.address) {
+                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
             }
             else {
-                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div> move`
+                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`)
             }
         }
     }
@@ -280,7 +280,7 @@ export default function Gameplay() {
                             <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
                             <div className="flex flex-row items-center justify-center space-x-1">
                                 <AlarmClock className="w-6 h-6 text-white" />
-                                <div className="text-white" dangerouslySetInnerHTML={{ __html: moveMessageOnTimer(game_node?.current_player) }} />
+                                <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
                             </div>
                         </div>
                     </div>
