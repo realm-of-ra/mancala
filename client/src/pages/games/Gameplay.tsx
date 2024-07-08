@@ -37,6 +37,7 @@ import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
+import { AlarmClock } from "lucide-react";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -50,6 +51,7 @@ export default function Gameplay() {
                         current_player
                         status
                         winner
+                        time_between_move
                     }
                 }
             }
@@ -128,7 +130,27 @@ export default function Gameplay() {
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
+
+    const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
+
     useEffect(() => {
+        const timerInterval = setInterval(() => {
+            if (timeRemaining > 0) {
+                setTimeRemaining((prevTime: number) => {
+                    if (prevTime === 0) {
+                        clearInterval(timerInterval);
+                        // Perform actions when the timer reaches zero
+                        console.log('Countdown complete!');
+                        return 0;
+                    } else {
+                        return prevTime - 1;
+                    }
+                });
+            }
+            else {
+                setTimeRemaining(parseInt(game_node?.time_between_move, 16));
+            }
+        }, 1000);
         if (isPlaying) {
             try {
                 audioRef.current.play();
@@ -140,9 +162,10 @@ export default function Gameplay() {
             audioRef.current.pause();
         }
         return () => {
+            clearInterval(timerInterval);
             audioRef.current.pause();
         };
-    }, [isPlaying]);
+    }, [isPlaying, game_node?.time_between_move, timeRemaining]);
 
     const [open, setOpen] = useState(0);
 
@@ -152,7 +175,7 @@ export default function Gameplay() {
         setPlaying(!isPlaying);
     };
 
-    const [seeds, setSeeds] = useState(initialSeeds);
+    const [, setSeeds] = useState(initialSeeds);
 
     const { account } = useDojo();
 
@@ -201,6 +224,28 @@ export default function Gameplay() {
         setVolumeDisplayValue(Math.round(newVolume * 100)); // Use newVolume instead of volume
     };
 
+    const moveMessageOnTimer = (player: string) => {
+        if (player === account.account.address) {
+            if (player === game_players?.player_one.edges[0].node.address) {
+                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div>`
+            }
+            else {
+                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div>`
+            }
+        }
+        else {
+            if (player === game_players?.player_one.edges[0].node.address) {
+                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div> move`
+            }
+            else {
+                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div> move`
+            }
+        }
+    }
+
+    const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
+    const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
+
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
             <nav className="relative w-full h-40">
@@ -225,7 +270,7 @@ export default function Gameplay() {
                                     src={profiles?.[0].profilePicture}
                                     width={65}
                                     height={65}
-                                    alt={`${profiles?.[0].name} profile picture`}
+                                    alt={`${profiles?.[0].name ? profiles?.[0].name : ""} profile picture`}
                                     className="rounded-full"
                                 />
                                 <div
@@ -257,7 +302,7 @@ export default function Gameplay() {
                                     src={profiles?.[1].profilePicture}
                                     width={65}
                                     height={65}
-                                    alt={`${profiles?.[1].name} profile picture`}
+                                    alt={`${profiles?.[1].name ? profiles?.[1].name : ""} profile picture`}
                                     className="rounded-full"
                                 />
                                 <div
@@ -270,15 +315,23 @@ export default function Gameplay() {
                 </div>
                 <div
                     className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <Link to="/">
-                        <img
-                            src={logo}
-                            width={150}
-                            height={150}
-                            alt="Logo"
-                            className="-mt-10"
-                        />
-                    </Link>
+                    <div className="flex flex-col items-center justify-center mt-10 space-y-5">
+                        <Link to="/">
+                            <img
+                                src={logo}
+                                width={150}
+                                height={150}
+                                alt="Logo"
+                            />
+                        </Link>
+                        <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+                            <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
+                            <div className="flex flex-row items-center justify-center space-x-1">
+                                <AlarmClock className="w-6 h-6 text-white" />
+                                <div className="text-white" dangerouslySetInnerHTML={{ __html: moveMessageOnTimer(game_node?.current_player) }} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
