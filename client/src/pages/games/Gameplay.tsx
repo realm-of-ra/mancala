@@ -135,7 +135,7 @@ export default function Gameplay() {
 
     useEffect(() => {
         const timerInterval = setInterval(() => {
-            if (timeRemaining > 0) {
+            if (timeRemaining >= 0) {
                 setTimeRemaining((prevTime: number) => {
                     if (prevTime === 0) {
                         clearInterval(timerInterval);
