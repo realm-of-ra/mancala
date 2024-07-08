@@ -4,8 +4,8 @@ class_hash = "0x3f63cecdc4964acafb921ba2934c6507d1b3c344edb64c2762cf08053169ab9"
 original_class_hash = "0x3f63cecdc4964acafb921ba2934c6507d1b3c344edb64c2762cf08053169ab9"
 abi = "manifests/dev/abis/deployments/dojo_world_world.json"
 address = "0x4404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
-transaction_hash = "0x40dbdad0648056b826a9f933e505f01aa5f839eb50beb59c540dadbc69c8931"
-block_number = 3
+transaction_hash = "0x67806a4917914e28605d0b3aa634d4cbbc09e8a78030c511f354d91a2b33e74"
+block_number = 216
 seed = "mancala"
 name = "dojo::world::world"
 

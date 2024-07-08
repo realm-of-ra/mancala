@@ -54,7 +54,7 @@ export default function Players({ data }: { data: any }) {
                                     </th>
                                 ))}
                             </tr>
-                            <div className="w-full border-b border-[#313640] h-1 absolute inset-x-0 top-10" />
+                            <tr className="w-full border-b border-[#313640] h-1 absolute inset-x-0 top-10" />
                         </thead>
                         <tbody>
                             {players?.length ? players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
@@ -62,7 +62,7 @@ export default function Players({ data }: { data: any }) {
                                 return (
                                     <tr key={index} className={clsx(!isLast ? "border-b border-[#23272F]" : "", "bg-[#0F1116]")}>
                                         <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
-                                            <Typography>
+                                            <div>
                                                 <div className="flex flex-row items-center space-x-5 w-fit">
                                                     <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" />
                                                     <p
@@ -71,22 +71,22 @@ export default function Players({ data }: { data: any }) {
                                                         {profiles[index]?.name ? profiles[index]?.name : truncateString(address)}
                                                     </p>
                                                 </div>
-                                            </Typography>
+                                            </div>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4) + 1)}</Typography>
+                                            <p className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4) + 1)}</p>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{wins * 50}</Typography>
+                                            <p className="font-normal text-[#FAB580] text-center">{wins * 50}</p>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{totalAppearances}</Typography>
+                                            <p className="font-normal text-[#FAB580] text-center">{totalAppearances}</p>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{wins}</Typography>
+                                            <p className="font-normal text-[#FAB580] text-center">{wins}</p>
                                         </td>
                                         <td>
-                                            <Typography className="font-normal text-[#FAB580] text-center">{losses}</Typography>
+                                            <p className="font-normal text-[#FAB580] text-center">{losses}</p>
                                         </td>
                                     </tr>
                                 );
