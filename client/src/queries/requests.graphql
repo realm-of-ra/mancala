@@ -1,0 +1,111 @@
+query MancalaModelsFetch {
+    mancalaGameModels {
+        edges {
+            node {
+                game_id
+                player_one
+                player_two
+                current_player
+                winner
+                status
+                is_private
+            }
+        }
+    }
+    transactions {
+        edges {
+            node {
+                executedAt
+            }
+        }
+    }
+}
+
+query FetchModelsForLeaderBoard {
+    mancalaGameModels {
+        edges {
+            node {
+                game_id
+                player_one
+                player_two
+                current_player
+                winner
+                status
+                is_private
+            }
+        }
+    }
+}
+
+query FetchModelsForHeader {
+  mancalaGameModels {
+    edges {
+      node {
+        game_id
+        player_one
+        player_two
+        current_player
+        winner
+        status
+        is_private
+      }
+    }
+  }
+}
+
+query GameData($gameId: u128!) {
+    game_data: mancalaGameModels(where: { game_id: $gameId }) {
+        edges {
+            node {
+                player_one
+                player_two
+                current_player
+                status
+                winner
+            }
+        }
+    }
+}
+
+query PlayData(
+    $player_1: ContractAddress!
+    $player_2: ContractAddress!
+    $gameId: u128
+) {
+    player_one: gamePlayerModels(
+        where: { game_id: $gameId, address: $player_1 }
+        last: 1
+    ) {
+        edges {
+            node {
+                address
+                game_id
+                pit1
+                pit2
+                pit3
+                pit4
+                pit5
+                pit6
+                mancala
+            }
+        }
+    }
+    player_two: gamePlayerModels(
+        where: { game_id: $gameId, address: $player_2 }
+        last: 1
+    ) {
+        edges {
+            node {
+                address
+                game_id
+                pit1
+                pit2
+                pit3
+                pit4
+                pit5
+                pit6
+                mancala
+            }
+        }
+    }
+}

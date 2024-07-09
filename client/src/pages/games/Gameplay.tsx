@@ -38,96 +38,41 @@ import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
 import { AlarmClock } from "lucide-react";
+import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
-    const metadata_query = gql`
-        query GameData($gameId: u128!) {
-            game_data: mancalaGameModels(where: { game_id: $gameId }) {
-                edges {
-                    node {
-                        player_one
-                        player_two
-                        current_player
-                        status
-                        winner
-                        time_between_move
-                    }
-                }
-            }
-        }
-    `;
-    const play_query = gql`
-        query PlayData(
-            $player_1: ContractAddress!
-            $player_2: ContractAddress!
-            $gameId: u128
-        ) {
-            player_one: gamePlayerModels(
-                where: { game_id: $gameId, address: $player_1 }
-                last: 1
-            ) {
-                edges {
-                    node {
-                        address
-                        game_id
-                        pit1
-                        pit2
-                        pit3
-                        pit4
-                        pit5
-                        pit6
-                        mancala
-                    }
-                }
-            }
-            player_two: gamePlayerModels(
-                where: { game_id: $gameId, address: $player_2 }
-                last: 1
-            ) {
-                edges {
-                    node {
-                        address
-                        game_id
-                        pit1
-                        pit2
-                        pit3
-                        pit4
-                        pit5
-                        pit6
-                        mancala
-                    }
-                }
-            }
-        }
-    `;
+
     const {
         loading: game_metadata_loading,
         error: game_metadata_error,
         data: game_metadata,
         startPolling: startMetadataPolling,
-    } = useQuery(metadata_query, {
-        variables: { gameId },
-    });
+    } = useGameDataQuery({
+        variables: {
+            gameId
+        }
+    })
     startMetadataPolling(1000);
 
     const { account, system } = useDojo();
 
     // typing this to show possible states and reduce the current errors
-    const game_node: undefined | any = game_metadata?.game_data?.edges[0]?.node
+    const game_node = game_metadata?.game_data?.edges?.[0]?.node
 
     const {
         loading: game_players_loading,
         error: game_players_error,
         data: game_players,
         startPolling: startPlayersPolling,
-    } = useQuery(play_query, {
+    } = usePlayDataQuery({
         variables: {
             player_1: game_node?.player_one,
             player_2: game_node?.player_two,
             gameId: gameId,
-        },
-    });
+        }
+    })
+
     startPlayersPolling(1000);
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
@@ -181,7 +126,9 @@ export default function Gameplay() {
         setPlaying(!isPlaying);
     };
 
-    const [, setSeeds] = useState(initialSeeds);
+    const [seeds, setSeeds] = useState(initialSeeds);
+
+    const { account } = useDojo();
 
     const { provider } = useProvider();
 
@@ -194,21 +141,21 @@ export default function Gameplay() {
     useEffect(() => {
         if (
             !starknetIdNavigator ||
-            !game_players?.player_one.edges[0]?.node.address ||
-            !game_players?.player_two.edges[0]?.node.address
+            !game_players?.player_one?.edges?.[0]?.node?.address ||
+            !game_players?.player_two?.edges?.[0]?.node?.address
         )
             return;
         (async () => {
             const profileData = await starknetIdNavigator?.getStarkProfiles([
-                game_players?.player_one.edges[0].node.address,
-                game_players?.player_two.edges[0].node.address,
+                game_players?.player_one?.edges?.[0]?.node?.address,
+                game_players?.player_two?.edges?.[0]?.node?.address,
             ]);
             if (!profileData) return;
             if (profileData) return setProfiles(profileData);
         })();
     }, [
-        game_players?.player_one.edges,
-        game_players?.player_two.edges,
+        game_players?.player_one?.edges,
+        game_players?.player_two?.edges,
         starknetIdNavigator,
     ]);
 
@@ -263,7 +210,7 @@ export default function Gameplay() {
                                     {profiles?.[0].name
                                         ? profiles?.[0].name
                                         : truncateString(
-                                            game_players?.player_one.edges[0].node.address
+                                            game_players?.player_one?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
@@ -295,7 +242,7 @@ export default function Gameplay() {
                                     {profiles?.[1].name
                                         ? profiles?.[1].name
                                         : truncateString(
-                                            game_players?.player_two.edges[0]?.node.address
+                                            game_players?.player_two?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
@@ -388,7 +335,7 @@ export default function Gameplay() {
                                         {Array.from(
                                             {
                                                 length:
-                                                    game_players?.player_one.edges[0]?.node.mancala || 0,
+                                                    game_players?.player_one?.edges?.[0]?.node?.mancala || 0,
                                             },
                                             (_, seedIndex) => (
                                                 <div
@@ -402,7 +349,7 @@ export default function Gameplay() {
                                 <div
                                     className="absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg">
                                     <p className="text-white">
-                                        {game_players?.player_one.edges[0]?.node.mancala}
+                                        {game_players?.player_one?.edges?.[0]?.node?.mancala}
                                     </p>
                                 </div>
                             </div>
@@ -416,8 +363,8 @@ export default function Gameplay() {
                                                 .map((pit_key, i) => (
                                                     <Pit
                                                         key={i}
-                                                        amount={game_players?.player_one.edges[0]?.node?.[`pit${pit_key}`]}
-                                                        address={game_players?.player_one.edges[0]?.node.address}
+                                                        amount={game_players?.player_one?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
+                                                        address={game_players?.player_one?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
@@ -440,13 +387,13 @@ export default function Gameplay() {
                                                 .map((pit_key, i) => {
                                                     return (<Pit
                                                         key={i}
-                                                        amount={game_players?.player_two?.edges[0]?.node?.[`pit${pit_key}`]}
-                                                        address={game_players?.player_two?.edges[0]?.node?.address}
+                                                        amount={game_players?.player_two?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
+                                                        address={game_players?.player_two?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
-                                                        status={game_metadata?.game_data.edges[0]?.node?.status}
-                                                        winner={game_metadata?.game_data.edges[0]?.node?.winner}
+                                                        status={game_metadata?.game_data?.edges?.[0]?.node?.status}
+                                                        winner={game_metadata?.game_data?.edges?.[0]?.node?.winner}
                                                         setTimeRemaining={setTimeRemaining}
                                                         time_between_move={parseInt(game_node?.time_between_move, 16)}
                                                     />)
@@ -464,7 +411,7 @@ export default function Gameplay() {
                                         {Array.from(
                                             {
                                                 length:
-                                                    game_players?.player_two.edges[0]?.node.mancala || 0,
+                                                    game_players?.player_two?.edges?.[0]?.node?.mancala || 0,
                                             },
                                             (_, seedIndex) => (
                                                 <div
@@ -478,7 +425,7 @@ export default function Gameplay() {
                                 <div
                                     className="absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg">
                                     <p className="text-white">
-                                        {game_players?.player_two.edges[0]?.node.mancala}
+                                        {game_players?.player_two?.edges?.[0]?.node?.mancala}
                                     </p>
                                 </div>
                             </div>
