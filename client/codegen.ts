@@ -1,20 +1,23 @@
+
+import CONFIG from "./src/constants/config";
 import { CodegenConfig } from '@graphql-codegen/cli';
-import CONFIG from "./src/constants/config"
 
 const config: CodegenConfig = {
   schema: CONFIG.GRAPHQL_ENDPOINT,
-  // this assumes that all your source files are in a top-level `src/` directory - you might need to adjust this to your file structure
-  documents: ['src/**/*.{ts,tsx}'],
+  documents: 'src/queries/**/*.graphql',
   generates: {
-    './src/__generated__/': {
-      preset: 'client',
-      plugins: [],
-      presetConfig: {
-        gqlTagName: 'gql',
+    'src/generated/graphql.tsx': {
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo'
+      ],
+      config: {
+        withHooks: true,
+        avoidOptionals: true, // Example configuration option to avoid optional fields
       }
     }
-  },
-  ignoreNoDocuments: true,
+  }
 };
 
 export default config;

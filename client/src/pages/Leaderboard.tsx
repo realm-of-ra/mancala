@@ -23,7 +23,7 @@ export default function Leaderboard() {
 
     const { loading, error, data, startPolling } = useQuery(
         gql`
-            query {
+            query FetchModelsQuery {
                 mancalaGameModels {
                     edges {
                         node {

@@ -20,7 +20,8 @@ import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import {gql} from "@/__generated__/gql";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import icon3 from "../assets/LogoW.svg";
@@ -85,8 +86,8 @@ export default function Header() {
 
   const { account } = useDojo();
 
-  const { loading, error, data, startPolling } = useQuery(gql`
-    query {
+  const { loading, error, data, startPolling } = useQuery(gql(`
+    query FetchSimpleModels {
       mancalaGameModels {
         edges {
           node {
@@ -101,7 +102,7 @@ export default function Header() {
         }
       }
     }
-  `);
+  `));
   startPolling(1000);
 
   const player = getPlayer(
