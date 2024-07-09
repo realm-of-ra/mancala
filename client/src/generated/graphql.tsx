@@ -811,6 +811,7 @@ export const GameDataDocument = gql`
         current_player
         status
         winner
+        time_between_move
       }
     }
   }
@@ -936,6 +937,7 @@ export const MancalaModelsFetchDocument = gql`
         winner
         status
         is_private
+        time_between_move
       }
     }
   }

@@ -1,7 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
 import React from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Accordion,
@@ -24,11 +22,6 @@ import {
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { Link, useParams } from "react-router-dom";
-import { animate, chat, initialSeeds, players } from "@/lib/constants";
-import { isPlayingAtom } from "../../atom/atoms";
-import { useAtom } from "jotai";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { Link, useParams } from "react-router-dom";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
@@ -179,8 +172,8 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (player === account.account.address) {
-            if (player === game_players?.player_one.edges[0].node.address) {
+        if (player === account.account.address && game_players?.player_one?.edges) {
+            if (player === game_players?.player_one.edges[0]?.node?.address) {
                 return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
             }
             else {
@@ -188,7 +181,7 @@ export default function Gameplay() {
             }
         }
         else {
-            if (player === game_players?.player_one.edges[0].node.address) {
+            if (game_players?.player_one?.edges && player === game_players?.player_one.edges[0]?.node?.address) {
                 return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
             }
             else {
@@ -199,6 +192,8 @@ export default function Gameplay() {
 
     const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
     const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
+
+    console.log(game_node)
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
