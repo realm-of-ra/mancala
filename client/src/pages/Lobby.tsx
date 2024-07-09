@@ -17,11 +17,8 @@ import end from "../assets/end.png";
 import clip from "../assets/copied.png";
 import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
-// import {GAME_METADATA_MODELS_QUERY} from "@/queries/graphQueries.tsx";
-import {gql} from "@/__generated__";
 import {useMancalaModelsFetchQuery} from "@/generated/graphql.tsx";
 
 
@@ -251,15 +248,15 @@ export default function Lobby() {
                 (
                   <>
                     <TabsContent value="players">
-                      <Players data={data?.mancalaGameModels.edges} />
+                      <Players data={data?.mancalaGameModels?.edges} />
                     </TabsContent>
                     <TabsContent value="duels">
-                      <Duels games={data?.mancalaGameModels.edges}
-                        transactions={data?.transactions.edges} />
+                      <Duels games={data?.mancalaGameModels?.edges}
+                        transactions={data?.transactions?.edges} />
                     </TabsContent>
                     <TabsContent value="live">
-                      <LiveDuels games={data?.mancalaGameModels.edges}
-                        transactions={data?.transactions.edges} />
+                      <LiveDuels games={data?.mancalaGameModels?.edges}
+                        transactions={data?.transactions?.edges} />
                     </TabsContent>
                   </>
                 )

@@ -4,7 +4,7 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   schema: CONFIG.GRAPHQL_ENDPOINT,
-  documents: 'src/queries/**/*.graphql',
+  documents: 'src/queries/**/*.{graphql,ts,tsx}',
   generates: {
     'src/generated/graphql.tsx': {
       plugins: [
