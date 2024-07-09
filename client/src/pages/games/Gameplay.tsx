@@ -280,7 +280,6 @@ export default function Gameplay() {
                                 <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
                             </div>
                         </div>
-                        <button onClick={timeout} className="text-white">Timeout</button>
                     </div>
                 </div>
             </nav>
