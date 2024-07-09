@@ -19,7 +19,8 @@ export function isEmptyString(str?: string): boolean {
   return !str || typeof str != "string" || str.trim() === "";
 }
 
-export function getPlayers(data: Array<MancalaGameEdge>) {
+export function getPlayers(data: Array<MancalaGameEdge> | undefined) {
+    if (!data) return [];
   // Extracting player_one and player_two from the data object
   const players = data?.reduce((acc: IPlayersForDuelsList[], edge) => {
     const { player_one, player_two, winner } = edge.node as MancalaGame;
@@ -55,7 +56,7 @@ export function getPlayers(data: Array<MancalaGameEdge>) {
   return players;
 }
 
-export function getPlayer(data: any, address: string) {
+export function getPlayer(data: MancalaGameEdge[], address: string) {
   const playerStats = data?.reduce((acc: any, edge: any) => {
     const { player_one, player_two, winner } = edge.node;
 

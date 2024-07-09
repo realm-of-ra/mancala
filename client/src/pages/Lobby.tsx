@@ -19,7 +19,7 @@ import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
-import {useMancalaModelsFetchQuery} from "@/generated/graphql.tsx";
+import {MancalaGameEdge, useMancalaModelsFetchQuery} from "@/generated/graphql.tsx";
 
 
 export default function Lobby() {
@@ -248,7 +248,7 @@ export default function Lobby() {
                 (
                   <>
                     <TabsContent value="players">
-                      <Players data={data?.mancalaGameModels?.edges} />
+                      <Players data={data?.mancalaGameModels?.edges as MancalaGameEdge[]} />
                     </TabsContent>
                     <TabsContent value="duels">
                       <Duels games={data?.mancalaGameModels?.edges}

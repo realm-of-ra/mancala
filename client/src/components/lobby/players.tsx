@@ -9,7 +9,7 @@ import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
 import {MancalaGameEdge} from "@/generated/graphql.tsx";
 
-export default function Players({ data }: { data: Array<MancalaGameEdge> }) {
+export default function Players({ data }: { data: Array<MancalaGameEdge> | undefined }) {
 
     const { provider } = useProvider();
 

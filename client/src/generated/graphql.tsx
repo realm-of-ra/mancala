@@ -769,12 +769,161 @@ export type World__TransactionEdge = {
   node: Maybe<World__Transaction>;
 };
 
+export type GameDataQueryVariables = Exact<{
+  gameId: Scalars['u128']['input'];
+}>;
+
+
+export type GameDataQuery = { __typename?: 'World__Query', game_data: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', player_one: any | null, player_two: any | null, current_player: any | null, status: any | null, winner: any | null } | null } | null> | null } | null };
+
+export type PlayDataQueryVariables = Exact<{
+  player_1: Scalars['ContractAddress']['input'];
+  player_2: Scalars['ContractAddress']['input'];
+  gameId: InputMaybe<Scalars['u128']['input']>;
+}>;
+
+
+export type PlayDataQuery = { __typename?: 'World__Query', player_one: { __typename?: 'GamePlayerConnection', edges: Array<{ __typename?: 'GamePlayerEdge', node: { __typename?: 'GamePlayer', address: any | null, game_id: any | null, pit1: any | null, pit2: any | null, pit3: any | null, pit4: any | null, pit5: any | null, pit6: any | null, mancala: any | null } | null } | null> | null } | null, player_two: { __typename?: 'GamePlayerConnection', edges: Array<{ __typename?: 'GamePlayerEdge', node: { __typename?: 'GamePlayer', address: any | null, game_id: any | null, pit1: any | null, pit2: any | null, pit3: any | null, pit4: any | null, pit5: any | null, pit6: any | null, mancala: any | null } | null } | null> | null } | null };
+
 export type MancalaModelsFetchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MancalaModelsFetchQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null, transactions: { __typename?: 'World__TransactionConnection', edges: Array<{ __typename?: 'World__TransactionEdge', node: { __typename?: 'World__Transaction', executedAt: any | null } | null } | null> | null } | null };
 
+export type FetchModelsForLeaderBoardQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type FetchModelsForLeaderBoardQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+
+export type FetchModelsForHeaderQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+
+
+export const GameDataDocument = gql`
+    query GameData($gameId: u128!) {
+  game_data: mancalaGameModels(where: {game_id: $gameId}) {
+    edges {
+      node {
+        player_one
+        player_two
+        current_player
+        status
+        winner
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGameDataQuery__
+ *
+ * To run a query within a React component, call `useGameDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGameDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGameDataQuery({
+ *   variables: {
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function useGameDataQuery(baseOptions: Apollo.QueryHookOptions<GameDataQuery, GameDataQueryVariables> & ({ variables: GameDataQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+      }
+export function useGameDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GameDataQuery, GameDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+        }
+export function useGameDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GameDataQuery, GameDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+        }
+export type GameDataQueryHookResult = ReturnType<typeof useGameDataQuery>;
+export type GameDataLazyQueryHookResult = ReturnType<typeof useGameDataLazyQuery>;
+export type GameDataSuspenseQueryHookResult = ReturnType<typeof useGameDataSuspenseQuery>;
+export type GameDataQueryResult = Apollo.QueryResult<GameDataQuery, GameDataQueryVariables>;
+export const PlayDataDocument = gql`
+    query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
+  player_one: gamePlayerModels(
+    where: {game_id: $gameId, address: $player_1}
+    last: 1
+  ) {
+    edges {
+      node {
+        address
+        game_id
+        pit1
+        pit2
+        pit3
+        pit4
+        pit5
+        pit6
+        mancala
+      }
+    }
+  }
+  player_two: gamePlayerModels(
+    where: {game_id: $gameId, address: $player_2}
+    last: 1
+  ) {
+    edges {
+      node {
+        address
+        game_id
+        pit1
+        pit2
+        pit3
+        pit4
+        pit5
+        pit6
+        mancala
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePlayDataQuery__
+ *
+ * To run a query within a React component, call `usePlayDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlayDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlayDataQuery({
+ *   variables: {
+ *      player_1: // value for 'player_1'
+ *      player_2: // value for 'player_2'
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function usePlayDataQuery(baseOptions: Apollo.QueryHookOptions<PlayDataQuery, PlayDataQueryVariables> & ({ variables: PlayDataQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+      }
+export function usePlayDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlayDataQuery, PlayDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+        }
+export function usePlayDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PlayDataQuery, PlayDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+        }
+export type PlayDataQueryHookResult = ReturnType<typeof usePlayDataQuery>;
+export type PlayDataLazyQueryHookResult = ReturnType<typeof usePlayDataLazyQuery>;
+export type PlayDataSuspenseQueryHookResult = ReturnType<typeof usePlayDataSuspenseQuery>;
+export type PlayDataQueryResult = Apollo.QueryResult<PlayDataQuery, PlayDataQueryVariables>;
 export const MancalaModelsFetchDocument = gql`
     query MancalaModelsFetch {
   mancalaGameModels {
@@ -831,3 +980,101 @@ export type MancalaModelsFetchQueryHookResult = ReturnType<typeof useMancalaMode
 export type MancalaModelsFetchLazyQueryHookResult = ReturnType<typeof useMancalaModelsFetchLazyQuery>;
 export type MancalaModelsFetchSuspenseQueryHookResult = ReturnType<typeof useMancalaModelsFetchSuspenseQuery>;
 export type MancalaModelsFetchQueryResult = Apollo.QueryResult<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>;
+export const FetchModelsForLeaderBoardDocument = gql`
+    query FetchModelsForLeaderBoard {
+  mancalaGameModels {
+    edges {
+      node {
+        game_id
+        player_one
+        player_two
+        current_player
+        winner
+        status
+        is_private
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFetchModelsForLeaderBoardQuery__
+ *
+ * To run a query within a React component, call `useFetchModelsForLeaderBoardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchModelsForLeaderBoardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchModelsForLeaderBoardQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchModelsForLeaderBoardQuery(baseOptions?: Apollo.QueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+      }
+export function useFetchModelsForLeaderBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+        }
+export function useFetchModelsForLeaderBoardSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+        }
+export type FetchModelsForLeaderBoardQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardQuery>;
+export type FetchModelsForLeaderBoardLazyQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardLazyQuery>;
+export type FetchModelsForLeaderBoardSuspenseQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardSuspenseQuery>;
+export type FetchModelsForLeaderBoardQueryResult = Apollo.QueryResult<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>;
+export const FetchModelsForHeaderDocument = gql`
+    query FetchModelsForHeader {
+  mancalaGameModels {
+    edges {
+      node {
+        game_id
+        player_one
+        player_two
+        current_player
+        winner
+        status
+        is_private
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFetchModelsForHeaderQuery__
+ *
+ * To run a query within a React component, call `useFetchModelsForHeaderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchModelsForHeaderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchModelsForHeaderQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchModelsForHeaderQuery(baseOptions?: Apollo.QueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+      }
+export function useFetchModelsForHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+        }
+export function useFetchModelsForHeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+        }
+export type FetchModelsForHeaderQueryHookResult = ReturnType<typeof useFetchModelsForHeaderQuery>;
+export type FetchModelsForHeaderLazyQueryHookResult = ReturnType<typeof useFetchModelsForHeaderLazyQuery>;
+export type FetchModelsForHeaderSuspenseQueryHookResult = ReturnType<typeof useFetchModelsForHeaderSuspenseQuery>;
+export type FetchModelsForHeaderQueryResult = Apollo.QueryResult<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>;
