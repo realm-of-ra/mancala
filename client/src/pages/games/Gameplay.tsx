@@ -85,14 +85,18 @@ export default function Gameplay() {
 
     const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
 
+    const timeout = async () => {
+        await system.timeout(account.account, gameId || '')
+    }
+
     useEffect(() => {
         const timerInterval = setInterval(() => {
             if (timeRemaining > 0) {
                 setTimeRemaining((prevTime: number) => {
                     if (prevTime === 0) {
                         clearInterval(timerInterval);
-                        // Perform actions when the timer reaches zero
-                        console.log('Countdown complete!');
+                        //call the timeout function on the contract when timer reaches zero
+                        timeout()
                         return 0;
                     } else {
                         return prevTime - 1;
@@ -128,8 +132,6 @@ export default function Gameplay() {
     };
 
     const [, setSeeds] = useState(initialSeeds);
-
-    const { account } = useDojo();
 
     const { provider } = useProvider();
 
@@ -283,6 +285,7 @@ export default function Gameplay() {
                                 <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
                             </div>
                         </div>
+                        <button onClick={timeout} className="text-white">Timeout</button>
                     </div>
                 </div>
             </nav>
