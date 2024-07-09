@@ -1,5 +1,8 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import {GamePlayer, MancalaGame, MancalaGameEdge} from "@/generated/graphql.tsx";
+
+import {IPlayersForDuelsList} from "@/types/player.type.ts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -16,18 +19,19 @@ export function isEmptyString(str?: string): boolean {
   return !str || typeof str != "string" || str.trim() === "";
 }
 
-export function getPlayers(data: any) {
+export function getPlayers(data: Array<MancalaGameEdge> | undefined) {
+    if (!data) return [];
   // Extracting player_one and player_two from the data object
-  const players = data?.reduce((acc: any, edge: any) => {
-    const { player_one, player_two, winner } = edge.node;
+  const players = data?.reduce((acc: IPlayersForDuelsList[], edge) => {
+    const { player_one, player_two, winner } = edge.node as MancalaGame;
 
     // Update player_one
-    const playerOneIndex = acc.findIndex((player: any) => player.address === player_one);
+    const playerOneIndex = acc.findIndex((player) => player.address === player_one);
     if (playerOneIndex !== -1) {
         if (winner === player_one) {
             acc[playerOneIndex].wins++;
         } else {
-            acc[playerOneIndex].loses++;
+            acc[playerOneIndex].losses++;
         }
         acc[playerOneIndex].totalAppearances++;
     } else {
@@ -40,7 +44,7 @@ export function getPlayers(data: any) {
           if (winner === player_two) {
               acc[playerTwoIndex].wins++;
           } else {
-              acc[playerTwoIndex].loses++;
+              acc[playerTwoIndex].losses++;
           }
           acc[playerTwoIndex].totalAppearances++;
       } else {
@@ -52,7 +56,7 @@ export function getPlayers(data: any) {
   return players;
 }
 
-export function getPlayer(data: any, address: string) {
+export function getPlayer(data: MancalaGameEdge[], address: string) {
   const playerStats = data?.reduce((acc: any, edge: any) => {
     const { player_one, player_two, winner } = edge.node;
 

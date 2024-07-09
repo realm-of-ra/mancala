@@ -1,6 +1,6 @@
-import { Button } from "@material-tailwind/react";
+import {Button} from "@material-tailwind/react";
 import React from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {
     Accordion,
     AccordionHeader,
@@ -22,108 +22,54 @@ import {
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import { Link, useParams } from "react-router-dom";
-import { animate, chat, initialSeeds, players } from "@/lib/constants";
-import { isPlayingAtom } from "../../atom/atoms";
-import { useAtom } from "jotai";
+import {PaperAirplaneIcon} from "@heroicons/react/24/solid";
+import {Link, useParams} from "react-router-dom";
+import {animate, chat, initialSeeds, players} from "@/lib/constants";
+import {isPlayingAtom} from "../../atom/atoms";
+import {useAtom} from "jotai";
 import audio from "../../music/audio_1.mp4";
-import { gql, useQuery } from "@apollo/client";
-import { useDojo } from "@/dojo/useDojo";
-import { useProvider } from "@starknet-react/core";
-import { StarknetIdNavigator } from "starknetid.js";
-import { constants, StarkProfile } from "starknet";
-import { truncateString } from "@/lib/utils";
+import {gql, useQuery} from "@apollo/client";
+import {useDojo} from "@/dojo/useDojo";
+import {useProvider} from "@starknet-react/core";
+import {StarknetIdNavigator} from "starknetid.js";
+import {constants, StarkProfile} from "starknet";
+import {truncateString} from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
+import {GameDataDocument, useGameDataQuery, usePlayDataQuery} from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
-    const { gameId } = useParams();
-    const metadata_query = gql`
-        query GameData($gameId: u128!) {
-            game_data: mancalaGameModels(where: { game_id: $gameId }) {
-                edges {
-                    node {
-                        player_one
-                        player_two
-                        current_player
-                        status
-                        winner
-                    }
-                }
-            }
-        }
-    `;
-    const play_query = gql`
-        query PlayData(
-            $player_1: ContractAddress!
-            $player_2: ContractAddress!
-            $gameId: u128
-        ) {
-            player_one: gamePlayerModels(
-                where: { game_id: $gameId, address: $player_1 }
-                last: 1
-            ) {
-                edges {
-                    node {
-                        address
-                        game_id
-                        pit1
-                        pit2
-                        pit3
-                        pit4
-                        pit5
-                        pit6
-                        mancala
-                    }
-                }
-            }
-            player_two: gamePlayerModels(
-                where: { game_id: $gameId, address: $player_2 }
-                last: 1
-            ) {
-                edges {
-                    node {
-                        address
-                        game_id
-                        pit1
-                        pit2
-                        pit3
-                        pit4
-                        pit5
-                        pit6
-                        mancala
-                    }
-                }
-            }
-        }
-    `;
+    const {gameId} = useParams();
+
     const {
         loading: game_metadata_loading,
         error: game_metadata_error,
         data: game_metadata,
         startPolling: startMetadataPolling,
-    } = useQuery(metadata_query, {
-        variables: { gameId },
-    });
+    } = useGameDataQuery({
+        variables: {
+            gameId
+        }
+    })
     startMetadataPolling(1000);
 
     // typing this to show possible states and reduce the current errors
-    const game_node: undefined | any = game_metadata?.game_data?.edges[0]?.node
+    const game_node = game_metadata?.game_data?.edges?.[0]?.node
 
     const {
         loading: game_players_loading,
         error: game_players_error,
         data: game_players,
         startPolling: startPlayersPolling,
-    } = useQuery(play_query, {
+    } = usePlayDataQuery({
         variables: {
             player_1: game_node?.player_one,
             player_2: game_node?.player_two,
             gameId: gameId,
-        },
-    });
+        }
+    })
+
     startPlayersPolling(1000);
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
@@ -154,9 +100,9 @@ export default function Gameplay() {
 
     const [seeds, setSeeds] = useState(initialSeeds);
 
-    const { account } = useDojo();
+    const {account} = useDojo();
 
-    const { provider } = useProvider();
+    const {provider} = useProvider();
 
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_MAIN);
@@ -167,21 +113,21 @@ export default function Gameplay() {
     useEffect(() => {
         if (
             !starknetIdNavigator ||
-            !game_players?.player_one.edges[0]?.node.address ||
-            !game_players?.player_two.edges[0]?.node.address
+            !game_players?.player_one?.edges?.[0]?.node?.address ||
+            !game_players?.player_two?.edges?.[0]?.node?.address
         )
             return;
         (async () => {
             const profileData = await starknetIdNavigator?.getStarkProfiles([
-                game_players?.player_one.edges[0].node.address,
-                game_players?.player_two.edges[0].node.address,
+                game_players?.player_one?.edges?.[0]?.node?.address,
+                game_players?.player_two?.edges?.[0]?.node?.address,
             ]);
             if (!profileData) return;
             if (profileData) return setProfiles(profileData);
         })();
     }, [
-        game_players?.player_one.edges,
-        game_players?.player_two.edges,
+        game_players?.player_one?.edges,
+        game_players?.player_two?.edges,
         starknetIdNavigator,
     ]);
 
@@ -214,7 +160,7 @@ export default function Gameplay() {
                                     {profiles?.[0].name
                                         ? profiles?.[0].name
                                         : truncateString(
-                                            game_players?.player_one.edges[0].node.address
+                                            game_players?.player_one?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
@@ -246,7 +192,7 @@ export default function Gameplay() {
                                     {profiles?.[1].name
                                         ? profiles?.[1].name
                                         : truncateString(
-                                            game_players?.player_two.edges[0]?.node.address
+                                            game_players?.player_two?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
@@ -330,7 +276,7 @@ export default function Gameplay() {
                                         {Array.from(
                                             {
                                                 length:
-                                                    game_players?.player_one.edges[0]?.node.mancala || 0,
+                                                    game_players?.player_one?.edges?.[0]?.node?.mancala || 0,
                                             },
                                             (_, seedIndex) => (
                                                 <div
@@ -344,7 +290,7 @@ export default function Gameplay() {
                                 <div
                                     className="absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg">
                                     <p className="text-white">
-                                        {game_players?.player_one.edges[0]?.node.mancala}
+                                        {game_players?.player_one?.edges?.[0]?.node?.mancala}
                                     </p>
                                 </div>
                             </div>
@@ -353,13 +299,13 @@ export default function Gameplay() {
                                 <div className="h-[175px] w-full flex flex-row justify-between items-center">
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
                                         {
-                                            Array.from({ length: 6 }, ((_, zero_index) => zero_index + 1))
+                                            Array.from({length: 6}, ((_, zero_index) => zero_index + 1))
                                                 .reverse()
                                                 .map((pit_key, i) => (
                                                     <Pit
                                                         key={i}
-                                                        amount={game_players?.player_one.edges[0]?.node?.[`pit${pit_key}`]}
-                                                        address={game_players?.player_one.edges[0]?.node.address}
+                                                        amount={game_players?.player_one?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
+                                                        address={game_players?.player_one?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
@@ -380,13 +326,13 @@ export default function Gameplay() {
                                                 .map((pit_key, i) => {
                                                     return (<Pit
                                                         key={i}
-                                                        amount={game_players?.player_two?.edges[0]?.node?.[`pit${pit_key}`]}
-                                                        address={game_players?.player_two?.edges[0]?.node?.address}
+                                                        amount={game_players?.player_two?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
+                                                        address={game_players?.player_two?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
-                                                        status={game_metadata?.game_data.edges[0]?.node?.status}
-                                                        winner={game_metadata?.game_data.edges[0]?.node?.winner}
+                                                        status={game_metadata?.game_data?.edges?.[0]?.node?.status}
+                                                        winner={game_metadata?.game_data?.edges?.[0]?.node?.winner}
                                                     />)
                                                 })
                                         }
@@ -402,7 +348,7 @@ export default function Gameplay() {
                                         {Array.from(
                                             {
                                                 length:
-                                                    game_players?.player_two.edges[0]?.node.mancala || 0,
+                                                    game_players?.player_two?.edges?.[0]?.node?.mancala || 0,
                                             },
                                             (_, seedIndex) => (
                                                 <div
@@ -416,7 +362,7 @@ export default function Gameplay() {
                                 <div
                                     className="absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg">
                                     <p className="text-white">
-                                        {game_players?.player_two.edges[0]?.node.mancala}
+                                        {game_players?.player_two?.edges?.[0]?.node?.mancala}
                                     </p>
                                 </div>
                             </div>
@@ -545,7 +491,7 @@ export default function Gameplay() {
                             {/* chat */}
                             <Accordion
                                 open={open === 1}
-                                icon={<Icon id={1} open={open} />}
+                                icon={<Icon id={1} open={open}/>}
                                 className={clsx(open && "-mt-64", "w-96")}
                                 animate={animate}
                             >
@@ -625,7 +571,7 @@ export default function Gameplay() {
                                                 <Button
                                                     className="p-0 w-12 h-8 bg-[#F58229] flex flex-col items-center justify-center">
                                                     <PaperAirplaneIcon
-                                                        className="w-4 h-4 text-black transform -rotate-45" />
+                                                        className="w-4 h-4 text-black transform -rotate-45"/>
                                                 </Button>
                                             </div>
                                         </div>

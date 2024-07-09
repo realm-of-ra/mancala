@@ -1,3 +1,3 @@
 /// <reference types="vite/client" />
 declare module '@dojoengine/recs'
-declare module '@apollo/client'
+// declare module '@apollo/client'
