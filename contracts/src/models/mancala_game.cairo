@@ -33,6 +33,7 @@ struct MancalaGame {
     player_two: ContractAddress,
     current_player: ContractAddress,
     last_move: u64,
+    last_move_at: u64,
     time_between_move: u64,
     winner: ContractAddress,
     status: GameStatus,
@@ -84,6 +85,7 @@ impl MancalaImpl of MancalaGameTrait {
                 .block_info
                 .unbox()
                 .block_number,
+            last_move_at: 0,
             time_between_move: 100,
             winner: ContractAddressZeroable::zero(),
             current_player: player_one,
@@ -181,6 +183,13 @@ impl MancalaImpl of MancalaGameTrait {
         ref seeds: u8,
         selected_pit: u8
     ) {
+        //set the last move time to the current block time
+        self.last_move_at = get_execution_info_syscall()
+        .unwrap_syscall()
+        .unbox()
+        .block_info
+        .unbox()
+        .block_timestamp;
         // go to next pit
         let mut current_pit = selected_pit + 1;
         let mut last_pit = current_pit;
@@ -393,6 +402,7 @@ impl MancalaImpl of MancalaGameTrait {
                 .block_info
                 .unbox()
                 .block_number,
+            last_move_at: 0,
             time_between_move: 100,
             winner: ContractAddressZeroable::zero(),
             status: GameStatus::Pending,

@@ -387,6 +387,10 @@
         "type": "core::integer::u64"
       },
       {
+        "name": "last_move_at",
+        "type": "core::integer::u64"
+      },
+      {
         "name": "time_between_move",
         "type": "core::integer::u64"
       },
