@@ -83,26 +83,26 @@ export async function setupWorld(provider: DojoProvider) {
       }
     }
 
-    const spawn = async ({ account }: { account: AccountInterface }) => {
+    const timeout = async (account: AccountInterface, game_id: string) => {
       try {
         return await provider.execute(account, {
           contractName: 'actions',
-          entrypoint: 'spawn',
-          calldata: [],
+          entrypoint: 'time_out',
+          calldata: [game_id],
         })
       } catch (error) {
-        console.error('Error executing spawn:', error)
+        console.error('Error executing timeout:', error)
         throw error
       }
     }
 
     return {
-      spawn,
       create_initial_game_id,
       create_game,
       create_private_game,
       join_game,
       move,
+      timeout,
     }
   }
   return {

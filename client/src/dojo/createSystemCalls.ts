@@ -129,11 +129,28 @@ export function createSystemCalls(
     }
   }
 
+  const timeout = async (account: AccountInterface, game_id: string) => {
+    try {
+      const { transaction_hash } = await client.actions.timeout(
+        account,
+        game_id,
+      )
+
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      })
+    } catch (error) {
+      console.error('Error executing timeout:', error)
+      throw error
+    }
+  }
+
   return {
     create_initial_game_id,
     create_game,
     create_private_game,
     join_game,
     move,
+    timeout,
   }
 }

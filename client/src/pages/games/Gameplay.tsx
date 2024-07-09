@@ -111,6 +111,8 @@ export default function Gameplay() {
     });
     startMetadataPolling(1000);
 
+    const { account, system } = useDojo();
+
     // typing this to show possible states and reduce the current errors
     const game_node: undefined | any = game_metadata?.game_data?.edges[0]?.node
 
@@ -133,14 +135,18 @@ export default function Gameplay() {
 
     const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
 
+    const timeout = async () => {
+        await system.timeout(account.account, gameId || '')
+    }
+
     useEffect(() => {
         const timerInterval = setInterval(() => {
             if (timeRemaining >= 0) {
                 setTimeRemaining((prevTime: number) => {
                     if (prevTime === 0) {
                         clearInterval(timerInterval);
-                        // Perform actions when the timer reaches zero
-                        console.log('Countdown complete!');
+                        //call the timeout function on the contract when timer reaches zero
+                        timeout()
                         return 0;
                     } else {
                         return prevTime - 1;
@@ -176,8 +182,6 @@ export default function Gameplay() {
     };
 
     const [, setSeeds] = useState(initialSeeds);
-
-    const { account } = useDojo();
 
     const { provider } = useProvider();
 
@@ -331,6 +335,7 @@ export default function Gameplay() {
                                 <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
                             </div>
                         </div>
+                        <button onClick={timeout} className="text-white">Timeout</button>
                     </div>
                 </div>
             </nav>
@@ -418,6 +423,8 @@ export default function Gameplay() {
                                                         message={setMoveMessage}
                                                         status={game_node?.status}
                                                         winner={game_node?.winner}
+                                                        setTimeRemaining={setTimeRemaining}
+                                                        time_between_move={parseInt(game_node?.time_between_move, 16)}
                                                     />
                                                 ))
                                         }
@@ -440,6 +447,8 @@ export default function Gameplay() {
                                                         message={setMoveMessage}
                                                         status={game_metadata?.game_data.edges[0]?.node?.status}
                                                         winner={game_metadata?.game_data.edges[0]?.node?.winner}
+                                                        setTimeRemaining={setTimeRemaining}
+                                                        time_between_move={parseInt(game_node?.time_between_move, 16)}
                                                     />)
                                                 })
                                         }

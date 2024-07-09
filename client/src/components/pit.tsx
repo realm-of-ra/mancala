@@ -2,15 +2,17 @@ import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
 
-export default function Pit({ amount, address, pit, game_id, status, winner, message }: {
+export default function Pit({ amount, address, pit, game_id, status, winner, setTimeRemaining, time_between_move, message }: {
     amount: number, address: string, pit: number, winner: string,
-    game_id: string, status: string; message: Dispatch<SetStateAction<string | undefined>>
+    game_id: string, status: string; setTimeRemaining: Dispatch<SetStateAction<number>>;
+    time_between_move: number; message: Dispatch<SetStateAction<string | undefined>>
 }) {
     const { account: userAccount, system } = useDojo()
     const handleMove = async () => {
         if (address === userAccount.account.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
             await system.move(userAccount.account, game_id, pit)
+            setTimeRemaining(time_between_move)
         }
         else {
             if (address !== userAccount.account.address) {

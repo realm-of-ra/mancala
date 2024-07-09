@@ -1,4 +1,3 @@
-import { useDojo } from "@/dojo/useDojo";
 import { isEmptyString } from "@/lib/utils.ts";
 
 interface IMessageAreaProps {
@@ -55,8 +54,6 @@ export default function MessageArea(
             return "Player has not joined game";
         }
     }
-
-    console.log("winner: ", winner)
 
     return (
         <p className="text-[#AAAEB7]">
