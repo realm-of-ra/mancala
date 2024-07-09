@@ -1,5 +1,7 @@
 import { Button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Accordion,
@@ -27,8 +29,12 @@ import { Link, useParams } from "react-router-dom";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { Link, useParams } from "react-router-dom";
+import { animate, chat, initialSeeds, players } from "@/lib/constants";
+import { isPlayingAtom } from "../../atom/atoms";
+import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
-import { gql, useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -37,12 +43,11 @@ import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
+import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql";
 import { AlarmClock } from "lucide-react";
-import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
-
     const {
         loading: game_metadata_loading,
         error: game_metadata_error,
@@ -80,18 +85,14 @@ export default function Gameplay() {
 
     const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
 
-    const timeout = async () => {
-        await system.timeout(account.account, gameId || '')
-    }
-
     useEffect(() => {
         const timerInterval = setInterval(() => {
-            if (timeRemaining >= 0) {
+            if (timeRemaining > 0) {
                 setTimeRemaining((prevTime: number) => {
                     if (prevTime === 0) {
                         clearInterval(timerInterval);
-                        //call the timeout function on the contract when timer reaches zero
-                        timeout()
+                        // Perform actions when the timer reaches zero
+                        console.log('Countdown complete!');
                         return 0;
                     } else {
                         return prevTime - 1;
@@ -126,7 +127,7 @@ export default function Gameplay() {
         setPlaying(!isPlaying);
     };
 
-    const [seeds, setSeeds] = useState(initialSeeds);
+    const [, setSeeds] = useState(initialSeeds);
 
     const { account } = useDojo();
 
@@ -176,20 +177,20 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (player === account.account.address) {
-            if (player === game_players?.player_one.edges[0].node.address) {
-                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
+        if (player === account.account.address && game_players?.player_one?.edges) {
+            if (player === game_players?.player_one.edges[0]?.node?.address) {
+                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div>`
             }
             else {
-                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)))
+                return `<div>Make your move <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div>`
             }
         }
         else {
-            if (player === game_players?.player_one.edges[0].node.address) {
-                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
+            if (game_players?.player_one?.edges && player === game_players?.player_one?.edges[0]?.node?.address) {
+                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[0].name ? profiles?.[0].name : truncateString(player)}</span></div> move`
             }
             else {
-                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`)
+                return `<div>Waiting for <span class="text-[#F58229]">${profiles?.[1].name ? profiles?.[1].name : truncateString(player)}</span></div> move`
             }
         }
     }
@@ -279,10 +280,9 @@ export default function Gameplay() {
                             <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
                             <div className="flex flex-row items-center justify-center space-x-1">
                                 <AlarmClock className="w-6 h-6 text-white" />
-                                <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
+                                <div className="text-white" dangerouslySetInnerHTML={{ __html: moveMessageOnTimer(game_node?.current_player) }} />
                             </div>
                         </div>
-                        <button onClick={timeout} className="text-white">Timeout</button>
                     </div>
                 </div>
             </nav>
