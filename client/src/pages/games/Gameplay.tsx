@@ -36,8 +36,8 @@ import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql";
 import { AlarmClock } from "lucide-react";
+import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -264,23 +264,15 @@ export default function Gameplay() {
                 </div>
                 <div
                     className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <div className="flex flex-col items-center justify-center mt-10 space-y-5">
-                        <Link to="/">
-                            <img
-                                src={logo}
-                                width={150}
-                                height={150}
-                                alt="Logo"
-                            />
-                        </Link>
-                        <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
-                            <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
-                            <div className="flex flex-row items-center justify-center space-x-1">
-                                <AlarmClock className="w-6 h-6 text-white" />
-                                <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
-                            </div>
-                        </div>
-                    </div>
+                    <Link to="/">
+                        <img
+                            src={logo}
+                            width={150}
+                            height={150}
+                            alt="Logo"
+                            className="-mt-10"
+                        />
+                    </Link>
                 </div>
             </nav>
             <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
