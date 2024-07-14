@@ -10,6 +10,7 @@ import { constants, StarkProfile } from "starknet";
 import { getPlayers, truncateString } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {MancalaGameEdge, useFetchModelsForLeaderBoardQuery} from "@/generated/graphql.tsx";
 
 export default function Leaderboard() {
 
@@ -21,29 +22,13 @@ export default function Leaderboard() {
         constants.StarknetChainId.SN_MAIN
     );
 
-    const { loading, error, data, startPolling } = useQuery(
-        gql`
-            query {
-                mancalaGameModels {
-                    edges {
-                        node {
-                            game_id
-                            player_one
-                            player_two
-                            current_player
-                            winner
-                            status
-                            is_private
-                        }
-                    }
-                }
-            }
-        `
-    )
+    const { loading, error, data, startPolling } = useFetchModelsForLeaderBoardQuery();
     startPolling(1000);
 
     // Extracting player_one and player_two from the data object and get the the top 8 highest winners
-    const players = getPlayers(data?.mancalaGameModels.edges)?.sort((a: any, b: any) => b.wins - a.wins)?.slice(0, 8)
+    // TODO: instead of type coercion, we can use this to aid loading state
+    const players = getPlayers(data?.mancalaGameModels?.edges as MancalaGameEdge[])
+        ?.sort((a: any, b: any) => b.wins - a.wins)?.slice(0, 8)
 
     const addresses = players?.map((player: any) => player.address);
 

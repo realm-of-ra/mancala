@@ -20,7 +20,7 @@ import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import icon3 from "../assets/LogoW.svg";
@@ -28,6 +28,7 @@ import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profile from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
+import {MancalaGameEdge, useFetchModelsForHeaderQuery} from "@/generated/graphql.tsx";
 
 export default function Header() {
   const [connection, setConnection] = useAtom(connectionAtom);
@@ -85,27 +86,11 @@ export default function Header() {
 
   const { account } = useDojo();
 
-  const { loading, error, data, startPolling } = useQuery(gql`
-    query {
-      mancalaGameModels {
-        edges {
-          node {
-            game_id
-            player_one
-            player_two
-            current_player
-            winner
-            status
-            is_private
-          }
-        }
-      }
-    }
-  `);
+  const { loading, error, data, startPolling } = useFetchModelsForHeaderQuery();
   startPolling(1000);
 
   const player = getPlayer(
-    data?.mancalaGameModels.edges,
+    data?.mancalaGameModels?.edges as MancalaGameEdge[],
     account.account.address,
   );
 
