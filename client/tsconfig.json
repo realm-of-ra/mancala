@@ -21,7 +21,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "dojoConfig.ts"],
+  "include": ["src", "dojoConfig.ts", "tests"],
   "references": [
     {
       "path": "./tsconfig.node.json"

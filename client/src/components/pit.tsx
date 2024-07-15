@@ -1,4 +1,4 @@
-import { useDojo } from "@/dojo/useDojo";
+import { useDojo } from "../dojo/useDojo";
 import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
 

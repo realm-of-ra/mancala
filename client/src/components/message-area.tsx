@@ -1,5 +1,4 @@
-import { useDojo } from "@/dojo/useDojo";
-import { isEmptyString } from "@/lib/utils.ts";
+import { isEmptyString } from "../lib/utils.ts";
 
 interface IMessageAreaProps {
     game_metadata_error: any,
