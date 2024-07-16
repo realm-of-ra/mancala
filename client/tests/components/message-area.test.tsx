@@ -1,9 +1,25 @@
-import { beforeEach, afterEach, it, expect, describe, vi } from 'vitest';
 import { render } from "@testing-library/react";
-import '@testing-library/jest-dom/vitest'
 import MessageArea from '../../src/components/message-area';
 
 describe('message-area', () => {
+    it('Should render message area', () => {
+        const { getByTestId } = render(<MessageArea
+            game_metadata_error={undefined}
+            game_players_error={undefined}
+            game_metadata={undefined}
+            account={{
+                account: {
+                    address: undefined
+                }
+            }}
+            game_metadata_loading={undefined}
+            game_players_loading={undefined}
+            game_players={undefined}
+            moveMessage={undefined}
+        />);
+        expect(getByTestId('message-area')).toBeInTheDocument();
+    });
+
     it('renders correct message when waiting for player to join', () => {
         const { getByText } = render(<MessageArea
             game_metadata_error={undefined}
