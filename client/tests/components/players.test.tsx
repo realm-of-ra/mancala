@@ -6,6 +6,7 @@ import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { publicProvider, StarknetConfig } from "@starknet-react/core";
 import { mainnet } from "@starknet-react/chains";
+import { getPlayers } from "@/lib/utils";
 
 const chains = [mainnet];
 const connectors = [
@@ -102,5 +103,6 @@ describe('players', () => {
             </StarknetConfig>
         );
         expect(screen.queryByTestId("players")).toBeInTheDocument();
+        expect(screen.queryAllByRole("paragraph", { name: getPlayers(data). }))
     });
 })
