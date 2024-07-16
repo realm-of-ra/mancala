@@ -93,7 +93,9 @@ export default function Players({ data }: { data: Array<MancalaGameEdge> | undef
                                         </tr>
                                     );
                                 })}
-                            </tbody> : <PlayersSkeleton />
+                            </tbody> : <tbody>
+                                <PlayersSkeleton />
+                            </tbody>
                         }
                     </table >
                 </Card >
