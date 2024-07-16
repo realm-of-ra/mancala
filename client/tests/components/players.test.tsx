@@ -103,6 +103,5 @@ describe('players', () => {
             </StarknetConfig>
         );
         expect(screen.queryByTestId("players")).toBeInTheDocument();
-        expect(screen.queryAllByRole("paragraph", { name: getPlayers(data). }))
     });
 })
