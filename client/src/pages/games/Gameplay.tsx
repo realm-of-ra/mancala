@@ -1,6 +1,6 @@
-import {Button} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import React from "react";
-import {useEffect, useMemo, useRef, useState} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Accordion,
     AccordionHeader,
@@ -22,25 +22,25 @@ import {
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
-import {PaperAirplaneIcon} from "@heroicons/react/24/solid";
-import {Link, useParams} from "react-router-dom";
-import {animate, chat, initialSeeds, players} from "@/lib/constants";
-import {isPlayingAtom} from "../../atom/atoms";
-import {useAtom} from "jotai";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { Link, useParams } from "react-router-dom";
+import { animate, chat, initialSeeds, players } from "@/lib/constants";
+import { isPlayingAtom } from "../../atom/atoms";
+import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
-import {gql, useQuery} from "@apollo/client";
-import {useDojo} from "@/dojo/useDojo";
-import {useProvider} from "@starknet-react/core";
-import {StarknetIdNavigator} from "starknetid.js";
-import {constants, StarkProfile} from "starknet";
-import {truncateString} from "@/lib/utils";
+import { gql, useQuery } from "@apollo/client";
+import { useDojo } from "@/dojo/useDojo";
+import { useProvider } from "@starknet-react/core";
+import { StarknetIdNavigator } from "starknetid.js";
+import { constants, StarkProfile } from "starknet";
+import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import {GameDataDocument, useGameDataQuery, usePlayDataQuery} from "@/generated/graphql.tsx";
+import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
-    const {gameId} = useParams();
+    const { gameId } = useParams();
 
     const {
         loading: game_metadata_loading,
@@ -100,9 +100,9 @@ export default function Gameplay() {
 
     const [seeds, setSeeds] = useState(initialSeeds);
 
-    const {account} = useDojo();
+    const { account, system } = useDojo();
 
-    const {provider} = useProvider();
+    const { provider } = useProvider();
 
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_MAIN);
@@ -299,7 +299,7 @@ export default function Gameplay() {
                                 <div className="h-[175px] w-full flex flex-row justify-between items-center">
                                     <div className="flex flex-row justify-center flex-1 space-x-5">
                                         {
-                                            Array.from({length: 6}, ((_, zero_index) => zero_index + 1))
+                                            Array.from({ length: 6 }, ((_, zero_index) => zero_index + 1))
                                                 .reverse()
                                                 .map((pit_key, i) => (
                                                     <Pit
@@ -307,6 +307,8 @@ export default function Gameplay() {
                                                         amount={game_players?.player_one?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
                                                         address={game_players?.player_one?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
+                                                        system={system}
+                                                        userAccount={account}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
                                                         status={game_node?.status}
@@ -329,6 +331,8 @@ export default function Gameplay() {
                                                         amount={game_players?.player_two?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
                                                         address={game_players?.player_two?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
+                                                        userAccount={account}
+                                                        system={system}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
                                                         status={game_metadata?.game_data?.edges?.[0]?.node?.status}
@@ -491,7 +495,7 @@ export default function Gameplay() {
                             {/* chat */}
                             <Accordion
                                 open={open === 1}
-                                icon={<Icon id={1} open={open}/>}
+                                icon={<Icon id={1} open={open} />}
                                 className={clsx(open && "-mt-64", "w-96")}
                                 animate={animate}
                             >
@@ -571,7 +575,7 @@ export default function Gameplay() {
                                                 <Button
                                                     className="p-0 w-12 h-8 bg-[#F58229] flex flex-col items-center justify-center">
                                                     <PaperAirplaneIcon
-                                                        className="w-4 h-4 text-black transform -rotate-45"/>
+                                                        className="w-4 h-4 text-black transform -rotate-45" />
                                                 </Button>
                                             </div>
                                         </div>
