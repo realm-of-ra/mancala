@@ -378,6 +378,7 @@ impl MancalaImpl of MancalaGameTrait {
     //    loser.games_lost.append(game_id);
     //    (loser, winner)
     //}
+
     // restart the game
     fn restart_game(
         game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
