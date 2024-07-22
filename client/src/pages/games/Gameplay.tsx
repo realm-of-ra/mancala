@@ -78,43 +78,12 @@ export default function Gameplay() {
 
     const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
 
+    console.log(timeRemaining)
+
     const timeout = async () => {
+        console.log("called: ", gameId, account.account)
         await system.timeout(account.account, gameId || '')
     }
-
-    useEffect(() => {
-        const timerInterval = setInterval(() => {
-            if (timeRemaining > 0) {
-                setTimeRemaining((prevTime: number) => {
-                    if (prevTime === 0) {
-                        clearInterval(timerInterval);
-                        //call the timeout function on the contract when timer reaches zero
-                        timeout()
-                        return 0;
-                    } else {
-                        return prevTime - 1;
-                    }
-                });
-            }
-            else {
-                setTimeRemaining(parseInt(game_node?.time_between_move, 16));
-            }
-        }, 1000);
-        if (isPlaying) {
-            try {
-                audioRef.current.play();
-                audioRef.current.loop = true;
-            } catch (error) {
-                console.error("Error playing the audio", error);
-            }
-        } else {
-            audioRef.current.pause();
-        }
-        return () => {
-            clearInterval(timerInterval);
-            audioRef.current.pause();
-        };
-    }, [isPlaying, game_node?.time_between_move, timeRemaining]);
 
     const [open, setOpen] = useState(0);
 
@@ -133,7 +102,6 @@ export default function Gameplay() {
     }, [provider]);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
-
     useEffect(() => {
         if (
             !starknetIdNavigator ||
@@ -149,10 +117,48 @@ export default function Gameplay() {
             if (!profileData) return;
             if (profileData) return setProfiles(profileData);
         })();
+        const timerInterval = setInterval(() => {
+            if (timeRemaining >= 1) {
+                setTimeRemaining((prevTime: number) => {
+                    if (prevTime === 0) {
+                        return 0;
+                    } else {
+                        return prevTime - 1;
+                    }
+                });
+            }
+            // else {
+            //     timeout()
+            //     // if (game_node?.status == "InProgress") {
+            //     //     setTimeRemaining(parseInt(game_node?.time_between_move, 16));
+            //     // }
+            //     // else {
+            //     //     timeout()
+            //     //     clearInterval(timerInterval);
+            //     // }
+            // }
+        }, 1000);
+        if (isPlaying) {
+            try {
+                audioRef.current.play();
+                audioRef.current.loop = true;
+            } catch (error) {
+                console.error("Error playing the audio", error);
+            }
+        } else {
+            audioRef.current.pause();
+        }
+        return () => {
+            clearInterval(timerInterval);
+            audioRef.current.pause();
+        };
     }, [
+        isPlaying,
+        game_node?.time_between_move,
+        timeRemaining,
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
-        starknetIdNavigator,
+        starknetIdNavigator
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
@@ -192,8 +198,6 @@ export default function Gameplay() {
 
     const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
     const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
-
-    console.log(game_node)
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
@@ -264,15 +268,23 @@ export default function Gameplay() {
                 </div>
                 <div
                     className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <Link to="/">
-                        <img
-                            src={logo}
-                            width={150}
-                            height={150}
-                            alt="Logo"
-                            className="-mt-10"
-                        />
-                    </Link>
+                    <div className="flex flex-col items-center justify-center mt-10 space-y-5">
+                        <Link to="/">
+                            <img
+                                src={logo}
+                                width={150}
+                                height={150}
+                                alt="Logo"
+                            />
+                        </Link>
+                        <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+                            <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
+                            <div className="flex flex-row items-center justify-center space-x-1">
+                                <AlarmClock className="w-6 h-6 text-white" />
+                                <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
