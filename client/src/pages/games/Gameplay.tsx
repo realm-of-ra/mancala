@@ -76,9 +76,7 @@ export default function Gameplay() {
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
 
-    const [timeRemaining, setTimeRemaining] = useState(parseInt(game_node?.time_between_move, 16));
-
-    console.log(timeRemaining)
+    const [timeRemaining, setTimeRemaining] = useState(0);
 
     const timeout = async () => {
         console.log("called: ", gameId, account.account)
@@ -102,7 +100,21 @@ export default function Gameplay() {
     }, [provider]);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
+
     useEffect(() => {
+        if (game_node) {
+            setTimeRemaining(parseInt(game_node?.time_between_move, 16))
+        }
+        const timer = setInterval(() => {
+            setTimeRemaining((prevTime: number) => {
+                if (prevTime > 0) {
+                    return prevTime - 1; // Decrement time
+                } else {
+                    clearInterval(timer); // Clear interval when countdown reaches zero
+                    return 0; // Ensure it doesn't go below zero
+                }
+            });
+        }, 1000);
         if (
             !starknetIdNavigator ||
             !game_players?.player_one?.edges?.[0]?.node?.address ||
@@ -117,27 +129,6 @@ export default function Gameplay() {
             if (!profileData) return;
             if (profileData) return setProfiles(profileData);
         })();
-        const timerInterval = setInterval(() => {
-            if (timeRemaining >= 1) {
-                setTimeRemaining((prevTime: number) => {
-                    if (prevTime === 0) {
-                        return 0;
-                    } else {
-                        return prevTime - 1;
-                    }
-                });
-            }
-            // else {
-            //     timeout()
-            //     // if (game_node?.status == "InProgress") {
-            //     //     setTimeRemaining(parseInt(game_node?.time_between_move, 16));
-            //     // }
-            //     // else {
-            //     //     timeout()
-            //     //     clearInterval(timerInterval);
-            //     // }
-            // }
-        }, 1000);
         if (isPlaying) {
             try {
                 audioRef.current.play();
@@ -149,16 +140,15 @@ export default function Gameplay() {
             audioRef.current.pause();
         }
         return () => {
-            clearInterval(timerInterval);
+            clearInterval(timer);
             audioRef.current.pause();
         };
     }, [
         isPlaying,
-        game_node?.time_between_move,
-        timeRemaining,
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
-        starknetIdNavigator
+        starknetIdNavigator,
+        game_node
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
