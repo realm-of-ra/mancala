@@ -110,6 +110,9 @@ export default function Gameplay() {
                 if (prevTime > 0) {
                     return prevTime - 1; // Decrement time
                 } else {
+                    if (game_node?.status === "InProgress") {
+                        timeout(); //call timeout function on contract to end game
+                    }
                     clearInterval(timer); // Clear interval when countdown reaches zero
                     return 0; // Ensure it doesn't go below zero
                 }
@@ -148,7 +151,8 @@ export default function Gameplay() {
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
         starknetIdNavigator,
-        game_node
+        game_node,
+        timeout
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
