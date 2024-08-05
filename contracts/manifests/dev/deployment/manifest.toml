@@ -1,0 +1,162 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
+original_class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
+abi = "manifests/dev/deployment/abis/dojo-world.json"
+address = "0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9"
+seed = "mancala_alpha"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "dev"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha/katana"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/dev/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
+original_class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
+base_class_hash = "0x0"
+abi = "manifests/dev/deployment/abis/contracts/mancala_alpha-actions-2c0baebe.json"
+reads = []
+writes = ["ns:mancala_alpha"]
+computed = []
+init_calldata = []
+tag = "mancala_alpha-actions"
+manifest_name = "mancala_alpha-actions-2c0baebe"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x24e0e1e91bd85b9aa8431df325ba27a875e679692a993ab24b336f9b6e6ff50"
+original_class_hash = "0x24e0e1e91bd85b9aa8431df325ba27a875e679692a993ab24b336f9b6e6ff50"
+abi = "manifests/dev/deployment/abis/models/mancala_alpha-GameId-4205bbb7.json"
+tag = "mancala_alpha-GameId"
+manifest_name = "mancala_alpha-GameId-4205bbb7"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x65eb73a46b5e380d7fe224dbabf849b0e479e9bbbe72362c5eb8a0217d82379"
+original_class_hash = "0x65eb73a46b5e380d7fe224dbabf849b0e479e9bbbe72362c5eb8a0217d82379"
+abi = "manifests/dev/deployment/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
+tag = "mancala_alpha-GamePlayer"
+manifest_name = "mancala_alpha-GamePlayer-4fe4cbef"
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "pit1"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "pit2"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "pit3"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "pit4"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "pit5"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "pit6"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "mancala"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "restart_requested"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+original_class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+abi = "manifests/dev/deployment/abis/models/mancala_alpha-MancalaGame-628bb438.json"
+tag = "mancala_alpha-MancalaGame"
+manifest_name = "mancala_alpha-MancalaGame-628bb438"
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "current_player"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "last_move"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "time_between_move"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "winner"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "status"
+type = "GameStatus"
+key = false
+
+[[models.members]]
+name = "is_private"
+type = "bool"
+key = false
