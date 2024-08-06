@@ -4,12 +4,14 @@ import { Provider as JotaiProvider } from "jotai";
 import { InjectedConnector } from "starknetkit/injected";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
-import { mainnet } from "@starknet-react/chains";
+import { mainnet, sepolia } from "@starknet-react/chains";
 import { StarknetConfig, publicProvider } from "@starknet-react/core";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import { useEffect, useState } from "react";
+import CartridgeConnector from "@cartridge/connector";
+import { useDojo } from "./dojo/useDojo";
 
 export default function App() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -32,11 +34,20 @@ export default function App() {
     };
   }, []);
 
+  const { burner } = useDojo();
+
+  const connector = new CartridgeConnector([
+    {
+      target: burner.feeTokenAddress,
+      method: "approve",
+    }
+  ])
+
   return (
     <StarknetConfig
-      chains={chains}
+      chains={[sepolia]}
       provider={publicProvider()}
-      connectors={connectors}
+      connectors={[connector]}
     >
       <JotaiProvider>
         <BrowserRouter>

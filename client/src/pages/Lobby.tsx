@@ -19,7 +19,7 @@ import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
-import {MancalaGameEdge, useMancalaModelsFetchQuery} from "@/generated/graphql.tsx";
+import { MancalaGameEdge, useMancalaModelsFetchQuery } from "@/generated/graphql.tsx";
 
 
 export default function Lobby() {
@@ -73,8 +73,9 @@ export default function Lobby() {
     }
   }, [gameId])
 
-  const isConnected = !!(connection?.isConnected);
-  console.log("models fetched", data)
+  const isConnected = connection?.isConnected;
+
+  console.log(isConnected)
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -110,7 +111,7 @@ export default function Lobby() {
                 </Link>
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                  disabled={!isConnected} onClick={handleOpen}>
+                  disabled={isConnected} onClick={handleOpen}>
                   <div className="flex flex-row items-center space-x-1">
                     <img src={createIcon} className="w-5 h-5" />
                     <p className="text-[#FCE3AA] font-medium">Create Game</p>

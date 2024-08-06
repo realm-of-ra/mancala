@@ -3,6 +3,8 @@
 import { AccountInterface } from 'starknet'
 import { DojoProvider } from '@dojoengine/core'
 
+export const NAMESPACE = "mancala_alpha-actions"
+
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>
 
 export async function setupWorld(provider: DojoProvider) {
@@ -26,7 +28,8 @@ export async function setupWorld(provider: DojoProvider) {
           contractName: 'actions',
           entrypoint: 'create_game',
           calldata: [],
-        })
+        },
+      NAMESPACE)
       } catch (error) {
         console.error('Error executing create_game:', error)
         throw error
