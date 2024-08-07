@@ -7,10 +7,9 @@ import unmuteImage from "../assets/unmute.png";
 import { useAtom } from "jotai";
 import {
   isPlayingAtom,
-  profileDataAtom,
 } from "../atom/atoms";
 import audio from "../music/audio_1.mp4";
-import { useAccount, useConnect, useDisconnect, useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useDisconnect, useProvider, useStarkProfile } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
 import { constants } from "starknet";
@@ -27,7 +26,6 @@ import lobby from "../assets/lobby.svg";
 import { MancalaGameEdge, useFetchModelsForHeaderQuery } from "@/generated/graphql.tsx";
 
 export default function Header() {
-  const [profileData, setProfileData] = useAtom<StarkProfile>(profileDataAtom);
 
   const { provider } = useProvider();
   const starknetIdNavigator = new StarknetIdNavigator(
@@ -39,20 +37,17 @@ export default function Header() {
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
 
-  console.log("address: ", address)
-
   const connectWallet = async () => {
     connect({ connector: connectors[0] });
-    if (address) {
-      const starkProfile = await starknetIdNavigator.getProfileData(address);
-      setProfileData(starkProfile);
-      console.log(starkProfile)
-    }
   };
   const disconnectWallet = async () => {
     disconnect()
-    setProfileData({});
   };
+
+  const { data: profile } = useStarkProfile({
+    address
+  });
+
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
   const audioRef = useRef(new Audio(audio));
   useEffect(() => {
@@ -105,21 +100,23 @@ export default function Header() {
     disconnectWallet();
   };
 
+  console.log(profile)
+
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {profileData?.name != undefined ? (
+        {profile?.profilePicture != undefined ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
               <img
                 src={
-                  profileData.profilePicture
-                    ? profileData.profilePicture
+                  profile.profilePicture
+                    ? profile.profilePicture
                     : eniola
                 }
                 width={60}
                 height={60}
-                alt="Eniola"
+                alt=""
                 className="rounded-full"
               />
               <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
@@ -128,7 +125,7 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {profileData.name ? profileData.name : truncateString(address)}
+                {profile.name ? profile.name : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
