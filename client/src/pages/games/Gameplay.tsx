@@ -28,7 +28,6 @@ import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
-import { gql, useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -37,7 +36,7 @@ import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -69,6 +68,8 @@ export default function Gameplay() {
             gameId: gameId,
         }
     })
+
+    console.log(game_metadata)
 
     startPlayersPolling(1000);
 
@@ -105,7 +106,7 @@ export default function Gameplay() {
     const { provider } = useProvider();
 
     const starknetIdNavigator = useMemo(() => {
-        return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_MAIN);
+        return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_SEPOLIA);
     }, [provider]);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
@@ -146,6 +147,8 @@ export default function Gameplay() {
         audioRef.current.volume = newVolume;
         setVolumeDisplayValue(Math.round(newVolume * 100)); // Use newVolume instead of volume
     };
+
+    console.log(game_players)
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">

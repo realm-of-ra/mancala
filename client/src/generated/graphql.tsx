@@ -803,7 +803,7 @@ export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaGa
 
 export const GameDataDocument = gql`
     query GameData($gameId: u128!) {
-  game_data: mancalaGameModels(where: {game_id: $gameId}) {
+  game_data: mancalaAlphaMancalaGameModels(where: {game_id: $gameId}) {
     edges {
       node {
         player_one
@@ -851,7 +851,7 @@ export type GameDataSuspenseQueryHookResult = ReturnType<typeof useGameDataSuspe
 export type GameDataQueryResult = Apollo.QueryResult<GameDataQuery, GameDataQueryVariables>;
 export const PlayDataDocument = gql`
     query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
-  player_one: gamePlayerModels(
+  player_one: mancalaAlphaGamePlayerModels(
     where: {game_id: $gameId, address: $player_1}
     last: 1
   ) {
@@ -869,7 +869,7 @@ export const PlayDataDocument = gql`
       }
     }
   }
-  player_two: gamePlayerModels(
+  player_two: mancalaAlphaGamePlayerModels(
     where: {game_id: $gameId, address: $player_2}
     last: 1
   ) {
