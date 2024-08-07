@@ -135,7 +135,7 @@ export default function Lobby() {
                 </Link>
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                  disabled={isConnected}
+                  disabled={!isConnected}
                   onClick={handleOpen}
                 >
                   <div className="flex flex-row items-center space-x-1">
