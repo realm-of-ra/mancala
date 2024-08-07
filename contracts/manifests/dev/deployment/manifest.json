@@ -1222,8 +1222,8 @@
       }
     ],
     "address": "0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9",
-    "transaction_hash": null,
-    "block_number": null,
+    "transaction_hash": "0x60e7205d2159fb043edf2ca0eb4b03eb6fcc4ef4b5532f369b618a0cbe6ad02",
+    "block_number": 40,
     "seed": "mancala_alpha",
     "metadata": {
       "profile_name": "dev",
@@ -1242,10 +1242,10 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": null,
+      "address": "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
       "class_hash": "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d",
       "original_class_hash": "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d",
-      "base_class_hash": "0x0",
+      "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
           "type": "impl",
