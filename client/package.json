@@ -86,6 +86,7 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
+    "vite-plugin-mkcert": "^1.17.5",
     "vitest": "^2.0.2"
   }
 }

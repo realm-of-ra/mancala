@@ -1223,7 +1223,7 @@
     ],
     "address": "0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9",
     "transaction_hash": "0x60e7205d2159fb043edf2ca0eb4b03eb6fcc4ef4b5532f369b618a0cbe6ad02",
-    "block_number": 40,
+    "block_number": 59,
     "seed": "mancala_alpha",
     "metadata": {
       "profile_name": "dev",
