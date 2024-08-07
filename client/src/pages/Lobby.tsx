@@ -30,7 +30,6 @@ import {
 import { useAccount } from "@starknet-react/core";
 
 export default function Lobby() {
-  const connection = useAtomValue(connectionAtom);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
@@ -60,10 +59,12 @@ export default function Lobby() {
       localStorage.setItem("hasRunOnce", "true");
     }
   };
+  const isConnected = acc.account != null;
   const create_game = async () => {
     setCreating(true);
     if (acc.account) {
       //using account from cartridge
+      console.log(isConnected)
       await system.create_game(account.account, setGameId);
     } else {
       console.log("Account not found");
@@ -84,10 +85,6 @@ export default function Lobby() {
       setGameUrl(`${window.location.origin}/games/${gameId}`);
     }
   }, [gameId]);
-
-  const isConnected = connection?.isConnected;
-
-  console.log(isConnected);
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
