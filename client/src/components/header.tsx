@@ -32,7 +32,7 @@ export default function Header() {
   const { provider } = useProvider();
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
-    constants.StarknetChainId.SN_MAIN,
+    constants.StarknetChainId.SN_SEPOLIA,
   );
 
   const { connect, connectors } = useConnect()

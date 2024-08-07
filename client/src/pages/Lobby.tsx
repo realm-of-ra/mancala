@@ -64,7 +64,6 @@ export default function Lobby() {
     setCreating(true);
     if (acc.account) {
       //using account from cartridge
-      console.log(isConnected)
       await system.create_game(account.account, setGameId);
     } else {
       console.log("Account not found");
@@ -77,6 +76,8 @@ export default function Lobby() {
   };
 
   const { loading, error, data, startPolling } = useMancalaModelsFetchQuery();
+
+  console.log(data)
 
   startPolling(1000);
   useEffect(() => {
@@ -309,18 +310,18 @@ export default function Lobby() {
               <>
                 <TabsContent value="players">
                   <Players
-                    data={data?.mancalaGameModels?.edges as MancalaGameEdge[]}
+                    data={data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[]}
                   />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
-                    games={data?.mancalaGameModels?.edges}
+                    games={data?.mancalaAlphaMancalaGameModels?.edges}
                     transactions={data?.transactions?.edges}
                   />
                 </TabsContent>
                 <TabsContent value="live">
                   <LiveDuels
-                    games={data?.mancalaGameModels?.edges}
+                    games={data?.mancalaAlphaMancalaGameModels?.edges}
                     transactions={data?.transactions?.edges}
                   />
                 </TabsContent>

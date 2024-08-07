@@ -17,7 +17,7 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(
             provider,
-            constants.StarknetChainId.SN_MAIN
+            constants.StarknetChainId.SN_SEPOLIA
         );
     }, [provider])
     const [challengers, setChallengers] = useState<StarkProfile[]>();
@@ -69,6 +69,8 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                 .catch(errorJoiningGame => console.error(errorJoiningGame))
         }
     }
+
+    console.log(games)
 
     return (
         <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">

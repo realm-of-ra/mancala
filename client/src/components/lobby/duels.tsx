@@ -13,7 +13,7 @@ export default function Duels({ games, transactions }: { games: any, transaction
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(
             provider,
-            constants.StarknetChainId.SN_MAIN
+            constants.StarknetChainId.SN_SEPOLIA
         );
     }, [provider])
     const [challengers, setChallengers] = useState<StarkProfile[]>([]);
