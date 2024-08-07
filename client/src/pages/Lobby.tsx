@@ -20,6 +20,7 @@ import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { MancalaGameEdge, useMancalaModelsFetchQuery } from "@/generated/graphql.tsx";
+import { useAccount } from "@starknet-react/core";
 
 
 export default function Lobby() {
@@ -42,6 +43,7 @@ export default function Lobby() {
     setClipped(url)
   }
   const { account, system } = useDojo()
+  const acc = useAccount();
   const create_initial_game_id = async () => {
     await system.create_initial_game_id(account.account);
   }
@@ -54,7 +56,17 @@ export default function Lobby() {
   };
   const create_game = async () => {
     setCreating(true)
-    await system.create_game(account.account, setGameId);
+    //account from catridge
+    console.log("acc: ", acc.account?.address)
+    //account from dojo
+    console.log("account: ", account.account?.address)
+    if (acc.account) {
+      //using account from cartridge
+      await system.create_game(acc.account, setGameId);
+    }
+    else {
+      console.log("Account not found")
+    }
   }
   const create_private_game = async () => {
     setCreating(true)
