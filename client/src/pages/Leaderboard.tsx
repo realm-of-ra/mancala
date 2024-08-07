@@ -26,7 +26,7 @@ export default function Leaderboard() {
 
     // Extracting player_one and player_two from the data object and get the the top 8 highest winners
     // TODO: instead of type coercion, we can use this to aid loading state
-    const players = getPlayers(data?.mancalaGameModels?.edges as MancalaGameEdge[])
+    const players = getPlayers(data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[])
         ?.sort((a: any, b: any) => b?.wins - a?.wins)?.slice(0, 8)
 
     const addresses = players?.map((player: any) => player.address);
@@ -41,6 +41,8 @@ export default function Leaderboard() {
             setProfiles(data);
         })()
     }, [addresses]);
+
+    console.log(players)
 
     return (
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
@@ -67,7 +69,7 @@ export default function Leaderboard() {
                                 <h3 className="text-2xl text-white">{profiles[2]?.name ? profiles[2].name : addresses && truncateString(addresses[2])}</h3>
                                 <div className="flex flex-row space-x-0.5">
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                    <h4 className="text-xs text-[#F58229]">{(players ? players[2]?.wins : 0) * 50} points</h4>
+                                    <h4 className="text-xs text-[#F58229]">{(players && players[2]?.wins !== undefined ? players[2].wins : 0) * 50} points</h4>
                                 </div>
                                 <div className="bg-[url('./assets/third-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                             </div>
@@ -81,7 +83,7 @@ export default function Leaderboard() {
                                     <h3 className="text-2xl text-white">{profiles[0]?.name ? profiles[2].name : addresses && truncateString(addresses[0])}</h3>
                                     <div className="flex flex-row space-x-0.5">
                                         <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                        <h4 className="text-xs text-[#F58229]">{(players ? players[0]?.wins : 0) * 50} points</h4>
+                                        <h4 className="text-xs text-[#F58229]">{(players && players[0]?.wins !== undefined ? players[0].wins : 0) * 50} points</h4>
                                     </div>
                                     <div className="bg-[url('./assets/first-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                                 </div>
@@ -94,7 +96,7 @@ export default function Leaderboard() {
                                 <h3 className="text-2xl text-white">{profiles[1]?.name ? profiles[1].name : addresses && truncateString(addresses[1])}</h3>
                                 <div className="flex flex-row space-x-0.5">
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                    <h4 className="text-xs text-[#F58229]">{(players ? players[1]?.wins : 0) * 50} points</h4>
+                                    <h4 className="text-xs text-[#F58229]">{(players && players[1]?.wins !== undefined ? players[1].wins : 0) * 50} points</h4>
                                 </div>
                                 <div className="bg-[url('./assets/second-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                             </div>
