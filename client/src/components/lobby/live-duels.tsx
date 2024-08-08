@@ -2,7 +2,7 @@ import { live_duels_header, player_header } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "../ui/button.tsx";
-import { useProvider } from "@starknet-react/core";
+import { useAccount, useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils.ts";
@@ -46,21 +46,24 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
             date: transactions[index].node.executedAt,
         }
     })
-    const { account, system } = useDojo()
+    const { system } = useDojo()
+    const account = useAccount()
     const join_game = async (game_id: string, index: number) => {
         setJoinStatus({
             status: "JOINING",
             index: index,
         })
-        const player_2_address = account.account.address;
-        await system.join_game(account.account, game_id, player_2_address, setJoinStatus, index);
+        const player_2_address = account.account?.address;
+        if (account.account && player_2_address) {
+            await system.join_game(account.account, game_id, player_2_address, setJoinStatus, index);
+        }
     }
 
     const runGameAction = (index: number) => {
         if (
-            games[index].node.player_one === account.account.address
+            games[index].node.player_one === account.account?.address
             ||
-            games[index].node.player_two === account.account.address
+            games[index].node.player_two === account.account?.address
         ) {
             navigate(`/games/${games[index].node.game_id}`)
         } else {
@@ -69,8 +72,6 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                 .catch(errorJoiningGame => console.error(errorJoiningGame))
         }
     }
-
-    console.log(games)
 
     return (
         <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
@@ -155,13 +156,13 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                             </td>
                                             <td className="flex flex-row justify-center w-[200px]">
                                                 <Link
-                                                    to={(games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address) ? `/games/${games[index].node.game_id}` : ''}>
+                                                    to={(games[index].node.player_one === account.account?.address || games[index].node.player_two === account.account?.address) ? `/games/${games[index].node.game_id}` : ''}>
                                                     <Button
                                                         className={"text-[#F58229] bg-transparent active:bg-transparent hover:bg-transparent"}
                                                         onClick={() => runGameAction(index)}
                                                     >
                                                         {
-                                                            (games[index].node.player_one === account.account.address || games[index].node.player_two === account.account.address)
+                                                            (games[index].node.player_one === account.account?.address || games[index].node.player_two === account.account?.address)
                                                                 ?
                                                                 "Go to game"
                                                                 :

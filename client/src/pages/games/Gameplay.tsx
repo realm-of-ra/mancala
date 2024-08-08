@@ -29,7 +29,7 @@ import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
 import { useDojo } from "@/dojo/useDojo";
-import { useAccount, useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
@@ -146,6 +146,12 @@ export default function Gameplay() {
         audioRef.current.volume = newVolume;
         setVolumeDisplayValue(Math.round(newVolume * 100)); // Use newVolume instead of volume
     };
+
+    // const { connect, connectors, error } = useConnect()
+
+    // if (account.status == "disconnected") {
+    //     connect({ connector: connectors[0] });
+    // }
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">

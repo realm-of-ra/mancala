@@ -1,4 +1,4 @@
-import { connectionAtom, gameIdAtom } from "@/atom/atoms";
+import { gameIdAtom } from "@/atom/atoms";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAtom, useAtomValue } from "jotai";
@@ -47,10 +47,12 @@ export default function Lobby() {
     navigator.clipboard.writeText(url);
     setClipped(url);
   };
-  const { account, system } = useDojo();
-  const acc = useAccount();
+  const { system } = useDojo();
+  const account = useAccount();
   const create_initial_game_id = async () => {
-    await system.create_initial_game_id(account.account);
+    if (account.account) {
+      await system.create_initial_game_id(account.account);
+    }
   };
   const runOnceForever = () => {
     const hasRunOnce = localStorage.getItem("hasRunOnce");
@@ -59,10 +61,10 @@ export default function Lobby() {
       localStorage.setItem("hasRunOnce", "true");
     }
   };
-  const isConnected = acc.account != null;
+  const isConnected = account.account != null;
   const create_game = async () => {
     setCreating(true);
-    if (acc.account) {
+    if (account.account) {
       //using account from cartridge
       await system.create_game(account.account, setGameId);
     } else {
@@ -72,12 +74,12 @@ export default function Lobby() {
 
   const create_private_game = async () => {
     setCreating(true);
-    await system.create_private_game(account.account, player2, setGameId);
+    if (account.account) {
+      await system.create_private_game(account.account, player2, setGameId);
+    }
   };
 
-  const { loading, error, data, startPolling } = useMancalaModelsFetchQuery();
-
-  console.log(data)
+  const { data, startPolling } = useMancalaModelsFetchQuery();
 
   startPolling(1000);
   useEffect(() => {

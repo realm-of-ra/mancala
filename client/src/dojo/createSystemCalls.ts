@@ -28,7 +28,6 @@ export function createSystemCalls(
   };
 
   const create_game = async (account: AccountInterface, setGameId: any) => {
-    console.log('account sent to create game: ', account);
     try {
       const { transaction_hash } = await client.actions.create_game(account);
 

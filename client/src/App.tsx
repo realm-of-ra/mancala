@@ -15,14 +15,6 @@ import { useDojo } from "./dojo/useDojo";
 
 export default function App() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const chains = [mainnet];
-  const connectors = [
-    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
-    new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
-    new WebWalletConnector({ url: "https://web.argent.xyz" }),
-    new ArgentMobileConnector(),
-  ];
-
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 1280);

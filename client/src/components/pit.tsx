@@ -11,7 +11,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, use
     const handleMove = async () => {
         if (address === userAccount?.account?.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
-            await system.move(userAccount.account, game_id, pit)
+            await system.move(userAccount?.account, game_id, pit)
         }
         else {
             if (address !== userAccount?.account?.address) {
@@ -21,7 +21,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, use
                 message('Game over')
             }
             else {
-                if (winner === userAccount.account.address) {
+                if (winner === userAccount?.account?.address) {
                     message('You won')
                 }
                 else {
