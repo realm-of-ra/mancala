@@ -568,7 +568,7 @@ export type World__Query = {
   events: Maybe<World__EventConnection>;
   gameIdModels: Maybe<GameIdConnection>;
   gamePlayerModels: Maybe<GamePlayerConnection>;
-  mancalaGameModels: Maybe<MancalaGameConnection>;
+  mancalaAlphaMancalaGameModels: Maybe<MancalaGameConnection>;
   metadatas: Maybe<World__MetadataConnection>;
   model: World__Model;
   models: Maybe<World__ModelConnection>;
@@ -788,17 +788,17 @@ export type PlayDataQuery = { __typename?: 'World__Query', player_one: { __typen
 export type MancalaModelsFetchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MancalaModelsFetchQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null, transactions: { __typename?: 'World__TransactionConnection', edges: Array<{ __typename?: 'World__TransactionEdge', node: { __typename?: 'World__Transaction', executedAt: any | null } | null } | null> | null } | null };
+export type MancalaModelsFetchQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null, transactions: { __typename?: 'World__TransactionConnection', edges: Array<{ __typename?: 'World__TransactionEdge', node: { __typename?: 'World__Transaction', executedAt: any | null } | null } | null> | null } | null };
 
 export type FetchModelsForLeaderBoardQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchModelsForLeaderBoardQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+export type FetchModelsForLeaderBoardQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
 
 export type FetchModelsForHeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
 
 
 export const GameDataDocument = gql`

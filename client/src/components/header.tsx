@@ -76,7 +76,7 @@ export default function Header() {
   startPolling(1000);
 
   const player = getPlayer(
-    data?.mancalaGameModels?.edges as MancalaGameEdge[],
+    data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
     account.account.address,
   );
 
@@ -199,7 +199,7 @@ export default function Header() {
                       </Link>
                     </span>
                     <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                      <img src={profile} />
+                      <img src={profile?.profilePicture} />
                       <Link to="/" className="block px-4 py-2">
                         Profile
                       </Link>
@@ -251,7 +251,7 @@ export default function Header() {
                   </Link>
                 </span>
                 <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                  <img src={profile} />
+                  <img src={profile?.profilePicture} />
                   <Link to="/" className="block px-4 py-2">
                     Profile
                   </Link>
