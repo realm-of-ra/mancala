@@ -568,7 +568,7 @@ export type World__Query = {
   events: Maybe<World__EventConnection>;
   gameIdModels: Maybe<GameIdConnection>;
   gamePlayerModels: Maybe<GamePlayerConnection>;
-  mancalaGameModels: Maybe<MancalaGameConnection>;
+  mancalaAlphaMancalaGameModels: Maybe<MancalaGameConnection>;
   metadatas: Maybe<World__MetadataConnection>;
   model: World__Model;
   models: Maybe<World__ModelConnection>;
@@ -788,22 +788,22 @@ export type PlayDataQuery = { __typename?: 'World__Query', player_one: { __typen
 export type MancalaModelsFetchQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MancalaModelsFetchQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null, transactions: { __typename?: 'World__TransactionConnection', edges: Array<{ __typename?: 'World__TransactionEdge', node: { __typename?: 'World__Transaction', executedAt: any | null } | null } | null> | null } | null };
+export type MancalaModelsFetchQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null, transactions: { __typename?: 'World__TransactionConnection', edges: Array<{ __typename?: 'World__TransactionEdge', node: { __typename?: 'World__Transaction', executedAt: any | null } | null } | null> | null } | null };
 
 export type FetchModelsForLeaderBoardQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchModelsForLeaderBoardQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+export type FetchModelsForLeaderBoardQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
 
 export type FetchModelsForHeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
+export type FetchModelsForHeaderQuery = { __typename?: 'World__Query', mancalaAlphaMancalaGameModels: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', game_id: any | null, player_one: any | null, player_two: any | null, current_player: any | null, winner: any | null, status: any | null, is_private: any | null } | null } | null> | null } | null };
 
 
 export const GameDataDocument = gql`
     query GameData($gameId: u128!) {
-  game_data: mancalaGameModels(where: {game_id: $gameId}) {
+  game_data: mancalaAlphaMancalaGameModels(where: {game_id: $gameId}) {
     edges {
       node {
         player_one
@@ -833,25 +833,25 @@ export const GameDataDocument = gql`
  *   },
  * });
  */
-export function useGameDataQuery(baseOptions: Apollo.QueryHookOptions<GameDataQuery, GameDataQueryVariables> & ({ variables: GameDataQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
-      }
+export function useGameDataQuery(baseOptions: Apollo.QueryHookOptions<GameDataQuery, GameDataQueryVariables> & ({ variables: GameDataQueryVariables; skip?: boolean; } | { skip: boolean; })) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+}
 export function useGameDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GameDataQuery, GameDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+}
 export function useGameDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GameDataQuery, GameDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<GameDataQuery, GameDataQueryVariables>(GameDataDocument, options);
+}
 export type GameDataQueryHookResult = ReturnType<typeof useGameDataQuery>;
 export type GameDataLazyQueryHookResult = ReturnType<typeof useGameDataLazyQuery>;
 export type GameDataSuspenseQueryHookResult = ReturnType<typeof useGameDataSuspenseQuery>;
 export type GameDataQueryResult = Apollo.QueryResult<GameDataQuery, GameDataQueryVariables>;
 export const PlayDataDocument = gql`
     query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
-  player_one: gamePlayerModels(
+  player_one: mancalaAlphaGamePlayerModels(
     where: {game_id: $gameId, address: $player_1}
     last: 1
   ) {
@@ -869,7 +869,7 @@ export const PlayDataDocument = gql`
       }
     }
   }
-  player_two: gamePlayerModels(
+  player_two: mancalaAlphaGamePlayerModels(
     where: {game_id: $gameId, address: $player_2}
     last: 1
   ) {
@@ -908,25 +908,25 @@ export const PlayDataDocument = gql`
  *   },
  * });
  */
-export function usePlayDataQuery(baseOptions: Apollo.QueryHookOptions<PlayDataQuery, PlayDataQueryVariables> & ({ variables: PlayDataQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
-      }
+export function usePlayDataQuery(baseOptions: Apollo.QueryHookOptions<PlayDataQuery, PlayDataQueryVariables> & ({ variables: PlayDataQueryVariables; skip?: boolean; } | { skip: boolean; })) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+}
 export function usePlayDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlayDataQuery, PlayDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+}
 export function usePlayDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PlayDataQuery, PlayDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<PlayDataQuery, PlayDataQueryVariables>(PlayDataDocument, options);
+}
 export type PlayDataQueryHookResult = ReturnType<typeof usePlayDataQuery>;
 export type PlayDataLazyQueryHookResult = ReturnType<typeof usePlayDataLazyQuery>;
 export type PlayDataSuspenseQueryHookResult = ReturnType<typeof usePlayDataSuspenseQuery>;
 export type PlayDataQueryResult = Apollo.QueryResult<PlayDataQuery, PlayDataQueryVariables>;
 export const MancalaModelsFetchDocument = gql`
     query MancalaModelsFetch {
-  mancalaGameModels {
+  mancalaAlphaMancalaGameModels {
     edges {
       node {
         game_id
@@ -965,24 +965,24 @@ export const MancalaModelsFetchDocument = gql`
  * });
  */
 export function useMancalaModelsFetchQuery(baseOptions?: Apollo.QueryHookOptions<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
+}
 export function useMancalaModelsFetchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
+}
 export function useMancalaModelsFetchSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>(MancalaModelsFetchDocument, options);
+}
 export type MancalaModelsFetchQueryHookResult = ReturnType<typeof useMancalaModelsFetchQuery>;
 export type MancalaModelsFetchLazyQueryHookResult = ReturnType<typeof useMancalaModelsFetchLazyQuery>;
 export type MancalaModelsFetchSuspenseQueryHookResult = ReturnType<typeof useMancalaModelsFetchSuspenseQuery>;
 export type MancalaModelsFetchQueryResult = Apollo.QueryResult<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>;
 export const FetchModelsForLeaderBoardDocument = gql`
     query FetchModelsForLeaderBoard {
-  mancalaGameModels {
+  mancalaAlphaMancalaGameModels {
     edges {
       node {
         game_id
@@ -1014,24 +1014,24 @@ export const FetchModelsForLeaderBoardDocument = gql`
  * });
  */
 export function useFetchModelsForLeaderBoardQuery(baseOptions?: Apollo.QueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+}
 export function useFetchModelsForLeaderBoardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+}
 export function useFetchModelsForLeaderBoardSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>(FetchModelsForLeaderBoardDocument, options);
+}
 export type FetchModelsForLeaderBoardQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardQuery>;
 export type FetchModelsForLeaderBoardLazyQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardLazyQuery>;
 export type FetchModelsForLeaderBoardSuspenseQueryHookResult = ReturnType<typeof useFetchModelsForLeaderBoardSuspenseQuery>;
 export type FetchModelsForLeaderBoardQueryResult = Apollo.QueryResult<FetchModelsForLeaderBoardQuery, FetchModelsForLeaderBoardQueryVariables>;
 export const FetchModelsForHeaderDocument = gql`
     query FetchModelsForHeader {
-  mancalaGameModels {
+  mancalaAlphaMancalaGameModels {
     edges {
       node {
         game_id
@@ -1063,17 +1063,17 @@ export const FetchModelsForHeaderDocument = gql`
  * });
  */
 export function useFetchModelsForHeaderQuery(baseOptions?: Apollo.QueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+}
 export function useFetchModelsForHeaderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+}
 export function useFetchModelsForHeaderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FetchModelsForHeaderQuery, FetchModelsForHeaderQueryVariables>(FetchModelsForHeaderDocument, options);
+}
 export type FetchModelsForHeaderQueryHookResult = ReturnType<typeof useFetchModelsForHeaderQuery>;
 export type FetchModelsForHeaderLazyQueryHookResult = ReturnType<typeof useFetchModelsForHeaderLazyQuery>;
 export type FetchModelsForHeaderSuspenseQueryHookResult = ReturnType<typeof useFetchModelsForHeaderSuspenseQuery>;

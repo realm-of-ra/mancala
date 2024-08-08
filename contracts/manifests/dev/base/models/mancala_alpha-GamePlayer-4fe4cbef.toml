@@ -1,0 +1,56 @@
+kind = "DojoModel"
+class_hash = "0x65eb73a46b5e380d7fe224dbabf849b0e479e9bbbe72362c5eb8a0217d82379"
+original_class_hash = "0x65eb73a46b5e380d7fe224dbabf849b0e479e9bbbe72362c5eb8a0217d82379"
+abi = "manifests/dev/base/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
+tag = "mancala_alpha-GamePlayer"
+manifest_name = "mancala_alpha-GamePlayer-4fe4cbef"
+
+[[members]]
+name = "address"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "pit1"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit2"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit3"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit4"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit5"
+type = "u8"
+key = false
+
+[[members]]
+name = "pit6"
+type = "u8"
+key = false
+
+[[members]]
+name = "mancala"
+type = "u8"
+key = false
+
+[[members]]
+name = "restart_requested"
+type = "bool"
+key = false

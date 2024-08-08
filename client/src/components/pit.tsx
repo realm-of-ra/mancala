@@ -1,27 +1,27 @@
 import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
 import Seed from "./seed";
-import { BurnerAccount } from "@dojoengine/create-burner";
+import { UseAccountResult } from "@starknet-react/core";
 
 export default function Pit({ amount, address, pit, game_id, status, winner, userAccount, system, message }: {
     amount: number, address: string, pit: number, winner: string,
-    game_id: string, status: string; userAccount?: BurnerAccount;
+    game_id: string, status: string; userAccount?: UseAccountResult;
     system: any; message: Dispatch<SetStateAction<string | undefined>>
 }) {
     const handleMove = async () => {
-        if (address === userAccount?.account.address && status === 'InProgress' && winner === '0x0') {
+        if (address === userAccount?.account?.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
-            await system.move(userAccount.account, game_id, pit)
+            await system.move(userAccount?.account, game_id, pit)
         }
         else {
-            if (address !== userAccount?.account.address) {
+            if (address !== userAccount?.account?.address) {
                 message('Not your pit')
             }
             else if (status !== 'InProgress') {
                 message('Game over')
             }
             else {
-                if (winner === userAccount.account.address) {
+                if (winner === userAccount?.account?.address) {
                     message('You won')
                 }
                 else {

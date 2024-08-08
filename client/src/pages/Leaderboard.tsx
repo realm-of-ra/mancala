@@ -3,14 +3,13 @@ import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { stats, table_head } from "@/lib/constants";
 import Header from "@/components/header";
-import { useQuery, gql } from "@apollo/client";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { getPlayers, truncateString } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {MancalaGameEdge, useFetchModelsForLeaderBoardQuery} from "@/generated/graphql.tsx";
+import { MancalaGameEdge, useFetchModelsForLeaderBoardQuery } from "@/generated/graphql.tsx";
 
 export default function Leaderboard() {
 
@@ -19,7 +18,7 @@ export default function Leaderboard() {
 
     const starknetIdNavigator = new StarknetIdNavigator(
         provider,
-        constants.StarknetChainId.SN_MAIN
+        constants.StarknetChainId.SN_SEPOLIA
     );
 
     const { loading, error, data, startPolling } = useFetchModelsForLeaderBoardQuery();
@@ -27,8 +26,8 @@ export default function Leaderboard() {
 
     // Extracting player_one and player_two from the data object and get the the top 8 highest winners
     // TODO: instead of type coercion, we can use this to aid loading state
-    const players = getPlayers(data?.mancalaGameModels?.edges as MancalaGameEdge[])
-        ?.sort((a: any, b: any) => b.wins - a.wins)?.slice(0, 8)
+    const players = getPlayers(data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[])
+        ?.sort((a: any, b: any) => b?.wins - a?.wins)?.slice(0, 8)
 
     const addresses = players?.map((player: any) => player.address);
 
@@ -43,6 +42,8 @@ export default function Leaderboard() {
         })()
     }, [addresses]);
 
+    console.log(players)
+
     return (
         <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
             {/* Start of header */}
@@ -51,7 +52,7 @@ export default function Leaderboard() {
                 <div className='flex flex-row items-center justify-end w-full'>
                     <span className="w-32 h-32 bg-[url('assets/lobby-bg.png')] bg-contain bg-no-repeat bg-center flex flex-col items-center justify-center hover:shadow-none">
                         <Button ripple={false} children onClick={() => navigate("/")}
-                                className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden hover:shadow-none" />
+                            className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden hover:shadow-none" />
                     </span>
                 </div>
             </div>
@@ -68,7 +69,7 @@ export default function Leaderboard() {
                                 <h3 className="text-2xl text-white">{profiles[2]?.name ? profiles[2].name : addresses && truncateString(addresses[2])}</h3>
                                 <div className="flex flex-row space-x-0.5">
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                    <h4 className="text-xs text-[#F58229]">{(players ? players[2].wins : 0) * 50} points</h4>
+                                    <h4 className="text-xs text-[#F58229]">{(players && players[2]?.wins !== undefined ? players[2].wins : 0) * 50} points</h4>
                                 </div>
                                 <div className="bg-[url('./assets/third-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                             </div>
@@ -82,7 +83,7 @@ export default function Leaderboard() {
                                     <h3 className="text-2xl text-white">{profiles[0]?.name ? profiles[2].name : addresses && truncateString(addresses[0])}</h3>
                                     <div className="flex flex-row space-x-0.5">
                                         <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                        <h4 className="text-xs text-[#F58229]">{(players ? players[0].wins : 0) * 50} points</h4>
+                                        <h4 className="text-xs text-[#F58229]">{(players && players[0]?.wins !== undefined ? players[0].wins : 0) * 50} points</h4>
                                     </div>
                                     <div className="bg-[url('./assets/first-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                                 </div>
@@ -95,7 +96,7 @@ export default function Leaderboard() {
                                 <h3 className="text-2xl text-white">{profiles[1]?.name ? profiles[1].name : addresses && truncateString(addresses[1])}</h3>
                                 <div className="flex flex-row space-x-0.5">
                                     <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                                    <h4 className="text-xs text-[#F58229]">{(players ? players[1].wins : 0) * 50} points</h4>
+                                    <h4 className="text-xs text-[#F58229]">{(players && players[1]?.wins !== undefined ? players[1].wins : 0) * 50} points</h4>
                                 </div>
                                 <div className="bg-[url('./assets/second-stage.png')] w-48 h-48 bg-cover bg-center bg-no-repeat" />
                             </div>
