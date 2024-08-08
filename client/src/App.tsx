@@ -1,14 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Leaderboard from "./pages/Leaderboard";
 import { Provider as JotaiProvider } from "jotai";
-import { InjectedConnector } from "starknetkit/injected";
-import { ArgentMobileConnector } from "starknetkit/argentMobile";
-import { WebWalletConnector } from "starknetkit/webwallet";
-import { mainnet, sepolia, Chain } from "@starknet-react/chains";
+import { sepolia, Chain } from "@starknet-react/chains";
 import {
   StarknetConfig,
   jsonRpcProvider,
-  publicProvider,
 } from "@starknet-react/core";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
@@ -25,12 +21,6 @@ function rpc(_chain: Chain) {
 
 export default function App() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const connectors = [
-    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
-    new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
-    new WebWalletConnector({ url: "https://web.argent.xyz" }),
-    new ArgentMobileConnector(),
-  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,6 +40,30 @@ export default function App() {
       {
         target: burner.feeTokenAddress,
         method: "approve",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_initial_game_id",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_private_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "join_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_private_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "move",
       },
     ],
     {
