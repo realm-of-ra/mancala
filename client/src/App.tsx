@@ -4,8 +4,12 @@ import { Provider as JotaiProvider } from "jotai";
 import { InjectedConnector } from "starknetkit/injected";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
-import { mainnet, sepolia } from "@starknet-react/chains";
-import { StarknetConfig, publicProvider } from "@starknet-react/core";
+import { mainnet, sepolia, Chain } from "@starknet-react/chains";
+import {
+  StarknetConfig,
+  jsonRpcProvider,
+  publicProvider,
+} from "@starknet-react/core";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
@@ -13,9 +17,14 @@ import { useEffect, useState } from "react";
 import CartridgeConnector from "@cartridge/connector";
 import { useDojo } from "./dojo/useDojo";
 
+function rpc(_chain: Chain) {
+  return {
+    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha/katana",
+  };
+}
+
 export default function App() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const chains = [mainnet];
   const connectors = [
     new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
     new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
@@ -36,17 +45,22 @@ export default function App() {
 
   const { burner } = useDojo();
 
-  const connector = new CartridgeConnector([
+  const connector = new CartridgeConnector(
+    [
+      {
+        target: burner.feeTokenAddress,
+        method: "approve",
+      },
+    ],
     {
-      target: burner.feeTokenAddress,
-      method: "approve",
-    }
-  ])
+      rpc: "https://api.cartridge.gg/x/mancala-alpha/katana",
+    },
+  );
 
   return (
     <StarknetConfig
       chains={[sepolia]}
-      provider={publicProvider()}
+      provider={jsonRpcProvider({ rpc })}
       connectors={[connector]}
     >
       <JotaiProvider>
