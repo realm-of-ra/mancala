@@ -37,6 +37,7 @@ import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
 import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { AlarmClock } from "lucide-react";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -52,8 +53,6 @@ export default function Gameplay() {
         }
     })
     startMetadataPolling(1000);
-
-    const { account, system } = useDojo();
 
     // typing this to show possible states and reduce the current errors
     const game_node = game_metadata?.game_data?.edges?.[0]?.node
@@ -78,8 +77,9 @@ export default function Gameplay() {
     const [timeRemaining, setTimeRemaining] = useState(0);
 
     const timeout = async () => {
-        console.log("called: ", gameId, account.account)
-        await system.timeout(account.account, gameId || '')
+        if (account.account) {
+            await system.timeout(account.account, gameId || '')
+        }
     }
 
     const [open, setOpen] = useState(0);
@@ -175,7 +175,7 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (player === account.account.address && game_players?.player_one?.edges) {
+        if (player === account.account?.address && game_players?.player_one?.edges) {
             if (player === game_players?.player_one.edges[0]?.node?.address) {
                 return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
             }

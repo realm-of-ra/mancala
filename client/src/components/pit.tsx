@@ -3,11 +3,13 @@ import { Dispatch, SetStateAction } from "react";
 import Seed from "./seed";
 import { UseAccountResult } from "@starknet-react/core";
 
-export default function Pit({ amount, address, pit, game_id, status, winner, userAccount, system, message }: {
-    amount: number, address: string, pit: number, winner: string,
-    game_id: string, status: string; userAccount?: UseAccountResult;
-    system: any; message: Dispatch<SetStateAction<string | undefined>>
-}) {
+export default function Pit({ amount, address, pit, game_id, status, winner, userAccount, system,
+    setTimeRemaining, time_between_move, message }: {
+        amount: number, address: string, pit: number, winner: string,
+        game_id: string, status: string; userAccount?: UseAccountResult;
+        system: any; message: Dispatch<SetStateAction<string | undefined>>;
+        setTimeRemaining: Dispatch<SetStateAction<number>>; time_between_move: number;
+    }) {
     const handleMove = async () => {
         if (address === userAccount?.account?.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
