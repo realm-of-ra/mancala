@@ -22,7 +22,7 @@ import {
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Link, useParams } from "react-router-dom";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
@@ -224,13 +224,16 @@ export default function Gameplay() {
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img
+                                {/* <img
                                     src={profiles?.[0].profilePicture}
                                     width={65}
                                     height={65}
                                     alt={`${profiles?.[0].name ? profiles?.[0].name : ""} profile picture`}
                                     className="rounded-full"
-                                />
+                                /> */}
+                                <div className="bg-[#15171E] rounded-full p-2.5">
+                                    <UserIcon color="#F58229" className="w-8 h-8" />
+                                </div>
                                 <div
                                     className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
@@ -256,13 +259,16 @@ export default function Gameplay() {
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img
+                                {/* <img
                                     src={profiles?.[1].profilePicture}
                                     width={65}
                                     height={65}
                                     alt={`${profiles?.[1].name ? profiles?.[1].name : ""} profile picture`}
                                     className="rounded-full"
-                                />
+                                /> */}
+                                <div className="bg-[#15171E] rounded-full p-2.5">
+                                    <UserIcon color="#F58229" className="w-8 h-8" />
+                                </div>
                                 <div
                                     className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
@@ -406,6 +412,7 @@ export default function Gameplay() {
                                                         winner={game_metadata?.game_data?.edges?.[0]?.node?.winner}
                                                         setTimeRemaining={setTimeRemaining}
                                                         time_between_move={parseInt(game_node?.time_between_move, 16)}
+                                                        reverse={true}
                                                     />)
                                                 })
                                         }
