@@ -105,12 +105,20 @@ export default function Gameplay() {
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
 
+    const games_data_one = game_players?.player_one?.edges?.[0]?.node;
+    const games_data_two = game_players?.player_two?.edges?.[0]?.node;
+
+    const gameStarted = ((games_data_one?.pit1 == 4 && games_data_one?.pit2 == 4 && games_data_one?.pit3 == 4 &&
+        games_data_one?.pit4 == 4 && games_data_one?.pit5 == 4 && games_data_one?.pit6 == 4) &&
+        (games_data_two?.pit1 == 4 && games_data_two?.pit2 == 4 && games_data_two?.pit3 == 4 &&
+            games_data_two?.pit4 == 4 && games_data_two?.pit5 == 4 && games_data_two?.pit6 == 4)) ? false : true;
+
     useEffect(() => {
         if (game_node) {
             setTimeRemaining(parseInt(game_node?.time_between_move, 16))
         }
         const timer = setInterval(() => {
-            if (game_node?.status === "InProgress") {
+            if (game_node?.status === "InProgress" && gameStarted) {
                 setTimeRemaining((prevTime: number) => {
                     if (prevTime > 0) {
                         return prevTime - 1; // Decrement time
