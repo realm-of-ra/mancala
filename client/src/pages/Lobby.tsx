@@ -1,7 +1,7 @@
 import { gameIdAtom } from "@/atom/atoms";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import connectionIcon from "../assets/connect.png";
 import Players from "@/components/lobby/players.tsx";
 import Duels from "@/components/lobby/duels.tsx";

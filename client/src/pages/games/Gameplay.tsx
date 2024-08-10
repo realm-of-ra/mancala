@@ -109,17 +109,19 @@ export default function Gameplay() {
             setTimeRemaining(parseInt(game_node?.time_between_move, 16))
         }
         const timer = setInterval(() => {
-            setTimeRemaining((prevTime: number) => {
-                if (prevTime > 0) {
-                    return prevTime - 1; // Decrement time
-                } else {
-                    if (game_node?.status === "InProgress") {
-                        timeout(); //call timeout function on contract to end game
+            if (game_node?.status === "InProgress") {
+                setTimeRemaining((prevTime: number) => {
+                    if (prevTime > 0) {
+                        return prevTime - 1; // Decrement time
+                    } else {
+                        if (game_node?.status === "InProgress") {
+                            timeout(); //call timeout function on contract to end game
+                        }
+                        clearInterval(timer); // Clear interval when countdown reaches zero
+                        return 0; // Ensure it doesn't go below zero
                     }
-                    clearInterval(timer); // Clear interval when countdown reaches zero
-                    return 0; // Ensure it doesn't go below zero
-                }
-            });
+                });
+            }
         }, 1000);
         if (
             !starknetIdNavigator ||
