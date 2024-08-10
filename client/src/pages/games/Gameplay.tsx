@@ -32,11 +32,11 @@ import { useDojo } from "@/dojo/useDojo";
 import { useAccount, useConnect, useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
-import { truncateString } from "@/lib/utils";
+import { getPlayer, getPlayers, truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { MancalaGameEdge, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 import { AlarmClock } from "lucide-react";
 
 export default function Gameplay() {
@@ -198,11 +198,8 @@ export default function Gameplay() {
     const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
     const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
 
-    // const { connect, connectors, error } = useConnect()
-
-    // if (account.status == "disconnected") {
-    //     connect({ connector: connectors[0] });
-    // }
+    const player_one = getPlayer(game_players?.player_one?.edges as MancalaGameEdge[], game_players?.player_one?.edges?.[0]?.node?.address);
+    const player_two = getPlayer(game_players?.player_two?.edges as MancalaGameEdge[], game_players?.player_two?.edges?.[0]?.node?.address);
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
@@ -220,7 +217,9 @@ export default function Gameplay() {
                                             game_players?.player_one?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
-                                <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
+                                <h4 className="text-base text-[#F58229] text-right">
+                                    {`Level ${isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
+                                </h4>
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
@@ -236,7 +235,7 @@ export default function Gameplay() {
                                 </div>
                                 <div
                                     className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                                    <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
+                                    <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
                                 </div>
                             </div>
                         </div>
@@ -255,7 +254,9 @@ export default function Gameplay() {
                                             game_players?.player_two?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
-                                <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
+                                <h4 className="text-base text-[#F58229] text-left">
+                                    {`Level ${isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
+                                </h4>
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
