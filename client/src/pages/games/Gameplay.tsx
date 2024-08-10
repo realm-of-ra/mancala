@@ -38,6 +38,7 @@ import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
 import { MancalaGameEdge, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 import { AlarmClock } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -255,7 +256,7 @@ export default function Gameplay() {
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-left">
-                                    {`Level ${isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
+                                    {`Level ${isNaN(Math.floor(player_two?.[0]?.wins)) ? 1 : Math.floor(player_two?.[0]?.wins) < 4 ? 1 : Math.floor(player_two?.[0]?.wins / 4) + 1}`}
                                 </h4>
                             </div>
                             <div
@@ -544,18 +545,18 @@ export default function Gameplay() {
                                 </div>
                             </div>
                         )}
-                        {/* <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
-                            <MessageArea
-                                game_metadata_error={game_metadata_error}
-                                game_players_error={game_metadata_error}
-                                game_metadata={game_metadata}
-                                account={account}
-                                game_metadata_loading={game_metadata_loading}
-                                moveMessage={moveMessage}
-                                game_players_loading={game_players_loading}
-                                game_players={game_players}
-                            />
-                        </div> */}
+                        {/* <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm"> */}
+                        <MessageArea
+                            game_metadata_error={game_metadata_error}
+                            game_players_error={game_metadata_error}
+                            game_metadata={game_metadata}
+                            account={account}
+                            game_metadata_loading={game_metadata_loading}
+                            moveMessage={moveMessage}
+                            game_players_loading={game_players_loading}
+                            game_players={game_players}
+                        />
+                        {/* </div> */}
                         <div className="flex flex-row items-start justify-center pb-5 space-x-5">
                             {/* Goto leaderboard page */}
                             <Link to="/leaderboard">

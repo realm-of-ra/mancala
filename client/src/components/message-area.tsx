@@ -1,5 +1,7 @@
 import { UseAccountResult } from "@starknet-react/core";
 import { isEmptyString } from "../lib/utils.ts";
+import { useToast } from "./ui/use-toast.ts";
+import { useEffect } from "react";
 
 interface IMessageAreaProps {
     game_metadata_error: any,
@@ -28,6 +30,8 @@ export default function MessageArea(
     const player_includes_myself = active_players_addrs.includes(my_address);
     const is_any_player_empty = active_players_addrs.some(individualAddr => isEmptyString(individualAddr))
 
+    const { toast } = useToast();
+
     const generate_error_message = (): string => {
         if (game_is_loading) return "Loading game data..."; // loading case
         if (status === "Finished") {
@@ -55,16 +59,15 @@ export default function MessageArea(
         }
     }
 
+    useEffect(() => {
+        if (generate_error_message()) {
+            toast({
+                title: generate_error_message(),
+            })
+        }
+    }, [generate_error_message()])
+
     return (
-        <p className="text-[#AAAEB7]" data-testid="message-area">
-            Game message:{" "}
-            {
-                game_has_error && "Error loading game data"
-            }
-            {" "}
-            {
-                generate_error_message()
-            }
-        </p>
+        <></>
     )
 }
