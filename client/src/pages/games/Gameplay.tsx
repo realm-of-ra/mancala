@@ -543,7 +543,7 @@ export default function Gameplay() {
                                 </div>
                             </div>
                         )}
-                        <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
+                        {/* <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
                             <MessageArea
                                 game_metadata_error={game_metadata_error}
                                 game_players_error={game_metadata_error}
@@ -554,7 +554,7 @@ export default function Gameplay() {
                                 game_players_loading={game_players_loading}
                                 game_players={game_players}
                             />
-                        </div>
+                        </div> */}
                         <div className="flex flex-row items-start justify-center pb-5 space-x-5">
                             {/* Goto leaderboard page */}
                             <Link to="/leaderboard">
