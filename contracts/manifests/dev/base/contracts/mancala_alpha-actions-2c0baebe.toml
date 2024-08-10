@@ -1,0 +1,11 @@
+kind = "DojoContract"
+class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
+original_class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/mancala_alpha-actions-2c0baebe.json"
+reads = []
+writes = []
+computed = []
+init_calldata = []
+tag = "mancala_alpha-actions"
+manifest_name = "mancala_alpha-actions-2c0baebe"

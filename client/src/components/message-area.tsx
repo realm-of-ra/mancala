@@ -1,10 +1,11 @@
+import { UseAccountResult } from "@starknet-react/core";
 import { isEmptyString } from "../lib/utils.ts";
 
 interface IMessageAreaProps {
     game_metadata_error: any,
     game_players_error: any,
     game_metadata: any,
-    account: any,
+    account: UseAccountResult,
     game_metadata_loading: any,
     game_players_loading: any,
     game_players: any,
@@ -18,7 +19,7 @@ export default function MessageArea(
 
     const game_has_error = game_metadata_error || game_players_error;
     const game_is_loading = game_metadata_loading || game_players_loading;
-    const my_address = account.account.address;
+    const my_address = account?.account?.address;
     const {
         player_one, player_two, current_player, status, winner
     } = game_metadata?.game_data?.edges?.[0]?.node ?? {}

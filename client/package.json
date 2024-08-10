@@ -13,17 +13,19 @@
     "preview": "vite preview",
     "codegen": "graphql-codegen --config codegen.ts",
     "codegen-watch": "graphql-codegen --config codegen.ts -w",
-    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala/katana 0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
+    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/deployment/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala-alpha/katana 0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9"
   },
   "dependencies": {
     "@apollo/client": "^3.10.8",
-    "@dojoengine/core": "^0.7.9",
-    "@dojoengine/create-burner": "^0.7.9",
-    "@dojoengine/react": "^0.7.9",
+    "@cartridge/connector": "^0.3.38",
+    "@cartridge/controller": "^0.3.38",
+    "@dojoengine/core": "^1.0.0-alpha.0",
+    "@dojoengine/create-burner": "^1.0.0-alpha.0",
+    "@dojoengine/react": "^1.0.0-alpha.0",
     "@dojoengine/recs": "^2.0.13",
-    "@dojoengine/state": "^0.7.9",
-    "@dojoengine/torii-client": "^0.7.9",
-    "@dojoengine/utils": "^0.7.9",
+    "@dojoengine/state": "^1.0.0-alpha.0",
+    "@dojoengine/torii-client": "^1.0.0-alpha.0",
+    "@dojoengine/utils": "^1.0.0-alpha.0",
     "@graphql-codegen/typescript": "^4.0.9",
     "@graphql-codegen/typescript-operations": "^4.2.3",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
@@ -37,7 +39,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@starknet-react/chains": "^0.1.7",
-    "@starknet-react/core": "^2.8.0",
+    "@starknet-react/core": "^2.9.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "14.2.0",
     "class-variance-authority": "^0.7.0",
@@ -56,7 +58,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.23.1",
     "rxjs": "^7.8.1",
-    "starknet": "6.8.0",
+    "starknet": "6.11.0",
     "starknetid.js": "^3.2.0",
     "starknetkit": "^1.1.9",
     "tailwind-merge": "^2.2.2",
@@ -84,6 +86,7 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
+    "vite-plugin-mkcert": "^1.17.5",
     "vitest": "^2.0.2"
   }
 }

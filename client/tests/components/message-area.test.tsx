@@ -7,16 +7,20 @@ describe('message-area', () => {
             game_metadata_error={undefined}
             game_players_error={undefined}
             game_metadata={undefined}
-            account={{
-                account: {
-                    address: undefined
-                }
-            }}
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={undefined}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getByTestId('message-area')).toBeInTheDocument();
     });
 
@@ -41,16 +45,20 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            account={{
-                account: {
-                    address: "0x1d8d33ae7dc134a26cdd2f3d0325f7601b0855bca9250df6c8ad7e704c22924"
-                }
-            }}
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={undefined}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getByText('Game message: Player has not joined game')).toBeInTheDocument();
     });
     it('renders correct message when user is current player', () => {
@@ -71,11 +79,6 @@ describe('message-area', () => {
                             }
                         }
                     ]
-                }
-            }}
-            account={{
-                account: {
-                    address: "0x4d82d1a1b2edabfbdd71a3f73cadb85831a6c996b9f427be12678634b57190b"
                 }
             }}
             game_metadata_loading={undefined}
@@ -116,8 +119,17 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getByText('Game message:')).toBeInTheDocument();
     })
     it('renders correct message when game metadata is loading', () => {
@@ -125,16 +137,20 @@ describe('message-area', () => {
             game_metadata_error={undefined}
             game_players_error={undefined}
             game_metadata={undefined}
-            account={{
-                account: {
-                    address: "0x4d82d1a1b2edabfbdd71a3f73cadb85831a6c996b9f427be12678634b57190b"
-                }
-            }}
             game_metadata_loading={true}
             game_players_loading={false}
             game_players={undefined}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getAllByText('Game message: Loading game data...'));
     })
     it('renders correct message when players metadata is loading', () => {
@@ -142,16 +158,20 @@ describe('message-area', () => {
             game_metadata_error={undefined}
             game_players_error={undefined}
             game_metadata={undefined}
-            account={{
-                account: {
-                    address: "0x4d82d1a1b2edabfbdd71a3f73cadb85831a6c996b9f427be12678634b57190b"
-                }
-            }}
             game_metadata_loading={false}
             game_players_loading={true}
             game_players={undefined}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getAllByText('Game message: Loading game data...'));
     })
     it('renders correct message when game is won by player', () => {
@@ -175,11 +195,6 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            account={{
-                account: {
-                    address: "0x4d82d1a1b2edabfbdd71a3f73cadb85831a6c996b9f427be12678634b57190b"
-                }
-            }}
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={{
@@ -218,8 +233,17 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getByText('Game message: Congratulations! You won the game')).toBeInTheDocument();
     });
     it('renders correct message when game is lost by player', () => {
@@ -243,11 +267,6 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            account={{
-                account: {
-                    address: "0x4d82d1a1b2edabfbdd71a3f73cadb85831a6c996b9f427be12678634b57190b"
-                }
-            }}
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={{
@@ -286,8 +305,17 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined}
-        />);
+            moveMessage={undefined} account={{
+                account: undefined,
+                address: undefined,
+                connector: undefined,
+                chainId: undefined,
+                isConnecting: undefined,
+                isReconnecting: undefined,
+                isConnected: undefined,
+                isDisconnected: undefined,
+                status: "connected"
+            }} />);
         expect(getByText('Game message: You lost the game')).toBeInTheDocument();
     });
 });

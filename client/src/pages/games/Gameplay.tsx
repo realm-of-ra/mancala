@@ -1,5 +1,5 @@
-import { Button } from "@material-tailwind/react";
 import React from "react";
+import { Button } from "@material-tailwind/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Accordion,
@@ -28,16 +28,15 @@ import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
-import { gql, useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
-import { useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
 import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -61,7 +60,6 @@ export default function Gameplay() {
 
     const {
         loading: game_players_loading,
-        error: game_players_error,
         data: game_players,
         startPolling: startPlayersPolling,
     } = usePlayDataQuery({
@@ -94,12 +92,14 @@ export default function Gameplay() {
 
     const [, setSeeds] = useState(initialSeeds);
 
-    const { account, system } = useDojo();
+    const { system } = useDojo();
+
+    const account = useAccount();
 
     const { provider } = useProvider();
 
     const starknetIdNavigator = useMemo(() => {
-        return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_MAIN);
+        return new StarknetIdNavigator(provider, constants.StarknetChainId.SN_SEPOLIA);
     }, [provider]);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
@@ -195,6 +195,12 @@ export default function Gameplay() {
 
     const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
     const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
+
+    // const { connect, connectors, error } = useConnect()
+
+    // if (account.status == "disconnected") {
+    //     connect({ connector: connectors[0] });
+    // }
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
