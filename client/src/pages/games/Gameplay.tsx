@@ -108,10 +108,12 @@ export default function Gameplay() {
     const games_data_one = game_players?.player_one?.edges?.[0]?.node;
     const games_data_two = game_players?.player_two?.edges?.[0]?.node;
 
-    const gameStarted = ((games_data_one?.pit1 == 4 && games_data_one?.pit2 == 4 && games_data_one?.pit3 == 4 &&
-        games_data_one?.pit4 == 4 && games_data_one?.pit5 == 4 && games_data_one?.pit6 == 4) &&
-        (games_data_two?.pit1 == 4 && games_data_two?.pit2 == 4 && games_data_two?.pit3 == 4 &&
-            games_data_two?.pit4 == 4 && games_data_two?.pit5 == 4 && games_data_two?.pit6 == 4)) ? false : true;
+    const gameStarted = !(
+        games_data_one?.pit1 == 4 && games_data_one?.pit2 == 4 && games_data_one?.pit3 == 4 &&
+        games_data_one?.pit4 == 4 && games_data_one?.pit5 == 4 && games_data_one?.pit6 == 4 &&
+        games_data_two?.pit1 == 4 && games_data_two?.pit2 == 4 && games_data_two?.pit3 == 4 &&
+        games_data_two?.pit4 == 4 && games_data_two?.pit5 == 4 && games_data_two?.pit6 == 4
+    );
 
     useEffect(() => {
         if (game_node) {
@@ -186,7 +188,7 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (game_node?.status === "TimeOut" || "Finished" || "Forfeited") {
+        if (game_node?.status === "TimeOut" || game_node?.status === "Finished" || game_node?.status === "Forfeited") {
             return React.createElement('div', null, React.createElement('span', { className: 'text-[#F58229]' }, `Game Over`))
         }
         else {
@@ -232,7 +234,7 @@ export default function Gameplay() {
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-right">
-                                    {`Level ${isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
+                                    {`Level ${Number.isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
                                 </h4>
                             </div>
                             <div
@@ -269,7 +271,7 @@ export default function Gameplay() {
                                         )}
                                 </h3>
                                 <h4 className="text-base text-[#F58229] text-left">
-                                    {`Level ${isNaN(Math.floor(player_two?.[0]?.wins)) ? 1 : Math.floor(player_two?.[0]?.wins) < 4 ? 1 : Math.floor(player_two?.[0]?.wins / 4) + 1}`}
+                                    {`Level ${Number.isNaN(Math.floor(player_two?.[0]?.wins)) ? 1 : Math.floor(player_two?.[0]?.wins) < 4 ? 1 : Math.floor(player_two?.[0]?.wins / 4) + 1}`}
                                 </h4>
                             </div>
                             <div

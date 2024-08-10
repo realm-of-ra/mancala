@@ -128,7 +128,7 @@ export default function Header() {
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
                   ? "Level 1"
-                  : `Level ${isNaN(Math.floor(player?.[0]?.wins)) ? 1 : Math.floor(player?.[0]?.wins) < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}`}
+                  : `Level ${Number.isNaN(Math.floor(player?.[0]?.wins)) ? 1 : Math.floor(player?.[0]?.wins) < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}`}
               </h4>
             </div>
           </div>
