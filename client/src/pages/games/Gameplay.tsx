@@ -165,8 +165,8 @@ export default function Gameplay() {
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
         // starknetIdNavigator,
-        game_node,
-        timeout
+        // timeout,
+        game_node
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
@@ -186,20 +186,25 @@ export default function Gameplay() {
     };
 
     const moveMessageOnTimer = (player: string) => {
-        if (player === account.account?.address && game_players?.player_one?.edges) {
-            if (player === game_players?.player_one.edges[0]?.node?.address) {
-                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
-            }
-            else {
-                return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)))
-            }
+        if (game_node?.status === "TimeOut" || "Finished" || "Forfeited") {
+            return React.createElement('div', null, React.createElement('span', { className: 'text-[#F58229]' }, `Game Over`))
         }
         else {
-            if (game_players?.player_one?.edges && player === game_players?.player_one.edges[0]?.node?.address) {
-                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
+            if (player === account.account?.address && game_players?.player_one?.edges) {
+                if (player === game_players?.player_one.edges[0]?.node?.address) {
+                    return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
+                }
+                else {
+                    return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)))
+                }
             }
             else {
-                return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`)
+                if (game_players?.player_one?.edges && player === game_players?.player_one.edges[0]?.node?.address) {
+                    return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
+                }
+                else {
+                    return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`)
+                }
             }
         }
     }
