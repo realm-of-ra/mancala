@@ -124,7 +124,7 @@ export default function Gameplay() {
                         return prevTime - 1; // Decrement time
                     } else {
                         if (game_node?.status === "InProgress") {
-                            timeout(); //call timeout function on contract to end game
+                            timeout(); //call timeout function on contract to end gamet
                         }
                         clearInterval(timer); // Clear interval when countdown reaches zero
                         return 0; // Ensure it doesn't go below zero
@@ -164,7 +164,7 @@ export default function Gameplay() {
         isPlaying,
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
-        starknetIdNavigator,
+        // starknetIdNavigator,
         game_node,
         timeout
     ]);
@@ -558,7 +558,7 @@ export default function Gameplay() {
                             game_metadata_error={game_metadata_error}
                             game_players_error={game_metadata_error}
                             game_metadata={game_metadata}
-                            account={account}
+                            address={account?.account?.address}
                             game_metadata_loading={game_metadata_loading}
                             moveMessage={moveMessage}
                             game_players_loading={game_players_loading}
