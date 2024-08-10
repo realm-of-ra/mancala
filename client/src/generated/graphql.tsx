@@ -774,7 +774,7 @@ export type GameDataQueryVariables = Exact<{
 }>;
 
 
-export type GameDataQuery = { __typename?: 'World__Query', game_data: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', player_one: any | null, player_two: any | null, current_player: any | null, status: any | null, winner: any | null } | null } | null> | null } | null };
+export type GameDataQuery = { __typename?: 'World__Query', game_data: { __typename?: 'MancalaGameConnection', edges: Array<{ __typename?: 'MancalaGameEdge', node: { __typename?: 'MancalaGame', player_one: any | null, player_two: any | null, current_player: any | null, status: any | null, winner: any | null, time_between_move: any | null } | null } | null> | null } | null };
 
 export type PlayDataQueryVariables = Exact<{
   player_1: Scalars['ContractAddress']['input'];
@@ -811,6 +811,7 @@ export const GameDataDocument = gql`
         current_player
         status
         winner
+        time_between_move
       }
     }
   }
@@ -936,6 +937,7 @@ export const MancalaModelsFetchDocument = gql`
         winner
         status
         is_private
+        time_between_move
       }
     }
   }

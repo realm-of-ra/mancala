@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { LiveSkeleton } from "./live-skeleton.tsx";
 import { Link, useNavigate } from "react-router-dom";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function LiveDuels({ games, transactions }: { games: any, transactions: any }) {
     const { provider } = useProvider();
@@ -28,21 +29,28 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     }>();
     const challengerAddresses = games?.map((game: any) => game.node.player_one);
     const challengedAddresses = games?.map((game: any) => game.node.player_two);
-    useEffect(() => {
-        if (!starknetIdNavigator || !challengerAddresses) return;
-        (async () => {
-            const challengerData = await starknetIdNavigator?.getStarkProfiles(challengerAddresses)
-            const challengedData = await starknetIdNavigator?.getStarkProfiles(challengedAddresses)
-            if (!challengerData) return;
-            if (challengerData) setChallengers(challengerData);
-            if (!challengedData) return;
-            if (challengedData) setChallenged(challengedData);
-        })();
-    }, [challengerAddresses, challengedAddresses, starknetIdNavigator]);
-    const data = challengers?.map((challenger, index) => {
+    // useEffect(() => {
+    //     if (!starknetIdNavigator || !challengerAddresses) return;
+    //     (async () => {
+    //         const challengerData = await starknetIdNavigator?.getStarkProfiles(challengerAddresses)
+    //         const challengedData = await starknetIdNavigator?.getStarkProfiles(challengedAddresses)
+    //         if (!challengerData) return;
+    //         if (challengerData) setChallengers(challengerData);
+    //         if (!challengedData) return;
+    //         if (challengedData) setChallenged(challengedData);
+    //     })();
+    // }, [challengerAddresses, challengedAddresses, starknetIdNavigator]);
+    // const data = challengers?.map((challenger, index) => {
+    //     return {
+    //         challenger: challenger,
+    //         challenged: challenged ? challenged[index] : null,
+    //         date: transactions[index].node.executedAt,
+    //     }
+    // })
+    const data = games?.map((data: any, index: number) => {
         return {
-            challenger: challenger,
-            challenged: challenged ? challenged[index] : null,
+            challenger: data.node.player_one,
+            challenged: data.node.player_two,
             date: transactions[index].node.executedAt,
         }
     })
@@ -122,9 +130,14 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                             className={clsx(!isLast && "border-b border-[#23272F]", "w-full bg-[#0F1116] flex flex-row items-center")}>
                                             <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
                                                 <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
-                                                    <img src={data.challenger.profilePicture} width={35} height={35}
+                                                    {/* <img src={data.challenger.profilePicture} width={35} height={35}
                                                         alt={`${data.challenger.name} profile picture`}
-                                                        className="rounded-full" />
+                                                        className="rounded-full" /> */}
+                                                    <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                                        <div className="bg-[#15171E] rounded-full p-2.5">
+                                                            <UserIcon color="#F58229" className="w-6 h-6" />
+                                                        </div>
+                                                    </div>
                                                     <p
                                                         className="font-normal text-white"
                                                     >
@@ -136,9 +149,14 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
                                                 {
                                                     games[index].node.player_two !== "0x0" ?
                                                         <div className="flex flex-row items-center space-x-2.5 w-fit">
-                                                            <img src={data.challenged.profilePicture} width={35} height={35}
+                                                            {/* <img src={data.challenged.profilePicture} width={35} height={35}
                                                                 alt={`${data.challenged.name} profile picture`}
-                                                                className="rounded-full" />
+                                                                className="rounded-full" /> */}
+                                                            <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                                                <div className="bg-[#15171E] rounded-full p-2.5">
+                                                                    <UserIcon color="#F58229" className="w-6 h-6" />
+                                                                </div>
+                                                            </div>
                                                             <p
                                                                 className="font-normal text-white"
                                                             >

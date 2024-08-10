@@ -22,7 +22,7 @@ import {
 } from "../../constants/icons_store";
 
 import clsx from "clsx";
-import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Link, useParams } from "react-router-dom";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
@@ -32,11 +32,13 @@ import { useDojo } from "@/dojo/useDojo";
 import { useAccount, useConnect, useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants, StarkProfile } from "starknet";
-import { truncateString } from "@/lib/utils";
+import { getPlayer, getPlayers, truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { MancalaGameEdge, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
+import { AlarmClock } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Gameplay() {
     const { gameId } = useParams();
@@ -72,21 +74,14 @@ export default function Gameplay() {
 
     const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
     const audioRef = useRef(new Audio(audio));
-    useEffect(() => {
-        if (isPlaying) {
-            try {
-                audioRef.current.play();
-                audioRef.current.loop = true;
-            } catch (error) {
-                console.error("Error playing the audio", error);
-            }
-        } else {
-            audioRef.current.pause();
+
+    const [timeRemaining, setTimeRemaining] = useState(0);
+
+    const timeout = async () => {
+        if (account.account) {
+            await system.timeout(account.account, gameId || '')
         }
-        return () => {
-            audioRef.current.pause();
-        };
-    }, [isPlaying]);
+    }
 
     const [open, setOpen] = useState(0);
 
@@ -110,7 +105,35 @@ export default function Gameplay() {
 
     const [profiles, setProfiles] = useState<StarkProfile[]>();
 
+    const games_data_one = game_players?.player_one?.edges?.[0]?.node;
+    const games_data_two = game_players?.player_two?.edges?.[0]?.node;
+
+    const gameStarted = !(
+        games_data_one?.pit1 == 4 && games_data_one?.pit2 == 4 && games_data_one?.pit3 == 4 &&
+        games_data_one?.pit4 == 4 && games_data_one?.pit5 == 4 && games_data_one?.pit6 == 4 &&
+        games_data_two?.pit1 == 4 && games_data_two?.pit2 == 4 && games_data_two?.pit3 == 4 &&
+        games_data_two?.pit4 == 4 && games_data_two?.pit5 == 4 && games_data_two?.pit6 == 4
+    );
+
     useEffect(() => {
+        if (game_node) {
+            setTimeRemaining(parseInt(game_node?.time_between_move, 16))
+        }
+        const timer = setInterval(() => {
+            if (game_node?.status === "InProgress" && gameStarted) {
+                setTimeRemaining((prevTime: number) => {
+                    if (prevTime > 0) {
+                        return prevTime - 1; // Decrement time
+                    } else {
+                        if (game_node?.status === "InProgress") {
+                            timeout(); //call timeout function on contract to end gamet
+                        }
+                        clearInterval(timer); // Clear interval when countdown reaches zero
+                        return 0; // Ensure it doesn't go below zero
+                    }
+                });
+            }
+        }, 1000);
         if (
             !starknetIdNavigator ||
             !game_players?.player_one?.edges?.[0]?.node?.address ||
@@ -125,10 +148,27 @@ export default function Gameplay() {
             if (!profileData) return;
             if (profileData) return setProfiles(profileData);
         })();
+        if (isPlaying) {
+            try {
+                audioRef.current.play();
+                audioRef.current.loop = true;
+            } catch (error) {
+                console.error("Error playing the audio", error);
+            }
+        } else {
+            audioRef.current.pause();
+        }
+        return () => {
+            clearInterval(timer);
+            audioRef.current.pause();
+        };
     }, [
+        isPlaying,
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
-        starknetIdNavigator,
+        // starknetIdNavigator,
+        // timeout,
+        game_node
     ]);
 
     const [moveMessage, setMoveMessage] = useState<string | undefined>();
@@ -147,11 +187,35 @@ export default function Gameplay() {
         setVolumeDisplayValue(Math.round(newVolume * 100)); // Use newVolume instead of volume
     };
 
-    // const { connect, connectors, error } = useConnect()
+    const moveMessageOnTimer = (player: string) => {
+        if (game_node?.status === "TimeOut" || game_node?.status === "Finished" || game_node?.status === "Forfeited") {
+            return React.createElement('div', null, React.createElement('span', { className: 'text-[#F58229]' }, `Game Over`))
+        }
+        else {
+            if (player === account.account?.address && game_players?.player_one?.edges) {
+                if (player === game_players?.player_one.edges[0]?.node?.address) {
+                    return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)))
+                }
+                else {
+                    return React.createElement('div', null, `Make your move `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)))
+                }
+            }
+            else {
+                if (game_players?.player_one?.edges && player === game_players?.player_one.edges[0]?.node?.address) {
+                    return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`)
+                }
+                else {
+                    return React.createElement('div', null, `Waiting for `, React.createElement('span', { className: 'text-[#F58229]' }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`)
+                }
+            }
+        }
+    }
 
-    // if (account.status == "disconnected") {
-    //     connect({ connector: connectors[0] });
-    // }
+    const minutes = ((Math.floor(timeRemaining % 3600) / 60) < 10 ? '0' : '') + Math.floor((timeRemaining % 3600) / 60);
+    const seconds = (timeRemaining % 60 < 10 ? '0' : '') + Math.floor(timeRemaining % 60);
+
+    const player_one = getPlayer(game_players?.player_one?.edges as MancalaGameEdge[], game_players?.player_one?.edges?.[0]?.node?.address);
+    const player_two = getPlayer(game_players?.player_two?.edges as MancalaGameEdge[], game_players?.player_two?.edges?.[0]?.node?.address);
 
     return (
         <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
@@ -169,20 +233,25 @@ export default function Gameplay() {
                                             game_players?.player_one?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
-                                <h4 className="text-base text-[#F58229] text-right">Level 6</h4>
+                                <h4 className="text-base text-[#F58229] text-right">
+                                    {`Level ${Number.isNaN(Math.floor(player_one?.[0]?.wins)) ? 1 : Math.floor(player_one?.[0]?.wins) < 4 ? 1 : Math.floor(player_one?.[0]?.wins / 4) + 1}`}
+                                </h4>
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img
+                                {/* <img
                                     src={profiles?.[0].profilePicture}
                                     width={65}
                                     height={65}
-                                    alt={`${profiles?.[0].name} profile picture`}
+                                    alt={`${profiles?.[0].name ? profiles?.[0].name : ""} profile picture`}
                                     className="rounded-full"
-                                />
+                                /> */}
+                                <div className="bg-[#15171E] rounded-full p-2.5">
+                                    <UserIcon color="#F58229" className="w-8 h-8" />
+                                </div>
                                 <div
                                     className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                                    <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
+                                    <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
                                 </div>
                             </div>
                         </div>
@@ -201,17 +270,22 @@ export default function Gameplay() {
                                             game_players?.player_two?.edges?.[0]?.node?.address
                                         )}
                                 </h3>
-                                <h4 className="text-base text-[#F58229] text-left">Level 6</h4>
+                                <h4 className="text-base text-[#F58229] text-left">
+                                    {`Level ${Number.isNaN(Math.floor(player_two?.[0]?.wins)) ? 1 : Math.floor(player_two?.[0]?.wins) < 4 ? 1 : Math.floor(player_two?.[0]?.wins / 4) + 1}`}
+                                </h4>
                             </div>
                             <div
                                 className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <img
+                                {/* <img
                                     src={profiles?.[1].profilePicture}
                                     width={65}
                                     height={65}
-                                    alt={`${profiles?.[1].name} profile picture`}
+                                    alt={`${profiles?.[1].name ? profiles?.[1].name : ""} profile picture`}
                                     className="rounded-full"
-                                />
+                                /> */}
+                                <div className="bg-[#15171E] rounded-full p-2.5">
+                                    <UserIcon color="#F58229" className="w-8 h-8" />
+                                </div>
                                 <div
                                     className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                                     <div className="h-4 w-4 bg-[#00FF57] rounded-full"></div>
@@ -222,15 +296,23 @@ export default function Gameplay() {
                 </div>
                 <div
                     className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-                    <Link to="/">
-                        <img
-                            src={logo}
-                            width={150}
-                            height={150}
-                            alt="Logo"
-                            className="-mt-10"
-                        />
-                    </Link>
+                    <div className="flex flex-col items-center justify-center mt-10 space-y-5">
+                        <Link to="/">
+                            <img
+                                src={logo}
+                                width={150}
+                                height={150}
+                                alt="Logo"
+                            />
+                        </Link>
+                        <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+                            <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
+                            <div className="flex flex-row items-center justify-center space-x-1">
+                                <AlarmClock className="w-6 h-6 text-white" />
+                                <div className="text-white">{moveMessageOnTimer(game_node?.current_player)}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
@@ -319,6 +401,8 @@ export default function Gameplay() {
                                                         message={setMoveMessage}
                                                         status={game_node?.status}
                                                         winner={game_node?.winner}
+                                                        setTimeRemaining={setTimeRemaining}
+                                                        time_between_move={parseInt(game_node?.time_between_move, 16)}
                                                     />
                                                 ))
                                         }
@@ -343,6 +427,9 @@ export default function Gameplay() {
                                                         message={setMoveMessage}
                                                         status={game_metadata?.game_data?.edges?.[0]?.node?.status}
                                                         winner={game_metadata?.game_data?.edges?.[0]?.node?.winner}
+                                                        setTimeRemaining={setTimeRemaining}
+                                                        time_between_move={parseInt(game_node?.time_between_move, 16)}
+                                                        reverse={true}
                                                     />)
                                                 })
                                         }
@@ -473,18 +560,18 @@ export default function Gameplay() {
                                 </div>
                             </div>
                         )}
-                        <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm">
-                            <MessageArea
-                                game_metadata_error={game_metadata_error}
-                                game_players_error={game_metadata_error}
-                                game_metadata={game_metadata}
-                                account={account}
-                                game_metadata_loading={game_metadata_loading}
-                                moveMessage={moveMessage}
-                                game_players_loading={game_players_loading}
-                                game_players={game_players}
-                            />
-                        </div>
+                        {/* <div className="border border-[#27292F] py-3.5 px-7 w-[25%] rounded-3xl backdrop-blur-sm"> */}
+                        <MessageArea
+                            game_metadata_error={game_metadata_error}
+                            game_players_error={game_metadata_error}
+                            game_metadata={game_metadata}
+                            address={account?.account?.address}
+                            game_metadata_loading={game_metadata_loading}
+                            moveMessage={moveMessage}
+                            game_players_loading={game_players_loading}
+                            game_players={game_players}
+                        />
+                        {/* </div> */}
                         <div className="flex flex-row items-start justify-center pb-5 space-x-5">
                             {/* Goto leaderboard page */}
                             <Link to="/leaderboard">

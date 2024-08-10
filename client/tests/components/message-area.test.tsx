@@ -10,17 +10,8 @@ describe('message-area', () => {
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={undefined}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getByTestId('message-area')).toBeInTheDocument();
     });
 
@@ -48,17 +39,8 @@ describe('message-area', () => {
             game_metadata_loading={undefined}
             game_players_loading={undefined}
             game_players={undefined}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getByText('Game message: Player has not joined game')).toBeInTheDocument();
     });
     it('renders correct message when user is current player', () => {
@@ -119,17 +101,8 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getByText('Game message:')).toBeInTheDocument();
     })
     it('renders correct message when game metadata is loading', () => {
@@ -140,17 +113,8 @@ describe('message-area', () => {
             game_metadata_loading={true}
             game_players_loading={false}
             game_players={undefined}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getAllByText('Game message: Loading game data...'));
     })
     it('renders correct message when players metadata is loading', () => {
@@ -161,17 +125,8 @@ describe('message-area', () => {
             game_metadata_loading={false}
             game_players_loading={true}
             game_players={undefined}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getAllByText('Game message: Loading game data...'));
     })
     it('renders correct message when game is won by player', () => {
@@ -233,17 +188,8 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getByText('Game message: Congratulations! You won the game')).toBeInTheDocument();
     });
     it('renders correct message when game is lost by player', () => {
@@ -305,17 +251,8 @@ describe('message-area', () => {
                     ]
                 }
             }}
-            moveMessage={undefined} account={{
-                account: undefined,
-                address: undefined,
-                connector: undefined,
-                chainId: undefined,
-                isConnecting: undefined,
-                isReconnecting: undefined,
-                isConnected: undefined,
-                isDisconnected: undefined,
-                status: "connected"
-            }} />);
+            moveMessage={undefined}
+            address="" />);
         expect(getByText('Game message: You lost the game')).toBeInTheDocument();
     });
 });

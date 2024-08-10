@@ -65,6 +65,10 @@ export default function App() {
         target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "move",
       },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "time_out",
+      },
     ],
     {
       rpc: "https://api.cartridge.gg/x/mancala-alpha/katana",
