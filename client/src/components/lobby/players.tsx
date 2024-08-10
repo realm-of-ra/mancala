@@ -8,6 +8,7 @@ import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
 import { MancalaGameEdge } from "@/generated/graphql.tsx";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Players({ data }: { data: Array<MancalaGameEdge> | undefined }) {
 
@@ -65,8 +66,14 @@ export default function Players({ data }: { data: Array<MancalaGameEdge> | undef
                                         <tr key={index} className={clsx(!isLast ? "border-b border-[#23272F]" : "", "bg-[#0F1116]")}>
                                             <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
                                                 <div>
-                                                    <div className="flex flex-row items-center space-x-5 w-fit">
-                                                        <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" />
+                                                    {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
+                                                    <div className="flex flex-row items-center space-x-2.5 w-fit">
+                                                        {/* <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" /> */}
+                                                        <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                                            <div className="bg-[#15171E] rounded-full p-2.5">
+                                                                <UserIcon color="#F58229" className="w-6 h-6" />
+                                                            </div>
+                                                        </div>
                                                         <p
                                                             className="font-normal text-white"
                                                         >
