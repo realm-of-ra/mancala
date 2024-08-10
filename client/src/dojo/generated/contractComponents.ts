@@ -89,22 +89,5 @@ export function defineContractComponents(world: typeof World) {
         },
       );
     })(),
-    Player: (() => {
-      return defineComponent(
-        world,
-        {
-          address: RecsType.BigInt,
-          games_won: RecsType.StringArray,
-          games_lost: RecsType.StringArray,
-        },
-        {
-          metadata: {
-            name: "Player",
-            types: ["contractaddress"],
-            customTypes: [],
-          },
-        },
-      );
-    })(),
   };
 }

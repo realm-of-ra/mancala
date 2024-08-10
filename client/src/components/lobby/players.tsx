@@ -1,5 +1,5 @@
-import { player_header } from "@/lib/constants";
-import { getPlayers, truncateString } from "@/lib/utils";
+import { player_header } from "../../lib/constants";
+import { getPlayers, truncateString } from "../../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
-import {MancalaGameEdge} from "@/generated/graphql.tsx";
+import { MancalaGameEdge } from "@/generated/graphql.tsx";
 
 export default function Players({ data }: { data: Array<MancalaGameEdge> | undefined }) {
 
@@ -57,42 +57,46 @@ export default function Players({ data }: { data: Array<MancalaGameEdge> | undef
                             </tr>
                             <tr className="w-full border-b border-[#313640] h-1 absolute inset-x-0 top-10" />
                         </thead>
-                        <tbody>
-                            {players?.length ? players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
-                                const isLast = index === players.length - 1;
-                                return (
-                                    <tr key={index} className={clsx(!isLast ? "border-b border-[#23272F]" : "", "bg-[#0F1116]")}>
-                                        <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
-                                            <div>
-                                                <div className="flex flex-row items-center space-x-5 w-fit">
-                                                    <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" />
-                                                    <p
-                                                        className="font-normal text-white"
-                                                    >
-                                                        {profiles[index]?.name ? profiles[index]?.name : truncateString(address)}
-                                                    </p>
+                        {
+                            players?.length ? <tbody data-testid="players">
+                                {players?.map(({ address, losses, wins, totalAppearances }: { address: string, losses: number, wins: number, totalAppearances: number }, index: number) => {
+                                    const isLast = index === players.length - 1;
+                                    return (
+                                        <tr key={index} className={clsx(!isLast ? "border-b border-[#23272F]" : "", "bg-[#0F1116]")}>
+                                            <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
+                                                <div>
+                                                    <div className="flex flex-row items-center space-x-5 w-fit">
+                                                        <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" />
+                                                        <p
+                                                            className="font-normal text-white"
+                                                        >
+                                                            {profiles[index]?.name ? profiles[index]?.name : truncateString(address)}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4) + 1)}</p>
-                                        </td>
-                                        <td>
-                                            <p className="font-normal text-[#FAB580] text-center">{wins * 50}</p>
-                                        </td>
-                                        <td>
-                                            <p className="font-normal text-[#FAB580] text-center">{totalAppearances}</p>
-                                        </td>
-                                        <td>
-                                            <p className="font-normal text-[#FAB580] text-center">{wins}</p>
-                                        </td>
-                                        <td>
-                                            <p className="font-normal text-[#FAB580] text-center">{losses}</p>
-                                        </td>
-                                    </tr>
-                                );
-                            }) : <PlayersSkeleton />}
-                        </tbody>
+                                            </td>
+                                            <td>
+                                                <p className="font-normal text-[#FAB580] text-center">{wins < 4 ? 1 : (Math.floor(wins / 4) + 1)}</p>
+                                            </td>
+                                            <td>
+                                                <p className="font-normal text-[#FAB580] text-center">{wins * 50}</p>
+                                            </td>
+                                            <td>
+                                                <p className="font-normal text-[#FAB580] text-center">{totalAppearances}</p>
+                                            </td>
+                                            <td>
+                                                <p className="font-normal text-[#FAB580] text-center">{wins}</p>
+                                            </td>
+                                            <td>
+                                                <p className="font-normal text-[#FAB580] text-center">{losses}</p>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody> : <tbody>
+                                <PlayersSkeleton />
+                            </tbody>
+                        }
                     </table >
                 </Card >
             </div>

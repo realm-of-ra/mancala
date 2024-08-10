@@ -28,6 +28,7 @@ import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { isPlayingAtom } from "../../atom/atoms";
 import { useAtom } from "jotai";
 import audio from "../../music/audio_1.mp4";
+import { gql, useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -36,11 +37,11 @@ import { truncateString } from "@/lib/utils";
 import Pit from "@/components/pit";
 import MessageArea from "@/components/message-area.tsx";
 import Icon from "@/components/gameplay/Icon.tsx";
-import { AlarmClock } from "lucide-react";
-import { useGameDataQuery, usePlayDataQuery } from "@/generated/graphql";
+import { GameDataDocument, useGameDataQuery, usePlayDataQuery } from "@/generated/graphql.tsx";
 
 export default function Gameplay() {
     const { gameId } = useParams();
+
     const {
         loading: game_metadata_loading,
         error: game_metadata_error,
@@ -92,6 +93,8 @@ export default function Gameplay() {
     };
 
     const [, setSeeds] = useState(initialSeeds);
+
+    const { account, system } = useDojo();
 
     const { provider } = useProvider();
 
@@ -361,6 +364,8 @@ export default function Gameplay() {
                                                         amount={game_players?.player_one?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
                                                         address={game_players?.player_one?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
+                                                        system={system}
+                                                        userAccount={account}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
                                                         status={game_node?.status}
@@ -385,6 +390,8 @@ export default function Gameplay() {
                                                         amount={game_players?.player_two?.edges?.[0]?.node?.[`pit${pit_key}` as 'pit1']}
                                                         address={game_players?.player_two?.edges?.[0]?.node?.address}
                                                         pit={pit_key}
+                                                        userAccount={account}
+                                                        system={system}
                                                         game_id={gameId || ""}
                                                         message={setMoveMessage}
                                                         status={game_metadata?.game_data?.edges?.[0]?.node?.status}

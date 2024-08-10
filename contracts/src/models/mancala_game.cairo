@@ -2,9 +2,9 @@ use core::starknet::{ContractAddress, SyscallResultTrait};
 use core::starknet::contract_address::ContractAddressZeroable;
 use core::starknet::info::get_execution_info_syscall;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use mancala::models::player::{GamePlayer, GamePlayerTrait, Player};
+use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
-// this is the model to track the 
+// this is the model to track the
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
 struct GameId {
@@ -65,7 +65,7 @@ trait MancalaGameTrait {
     fn get_last_move(self: MancalaGame, player_one: GamePlayer, player_two: GamePlayer) -> u64;
     fn final_capture(ref self: MancalaGame, ref player_one: GamePlayer, ref player_two: GamePlayer);
     fn forfeit_game(ref self: MancalaGame, player: ContractAddress);
-    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
+    //fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player);
     fn restart_game(
         game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
     ) -> MancalaGame;
@@ -112,7 +112,7 @@ impl MancalaImpl of MancalaGameTrait {
         }
     }
 
-    // perform validation to ensure that the caller is the current player 
+    // perform validation to ensure that the caller is the current player
     // also validate that the selected pit is within range
     fn validate_move(ref self: MancalaGame, player: ContractAddress, selected_pit: u8) {
         if player != self.current_player {
@@ -356,29 +356,30 @@ impl MancalaImpl of MancalaGameTrait {
         }
     }
 
-    fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player) {
-        assert!(
-            self.status == GameStatus::Finished || self.status == GameStatus::TimeOut,
-            "Game is not finished"
-        );
+    //fn finish_game(self: MancalaGame, world: IWorldDispatcher, game_id: u128) -> (Player, Player) {
+    //    assert!(
+    //        self.status == GameStatus::Finished || self.status == GameStatus::TimeOut,
+    //        "Game is not finished"
+    //    );
 
-        let winner_address = self.winner;
-        let loser_address = if winner_address == self.player_one {
-            self.player_two
-        } else {
-            self.player_one
-        };
+    //    let winner_address = self.winner;
+    //    let loser_address = if winner_address == self.player_one {
+    //        self.player_two
+    //    } else {
+    //        self.player_one
+    //    };
 
-        // Update winner's record
-        let mut winner = get!(world, winner_address, (Player));
-        winner.games_won.append(game_id);
+    //    // Update winner's record
+    //    let mut winner = get!(world, winner_address, (Player));
+    //    winner.games_won.append(game_id);
 
-        // Update loser's record
-        let mut loser = get!(world, loser_address, (Player));
-        loser.games_lost.append(game_id);
-        (loser, winner)
-    }
-    // restart the game 
+    //    // Update loser's record
+    //    let mut loser = get!(world, loser_address, (Player));
+    //    loser.games_lost.append(game_id);
+    //    (loser, winner)
+    //}
+
+    // restart the game
     fn restart_game(
         game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
     ) -> MancalaGame {

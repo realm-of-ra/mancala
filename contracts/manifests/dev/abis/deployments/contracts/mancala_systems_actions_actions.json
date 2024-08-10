@@ -260,34 +260,6 @@
       },
       {
         "type": "function",
-        "name": "initialize_player",
-        "inputs": [
-          {
-            "name": "player_address",
-            "type": "core::starknet::contract_address::ContractAddress"
-          }
-        ],
-        "outputs": [],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "get_player_history",
-        "inputs": [
-          {
-            "name": "player_address",
-            "type": "core::starknet::contract_address::ContractAddress"
-          }
-        ],
-        "outputs": [
-          {
-            "type": "(core::array::Array::<core::integer::u128>, core::array::Array::<core::integer::u128>)"
-          }
-        ],
-        "state_mutability": "view"
-      },
-      {
-        "type": "function",
         "name": "forfeited",
         "inputs": [
           {

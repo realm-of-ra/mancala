@@ -1000,12 +1000,12 @@
       }
     ],
     "address": "0x4404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e",
-    "transaction_hash": "0x67806a4917914e28605d0b3aa634d4cbbc09e8a78030c511f354d91a2b33e74",
-    "block_number": 63,
+    "transaction_hash": "0x7caf71558f73e9936ade94992936fb466c6045f5e2fc97161d99e4573b91bd9",
+    "block_number": null,
     "seed": "mancala",
     "metadata": {
-      "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala/katana"
+      "profile_name": "sepolia",
+      "rpc_url": "https://starknet-sepolia.public.blastapi.io/rpc/v0_6"
     },
     "name": "dojo::world::world"
   },
@@ -1019,10 +1019,10 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x4c00feb6faf81e57c108d77846295d6633e17b0c687a9675d51853e45e96699",
+      "address": null,
       "class_hash": "0x73105e8f5b180b9a6d10ff4a1c02e974a237d65e3512cff2f0a3db026c81753",
       "original_class_hash": "0x73105e8f5b180b9a6d10ff4a1c02e974a237d65e3512cff2f0a3db026c81753",
-      "base_class_hash": "0x22f3e55b61d86c2ac5239fa3b3b8761f26b9a5c0b5f61ddbd5d756ced498b46",
+      "base_class_hash": "0x0",
       "abi": [
         {
           "type": "impl",
