@@ -1,0 +1,51 @@
+kind = "DojoModel"
+class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+original_class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+abi = "manifests/dev/base/abis/models/mancala_alpha-MancalaGame-628bb438.json"
+tag = "mancala_alpha-MancalaGame"
+manifest_name = "mancala_alpha-MancalaGame-628bb438"
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "current_player"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "last_move"
+type = "u64"
+key = false
+
+[[members]]
+name = "time_between_move"
+type = "u64"
+key = false
+
+[[members]]
+name = "winner"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "status"
+type = "GameStatus"
+key = false
+
+[[members]]
+name = "is_private"
+type = "bool"
+key = false

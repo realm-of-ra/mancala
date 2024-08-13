@@ -6,3 +6,4 @@ export interface StarkProfile {
   github?: string
   proofOfPersonhood?: boolean
 }
+
