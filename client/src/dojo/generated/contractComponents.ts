@@ -14,42 +14,9 @@ export function defineContractComponents(world: typeof World) {
         { id: RecsType.Number, game_id: RecsType.BigInt },
         {
           metadata: {
-            name: "GameId",
+            name: "mancala_alpha-GameId",
             types: ["u32", "u128"],
             customTypes: [],
-          },
-        },
-      );
-    })(),
-    MancalaGame: (() => {
-      return defineComponent(
-        world,
-        {
-          game_id: RecsType.BigInt,
-          player_one: RecsType.BigInt,
-          player_two: RecsType.BigInt,
-          current_player: RecsType.BigInt,
-          last_move: RecsType.BigInt,
-          time_between_move: RecsType.BigInt,
-          winner: RecsType.BigInt,
-          status: RecsType.Number,
-          is_private: RecsType.Boolean,
-        },
-        {
-          metadata: {
-            name: "MancalaGame",
-            types: [
-              "u128",
-              "contractaddress",
-              "contractaddress",
-              "contractaddress",
-              "u64",
-              "u64",
-              "contractaddress",
-              "enum",
-              "bool",
-            ],
-            customTypes: ["GameStatus"],
           },
         },
       );
@@ -71,7 +38,7 @@ export function defineContractComponents(world: typeof World) {
         },
         {
           metadata: {
-            name: "GamePlayer",
+            name: "mancala_alpha-GamePlayer",
             types: [
               "contractaddress",
               "u128",
@@ -89,19 +56,35 @@ export function defineContractComponents(world: typeof World) {
         },
       );
     })(),
-    Player: (() => {
+    MancalaGame: (() => {
       return defineComponent(
         world,
         {
-          address: RecsType.BigInt,
-          games_won: RecsType.StringArray,
-          games_lost: RecsType.StringArray,
+          game_id: RecsType.BigInt,
+          player_one: RecsType.BigInt,
+          player_two: RecsType.BigInt,
+          current_player: RecsType.BigInt,
+          last_move: RecsType.BigInt,
+          time_between_move: RecsType.BigInt,
+          winner: RecsType.BigInt,
+          status: RecsType.Number,
+          is_private: RecsType.Boolean,
         },
         {
           metadata: {
-            name: "Player",
-            types: ["contractaddress"],
-            customTypes: [],
+            name: "mancala_alpha-MancalaGame",
+            types: [
+              "u128",
+              "contractaddress",
+              "contractaddress",
+              "contractaddress",
+              "u64",
+              "u64",
+              "contractaddress",
+              "enum",
+              "bool",
+            ],
+            customTypes: ["GameStatus"],
           },
         },
       );

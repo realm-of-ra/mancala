@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ES2015",
     "skipLibCheck": true,
+    "types": ["vitest/globals"],
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -21,7 +22,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "dojoConfig.ts"],
+  "include": ["src", "dojoConfig.ts", "tests"],
   "references": [
     {
       "path": "./tsconfig.node.json"

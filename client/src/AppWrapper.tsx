@@ -7,6 +7,7 @@ import { ApolloProvider } from '@apollo/client';
 import { useEffect, useState } from "react";
 import CreateLoaderSVG from "./components/ui/svgs/create-loader.tsx";
 import apollo_client from "./lib/apollo-client.ts";
+import { Toaster } from "./components/ui/toaster.tsx";
 
 export default function AppWrapper() {
   const [setupResult, setSetupResult] = useState<any>(null)
@@ -40,6 +41,7 @@ export default function AppWrapper() {
     <ApolloProvider client={apollo_client}>
       <DojoProvider value={setupResult}>
         <App />
+        <Toaster />
       </DojoProvider>
     </ApolloProvider>
   )

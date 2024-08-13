@@ -4,23 +4,18 @@ import mancala from "../assets/logo.png";
 import eniola from "../assets/eniola.png";
 import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
-import { connect, disconnect } from "starknetkit";
 import { useAtom } from "jotai";
 import {
   isPlayingAtom,
-  profileDataAtom,
-  addressAtom,
-  connectionAtom,
 } from "../atom/atoms";
 import audio from "../music/audio_1.mp4";
-import { useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useDisconnect, useProvider, useStarkProfile } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
 import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { StarkProfile } from "@/types";
-import { useQuery } from "@apollo/client";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import icon3 from "../assets/LogoW.svg";
@@ -28,40 +23,31 @@ import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profile from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
-import {MancalaGameEdge, useFetchModelsForHeaderQuery} from "@/generated/graphql.tsx";
+import { MancalaGameEdge, useFetchModelsForHeaderQuery } from "@/generated/graphql.tsx";
 
 export default function Header() {
-  const [connection, setConnection] = useAtom(connectionAtom);
-  const [address, setAddress] = useAtom(addressAtom);
-  const [profileData, setProfileData] = useAtom<StarkProfile>(profileDataAtom);
 
   const { provider } = useProvider();
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
-    constants.StarknetChainId.SN_MAIN,
+    constants.StarknetChainId.SN_SEPOLIA,
   );
 
+  const { connect, connectors } = useConnect()
+  const { disconnect } = useDisconnect()
+  const { address } = useAccount()
+
   const connectWallet = async () => {
-    if (connection?.isConnected) {
-      disconnectWallet();
-    } else {
-      const { wallet } = await connect({ modalMode: "canAsk" });
-      if (wallet && wallet.isConnected) {
-        setConnection(wallet);
-        setAddress(wallet.selectedAddress);
-        const starkProfile = await starknetIdNavigator.getProfileData(
-          wallet.selectedAddress,
-        );
-        setProfileData(starkProfile);
-      }
-    }
+    connect({ connector: connectors[0] });
   };
   const disconnectWallet = async () => {
-    await disconnect();
-    setConnection(undefined);
-    setAddress("");
-    setProfileData({});
+    disconnect()
   };
+
+  const { data: profile } = useStarkProfile({
+    address
+  });
+
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
   const audioRef = useRef(new Audio(audio));
   useEffect(() => {
@@ -86,15 +72,13 @@ export default function Header() {
 
   const { account } = useDojo();
 
-  const { loading, error, data, startPolling } = useFetchModelsForHeaderQuery();
+  const { data, startPolling } = useFetchModelsForHeaderQuery();
   startPolling(1000);
 
   const player = getPlayer(
-    data?.mancalaGameModels?.edges as MancalaGameEdge[],
+    data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
     account.account.address,
   );
-
-  console.log(player);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownClose, setIsDropdownClose] = useState(false);
@@ -119,18 +103,18 @@ export default function Header() {
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {profileData?.name != undefined ? (
+        {profile?.profilePicture != undefined ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
               <img
                 src={
-                  profileData.profilePicture
-                    ? profileData.profilePicture
+                  profile.profilePicture
+                    ? profile.profilePicture
                     : eniola
                 }
                 width={60}
                 height={60}
-                alt="Eniola"
+                alt=""
                 className="rounded-full"
               />
               <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
@@ -139,12 +123,12 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {profileData.name ? profileData.name : truncateString(address)}
+                {profile.name ? profile.name : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
                   ? "Level 1"
-                  : `Level ${player?.[0]?.wins < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}`}
+                  : `Level ${Number.isNaN(Math.floor(player?.[0]?.wins)) ? 1 : Math.floor(player?.[0]?.wins) < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}`}
               </h4>
             </div>
           </div>
@@ -187,28 +171,16 @@ export default function Header() {
             />
           </Button>
           <div className="relative">
-            {connection?.isConnected ? (
+            {address ? (
               <div className="relative">
                 <Button
-                  className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-[259px] text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
+                  className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex w-[259px] flex-row items-center">
-                    <div className="px-3.5 py-4 bg-[#272A32] rounded-tl-[30px] rounded-bl-[30px]">
-                      <img src={connection?.icon} className="w-6 h-6" />
-                    </div>
-                    <div className="px-3.5 py-5">
+                  <div className="flex flex-row items-center w-fit">
+                    <div className="px-10 py-5">
                       <p className="">{truncateString(address)}</p>
                     </div>
-                    <ChevronDownIcon
-                      className={clsx(
-                        connection?.isConnected
-                          ? "text-[#C7CAD4]"
-                          : "text-[#FCE3AA]",
-                        "w-4 h-4 ml-3 transition duration-300",
-                        { "transform rotate-180": isDropdownClose },
-                      )}
-                    />
                   </div>
                 </Button>
 
@@ -227,7 +199,7 @@ export default function Header() {
                       </Link>
                     </span>
                     <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                      <img src={profile} />
+                      <img src={profile?.profilePicture} />
                       <Link to="/" className="block px-4 py-2">
                         Profile
                       </Link>
@@ -279,7 +251,7 @@ export default function Header() {
                   </Link>
                 </span>
                 <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                  <img src={profile} />
+                  <img src={profile?.profilePicture} />
                   <Link to="/" className="block px-4 py-2">
                     Profile
                   </Link>
@@ -287,7 +259,7 @@ export default function Header() {
                 <span className="flex w-full px-4 py-2 rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                   <img src={connectB} />
                   <Link
-                    to="/lobby"
+                    to={{}}
                     className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
                     onClick={handleConnect}
                   >

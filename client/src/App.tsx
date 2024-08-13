@@ -1,25 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Leaderboard from "./pages/Leaderboard";
 import { Provider as JotaiProvider } from "jotai";
-import { InjectedConnector } from "starknetkit/injected";
-import { ArgentMobileConnector } from "starknetkit/argentMobile";
-import { WebWalletConnector } from "starknetkit/webwallet";
-import { mainnet } from "@starknet-react/chains";
-import { StarknetConfig, publicProvider } from "@starknet-react/core";
+import { sepolia, Chain } from "@starknet-react/chains";
+import {
+  StarknetConfig,
+  jsonRpcProvider,
+} from "@starknet-react/core";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import { useEffect, useState } from "react";
+import CartridgeConnector from "@cartridge/connector";
+import { useDojo } from "./dojo/useDojo";
+
+function rpc(_chain: Chain) {
+  return {
+    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha/katana",
+  };
+}
 
 export default function App() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const chains = [mainnet];
-  const connectors = [
-    new InjectedConnector({ options: { id: "braavos", name: "Braavos" } }),
-    new InjectedConnector({ options: { id: "argentX", name: "Argent X" } }),
-    new WebWalletConnector({ url: "https://web.argent.xyz" }),
-    new ArgentMobileConnector(),
-  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,11 +33,53 @@ export default function App() {
     };
   }, []);
 
+  const { burner } = useDojo();
+
+  const connector = new CartridgeConnector(
+    [
+      {
+        target: burner.feeTokenAddress,
+        method: "approve",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_initial_game_id",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_private_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "join_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "create_private_game",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "move",
+      },
+      {
+        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        method: "time_out",
+      },
+    ],
+    {
+      rpc: "https://api.cartridge.gg/x/mancala-alpha/katana",
+    },
+  );
+
   return (
     <StarknetConfig
-      chains={chains}
-      provider={publicProvider()}
-      connectors={connectors}
+      chains={[sepolia]}
+      provider={jsonRpcProvider({ rpc })}
+      connectors={[connector]}
     >
       <JotaiProvider>
         <BrowserRouter>
