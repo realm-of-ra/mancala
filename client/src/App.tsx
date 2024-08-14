@@ -2,10 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Leaderboard from "./pages/Leaderboard";
 import { Provider as JotaiProvider } from "jotai";
 import { sepolia, Chain } from "@starknet-react/chains";
-import {
-  StarknetConfig,
-  jsonRpcProvider,
-} from "@starknet-react/core";
+import { StarknetConfig, jsonRpcProvider } from "@starknet-react/core";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
@@ -42,36 +39,44 @@ export default function App() {
         method: "approve",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "create_initial_game_id",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "create_game",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "create_private_game",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "join_game",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "create_private_game",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "move",
       },
       {
-        target: "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+        target:
+          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
         method: "time_out",
       },
     ],
     {
       rpc: "https://api.cartridge.gg/x/mancala-alpha/katana",
+      theme: "realm-of-ra",
     },
   );
 
