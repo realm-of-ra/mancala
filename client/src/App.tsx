@@ -12,7 +12,7 @@ import { useDojo } from "./dojo/useDojo";
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha/katana",
+    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
   };
 }
 
@@ -75,7 +75,7 @@ export default function App() {
       },
     ],
     {
-      rpc: "https://api.cartridge.gg/x/mancala-alpha/katana",
+      rpc: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
       theme: "realm-of-ra",
     },
   );
