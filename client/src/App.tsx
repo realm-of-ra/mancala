@@ -40,37 +40,37 @@ export default function App() {
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "create_initial_game_id",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "create_game",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "create_private_game",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "join_game",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "create_private_game",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "move",
       },
       {
         target:
-          "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9",
+          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
         method: "time_out",
       },
     ],
