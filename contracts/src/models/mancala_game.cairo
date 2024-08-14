@@ -1,5 +1,5 @@
 use starknet::{ContractAddress, SyscallResultTrait};
-use starknet::{get_tx_info, get_block_info, get_block_number};
+use starknet::{get_block_number};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
@@ -70,7 +70,7 @@ pub trait MancalaGameTrait {
     ) -> MancalaGame;
 }
 
-impl MancalaImpl of MancalaGameTrait {
+pub impl MancalaImpl of MancalaGameTrait {
     // create the game
     fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame {
         let mancala_game: MancalaGame = MancalaGame {
@@ -120,9 +120,9 @@ impl MancalaImpl of MancalaGameTrait {
     // perform validation to ensure that the current player did not exceed
     // the time allocated to make a move
     fn validate_time_out(ref self: MancalaGame, player: ContractAddress) {
-        let block_info = get_block_info();
+        let block_number = get_block_number();
 
-        if self.last_move > block_info.block_number + self.time_between_move {
+        if self.last_move > block_number + self.time_between_move {
             if player == self.player_one {
                 self.winner = self.player_two;
                 self.status = GameStatus::TimeOut;
@@ -132,7 +132,7 @@ impl MancalaImpl of MancalaGameTrait {
             }
         }
 
-        self.last_move = block_info.block_number;
+        self.last_move = block_number;
     }
 
     // get the seeds in a pit

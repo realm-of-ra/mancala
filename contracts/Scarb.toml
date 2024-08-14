@@ -11,6 +11,6 @@ sierra-replace-ids = true
 migrate = "sozo build && sozo migrate plan && sozo migrate apply"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.5" }
 
 [[target.dojo]]
