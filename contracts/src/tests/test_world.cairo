@@ -7,8 +7,8 @@ mod tests {
 
     use mancala::{
         systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{mancala_game::{MancalaGame, GameId, mancala_game, GameStatus, MancalaImpl}},
-        models::{player::{GamePlayer}}
+        models::{mancala_game::{MancalaGame, GameId, mancala_game, game_id, GameStatus, MancalaImpl}},
+        models::{player::{GamePlayer, game_player}}
     };
 
 
@@ -17,12 +17,14 @@ mod tests {
     ) {
         let player_one_address = starknet::contract_address_const::<0x0>();
         let player_two_address = starknet::contract_address_const::<0x456>();
-        let mut models = array![mancala_game::TEST_CLASS_HASH];
+        let mut models = array![mancala_game::TEST_CLASS_HASH, game_player::TEST_CLASS_HASH, game_id::TEST_CLASS_HASH];
         let mut world = spawn_test_world("mancala_alpha", models);
-        //let init_calldata: Span<felt252> = array![].span();
         let contract_address = world
             .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
         let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        world.grant_writer(dojo::utils::bytearray_hash(@"mancala_alpha"), contract_address);
+
         actions_system.create_initial_game_id();
         let game: MancalaGame = actions_system.create_game();
         actions_system.join_game(game.game_id, player_two_address);
@@ -53,15 +55,16 @@ mod tests {
     #[test]
     #[available_gas(3000000000000)]
     fn test_create_private_game() {
-        //let init_calldata: Span<felt252> = array![].span();
         let _player_one_address = starknet::contract_address_const::<0x0>();
         let player_two_address = starknet::contract_address_const::<0x456>();
-        let mut models = array![mancala_game::TEST_CLASS_HASH];
-        let world = spawn_test_world("mancala_alpha", models);
+        let mut models = array![mancala_game::TEST_CLASS_HASH, game_player::TEST_CLASS_HASH, game_id::TEST_CLASS_HASH];
+        let mut world = spawn_test_world("mancala_alpha", models);
         let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
-
+          .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
         let actions_system = IActionsDispatcher { contract_address: contract_address };
+
+        world.grant_writer(dojo::utils::bytearray_hash(@"mancala_alpha"), contract_address);
+
         actions_system.create_initial_game_id();
         let mancala_game: MancalaGame = actions_system.create_private_game(player_two_address);
 
