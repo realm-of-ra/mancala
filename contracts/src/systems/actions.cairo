@@ -1,4 +1,4 @@
-use core::starknet::ContractAddress;
+use starknet::ContractAddress;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use mancala::models::{mancala_game::{MancalaGame, GameStatus}};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
@@ -28,9 +28,8 @@ trait IActions {
 
 #[dojo::contract]
 mod actions {
-    use core::starknet::{ContractAddress, get_caller_address, SyscallResultTrait};
-    use core::starknet::contract_address::ContractAddressZeroable;
-    use core::starknet::info::get_execution_info_syscall;
+    use starknet::{ContractAddress, get_caller_address, SyscallResultTrait};
+    use starknet::{get_tx_info, get_block_number};
     use mancala::models::{mancala_game::{MancalaGame, MancalaGameTrait, GameId, GameStatus}};
     use mancala::models::{player::{GamePlayer, GamePlayerTrait}};
     use super::IActions;
@@ -63,7 +62,7 @@ mod actions {
         ) {
             let mut mancala_game = get!(world, game_id, (MancalaGame));
             assert!(
-                mancala_game.player_two == ContractAddressZeroable::zero(), "player_2 already set"
+                mancala_game.player_two == core::num::traits::Zero::<ContractAddress>::zero(), "player_2 already set"
             );
             let player_two = GamePlayerTrait::new(mancala_game.game_id, player_two_address);
             mancala_game.join_game(player_two);
@@ -94,7 +93,7 @@ mod actions {
 
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
             assert!(
-                mancala_game.player_two != ContractAddressZeroable::zero(),
+                mancala_game.player_two != core::num::traits::Zero::<ContractAddress>::zero(),
                 "Player two not yet set."
             );
 
@@ -136,10 +135,9 @@ mod actions {
             assert!(mancala_game.status == GameStatus::InProgress, "Game is not in progress");
 
             let (_, mut opponent) = mancala_game.get_players(world);
-            let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
-            let block_info = execution_info.block_info.unbox();
+            let block_number = get_block_number();
             assert!(
-                block_info.block_number >= mancala_game.last_move + mancala_game.time_between_move,
+                block_number >= mancala_game.last_move + mancala_game.time_between_move,
                 "Game is in progress"
             );
 
@@ -230,7 +228,7 @@ mod actions {
             );
 
             assert(player_one_info.restart_requested == true, 'player one did not restart');
-            if (player_two_info.address != ContractAddressZeroable::zero()) {
+            if (player_two_info.address != core::num::traits::Zero::<ContractAddress>::zero()) {
                 assert(player_two_info.restart_requested == true, 'player two did not restart');
             }
 

@@ -1,0 +1,21 @@
+[world]
+name = "Mancala"
+description = "Mancala is a classic strategy board game built on Starknet blockchain."
+cover_uri = "file://assets/cover.png"
+icon_uri = "file://assets/icon.png"
+website = "https://www.realmofra.com/"
+seed = "mancala_alpha"
+
+[namespace]
+default = "mancala_alpha"
+
+[env]
+rpc_url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
+# account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
+# private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
+# world_address = "0x7955064f111a0c0762b3010f2399292852b16dfae86abd3ab3e0545ac904dd7"
+
+[world.socials]
+x = "https://x.com/realm_of_ra"
+github = "https://github.com/realm-of-ra/mancala"
+telegram = "https://t.me/+0UKU3P3Eh_s2NTRh"

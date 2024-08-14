@@ -1,22 +1,21 @@
-use core::starknet::{ContractAddress, SyscallResultTrait};
-use core::starknet::contract_address::ContractAddressZeroable;
-use core::starknet::info::get_execution_info_syscall;
+use starknet::{ContractAddress, SyscallResultTrait};
+use starknet::{get_block_number};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use mancala::models::player::{GamePlayer, GamePlayerTrait};
 
 // this is the model to track the
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct GameId {
+pub struct GameId {
     #[key]
     // statically set to 1
-    id: u32,
+    pub id: u32,
     // increments to track the game id
-    game_id: u128
+    pub game_id: u128
 }
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
-enum GameStatus {
+pub enum GameStatus {
     Pending: (),
     InProgress: (),
     Finished: (),
@@ -26,21 +25,21 @@ enum GameStatus {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-struct MancalaGame {
+pub struct MancalaGame {
     #[key]
-    game_id: u128,
-    player_one: ContractAddress,
-    player_two: ContractAddress,
-    current_player: ContractAddress,
-    last_move: u64,
-    time_between_move: u64,
-    winner: ContractAddress,
-    status: GameStatus,
-    is_private: bool
+    pub game_id: u128,
+    pub player_one: ContractAddress,
+    pub player_two: ContractAddress,
+    pub current_player: ContractAddress,
+    pub last_move: u64,
+    pub time_between_move: u64,
+    pub winner: ContractAddress,
+    pub status: GameStatus,
+    pub is_private: bool
 // block_created: block
 }
 
-trait MancalaGameTrait {
+pub trait MancalaGameTrait {
     fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame;
     fn join_game(ref self: MancalaGame, player_two: GamePlayer);
     fn get_seeds(self: MancalaGame, player: GamePlayer, selected_pit: u8) -> u8;
@@ -71,21 +70,16 @@ trait MancalaGameTrait {
     ) -> MancalaGame;
 }
 
-impl MancalaImpl of MancalaGameTrait {
+pub impl MancalaImpl of MancalaGameTrait {
     // create the game
     fn new(game_id: u128, player_one: ContractAddress) -> MancalaGame {
         let mancala_game: MancalaGame = MancalaGame {
             game_id: game_id,
             player_one: player_one,
-            player_two: ContractAddressZeroable::zero(),
-            last_move: get_execution_info_syscall()
-                .unwrap_syscall()
-                .unbox()
-                .block_info
-                .unbox()
-                .block_number,
+            player_two: core::num::traits::Zero::<ContractAddress>::zero(),
+            last_move: get_block_number(),
             time_between_move: 100,
-            winner: ContractAddressZeroable::zero(),
+            winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one,
             status: GameStatus::Pending,
             is_private: false
@@ -126,10 +120,9 @@ impl MancalaImpl of MancalaGameTrait {
     // perform validation to ensure that the current player did not exceed
     // the time allocated to make a move
     fn validate_time_out(ref self: MancalaGame, player: ContractAddress) {
-        let execution_info = get_execution_info_syscall().unwrap_syscall().unbox();
-        let block_info = execution_info.block_info.unbox();
+        let block_number = get_block_number();
 
-        if self.last_move > block_info.block_number + self.time_between_move {
+        if self.last_move > block_number + self.time_between_move {
             if player == self.player_one {
                 self.winner = self.player_two;
                 self.status = GameStatus::TimeOut;
@@ -139,7 +132,7 @@ impl MancalaImpl of MancalaGameTrait {
             }
         }
 
-        self.last_move = block_info.block_number;
+        self.last_move = block_number;
     }
 
     // get the seeds in a pit
@@ -388,14 +381,9 @@ impl MancalaImpl of MancalaGameTrait {
             player_one: player_one,
             player_two: player_two,
             current_player: player_one,
-            last_move: get_execution_info_syscall()
-                .unwrap_syscall()
-                .unbox()
-                .block_info
-                .unbox()
-                .block_number,
+            last_move: get_block_number(),
             time_between_move: 100,
-            winner: ContractAddressZeroable::zero(),
+            winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::Pending,
             is_private: private
         };

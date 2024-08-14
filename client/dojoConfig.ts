@@ -3,10 +3,10 @@ import { createDojoConfig } from "@dojoengine/core";
 
 export const dojoConfig = createDojoConfig({
   manifest,
-  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha/katana",
-  toriiUrl: "https://api.cartridge.gg/x/mancala-alpha/torii",
+  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
+  toriiUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/torii",
   masterAddress:
-    "0x3aca8ec786e4fb873b03dca73e13578e977e75d9fe3c2a8c230b3f925293775",
+    "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175",
   masterPrivateKey:
-    "0x3eb4aee4fd2a31d10b46eba5c5b367646d7b0d2fa10d2d64d2bad573ab43f14",
+    "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598",
 });
