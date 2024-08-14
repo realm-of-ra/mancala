@@ -1,12 +1,12 @@
-mod systems {
-    mod actions;
+pub mod systems {
+    pub mod actions;
 }
 
-mod models {
-    mod mancala_game;
-    mod player;
+pub mod models {
+    pub mod mancala_game;
+    pub mod player;
 }
 
-mod tests {
-    mod test_world;
+pub mod tests {
+    pub mod test_world;
 }

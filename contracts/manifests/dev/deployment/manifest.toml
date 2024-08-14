@@ -1,17 +1,17 @@
 [world]
 kind = "WorldContract"
-class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
-original_class_hash = "0x2178527e9556d1aa21d3c2961d28f9114fcfed81b4c3674ed591c50ce46cc9d"
+class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
+original_class_hash = "0x76ced5a15cb43c7be7176cff4779cd57c56638a46ddf2c9da709d22298c5e5a"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
-address = "0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9"
-transaction_hash = "0x60e7205d2159fb043edf2ca0eb4b03eb6fcc4ef4b5532f369b618a0cbe6ad02"
-block_number = 59
+address = "0x7955064f111a0c0762b3010f2399292852b16dfae86abd3ab3e0545ac904dd7"
+transaction_hash = "0x1786786b8f057a56aaa954f14d380befa9b1fad96fe0ede03b426a8942b4939"
+block_number = 3
 seed = "mancala_alpha"
 manifest_name = "dojo-world"
 
 [world.metadata]
 profile_name = "dev"
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha/katana"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v2/katana"
 
 [base]
 kind = "Class"
@@ -23,14 +23,13 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x15e4963c02114bf9b7f4149cbc75c0a5df749b7bdfdeefe318108873038b3c9"
-class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
-original_class_hash = "0xc7734bc5e7ae04e84ab721e057fed7f1286d9e92b5e67ee7f50f74ef41477d"
+address = "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f"
+class_hash = "0x17ff2e648f91a97b92a393a452ab4c2d69d482cf186be9f54c7b75b3cd001b2"
+original_class_hash = "0x17ff2e648f91a97b92a393a452ab4c2d69d482cf186be9f54c7b75b3cd001b2"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/mancala_alpha-actions-2c0baebe.json"
 reads = []
 writes = ["ns:mancala_alpha"]
-computed = []
 init_calldata = []
 tag = "mancala_alpha-actions"
 manifest_name = "mancala_alpha-actions-2c0baebe"
@@ -113,8 +112,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
-original_class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+class_hash = "0x4828947a0ea6c412ea0ae14e210ae99feeac80cab31ae55c474753e19785b70"
+original_class_hash = "0x4828947a0ea6c412ea0ae14e210ae99feeac80cab31ae55c474753e19785b70"
 abi = "manifests/dev/deployment/abis/models/mancala_alpha-MancalaGame-628bb438.json"
 tag = "mancala_alpha-MancalaGame"
 manifest_name = "mancala_alpha-MancalaGame-628bb438"

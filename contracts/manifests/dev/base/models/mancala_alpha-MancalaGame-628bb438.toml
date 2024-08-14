@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
-original_class_hash = "0x7c626ad7876fbb005c09e12a44712e9e5d195471de97331c05342a117f9f48e"
+class_hash = "0x4828947a0ea6c412ea0ae14e210ae99feeac80cab31ae55c474753e19785b70"
+original_class_hash = "0x4828947a0ea6c412ea0ae14e210ae99feeac80cab31ae55c474753e19785b70"
 abi = "manifests/dev/base/abis/models/mancala_alpha-MancalaGame-628bb438.json"
 tag = "mancala_alpha-MancalaGame"
 manifest_name = "mancala_alpha-MancalaGame-628bb438"

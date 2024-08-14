@@ -1,4 +1,4 @@
-use core::starknet::ContractAddress;
+use starknet::ContractAddress;
 
 // useful for the leaderboard to track statistics
 //#[derive(Drop, Serde)]
@@ -13,22 +13,22 @@ use core::starknet::ContractAddress;
 // The GamePlayer is the store for the state in each game
 #[derive(Copy, Drop, Serde, Debug)]
 #[dojo::model]
-struct GamePlayer {
+pub struct GamePlayer {
     #[key]
-    address: ContractAddress,
+    pub address: ContractAddress,
     #[key]
-    game_id: u128,
-    pit1: u8,
-    pit2: u8,
-    pit3: u8,
-    pit4: u8,
-    pit5: u8,
-    pit6: u8,
-    mancala: u8,
-    restart_requested: bool
+    pub game_id: u128,
+    pub pit1: u8,
+    pub pit2: u8,
+    pub pit3: u8,
+    pub pit4: u8,
+    pub pit5: u8,
+    pub pit6: u8,
+    pub mancala: u8,
+    pub restart_requested: bool
 }
 
-trait GamePlayerTrait {
+pub trait GamePlayerTrait {
     fn new(game_id: u128, address: ContractAddress) -> GamePlayer;
     fn is_finished(self: GamePlayer) -> bool;
     fn restart_game(game_id: u128, address: ContractAddress) -> GamePlayer;

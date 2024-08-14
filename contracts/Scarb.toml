@@ -1,7 +1,8 @@
 [package]
-cairo-version = "2.7.0-rc.3"
+cairo-version = "=2.7.0"
 name = "mancala"
-version = "0.0.1"
+version = "0.0.2"
+edition = "2024_07"
 
 [cairo]
 sierra-replace-ids = true
@@ -10,38 +11,6 @@ sierra-replace-ids = true
 migrate = "sozo build && sozo migrate plan && sozo migrate apply"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.4" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v" }
 
 [[target.dojo]]
-
-[tool.dojo]
-initializer_class_hash = "0xOkhai"
-
-[tool.dojo.env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha/katana"
-account_address = "0x3aca8ec786e4fb873b03dca73e13578e977e75d9fe3c2a8c230b3f925293775"
-private_key = "0x3eb4aee4fd2a31d10b46eba5c5b367646d7b0d2fa10d2d64d2bad573ab43f14"
-world_address = "0x726c1ec9f649eef46fcfbd920a55882acb3510793657b4e050d10281182bcf9"  # Update this line with your world address
-
-# Sepolia Deployment Section
-# [tool.dojo.env]
-# rpc_url = "https://starknet-sepolia.blastapi.io/ab914dde-4484-4558-9c2b-bf20aa43c1a3/rpc/v0_7"
-# account_address = "0x895235a21ada3de80b96e9d884c37a091959c0ba57de6228a7e5281b92412e"
-# private_key = "0x4de2ed8a2db222d7a8c2f7b8fba2562dcab06ab63abf836c0293fcb20e92059"
-# world_address = "0x04404b47fc2a4251f05e5013fc77250c0d8de65c03b7d48893016ee751327e9e"
-
-[tool.dojo.world]
-name = "Mancala"
-description = "Mancala is a classic strategy board game built on Starknet blockchain."
-cover_uri = "file://assets/cover.png"
-icon_uri = "file://assets/icon.png"
-website = "https://www.realmofra.com/"
-seed = "mancala_alpha"
-
-[tool.dojo.world.namespace]
-default = "mancala_alpha"
-
-[tool.dojo.world.socials]
-x = "https://x.com/realm_of_ra"
-github = "https://github.com/realm-of-ra/mancala"
-telegram = "https://t.me/+0UKU3P3Eh_s2NTRh"
