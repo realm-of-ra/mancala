@@ -15,4 +15,4 @@ dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.5" }
 
 [[target.dojo]]
 
-# [profile.sepolia]
+[profile.sepolia]

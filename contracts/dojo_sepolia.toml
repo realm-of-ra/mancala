@@ -11,9 +11,9 @@ default = "mancala_alpha"
 
 [env]
 rpc_url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
-# account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
-# private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
-# world_address = "0x7955064f111a0c0762b3010f2399292852b16dfae86abd3ab3e0545ac904dd7"
+account_address = "0x02A54eFf65D55a2E7D2fC7E23eF0F0e6030dB0313b16c8F0eaD0b4a83807f6d6"
+private_key = "0x0396533b7a1182ef03da483eca82e9dd2b17bee9c7fec07ac6cbbeb8bfd573cb"
+world_address = "0x7955064f111a0c0762b3010f2399292852b16dfae86abd3ab3e0545ac904dd7"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
