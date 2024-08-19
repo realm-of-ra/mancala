@@ -12,7 +12,7 @@ import { useDojo } from "./dojo/useDojo";
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
+    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v3/katana",
   };
 }
 
@@ -40,42 +40,37 @@ export default function App() {
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "create_initial_game_id",
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "create_game",
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "create_private_game",
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "join_game",
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
-        method: "create_private_game",
-      },
-      {
-        target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "move",
       },
       {
         target:
-          "0x2ec3085386472c2500987c12536c8b8acb2985cc9c43dab7ee213f4f536575f",
+          "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c",
         method: "time_out",
       },
     ],
     {
-      rpc: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
+      rpc: "https://api.cartridge.gg/x/mancala-alpha-v3/katana",
       theme: "realm-of-ra",
     },
   );

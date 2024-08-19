@@ -1,2 +1,2 @@
-schema: https://api.cartridge.gg/x/mancala-alpha-v2/torii/graphql
+schema: https://api.cartridge.gg/x/mancala-alpha-v3/torii/graphql
 documents: "**/*.graphql"
