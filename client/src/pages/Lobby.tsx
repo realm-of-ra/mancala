@@ -353,12 +353,10 @@ export default function Lobby() {
                     className="w-16 h-16 pb-5"
                   />
                   <Button
-                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full py-4"
+                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] w-[259px] text-lg white whitespace-nowrap rounded-full py-4"
                     onClick={handleConnect}
                   >
-                    <span className="text-[#FCE3AA] text-lg">
-                      Connect Wallet
-                    </span>
+                    Connect Wallet
                   </Button>
                 </div>
               </div>
