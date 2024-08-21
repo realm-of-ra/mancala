@@ -24,12 +24,40 @@ export function useAudioControl() {
     const audio = audioRef.current;
 
     if (isPlaying) {
-      try {
-        audio.play();
-        audio.loop = true;
-      } catch (error) {
-        console.error("Error playing the audio", error);
-      }
+      const playAudio = async () => {
+        try {
+          await audio.play();
+          audio.loop = true;
+        } catch (error) {
+          if (error instanceof DOMException) {
+            if (error.name === "NotAllowedError") {
+              console.error(
+                "Audio playback was not allowed. This may be due to autoplay restrictions.",
+                error,
+              );
+              setPlaying(false); // Reset playing state
+            } else if (error.name === "NotSupportedError") {
+              console.error(
+                "The audio format is not supported by the browser.",
+                error,
+              );
+            } else {
+              console.error(
+                "An error occurred while playing the audio:",
+                error.name,
+                error.message,
+              );
+            }
+          } else {
+            console.error(
+              "An unexpected error occurred while playing the audio:",
+              error,
+            );
+          }
+        }
+      };
+
+      playAudio();
     } else {
       audio.pause();
     }
@@ -37,7 +65,7 @@ export function useAudioControl() {
     return () => {
       audio.pause();
     };
-  }, [isPlaying]);
+  }, [isPlaying, setPlaying]);
 
   return {
     isPlaying,
