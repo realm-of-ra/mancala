@@ -3,8 +3,8 @@ import { createDojoConfig } from "@dojoengine/core";
 
 export const dojoConfig = createDojoConfig({
   manifest,
-  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/katana",
-  toriiUrl: "https://api.cartridge.gg/x/mancala-alpha-v2/torii",
+  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha-v3/katana",
+  toriiUrl: "https://api.cartridge.gg/x/mancala-alpha-v3/torii",
   masterAddress:
     "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175",
   masterPrivateKey:

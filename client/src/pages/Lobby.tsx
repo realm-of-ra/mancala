@@ -27,7 +27,7 @@ import {
   MancalaGameEdge,
   useMancalaModelsFetchQuery,
 } from "@/generated/graphql.tsx";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -88,6 +88,16 @@ export default function Lobby() {
       setGameUrl(`${window.location.origin}/games/${gameId}`);
     }
   }, [gameId]);
+
+  const { connect, connectors } = useConnect();
+
+  const connectWallet = async () => {
+    connect({ connector: connectors[0] });
+  };
+
+  const handleConnect = () => {
+    connectWallet();
+  };
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -312,7 +322,10 @@ export default function Lobby() {
               <>
                 <TabsContent value="players">
                   <Players
-                    data={data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[]}
+                    data={
+                      data?.mancalaAlphaMancalaGameModels
+                        ?.edges as MancalaGameEdge[]
+                    }
                   />
                 </TabsContent>
                 <TabsContent value="duels">
@@ -334,9 +347,17 @@ export default function Lobby() {
                                         flex flex-col items-center justify-center"
               >
                 <div className="flex flex-col items-center space-y-1.5">
-                  <img src={connectionIcon} alt="plug" className="w-16 h-16" />
-                  <h3 className="text-[#BDC2CC] text-xl">Connect wallet</h3>
-                  <p className="text-[#4F5666] text-sm">Player id not found</p>
+                  <img
+                    src={connectionIcon}
+                    alt="plug"
+                    className="w-16 h-16 pb-5"
+                  />
+                  <Button
+                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] w-[259px] text-lg white whitespace-nowrap rounded-full py-4"
+                    onClick={connectWallet}
+                  >
+                    Connect Wallet
+                  </Button>
                 </div>
               </div>
             )}

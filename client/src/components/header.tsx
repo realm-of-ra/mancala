@@ -5,11 +5,15 @@ import eniola from "../assets/eniola.png";
 import muteImage from "../assets/mute.png";
 import unmuteImage from "../assets/unmute.png";
 import { useAtom } from "jotai";
-import {
-  isPlayingAtom,
-} from "../atom/atoms";
+import { isPlayingAtom } from "../atom/atoms";
 import audio from "../music/audio_1.mp4";
-import { useAccount, useConnect, useDisconnect, useProvider, useStarkProfile } from "@starknet-react/core";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useProvider,
+  useStarkProfile,
+} from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
 import { constants } from "starknet";
@@ -23,29 +27,31 @@ import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profile from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
-import { MancalaGameEdge, useFetchModelsForHeaderQuery } from "@/generated/graphql.tsx";
+import {
+  MancalaGameEdge,
+  useFetchModelsForHeaderQuery,
+} from "@/generated/graphql.tsx";
 
 export default function Header() {
-
   const { provider } = useProvider();
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
     constants.StarknetChainId.SN_SEPOLIA,
   );
 
-  const { connect, connectors } = useConnect()
-  const { disconnect } = useDisconnect()
-  const { address } = useAccount()
+  const { connect, connectors } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { address } = useAccount();
 
   const connectWallet = async () => {
     connect({ connector: connectors[0] });
   };
   const disconnectWallet = async () => {
-    disconnect()
+    disconnect();
   };
 
   const { data: profile } = useStarkProfile({
-    address
+    address,
   });
 
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
@@ -107,11 +113,7 @@ export default function Header() {
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
               <img
-                src={
-                  profile.profilePicture
-                    ? profile.profilePicture
-                    : eniola
-                }
+                src={profile.profilePicture ? profile.profilePicture : eniola}
                 width={60}
                 height={60}
                 alt=""
@@ -238,6 +240,16 @@ export default function Header() {
 
             {isDropdownOpen && (
               <div className="absolute top-1/2 transform font-medium translate-y-5 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
+                <span className="flex w-full px-4 py-2 rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                  <img src={connectB} />
+                  <Link
+                    to={{}}
+                    className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
+                    onClick={handleConnect}
+                  >
+                    Connect Wallet
+                  </Link>
+                </span>
                 <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
                   <img src={lobby} />
                   <Link to="/" className="block px-4 py-2">
@@ -254,16 +266,6 @@ export default function Header() {
                   <img src={profile?.profilePicture} />
                   <Link to="/" className="block px-4 py-2">
                     Profile
-                  </Link>
-                </span>
-                <span className="flex w-full px-4 py-2 rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                  <img src={connectB} />
-                  <Link
-                    to={{}}
-                    className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
-                    onClick={handleConnect}
-                  >
-                    connect Wallet
                   </Link>
                 </span>
               </div>
