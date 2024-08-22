@@ -28,6 +28,7 @@ import {
   useMancalaModelsFetchQuery,
 } from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
+import braavos from "@/assets/braavos.png";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -352,11 +353,13 @@ export default function Lobby() {
                     alt="plug"
                     className="w-16 h-16 pb-5"
                   />
+                  <h6 className="text-[#BDC2CC] font-bold text-lg">Connect Wallet</h6>
+                  <p className="text-[#4F5666] pb-1.5">Connect your wallet</p>
                   <Button
-                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] w-[259px] text-lg white whitespace-nowrap rounded-full py-4"
+                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                     onClick={connectWallet}
                   >
-                    Connect Wallet
+                    <img src={braavos} width={25} height={25} alt="wallet" /> Connect Wallet
                   </Button>
                 </div>
               </div>
