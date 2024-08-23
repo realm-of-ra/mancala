@@ -80,7 +80,7 @@ export default function Lobby() {
     }
   };
 
-  const { data, startPolling } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
 
   startPolling(1000);
   useEffect(() => {
@@ -100,11 +100,25 @@ export default function Lobby() {
     connectWallet();
   };
 
+  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(game =>
+    game?.node?.player_one === account.address || game?.node?.player_two === account.address
+  );
+
+  const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce((acc, game, index) => {
+    if (game?.node?.player_one === account.address || game?.node?.player_two === account.address && data?.transactions?.edges != null) {
+      const transaction = data?.transactions?.edges[index];
+      if (transaction) {
+        acc.push(transaction as never);
+      }
+    }
+    return acc;
+  }, []) || [];
+
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
-        <div className="w-[874px] h-[486px]">
+        <div className="w-[874px]">
           <Tabs defaultValue="players" className="w-full space-y-10">
             <div className="flex flex-row items-center justify-between w-full">
               <TabsList className="bg-transparent space-x-1.5">
@@ -331,8 +345,9 @@ export default function Lobby() {
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
-                    games={data?.mancalaAlphaMancalaGameModels?.edges}
-                    transactions={data?.transactions?.edges}
+                    games={filteredGames}
+                    transactions={filteredTransactions}
+                    loading={loading}
                   />
                 </TabsContent>
                 <TabsContent value="live">

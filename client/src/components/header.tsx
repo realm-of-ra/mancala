@@ -19,13 +19,12 @@ import { Link } from "react-router-dom";
 import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import { StarkProfile } from "@/types";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import icon3 from "../assets/LogoW.svg";
 import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
-import profile from "../assets/profile.svg";
+import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import {
   MancalaGameEdge,
@@ -179,16 +178,20 @@ export default function Header() {
                   className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex flex-row items-center w-fit">
-                    <div className="px-10 py-5">
-                      <p className="">{truncateString(address)}</p>
-                    </div>
+                  <div className="flex flex-row items-center w-fit px-10 py-5">
+                    <p className="">{truncateString(address)}</p>
                   </div>
                 </Button>
 
                 {isDropdownClose && (
                   <div className="absolute top-1/2 font-medium transform translate-y-6 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
                     <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
+                      <img src={profileImage} />
+                      <Link to="/" className="block px-4 py-2">
+                        Profile
+                      </Link>
+                    </span>
+                    <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                       <img src={lobby} />
                       <Link to="/" className="block px-4 py-2">
                         Lobby
@@ -198,12 +201,6 @@ export default function Header() {
                       <img src={leader} />
                       <Link to="/" className="block px-4 py-2">
                         Leaderboard
-                      </Link>
-                    </span>
-                    <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                      <img src={profile?.profilePicture} />
-                      <Link to="/" className="block px-4 py-2">
-                        Profile
                       </Link>
                     </span>
                     <span
@@ -240,7 +237,7 @@ export default function Header() {
 
             {isDropdownOpen && (
               <div className="absolute top-1/2 transform font-medium translate-y-5 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
-                <span className="flex w-full px-4 py-2 rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                <span className="flex w-full px-4 py-2 rounded-t-xl bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                   <img src={connectB} />
                   <Link
                     to={{}}
@@ -250,22 +247,16 @@ export default function Header() {
                     Connect Wallet
                   </Link>
                 </span>
-                <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
                   <img src={lobby} />
                   <Link to="/" className="block px-4 py-2">
                     Lobby
                   </Link>
                 </span>
-                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer rounded-b-xl">
                   <img src={leader} />
                   <Link to="/" className="block px-4 py-2">
                     Leaderboard
-                  </Link>
-                </span>
-                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                  <img src={profile?.profilePicture} />
-                  <Link to="/" className="block px-4 py-2">
-                    Profile
                   </Link>
                 </span>
               </div>
