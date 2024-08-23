@@ -105,8 +105,11 @@ export default function Lobby() {
   );
 
   const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce((acc, game, index) => {
-    if (game?.node?.player_one === account.address || game?.node?.player_two === account.address && data?.transactions?.edges != null) {
-      const transaction = data?.transactions?.edges[index];
+    if (
+      (game?.node?.player_one === account.address || game?.node?.player_two === account.address) &&
+      data?.transactions?.edges
+    ) {
+      const transaction = data.transactions.edges[index];
       if (transaction) {
         acc.push(transaction as never);
       }

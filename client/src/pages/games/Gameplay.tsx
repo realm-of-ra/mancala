@@ -33,7 +33,7 @@ import {
 import { useAudioControl } from "@/hooks/useAudioControl";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { getPlayer, truncateString } from "@/lib/utils";
-import { PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useAccount, useProvider } from "@starknet-react/core";
 import clsx from "clsx";
 import { AlarmClock } from "lucide-react";
