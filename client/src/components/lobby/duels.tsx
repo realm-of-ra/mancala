@@ -66,7 +66,7 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
         }
         else {
             return (
-                <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
+                <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
                     <Card className="w-full h-full bg-transparent">
                         <div className="w-full text-left bg-transparent table-auto">
                             <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
