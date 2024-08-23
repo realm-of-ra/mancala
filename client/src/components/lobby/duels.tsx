@@ -110,7 +110,7 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
                                             const isLast = index === data.length - 1;
                                             const date = new Date(item.date)
                                             return (
-                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-full bg-[#0F1116] flex flex-row items-center")}>
+                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-[814px] bg-[#0F1116] flex flex-row items-center")}>
                                                     <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
                                                         {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
                                                         <div className="flex flex-row items-center space-x-2.5 w-fit">
