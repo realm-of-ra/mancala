@@ -1,5 +1,5 @@
 import React from "react";
-import Pit from "@/components/pits";
+import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 
 interface GameBoardProps {
@@ -25,8 +25,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
 }) => {
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
-      <div className="w-[1170px] h-[467px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
-        <div className="w-fit h-[240px] flex items-center mb-5 bg-gree">
+      <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
+        <div className="w-fit h-[240px] flex items-center mb-5">
           {/* Player 1 pot */}
           <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] ml-[156px]">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
@@ -57,7 +57,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {Array.from({ length: 6 }, (_, zero_index) => zero_index + 1)
                 .reverse()
                 .map((pit_key, i) => (
-                  <Pit
+                  <TopPit
                     key={i}
                     amount={
                       game_players?.player_one?.edges?.[0]?.node?.[
@@ -90,7 +90,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 new Array(6).keys(),
                 (_, zero_index) => zero_index + 1,
               ).map((pit_key, i) => (
-                <Pit
+                <BottomPit
                   key={i}
                   amount={
                     game_players?.player_two?.edges?.[0]?.node?.[
@@ -107,7 +107,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   winner={game_metadata?.game_data?.edges?.[0]?.node?.winner}
                   setTimeRemaining={setTimeRemaining}
                   time_between_move={parseInt(game_node?.time_between_move, 16)}
-                  reverse={true}
                 />
               ))}
             </div>
@@ -133,7 +132,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
-              {/* {game_players?.player_two?.edges?.[0]?.node?.mancala} */}
+              {game_players?.player_two?.edges?.[0]?.node?.mancala}
             </p>
           </div>
         </div>
