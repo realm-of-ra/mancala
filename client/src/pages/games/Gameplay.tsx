@@ -303,7 +303,7 @@ export default function Gameplay() {
             <Link to="/">
               <img src={logo} width={150} height={150} alt="Logo" />
             </Link>
-            <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+            <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
               <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
               <div className="flex flex-row items-center justify-center space-x-1">
                 <AlarmClock className="w-6 h-6 text-white" />
