@@ -26,9 +26,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[467px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
-        <div className="w-56 h-[350px] relative">
+        <div className="w-fit h-[240px] flex items-center mb-5">
           {/* Player 1 pot */}
-          <div className="flex flex-row justify-end items-center px-2.5 h-full">
+          <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] bg-green-500 ml-[156px]">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
               {Array.from(
                 {
@@ -52,7 +52,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         </div>
         <div className="w-[700px] h-[350px] flex flex-col items-center justify-between space-y-2">
           {/* Player 1 */}
-          <div className="h-[175px] w-full flex flex-row justify-center items-center">
+          <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
               {Array.from({ length: 6 }, (_, zero_index) => zero_index + 1)
                 .reverse()

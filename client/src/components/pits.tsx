@@ -40,7 +40,7 @@ export default function Pit({ amount, address, pit, game_id, status, winner, use
                 <p className='text-white'>{amount}</p>
             </div>
             <div className='flex flex-col items-center justify-center flex-1 w-full h-full'>
-                <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 && "ml-2")}>
+                <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
                             Array.from({ length: amount }, (_, seedIndex) => <Seed key={seedIndex} amount={amount} />)
