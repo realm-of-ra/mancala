@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import Pit from '../../src/components/pit';
+import Pit from '../../src/components/pits';
 import { SetStateAction } from "react";
 
 describe('pit', () => {

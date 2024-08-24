@@ -1,5 +1,5 @@
 import React from "react";
-import Pit from "@/components/pit";
+import Pit from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 
 interface GameBoardProps {
@@ -24,9 +24,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setTimeRemaining,
 }) => {
   return (
-    <div className="w-full h-[400px] border-2 border-[#32363D] rounded-l-full rounded-r-full flex flex-col items-center justify-center bg-[#15181E] mt-24">
-      <div className="w-[97%] h-[370px] rounded-l-full rounded-r-full flex flex-row items-center justify-between space-x-5 relative">
-        <div className="w-56 h-[350px] border-2 border-[#32363D] rounded-l-[165px] rounded-r-3xl relative">
+    <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
+      <div className="w-[1170px] h-[467px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
+        <div className="w-56 h-[350px] relative">
           {/* Player 1 pot */}
           <div className="flex flex-row justify-end items-center px-2.5 h-full">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
@@ -50,10 +50,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </p>
           </div>
         </div>
-        <div className="w-[75%] h-[350px] flex flex-col items-start justify-between space-y-2">
+        <div className="w-[700px] h-[350px] flex flex-col items-center justify-between space-y-2">
           {/* Player 1 */}
-          <div className="h-[175px] w-full flex flex-row justify-between items-center">
-            <div className="flex flex-row justify-center flex-1 space-x-5">
+          <div className="h-[175px] w-full flex flex-row justify-center items-center">
+            <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
               {Array.from({ length: 6 }, (_, zero_index) => zero_index + 1)
                 .reverse()
                 .map((pit_key, i) => (
@@ -61,7 +61,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     key={i}
                     amount={
                       game_players?.player_one?.edges?.[0]?.node?.[
-                        `pit${pit_key}` as "pit1"
+                      `pit${pit_key}` as "pit1"
                       ]
                     }
                     address={
@@ -94,7 +94,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   key={i}
                   amount={
                     game_players?.player_two?.edges?.[0]?.node?.[
-                      `pit${pit_key}` as "pit1"
+                    `pit${pit_key}` as "pit1"
                     ]
                   }
                   address={game_players?.player_two?.edges?.[0]?.node?.address}

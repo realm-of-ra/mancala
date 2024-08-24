@@ -7,7 +7,7 @@ export default function Seed({ amount }: { amount: number }) {
                 amount >= 12 && 'w-[12px] h-[12px]',
                 amount >= 16 && 'w-[10px] h-[10px]',
                 amount >= 20 && 'w-[7.5px] h-[7.5px]',
-                'w-[20px] h-[20px] bg-white rounded-full')
+                'w-[16px] h-[16px] bg-white rounded-full')
             }
         />
     )

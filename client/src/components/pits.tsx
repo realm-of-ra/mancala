@@ -35,12 +35,12 @@ export default function Pit({ amount, address, pit, game_id, status, winner, use
         }
     }
     return (
-        <div className={clsx(reverse ? 'flex-col-reverse' : "flex-col", "h-[170px] w-[15%] flex justify-between items-center")} onClick={handleMove}>
-            <div className='bg-[#191C22] px-5 rounded-lg w-fit'>
+        <div className={clsx(reverse ? 'flex-col-reverse' : "flex-col", "h-[120px] w-full flex justify-between items-center space-y-6")} onClick={handleMove}>
+            <div className='px-5 rounded-lg w-fit'>
                 <p className='text-white'>{amount}</p>
             </div>
-            <div className='flex flex-col items-center justify-center flex-1'>
-                <div className='w-[90px] h-[90px] border-2 border-[#32363D] rounded-full flex flex-col items-center justify-center hover:cursor-pointer'>
+            <div className='flex flex-col items-center justify-center flex-1 w-full h-full'>
+                <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 && "ml-2")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
                             Array.from({ length: amount }, (_, seedIndex) => <Seed key={seedIndex} amount={amount} />)
