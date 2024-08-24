@@ -131,9 +131,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
               )}
             </div>
           </div>
-          <div className="absolute inset-y-0 self-center right-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-l-lg">
-            <p className="text-white">
-              {game_players?.player_two?.edges?.[0]?.node?.mancala}
+          <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
+            <p className="text-white text-center h-full flex flex-col items-center justify-center">
+              {/* {game_players?.player_two?.edges?.[0]?.node?.mancala} */}
             </p>
           </div>
         </div>
