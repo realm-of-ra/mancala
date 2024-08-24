@@ -28,7 +28,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[467px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[240px] flex items-center mb-5">
           {/* Player 1 pot */}
-          <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] bg-green-500 ml-[156px]">
+          <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] ml-[156px]">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
               {Array.from(
                 {
@@ -44,8 +44,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
               )}
             </div>
           </div>
-          <div className="absolute inset-y-0 self-center left-0 bg-[#191C22] p-3.5 rounded-y-lg rounded-r-lg">
-            <p className="text-white">
+          <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-6">
+            <p className="text-white text-center">
               {game_players?.player_one?.edges?.[0]?.node?.mancala}
             </p>
           </div>
