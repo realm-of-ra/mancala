@@ -35,9 +35,9 @@ export default function Pit({ amount, address, pit, game_id, status, winner, use
         }
     }
     return (
-        <div className={clsx(reverse ? 'flex-col-reverse' : "flex-col", "h-[120px] w-full flex justify-between items-center space-y-6")} onClick={handleMove}>
-            <div className='px-5 rounded-lg w-fit'>
-                <p className='text-white'>{amount}</p>
+        <div className={clsx(reverse ? 'flex-col-reverse' : "flex-col", "h-[125px] w-full flex justify-between items-center space-y-6")} onClick={handleMove}>
+            <div className='rounded-lg w-fit'>
+                <p className='text-white ml-2'>{amount}</p>
             </div>
             <div className='flex flex-col items-center justify-center flex-1 w-full h-full'>
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
