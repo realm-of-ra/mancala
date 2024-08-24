@@ -1,6 +1,7 @@
 import React from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
+import clsx from "clsx";
 
 interface GameBoardProps {
   game_players: any; // Replace 'any' with the correct type from your GraphQL query
@@ -28,8 +29,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[240px] flex items-center mb-5">
           {/* Player 1 pot */}
-          <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] ml-[156px]">
-            <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-5">
+          <div className="flex flex-row justify-end items-center px-2.5 w-12 h-[70%] ml-[168px]">
+            <div className={clsx("max-h-full items-center justify-center px-5 grid gap-y-1.5 gap-x-5",
+              game_players?.player_one?.edges?.[0]?.node?.mancala > 7 && 'grid-cols-2',
+              game_players?.player_one?.edges?.[0]?.node?.mancala > 14 && 'grid-cols-3',
+              game_players?.player_one?.edges?.[0]?.node?.mancala > 21 && 'grid-cols',
+            )}>
               {Array.from(
                 {
                   length:
@@ -38,7 +43,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 (_, seedIndex) => (
                   <div
                     key={seedIndex}
-                    className="w-[20px] h-[20px] bg-white rounded-full"
+                    className={clsx(game_players?.player_one?.edges?.[0]?.node?.mancala > 6 && 'w-[14px] h-[14px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 12 && 'w-[12px] h-[12px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 16 && 'w-[10px] h-[10px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 20 && 'w-[7.5px] h-[7.5px]',
+                      'w-[16px] h-[16px] bg-white rounded-full')
+                    }
                   />
                 ),
               )}
@@ -114,7 +124,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         </div>
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot */}
-          <div className="flex flex-row justify-center items-center px-2.5 w-12 h-[70%] mr-[156px]">
+          <div className="flex flex-row justify-center items-center px-2.5 w-12 h-[70%] mr-[168px]">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5">
               {Array.from(
                 {
@@ -124,7 +134,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 (_, seedIndex) => (
                   <div
                     key={seedIndex}
-                    className="w-[20px] h-[20px] bg-white rounded-full"
+                    className={clsx(game_players?.player_one?.edges?.[0]?.node?.mancala > 6 && 'w-[14px] h-[14px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 12 && 'w-[12px] h-[12px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 16 && 'w-[10px] h-[10px]',
+                      game_players?.player_one?.edges?.[0]?.node?.mancala >= 20 && 'w-[7.5px] h-[7.5px]',
+                      'w-[16px] h-[16px] bg-white rounded-full')
+                    }
                   />
                 ),
               )}
