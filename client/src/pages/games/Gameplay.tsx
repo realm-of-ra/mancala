@@ -11,13 +11,14 @@ import {
   end,
   logo,
   message,
-  muteImage,
   playnext,
   playprevious,
   restart,
   speaker,
-  unmuteImage,
 } from "../../constants/icons_store";
+
+import unmuteFlat from "../../assets/unmute_flat.png";
+import muteFlat from "../../assets/mute_flat.png";
 
 import Icon from "@/components/gameplay/Icon.tsx";
 import GameBoard from "@/components/gameplay/game-board";
@@ -377,9 +378,9 @@ export default function Gameplay() {
                 onClick={togglePlay}
               >
                 <img
-                  src={isPlaying ? unmuteImage : muteImage}
-                  width={65}
-                  height={45}
+                  src={isPlaying ? unmuteFlat : muteFlat}
+                  width={55}
+                  height={35}
                   alt="toggle play"
                   className="rounded-full"
                 />
@@ -401,7 +402,7 @@ export default function Gameplay() {
             </div>
             {isDropdownOpen && (
               <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center space-x-1.5">
                   <img
                     src={playprevious}
                     width={30}
@@ -410,9 +411,9 @@ export default function Gameplay() {
                     className="rounded-full cursor-pointer"
                   />
                   <img
-                    src={isPlaying ? unmuteImage : muteImage}
-                    width={70}
-                    height={70}
+                    src={isPlaying ? unmuteFlat : muteFlat}
+                    width={50}
+                    height={50}
                     alt="toggle play"
                     className="rounded-full cursor-pointer"
                     onClick={togglePlay}
