@@ -9,16 +9,16 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   arrowup,
   end,
-  leaderboard,
   logo,
   message,
-  muteImage,
   playnext,
   playprevious,
   restart,
   speaker,
-  unmuteImage,
 } from "../../constants/icons_store";
+
+import unmuteFlat from "../../assets/unmute_flat.png";
+import muteFlat from "../../assets/mute_flat.png";
 
 import Icon from "@/components/gameplay/Icon.tsx";
 import GameBoard from "@/components/gameplay/game-board";
@@ -33,7 +33,7 @@ import {
 import { useAudioControl } from "@/hooks/useAudioControl";
 import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { getPlayer, truncateString } from "@/lib/utils";
-import { PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/solid";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useAccount, useProvider } from "@starknet-react/core";
 import clsx from "clsx";
 import { AlarmClock } from "lucide-react";
@@ -303,7 +303,7 @@ export default function Gameplay() {
             <Link to="/">
               <img src={logo} width={150} height={150} alt="Logo" />
             </Link>
-            <div className="min-w-48 min-h-24 bg-[#191D25] border border-[#1A1D25] rounded-lg py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+            <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
               <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
               <div className="flex flex-row items-center justify-center space-x-1">
                 <AlarmClock className="w-6 h-6 text-white" />
@@ -370,7 +370,7 @@ export default function Gameplay() {
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             {/* Audio player */}
             <div
-              className="flex flex-row items-center justify-center gap-2 px-4 py-2 border border-gray-800 rounded-full cursor-pointer"
+              className="flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-full cursor-pointer bg-[url('./assets/brown-bg.png')] bg-cover bg-center bg-no-repeat"
               onClick={toggleDropdown}
             >
               <button
@@ -378,15 +378,15 @@ export default function Gameplay() {
                 onClick={togglePlay}
               >
                 <img
-                  src={isPlaying ? unmuteImage : muteImage}
-                  width={65}
-                  height={45}
+                  src={isPlaying ? unmuteFlat : muteFlat}
+                  width={55}
+                  height={35}
                   alt="toggle play"
                   className="rounded-full"
                 />
               </button>
               <div className="flex items-center justify-center w-full gap-2 -ml-2">
-                <h4 className="text-sm text-left text-[#656C7D]">Playing -</h4>
+                <h4 className="text-md text-left text-black font-medium">Playing -</h4>
                 <h4 className="text-md text-[#e6e6e6] text-left">
                   Storms in Africa
                 </h4>
@@ -402,7 +402,7 @@ export default function Gameplay() {
             </div>
             {isDropdownOpen && (
               <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center space-x-1.5">
                   <img
                     src={playprevious}
                     width={30}
@@ -411,9 +411,9 @@ export default function Gameplay() {
                     className="rounded-full cursor-pointer"
                   />
                   <img
-                    src={isPlaying ? unmuteImage : muteImage}
-                    width={70}
-                    height={70}
+                    src={isPlaying ? unmuteFlat : muteFlat}
+                    width={50}
+                    height={50}
                     alt="toggle play"
                     className="rounded-full cursor-pointer"
                     onClick={togglePlay}
@@ -476,14 +476,8 @@ export default function Gameplay() {
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
               {/* Goto leaderboard page */}
               <Link to="/leaderboard">
-                <Button className="p-0 rounded-full">
-                  <img
-                    src={leaderboard}
-                    width={65}
-                    height={65}
-                    alt="end game"
-                    className="rounded-full"
-                  />
+                <Button className="p-4 rounded-full bg-green-500 bg-[url('./assets/leaderboard_bg.png')] bg-cover bg-center bg-no-repeat">
+                  <div className="bg-[url('./assets/leaderboard.png')] bg-no-repeat bg-contain bg-center w-8 h-8" />
                 </Button>
               </Link>
               {/* chat */}
@@ -496,8 +490,8 @@ export default function Gameplay() {
                 <AccordionHeader
                   onClick={() => handleOpen(1)}
                   className={clsx(
-                    open ? "border-t-0" : "border-t rounded-b-3xl",
-                    "border border-[#27292F] px-3.5 rounded-t-3xl backdrop-blur-sm",
+                    open ? "border border-[#27292F] bg-none rounded-t-3xl" : "border-0 rounded-b-3xl bg-[url('./assets/brown-bg.png')] bg-cover bg-center bg-no-repeat rounded-full",
+                    "px-3.5 backdrop-blur-sm  cursor-pointer",
                   )}
                 >
                   <div className="flex flex-row space-x-2.5 items-center">
@@ -508,7 +502,7 @@ export default function Gameplay() {
                       alt="end game"
                       className="rounded-full"
                     />
-                    <p className="text-xl font-medium text-[#AAAEB7]">
+                    <p className="text-xl font-medium text-black">
                       Message <span className="text-white">(0)</span>
                     </p>
                   </div>

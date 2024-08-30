@@ -28,6 +28,7 @@ import {
   useMancalaModelsFetchQuery,
 } from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
+import braavos from "@/assets/braavos.png";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -79,7 +80,7 @@ export default function Lobby() {
     }
   };
 
-  const { data, startPolling } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
 
   startPolling(1000);
   useEffect(() => {
@@ -99,11 +100,28 @@ export default function Lobby() {
     connectWallet();
   };
 
+  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(game =>
+    game?.node?.player_one === account.address || game?.node?.player_two === account.address
+  );
+
+  const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce((acc, game, index) => {
+    if (
+      (game?.node?.player_one === account.address || game?.node?.player_two === account.address) &&
+      data?.transactions?.edges
+    ) {
+      const transaction = data.transactions.edges[index];
+      if (transaction) {
+        acc.push(transaction as never);
+      }
+    }
+    return acc;
+  }, []) || [];
+
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
-        <div className="w-[874px] h-[486px]">
+        <div className="w-[874px]">
           <Tabs defaultValue="players" className="w-full space-y-10">
             <div className="flex flex-row items-center justify-between w-full">
               <TabsList className="bg-transparent space-x-1.5">
@@ -330,8 +348,9 @@ export default function Lobby() {
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
-                    games={data?.mancalaAlphaMancalaGameModels?.edges}
-                    transactions={data?.transactions?.edges}
+                    games={filteredGames}
+                    transactions={filteredTransactions}
+                    loading={loading}
                   />
                 </TabsContent>
                 <TabsContent value="live">
@@ -352,11 +371,13 @@ export default function Lobby() {
                     alt="plug"
                     className="w-16 h-16 pb-5"
                   />
+                  <h6 className="text-[#BDC2CC] font-bold text-lg">Connect Wallet</h6>
+                  <p className="text-[#4F5666] pb-1.5">Connect your wallet</p>
                   <Button
-                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] w-[259px] text-lg white whitespace-nowrap rounded-full py-4"
+                    className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                     onClick={connectWallet}
                   >
-                    Connect Wallet
+                    <img src={braavos} width={25} height={25} alt="wallet" /> Connect Wallet
                   </Button>
                 </div>
               </div>
