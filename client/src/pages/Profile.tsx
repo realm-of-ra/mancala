@@ -45,10 +45,10 @@ export default function Profile() {
                                 <AllGames games={undefined} transactions={undefined} loading={false} />
                             </TabsContent>
                             <TabsContent value="won">
-                                <div className="w-[874px] h-[874px] bg-[url('./assets/wide-box.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden"></div>
+                                <AllGames games={undefined} transactions={undefined} loading={false} />
                             </TabsContent>
                             <TabsContent value="lost">
-                                <div className="w-[874px] h-[874px] bg-[url('./assets/wide-box.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden"></div>
+                                <AllGames games={undefined} transactions={undefined} loading={false} />
                             </TabsContent>
                         </div>
                     </Tabs>
