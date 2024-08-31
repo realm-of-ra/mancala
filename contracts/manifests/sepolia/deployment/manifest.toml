@@ -2,22 +2,21 @@
 kind = "WorldContract"
 class_hash = "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597"
 original_class_hash = "0xa349b743d361ce4567361475a89b84a386bb383448c6926954e5fe0b525597"
-abi = "manifests/dev/deployment/abis/dojo-world.json"
+abi = "manifests/sepolia/deployment/abis/dojo-world.json"
 address = "0x3f8242af9da89218375f87c504b2a5dcbd2a00bf87b4381bb03cc1d4001fd48"
-transaction_hash = "0x3d5a82bb09f087e6c0d5cee92cff11a35cc7d1c7a7c40eeafde9b54478bcd53"
-block_number = 3
+transaction_hash = "0xac2c5b9a230e9f9b852ca05de0d8fb960b6ddf0d66248905d49983ae5d202c"
 seed = "mancala_alpha"
 manifest_name = "dojo-world"
 
 [world.metadata]
-profile_name = "dev"
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v4/katana"
+profile_name = "sepolia"
+rpc_url = "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
 
 [base]
 kind = "Class"
 class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/dojo-base.json"
+abi = "manifests/sepolia/deployment/abis/dojo-base.json"
 tag = "dojo-base"
 manifest_name = "dojo-base"
 
@@ -27,7 +26,7 @@ address = "0x75f40d154faffb3078122f7c018d43e327911cd1dcccc64cbaba2bae7e620ac"
 class_hash = "0x64f1bf03ed832104e2f76ea6a35ea1f74dc6b91989170ad7c2127338420691f"
 original_class_hash = "0x64f1bf03ed832104e2f76ea6a35ea1f74dc6b91989170ad7c2127338420691f"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/mancala_alpha-actions-2c0baebe.json"
+abi = "manifests/sepolia/deployment/abis/contracts/mancala_alpha-actions-2c0baebe.json"
 reads = []
 writes = ["ns:mancala_alpha"]
 init_calldata = []
@@ -45,7 +44,7 @@ manifest_name = "mancala_alpha-actions-2c0baebe"
 kind = "DojoModel"
 class_hash = "0x1f4d24fdabfc8bf320d1ca5c2283576c242be48a84e1e304dd0ea1ccde934f6"
 original_class_hash = "0x1f4d24fdabfc8bf320d1ca5c2283576c242be48a84e1e304dd0ea1ccde934f6"
-abi = "manifests/dev/deployment/abis/models/mancala_alpha-GameId-4205bbb7.json"
+abi = "manifests/sepolia/deployment/abis/models/mancala_alpha-GameId-4205bbb7.json"
 tag = "mancala_alpha-GameId"
 qualified_path = "mancala::models::mancala_game::game_id"
 manifest_name = "mancala_alpha-GameId-4205bbb7"
@@ -64,7 +63,7 @@ key = false
 kind = "DojoModel"
 class_hash = "0x11694727b022fcc1b98d29b8e62ec4f377643b08f858d202c9f0df3eb1882ef"
 original_class_hash = "0x11694727b022fcc1b98d29b8e62ec4f377643b08f858d202c9f0df3eb1882ef"
-abi = "manifests/dev/deployment/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
+abi = "manifests/sepolia/deployment/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
 tag = "mancala_alpha-GamePlayer"
 qualified_path = "mancala::models::player::game_player"
 manifest_name = "mancala_alpha-GamePlayer-4fe4cbef"
@@ -123,7 +122,7 @@ key = false
 kind = "DojoModel"
 class_hash = "0x73f3710ff3124f6c8e376f78e9404f7256557df6c0c79876f09bd4c33e8f3d2"
 original_class_hash = "0x73f3710ff3124f6c8e376f78e9404f7256557df6c0c79876f09bd4c33e8f3d2"
-abi = "manifests/dev/deployment/abis/models/mancala_alpha-MancalaGame-628bb438.json"
+abi = "manifests/sepolia/deployment/abis/models/mancala_alpha-MancalaGame-628bb438.json"
 tag = "mancala_alpha-MancalaGame"
 qualified_path = "mancala::models::mancala_game::mancala_game"
 manifest_name = "mancala_alpha-MancalaGame-628bb438"

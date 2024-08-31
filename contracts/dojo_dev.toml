@@ -10,10 +10,10 @@ seed = "mancala_alpha"
 default = "mancala_alpha"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v3/katana"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v4/katana"
 account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
 private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
-world_address = "0x586ef8fba1930bb47c973ab1cdf97b16fe3a0d434cc1829b5d24e1d7d8ec608"
+world_address = "0x3f8242af9da89218375f87c504b2a5dcbd2a00bf87b4381bb03cc1d4001fd48"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"

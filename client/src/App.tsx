@@ -15,7 +15,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
 
 const CONTRACT_ADDRESS =
-  "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c";
+  "0x75f40d154faffb3078122f7c018d43e327911cd1dcccc64cbaba2bae7e620ac";
 
 const policies = [
   {
@@ -45,13 +45,18 @@ const policies = [
 ];
 
 const options: ControllerOptions = {
-  rpc: "https://api.cartridge.gg/x/mancala-alpha-v3/katana",
+  rpc: "https://starknet-sepolia.public.blastapi.io/rpc/v0_7",
   theme: "realm-of-ra",
+};
+
+const connectorOptions = {
+  policies,
+  ...options,
 };
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v3/katana",
+    nodeUrl: "https://starknet-sepolia.public.blastapi.io/rpc/v0_7",
   };
 }
 
@@ -80,7 +85,7 @@ export default function App() {
   }, []);
 
   const connectors = [
-    new CartridgeConnector(policies, options) as never as Connector,
+    new CartridgeConnector(connectorOptions) as never as Connector,
   ];
 
   return (

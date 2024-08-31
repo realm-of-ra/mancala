@@ -1230,12 +1230,12 @@
       }
     ],
     "address": "0x3f8242af9da89218375f87c504b2a5dcbd2a00bf87b4381bb03cc1d4001fd48",
-    "transaction_hash": "0x3d5a82bb09f087e6c0d5cee92cff11a35cc7d1c7a7c40eeafde9b54478bcd53",
-    "block_number": 3,
+    "transaction_hash": "0xac2c5b9a230e9f9b852ca05de0d8fb960b6ddf0d66248905d49983ae5d202c",
+    "block_number": null,
     "seed": "mancala_alpha",
     "metadata": {
-      "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v4/katana"
+      "profile_name": "sepolia",
+      "rpc_url": "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
     },
     "manifest_name": "dojo-world"
   },
@@ -1243,7 +1243,7 @@
     "kind": "Class",
     "class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
     "original_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
-    "abi": "manifests/dev/deployment/abis/dojo-base.json",
+    "abi": "manifests/sepolia/deployment/abis/dojo-base.json",
     "tag": "dojo-base",
     "manifest_name": "dojo-base"
   },
