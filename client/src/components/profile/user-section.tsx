@@ -1,6 +1,7 @@
 import avatar from "@/assets/avatar.png";
 import twitter from "@/assets/twitter.png";
 import telegram from "@/assets/telegram.png";
+import { Link } from "react-router-dom";
 
 export default function UserSection() {
     return (
@@ -46,8 +47,12 @@ export default function UserSection() {
                 <div className="space-y-1.5">
                     <p className="font-medium text-white">Share</p>
                     <div className="flex flex-row items-center space-x-1.5">
-                        <img src={twitter} width={35} height={35} />
-                        <img src={telegram} width={35} height={35} />
+                        <Link to="/">
+                            <img src={twitter} width={35} height={35} />
+                        </Link>
+                        <Link to="/">
+                            <img src={telegram} width={35} height={35} />
+                        </Link>
                     </div>
                 </div>
             </div>
