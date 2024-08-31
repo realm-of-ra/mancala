@@ -6,11 +6,11 @@ import { Card, Typography } from "@material-tailwind/react";
 // import { constants, StarkProfile } from "starknet";
 import clsx from "clsx";
 import { truncateString } from "@/lib/utils.ts";
-import { DuelsSkeleton } from "./duels-skeleton.tsx";
+import { AllGameSkeleton } from "./all-games-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
-import EmptyDuels from "./empty-duels.tsx";
+import EmptyAllGames from "./empty-all-games.tsx";
 
-export default function Duels({ games, transactions, loading }: { games: any, transactions: any, loading: boolean }) {
+export default function AllGames({ games, transactions, loading }: { games: any, transactions: any, loading: boolean }) {
     // const { provider } = useProvider();
     // const starknetIdNavigator = useMemo(() => {
     //     return new StarknetIdNavigator(
@@ -58,15 +58,15 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
 
 
     if (loading) {
-        return <DuelsSkeleton />
+        return <AllGameSkeleton />
     }
     else {
         if (data?.length === 0) {
-            return <EmptyDuels />
+            return <EmptyAllGames />
         }
         else {
             return (
-                <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
+                <div className="w-[874px] h-[874px] bg-[url('./assets/wide-box.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
                     <Card className="w-full h-full bg-transparent">
                         <div className="w-full text-left bg-transparent table-auto">
                             <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
