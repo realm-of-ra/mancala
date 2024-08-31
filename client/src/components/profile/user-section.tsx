@@ -96,7 +96,7 @@ export default function UserSection() {
                                     <h6 className="text-3xl text-white font-bold">Display Name</h6>
                                     <p className="text-[#667185] w-64 text-lg font-medium">This name will be displayed on your profile</p>
                                 </div>
-                                <input className="w-full py-3.5 bg-transparent border-2 border-[#4B505C] rounded-xl focus-visible:outline-none px-1.5 text-white" />
+                                <input className="w-full py-3.5 bg-transparent border-2 border-[#4B505C] rounded-xl focus-visible:outline-none px-1.5 text-white text-xl" />
                             </div>
                             <div className="w-full flex flex-row items-center justify-center">
                                 <button className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52">
