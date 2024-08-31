@@ -10,39 +10,45 @@ import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
 
 export default function AppWrapper() {
-  const [setupResult, setSetupResult] = useState<any>(null)
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  // const [setupResult, setSetupResult] = useState<any>(null)
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    setup(dojoConfig)
-      .then(res => setSetupResult(res))
-      .catch(errorConnectingDojo => {
-        console.error("Connection error", errorConnectingDojo)
-        setError(new Error(errorConnectingDojo))
-        // throw errorConnectingDojo
-      })
-      .finally(() => setLoading(false))
-  }, [])
+  // useEffect(() => {
+  //   setup(dojoConfig)
+  //     .then(res => setSetupResult(res))
+  //     .catch(errorConnectingDojo => {
+  //       console.error("Connection error", errorConnectingDojo)
+  //       setError(new Error(errorConnectingDojo))
+  //       // throw errorConnectingDojo
+  //     })
+  //     .finally(() => setLoading(false))
+  // }, [])
 
-  if (loading || (!error && !setupResult)) return (
-    <div className="grid w-full h-screen place-items-center bg-primary">
-      <div
-        className="flex flex-row items-center justify-center space-x-1">
-        <CreateLoaderSVG />
-        <p className="text-[#FCE3AA] font-semibold">Loading...</p>
-      </div>
-    </div>
-  )
+  // if (loading || (!error && !setupResult)) return (
+  //   <div className="grid w-full h-screen place-items-center bg-primary">
+  //     <div
+  //       className="flex flex-row items-center justify-center space-x-1">
+  //       <CreateLoaderSVG />
+  //       <p className="text-[#FCE3AA] font-semibold">Loading...</p>
+  //     </div>
+  //   </div>
+  // )
 
-  if (error) throw error;
+  // if (error) throw error;
 
+  // return (
+  // <ApolloProvider client={apollo_client}>
+  //   <DojoProvider value={setupResult}>
+  // <App />
+  // <Toaster />
+  {/* </DojoProvider>
+    </ApolloProvider> */}
+  // )
   return (
     <ApolloProvider client={apollo_client}>
-      <DojoProvider value={setupResult}>
-        <App />
-        <Toaster />
-      </DojoProvider>
+      <App />
+      <Toaster />
     </ApolloProvider>
   )
 }

@@ -13,6 +13,7 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
+import Profile from "./pages/Profile";
 
 const CONTRACT_ADDRESS =
   "0x4c4869d1067625074edd5f2c68774831ee26261423b8a17fc71f533e7b03f5c";
@@ -95,6 +96,7 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="/lobby" element={<Lobby />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/games/:gameId" element={<Gameplay />} />
           </Routes>
         </Router>
