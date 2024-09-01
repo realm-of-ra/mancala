@@ -52,7 +52,7 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
             challenger: data.node.player_one,
             challenged: data.node.player_two,
             winner: data.node.winner,
-            date: transactions[index].node.executedAt,
+            date: transactions[index]?.node.executedAt,
         }
     })
 
