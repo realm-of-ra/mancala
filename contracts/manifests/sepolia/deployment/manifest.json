@@ -1231,7 +1231,7 @@
     ],
     "address": "0x33402d31efb8d45d4868531e2f4e4b03e05c69a47b9ebcc0660145f9cdd20f3",
     "transaction_hash": "0x70809cf7845495e1281aa17f55089803f3ce7941b1dacdf431a56c93b0b0525",
-    "block_number": null,
+    "block_number": 152905,
     "seed": "mancala_alpha_sepolia",
     "metadata": {
       "profile_name": "sepolia",
@@ -1716,9 +1716,7 @@
         }
       ],
       "reads": [],
-      "writes": [
-        "ns:mancala_alpha"
-      ],
+      "writes": ["ns:mancala_alpha"],
       "init_calldata": [],
       "tag": "mancala_alpha-actions",
       "systems": [
