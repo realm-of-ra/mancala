@@ -49,9 +49,9 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     // })
     const data = games?.map((data: any, index: number) => {
         return {
-            challenger: data.node.player_one,
-            challenged: data.node.player_two,
-            date: transactions[index].node.executedAt,
+            challenger: data?.node.player_one,
+            challenged: data?.node.player_two,
+            date: transactions[index]?.node.executedAt,
         }
     })
     const { system } = useDojo()
