@@ -4,16 +4,16 @@ description = "Mancala is a classic strategy board game built on Starknet blockc
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
 website = "https://www.realmofra.com/"
-seed = "mancala_alpha"
+seed = "mancala_alpha_slot"
 
 [namespace]
 default = "mancala_alpha"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v3/katana"
-account_address = "0x6d8a4c8c7830004f53371b56773278e0ab107fc10ecffb008a33ad84c5f2175"
-private_key = "0x5d2e95d7477224d35cd3b1ffe50c1631573e21b71977605177528acfc4b8598"
-world_address = "0x586ef8fba1930bb47c973ab1cdf97b16fe3a0d434cc1829b5d24e1d7d8ec608"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v5/katana"
+account_address = "0x6f3c5e9f3161c9b2545d8a0a08183df56e6e9adcd04864c31e591b6c8343afe"
+private_key = "0x503b610edf67c295099d5184f75159e0e9e044940c86db2e10d07595ecc6e3c"
+world_address = "0x47cbe2fcd69fd466f3fae430bf46e0a9d0ce2775fdfac124cedc49dbc8bc788"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
