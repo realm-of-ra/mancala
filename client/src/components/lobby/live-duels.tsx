@@ -12,7 +12,7 @@ import { LiveSkeleton } from "./live-skeleton.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { UserIcon } from "@heroicons/react/24/solid";
 
-export default function LiveDuels({ games, transactions }: { games: any, transactions: any }) {
+export default function LiveDuels({ games }: { games: any }) {
     const { provider } = useProvider();
     const navigate = useNavigate();
     const starknetIdNavigator = useMemo(() => {
@@ -47,11 +47,12 @@ export default function LiveDuels({ games, transactions }: { games: any, transac
     //         date: transactions[index].node.executedAt,
     //     }
     // })
+    console.log(games)
     const data = games?.map((data: any, index: number) => {
         return {
             challenger: data?.node.player_one,
             challenged: data?.node.player_two,
-            date: transactions[index]?.node.executedAt,
+            date: data?.node.entity?.executedAt,
         }
     })
     const { system } = useDojo()

@@ -100,22 +100,29 @@ export default function Lobby() {
     connectWallet();
   };
 
-  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(game =>
-    game?.node?.player_one === account.address || game?.node?.player_two === account.address
+  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
+    (game) =>
+      game?.node?.player_one === account.address ||
+      game?.node?.player_two === account.address
   );
 
-  const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce((acc, game, index) => {
-    if (
-      (game?.node?.player_one === account.address || game?.node?.player_two === account.address) &&
-      data?.transactions?.edges
-    ) {
-      const transaction = data.transactions.edges[index];
-      if (transaction) {
-        acc.push(transaction as never);
+  const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+    (acc: any[], game: any) => {
+      if (
+        (game?.node?.player_one === account.address ||
+          game?.node?.player_two === account.address) &&
+        game?.node?.entity?.executedAt
+      ) {
+        acc.push({
+          ...game.node,
+          executedAt: game?.node?.entity?.executedAt,
+        });
       }
-    }
-    return acc;
-  }, []) || [];
+      return acc;
+    },
+    []
+  ) || [];
+
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -356,7 +363,6 @@ export default function Lobby() {
                 <TabsContent value="live">
                   <LiveDuels
                     games={data?.mancalaAlphaMancalaGameModels?.edges}
-                    transactions={data?.transactions?.edges}
                   />
                 </TabsContent>
               </>
