@@ -938,13 +938,9 @@ export const MancalaModelsFetchDocument = gql`
         status
         is_private
         time_between_move
-      }
-    }
-  }
-  transactions {
-    edges {
-      node {
-        executedAt
+        entity {
+          executedAt
+        }
       }
     }
   }
@@ -984,20 +980,21 @@ export type MancalaModelsFetchSuspenseQueryHookResult = ReturnType<typeof useMan
 export type MancalaModelsFetchQueryResult = Apollo.QueryResult<MancalaModelsFetchQuery, MancalaModelsFetchQueryVariables>;
 export const FetchModelsForLeaderBoardDocument = gql`
     query FetchModelsForLeaderBoard {
-  mancalaAlphaMancalaGameModels {
-    edges {
-      node {
-        game_id
-        player_one
-        player_two
-        current_player
-        winner
-        status
-        is_private
+        mancalaAlphaMancalaGameModels {
+          edges {
+            node {
+              game_id
+              player_one
+              player_two
+              current_player
+              winner
+              status
+              is_private
+              time_between_move
+            }
+          }
+        }
       }
-    }
-  }
-}
     `;
 
 /**

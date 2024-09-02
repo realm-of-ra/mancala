@@ -1,7 +1,7 @@
 kind = "DojoModel"
 class_hash = "0x11694727b022fcc1b98d29b8e62ec4f377643b08f858d202c9f0df3eb1882ef"
 original_class_hash = "0x11694727b022fcc1b98d29b8e62ec4f377643b08f858d202c9f0df3eb1882ef"
-abi = "manifests/dev/base/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
+abi = "manifests/sepolia/base/abis/models/mancala_alpha-GamePlayer-4fe4cbef.json"
 tag = "mancala_alpha-GamePlayer"
 qualified_path = "mancala::models::player::game_player"
 manifest_name = "mancala_alpha-GamePlayer-4fe4cbef"

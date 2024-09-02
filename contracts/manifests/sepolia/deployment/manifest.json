@@ -1229,13 +1229,13 @@
         ]
       }
     ],
-    "address": "0x47cbe2fcd69fd466f3fae430bf46e0a9d0ce2775fdfac124cedc49dbc8bc788",
-    "transaction_hash": "0x3ff91b455301a3a579fa32527ad49a87f1756a9a8dfd42275ea6f692b8368c9",
-    "block_number": 3,
-    "seed": "mancala_alpha_slot",
+    "address": "0x33402d31efb8d45d4868531e2f4e4b03e05c69a47b9ebcc0660145f9cdd20f3",
+    "transaction_hash": "0x70809cf7845495e1281aa17f55089803f3ce7941b1dacdf431a56c93b0b0525",
+    "block_number": 152905,
+    "seed": "mancala_alpha_sepolia",
     "metadata": {
-      "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v5/katana"
+      "profile_name": "sepolia",
+      "rpc_url": "https://starknet-sepolia.public.blastapi.io/rpc/v0_7"
     },
     "manifest_name": "dojo-world"
   },
@@ -1243,14 +1243,14 @@
     "kind": "Class",
     "class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
     "original_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
-    "abi": "manifests/dev/deployment/abis/dojo-base.json",
+    "abi": "manifests/sepolia/deployment/abis/dojo-base.json",
     "tag": "dojo-base",
     "manifest_name": "dojo-base"
   },
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x66ebcab6f4ae40dba02ac86ac2ebba2f5b459142cbf095d65e5294e4dd7f465",
+      "address": "0x6fde58d240308cb0139760155b27e328fdaa1beca04c919498eac706dc8d3e",
       "class_hash": "0x64f1bf03ed832104e2f76ea6a35ea1f74dc6b91989170ad7c2127338420691f",
       "original_class_hash": "0x64f1bf03ed832104e2f76ea6a35ea1f74dc6b91989170ad7c2127338420691f",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
@@ -1716,9 +1716,7 @@
         }
       ],
       "reads": [],
-      "writes": [
-        "ns:mancala_alpha"
-      ],
+      "writes": ["ns:mancala_alpha"],
       "init_calldata": [],
       "tag": "mancala_alpha-actions",
       "systems": [
