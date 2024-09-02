@@ -47,7 +47,6 @@ export default function LiveDuels({ games }: { games: any }) {
     //         date: transactions[index].node.executedAt,
     //     }
     // })
-    console.log(games)
     const data = games?.map((data: any, index: number) => {
         return {
             challenger: data?.node.player_one,
