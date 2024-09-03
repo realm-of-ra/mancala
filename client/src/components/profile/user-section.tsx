@@ -5,6 +5,8 @@ import image from "@/assets/image-add.svg";
 import { Link } from "react-router-dom";
 import { FormEventHandler, useRef, useState } from "react";
 import { Dialog } from "@material-tailwind/react";
+import { truncateString } from "@/lib/utils";
+import { useAccount } from "@starknet-react/core";
 
 export default function UserSection({ level, wins, losses, total }: { level: number, wins: number, losses: number, total: number }) {
     const [open, setOpen] = useState(false);
@@ -16,13 +18,14 @@ export default function UserSection({ level, wins, losses, total }: { level: num
             setSelectedImage(URL.createObjectURL(event.target.files[0]));
         }
     };
+    const account = useAccount();
     return (
         <div className="w-[350px] h-[500px] bg-[url('./assets/long-box.png')] bg-contain bg-no-repeat py-8 px-6 overflow-x-hidden">
             <div className="w-full h-full space-y-5">
                 <div className="flex flex-row items-center space-x-5">
                     <img src={avatar} width={80} height={80} className="rounded-full border-2 border-[#4B505C]" />
                     <div>
-                        <h3 className="text-3xl text-[#CBCDD6] font-medium">Cumberlord</h3>
+                        <h3 className="text-2xl text-[#CBCDD6] font-medium">{truncateString(account?.address) || "Guest user"}</h3>
                         <button className="text-[#F58229] font-medium" onClick={handleOpen}>
                             Edit details
                         </button>
@@ -41,7 +44,9 @@ export default function UserSection({ level, wins, losses, total }: { level: num
                         <p className="font-medium text-white">{level}/100</p>
                     </div>
                     <div className="w-full h-4 bg-gradient-to-r from-[#555868] to-[#1A1C24] rounded-full">
-                        <div className="w-[30%] h-full bg-[#FAB580] rounded-full" />
+                        <div className="h-full bg-[#FAB580] rounded-full" style={{
+                            width: `${(level / 100) * 100}%`
+                        }} />
                     </div>
                     <div className="flex flex-row items-center justify-between">
                         <p className="font-medium text-[#BDC2CC]">Total Played</p>
