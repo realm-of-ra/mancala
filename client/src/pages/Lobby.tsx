@@ -378,7 +378,7 @@ export default function Lobby() {
                     className="w-16 h-16 pb-5"
                   />
                   <h6 className="text-[#BDC2CC] font-bold text-lg">Connect Wallet</h6>
-                  <p className="text-[#4F5666] pb-1.5">Connect your wallet</p>
+                  <p className="text-[#4F5666] pb-1.5">Player data not found</p>
                   <Button
                     className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                     onClick={connectWallet}
