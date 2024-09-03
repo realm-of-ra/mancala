@@ -10,7 +10,7 @@ import { AllGameSkeleton } from "./all-games-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 import EmptyAllGames from "./empty-all-games.tsx";
 
-export default function AllGames({ games, transactions, loading }: { games: any, transactions: any, loading: boolean }) {
+export default function AllGames({ games, loading, id }: { games: any, loading: boolean, id: string }) {
     // const { provider } = useProvider();
     // const starknetIdNavigator = useMemo(() => {
     //     return new StarknetIdNavigator(
@@ -48,11 +48,12 @@ export default function AllGames({ games, transactions, loading }: { games: any,
     // })
 
     const data = games?.map((data: any, index: number) => {
+        console.log(data)
         return {
             challenger: data.node.player_one,
             challenged: data.node.player_two,
             winner: data.node.winner,
-            date: transactions[index].node.executedAt,
+            date: data.node.entity.executedAt,
         }
     })
 
@@ -62,7 +63,7 @@ export default function AllGames({ games, transactions, loading }: { games: any,
     }
     else {
         if (data?.length === 0) {
-            return <EmptyAllGames />
+            return <EmptyAllGames id={id} />
         }
         else {
             return (
@@ -110,7 +111,7 @@ export default function AllGames({ games, transactions, loading }: { games: any,
                                             const isLast = index === data?.length - 1;
                                             const date = new Date(item.date)
                                             return (
-                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-[814px] bg-[#0F1116] flex flex-row items-center")}>
+                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-[814px] flex flex-row items-center")}>
                                                     <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
                                                         {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
                                                         <div className="flex flex-row items-center space-x-2.5 w-fit">

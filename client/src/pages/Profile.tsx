@@ -1,10 +1,41 @@
 import Header from "@/components/header";
-import Duels from "@/components/lobby/duels";
 import AllGames from "@/components/profile/all-games";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMancalaModelsFetchQuery } from "@/generated/graphql";
+import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
+    const { data, startPolling, loading } = useMancalaModelsFetchQuery();
+    startPolling(1000);
+    const account = useAccount();
+    const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
+        (game) =>
+            game?.node?.player_one === account.address ||
+            game?.node?.player_two === account.address
+    );
+
+    const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+        (acc: any[], game: any) => {
+            if (
+                (game?.node?.player_one === account.address ||
+                    game?.node?.player_two === account.address) &&
+                game?.node?.entity?.executedAt
+            ) {
+                acc.push({
+                    ...game.node,
+                    executedAt: game?.node?.entity?.executedAt,
+                });
+            }
+            return acc;
+        },
+        []
+    ) || [];
+
+    const filteredWonGames = filteredGames?.filter(game => game?.node?.winner === account.address) || [];
+    const filteredLostGames = filteredGames?.filter(game => game?.node?.winner !== "0x0" && game?.node?.winner !== account.address) || [];
+
+
     return (
         <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
             <Header />
@@ -42,13 +73,13 @@ export default function Profile() {
                         </div>
                         <div>
                             <TabsContent value="all-games">
-                                <AllGames games={undefined} transactions={undefined} loading={false} />
+                                <AllGames games={filteredGames} loading={loading} id="all" />
                             </TabsContent>
                             <TabsContent value="won">
-                                <AllGames games={undefined} transactions={undefined} loading={false} />
+                                <AllGames games={filteredWonGames} loading={loading} id="won" />
                             </TabsContent>
                             <TabsContent value="lost">
-                                <AllGames games={undefined} transactions={undefined} loading={false} />
+                                <AllGames games={filteredLostGames} loading={loading} id="lost" />
                             </TabsContent>
                         </div>
                     </Tabs>
