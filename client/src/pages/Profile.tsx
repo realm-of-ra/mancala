@@ -2,7 +2,8 @@ import Header from "@/components/header";
 import AllGames from "@/components/profile/all-games";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMancalaModelsFetchQuery } from "@/generated/graphql";
+import { MancalaGameEdge, useFetchModelsForHeaderQuery, useMancalaModelsFetchQuery } from "@/generated/graphql";
+import { getPlayer } from "@/lib/utils";
 import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
@@ -15,25 +16,33 @@ export default function Profile() {
             game?.node?.player_two === account.address
     );
 
-    const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
-        (acc: any[], game: any) => {
-            if (
-                (game?.node?.player_one === account.address ||
-                    game?.node?.player_two === account.address) &&
-                game?.node?.entity?.executedAt
-            ) {
-                acc.push({
-                    ...game.node,
-                    executedAt: game?.node?.entity?.executedAt,
-                });
-            }
-            return acc;
-        },
-        []
-    ) || [];
+    // const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+    //     (acc: any[], game: any) => {
+    //         if (
+    //             (game?.node?.player_one === account.address ||
+    //                 game?.node?.player_two === account.address) &&
+    //             game?.node?.entity?.executedAt
+    //         ) {
+    //             acc.push({
+    //                 ...game.node,
+    //                 executedAt: game?.node?.entity?.executedAt,
+    //             });
+    //         }
+    //         return acc;
+    //     },
+    //     []
+    // ) || [];
 
     const filteredWonGames = filteredGames?.filter(game => game?.node?.winner === account.address) || [];
     const filteredLostGames = filteredGames?.filter(game => game?.node?.winner !== "0x0" && game?.node?.winner !== account.address) || [];
+
+    const { data: playerData, startPolling: startPollingPlayer } = useFetchModelsForHeaderQuery();
+    startPollingPlayer(1000);
+
+    const player = getPlayer(
+        playerData?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
+        account.account?.address || "",
+    );
 
 
     return (
@@ -41,7 +50,11 @@ export default function Profile() {
             <Header />
             <div className="flex flex-row items-center justify-center">
                 <div className="w-full flex flex-row items-start justify-center space-x-10">
-                    <UserSection />
+                    <UserSection level={player?.[0]?.wins < 4 ? 1 : Number.isNaN(Math.floor(player?.[0]?.wins)) ? 1 : Math.floor(player?.[0]?.wins) < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}
+                        wins={filteredWonGames?.length}
+                        losses={filteredLostGames?.length}
+                        total={filteredGames?.length || 0}
+                    />
                     <Tabs defaultValue="all-games" className="w-[800px] space-y-10">
                         <div className="flex flex-row items-center justify-between w-full">
                             <TabsList className="bg-transparent space-x-1.5">

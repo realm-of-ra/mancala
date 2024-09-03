@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FormEventHandler, useRef, useState } from "react";
 import { Dialog } from "@material-tailwind/react";
 
-export default function UserSection() {
+export default function UserSection({ level, wins, losses, total }: { level: number, wins: number, losses: number, total: number }) {
     const [open, setOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const ref: any = useRef();
@@ -37,23 +37,23 @@ export default function UserSection() {
                 </div>
                 <div className="space-y-3.5">
                     <div className="flex flex-row items-center justify-between">
-                        <p className="font-medium text-white">Level 12</p>
-                        <p className="font-medium text-white">12/200</p>
+                        <p className="font-medium text-white">Level {level}</p>
+                        <p className="font-medium text-white">{level}/100</p>
                     </div>
                     <div className="w-full h-4 bg-gradient-to-r from-[#555868] to-[#1A1C24] rounded-full">
                         <div className="w-[30%] h-full bg-[#FAB580] rounded-full" />
                     </div>
                     <div className="flex flex-row items-center justify-between">
                         <p className="font-medium text-[#BDC2CC]">Total Played</p>
-                        <p className="font-medium text-white">124</p>
+                        <p className="font-medium text-white">{total}</p>
                     </div>
                     <div className="flex flex-row items-center justify-between">
                         <p className="font-medium text-[#BDC2CC]">Total Won</p>
-                        <p className="font-medium text-white">101</p>
+                        <p className="font-medium text-white">{wins}</p>
                     </div>
                     <div className="flex flex-row items-center justify-between">
                         <p className="font-medium text-[#BDC2CC]">Total Lost</p>
-                        <p className="font-medium text-white">23</p>
+                        <p className="font-medium text-white">{losses}</p>
                     </div>
                 </div>
                 <div className="space-y-1.5">
