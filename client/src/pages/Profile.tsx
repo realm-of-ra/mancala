@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import AllGames from "@/components/profile/all-games";
+import GameHistory from "@/components/profile/game-history";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MancalaGameEdge, useFetchModelsForHeaderQuery, useMancalaModelsFetchQuery } from "@/generated/graphql";
@@ -86,13 +86,13 @@ export default function Profile() {
                         </div>
                         <div>
                             <TabsContent value="all-games">
-                                <AllGames games={filteredGames} loading={loading} id="all" />
+                                <GameHistory games={filteredGames} loading={loading} id="all" />
                             </TabsContent>
                             <TabsContent value="won">
-                                <AllGames games={filteredWonGames} loading={loading} id="won" />
+                                <GameHistory games={filteredWonGames} loading={loading} id="won" />
                             </TabsContent>
                             <TabsContent value="lost">
-                                <AllGames games={filteredLostGames} loading={loading} id="lost" />
+                                <GameHistory games={filteredLostGames} loading={loading} id="lost" />
                             </TabsContent>
                         </div>
                     </Tabs>

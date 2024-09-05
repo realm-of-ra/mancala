@@ -6,11 +6,11 @@ import { Card, Typography } from "@material-tailwind/react";
 // import { constants, StarkProfile } from "starknet";
 import clsx from "clsx";
 import { truncateString } from "@/lib/utils.ts";
-import { AllGameSkeleton } from "./all-games-skeleton.tsx";
+import { GameHistorySkeleton } from "./game-history-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
-import EmptyAllGames from "./empty-all-games.tsx";
+import EmptyGameHistory from "./empty-game-history.tsx";
 
-export default function AllGames({ games, loading, id }: { games: any, loading: boolean, id: string }) {
+export default function GameHistory({ games, loading, id }: { games: any, loading: boolean, id: string }) {
     // const { provider } = useProvider();
     // const starknetIdNavigator = useMemo(() => {
     //     return new StarknetIdNavigator(
@@ -59,11 +59,11 @@ export default function AllGames({ games, loading, id }: { games: any, loading: 
 
 
     if (loading) {
-        return <AllGameSkeleton />
+        return <GameHistorySkeleton />
     }
     else {
         if (data?.length === 0) {
-            return <EmptyAllGames id={id} />
+            return <EmptyGameHistory id={id} />
         }
         else {
             return (

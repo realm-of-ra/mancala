@@ -1,6 +1,6 @@
 import mancala_duels_logo from '../../assets/mancala_duels.png';
 
-export default function EmptyAllGames({ id }: { id: string }) {
+export default function EmptyGameHistory({ id }: { id: string }) {
     return (
         <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
             <div className='w-full h-[500px] flex flex-col items-center justify-center'>

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export function AllGameSkeleton() {
+export function GameHistorySkeleton() {
     const arr = Array(6).fill(null);
     return (
         <>
