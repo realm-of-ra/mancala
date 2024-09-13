@@ -22,6 +22,7 @@ import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import icon3 from "../assets/LogoW.svg";
+import controllerSvg from "../assets/controller.svg";
 import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profileImage from "../assets/profile.svg";
@@ -224,7 +225,12 @@ export default function Header() {
                 onClick={handleDropdownToggle}
               >
                 <span className="bg-[#FFA158] h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
-                  <img src={icon3} className="text-left" />
+                  <img
+                    src={controllerSvg}
+                    width={30}
+                    height={30}
+                    className="text-left"
+                  />
                 </span>
                 <span className="ml-12 text-[#FCE3AA]">Connect Wallet</span>
                 <ChevronDownIcon

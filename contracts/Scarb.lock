@@ -16,7 +16,7 @@ source = "git+https://github.com/dojoengine/dojo?rev=f15def33#f15def330c0d099e79
 
 [[package]]
 name = "mancala"
-version = "0.0.4"
+version = "0.0.8"
 dependencies = [
  "dojo",
 ]
