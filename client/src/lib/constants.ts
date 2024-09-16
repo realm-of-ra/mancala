@@ -561,7 +561,7 @@ export const POLICIES = [
   },
 ];
 
-export const MancalaModelsFetchQuery = gql`
+export const MancalaBoardModelsQuery = gql`
   query mancalaMancalaBoardModels {
     mancalaMancalaBoardModels {
       edges {

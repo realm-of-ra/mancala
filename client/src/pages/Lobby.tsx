@@ -23,14 +23,10 @@ import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
-import {
-  MancalaGameEdge,
-  useMancalaModelsFetchQuery,
-} from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
-import { MancalaModelsFetchQuery } from "@/lib/constants";
+import { MancalaBoardModelsQuery } from "@/lib/constants";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -82,9 +78,7 @@ export default function Lobby() {
     }
   };
 
-  const { data, startPolling, loading } = useQuery(MancalaModelsFetchQuery);
-
-  console.log(data)
+  const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
   startPolling(1000);
   useEffect(() => {
@@ -127,9 +121,6 @@ export default function Lobby() {
       },
       []
     ) || [];
-
-    console.log("filteredTransactions: ", filteredTransactions)
-    console.log("firstFilteredTransactions: ", filteredTransactions)
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -354,10 +345,7 @@ export default function Lobby() {
               <>
                 <TabsContent value="players">
                   <Players
-                    data={
-                      data?.mancalaMancalaBoardModels
-                        ?.edges as MancalaGameEdge[]
-                    }
+                    data={data?.mancalaMancalaBoardModels?.edges}
                   />
                 </TabsContent>
                 <TabsContent value="duels">
