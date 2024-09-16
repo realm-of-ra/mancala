@@ -1230,12 +1230,12 @@
       }
     ],
     "address": "0x47cbe2fcd69fd466f3fae430bf46e0a9d0ce2775fdfac124cedc49dbc8bc788",
-    "transaction_hash": "0x3ff91b455301a3a579fa32527ad49a87f1756a9a8dfd42275ea6f692b8368c9",
+    "transaction_hash": "0x10196a97ef37425754bfa3d09a7740550a99c029764c46b53ce9dc6b1c558cb",
     "block_number": 3,
     "seed": "mancala_alpha_slot",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v5/katana"
+      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v8/katana"
     },
     "manifest_name": "dojo-world"
   },
