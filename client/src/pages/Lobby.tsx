@@ -96,10 +96,6 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const handleConnect = () => {
-    connectWallet();
-  };
-
   const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
     (game) =>
       game?.node?.player_one === account.address ||

@@ -49,8 +49,6 @@ export default function Leaderboard() {
     })();
   }, [addresses]);
 
-  console.log(players);
-
   return (
     <div className="bg-[#0F1116] min-h-screen h-full w-full flex flex-col items-center">
       {/* Start of header */}
@@ -61,7 +59,7 @@ export default function Leaderboard() {
             <Button
               ripple={false}
               children
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/lobby")}
               className="w-24 h-24 bg-transparent bg-[url('assets/lobby.png')] bg-contain bg-no-repeat bg-center overflow-hidden hover:shadow-none"
             />
           </span>
@@ -197,7 +195,7 @@ export default function Leaderboard() {
                               {profiles[index + 3]?.name
                                 ? profiles[index + 3].name
                                 : addresses &&
-                                  truncateString(addresses[index + 3])}
+                                truncateString(addresses[index + 3])}
                             </p>
                           </div>
                         </td>

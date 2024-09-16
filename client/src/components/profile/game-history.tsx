@@ -6,11 +6,11 @@ import { Card, Typography } from "@material-tailwind/react";
 // import { constants, StarkProfile } from "starknet";
 import clsx from "clsx";
 import { truncateString } from "@/lib/utils.ts";
-import { DuelsSkeleton } from "./duels-skeleton.tsx";
+import { GameHistorySkeleton } from "./game-history-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
-import EmptyDuels from "./empty-duels.tsx";
+import EmptyGameHistory from "./empty-game-history.tsx";
 
-export default function Duels({ games, transactions, loading }: { games: any, transactions: any, loading: boolean }) {
+export default function GameHistory({ games, loading, id }: { games: any, loading: boolean, id: string }) {
     // const { provider } = useProvider();
     // const starknetIdNavigator = useMemo(() => {
     //     return new StarknetIdNavigator(
@@ -48,24 +48,26 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
     // })
 
     const data = games?.map((data: any, index: number) => {
+        console.log(data)
         return {
             challenger: data.node.player_one,
             challenged: data.node.player_two,
             winner: data.node.winner,
-            date: transactions[index].executedAt,
+            date: data.node.entity.executedAt,
         }
     })
 
+
     if (loading) {
-        return <DuelsSkeleton />
+        return <GameHistorySkeleton />
     }
     else {
         if (data?.length === 0) {
-            return <EmptyDuels />
+            return <EmptyGameHistory id={id} />
         }
         else {
             return (
-                <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
+                <div className="w-[874px] h-[874px] bg-[url('./assets/wide-box.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
                     <Card className="w-full h-full bg-transparent">
                         <div className="w-full text-left bg-transparent table-auto">
                             <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
@@ -109,7 +111,7 @@ export default function Duels({ games, transactions, loading }: { games: any, tr
                                             const isLast = index === data?.length - 1;
                                             const date = new Date(item.date)
                                             return (
-                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-[814px] bg-[#0F1116] flex flex-row items-center")}>
+                                                <tr key={index} className={clsx(!isLast && "border-b border-[#23272F]", "w-[814px] flex flex-row items-center")}>
                                                     <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
                                                         {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
                                                         <div className="flex flex-row items-center space-x-2.5 w-fit">

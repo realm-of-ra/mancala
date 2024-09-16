@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
 import { POLICIES } from "./lib/constants";
+import Profile from "./pages/Profile";
 
 const options: ControllerOptions = {
   rpc: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
@@ -75,6 +76,7 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="/lobby" element={<Lobby />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/games/:gameId" element={<Gameplay />} />
           </Routes>
         </Router>
