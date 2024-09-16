@@ -1,6 +1,7 @@
 import CartridgeConnector from "@cartridge/connector";
 import { ControllerOptions } from "@cartridge/controller";
 import { Chain, sepolia } from "@starknet-react/chains";
+import { stringToFelt, bigintToHex } from "@/lib/utils";
 import {
   Connector,
   StarknetConfig,
@@ -13,51 +14,24 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
-import Profile from "./pages/Profile";
-
-const CONTRACT_ADDRESS =
-  "0x75f40d154faffb3078122f7c018d43e327911cd1dcccc64cbaba2bae7e620ac";
-
-const policies = [
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_initial_game_id",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_private_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "join_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "move",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "time_out",
-  },
-];
+import { POLICIES } from "./lib/constants";
 
 const options: ControllerOptions = {
-  rpc: "https://starknet-sepolia.public.blastapi.io/rpc/v0_7",
+  rpc: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
   theme: "realm-of-ra",
+  paymaster: {
+    caller: bigintToHex(stringToFelt("ANY_CALLER")),
+  },
 };
 
 const connectorOptions = {
-  policies,
+  policies: POLICIES,
   ...options,
 };
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://starknet-sepolia.public.blastapi.io/rpc/v0_7",
+    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
   };
 }
 

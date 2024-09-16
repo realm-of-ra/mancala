@@ -28,7 +28,7 @@ import {
   useMancalaModelsFetchQuery,
 } from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
-import braavos from "@/assets/braavos.png";
+import controller from "@/assets/controller.png";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -99,26 +99,26 @@ export default function Lobby() {
   const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
     (game) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_two === account.address,
   );
 
-  const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
-    (acc: any[], game: any) => {
-      if (
-        (game?.node?.player_one === account.address ||
-          game?.node?.player_two === account.address) &&
-        game?.node?.entity?.executedAt
-      ) {
-        acc.push({
-          ...game.node,
-          executedAt: game?.node?.entity?.executedAt,
-        });
-      }
-      return acc;
-    },
-    []
-  ) || [];
-
+  const filteredTransactions =
+    data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+      (acc: any[], game: any) => {
+        if (
+          (game?.node?.player_one === account.address ||
+            game?.node?.player_two === account.address) &&
+          game?.node?.entity?.executedAt
+        ) {
+          acc.push({
+            ...game.node,
+            executedAt: game?.node?.entity?.executedAt,
+          });
+        }
+        return acc;
+      },
+      [],
+    ) || [];
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -373,13 +373,16 @@ export default function Lobby() {
                     alt="plug"
                     className="w-16 h-16 pb-5"
                   />
-                  <h6 className="text-[#BDC2CC] font-bold text-lg">Connect Wallet</h6>
-                  <p className="text-[#4F5666] pb-1.5">Player data not found</p>
+                  <h6 className="text-[#BDC2CC] font-bold text-lg">
+                    Connect Wallet
+                  </h6>
+                  <p className="text-[#4F5666] pb-1.5">Connect your wallet</p>
                   <Button
                     className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                     onClick={connectWallet}
                   >
-                    <img src={braavos} width={25} height={25} alt="wallet" /> Connect Wallet
+                    <img src={controller} width={30} height={30} alt="wallet" />{" "}
+                    Connect Wallet
                   </Button>
                 </div>
               </div>
