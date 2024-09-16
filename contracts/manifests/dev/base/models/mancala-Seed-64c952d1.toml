@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
+original_class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
+abi = "manifests/dev/base/abis/models/mancala-Seed-64c952d1.json"
+tag = "mancala-Seed"
+qualified_path = "mancala::models::index::seed"
+manifest_name = "mancala-Seed-64c952d1"
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "pit_number"
+type = "u8"
+key = true
+
+[[members]]
+name = "seed_number"
+type = "u8"
+key = true
+
+[[members]]
+name = "color"
+type = "SeedColor"
+key = false

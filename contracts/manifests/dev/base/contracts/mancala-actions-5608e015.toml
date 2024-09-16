@@ -1,0 +1,19 @@
+kind = "DojoContract"
+class_hash = "0x45f4815b02420ca53012f013976b1dfa1b9c0877bf5c0edce1b99eff8b06baf"
+original_class_hash = "0x45f4815b02420ca53012f013976b1dfa1b9c0877bf5c0edce1b99eff8b06baf"
+base_class_hash = "0x0"
+abi = "manifests/dev/base/abis/contracts/mancala-actions-5608e015.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "mancala-actions"
+systems = [
+    "initialize_game_counter",
+    "join_game",
+    "create_private_game",
+    "move",
+    "forfeited",
+    "request_restart_game",
+    "restart_current_game",
+]
+manifest_name = "mancala-actions-5608e015"

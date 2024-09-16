@@ -363,12 +363,12 @@
   },
   {
     "type": "impl",
-    "name": "mancala_gameImpl",
-    "interface_name": "mancala::models::mancala_game::Imancala_game"
+    "name": "mancala_boardImpl",
+    "interface_name": "mancala::models::index::Imancala_board"
   },
   {
     "type": "enum",
-    "name": "mancala::models::mancala_game::GameStatus",
+    "name": "mancala::models::index::GameStatus",
     "variants": [
       {
         "name": "Pending",
@@ -408,7 +408,7 @@
   },
   {
     "type": "struct",
-    "name": "mancala::models::mancala_game::MancalaGame",
+    "name": "mancala::models::index::MancalaBoard",
     "members": [
       {
         "name": "game_id",
@@ -440,7 +440,7 @@
       },
       {
         "name": "status",
-        "type": "mancala::models::mancala_game::GameStatus"
+        "type": "mancala::models::index::GameStatus"
       },
       {
         "name": "is_private",
@@ -450,7 +450,7 @@
   },
   {
     "type": "interface",
-    "name": "mancala::models::mancala_game::Imancala_game",
+    "name": "mancala::models::index::Imancala_board",
     "items": [
       {
         "type": "function",
@@ -458,7 +458,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "mancala::models::mancala_game::MancalaGame"
+            "type": "mancala::models::index::MancalaBoard"
           }
         ],
         "outputs": [],
@@ -468,7 +468,7 @@
   },
   {
     "type": "event",
-    "name": "mancala::models::mancala_game::mancala_game::Event",
+    "name": "mancala::models::index::mancala_board::Event",
     "kind": "enum",
     "variants": []
   }

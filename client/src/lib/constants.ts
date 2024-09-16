@@ -607,7 +607,7 @@ export const live_duels_stats = [
 ];
 
 const ACTION_ADDRESS =
-  "0x66ebcab6f4ae40dba02ac86ac2ebba2f5b459142cbf095d65e5294e4dd7f465";
+  "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";
 
 export const POLICIES = [
   {

@@ -1,18 +1,12 @@
 [package]
 cairo-version = "=2.7.0"
 name = "mancala"
-version = "0.0.8"
-edition = "2024_07"
+version = "0.1.0"
 
 [cairo]
 sierra-replace-ids = true
 
-[scripts]
-migrate = "sozo build && sozo migrate plan && sozo migrate apply"
-
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.9" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.11" }
 
 [[target.dojo]]
-
-[profile.sepolia]

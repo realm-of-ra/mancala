@@ -1,10 +1,10 @@
 kind = "DojoModel"
-class_hash = "0x73f3710ff3124f6c8e376f78e9404f7256557df6c0c79876f09bd4c33e8f3d2"
-original_class_hash = "0x73f3710ff3124f6c8e376f78e9404f7256557df6c0c79876f09bd4c33e8f3d2"
-abi = "manifests/dev/base/abis/models/mancala_alpha-MancalaGame-628bb438.json"
-tag = "mancala_alpha-MancalaGame"
-qualified_path = "mancala::models::mancala_game::mancala_game"
-manifest_name = "mancala_alpha-MancalaGame-628bb438"
+class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+original_class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+abi = "manifests/dev/base/abis/models/mancala-MancalaBoard-43323da8.json"
+tag = "mancala-MancalaBoard"
+qualified_path = "mancala::models::index::mancala_board"
+manifest_name = "mancala-MancalaBoard-43323da8"
 
 [[members]]
 name = "game_id"

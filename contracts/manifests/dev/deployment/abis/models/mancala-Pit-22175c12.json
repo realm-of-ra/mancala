@@ -363,72 +363,34 @@
   },
   {
     "type": "impl",
-    "name": "game_playerImpl",
-    "interface_name": "mancala::models::player::Igame_player"
-  },
-  {
-    "type": "enum",
-    "name": "core::bool",
-    "variants": [
-      {
-        "name": "False",
-        "type": "()"
-      },
-      {
-        "name": "True",
-        "type": "()"
-      }
-    ]
+    "name": "pitImpl",
+    "interface_name": "mancala::models::index::Ipit"
   },
   {
     "type": "struct",
-    "name": "mancala::models::player::GamePlayer",
+    "name": "mancala::models::index::Pit",
     "members": [
-      {
-        "name": "address",
-        "type": "core::starknet::contract_address::ContractAddress"
-      },
       {
         "name": "game_id",
         "type": "core::integer::u128"
       },
       {
-        "name": "pit1",
+        "name": "player",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "pit_number",
         "type": "core::integer::u8"
       },
       {
-        "name": "pit2",
+        "name": "seed_count",
         "type": "core::integer::u8"
-      },
-      {
-        "name": "pit3",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "pit4",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "pit5",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "pit6",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "mancala",
-        "type": "core::integer::u8"
-      },
-      {
-        "name": "restart_requested",
-        "type": "core::bool"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "mancala::models::player::Igame_player",
+    "name": "mancala::models::index::Ipit",
     "items": [
       {
         "type": "function",
@@ -436,7 +398,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "mancala::models::player::GamePlayer"
+            "type": "mancala::models::index::Pit"
           }
         ],
         "outputs": [],
@@ -446,7 +408,7 @@
   },
   {
     "type": "event",
-    "name": "mancala::models::player::game_player::Event",
+    "name": "mancala::models::index::pit::Event",
     "kind": "enum",
     "variants": []
   }

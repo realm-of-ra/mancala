@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x5492facc80365d53591c959a5b606c1f2ed48d8188d56bcd3b3759c5d48bba2"
+original_class_hash = "0x5492facc80365d53591c959a5b606c1f2ed48d8188d56bcd3b3759c5d48bba2"
+abi = "manifests/dev/base/abis/models/mancala-GameCounter-70698b2c.json"
+tag = "mancala-GameCounter"
+qualified_path = "mancala::models::index::game_counter"
+manifest_name = "mancala-GameCounter-70698b2c"
+
+[[members]]
+name = "id"
+type = "u32"
+key = true
+
+[[members]]
+name = "count"
+type = "u128"
+key = false

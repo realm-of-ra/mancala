@@ -133,7 +133,7 @@
   },
   {
     "type": "enum",
-    "name": "mancala::models::mancala_game::GameStatus",
+    "name": "mancala::models::index::GameStatus",
     "variants": [
       {
         "name": "Pending",
@@ -173,7 +173,7 @@
   },
   {
     "type": "struct",
-    "name": "mancala::models::mancala_game::MancalaGame",
+    "name": "mancala::models::index::MancalaBoard",
     "members": [
       {
         "name": "game_id",
@@ -205,10 +205,32 @@
       },
       {
         "name": "status",
-        "type": "mancala::models::mancala_game::GameStatus"
+        "type": "mancala::models::index::GameStatus"
       },
       {
         "name": "is_private",
+        "type": "core::bool"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "mancala::models::index::Player",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u128"
+      },
+      {
+        "name": "address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "len_pits",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "restart_requested",
         "type": "core::bool"
       }
     ]
@@ -219,21 +241,21 @@
     "items": [
       {
         "type": "function",
-        "name": "create_initial_game_id",
+        "name": "initialize_game_counter",
         "inputs": [],
         "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
-        "name": "create_game",
+        "name": "new_game",
         "inputs": [],
         "outputs": [
           {
-            "type": "mancala::models::mancala_game::MancalaGame"
+            "type": "mancala::models::index::MancalaBoard"
           }
         ],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
@@ -242,30 +264,38 @@
           {
             "name": "game_id",
             "type": "core::integer::u128"
-          },
-          {
-            "name": "player_two_address",
-            "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
         "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
         "name": "create_private_game",
         "inputs": [
           {
-            "name": "player_two_address",
+            "name": "opponent_address",
             "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_players",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
           }
         ],
         "outputs": [
           {
-            "type": "mancala::models::mancala_game::MancalaGame"
+            "type": "(mancala::models::index::Player, mancala::models::index::Player)"
           }
         ],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
@@ -280,24 +310,8 @@
             "type": "core::integer::u8"
           }
         ],
-        "outputs": [
-          {
-            "type": "(core::starknet::contract_address::ContractAddress, mancala::models::mancala_game::GameStatus)"
-          }
-        ],
-        "state_mutability": "external"
-      },
-      {
-        "type": "function",
-        "name": "time_out",
-        "inputs": [
-          {
-            "name": "game_id",
-            "type": "core::integer::u128"
-          }
-        ],
         "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
@@ -313,11 +327,11 @@
             "type": "(core::integer::u8, core::integer::u8)"
           }
         ],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
-        "name": "is_game_finished",
+        "name": "is_game_over",
         "inputs": [
           {
             "name": "game_id",
@@ -329,7 +343,7 @@
             "type": "core::bool"
           }
         ],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
@@ -338,14 +352,10 @@
           {
             "name": "game_id",
             "type": "core::integer::u128"
-          },
-          {
-            "name": "player_address",
-            "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
         "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
@@ -357,27 +367,19 @@
           }
         ],
         "outputs": [],
-        "state_mutability": "external"
+        "state_mutability": "view"
       },
       {
         "type": "function",
-        "name": "restart_game",
+        "name": "restart_current_game",
         "inputs": [
           {
             "name": "game_id",
             "type": "core::integer::u128"
-          },
-          {
-            "name": "private",
-            "type": "core::bool"
           }
         ],
-        "outputs": [
-          {
-            "type": "mancala::models::mancala_game::MancalaGame"
-          }
-        ],
-        "state_mutability": "external"
+        "outputs": [],
+        "state_mutability": "view"
       }
     ]
   },
@@ -448,6 +450,12 @@
   },
   {
     "type": "event",
+    "name": "mancala::components::playable::PlayableComponent::Event",
+    "kind": "enum",
+    "variants": []
+  },
+  {
+    "type": "event",
     "name": "mancala::systems::actions::actions::Event",
     "kind": "enum",
     "variants": [
@@ -455,6 +463,11 @@
         "name": "UpgradeableEvent",
         "type": "dojo::contract::upgradeable::upgradeable::Event",
         "kind": "nested"
+      },
+      {
+        "name": "PlayableEvent",
+        "type": "mancala::components::playable::PlayableComponent::Event",
+        "kind": "flat"
       }
     ]
   }

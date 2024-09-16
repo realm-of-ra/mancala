@@ -363,26 +363,26 @@
   },
   {
     "type": "impl",
-    "name": "game_idImpl",
-    "interface_name": "mancala::models::mancala_game::Igame_id"
+    "name": "game_counterImpl",
+    "interface_name": "mancala::models::index::Igame_counter"
   },
   {
     "type": "struct",
-    "name": "mancala::models::mancala_game::GameId",
+    "name": "mancala::models::index::GameCounter",
     "members": [
       {
         "name": "id",
         "type": "core::integer::u32"
       },
       {
-        "name": "game_id",
+        "name": "count",
         "type": "core::integer::u128"
       }
     ]
   },
   {
     "type": "interface",
-    "name": "mancala::models::mancala_game::Igame_id",
+    "name": "mancala::models::index::Igame_counter",
     "items": [
       {
         "type": "function",
@@ -390,7 +390,7 @@
         "inputs": [
           {
             "name": "model",
-            "type": "mancala::models::mancala_game::GameId"
+            "type": "mancala::models::index::GameCounter"
           }
         ],
         "outputs": [],
@@ -400,7 +400,7 @@
   },
   {
     "type": "event",
-    "name": "mancala::models::mancala_game::game_id::Event",
+    "name": "mancala::models::index::game_counter::Event",
     "kind": "enum",
     "variants": []
   }
