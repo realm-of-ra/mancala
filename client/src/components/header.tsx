@@ -21,7 +21,6 @@ import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
-import icon3 from "../assets/LogoW.svg";
 import controllerSvg from "../assets/controller.svg";
 import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";

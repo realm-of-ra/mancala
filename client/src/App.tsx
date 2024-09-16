@@ -1,7 +1,7 @@
 import CartridgeConnector from "@cartridge/connector";
-import { ControllerOptions, PaymasterOptions } from "@cartridge/controller";
+import { ControllerOptions } from "@cartridge/controller";
 import { Chain, sepolia } from "@starknet-react/chains";
-import { shortString, BigNumberish } from "starknet";
+import { stringToFelt, bigintToHex } from "@/lib/utils";
 import {
   Connector,
   StarknetConfig,
@@ -14,41 +14,7 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
-
-const CONTRACT_ADDRESS =
-  "0x66ebcab6f4ae40dba02ac86ac2ebba2f5b459142cbf095d65e5294e4dd7f465";
-
-const policies = [
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_initial_game_id",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "create_private_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "join_game",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "move",
-  },
-  {
-    target: CONTRACT_ADDRESS,
-    method: "time_out",
-  },
-];
-
-export const stringToFelt = (v: string): BigNumberish =>
-  v ? shortString.encodeShortString(v) : "0x0";
-export const bigintToHex = (v: BigNumberish): string =>
-  !v ? "0x0" : `0x${BigInt(v).toString(16)}`;
+import { POLICIES } from "./lib/constants";
 
 const options: ControllerOptions = {
   rpc: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
@@ -59,7 +25,7 @@ const options: ControllerOptions = {
 };
 
 const connectorOptions = {
-  policies,
+  policies: POLICIES,
   ...options,
 };
 
