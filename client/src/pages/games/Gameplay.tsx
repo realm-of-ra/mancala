@@ -31,7 +31,6 @@ import {
   usePlayDataQuery,
 } from "@/generated/graphql.tsx";
 import { useAudioControl } from "@/hooks/useAudioControl";
-import { animate, chat, initialSeeds, players } from "@/lib/constants";
 import { getPlayer, truncateString } from "@/lib/utils";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useAccount, useProvider } from "@starknet-react/core";
@@ -41,6 +40,7 @@ import { Link, useParams } from "react-router-dom";
 import { constants, StarkProfile } from "starknet";
 import { StarknetIdNavigator } from "starknetid.js";
 import audio from "../../music/audio_1.mp4";
+import { animate, chat, players } from "@/lib/constants";
 
 export default function Gameplay() {
   const { gameId } = useParams();
@@ -96,7 +96,7 @@ export default function Gameplay() {
 
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
 
-  const [, setSeeds] = useState(initialSeeds);
+  const [, setSeeds] = useState([]);
 
   const { system } = useDojo();
 
@@ -323,7 +323,7 @@ export default function Gameplay() {
           <div className="space-y-1">
             <Button
               className="p-0 bg-transparent rounded-full"
-              onClick={() => setSeeds(initialSeeds)}
+              onClick={() => setSeeds([])}
             >
               <img
                 src={restart}

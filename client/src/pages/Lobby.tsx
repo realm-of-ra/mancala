@@ -29,6 +29,8 @@ import {
 } from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
+import { useQuery } from "@apollo/client";
+import { MancalaModelsFetchQuery } from "@/lib/constants";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -80,7 +82,9 @@ export default function Lobby() {
     }
   };
 
-  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useQuery(MancalaModelsFetchQuery);
+
+  console.log(data)
 
   startPolling(1000);
   useEffect(() => {
@@ -100,29 +104,32 @@ export default function Lobby() {
     connectWallet();
   };
 
-  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
-    (game) =>
+  const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
+    (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
+      game?.node?.player_two === account.address
   );
-
+  
   const filteredTransactions =
-    data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+    data?.mancalaMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
           (game?.node?.player_one === account.address ||
             game?.node?.player_two === account.address) &&
-          game?.node?.entity?.executedAt
+          game?.node?.entity.executedAt // Assuming executedAt is a direct property of node
         ) {
           acc.push({
             ...game.node,
-            executedAt: game?.node?.entity?.executedAt,
+            executedAt: game?.node?.entity.executedAt,
           });
         }
         return acc;
       },
-      [],
+      []
     ) || [];
+
+    console.log("filteredTransactions: ", filteredTransactions)
+    console.log("firstFilteredTransactions: ", filteredTransactions)
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -348,7 +355,7 @@ export default function Lobby() {
                 <TabsContent value="players">
                   <Players
                     data={
-                      data?.mancalaAlphaMancalaGameModels
+                      data?.mancalaMancalaBoardModels
                         ?.edges as MancalaGameEdge[]
                     }
                   />
@@ -362,7 +369,7 @@ export default function Lobby() {
                 </TabsContent>
                 <TabsContent value="live">
                   <LiveDuels
-                    games={data?.mancalaAlphaMancalaGameModels?.edges}
+                    games={data?.mancalaMancalaBoardModels?.edges}
                   />
                 </TabsContent>
               </>

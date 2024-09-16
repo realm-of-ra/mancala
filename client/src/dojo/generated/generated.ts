@@ -3,7 +3,7 @@
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 
-export const NAMESPACE = "mancala_alpha";
+export const NAMESPACE = "mancala";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -32,7 +32,7 @@ export async function setupWorld(provider: DojoProvider) {
           account,
           {
             contractName: "actions",
-            entrypoint: "create_game",
+            entrypoint: "new_game",
             calldata: [],
           },
           NAMESPACE,

@@ -1,7 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
-import { stats, table_head } from "@/lib/constants";
+import { table_head } from "@/lib/constants";
 import Header from "@/components/header";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -173,7 +173,7 @@ export default function Leaderboard() {
                 {players
                   ?.slice(3, 8)
                   .map(({ wins }: { wins: number }, index: number) => {
-                    const isLast = index === stats.slice(3).length - 1;
+                    const isLast = index === players.slice(3).length - 1;
 
                     return (
                       <tr key={index}>
