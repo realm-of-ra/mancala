@@ -66,7 +66,6 @@ export async function setupWorld(provider: DojoProvider) {
     const join_game = async (
       account: AccountInterface,
       game_id: string,
-      player_2_address: string,
     ) => {
       try {
         return await provider.execute(
@@ -74,7 +73,7 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName: "actions",
             entrypoint: "join_game",
-            calldata: [game_id, player_2_address],
+            calldata: [game_id],
           },
           NAMESPACE,
         );

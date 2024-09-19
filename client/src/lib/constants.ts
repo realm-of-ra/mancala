@@ -624,6 +624,7 @@ export const MancalaBoardModelQuery = gql`
           winner
           status
           is_private
+          time_between_move
           entity {
             executedAt
           }

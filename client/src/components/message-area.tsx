@@ -30,8 +30,6 @@ export default function MessageArea(
 
     const { toast } = useToast();
 
-    console.log(game_players)
-
     const generate_error_message = (): string => {
         if (game_is_loading) return "Loading game data..."; // loading case
         if (status === "Finished") {
