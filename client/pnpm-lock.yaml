@@ -217,8 +217,8 @@ importers:
         specifier: ^4.5.3
         version: 4.5.3(@types/node@20.14.15)
       vite-plugin-mkcert:
-        specifier: ^1.17.5
-        version: 1.17.5(vite@4.5.3(@types/node@20.14.15))
+        specifier: ^1.17.6
+        version: 1.17.6(vite@4.5.3(@types/node@20.14.15))
       vitest:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@20.14.15)(@vitest/ui@2.0.5)(jsdom@24.0.0)
@@ -2705,8 +2705,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.7.3:
-    resolution: {integrity: sha512-Ar7ND9pU99eJ9GpoGQKhKf58GpUOgnzuaB7ueNQ5BMi0p+LZ5oaEnfF999fAArcTIBwXTCHAmGcHOZJaWPq9Nw==}
+  axios@1.7.7:
+    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
 
   babel-plugin-syntax-trailing-function-commas@7.0.0-beta.0:
     resolution: {integrity: sha512-Xj9XuRuz3nTSbaTXWv3itLOcxyF4oPD8douBBmj7U9BBC6nEBYfyOJYQMf/8PJAFotC62UY5dFfIGEPr7WswzQ==}
@@ -5284,8 +5284,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-plugin-mkcert@1.17.5:
-    resolution: {integrity: sha512-KKGY3iHx/9zb7ow8JJ+nLN2HiNIBuPBwj34fJ+jAJT89/8qfk7msO7G7qipR8VDEm9xMCys0xT11QOJbZcg3/Q==}
+  vite-plugin-mkcert@1.17.6:
+    resolution: {integrity: sha512-4JR1RN0HEg/w17eRQJ/Ve2pSa6KCVQcQO6yKtIaKQCFDyd63zGfXHWpygBkvvRSpqa0GcqNKf0fjUJ0HiJQXVQ==}
     engines: {node: '>=v16.7.0'}
     peerDependencies:
       vite: '>=3'
@@ -8809,7 +8809,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  axios@1.7.3(debug@4.3.6):
+  axios@1.7.7(debug@4.3.6):
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.6)
       form-data: 4.0.0
@@ -11614,10 +11614,10 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-mkcert@1.17.5(vite@4.5.3(@types/node@20.14.15)):
+  vite-plugin-mkcert@1.17.6(vite@4.5.3(@types/node@20.14.15)):
     dependencies:
       '@octokit/rest': 20.1.1
-      axios: 1.7.3(debug@4.3.6)
+      axios: 1.7.7(debug@4.3.6)
       debug: 4.3.6
       picocolors: 1.0.1
       vite: 4.5.3(@types/node@20.14.15)
