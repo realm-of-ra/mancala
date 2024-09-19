@@ -524,7 +524,7 @@ export const live_duels_stats = [
   },
 ];
 
-export const players = ["Eniola", "Israel"]
+export const players = ["Eniola", "Israel"];
 
 export const animate = {
   mount: { scale: 1 },
@@ -561,7 +561,6 @@ export const POLICIES = [
   },
 ];
 
-
 // "player_2": "0x7fd7a1eea4150ca52a5a857e0cffbcb96e1dc6206fbcf5d740c47a5eff1a4f",
 
 // query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
@@ -572,7 +571,7 @@ export const POLICIES = [
 //   edges {
 //     node {
 //       player
-      
+
 //     }
 //   }
 // }
@@ -607,7 +606,7 @@ export const MancalaBoardModelsQuery = gql`
           current_player
           winner
           status
-          is_private        
+          is_private
           entity {
             executedAt
           }
@@ -628,7 +627,7 @@ export const MancalaBoardModelQuery = gql`
           current_player
           winner
           status
-          is_private        
+          is_private
           entity {
             executedAt
           }
@@ -665,8 +664,8 @@ export const MancalaPlayQuery = gql`
 export const MancalaSeedQuery = gql`
   query mancalaSeedModels($gameId: u128) {
     mancalaSeedModels(where: { game_id: $gameId }, limit: 100) {
-      edges{
-        node{
+      edges {
+        node {
           game_id
           pit_number
           player

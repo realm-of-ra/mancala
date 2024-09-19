@@ -4,14 +4,14 @@ class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
 original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
 abi = "manifests/dev/deployment/abis/dojo-world.json"
 address = "0x211a00916edfc32dfb67114b653cb80bccbb646ded281d7c57bd75b31a7ede4"
-transaction_hash = "0x32830b72e85b1a67e992ac7942355321b30d3d78362a6f421eddd5c8478b1b6"
+transaction_hash = "0x6a1d3e5b58c44fc9346deca918f8f41f0b0af065a9ed302f425b70e539343e2"
 block_number = 3
 seed = "mancala"
 manifest_name = "dojo-world"
 
 [world.metadata]
 profile_name = "dev"
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v10/katana"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v11/katana"
 
 [base]
 kind = "Class"
@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef"
-class_hash = "0x45f4815b02420ca53012f013976b1dfa1b9c0877bf5c0edce1b99eff8b06baf"
-original_class_hash = "0x45f4815b02420ca53012f013976b1dfa1b9c0877bf5c0edce1b99eff8b06baf"
+class_hash = "0x14841a3f540d2b06e344d607fcee498ca0174337a63de4184f0fdfc5ba52f7a"
+original_class_hash = "0x14841a3f540d2b06e344d607fcee498ca0174337a63de4184f0fdfc5ba52f7a"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/mancala-actions-5608e015.json"
 reads = []
