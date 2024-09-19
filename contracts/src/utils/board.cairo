@@ -192,4 +192,8 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
         store.set_pit(pit);
         idx += 1;
     };
+
+    let mut store_pit = store.get_pit(*player.game_id, *player.address, 7);
+    store_pit.seed_count = 0;
+    store.set_pit(store_pit);
 }
