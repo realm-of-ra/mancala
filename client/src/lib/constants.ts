@@ -561,6 +561,41 @@ export const POLICIES = [
   },
 ];
 
+
+// "player_2": "0x7fd7a1eea4150ca52a5a857e0cffbcb96e1dc6206fbcf5d740c47a5eff1a4f",
+
+// query PlayData($player_1: ContractAddress!, $player_2: ContractAddress!, $gameId: u128) {
+//   player_one: mancalaPitModels(
+//     where: {game_id: $gameId, address: $player_1}
+//     last: 1
+//   ) {
+//   edges {
+//     node {
+//       player
+      
+//     }
+//   }
+// }
+// # player_two: mancalaMancalaBoardModels(
+// #   where: {game_id: $gameId, address: $player_2}
+// #   last: 1
+// # ) {
+// #   edges {
+// #     node {
+// #       address
+// #       game_id
+// #       pit1
+// #       pit2
+// #       pit3
+// #       pit4
+// #       pit5
+// #       pit6
+// #       mancala
+// #     }
+// #   }
+// # }
+// }
+
 export const MancalaBoardModelsQuery = gql`
   query mancalaMancalaBoardModels {
     mancalaMancalaBoardModels {
@@ -581,3 +616,68 @@ export const MancalaBoardModelsQuery = gql`
     }
   }
 `;
+
+export const MancalaBoardModelQuery = gql`
+  query mancalaMancalaBoardModel($gameId: u128) {
+    mancalaMancalaBoardModels(where: { game_id: $gameId }) {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private        
+          entity {
+            executedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaPlayQuery = gql`
+  query mancalaPlayerModels($gameId: u128) {
+    mancalaPlayerModels(where: { game_id: $gameId }, limit: 100) {
+      edges {
+        node {
+          address
+          game_id
+          len_pits
+        }
+      }
+    }
+    mancalaPitModels(where: { game_id: $gameId }, limit: 100) {
+      edges {
+        node {
+          game_id
+          player
+          seed_count
+          pit_number
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaSeedQuery = gql`
+  query mancalaSeedModels($gameId: u128) {
+    mancalaSeedModels(where: { game_id: $gameId }, limit: 100) {
+      edges{
+        node{
+          game_id
+          pit_number
+          player
+          seed_number
+          color
+        }
+      }
+    }
+  }
+`;
+
+// export const PlayDataQuery = gql`
+
+// `;

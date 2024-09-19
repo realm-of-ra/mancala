@@ -4,17 +4,18 @@ import Seed from "./seed";
 import { UseAccountResult } from "@starknet-react/core";
 
 export function TopPit({ amount, address, pit, game_id, status, winner, userAccount, system,
-    setTimeRemaining, time_between_move, message }: {
+    setTimeRemaining, time_between_move, seeds, message }: {
         amount: number, address: string, pit: number, winner: string,
         game_id: string, status: string; userAccount?: UseAccountResult;
-        system: any; message: Dispatch<SetStateAction<string | undefined>>;
+        seeds: any[]; system: any; message: Dispatch<SetStateAction<string | undefined>>;
         setTimeRemaining: Dispatch<SetStateAction<number>>; time_between_move: number;
     }) {
     const handleMove = async () => {
         if (address === userAccount?.account?.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
-            await system.move(userAccount?.account, game_id, pit)
-            setTimeRemaining(time_between_move)
+            const res = await system.move(userAccount?.account, game_id, pit)
+            console.log(res)
+;            setTimeRemaining(time_between_move)
         }
         else {
             if (address !== userAccount?.account?.address) {
@@ -42,7 +43,7 @@ export function TopPit({ amount, address, pit, game_id, status, winner, userAcco
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
-                            Array.from({ length: amount }, (_, seedIndex) => <Seed key={seedIndex} amount={amount} />)
+                            Array.from({ length: amount }).map((_, seedIndex) => <Seed key={seedIndex} amount={amount} color={seeds[seedIndex]?.node.color} />)
                         }
                     </div>}
                 </div>
@@ -52,16 +53,17 @@ export function TopPit({ amount, address, pit, game_id, status, winner, userAcco
 }
 
 export function BottomPit({ amount, address, pit, game_id, status, winner, userAccount, system,
-    setTimeRemaining, time_between_move, message }: {
+    setTimeRemaining, time_between_move, seeds, message }: {
         amount: number, address: string, pit: number, winner: string,
         game_id: string, status: string; userAccount?: UseAccountResult;
-        system: any; message: Dispatch<SetStateAction<string | undefined>>;
+        seeds: any[]; system: any; message: Dispatch<SetStateAction<string | undefined>>;
         setTimeRemaining: Dispatch<SetStateAction<number>>; time_between_move: number;
     }) {
     const handleMove = async () => {
         if (address === userAccount?.account?.address && status === 'InProgress' && winner === '0x0') {
             message(undefined)
-            await system.move(userAccount?.account, game_id, pit)
+            const res = await system.move(userAccount?.account, game_id, pit)
+            console.log(res)
             setTimeRemaining(time_between_move)
         }
         else {
@@ -87,7 +89,7 @@ export function BottomPit({ amount, address, pit, game_id, status, winner, userA
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
-                            Array.from({ length: amount }, (_, seedIndex) => <Seed key={seedIndex} amount={amount} />)
+                            Array.from({ length: amount }, (_, seedIndex) => <Seed key={seedIndex} amount={amount} color={seeds[seedIndex]?.node.color} />)
                         }
                     </div>}
                 </div>

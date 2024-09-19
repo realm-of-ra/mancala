@@ -54,6 +54,7 @@ export default function LiveDuels({ games }: { games: any }) {
             date: data?.node.entity?.executedAt,
         }
     })
+    console.log(data)
     const { system } = useDojo()
     const account = useAccount()
     const join_game = async (game_id: string, index: number) => {

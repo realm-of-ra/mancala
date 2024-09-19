@@ -29,7 +29,7 @@ const PlayerProfile: React.FC<PlayerProfileProps> = ({
     <div
       className={`flex flex-row ${isLeftSide ? "space-x-2.5" : "space-x-2.5 flex-row-reverse"} items-center justify-center ${isLeftSide ? "mr-56 2xl:mr-80 4xl:mr-56" : "ml-56 2xl:ml-80 4xl:ml-56"}`}
     >
-      <div>
+      <div className="ml-2.5">
         <h3
           className={`text-3xl text-white ${isLeftSide ? "text-right" : "text-left"}`}
         >

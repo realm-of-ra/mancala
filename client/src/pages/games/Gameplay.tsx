@@ -40,7 +40,8 @@ import { Link, useParams } from "react-router-dom";
 import { constants, StarkProfile } from "starknet";
 import { StarknetIdNavigator } from "starknetid.js";
 import audio from "../../music/audio_1.mp4";
-import { animate, chat, players } from "@/lib/constants";
+import { animate, chat, MancalaBoardModelQuery, MancalaBoardModelsQuery, MancalaPlayQuery, players } from "@/lib/constants";
+import { useQuery } from "@apollo/client";
 
 export default function Gameplay() {
   const { gameId } = useParams();
@@ -50,11 +51,10 @@ export default function Gameplay() {
     error: game_metadata_error,
     data: game_metadata,
     startPolling: startMetadataPolling,
-  } = useGameDataQuery({
-    variables: {
-      gameId,
-    },
+  } = useQuery(MancalaBoardModelQuery, {
+    variables: { gameId: gameId },
   });
+
   startMetadataPolling(1000);
 
   const {
@@ -66,18 +66,14 @@ export default function Gameplay() {
   } = useAudioControl();
 
   // typing this to show possible states and reduce the current errors
-  const game_node = game_metadata?.game_data?.edges?.[0]?.node;
+  const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
 
   const {
     loading: game_players_loading,
     data: game_players,
     startPolling: startPlayersPolling,
-  } = usePlayDataQuery({
-    variables: {
-      player_1: game_node?.player_one,
-      player_2: game_node?.player_two,
-      gameId: gameId,
-    },
+  } = useQuery(MancalaPlayQuery, {
+    variables: { gameId: gameId },
   });
 
   startPlayersPolling(1000);
@@ -282,7 +278,7 @@ export default function Gameplay() {
           <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
             <PlayerProfile
               name={profiles?.[0].name}
-              address={game_players?.player_one?.edges?.[0]?.node?.address}
+              address={game_node?.player_one}
               wins={player_one?.[0]?.wins}
               isLeftSide={true}
             />
@@ -292,7 +288,7 @@ export default function Gameplay() {
           <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
             <PlayerProfile
               name={profiles?.[1].name}
-              address={game_players?.player_two?.edges?.[0]?.node?.address}
+              address={game_node?.player_two}
               wins={player_two?.[0]?.wins}
               isLeftSide={false}
             />
