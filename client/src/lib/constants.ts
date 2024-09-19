@@ -555,10 +555,6 @@ export const POLICIES = [
     target: ACTION_ADDRESS,
     method: "move",
   },
-  {
-    target: ACTION_ADDRESS,
-    method: "time_out",
-  },
 ];
 
 // "player_2": "0x7fd7a1eea4150ca52a5a857e0cffbcb96e1dc6206fbcf5d740c47a5eff1a4f",

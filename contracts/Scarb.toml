@@ -10,3 +10,5 @@ sierra-replace-ids = true
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.11" }
 
 [[target.dojo]]
+
+[profile.sepolia]

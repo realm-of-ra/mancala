@@ -1,0 +1,52 @@
+kind = "DojoModel"
+class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+original_class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+abi = "manifests/sepolia/base/abis/models/mancala-MancalaBoard-43323da8.json"
+tag = "mancala-MancalaBoard"
+qualified_path = "mancala::models::index::mancala_board"
+manifest_name = "mancala-MancalaBoard-43323da8"
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "current_player"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "last_move"
+type = "u64"
+key = false
+
+[[members]]
+name = "time_between_move"
+type = "u64"
+key = false
+
+[[members]]
+name = "winner"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "status"
+type = "GameStatus"
+key = false
+
+[[members]]
+name = "is_private"
+type = "bool"
+key = false

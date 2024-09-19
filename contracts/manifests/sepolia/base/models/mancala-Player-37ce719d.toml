@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x576eecec760cddd678f001b367e4319d89204932a8183b20df0cdb49106c69e"
+original_class_hash = "0x576eecec760cddd678f001b367e4319d89204932a8183b20df0cdb49106c69e"
+abi = "manifests/sepolia/base/abis/models/mancala-Player-37ce719d.json"
+tag = "mancala-Player"
+qualified_path = "mancala::models::index::player"
+manifest_name = "mancala-Player-37ce719d"
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "address"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "len_pits"
+type = "u8"
+key = false
+
+[[members]]
+name = "restart_requested"
+type = "bool"
+key = false
