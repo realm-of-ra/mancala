@@ -30,6 +30,7 @@ import {
   MancalaGameEdge,
   useFetchModelsForHeaderQuery,
 } from "@/generated/graphql.tsx";
+import useControllerUsername from "@/hooks/useControllerUsername";
 
 export default function Header() {
   const { provider } = useProvider();
@@ -79,9 +80,10 @@ export default function Header() {
 
   const account = {
     account: {
-      address: "0x05e01dB693CBF7461a016343042786DaC5A6000104813cF134a1E8B1D0a6810b"
-    }
-  }
+      address:
+        "0x05e01dB693CBF7461a016343042786DaC5A6000104813cF134a1E8B1D0a6810b",
+    },
+  };
 
   const { data, startPolling } = useFetchModelsForHeaderQuery();
   startPolling(1000);
@@ -110,6 +112,7 @@ export default function Header() {
     setIsDropdownClose(!isDropdownClose);
     disconnectWallet();
   };
+  const username = useControllerUsername();
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
@@ -185,7 +188,7 @@ export default function Header() {
                   onClick={handleDropdownToggleClose}
                 >
                   <div className="flex flex-row items-center w-fit px-10 py-5">
-                    <p className="">{truncateString(address)}</p>
+                    <p className="">{username || truncateString(address)}</p>
                   </div>
                 </Button>
 
@@ -194,25 +197,19 @@ export default function Header() {
                     <Link to="/profile">
                       <button className="flex flex-row items-center w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
                         <img src={profileImage} />
-                        <span className="block px-4 py-2">
-                          Profile
-                        </span>
+                        <span className="block px-4 py-2">Profile</span>
                       </button>
                     </Link>
                     <Link to="/lobby">
                       <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                         <img src={lobby} />
-                        <span className="block px-4 py-2">
-                          Lobby
-                        </span>
+                        <span className="block px-4 py-2">Lobby</span>
                       </button>
                     </Link>
                     <Link to="/leaderboard">
                       <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                         <img src={leader} />
-                        <span className="block px-4 py-2">
-                          Leaderboard
-                        </span>
+                        <span className="block px-4 py-2">Leaderboard</span>
                       </button>
                     </Link>
                     <button
@@ -220,9 +217,7 @@ export default function Header() {
                       onClick={handleDisconnect}
                     >
                       <img src={connectB} />
-                      <span
-                        className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
-                      >
+                      <span className="block px-4 py-2 text-[#F58229] whitespace-nowrap">
                         Disconnect Wallet
                       </span>
                     </button>
