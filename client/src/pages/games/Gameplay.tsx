@@ -361,8 +361,6 @@ export default function Gameplay() {
             setMoveMessage={setMoveMessage}
             setTimeRemaining={setTimeRemaining}
           />
-          <p className="text-white">{account.address}</p>
-
           {/* Audio controls and messaging */}
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             {/* Audio player */}
