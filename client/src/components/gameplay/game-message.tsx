@@ -78,87 +78,25 @@ export default function GameMessage({ game_node, game_players, account, profiles
         game_node,
       ]);
     const moveMessageOnTimer = (player: string) => {
-        if (
-          game_node?.status === "TimeOut" ||
-          game_node?.status === "Finished" ||
-          game_node?.status === "Forfeited"
-        ) {
-          return React.createElement(
-            "div",
-            null,
-            React.createElement(
-              "span",
-              { className: "text-[#F58229]" },
-              `Game Over`,
-            ),
-          );
-        } else {
+        if (game_node?.status === "TimeOut" || game_node?.status === "Finished" || game_node?.status === "Forfeited") {
+          return React.createElement("div", null, React.createElement("span", { className: "text-[#F58229]" }, `Game Over`)) } else {
           if (game_node?.status !== "Pending") {
-            if (
-              player === account.account?.address &&
-              game_players?.player_one?.edges
-            ) {
+            if (player === account.account?.address && game_players?.player_one?.edges) {
               if (player === game_players?.player_one.edges[0]?.node?.address) {
-                return React.createElement(
-                  "div",
-                  null,
-                  `Make your move `,
-                  React.createElement(
-                    "span",
-                    { className: "text-[#F58229]" },
-                    profiles?.[0].name ? profiles?.[0].name : truncateString(player),
-                  ),
-                );
+                return React.createElement("div", null, `Make your move `, React.createElement("span", { className: "text-[#F58229]" }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)));
               } else {
-                return React.createElement(
-                  "div",
-                  null,
-                  `Make your move `,
-                  React.createElement(
-                    "span",
-                    { className: "text-[#F58229]" },
-                    profiles?.[1].name ? profiles?.[1].name : truncateString(player),
-                  ),
-                );
+                return React.createElement("div", null, `Make your move `, React.createElement("span", { className: "text-[#F58229]" }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)));
               }
             } else {
             if (
               game_players?.player_one?.edges &&
               player === game_players?.player_one.edges[0]?.node?.address
             ) {
-              return React.createElement(
-                "div",
-                null,
-                `Waiting for `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[0].name ? profiles?.[0].name : truncateString(player),
-                ),
-                ` move`,
-              );
-            } else {
-              return React.createElement(
-                "div",
-                null,
-                `Waiting for `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[1].name ? profiles?.[1].name : truncateString(player),
-                ),
-                ` move`,
-              );
-            }
+              return React.createElement("div", null, `Waiting for `, React.createElement("span", { className: "text-[#F58229]" }, profiles?.[0].name ? profiles?.[0].name : truncateString(player)), ` move`);
+            } else { return React.createElement("div", null, `Waiting for `, React.createElement("span", { className: "text-[#F58229]" }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`) }
           }
-        } else {
-          return React.createElement(
-            "div",
-            null,
-            `Waiting for opponent to join`,
-          );
-        }
-        }
+        } else { return React.createElement("div", null, `Waiting for opponent to join`) }
+      }
     };
     const minutes =
       (Math.floor(timeRemaining % 3600) / 60 < 10 ? "0" : "") +
