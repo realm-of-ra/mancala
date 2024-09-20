@@ -29,7 +29,10 @@ export default function GameMessage({ game_node, game_players, account, profiles
         );
     }, [provider]);
 
+  const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
+
     useEffect(() => {
+      if (involved) {
         if (game_node) {
           setTimeRemaining(parseInt(game_node?.time_between_move, 16));
         }
@@ -66,6 +69,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
           clearInterval(timer);
           audioRef.current.pause();
         };
+      }
       }, [
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,

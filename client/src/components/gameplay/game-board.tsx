@@ -10,7 +10,6 @@ import Seed from "../seed";
 interface GameBoardProps {
   game_players: any; // Replace 'any' with the correct type from your GraphQL query
   game_node: any; // Replace 'any' with the correct type from your GraphQL query
-  game_metadata: any; // Replace 'any' with the correct type from your GraphQL query
   system: any; // Replace 'any' with the correct type from your dojo system
   account: any; // Replace 'any' with the correct type from your account
   gameId: string;
@@ -21,16 +20,13 @@ interface GameBoardProps {
 const GameBoard: React.FC<GameBoardProps> = ({
   game_players,
   game_node,
-  game_metadata,
   system,
   account,
   gameId,
   setMoveMessage,
   setTimeRemaining,
 }) => {
-  const { loading, data, startPolling } = useQuery(MancalaSeedQuery, {
-    variables: { gameId: gameId },
-  });
+  const { data, startPolling } = useQuery(MancalaSeedQuery, { variables: { gameId: gameId }});
   startPolling(1000);
   const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
   const player_position = game_players?.mancalaPlayerModels.edges.findIndex((item: any) => item?.node.address === account.address);
@@ -47,7 +43,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               game_players?.player_one?.edges?.[0]?.node?.mancala > 21 && 'grid-cols',
             )}>
               {
-                data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
+                involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
                 .filter((item: any) => item?.node.pit_number === 7).map((seed: any) => <Seed amount={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
                   .filter((item: any) => item?.node.pit_number === 7).length} color={seed.node.color} />)
               }
@@ -111,7 +107,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div className="flex flex-row justify-center items-center px-2.5 w-12 h-[70%] mr-[168px]">
             <div className="flex flex-col flex-wrap space-y-1.5 max-h-[80%] gap-2 items-center justify-center px-1.5">
             {
-                data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
+                involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
                 .filter((item: any) => item?.node.pit_number === 7).map((seed: any) => <Seed amount={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
                   .filter((item: any) => item?.node.pit_number === 7).length} color={seed.node.color} />)
               }
