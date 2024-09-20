@@ -88,12 +88,23 @@ fn capture_seeds(world: IWorldDispatcher, last_pit: u8, ref current_player: Play
         if last_pit_model.seed_count == 1 {
             let mut opposite_pit = store.get_pit(opponent.game_id, opponent.address, 7 - last_pit);
             
-            // transfer seeds to store
-            let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
-            store_pit.seed_count += opposite_pit.seed_count + 1;
+            // transfer seeds from other player to store
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > opposite_pit.seed_count {
+                    break;
+                }
+                let mut seed = store.get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
+                add_seed_to_pit(world, ref seed, current_player.address, 7);
+                seed_idx += 1;
+            };
+
+            // transfer current seed to store
+            let mut seed_of_player = store.get_seed(current_player.game_id, current_player.address, last_pit, 1);
+            add_seed_to_pit(world, ref seed_of_player, current_player.address, 7);
+
             last_pit_model.seed_count = 0;
             store.set_pit(last_pit_model);
-            store.set_pit(store_pit);
 
             // remove seeds from opposite pit
             opposite_pit.seed_count = 0;
