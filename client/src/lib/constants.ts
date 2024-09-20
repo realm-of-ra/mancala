@@ -531,20 +531,21 @@ export const animate = {
   unmount: { scale: 0.9 },
 };
 
-export const gameStarted = (games_data_one: any, games_data_two: any) => !(
-  games_data_one?.pit1 == 4 &&
-  games_data_one?.pit2 == 4 &&
-  games_data_one?.pit3 == 4 &&
-  games_data_one?.pit4 == 4 &&
-  games_data_one?.pit5 == 4 &&
-  games_data_one?.pit6 == 4 &&
-  games_data_two?.pit1 == 4 &&
-  games_data_two?.pit2 == 4 &&
-  games_data_two?.pit3 == 4 &&
-  games_data_two?.pit4 == 4 &&
-  games_data_two?.pit5 == 4 &&
-  games_data_two?.pit6 == 4
-);
+export const gameStarted = (games_data_one: any, games_data_two: any) =>
+  !(
+    games_data_one?.pit1 == 4 &&
+    games_data_one?.pit2 == 4 &&
+    games_data_one?.pit3 == 4 &&
+    games_data_one?.pit4 == 4 &&
+    games_data_one?.pit5 == 4 &&
+    games_data_one?.pit6 == 4 &&
+    games_data_two?.pit1 == 4 &&
+    games_data_two?.pit2 == 4 &&
+    games_data_two?.pit3 == 4 &&
+    games_data_two?.pit4 == 4 &&
+    games_data_two?.pit5 == 4 &&
+    games_data_two?.pit6 == 4
+  );
 
 const ACTION_ADDRESS =
   "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";

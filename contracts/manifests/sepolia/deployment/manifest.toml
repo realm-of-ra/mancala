@@ -23,8 +23,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef"
-class_hash = "0x14841a3f540d2b06e344d607fcee498ca0174337a63de4184f0fdfc5ba52f7a"
-original_class_hash = "0x14841a3f540d2b06e344d607fcee498ca0174337a63de4184f0fdfc5ba52f7a"
+class_hash = "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93"
+original_class_hash = "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/sepolia/deployment/abis/contracts/mancala-actions-5608e015.json"
 reads = []
