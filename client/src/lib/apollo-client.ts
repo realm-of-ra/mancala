@@ -1,4 +1,4 @@
-import CONFIG from '@/constants/config'
+import CONFIG from '@/lib/config'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 const apollo_client = new ApolloClient({

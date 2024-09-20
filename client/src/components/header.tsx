@@ -26,10 +26,8 @@ import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
-import {
-  MancalaGameEdge,
-  useFetchModelsForHeaderQuery,
-} from "@/generated/graphql.tsx";
+import { useQuery } from "@apollo/client";
+import { MancalaHeaderQuery } from "@/lib/constants";
 
 export default function Header() {
   const { provider } = useProvider();
@@ -77,11 +75,11 @@ export default function Header() {
 
   const { account } = useDojo();
 
-  const { data, startPolling } = useFetchModelsForHeaderQuery();
+  const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(1000);
 
   const player = getPlayer(
-    data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
+    data?.mancalaAlphaMancalaGameModels?.edges,
     account.account.address,
   );
 

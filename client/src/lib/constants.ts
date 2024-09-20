@@ -690,6 +690,20 @@ export const MancalaSeedQuery = gql`
   }
 `;
 
-// export const PlayDataQuery = gql`
-
-// `;
+export const MancalaHeaderQuery = gql`
+  query FetchModelsForHeader {
+    mancalaGameModels {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+        }
+      }
+    }
+  }
+`
