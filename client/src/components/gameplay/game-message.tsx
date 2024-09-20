@@ -73,6 +73,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
       }, [
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
+        involved,
         // starknetIdNavigator,
         // timeout,
         game_node,
@@ -112,7 +113,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
             <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
               <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
               {
-                account.address === undefined ? <button></button> : <div className="flex flex-row items-center justify-center space-x-1">
+                involved && <div className="flex flex-row items-center justify-center space-x-1">
                 { game_node?.status !== "Pending" && <AlarmClock className="w-6 h-6 text-white" /> }
                 <div className="text-white">
                   {moveMessageOnTimer(game_node?.current_player)}
