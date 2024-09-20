@@ -57,8 +57,6 @@ export default function Gameplay() {
               game_players_loading={game_players_loading}
               game_players={game_players}
             />
-
-            {/* Leaderboard and chat */}
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
               <LeaderboardButton />
               <GameChat />
