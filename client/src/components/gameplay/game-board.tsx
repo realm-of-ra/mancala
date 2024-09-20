@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 import clsx from "clsx";
@@ -82,21 +82,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
               {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[player_position]?.node.len_pits }, (_, zero_index) => zero_index + 1).map((pit_key, i) => (
-                  <BottomPit
-                    key={i}
-                    amount={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)[0]?.node?.seed_count}
-                    address={game_players?.mancalaPlayerModels.edges[player_position]?.node.address}
-                    pit={pit_key}
-                    userAccount={account}
-                    system={system}
-                    game_id={gameId}
-                    message={setMoveMessage}
-                    status={game_node?.status}
-                    winner={game_node?.winner}
-                    seeds={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)}
-                    setTimeRemaining={setTimeRemaining}
-                    time_between_move={parseInt(game_node?.time_between_move, 16)}
-                  />
+                <BottomPit
+                  key={i}
+                  amount={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)[0]?.node?.seed_count}
+                  address={game_players?.mancalaPlayerModels.edges[player_position]?.node.address}
+                  pit={pit_key}
+                  userAccount={account}
+                  system={system}
+                  game_id={gameId}
+                  message={setMoveMessage}
+                  status={game_node?.status}
+                  winner={game_node?.winner}
+                  seeds={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)}
+                  setTimeRemaining={setTimeRemaining}
+                  time_between_move={parseInt(game_node?.time_between_move, 16)}
+                />
                 ))
               }
             </div>

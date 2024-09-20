@@ -7,7 +7,7 @@ import {
 
 import {
   message,
-} from "../../constants/icons_store";
+} from "../../lib/icons_store";
 
 import Icon from "@/components/gameplay/Icon.tsx";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";

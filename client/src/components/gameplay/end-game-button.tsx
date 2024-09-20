@@ -1,4 +1,4 @@
-import { end } from "@/constants/icons_store";
+import { end } from "@/lib/icons_store";
 import { Button } from "@material-tailwind/react";
 
 export default function EndgameButton() {

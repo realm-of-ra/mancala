@@ -3,7 +3,7 @@ import {
     playnext,
     playprevious,
     speaker,
-} from "../../constants/icons_store";
+} from "../../lib/icons_store";
 import unmuteFlat from "../../assets/unmute_flat.png";
 import muteFlat from "../../assets/mute_flat.png";
 import { useAudioControl } from "@/hooks/useAudioControl";

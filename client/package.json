@@ -10,10 +10,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "codegen-watch": "graphql-codegen --config codegen.ts -w",
-    "create-components": "npx @dojoengine/core ../contracts/manifests/dev/deployment/manifest.json src/dojo/generated/contractComponents.ts https://api.cartridge.gg/x/mancala-alpha-v3/katana 0x586ef8fba1930bb47c973ab1cdf97b16fe3a0d434cc1829b5d24e1d7d8ec608"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",

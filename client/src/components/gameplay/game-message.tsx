@@ -7,7 +7,7 @@ import { useDojo } from "@/dojo/useDojo";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
-import { logo } from "@/constants/icons_store";
+import { logo } from "@/lib/icons_store";
 
 export default function GameMessage({ game_node, game_players, account, profiles , gameStarted, gameId, timeRemaining, setTimeRemaining, setProfiles }: 
     { game_node: any, game_players: any, account: any, profiles: any, gameStarted: any, gameId: any, timeRemaining: any, setTimeRemaining: any, setProfiles: any }) {

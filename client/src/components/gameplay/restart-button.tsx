@@ -1,4 +1,4 @@
-import { restart } from "@/constants/icons_store";
+import { restart } from "@/lib/icons_store";
 import { Button } from "@material-tailwind/react";
 
 export default function RestartButton() {
