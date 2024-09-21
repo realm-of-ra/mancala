@@ -40,7 +40,7 @@ export function TopPit({ amount, address, pit, game_id, status, winner, userAcco
             </div>
             <div className='flex flex-col items-center justify-center flex-1 w-full h-full'>
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
-                    {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
+                    {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid grid-cols-2')} data-testid="seeds">
                         {
                            seeds?.map((seed, seedIndex) => <Seed key={seedIndex} color={seeds != undefined ? seed.node.color : []} />)
                         }
@@ -86,7 +86,7 @@ export function BottomPit({ amount, address, pit, game_id, status, winner, userA
         <div className={"flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-2.5"} onClick={handleMove}>
             <div className='flex flex-col items-center justify-center flex-1 w-full h-full'>
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
-                    {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
+                    {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid grid-cols-2')} data-testid="seeds">
                         {
                            seeds?.map((seed, seedIndex) => <Seed key={seedIndex} color={seeds != undefined ? seed.node.color : []} />)
                         }
