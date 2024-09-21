@@ -109,11 +109,12 @@ export default function Header() {
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {profile?.profilePicture != undefined ? (
+        {controllerData?.icon != undefined ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
-            <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+            {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
+            <div className="rounded-full border-2 border-[#4B505C] relative">
               <img
-                src={profile.profilePicture ? profile.profilePicture : eniola}
+                src={controllerData?.icon}
                 width={60}
                 height={60}
                 alt=""
@@ -125,7 +126,7 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {profile.name ? profile.name : truncateString(address)}
+                {controllerData?.username ? controllerData?.username : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
