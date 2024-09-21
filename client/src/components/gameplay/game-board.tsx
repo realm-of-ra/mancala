@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 import clsx from "clsx";
-import { useAccount } from "@starknet-react/core";
 import { useQuery } from "@apollo/client";
 import { MancalaSeedQuery } from "@/lib/constants";
 import Seed from "../seed";
