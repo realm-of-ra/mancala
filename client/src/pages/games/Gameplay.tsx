@@ -23,8 +23,8 @@ export default function Gameplay() {
   const [moveMessage, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
 
-  startMetadataPolling(1000);
-  startPlayersPolling(1000);
+  startMetadataPolling(100);
+  startPlayersPolling(100);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <GameNavigation game_players={game_players} game_node={game_node} account={account} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} />

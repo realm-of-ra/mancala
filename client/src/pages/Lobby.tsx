@@ -80,7 +80,7 @@ export default function Lobby() {
 
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
-  startPolling(1000);
+  startPolling(100);
   useEffect(() => {
     runOnceForever();
     if (gameId != null) {

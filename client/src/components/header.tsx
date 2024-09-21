@@ -76,7 +76,7 @@ export default function Header() {
   const { account } = useDojo();
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
-  startPolling(1000);
+  startPolling(100);
 
   const player = getPlayer(
     data?.mancalaAlphaMancalaGameModels?.edges,
