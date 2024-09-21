@@ -34,6 +34,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_length = data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
   .filter((item: any) => item?.node.pit_number === 7).length;
+  const player_pot_seed_count = game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
+  .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
+  const opponent_pot_seed_count = game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
+  .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
+  console.log(player_pot_seed_count, opponent_pot_seed_count)
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -43,7 +48,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <div className={clsx(opposition_length > 10 && "grid grid-cols-2", opposition_length > 20 && "grid grid-cols-3", opposition_length > 30 && "grid grid-cols-5")}>
               {
                 involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
-                .filter((item: any) => item?.node.pit_number === 7).map((seed: any, index: number) => (<div key={index} style={{
+                .filter((item: any) => item?.node.pit_number === 7).slice(0, opponent_pot_seed_count).map((seed: any, index: number) => (<div key={index} style={{
                   width: opposition_length > 30 ? "8px" : "auto"
                 }}>
                 <Seed color={seed.node.color} />
@@ -113,7 +118,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <div className={clsx(player_length > 10 && "grid grid-cols-2", player_length > 20 && "grid grid-cols-3", player_length > 30 && "grid grid-cols-4")}>
               {
                 involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
-                .filter((item: any) => item?.node.pit_number === 7).map((seed: any, index: number) => (
+                .filter((item: any) => item?.node.pit_number === 7).slice(0, player_pot_seed_count).map((seed: any, index: number) => (
                     <div key={index} style={{
                       width: player_length > 20 ? "10px" : player_length > 30 ? "6px" : "auto",
                       marginRight: player_length > 30 ? -1.5 : 0,
@@ -128,7 +133,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
-              {involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === 7).length}
+              {player_pot_seed_count}
             </p>
           </div>
         </div>
