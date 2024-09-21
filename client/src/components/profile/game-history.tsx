@@ -87,7 +87,7 @@ export default function GameHistory({ games, loading, id }: { games: any, loadin
                                     ))}
                                 </div>
                             </div>
-                            <div className="absolute h-[450px] w-[814px] overflow-y-scroll">
+                            <div className="absolute h-[275px] w-[814px] overflow-y-scroll scrollbar-hidden">
                                 <table className="w-full text-left table-auto">
                                     <thead className="border-b border-[#313640] hidden">
                                         <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">

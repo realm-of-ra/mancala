@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
-import { MancalaGameEdge } from "@/generated/graphql.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Players({ data }: { data: any[] | undefined }) {

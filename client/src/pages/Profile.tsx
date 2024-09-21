@@ -2,57 +2,37 @@ import Header from "@/components/header";
 import GameHistory from "@/components/profile/game-history";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  MancalaGameEdge,
-  useFetchModelsForHeaderQuery,
-  useMancalaModelsFetchQuery,
-} from "@/generated/graphql";
+import { MancalaBoardModelsQuery, MancalaHeaderQuery } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
+import { useQuery } from "@apollo/client";
 import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
-  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
   startPolling(1000);
   const account = useAccount();
-  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
-    (game) =>
+  const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
+    (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
+      game?.node?.player_two === account.address
   );
 
-  // const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
-  //     (acc: any[], game: any) => {
-  //         if (
-  //             (game?.node?.player_one === account.address ||
-  //                 game?.node?.player_two === account.address) &&
-  //             game?.node?.entity?.executedAt
-  //         ) {
-  //             acc.push({
-  //                 ...game.node,
-  //                 executedAt: game?.node?.entity?.executedAt,
-  //             });
-  //         }
-  //         return acc;
-  //     },
-  //     []
-  // ) || [];
-
   const filteredWonGames =
-    filteredGames?.filter((game) => game?.node?.winner === account.address) ||
+    filteredGames?.filter((game: any) => game?.node?.winner === account.address) ||
     [];
   const filteredLostGames =
     filteredGames?.filter(
-      (game) =>
+      (game: any) =>
         game?.node?.winner !== "0x0" && game?.node?.winner !== account.address,
     ) || [];
 
   const { data: playerData, startPolling: startPollingPlayer } =
-    useFetchModelsForHeaderQuery();
+    useQuery(MancalaHeaderQuery);
   startPollingPlayer(1000);
 
   const player = getPlayer(
-    playerData?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
-    account.account?.address || "",
+    data?.mancalaAlphaMancalaGameModels?.edges,
+    account?.address || "",
   );
 
   return (

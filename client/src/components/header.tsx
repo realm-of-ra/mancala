@@ -28,6 +28,7 @@ import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery } from "@/lib/constants";
+import useControllerUsername from "@/hooks/useControllerUsername";
 
 export default function Header() {
   const { provider } = useProvider();
@@ -73,21 +74,14 @@ export default function Header() {
     setPlaying(!isPlaying);
   };
 
-  // const { account } = useDojo();
-
-  const account = {
-    account: {
-      address:
-        "0x05e01dB693CBF7461a016343042786DaC5A6000104813cF134a1E8B1D0a6810b",
-    },
-  };
+  const { account } = useAccount();
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(100);
 
   const player = getPlayer(
     data?.mancalaAlphaMancalaGameModels?.edges,
-    account.account.address,
+    account?.address || "",
   );
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
