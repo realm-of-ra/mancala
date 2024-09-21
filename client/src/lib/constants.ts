@@ -595,7 +595,7 @@ export const MancalaBoardModelsQuery = gql`
 
 export const MancalaBoardModelQuery = gql`
   query mancalaMancalaBoardModel($gameId: u128) {
-    mancalaMancalaBoardModels(where: { game_id: $gameId }, limit: 10000000000000000000000000000000000000000000000000000) {
+    mancalaMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -617,7 +617,7 @@ export const MancalaBoardModelQuery = gql`
 
 export const MancalaPlayQuery = gql`
   query mancalaPlayerModels($gameId: u128) {
-    mancalaPlayerModels(where: { game_id: $gameId }, limit: 10000000000000000000000000000000000000000000000000000) {
+    mancalaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -626,7 +626,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaPitModels(where: { game_id: $gameId }, limit: 10000000000000000000000000000000000000000000000000000) {
+    mancalaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -641,7 +641,7 @@ export const MancalaPlayQuery = gql`
 
 export const MancalaSeedQuery = gql`
   query mancalaSeedModels($gameId: u128) {
-    mancalaSeedModels(where: { game_id: $gameId }, limit: 10000000000000000000000000000000000000000000000000000) {
+    mancalaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id

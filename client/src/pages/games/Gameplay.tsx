@@ -26,6 +26,8 @@ export default function Gameplay() {
   startMetadataPolling(1000);
   startPlayersPolling(1000);
 
+  console.log(game_metadata)
+
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <GameNavigation game_players={game_players} game_node={game_node} account={account} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} />
@@ -38,7 +40,6 @@ export default function Gameplay() {
           <GameBoard
             game_players={game_players}
             game_node={game_node}
-            game_metadata={game_metadata}
             system={system}
             account={account}
             gameId={gameId || ""}
