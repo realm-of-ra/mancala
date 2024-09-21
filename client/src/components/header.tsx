@@ -175,11 +175,11 @@ export default function Header() {
             {address ? (
               <div className="relative">
                 <Button
-                  className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
+                  className="p-0 flex font-medium justify-between relative items-center bg-[#F58229] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex flex-row items-center w-fit px-10 py-5">
-                    <p className="">{username || truncateString(address)}</p>
+                  <div className="flex flex-row items-center w-fit px-14 py-3.5">
+                    <p className="text-white">{username || truncateString(address)}</p>
                   </div>
                 </Button>
 
