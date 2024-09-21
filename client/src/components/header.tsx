@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { constants } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import { useDojo } from "@/dojo/useDojo";
+// import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import controllerSvg from "../assets/controller.svg";
 import connectB from "../assets/connect.svg";
@@ -73,7 +73,14 @@ export default function Header() {
     setPlaying(!isPlaying);
   };
 
-  const { account } = useDojo();
+  // const { account } = useDojo();
+
+  const account = {
+    account: {
+      address:
+        "0x05e01dB693CBF7461a016343042786DaC5A6000104813cF134a1E8B1D0a6810b",
+    },
+  };
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(100);
@@ -102,6 +109,7 @@ export default function Header() {
     setIsDropdownClose(!isDropdownClose);
     disconnectWallet();
   };
+  const username = useControllerUsername();
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
@@ -177,42 +185,39 @@ export default function Header() {
                   onClick={handleDropdownToggleClose}
                 >
                   <div className="flex flex-row items-center w-fit px-10 py-5">
-                    <p className="">{truncateString(address)}</p>
+                    <p className="">{username || truncateString(address)}</p>
                   </div>
                 </Button>
 
                 {isDropdownClose && (
                   <div className="absolute top-1/2 font-medium transform translate-y-6 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
-                    <span className="flex w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
-                      <img src={profileImage} />
-                      <Link to="/" className="block px-4 py-2">
-                        Profile
-                      </Link>
-                    </span>
-                    <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                      <img src={lobby} />
-                      <Link to="/" className="block px-4 py-2">
-                        Lobby
-                      </Link>
-                    </span>
-                    <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                      <img src={leader} />
-                      <Link to="/" className="block px-4 py-2">
-                        Leaderboard
-                      </Link>
-                    </span>
-                    <span
-                      className="flex w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer"
+                    <Link to="/profile">
+                      <button className="flex flex-row items-center w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
+                        <img src={profileImage} />
+                        <span className="block px-4 py-2">Profile</span>
+                      </button>
+                    </Link>
+                    <Link to="/lobby">
+                      <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                        <img src={lobby} />
+                        <span className="block px-4 py-2">Lobby</span>
+                      </button>
+                    </Link>
+                    <Link to="/leaderboard">
+                      <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                        <img src={leader} />
+                        <span className="block px-4 py-2">Leaderboard</span>
+                      </button>
+                    </Link>
+                    <button
+                      className="flex flex-row items-center w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer"
                       onClick={handleDisconnect}
                     >
                       <img src={connectB} />
-                      <Link
-                        to="#"
-                        className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
-                      >
+                      <span className="block px-4 py-2 text-[#F58229] whitespace-nowrap">
                         Disconnect Wallet
-                      </Link>
-                    </span>
+                      </span>
+                    </button>
                   </div>
                 )}
               </div>
@@ -240,28 +245,27 @@ export default function Header() {
 
             {isDropdownOpen && (
               <div className="absolute top-1/2 transform font-medium translate-y-5 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
-                <span className="flex w-full px-4 py-2 rounded-t-xl bg-[#171922] hover:bg-[#272A32] cursor-pointer">
+                <button className="flex flex-row items-center w-full px-4 py-2 rounded-t-xl bg-[#171922] hover:bg-[#272A32] cursor-pointer">
                   <img src={connectB} />
-                  <Link
-                    to={{}}
+                  <span
                     className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
                     onClick={handleConnect}
                   >
                     Connect Wallet
-                  </Link>
-                </span>
-                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
+                  </span>
+                </button>
+                <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
                   <img src={lobby} />
                   <Link to="/" className="block px-4 py-2">
                     Lobby
                   </Link>
-                </span>
-                <span className="flex w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer rounded-b-xl">
+                </button>
+                <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer rounded-b-xl">
                   <img src={leader} />
                   <Link to="/" className="block px-4 py-2">
                     Leaderboard
                   </Link>
-                </span>
+                </button>
               </div>
             )}
           </div>
