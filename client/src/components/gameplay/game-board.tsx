@@ -74,6 +74,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   message={setMoveMessage}
                   status={game_node?.status}
                   winner={game_node?.winner}
+                  seed_count={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address).filter((item: any) => item?.node.pit_number === game_players?.mancalaPlayerModels.edges[0]?.node.len_pits - i)[0]?.node?.seed_count}
                   seeds={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address).filter((item: any) => item?.node.pit_number === game_players?.mancalaPlayerModels.edges[0]?.node.len_pits - i)}
                   setTimeRemaining={setTimeRemaining}
                   time_between_move={parseInt(game_node?.time_between_move, 16)}
@@ -96,6 +97,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   message={setMoveMessage}
                   status={game_node?.status}
                   winner={game_node?.winner}
+                  seed_count={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)[0]?.node?.seed_count}
                   seeds={data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)}
                   setTimeRemaining={setTimeRemaining}
                   time_between_move={parseInt(game_node?.time_between_move, 16)}

@@ -43,7 +43,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
                 return prevTime - 1; // Decrement time
               } else {
                 if (game_node?.status === "InProgress") {
-                  timeout(); //call timeout function on contract to end gamet
+                  // timeout(); //call timeout function on contract to end gamet
                 }
                 clearInterval(timer); // Clear interval when countdown reaches zero
                 return 0; // Ensure it doesn't go below zero
@@ -100,7 +100,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
         } else { return React.createElement("div", null, `Waiting for opponent to join`) }
       }
       else {
-        return React.createElement("div", null, `${game_node.winner === account.address ? "You won the game!" : "You lost the game!"}`)
+        return React.createElement("div", null, `${game_node?.winner === account.address ? "You won the game!" : "You lost the game!"}`)
       }
     };
     const minutes =
