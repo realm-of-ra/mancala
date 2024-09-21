@@ -51,7 +51,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-6">
             <p className="text-white text-center">
-              {game_players?.player_one?.edges?.[0]?.node?.mancala}
+              {data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address).filter((item: any) => item?.node.pit_number === 7).length}
             </p>
           </div>
         </div>
@@ -115,7 +115,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
-              {game_players?.player_two?.edges?.[0]?.node?.mancala}
+              {involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === 7).length}
             </p>
           </div>
         </div>
