@@ -28,7 +28,7 @@ import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery } from "@/lib/constants";
-import useControllerUsername from "@/hooks/useControllerUsername";
+import useControllerData from "@/hooks/useControllerData";
 
 export default function Header() {
   const { provider } = useProvider();
@@ -103,7 +103,8 @@ export default function Header() {
     setIsDropdownClose(!isDropdownClose);
     disconnectWallet();
   };
-  const username = useControllerUsername();
+
+  const controllerData = useControllerData();
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
@@ -179,7 +180,7 @@ export default function Header() {
                   onClick={handleDropdownToggleClose}
                 >
                   <div className="flex flex-row items-center w-fit px-14 py-3.5">
-                    <p className="text-white">{username || truncateString(address)}</p>
+                    <p className="text-white">{controllerData?.username || truncateString(address)}</p>
                   </div>
                 </Button>
 
