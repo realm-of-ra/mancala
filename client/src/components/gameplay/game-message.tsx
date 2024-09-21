@@ -37,7 +37,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
           setTimeRemaining(parseInt(game_node?.time_between_move, 16));
         }
         const timer = setInterval(() => {
-          if (game_node?.status === "InProgress" && gameStarted && account.address != undefined) {
+          if (game_node?.status === "InProgress" && gameStarted && account.address != undefined && game_node?.winner === "0x0") {
             setTimeRemaining((prevTime: number) => {
               if (prevTime > 0) {
                 return prevTime - 1; // Decrement time
@@ -79,6 +79,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
         game_node,
       ]);
     const moveMessageOnTimer = (player: string) => {
+      if (game_node?.winner === "0x0")
         if (game_node?.status === "TimeOut" || game_node?.status === "Finished" || game_node?.status === "Forfeited") {
           return React.createElement("div", null, React.createElement("span", { className: "text-[#F58229]" }, `Game Over`)) } else {
           if (game_node?.status !== "Pending") {
@@ -97,6 +98,9 @@ export default function GameMessage({ game_node, game_players, account, profiles
             } else { return React.createElement("div", null, `Waiting for `, React.createElement("span", { className: "text-[#F58229]" }, profiles?.[1].name ? profiles?.[1].name : truncateString(player)), ` move`) }
           }
         } else { return React.createElement("div", null, `Waiting for opponent to join`) }
+      }
+      else {
+        return React.createElement("div", null, `${game_node.winner === account.address ? "You won the game!" : "You lost the game!"}`)
       }
     };
     const minutes =

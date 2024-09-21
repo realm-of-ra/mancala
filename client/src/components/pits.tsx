@@ -42,7 +42,7 @@ export function TopPit({ amount, address, pit, game_id, status, winner, userAcco
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
-                           seeds?.map((seed, seedIndex) => <Seed key={seedIndex} amount={amount} color={seeds != undefined ? seed.node.color : []} />)
+                           seeds?.map((seed, seedIndex) => <Seed key={seedIndex} color={seeds != undefined ? seed.node.color : []} />)
                         }
                     </div>}
                 </div>
@@ -88,7 +88,7 @@ export function BottomPit({ amount, address, pit, game_id, status, winner, userA
                 <div className={clsx('w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer', pit < 4 ? "ml-2" : "ml-2.5")}>
                     {amount > 0 && <div className={clsx(amount > 6 && 'grid-cols-3', amount >= 12 && 'grid-cols-4', 'grid gap-1 grid-cols-2')} data-testid="seeds">
                         {
-                           seeds?.map((seed, seedIndex) => <Seed key={seedIndex} amount={amount} color={seeds != undefined ? seed.node.color : []} />)
+                           seeds?.map((seed, seedIndex) => <Seed key={seedIndex} color={seeds != undefined ? seed.node.color : []} />)
                         }
                     </div>}
                 </div>

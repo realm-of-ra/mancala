@@ -118,7 +118,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       marginTop: player_length > 30 ? -1.5 : 0,
                       zIndex: index,
                     }}>
-                      <Seed color={"Green"} />
+                      <Seed color={seed.node.color} />
                     </div>
                   ))
               }
