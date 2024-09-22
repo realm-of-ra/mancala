@@ -110,7 +110,7 @@ export default function Lobby() {
         if (
           (game?.node?.player_one === account.address ||
             game?.node?.player_two === account.address) &&
-          game?.node?.entity.executedAt // Assuming executedAt is a direct property of node
+          game?.node?.entity.executedAt
         ) {
           acc.push({
             ...game.node,

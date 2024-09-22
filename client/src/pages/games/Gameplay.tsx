@@ -15,8 +15,8 @@ import GameNavigation from "@/components/gameplay/game-navigation";
 
 export default function Gameplay() {
   const { gameId } = useParams();
-  const { loading: game_metadata_loading, data: game_metadata, startPolling: startMetadataPolling } = useQuery(MancalaBoardModelQuery, { variables: { gameId: gameId } });
-  const { loading: game_players_loading, data: game_players, startPolling: startPlayersPolling } = useQuery(MancalaPlayQuery, { variables: { gameId: gameId } });
+  const { data: game_metadata, startPolling: startMetadataPolling } = useQuery(MancalaBoardModelQuery, { variables: { gameId: gameId } });
+  const { data: game_players, startPolling: startPlayersPolling } = useQuery(MancalaPlayQuery, { variables: { gameId: gameId } });
   const { system } = useDojo();
   const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
@@ -30,7 +30,7 @@ export default function Gameplay() {
       <GameNavigation game_players={game_players} game_node={game_node} account={account} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
-          <RestartButton gameId={gameId || ""} />
+          <RestartButton gameId={gameId || ""} game_players={game_players} />
           <EndgameButton />
         </div>
         <div className="flex-1 w-full h-full">
