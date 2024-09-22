@@ -104,11 +104,23 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const restart_game = async (account: AccountInterface, game_id: string) => {
+    const restart_game = async (account: AccountInterface, game_id: string, approver: boolean) => {
+      console.log(approver)
       try {
         return await provider.execute(
           account,
-          {
+          approver ? [
+            {
+              contractName: "actions",
+              entrypoint: "request_restart_game",
+              calldata: [game_id],
+            },
+            {
+              contractName: "actions",
+              entrypoint: "restart_current_game",
+              calldata: [game_id],
+            }
+          ] : {
             contractName: "actions",
             entrypoint: "request_restart_game",
             calldata: [game_id],

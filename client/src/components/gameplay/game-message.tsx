@@ -1,36 +1,24 @@
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { truncateString } from "@/lib/utils";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import audio from "../../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
 import { logo } from "@/lib/icons_store";
 
-export default function GameMessage({ game_node, game_players, account, profiles , gameStarted, gameId, timeRemaining, setTimeRemaining, setProfiles }: 
-    { game_node: any, game_players: any, account: any, profiles: any, gameStarted: any, gameId: any, timeRemaining: any, setTimeRemaining: any, setProfiles: any }) {
+export default function GameMessage({ game_node, game_players, account, profiles , gameStarted, timeRemaining, setTimeRemaining, setProfiles }: 
+    { game_node: any, game_players: any, account: any, profiles: any, gameStarted: any, timeRemaining: any, setTimeRemaining: any, setProfiles: any }) {
     const audioRef = useRef(new Audio(audio));
-
     const { provider } = useProvider();
-
-    // const timeout = async () => {
-    //   if (account.account) {
-    //     await system.timeout(account.account, gameId || "");
-    //   }
-    // };
-
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(
           provider,
           constants.StarknetChainId.SN_SEPOLIA,
         );
     }, [provider]);
-
   const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
-
-  // console.log(game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.restart_requested === false)[0]?.node.address)
-
     useEffect(() => {
       if (involved) {
         if (game_node) {
@@ -42,9 +30,6 @@ export default function GameMessage({ game_node, game_players, account, profiles
               if (prevTime > 0) {
                 return prevTime - 1; // Decrement time
               } else {
-                if (game_node?.status === "InProgress") {
-                  // timeout(); //call timeout function on contract to end gamet
-                }
                 clearInterval(timer); // Clear interval when countdown reaches zero
                 return 0; // Ensure it doesn't go below zero
               }
@@ -74,8 +59,6 @@ export default function GameMessage({ game_node, game_players, account, profiles
         game_players?.player_one?.edges,
         game_players?.player_two?.edges,
         involved,
-        // starknetIdNavigator,
-        // timeout,
         game_node,
       ]);
     const moveMessageOnTimer = (player: string) => {

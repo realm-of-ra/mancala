@@ -570,6 +570,14 @@ export const POLICIES = [
     target: ACTION_ADDRESS,
     method: "move",
   },
+  {
+    target: ACTION_ADDRESS,
+    method: "request_restart_game",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "restart_current_game",
+  }
 ];
 
 export const MancalaBoardModelsQuery = gql`

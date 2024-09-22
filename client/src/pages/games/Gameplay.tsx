@@ -15,7 +15,7 @@ import GameNavigation from "@/components/gameplay/game-navigation";
 
 export default function Gameplay() {
   const { gameId } = useParams();
-  const { loading: game_metadata_loading, error: game_metadata_error, data: game_metadata, startPolling: startMetadataPolling } = useQuery(MancalaBoardModelQuery, { variables: { gameId: gameId } });
+  const { loading: game_metadata_loading, data: game_metadata, startPolling: startMetadataPolling } = useQuery(MancalaBoardModelQuery, { variables: { gameId: gameId } });
   const { loading: game_players_loading, data: game_players, startPolling: startPlayersPolling } = useQuery(MancalaPlayQuery, { variables: { gameId: gameId } });
   const { system } = useDojo();
   const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
@@ -46,13 +46,7 @@ export default function Gameplay() {
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <AudioSection />
             <MessageArea
-              game_metadata_error={game_metadata_error}
-              game_players_error={game_metadata_error}
-              game_metadata={game_metadata}
               address={account?.account?.address}
-              game_metadata_loading={game_metadata_loading}
-              moveMessage={moveMessage}
-              game_players_loading={game_players_loading}
               game_players={game_players}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">

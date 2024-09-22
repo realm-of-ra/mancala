@@ -124,16 +124,17 @@ export function createSystemCalls(
     }
   };
 
-  const restart_game = async (account: AccountInterface, game_id: string) => {
+  const restart_game = async (account: AccountInterface, game_id: string, setRestarted: any, approver: boolean) => {
     try {
       const { transaction_hash } = await client.actions.restart_game(
         account,
         game_id,
+        approver
       );
-
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
+      setRestarted(true);
     } catch (error) {
       console.error("Error executing restart_game:", error);
       throw error;
