@@ -114,7 +114,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         </div>
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot */}
-          <div className={clsx(player_length > 10 && "mr-[170px] 2xl:mr-[140px]", player_length > 20 && "mr-[160px]", player_length > 30 && "mr-[170px]", player_length > 44 && "-mt-4", "mr-[185px] -mt-1 flex flex-row justify-center items-center h-[75%]")}>
+          <div className={clsx(player_length > 10 && "mr-[170px]", player_length > 20 && "mr-[160px]", player_length > 30 && "mr-[170px] 2xl:mr-[140px]", player_length > 44 && "-mt-4", "mr-[185px] -mt-1 flex flex-row justify-center items-center h-[75%]")}>
             <div className={clsx(player_length > 10 && "grid grid-cols-2", player_length > 20 && "grid grid-cols-3", player_length > 30 && "grid grid-cols-4")}>
               {
                 involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
