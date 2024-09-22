@@ -104,22 +104,39 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const timeout = async (account: AccountInterface, game_id: string) => {
+    const restart_game = async (account: AccountInterface, game_id: string) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: "actions",
-            entrypoint: "time_out",
+            entrypoint: "request_restart_game",
             calldata: [game_id],
           },
           NAMESPACE,
         );
       } catch (error) {
-        console.error("Error executing spawn:", error);
+        console.error("Error executing restart_game:", error);
         throw error;
       }
-    };
+    }
+
+    // const timeout = async (account: AccountInterface, game_id: string) => {
+    //   try {
+    //     return await provider.execute(
+    //       account,
+    //       {
+    //         contractName: "actions",
+    //         entrypoint: "time_out",
+    //         calldata: [game_id],
+    //       },
+    //       NAMESPACE,
+    //     );
+    //   } catch (error) {
+    //     console.error("Error executing spawn:", error);
+    //     throw error;
+    //   }
+    // };
 
     return {
       create_initial_game_id,
@@ -127,7 +144,8 @@ export async function setupWorld(provider: DojoProvider) {
       create_private_game,
       join_game,
       move,
-      timeout,
+      restart_game
+      // timeout,
     };
   }
   return {

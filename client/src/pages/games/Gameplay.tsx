@@ -30,7 +30,7 @@ export default function Gameplay() {
       <GameNavigation game_players={game_players} game_node={game_node} account={account} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
-          <RestartButton />
+          <RestartButton gameId={gameId || ""} />
           <EndgameButton />
         </div>
         <div className="flex-1 w-full h-full">

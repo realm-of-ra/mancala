@@ -623,6 +623,7 @@ export const MancalaPlayQuery = gql`
           address
           game_id
           len_pits
+          restart_requested
         }
       }
     }

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { truncateString } from "@/lib/utils";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
-import { useDojo } from "@/dojo/useDojo";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
@@ -14,13 +13,12 @@ export default function GameMessage({ game_node, game_players, account, profiles
     const audioRef = useRef(new Audio(audio));
 
     const { provider } = useProvider();
-    const { system } = useDojo();
 
-    const timeout = async () => {
-      if (account.account) {
-        await system.timeout(account.account, gameId || "");
-      }
-    };
+    // const timeout = async () => {
+    //   if (account.account) {
+    //     await system.timeout(account.account, gameId || "");
+    //   }
+    // };
 
     const starknetIdNavigator = useMemo(() => {
         return new StarknetIdNavigator(
@@ -30,6 +28,8 @@ export default function GameMessage({ game_node, game_players, account, profiles
     }, [provider]);
 
   const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
+
+  // console.log(game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.restart_requested === false)[0]?.node.address)
 
     useEffect(() => {
       if (involved) {

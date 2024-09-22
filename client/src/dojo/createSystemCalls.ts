@@ -124,21 +124,37 @@ export function createSystemCalls(
     }
   };
 
-  const timeout = async (account: AccountInterface, game_id: string) => {
+  const restart_game = async (account: AccountInterface, game_id: string) => {
     try {
-      const { transaction_hash } = await client.actions.timeout(
+      const { transaction_hash } = await client.actions.restart_game(
         account,
         game_id,
-      )
+      );
 
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
-      })
+      });
     } catch (error) {
-      console.error('Error executing timeout:', error)
-      throw error
+      console.error("Error executing restart_game:", error);
+      throw error;
     }
   }
+
+  // const timeout = async (account: AccountInterface, game_id: string) => {
+  //   try {
+  //     const { transaction_hash } = await client.actions.timeout(
+  //       account,
+  //       game_id,
+  //     )
+
+  //     await account.waitForTransaction(transaction_hash, {
+  //       retryInterval: 100,
+  //     })
+  //   } catch (error) {
+  //     console.error('Error executing timeout:', error)
+  //     throw error
+  //   }
+  // }
 
   return {
     create_initial_game_id,
@@ -146,6 +162,7 @@ export function createSystemCalls(
     create_private_game,
     join_game,
     move,
-    timeout,
+    restart_game
+    // timeout,
   };
 }
