@@ -36,7 +36,7 @@ export default function GameNavigation({ game_players, game_node, account, gameI
           </div>
         </div>
         <GameMessage game_node={game_node} game_players={game_players} account={account} 
-        profiles={profiles} gameStarted={started} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} setProfiles={setProfiles}  />
+        profiles={profiles} gameStarted={started} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} setProfiles={setProfiles} />
       </nav>
     )
 }

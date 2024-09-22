@@ -28,7 +28,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const { data, startPolling } = useQuery(MancalaSeedQuery, { variables: { gameId: gameId }});
   startPolling(100);
   const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
-  const player_position = game_players?.mancalaPlayerModels.edges.findIndex((item: any) => item?.node.address === account.address);
+  const player_position = involved ? game_players?.mancalaPlayerModels.edges.findIndex((item: any) => item?.node.address === account.address) : 0;
   const player_length = data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
   .filter((item: any) => item?.node.pit_number === 7).length
   const opponent_position = player_position === 0 ? 1 : 0;
@@ -47,7 +47,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div className={clsx(opposition_length > 20 ? "ml-[146px]" : "ml-[156px]", "flex flex-row justify-center items-center px-2.5")}>
             <div className={clsx(opposition_length > 10 && "grid grid-cols-2", opposition_length > 20 && "grid grid-cols-3", opposition_length > 30 && "grid grid-cols-5")}>
               {
-                involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
+                // involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
+                data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
                 .filter((item: any) => item?.node.pit_number === 7).slice(0, opponent_pot_seed_count).map((seed: any, index: number) => (<div key={index} style={{
                   width: opposition_length > 30 ? "8px" : "auto"
                 }}>
@@ -67,7 +68,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 1 */}
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
-              {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[opponent_position]?.node?.len_pits }, (_, zero_index) => zero_index + 1).map((_, i) => (
+              {/* {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[opponent_position]?.node?.len_pits }, (_, zero_index) => zero_index + 1).map((_, i) => ( */}
+              {Array.from({ length: game_players?.mancalaPlayerModels.edges[opponent_position]?.node?.len_pits }, (_, zero_index) => zero_index + 1).map((_, i) => (
                 <TopPit
                   key={i}
                   amount={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address).filter((item: any) => item?.node.pit_number === game_players?.mancalaPlayerModels.edges[0]?.node.len_pits - i)[0]?.node?.seed_count}
@@ -90,7 +92,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 2 */}
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
-              {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[player_position]?.node.len_pits }, (_, zero_index) => zero_index + 1).map((pit_key, i) => (
+            {/* {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[player_position]?.node.len_pits }, (_, zero_index) => zero_index + 1).map((pit_key, i) => ( */}
+              {Array.from({ length: game_players?.mancalaPlayerModels.edges[player_position]?.node.len_pits }, (_, zero_index) => zero_index + 1).map((pit_key, i) => (
                 <BottomPit
                   key={i}
                   amount={game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address).filter((item: any) => item?.node.pit_number === i + 1)[0]?.node?.seed_count}
@@ -117,7 +120,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div className={clsx(player_length > 10 && "mr-[170px]", player_length > 20 && "mr-[160px]", player_length > 30 && "mr-[170px]", player_length > 44 && "-mt-4", "mr-[185px] 2xl:mr-[165px] 2xl:-mt-2 -mt-1 flex flex-row justify-center items-center h-[75%]")}>
             <div className={clsx(player_length > 10 && "grid grid-cols-2", player_length > 20 && "grid grid-cols-3", player_length > 30 && "grid grid-cols-4")}>
               {
-                involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
+                // involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
+                data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
                 .filter((item: any) => item?.node.pit_number === 7).slice(0, player_pot_seed_count).map((seed: any, index: number) => (
                     <div key={index} style={{
                       width: player_length > 20 ? "10px" : player_length > 30 ? "6px" : "auto",

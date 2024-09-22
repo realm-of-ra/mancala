@@ -1,7 +1,7 @@
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { truncateString } from "@/lib/utils";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -18,49 +18,57 @@ export default function GameMessage({ game_node, game_players, account, profiles
           constants.StarknetChainId.SN_SEPOLIA,
         );
     }, [provider]);
-  const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
+    const [startTime, setStartTime] = useState<number | null>(null);
     useEffect(() => {
-      if (involved) {
-        if (game_node) {
-          setTimeRemaining(parseInt(game_node?.time_between_move, 16));
-        }
-        const timer = setInterval(() => {
-          if (game_node?.status === "InProgress" && gameStarted && account.address != undefined && game_node?.winner === "0x0") {
-            setTimeRemaining((prevTime: number) => {
-              if (prevTime > 0) {
-                return prevTime - 1; // Decrement time
-              } else {
-                clearInterval(timer); // Clear interval when countdown reaches zero
-                return 0; // Ensure it doesn't go below zero
-              }
-            });
-          }
-        }, 1000);
-        if (
-          !starknetIdNavigator ||
-          !game_players?.player_one?.edges?.[0]?.node?.address ||
-          !game_players?.player_two?.edges?.[0]?.node?.address
-        )
-          return;
-        (async () => {
-          const profileData = await starknetIdNavigator?.getStarkProfiles([
-            game_players?.player_one?.edges?.[0]?.node?.address,
-            game_players?.player_two?.edges?.[0]?.node?.address,
-          ]);
-          if (!profileData) return;
-          if (profileData) return setProfiles(profileData);
-        })();
-        return () => {
-          clearInterval(timer);
-          audioRef.current.pause();
-        };
+      if (game_node) {
+        const initialTime = parseInt(game_node?.time_between_move, 16);
+        setStartTime(Date.now());
+        setTimeRemaining(initialTime);
       }
-      }, [
-        game_players?.player_one?.edges,
-        game_players?.player_two?.edges,
-        involved,
-        game_node,
-      ]);
+    
+      let animationFrameId: number;
+    
+      const updateTimer = () => {
+        if (game_node?.status === "InProgress" && gameStarted && game_node?.winner === "0x0" && startTime !== null) {
+          const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+          const newTimeRemaining = Math.max(parseInt(game_node?.time_between_move, 16) - elapsedTime, 0);
+          setTimeRemaining(newTimeRemaining);
+    
+          if (newTimeRemaining > 0) {
+            animationFrameId = requestAnimationFrame(updateTimer);
+          }
+        }
+      };
+    
+      animationFrameId = requestAnimationFrame(updateTimer);
+    
+      if (
+        !starknetIdNavigator ||
+        !game_players?.player_one?.edges?.[0]?.node?.address ||
+        !game_players?.player_two?.edges?.[0]?.node?.address
+      )
+        return;
+      (async () => {
+        const profileData = await starknetIdNavigator?.getStarkProfiles([
+          game_players?.player_one?.edges?.[0]?.node?.address,
+          game_players?.player_two?.edges?.[0]?.node?.address,
+        ]);
+        if (!profileData) return;
+        if (profileData) return setProfiles(profileData);
+      })();
+      return () => {
+        cancelAnimationFrame(animationFrameId);
+        audioRef.current.pause();
+      };
+    }, [
+      game_players?.player_one?.edges,
+      game_players?.player_two?.edges,
+      game_node,
+      gameStarted,
+      startTime,
+      starknetIdNavigator,
+      setProfiles,
+    ]);
     const moveMessageOnTimer = (player: string) => {
       if (game_node?.winner === "0x0")
         if (game_node?.status === "TimeOut" || game_node?.status === "Finished" || game_node?.status === "Forfeited") {
@@ -100,7 +108,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
             <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
               <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
               {
-                involved && <div className="flex flex-row items-center justify-center space-x-1">
+                <div className="flex flex-row items-center justify-center space-x-1">
                 { game_node?.status !== "Pending" && <AlarmClock className="w-6 h-6 text-white" /> }
                 <div className="text-white">
                   {moveMessageOnTimer(game_node?.current_player)}

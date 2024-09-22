@@ -20,7 +20,7 @@ export default function Gameplay() {
   const { system } = useDojo();
   const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [moveMessage, setMoveMessage] = useState<string | undefined>();
+  const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
 
   startMetadataPolling(100);
