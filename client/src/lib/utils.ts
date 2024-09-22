@@ -1,13 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import {
-  GamePlayer,
-  MancalaGame,
-  MancalaGameEdge,
-} from "@/generated/graphql.tsx";
 import { shortString, BigNumberish } from "starknet";
-
-import { IPlayersForDuelsList } from "@/types/player.type.ts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,7 +22,7 @@ export const stringToFelt = (v: string): BigNumberish =>
 export const bigintToHex = (v: BigNumberish): string =>
   !v ? "0x0" : `0x${BigInt(v).toString(16)}`;
 
-export function getPlayers(data: any[] | undefined): IPlayersForDuelsList[] {
+export function getPlayers(data: any[] | undefined) {
   if (!data) return [];
 
   // Extracting player_one and player_two from the data object

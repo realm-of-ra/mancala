@@ -1,6 +1,5 @@
 import GameMessage from "@/components/gameplay/game-message";
 import { StarkProfile } from "starknet";
-import { MancalaGameEdge } from "@/generated/graphql.tsx";
 import { getPlayer } from "@/lib/utils";
 import PlayerProfile from "@/components/gameplay/player-profile";
 import { gameStarted } from "@/lib/constants";
@@ -12,8 +11,8 @@ export default function GameNavigation({ game_players, game_node, account, gameI
     const games_data_two = game_players?.player_two?.edges?.[0]?.node;
     const started = gameStarted(games_data_one, games_data_two);
     const [profiles, setProfiles] = useState<StarkProfile[]>();
-    const player_one = getPlayer(game_players?.player_one?.edges as MancalaGameEdge[], game_players?.player_one?.edges?.[0]?.node?.address);
-    const player_two = getPlayer(game_players?.player_two?.edges as MancalaGameEdge[], game_players?.player_two?.edges?.[0]?.node?.address);
+    const player_one = getPlayer(game_players?.player_one?.edges, game_players?.player_one?.edges?.[0]?.node?.address);
+    const player_two = getPlayer(game_players?.player_two?.edges, game_players?.player_two?.edges?.[0]?.node?.address);
     return(
         <nav className="relative w-full h-40">
         <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">

@@ -21,7 +21,7 @@ export default function Players({ data }: { data: any[] | undefined }) {
     // Extracting player_one and player_two from the data object
     const players = getPlayers(data);
 
-    const addresses = players?.map((player) => player.address);
+    const addresses = players?.map((player: any) => player.address);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>([]);
 
