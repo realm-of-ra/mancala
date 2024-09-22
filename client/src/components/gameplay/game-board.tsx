@@ -44,7 +44,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[240px] flex items-center mb-5">
           {/* Player 1 pot */}
-          <div className={clsx(opposition_length > 10 && " 2xl:mr-[140px]", opposition_length > 20 ? "ml-[146px]" : "ml-[156px]","flex flex-row justify-center items-center px-2.5")}>
+          <div className={clsx(opposition_length > 20 ? "ml-[146px]" : "ml-[156px] 2xl:ml-[140px]","flex flex-row justify-center items-center px-2.5")}>
             <div className={clsx(opposition_length > 10 && "grid grid-cols-2", opposition_length > 20 && "grid grid-cols-3", opposition_length > 30 && "grid grid-cols-5")}>
               {
                 involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
