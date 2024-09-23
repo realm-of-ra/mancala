@@ -330,6 +330,27 @@ use starknet::{ContractAddress, get_caller_address};
         let (p1_score, p2_score) = systems.actions.get_score(game_id);
         assert(p1_score == 23, 'Player 1 score is wrong');
         assert(p2_score == 25, 'Player 2 score is wrong');
+
+        // Check that there is the correct amount of seeds in the store
+        let mut p1_index = 1;
+        loop {
+            if p1_index > p1_score {
+                break;
+            }
+            let p1_seed = store.get_seed(game_id, setup::OWNER(), 7, p1_index);
+            assert(p1_seed.color != SeedColor::None, 'P1 seed not exist');
+            p1_index += 1;
+        };
+
+        let mut p2_index = 1;
+        loop {
+            if p2_index > p2_score {
+                break;
+            }
+            let p2_seed = store.get_seed(game_id, ANYONE, 7, p2_index);
+            assert(p2_seed.color != SeedColor::None, 'P2 seed not exist');
+            p2_index += 1;
+        };
     }
 }
 

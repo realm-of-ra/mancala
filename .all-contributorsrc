@@ -71,6 +71,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "jonatan-chaverri",
+      "name": "Jonatan Chaverri",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25421284?v=4",
+      "profile": "https://github.com/Jonatan-Chaverri ",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
