@@ -38,7 +38,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
   .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
   const opponent_pot_seed_count = game_players?.mancalaPitModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
   .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
-  console.log(player_pot_seed_count, opponent_pot_seed_count)
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">

@@ -577,6 +577,10 @@ export const POLICIES = [
   {
     target: ACTION_ADDRESS,
     method: "restart_current_game",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "forfeited",
   }
 ];
 

@@ -20,7 +20,7 @@ export default function GameMessage({ game_node, game_players, account, profiles
     }, [provider]);
     const [startTime, setStartTime] = useState<number | null>(null);
     useEffect(() => {
-      if (game_node) {
+      if (game_node?.status === "InProgress" && gameStarted && game_node?.winner === "0x0") {
         const initialTime = parseInt(game_node?.time_between_move, 16);
         setStartTime(Date.now());
         setTimeRemaining(initialTime);
@@ -94,11 +94,8 @@ export default function GameMessage({ game_node, game_players, account, profiles
         return React.createElement("div", null, `${game_node?.winner === account.address ? "You won the game!" : "You lost the game!"}`)
       }
     };
-    const minutes =
-      (Math.floor(timeRemaining % 3600) / 60 < 10 ? "0" : "") +
-      Math.floor((timeRemaining % 3600) / 60);
-    const seconds =
-      (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
+    const minutes = game_node?.status != "InProgress" ? "00" : (Math.floor(timeRemaining % 3600) / 60 < 10 ? "0" : "") + Math.floor((timeRemaining % 3600) / 60);
+    const seconds = game_node?.status != "InProgress" ? "00" : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
     return(
         <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
           <div className="flex flex-col items-center justify-center mt-10 space-y-5">

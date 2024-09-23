@@ -105,7 +105,6 @@ export async function setupWorld(provider: DojoProvider) {
     };
 
     const restart_game = async (account: AccountInterface, game_id: string, approver: boolean) => {
-      console.log(approver)
       try {
         return await provider.execute(
           account,
@@ -133,6 +132,23 @@ export async function setupWorld(provider: DojoProvider) {
       }
     }
 
+    const end_game = async (account: AccountInterface, game_id: string) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: "actions",
+            entrypoint: "forfeited",
+            calldata: [game_id],
+          },
+          NAMESPACE,
+        );
+      } catch (error) {
+        console.error("Error executing end_game:", error);
+        throw error;
+      }
+    }
+
     // const timeout = async (account: AccountInterface, game_id: string) => {
     //   try {
     //     return await provider.execute(
@@ -156,7 +172,8 @@ export async function setupWorld(provider: DojoProvider) {
       create_private_game,
       join_game,
       move,
-      restart_game
+      restart_game,
+      end_game,
       // timeout,
     };
   }

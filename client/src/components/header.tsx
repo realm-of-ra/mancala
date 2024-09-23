@@ -177,11 +177,16 @@ export default function Header() {
             {address ? (
               <div className="relative">
                 <Button
-                  className="p-0 flex font-medium justify-between relative items-center bg-[#F58229] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
+                  className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex flex-row items-center w-fit px-14 py-3.5">
+                  <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5">
                     <p className="text-white">{controllerData?.username || truncateString(address)}</p>
+                  <ChevronDownIcon
+                    className={clsx("w-4 h-4 ml-3 transition duration-300", {
+                      "transform rotate-180": isDropdownOpen,
+                    })}
+                  />
                   </div>
                 </Button>
 

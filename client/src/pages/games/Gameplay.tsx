@@ -31,7 +31,7 @@ export default function Gameplay() {
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <RestartButton gameId={gameId || ""} game_players={game_players} />
-          <EndgameButton />
+          <EndgameButton gameId={gameId || ""} game_players={game_players} />
         </div>
         <div className="flex-1 w-full h-full">
           <GameBoard

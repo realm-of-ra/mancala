@@ -141,6 +141,21 @@ export function createSystemCalls(
     }
   }
 
+  const end_game = async (account: AccountInterface, game_id: string) => {
+    try {
+      const { transaction_hash } = await client.actions.end_game(
+        account,
+        game_id
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+    } catch (error) {
+      console.error("Error executing end_game:", error);
+      throw error;
+    }
+  }
+
   // const timeout = async (account: AccountInterface, game_id: string) => {
   //   try {
   //     const { transaction_hash } = await client.actions.timeout(
@@ -163,7 +178,8 @@ export function createSystemCalls(
     create_private_game,
     join_game,
     move,
-    restart_game
+    restart_game,
+    end_game,
     // timeout,
   };
 }
