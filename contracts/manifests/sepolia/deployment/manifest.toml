@@ -1,0 +1,208 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+original_class_hash = "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e"
+abi = "manifests/sepolia/deployment/abis/dojo-world.json"
+address = "0x211a00916edfc32dfb67114b653cb80bccbb646ded281d7c57bd75b31a7ede4"
+transaction_hash = "0x52dff4bf2d62caed6d52b6e857078c6e0c33de2eb00374e23819dc1b550553"
+seed = "mancala"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "sepolia"
+rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/sepolia/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+address = "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef"
+class_hash = "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93"
+original_class_hash = "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93"
+base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/sepolia/deployment/abis/contracts/mancala-actions-5608e015.json"
+reads = []
+writes = ["ns:mancala"]
+init_calldata = []
+tag = "mancala-actions"
+systems = [
+    "initialize_game_counter",
+    "join_game",
+    "create_private_game",
+    "move",
+    "forfeited",
+    "request_restart_game",
+    "restart_current_game",
+]
+manifest_name = "mancala-actions-5608e015"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5492facc80365d53591c959a5b606c1f2ed48d8188d56bcd3b3759c5d48bba2"
+original_class_hash = "0x5492facc80365d53591c959a5b606c1f2ed48d8188d56bcd3b3759c5d48bba2"
+abi = "manifests/sepolia/deployment/abis/models/mancala-GameCounter-70698b2c.json"
+tag = "mancala-GameCounter"
+qualified_path = "mancala::models::index::game_counter"
+manifest_name = "mancala-GameCounter-70698b2c"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "count"
+type = "u128"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+original_class_hash = "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f"
+abi = "manifests/sepolia/deployment/abis/models/mancala-MancalaBoard-43323da8.json"
+tag = "mancala-MancalaBoard"
+qualified_path = "mancala::models::index::mancala_board"
+manifest_name = "mancala-MancalaBoard-43323da8"
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "player_one"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "player_two"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "current_player"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "last_move"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "time_between_move"
+type = "u64"
+key = false
+
+[[models.members]]
+name = "winner"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "status"
+type = "GameStatus"
+key = false
+
+[[models.members]]
+name = "is_private"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
+original_class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
+abi = "manifests/sepolia/deployment/abis/models/mancala-Pit-22175c12.json"
+tag = "mancala-Pit"
+qualified_path = "mancala::models::index::pit"
+manifest_name = "mancala-Pit-22175c12"
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "pit_number"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "seed_count"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x576eecec760cddd678f001b367e4319d89204932a8183b20df0cdb49106c69e"
+original_class_hash = "0x576eecec760cddd678f001b367e4319d89204932a8183b20df0cdb49106c69e"
+abi = "manifests/sepolia/deployment/abis/models/mancala-Player-37ce719d.json"
+tag = "mancala-Player"
+qualified_path = "mancala::models::index::player"
+manifest_name = "mancala-Player-37ce719d"
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "address"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "len_pits"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "restart_requested"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
+original_class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
+abi = "manifests/sepolia/deployment/abis/models/mancala-Seed-64c952d1.json"
+tag = "mancala-Seed"
+qualified_path = "mancala::models::index::seed"
+manifest_name = "mancala-Seed-64c952d1"
+
+[[models.members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "pit_number"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "seed_number"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "color"
+type = "SeedColor"
+key = false

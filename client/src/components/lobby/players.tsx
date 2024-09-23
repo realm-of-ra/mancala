@@ -7,10 +7,9 @@ import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import PlayersSkeleton from "./players-skeleton";
-import { MancalaGameEdge } from "@/generated/graphql.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 
-export default function Players({ data }: { data: Array<MancalaGameEdge> | undefined }) {
+export default function Players({ data }: { data: any[] | undefined }) {
 
     const { provider } = useProvider();
 
@@ -22,7 +21,7 @@ export default function Players({ data }: { data: Array<MancalaGameEdge> | undef
     // Extracting player_one and player_two from the data object
     const players = getPlayers(data);
 
-    const addresses = players?.map((player) => player.address);
+    const addresses = players?.map((player: any) => player.address);
 
     const [profiles, setProfiles] = useState<StarkProfile[]>([]);
 

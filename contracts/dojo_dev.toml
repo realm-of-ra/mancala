@@ -1,21 +1,23 @@
 [world]
 name = "Mancala"
-description = "Mancala is a classic strategy board game built on Starknet blockchain."
+description = "The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world."
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
-website = "https://www.realmofra.com/"
-seed = "mancala_alpha_slot"
-
-[namespace]
-default = "mancala_alpha"
-
-[env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v8/katana"
-account_address = "0x6f3c5e9f3161c9b2545d8a0a08183df56e6e9adcd04864c31e591b6c8343afe"
-private_key = "0x503b610edf67c295099d5184f75159e0e9e044940c86db2e10d07595ecc6e3c"
-world_address = "0x47cbe2fcd69fd466f3fae430bf46e0a9d0ce2775fdfac124cedc49dbc8bc788"
+website = "https://github.com/dojoengine/dojo-starter"
+seed = "mancala"
 
 [world.socials]
-x = "https://x.com/realm_of_ra"
-github = "https://github.com/realm-of-ra/mancala"
-telegram = "https://t.me/+0UKU3P3Eh_s2NTRh"
+x = "https://x.com/ohayo_dojo"
+discord = "https://discord.gg/FB2wR6uF"
+github = "https://github.com/dojoengine/dojo-starter"
+telegram = "https://t.me/dojoengine"
+
+[namespace]
+default = "mancala"
+
+[env]
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v12/katana"
+# Default account for katana with seed = 0
+account_address = "0x6f3c5e9f3161c9b2545d8a0a08183df56e6e9adcd04864c31e591b6c8343afe"
+private_key = "0x503b610edf67c295099d5184f75159e0e9e044940c86db2e10d07595ecc6e3c"
+world_address = "0x211a00916edfc32dfb67114b653cb80bccbb646ded281d7c57bd75b31a7ede4"  # Uncomment and update this line with your world address.

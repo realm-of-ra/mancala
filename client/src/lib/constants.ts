@@ -1,13 +1,6 @@
 import eniola from "../assets/eniola.png";
 import israel from "../assets/israel.png";
-import energy from "../assets/energy.png";
-
-export const animate = {
-  mount: { scale: 1 },
-  unmount: { scale: 0.9 },
-};
-
-export const players = ["isreal", "eniola"];
+import { gql } from "@apollo/client";
 
 export const chat = [
   {
@@ -60,83 +53,7 @@ export const chat = [
   },
 ];
 
-export const initialSeeds = [
-  { pot: 1, seeds: 4 },
-  { pot: 2, seeds: 4 },
-  { pot: 3, seeds: 4 },
-  { pot: 4, seeds: 4 },
-  { pot: 5, seeds: 4 },
-  { pot: 6, seeds: 4 },
-  { pot: 7, seeds: 0 },
-  { pot: 8, seeds: 4 },
-  { pot: 9, seeds: 4 },
-  { pot: 10, seeds: 4 },
-  { pot: 11, seeds: 4 },
-  { pot: 12, seeds: 4 },
-  { pot: 13, seeds: 4 },
-  { pot: 14, seeds: 0 },
-];
-
 export const table_head = ["Player", "Level", "Score"];
-
-export const stats = [
-  {
-    id: 1,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 500000,
-  },
-  {
-    id: 2,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 450000,
-  },
-  {
-    id: 3,
-    name: "Israel",
-    image: israel,
-    level: "Level 6",
-    score: 300000,
-  },
-  {
-    id: 4,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 250000,
-  },
-  {
-    id: 5,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 200000,
-  },
-  {
-    id: 6,
-    name: "Israel",
-    image: israel,
-    level: "Level 6",
-    score: 150000,
-  },
-  {
-    id: 7,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 100000,
-  },
-  {
-    id: 8,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 50000,
-  },
-];
 
 export const player_header = [
   {
@@ -606,17 +523,40 @@ export const live_duels_stats = [
   },
 ];
 
+export const players = ["Eniola", "Israel"];
+
+export const animate = {
+  mount: { scale: 1 },
+  unmount: { scale: 0.9 },
+};
+
+export const gameStarted = (games_data_one: any, games_data_two: any) =>
+  !(
+    games_data_one?.pit1 == 4 &&
+    games_data_one?.pit2 == 4 &&
+    games_data_one?.pit3 == 4 &&
+    games_data_one?.pit4 == 4 &&
+    games_data_one?.pit5 == 4 &&
+    games_data_one?.pit6 == 4 &&
+    games_data_two?.pit1 == 4 &&
+    games_data_two?.pit2 == 4 &&
+    games_data_two?.pit3 == 4 &&
+    games_data_two?.pit4 == 4 &&
+    games_data_two?.pit5 == 4 &&
+    games_data_two?.pit6 == 4
+  );
+
 const ACTION_ADDRESS =
-  "0x66ebcab6f4ae40dba02ac86ac2ebba2f5b459142cbf095d65e5294e4dd7f465";
+  "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";
 
 export const POLICIES = [
   {
     target: ACTION_ADDRESS,
-    method: "create_initial_game_id",
+    method: "initialize_game_counter",
   },
   {
     target: ACTION_ADDRESS,
-    method: "create_game",
+    method: "new_game",
   },
   {
     target: ACTION_ADDRESS,
@@ -632,6 +572,116 @@ export const POLICIES = [
   },
   {
     target: ACTION_ADDRESS,
-    method: "time_out",
+    method: "request_restart_game",
   },
+  {
+    target: ACTION_ADDRESS,
+    method: "restart_current_game",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "forfeited",
+  }
 ];
+
+export const MancalaBoardModelsQuery = gql`
+  query mancalaMancalaBoardModels {
+    mancalaMancalaBoardModels {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+          entity {
+            executedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaBoardModelQuery = gql`
+  query mancalaMancalaBoardModel($gameId: u128) {
+    mancalaMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+          time_between_move
+          entity {
+            executedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaPlayQuery = gql`
+  query mancalaPlayerModels($gameId: u128) {
+    mancalaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          address
+          game_id
+          len_pits
+          restart_requested
+        }
+      }
+    }
+    mancalaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          player
+          seed_count
+          pit_number
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaSeedQuery = gql`
+  query mancalaSeedModels($gameId: u128) {
+    mancalaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          pit_number
+          player
+          seed_number
+          color
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaHeaderQuery = gql`
+  query FetchModelsForHeader {
+    mancalaGameModels {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+        }
+      }
+    }
+  }
+`

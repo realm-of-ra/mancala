@@ -3,7 +3,7 @@
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 
-export const NAMESPACE = "mancala_alpha";
+export const NAMESPACE = "mancala";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -32,7 +32,7 @@ export async function setupWorld(provider: DojoProvider) {
           account,
           {
             contractName: "actions",
-            entrypoint: "create_game",
+            entrypoint: "new_game",
             calldata: [],
           },
           NAMESPACE,
@@ -66,7 +66,6 @@ export async function setupWorld(provider: DojoProvider) {
     const join_game = async (
       account: AccountInterface,
       game_id: string,
-      player_2_address: string,
     ) => {
       try {
         return await provider.execute(
@@ -74,7 +73,7 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName: "actions",
             entrypoint: "join_game",
-            calldata: [game_id, player_2_address],
+            calldata: [game_id],
           },
           NAMESPACE,
         );
@@ -105,22 +104,67 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const timeout = async (account: AccountInterface, game_id: string) => {
+    const restart_game = async (account: AccountInterface, game_id: string, approver: boolean) => {
       try {
         return await provider.execute(
           account,
-          {
+          approver ? [
+            {
+              contractName: "actions",
+              entrypoint: "request_restart_game",
+              calldata: [game_id],
+            },
+            {
+              contractName: "actions",
+              entrypoint: "restart_current_game",
+              calldata: [game_id],
+            }
+          ] : {
             contractName: "actions",
-            entrypoint: "time_out",
+            entrypoint: "request_restart_game",
             calldata: [game_id],
           },
           NAMESPACE,
         );
       } catch (error) {
-        console.error("Error executing spawn:", error);
+        console.error("Error executing restart_game:", error);
         throw error;
       }
-    };
+    }
+
+    const end_game = async (account: AccountInterface, game_id: string) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: "actions",
+            entrypoint: "forfeited",
+            calldata: [game_id],
+          },
+          NAMESPACE,
+        );
+      } catch (error) {
+        console.error("Error executing end_game:", error);
+        throw error;
+      }
+    }
+
+    // const timeout = async (account: AccountInterface, game_id: string) => {
+    //   try {
+    //     return await provider.execute(
+    //       account,
+    //       {
+    //         contractName: "actions",
+    //         entrypoint: "time_out",
+    //         calldata: [game_id],
+    //       },
+    //       NAMESPACE,
+    //     );
+    //   } catch (error) {
+    //     console.error("Error executing spawn:", error);
+    //     throw error;
+    //   }
+    // };
 
     return {
       create_initial_game_id,
@@ -128,7 +172,9 @@ export async function setupWorld(provider: DojoProvider) {
       create_private_game,
       join_game,
       move,
-      timeout,
+      restart_game,
+      end_game,
+      // timeout,
     };
   }
   return {

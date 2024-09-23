@@ -26,11 +26,9 @@ import connectB from "../assets/connect.svg";
 import leader from "../assets/leader.svg";
 import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
-import {
-  MancalaGameEdge,
-  useFetchModelsForHeaderQuery,
-} from "@/generated/graphql.tsx";
-import useControllerUsername from "@/hooks/useControllerUsername";
+import { useQuery } from "@apollo/client";
+import { MancalaHeaderQuery } from "@/lib/constants";
+import useControllerData from "@/hooks/useControllerData";
 
 export default function Header() {
   const { provider } = useProvider();
@@ -76,21 +74,14 @@ export default function Header() {
     setPlaying(!isPlaying);
   };
 
-  // const { account } = useDojo();
+  const { account } = useAccount();
 
-  const account = {
-    account: {
-      address:
-        "0x05e01dB693CBF7461a016343042786DaC5A6000104813cF134a1E8B1D0a6810b",
-    },
-  };
-
-  const { data, startPolling } = useFetchModelsForHeaderQuery();
-  startPolling(1000);
+  const { data, startPolling } = useQuery(MancalaHeaderQuery);
+  startPolling(100);
 
   const player = getPlayer(
-    data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
-    account.account.address,
+    data?.mancalaAlphaMancalaGameModels?.edges,
+    account?.address || "",
   );
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -112,16 +103,18 @@ export default function Header() {
     setIsDropdownClose(!isDropdownClose);
     disconnectWallet();
   };
-  const username = useControllerUsername();
+
+  const controllerData = useControllerData();
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {profile?.profilePicture != undefined ? (
+        {controllerData?.icon != undefined ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
-            <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+            {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
+            <div className="rounded-full border-2 border-[#4B505C] relative">
               <img
-                src={profile.profilePicture ? profile.profilePicture : eniola}
+                src={controllerData?.icon}
                 width={60}
                 height={60}
                 alt=""
@@ -133,7 +126,7 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {profile.name ? profile.name : truncateString(address)}
+                {controllerData?.username ? controllerData?.username : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
@@ -187,8 +180,13 @@ export default function Header() {
                   className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex flex-row items-center w-fit px-10 py-5">
-                    <p className="">{username || truncateString(address)}</p>
+                  <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5">
+                    <p className="text-white">{controllerData?.username || truncateString(address)}</p>
+                  <ChevronDownIcon
+                    className={clsx("w-4 h-4 ml-3 transition duration-300", {
+                      "transform rotate-180": isDropdownOpen,
+                    })}
+                  />
                   </div>
                 </Button>
 

@@ -16,16 +16,9 @@ module.exports = withMT({
       md: "768px",
       lg: "1024px",
       xl: "1280px",
-      "2xl": "1536px",
+      "2xl": "1512px",
       "3xl": "1600px",
       "4xl": "1800px",
-    },
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {

@@ -23,12 +23,10 @@ import LiveDuels from "@/components/lobby/live-duels.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
-import {
-  MancalaGameEdge,
-  useMancalaModelsFetchQuery,
-} from "@/generated/graphql.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
+import { useQuery } from "@apollo/client";
+import { MancalaBoardModelsQuery } from "@/lib/constants";
 
 export default function Lobby() {
   const [open, setOpen] = useState(false);
@@ -80,9 +78,9 @@ export default function Lobby() {
     }
   };
 
-  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
-  startPolling(1000);
+  startPolling(100);
   useEffect(() => {
     runOnceForever();
     if (gameId != null) {
@@ -96,28 +94,32 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
-    (game) =>
-      game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
-  );
+  const handleConnect = () => {
+    connectWallet();
+  };
 
+  const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
+    (game: any) =>
+      game?.node?.player_one === account.address ||
+      game?.node?.player_two === account.address
+  );
+  
   const filteredTransactions =
-    data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
+    data?.mancalaMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
           (game?.node?.player_one === account.address ||
             game?.node?.player_two === account.address) &&
-          game?.node?.entity?.executedAt
+          game?.node?.entity.executedAt
         ) {
           acc.push({
             ...game.node,
-            executedAt: game?.node?.entity?.executedAt,
+            executedAt: game?.node?.entity.executedAt,
           });
         }
         return acc;
       },
-      [],
+      []
     ) || [];
 
   return (
@@ -343,10 +345,7 @@ export default function Lobby() {
               <>
                 <TabsContent value="players">
                   <Players
-                    data={
-                      data?.mancalaAlphaMancalaGameModels
-                        ?.edges as MancalaGameEdge[]
-                    }
+                    data={data?.mancalaMancalaBoardModels?.edges}
                   />
                 </TabsContent>
                 <TabsContent value="duels">
@@ -358,7 +357,7 @@ export default function Lobby() {
                 </TabsContent>
                 <TabsContent value="live">
                   <LiveDuels
-                    games={data?.mancalaAlphaMancalaGameModels?.edges}
+                    games={data?.mancalaMancalaBoardModels?.edges}
                   />
                 </TabsContent>
               </>

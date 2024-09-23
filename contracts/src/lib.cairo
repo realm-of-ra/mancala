@@ -1,12 +1,30 @@
-pub mod systems {
-    pub mod actions;
+mod constants;
+mod store;
+
+mod models {
+    mod index;
+    mod mancala_board;
+    mod player;
+    mod seed;
+    mod game_counter;
+    mod pit;
 }
 
-pub mod models {
-    pub mod mancala_game;
-    pub mod player;
+mod components {
+    mod playable;
 }
 
-pub mod tests {
-    pub mod test_world;
+mod systems {
+    mod actions;
+}
+
+mod utils {
+    mod board;
+}
+
+#[cfg(test)]
+mod tests {
+    mod setup;
+    mod test_world;
+    mod utils;
 }

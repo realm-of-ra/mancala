@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
+original_class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
+abi = "manifests/dev/base/abis/models/mancala-Pit-22175c12.json"
+tag = "mancala-Pit"
+qualified_path = "mancala::models::index::pit"
+manifest_name = "mancala-Pit-22175c12"
+
+[[members]]
+name = "game_id"
+type = "u128"
+key = true
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "pit_number"
+type = "u8"
+key = true
+
+[[members]]
+name = "seed_count"
+type = "u8"
+key = false
