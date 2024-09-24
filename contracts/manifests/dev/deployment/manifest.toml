@@ -97,7 +97,7 @@ type = "u64"
 key = false
 
 [[models.members]]
-name = "time_between_move"
+name = "max_block_between_move"
 type = "u64"
 key = false
 

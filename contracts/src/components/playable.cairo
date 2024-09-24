@@ -13,7 +13,8 @@ mod PlayableComponent {
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
-        get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds, restart_player_pits
+        get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
+        restart_player_pits
     };
 
     mod errors {
@@ -158,8 +159,10 @@ mod PlayableComponent {
 
             let mancala_game: MancalaBoard = store.get_mancala_board(game_id);
 
-            let player_one: Player = store.get_player(mancala_game.game_id, mancala_game.player_one);
-            let player_two: Player = store.get_player(mancala_game.game_id, mancala_game.player_two);
+            let player_one: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_one);
+            let player_two: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_two);
             // the first player in the tupple is the current player
             if (mancala_game.current_player == player_one.address) {
                 (player_one, player_two)
@@ -199,9 +202,11 @@ mod PlayableComponent {
             let player: ContractAddress = get_caller_address();
 
             mancala_game.validate_move(player, selected_pit);
+            mancala_game.validate_timeout(player);
 
             let (mut current_player, mut opponent) = self.get_players(world, game_id);
-            let mut current_player_pit = store.get_pit(current_player.game_id, current_player.address, selected_pit);
+            let mut current_player_pit = store
+                .get_pit(current_player.game_id, current_player.address, selected_pit);
             if current_player_pit.seed_count == 0 {
                 panic!("Selected pit is empty. Choose another pit.");
             }
@@ -223,7 +228,8 @@ mod PlayableComponent {
                     capture_remaining_seeds(world, ref current_player);
                 }
                 mancala_game.status = GameStatus::Finished;
-                let mut current_player_store = store.get_pit(current_player.game_id, current_player.address, 7);
+                let mut current_player_store = store
+                    .get_pit(current_player.game_id, current_player.address, 7);
                 let mut opponet_store = store.get_pit(opponent.game_id, opponent.address, 7);
 
                 if current_player_store.seed_count > opponet_store.seed_count {
@@ -250,9 +256,11 @@ mod PlayableComponent {
             let store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
-            let player_one: Player = store.get_player(mancala_game.game_id, mancala_game.player_one);
-            let player_two: Player = store.get_player(mancala_game.game_id, mancala_game.player_two);
-            
+            let player_one: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_one);
+            let player_two: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_two);
+
             let player_one_store = store.get_pit(player_one.game_id, player_one.address, 7);
             let player_two_store = store.get_pit(player_one.game_id, player_two.address, 7);
             (player_one_store.seed_count, player_two_store.seed_count)
@@ -273,9 +281,11 @@ mod PlayableComponent {
             let store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
-            let player_one: Player = store.get_player(mancala_game.game_id, mancala_game.player_one);
-            let player_two: Player = store.get_player(mancala_game.game_id, mancala_game.player_two);
-            
+            let player_one: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_one);
+            let player_two: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_two);
+
             let player_one_seeds = get_player_seeds(world, @player_one);
             let player_two_seeds = get_player_seeds(world, @player_two);
             player_one_seeds.len() == 0 || player_two_seeds.len() == 0
@@ -320,7 +330,9 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Sets the restart_requested flag for the calling player
-        fn request_restart_game(self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128) {
+        fn request_restart_game(
+            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+        ) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
 
@@ -350,8 +362,10 @@ mod PlayableComponent {
             let store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
-            let player_one: Player = store.get_player(mancala_game.game_id, mancala_game.player_one);
-            let player_two: Player = store.get_player(mancala_game.game_id, mancala_game.player_two);
+            let player_one: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_one);
+            let player_two: Player = store
+                .get_player(mancala_game.game_id, mancala_game.player_two);
 
             assert(player_one.restart_requested == true, errors::PLAYER_DID_NOT_REQUEST_RESTART);
             if (player_two.address != core::num::traits::Zero::<ContractAddress>::zero()) {
@@ -360,8 +374,12 @@ mod PlayableComponent {
                 );
             }
 
-            let mut player_one: Player = PlayerTrait::new(mancala_game.game_id, mancala_game.player_one);
-            let mut player_two: Player = PlayerTrait::new(mancala_game.game_id, mancala_game.player_two);
+            let mut player_one: Player = PlayerTrait::new(
+                mancala_game.game_id, mancala_game.player_one
+            );
+            let mut player_two: Player = PlayerTrait::new(
+                mancala_game.game_id, mancala_game.player_two
+            );
             let mancala_game: MancalaBoard = MancalaBoardTrait::restart_game(
                 game_id, mancala_game.player_one, mancala_game.player_two, mancala_game.is_private
             );

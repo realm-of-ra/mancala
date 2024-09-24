@@ -1,6 +1,7 @@
 use starknet::{get_block_number, ContractAddress, get_caller_address};
 
 use mancala::models::index::{MancalaBoard, GameStatus};
+use mancala::constants::AVERAGE_BLOCK_TIME;
 use mancala::models::player::{Player, PlayerTrait};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
@@ -30,7 +31,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             player_one,
             player_two: core::num::traits::Zero::<ContractAddress>::zero(),
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -47,13 +48,15 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// # Returns
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
-    fn private_mancala(game_id: u128, player_one: ContractAddress, player_two: ContractAddress) -> MancalaBoard {
+    fn private_mancala(
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress
+    ) -> MancalaBoard {
         MancalaBoard {
             game_id,
             player_one,
             player_two,
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -96,6 +99,40 @@ impl MancalaBoardImpl of MancalaBoardTrait {
         if selected_pit < 1 || selected_pit > 6 {
             panic!("Invalid pit, choose between 1 and 6");
         }
+    }
+
+    /// Validates if a player has timed out and updates the game state accordingly
+    ///
+    /// # Arguments
+    /// * `self` - Mutable reference to the MancalaBoard
+    /// * `player` - The ContractAddress of the player making the move
+    ///
+    /// # Effects
+    /// * If the time since the last move exceeds `max_block_between_move`:
+    ///   - Sets the winner to the opponent of the current player
+    ///   - Changes the game status to TimeOut
+    /// * Updates the `last_move` timestamp to the current block number
+    ///
+    /// # Note
+    /// This function should be called before each player's move to check for timeouts
+    fn validate_timeout(ref self: MancalaBoard, player: ContractAddress) {
+        let current_block = get_block_number();
+        let elapsed_seconds = self._block_number_to_seconds(self.last_move, current_block);
+        let time_limit_seconds = self.max_block_between_move * AVERAGE_BLOCK_TIME;
+
+        if elapsed_seconds > time_limit_seconds {
+            if player == self.player_one {
+                self.winner = self.player_two;
+                self.status = GameStatus::TimeOut;
+                panic!("Player One timed out");
+            } else {
+                self.winner = self.player_one;
+                self.status = GameStatus::TimeOut;
+                panic!("Player Two timed out");
+            }
+        }
+
+        self.last_move = current_block;
     }
 
     /// Handles player switching after a move
@@ -162,10 +199,18 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             player_two: player_two,
             current_player: player_one,
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 100,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::Pending,
             is_private: private
         }
+    }
+}
+
+#[generate_trait]
+impl PrivateFunctions of PrivateFunctionsTrait {
+    fn _block_number_to_seconds(self: MancalaBoard, start_block: u64, end_block: u64) -> u64 {
+        let block_difference = end_block - start_block;
+        block_difference * AVERAGE_BLOCK_TIME
     }
 }
