@@ -18,7 +18,7 @@ import { POLICIES } from "./lib/constants";
 import Profile from "./pages/Profile";
 
 const options: ControllerOptions = {
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  rpc: "https://api.cartridge.gg/x/mancala-dojo-demo/katana",
   theme: "realm-of-ra",
   paymaster: {
     caller: bigintToHex(stringToFelt("ANY_CALLER")),
@@ -32,7 +32,7 @@ const connectorOptions = {
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia",
+    nodeUrl: "https://api.cartridge.gg/x/mancala-dojo-demo/katana",
   };
 }
 

@@ -581,7 +581,7 @@ export const POLICIES = [
   {
     target: ACTION_ADDRESS,
     method: "forfeited",
-  }
+  },
 ];
 
 export const MancalaBoardModelsQuery = gql`
@@ -684,4 +684,4 @@ export const MancalaHeaderQuery = gql`
       }
     }
   }
-`
+`;
