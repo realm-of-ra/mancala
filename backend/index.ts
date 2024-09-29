@@ -2,7 +2,12 @@ import { typeDefs, type MeessageType } from "./types";
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import dotenv from 'dotenv';
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import http from 'http';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -42,21 +47,28 @@ async function startServer() {
       },
     };
 
-    const server = new ApolloServer({ 
-      typeDefs, 
+    const app = express();
+    const httpServer = http.createServer(app);
+
+    const server = new ApolloServer({
+      typeDefs,
       resolvers,
-      context: async ({ req }: any) => {
-        return { db: database };
-      }
+      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     });
+
     await server.start();
 
-    const app = express();
-    server.applyMiddleware({ app });
-
-    app.listen({ port: 4000 }, () =>
-      console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    app.use(
+      '/graphql',
+      cors<cors.CorsRequest>(),
+      bodyParser.json(),
+      expressMiddleware(server, {
+        context: async ({ req }: any) => ({ db: database }),
+      }),
     );
+
+    await new Promise<void>((resolve) => httpServer.listen({ port: 4000 }, resolve));
+    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
   } catch (error) {
     console.error('Failed to start the server:', error);
     await client.close();
@@ -66,7 +78,6 @@ async function startServer() {
 
 startServer();
 
-// Handle application shutdown
 process.on('SIGINT', async () => {
   await client.close();
   console.log('MongoDB connection closed');

@@ -3,9 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "node index.ts",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "bun index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -14,10 +12,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "apollo-server-express": "^3.13.0",
+    "@apollo/server": "^4.11.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "graphql": "^16.9.0",
+    "graphql-tag": "^2.12.6",
     "mongodb": "^6.9.0"
   }
 }
