@@ -581,7 +581,7 @@ export const POLICIES = [
   {
     target: ACTION_ADDRESS,
     method: "forfeited",
-  }
+  },
 ];
 
 export const MancalaBoardModelsQuery = gql`
@@ -684,4 +684,40 @@ export const MancalaHeaderQuery = gql`
       }
     }
   }
-`
+`;
+
+export const GET_MESSAGES = gql`
+  query GetMessages {
+    messages {
+      id
+      text
+      userImage
+      walletAddress
+      username
+      timestamp
+    }
+  }
+`;
+
+export const ADD_MESSAGE = gql`
+  mutation AddMessage(
+    $text: String!
+    $userImage: String!
+    $walletAddress: String!
+    $username: String!
+  ) {
+    addMessage(
+      text: $text
+      userImage: $userImage
+      walletAddress: $walletAddress
+      username: $username
+    ) {
+      id
+      text
+      userImage
+      walletAddress
+      username
+      timestamp
+    }
+  }
+`;

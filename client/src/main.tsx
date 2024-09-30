@@ -18,7 +18,7 @@ async function init() {
           <AppWrapper />
         </Suspense>
       </ErrorBoundary>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }
 

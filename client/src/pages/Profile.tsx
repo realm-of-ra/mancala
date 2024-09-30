@@ -14,12 +14,13 @@ export default function Profile() {
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_two === account.address,
   );
 
   const filteredWonGames =
-    filteredGames?.filter((game: any) => game?.node?.winner === account.address) ||
-    [];
+    filteredGames?.filter(
+      (game: any) => game?.node?.winner === account.address,
+    ) || [];
   const filteredLostGames =
     filteredGames?.filter(
       (game: any) =>

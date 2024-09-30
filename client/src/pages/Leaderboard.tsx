@@ -21,15 +21,15 @@ export default function Leaderboard() {
     constants.StarknetChainId.SN_SEPOLIA,
   );
 
-  const { loading, error, data, startPolling } = useQuery(MancalaBoardModelsQuery)
+  const { loading, error, data, startPolling } = useQuery(
+    MancalaBoardModelsQuery,
+  );
 
   startPolling(100);
 
   // Extracting player_one and player_two from the data object and get the the top 8 highest winners
   // TODO: instead of type coercion, we can use this to aid loading state
-  const players = getPlayers(
-    data?.mancalaMancalaBoardModels?.edges,
-  )
+  const players = getPlayers(data?.mancalaMancalaBoardModels?.edges)
     ?.sort((a: any, b: any) => b?.wins - a?.wins)
     ?.slice(0, 8);
 
@@ -192,7 +192,7 @@ export default function Leaderboard() {
                               {profiles[index + 3]?.name
                                 ? profiles[index + 3].name
                                 : addresses &&
-                                truncateString(addresses[index + 3])}
+                                  truncateString(addresses[index + 3])}
                             </p>
                           </div>
                         </td>

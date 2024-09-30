@@ -20,9 +20,13 @@ export default function useControllerData() {
   }, [account, connector]);
 
   if (username !== undefined && icon !== undefined) {
-    return { username, icon , controllerConnector: contollerConnector };
+    return { username, icon, controllerConnector: contollerConnector };
   } else if (account) {
-    return { username: formatAddress(account.address), icon: undefined, controllerConnector: undefined };
+    return {
+      username: formatAddress(account.address),
+      icon: undefined,
+      controllerConnector: undefined,
+    };
   }
 }
 

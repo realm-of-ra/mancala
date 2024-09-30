@@ -1,4 +1,4 @@
-import { atom } from 'jotai'
+import { atom } from "jotai";
 
-export const isPlayingAtom = atom(false)
-export const gameIdAtom = atom(null)
+export const isPlayingAtom = atom(false);
+export const gameIdAtom = atom(null);

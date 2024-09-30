@@ -16,8 +16,14 @@ import TimeoutButton from "@/components/gameplay/timeout-button";
 
 export default function Gameplay() {
   const { gameId } = useParams();
-  const { data: game_metadata, startPolling: startMetadataPolling } = useQuery(MancalaBoardModelQuery, { variables: { gameId: gameId } });
-  const { data: game_players, startPolling: startPlayersPolling } = useQuery(MancalaPlayQuery, { variables: { gameId: gameId } });
+  const { data: game_metadata, startPolling: startMetadataPolling } = useQuery(
+    MancalaBoardModelQuery,
+    { variables: { gameId: gameId } },
+  );
+  const { data: game_players, startPolling: startPlayersPolling } = useQuery(
+    MancalaPlayQuery,
+    { variables: { gameId: gameId } },
+  );
   const { system } = useDojo();
   const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
@@ -28,7 +34,14 @@ export default function Gameplay() {
   startPlayersPolling(100);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
-      <GameNavigation game_players={game_players} game_node={game_node} account={account} gameId={gameId} timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining} />
+      <GameNavigation
+        game_players={game_players}
+        game_node={game_node}
+        account={account}
+        gameId={gameId}
+        timeRemaining={timeRemaining}
+        setTimeRemaining={setTimeRemaining}
+      />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <RestartButton gameId={gameId || ""} game_players={game_players} />

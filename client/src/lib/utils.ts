@@ -30,7 +30,9 @@ export function getPlayers(data: any[] | undefined) {
     const { player_one, player_two, winner } = edge.node;
 
     // Update player_one
-    const playerOneIndex = acc.findIndex((player: any) => player.address === player_one);
+    const playerOneIndex = acc.findIndex(
+      (player: any) => player.address === player_one,
+    );
     if (playerOneIndex !== -1) {
       if (winner === player_one) {
         acc[playerOneIndex].wins++;
@@ -48,7 +50,9 @@ export function getPlayers(data: any[] | undefined) {
     }
 
     // Update player_two
-    const playerTwoIndex = acc.findIndex((player: any) => player.address === player_two);
+    const playerTwoIndex = acc.findIndex(
+      (player: any) => player.address === player_two,
+    );
     if (playerTwoIndex !== -1) {
       if (winner === player_two) {
         acc[playerTwoIndex].wins++;
@@ -81,7 +85,9 @@ export function getPlayer(data: any[] | undefined, address: string) {
       const playerAddress = player_one === address ? player_one : player_two;
       const isWinner = winner === address;
 
-      const playerIndex = acc.findIndex((player: any) => player.address === playerAddress);
+      const playerIndex = acc.findIndex(
+        (player: any) => player.address === playerAddress,
+      );
       if (playerIndex !== -1) {
         if (isWinner) {
           acc[playerIndex].wins++;

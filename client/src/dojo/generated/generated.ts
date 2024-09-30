@@ -63,10 +63,7 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const join_game = async (
-      account: AccountInterface,
-      game_id: string,
-    ) => {
+    const join_game = async (account: AccountInterface, game_id: string) => {
       try {
         return await provider.execute(
           account,
@@ -104,33 +101,39 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const restart_game = async (account: AccountInterface, game_id: string, approver: boolean) => {
+    const restart_game = async (
+      account: AccountInterface,
+      game_id: string,
+      approver: boolean,
+    ) => {
       try {
         return await provider.execute(
           account,
-          approver ? [
-            {
-              contractName: "actions",
-              entrypoint: "request_restart_game",
-              calldata: [game_id],
-            },
-            {
-              contractName: "actions",
-              entrypoint: "restart_current_game",
-              calldata: [game_id],
-            }
-          ] : {
-            contractName: "actions",
-            entrypoint: "request_restart_game",
-            calldata: [game_id],
-          },
+          approver
+            ? [
+                {
+                  contractName: "actions",
+                  entrypoint: "request_restart_game",
+                  calldata: [game_id],
+                },
+                {
+                  contractName: "actions",
+                  entrypoint: "restart_current_game",
+                  calldata: [game_id],
+                },
+              ]
+            : {
+                contractName: "actions",
+                entrypoint: "request_restart_game",
+                calldata: [game_id],
+              },
           NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing restart_game:", error);
         throw error;
       }
-    }
+    };
 
     const end_game = async (account: AccountInterface, game_id: string) => {
       try {
@@ -147,7 +150,7 @@ export async function setupWorld(provider: DojoProvider) {
         console.error("Error executing end_game:", error);
         throw error;
       }
-    }
+    };
 
     const timeout = async (account: AccountInterface, game_id: string) => {
       try {
