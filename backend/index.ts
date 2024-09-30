@@ -85,7 +85,7 @@ async function startServer() {
     await new Promise<void>((resolve) =>
       httpServer.listen({ port: 4000 }, resolve),
     );
-    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+    console.log(`🚀 Server ready at https://mancala-1do3.onrender.com/graphql`);
   } catch (error) {
     console.error("Failed to start the server:", error);
     await client.close();
