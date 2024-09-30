@@ -54,9 +54,12 @@ async function startServer() {
 
     await server.start();
 
+    // Configure CORS to allow all origins
+    app.use(cors());
+
     app.use(
       "/graphql",
-      cors<cors.CorsRequest>(),
+      // cors<cors.CorsRequest>(),
       bodyParser.json(),
       expressMiddleware(server, {
         context: async ({ req }: any) => ({ db: database }),

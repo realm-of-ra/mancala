@@ -5,16 +5,17 @@ import {
   Button,
 } from "@material-tailwind/react";
 
-import { message } from "../../lib/icons_store";
+import { message as messageIcon } from "../../lib/icons_store";
 
 import Icon from "@/components/gameplay/Icon.tsx";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
-import { animate, GET_MESSAGES, } from "@/lib/constants";
+import { animate, GET_MESSAGES } from "@/lib/constants";
 import { useState } from "react";
 import { ApolloClient, InMemoryCache, useQuery } from '@apollo/client';
 import { useAccount } from "@starknet-react/core";
 import moment from "moment";
+import axios from "axios";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -24,11 +25,26 @@ const client = new ApolloClient({
 export default function GameChat({ player_one, player_two }: { player_one: string, player_two: string }) {
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
   const [open, setOpen] = useState(0);
-  //use custom client url
   const { data, startPolling } = useQuery(GET_MESSAGES, { client });
   const { address } = useAccount();
   const involved = [player_one, player_two].filter((player) => player !== address).length === 0 ? true : false;
   startPolling(1000);
+
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const sendMessage = async (userImage: string, username: string) => {
+    setSending(true);
+    axios.post("http://localhost:4000/api/messages", {
+      text: message,
+      userImage,
+      walletAddress: address, 
+      username: username,
+      timestamp: new Date(),
+    });
+    setMessage("");
+    setSending(false);
+  }
   return (
     
     <Accordion
@@ -48,7 +64,7 @@ export default function GameChat({ player_one, player_two }: { player_one: strin
       >
         <div className="flex flex-row space-x-2.5 items-center">
           <img
-            src={message}
+            src={messageIcon}
             width={25}
             height={25}
             alt="end game"
@@ -106,8 +122,13 @@ export default function GameChat({ player_one, player_two }: { player_one: strin
               <input
                 className="w-full h-8 px-1.5 text-white bg-transparent outline-none ring-0"
                 placeholder="Send message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               />
-              <Button className="p-0 w-12 h-8 bg-[#F58229] flex flex-col items-center justify-center" disabled={involved}>
+              <Button className="p-0 w-12 h-8 bg-[#F58229] flex flex-col items-center justify-center"
+                disabled={involved}
+                onClick={() => sendMessage("https://avatic.net/wp-content/uploads/2024/02/Business-Man-3D-Avatar.png", "Superman")}
+              >
                 <PaperAirplaneIcon className="w-4 h-4 text-black transform -rotate-45" />
               </Button>
             </div>
