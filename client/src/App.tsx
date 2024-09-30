@@ -64,6 +64,8 @@ export default function App() {
     new CartridgeConnector(connectorOptions) as never as Connector,
   ];
 
+
+
   return (
     <StarknetConfig
       chains={[sepolia]}

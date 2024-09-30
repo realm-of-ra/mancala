@@ -32,6 +32,7 @@ export default function Gameplay() {
 
   startMetadataPolling(100);
   startPlayersPolling(100);
+
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <GameNavigation
@@ -66,7 +67,10 @@ export default function Gameplay() {
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
               <LeaderboardButton />
-              <GameChat />
+              <GameChat 
+                player_one={game_players?.mancalaPlayerModels?.edges?.[0]?.node?.address || ""} 
+                player_two={game_players?.mancalaPlayerModels?.edges?.[1]?.node?.address || ""} 
+              />
             </div>
           </div>
         </div>

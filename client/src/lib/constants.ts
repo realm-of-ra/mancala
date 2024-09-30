@@ -692,8 +692,8 @@ export const GET_MESSAGES = gql`
       id
       text
       userImage
-      walletAddress
       username
+      walletAddress
       timestamp
     }
   }
