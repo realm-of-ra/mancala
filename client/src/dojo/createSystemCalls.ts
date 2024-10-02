@@ -124,73 +124,19 @@ export function createSystemCalls(
     }
   };
 
-<<<<<<< HEAD
-  const restart_game = async (
-    account: AccountInterface,
-    game_id: string,
-    setRestarted: any,
-    approver: boolean,
-  ) => {
-    try {
-      const { transaction_hash } = await client.actions.restart_game(
-        account,
-        game_id,
-        approver,
-      );
-      await account.waitForTransaction(transaction_hash, {
-        retryInterval: 100,
-      });
-      setRestarted(true);
-    } catch (error) {
-      console.error("Error executing restart_game:", error);
-      throw error;
-    }
-  };
-
-  const end_game = async (account: AccountInterface, game_id: string) => {
-    try {
-      const { transaction_hash } = await client.actions.end_game(
-        account,
-        game_id,
-      );
-      await account.waitForTransaction(transaction_hash, {
-        retryInterval: 100,
-      });
-    } catch (error) {
-      console.error("Error executing end_game:", error);
-      throw error;
-    }
-  };
-
-  const timeout = async (
-    account: AccountInterface,
-    game_id: string,
-    setHasTimeout: any,
-  ) => {
-=======
   const restart_game = async (account: AccountInterface, game_id: string, setRestarted: any, approver: boolean) => {
->>>>>>> origin/timeout-fe-patch
     try {
       const { transaction_hash } = await client.actions.restart_game(
         account,
         game_id,
-<<<<<<< HEAD
-=======
         approver
->>>>>>> origin/timeout-fe-patch
       );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
-<<<<<<< HEAD
-      setHasTimeout(true);
-    } catch (error) {
-      console.error("Error executing timeout:", error);
-=======
       setRestarted(true);
     } catch (error) {
       console.error("Error executing restart_game:", error);
->>>>>>> origin/timeout-fe-patch
       throw error;
     }
   };
@@ -234,10 +180,6 @@ export function createSystemCalls(
     move,
     restart_game,
     end_game,
-<<<<<<< HEAD
-    timeout,
-=======
     // timeout,
->>>>>>> origin/timeout-fe-patch
   };
 }

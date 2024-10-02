@@ -104,62 +104,7 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-<<<<<<< HEAD
-    const restart_game = async (
-      account: AccountInterface,
-      game_id: string,
-      approver: boolean,
-    ) => {
-      try {
-        return await provider.execute(
-          account,
-          approver
-            ? [
-                {
-                  contractName: "actions",
-                  entrypoint: "request_restart_game",
-                  calldata: [game_id],
-                },
-                {
-                  contractName: "actions",
-                  entrypoint: "restart_current_game",
-                  calldata: [game_id],
-                },
-              ]
-            : {
-                contractName: "actions",
-                entrypoint: "request_restart_game",
-                calldata: [game_id],
-              },
-          NAMESPACE,
-        );
-      } catch (error) {
-        console.error("Error executing restart_game:", error);
-        throw error;
-      }
-    };
-
-    const end_game = async (account: AccountInterface, game_id: string) => {
-      try {
-        return await provider.execute(
-          account,
-          {
-            contractName: "actions",
-            entrypoint: "forfeited",
-            calldata: [game_id],
-          },
-          NAMESPACE,
-        );
-      } catch (error) {
-        console.error("Error executing end_game:", error);
-        throw error;
-      }
-    };
-
-    const timeout = async (account: AccountInterface, game_id: string) => {
-=======
     const restart_game = async (account: AccountInterface, game_id: string, approver: boolean) => {
->>>>>>> origin/timeout-fe-patch
       try {
         return await provider.execute(
           account,
@@ -229,11 +174,7 @@ export async function setupWorld(provider: DojoProvider) {
       move,
       restart_game,
       end_game,
-<<<<<<< HEAD
-      timeout,
-=======
       // timeout,
->>>>>>> origin/timeout-fe-patch
     };
   }
   return {
