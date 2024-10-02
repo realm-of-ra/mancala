@@ -550,7 +550,7 @@ export const SLOT_RPC_URL =
   "https://api.cartridge.gg/x/mancala-alpha-v13/katana";
 
 const ACTION_ADDRESS =
-  "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";
+  "0x118a60389f608c67c639f83683a265a22102f2d226c41aa04af65135ff8103e";
 
 export const POLICIES = [
   {
@@ -584,6 +584,10 @@ export const POLICIES = [
   {
     target: ACTION_ADDRESS,
     method: "forfeited",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "timeout",
   },
 ];
 
