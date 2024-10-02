@@ -38,7 +38,7 @@ export default function TimeoutButton({ gameId, opposition_address }: { gameId: 
           className="rounded-full"
         />
       </Button>
-      <p className="text-lg text-[#656C7D] font-medium text-center">Restart</p>
+      <p className="text-lg text-[#656C7D] font-medium text-center">Timeout</p>
     </div>
   );
 }
