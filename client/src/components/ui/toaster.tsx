@@ -22,13 +22,7 @@ export function Toaster() {
             <div className="grid gap-1">
               {title && <ToastTitle className="text-white">{title}</ToastTitle>}
               {description && (
-<<<<<<< HEAD
-                <ToastDescription className="text-white">
-                  {description}
-                </ToastDescription>
-=======
                 <ToastDescription className="text-white">{description}</ToastDescription>
->>>>>>> origin/timeout-fe-patch
               )}
             </div>
             {action}

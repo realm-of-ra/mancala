@@ -18,14 +18,8 @@ export default function Profile() {
   );
 
   const filteredWonGames =
-<<<<<<< HEAD
-    filteredGames?.filter(
-      (game: any) => game?.node?.winner === account.address,
-    ) || [];
-=======
     filteredGames?.filter((game: any) => game?.node?.winner === account.address) ||
     [];
->>>>>>> origin/timeout-fe-patch
   const filteredLostGames =
     filteredGames?.filter(
       (game: any) =>

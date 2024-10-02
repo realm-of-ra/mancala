@@ -210,14 +210,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                           i,
                     )}
                   setTimeRemaining={setTimeRemaining}
-<<<<<<< HEAD
-                  max_block_between_move={parseInt(game_node?.max_block_between_move, 16)}
-=======
                   max_block_between_move={parseInt(
                     game_node?.max_block_between_move,
                     16,
                   )}
->>>>>>> origin/timeout-fe-patch
                 />
               ))}
             </div>

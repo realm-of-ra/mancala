@@ -76,11 +76,7 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.join_game(
         account,
-<<<<<<< HEAD
-        game_id,
-=======
         game_id
->>>>>>> origin/timeout-fe-patch
       );
 
       const receipt = await account.waitForTransaction(transaction_hash, {

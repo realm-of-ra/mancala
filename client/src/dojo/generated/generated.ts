@@ -63,14 +63,10 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-<<<<<<< HEAD
-    const join_game = async (account: AccountInterface, game_id: string) => {
-=======
     const join_game = async (
       account: AccountInterface,
       game_id: string,
     ) => {
->>>>>>> origin/timeout-fe-patch
       try {
         return await provider.execute(
           account,

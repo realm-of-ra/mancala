@@ -22,17 +22,10 @@ export default function UserSection({
   const account = useAccount();
   const openSettings = () => {
     setOpen(!open);
-<<<<<<< HEAD
-  };
-  useEffect(() => {
-    controllerData?.controllerConnector?.openMenu();
-  }, [open]);
-=======
   }
   useEffect(() => {
     controllerData?.controllerConnector?.openMenu()
   }, [open])
->>>>>>> origin/timeout-fe-patch
 
   const url = window.location.href;
   return (
@@ -47,20 +40,9 @@ export default function UserSection({
           />
           <div>
             <h3 className="text-2xl text-[#CBCDD6] font-medium">
-<<<<<<< HEAD
-              {controllerData?.username ||
-                truncateString(account?.address) ||
-                "Guest user"}
-            </h3>
-            <button
-              className="text-[#F58229] font-medium"
-              onClick={openSettings}
-            >
-=======
               {controllerData?.username || truncateString(account?.address) || "Guest user"}
             </h3>
             <button className="text-[#F58229] font-medium" onClick={openSettings}>
->>>>>>> origin/timeout-fe-patch
               Settings
             </button>
           </div>
@@ -101,21 +83,10 @@ export default function UserSection({
         <div className="space-y-1.5">
           <p className="font-medium text-white">Share</p>
           <div className="flex flex-row items-center space-x-1.5">
-<<<<<<< HEAD
-            <Link
-              to={`http://x.com/share?text=Check out my profile on mancala&url=${url}?address=${account?.address}`}
-            >
-              <img src={twitter} width={35} height={35} />
-            </Link>
-            <Link
-              to={`https://telegram.me/share/url?url=${url}?address=${account?.address}&text=Check out my profile on mancala`}
-            >
-=======
             <Link to={`http://x.com/share?text=Check out my profile on mancala&url=${url}?address=${account?.address}`}>
               <img src={twitter} width={35} height={35} />
             </Link>
             <Link to={`https://telegram.me/share/url?url=${url}?address=${account?.address}&text=Check out my profile on mancala`}>
->>>>>>> origin/timeout-fe-patch
               <img src={telegram} width={35} height={35} />
             </Link>
           </div>
@@ -252,19 +223,6 @@ export default function UserSection({
 //                   </p>
 //                 </div>
 //                 <input className="w-full py-3.5 bg-transparent border-2 border-[#4B505C] rounded-xl focus-visible:outline-none px-1.5 text-white text-xl" />
-<<<<<<< HEAD
-//           </div>
-//           <div className="w-full flex flex-row items-center justify-center">
-//             <button className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52">
-//               Edit details
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </Dialog>
-// </div>
-=======
     //           </div>
     //           <div className="w-full flex flex-row items-center justify-center">
     //             <button className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52">
@@ -276,4 +234,3 @@ export default function UserSection({
     //     </div>
     //   </Dialog>
     // </div>
->>>>>>> origin/timeout-fe-patch

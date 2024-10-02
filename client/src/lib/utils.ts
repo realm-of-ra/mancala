@@ -30,13 +30,7 @@ export function getPlayers(data: any[] | undefined) {
     const { player_one, player_two, winner } = edge.node;
 
     // Update player_one
-<<<<<<< HEAD
-    const playerOneIndex = acc.findIndex(
-      (player: any) => player.address === player_one,
-    );
-=======
     const playerOneIndex = acc.findIndex((player: any) => player.address === player_one);
->>>>>>> origin/timeout-fe-patch
     if (playerOneIndex !== -1) {
       if (winner === player_one) {
         acc[playerOneIndex].wins++;

@@ -10,10 +10,7 @@ import PlayersSkeleton from "./players-skeleton";
 import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Players({ data }: { data: any[] | undefined }) {
-<<<<<<< HEAD
   const { provider } = useProvider();
-=======
->>>>>>> origin/timeout-fe-patch
 
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
@@ -25,11 +22,7 @@ export default function Players({ data }: { data: any[] | undefined }) {
 
   const addresses = players?.map((player: any) => player.address);
 
-<<<<<<< HEAD
   const [profiles, setProfiles] = useState<StarkProfile[]>([]);
-=======
-    const addresses = players?.map((player: any) => player.address);
->>>>>>> origin/timeout-fe-patch
 
   useEffect(() => {
     if (!starknetIdNavigator || !addresses) return;
