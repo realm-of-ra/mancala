@@ -1,20 +1,17 @@
-import { typeDefs, type MeessageType } from "./types";
-import { MongoClient, ServerApiVersion } from "mongodb";
-import dotenv from "dotenv";
-import express from "express";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import http from "http";
-import cors from "cors";
-import bodyParser from "body-parser";
+const { typeDefs } = require("./types");
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const dotenv = require("dotenv");
+const express = require("express");
+const { ApolloServer } = require("@apollo/server");
+const { expressMiddleware } = require("@apollo/server/express4");
+const { ApolloServerPluginDrainHttpServer } = require("@apollo/server/plugin/drainHttpServer");
+const http = require("http");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 dotenv.config();
 
 const uri = process.env.MONGODB_URI;
-if (!uri) {
-  throw new Error("MONGODB_URI is not defined in the environment variables");
-}
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -62,7 +59,7 @@ async function startServer() {
       // cors<cors.CorsRequest>(),
       bodyParser.json(),
       expressMiddleware(server, {
-        context: async ({ req }: any) => ({ db: database }),
+        context: async ({ req }) => ({ db: database }),
       }),
     );
 
@@ -85,8 +82,8 @@ async function startServer() {
       }
     });
 
-    await new Promise<void>((resolve) =>
-      httpServer.listen({ port: 4000 }, resolve),
+    await new Promise((resolve) =>
+      httpServer.listen({ port: 4000 }, resolve)
     );
     console.log(`🚀 Server ready at http://localhost:4000/graphql`);
   } catch (error) {

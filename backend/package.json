@@ -1,23 +1,23 @@
 {
-  "name": "mancala-live-chat-server",
-  "module": "index.ts",
-  "type": "module",
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "start": "bun index.ts"
+    "start": "node index.js"
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "@apollo/server": "^4.11.0",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
-    "mongodb": "^6.9.0"
+    "http": "0.0.1-security",
+    "mongodb": "^6.9.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
   }
 }
