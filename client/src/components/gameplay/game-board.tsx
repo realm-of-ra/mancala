@@ -28,13 +28,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
-  startPolling(100);
-  const involved =
-    game_players?.mancalaPlayerModels.edges.filter(
-      (item: any) => item?.node.address === account.address,
-    ).length > 0
-      ? true
-      : false;
+  startPolling(1000);
+  const involved = game_players?.mancalaPlayerModels.edges.some((item: any) => item?.node.address === account.address);
   const player_position = involved
     ? game_players?.mancalaPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
