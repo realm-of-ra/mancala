@@ -211,7 +211,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     )}
                   setTimeRemaining={setTimeRemaining}
 <<<<<<< HEAD
-                  time_between_move={parseInt(game_node?.time_between_move, 16)}
+                  max_block_between_move={parseInt(game_node?.max_block_between_move, 16)}
 =======
                   max_block_between_move={parseInt(
                     game_node?.max_block_between_move,

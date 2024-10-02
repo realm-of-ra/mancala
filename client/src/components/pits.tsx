@@ -14,7 +14,7 @@ export function TopPit({
   system,
   setTimeRemaining,
 <<<<<<< HEAD
-  time_between_move,
+  max_block_between_move,
 =======
   max_block_between_move,
 >>>>>>> origin/timeout-fe-patch
@@ -35,7 +35,7 @@ export function TopPit({
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
 <<<<<<< HEAD
-  time_between_move: number;
+  max_block_between_move: number;
 =======
   max_block_between_move: number;
 >>>>>>> origin/timeout-fe-patch
@@ -49,7 +49,7 @@ export function TopPit({
       message(undefined);
       const res = await system.move(userAccount?.account, game_id, pit);
 <<<<<<< HEAD
-      setTimeRemaining(time_between_move);
+      setTimeRemaining(max_block_between_move);
 =======
       setTimeRemaining(max_block_between_move);
 >>>>>>> origin/timeout-fe-patch
@@ -120,7 +120,7 @@ export function BottomPit({
   system,
   setTimeRemaining,
 <<<<<<< HEAD
-  time_between_move,
+  max_block_between_move,
 =======
   max_block_between_move,
 >>>>>>> origin/timeout-fe-patch
@@ -141,7 +141,7 @@ export function BottomPit({
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
 <<<<<<< HEAD
-  time_between_move: number;
+  max_block_between_move: number;
 =======
   max_block_between_move: number;
 >>>>>>> origin/timeout-fe-patch
@@ -156,7 +156,7 @@ export function BottomPit({
       message(undefined);
       const res = await system.move(userAccount?.account, game_id, pit);
 <<<<<<< HEAD
-      setTimeRemaining(time_between_move);
+      setTimeRemaining(max_block_between_move);
 =======
       setTimeRemaining(max_block_between_move);
 >>>>>>> origin/timeout-fe-patch

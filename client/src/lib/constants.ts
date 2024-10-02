@@ -546,12 +546,9 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
-<<<<<<< HEAD
-=======
 export const SLOT_RPC_URL =
   "https://api.cartridge.gg/x/mancala-alpha-v13/katana";
 
->>>>>>> origin/timeout-fe-patch
 const ACTION_ADDRESS =
   "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";
 
@@ -623,11 +620,7 @@ export const MancalaBoardModelQuery = gql`
           winner
           status
           is_private
-<<<<<<< HEAD
-          time_between_move
-=======
           max_block_between_move
->>>>>>> origin/timeout-fe-patch
           entity {
             executedAt
           }
@@ -695,42 +688,3 @@ export const MancalaHeaderQuery = gql`
     }
   }
 `;
-<<<<<<< HEAD
-
-export const GET_MESSAGES = gql`
-  query GetMessages {
-    messages {
-      id
-      text
-      userImage
-      username
-      walletAddress
-      timestamp
-    }
-  }
-`;
-
-export const ADD_MESSAGE = gql`
-  mutation AddMessage(
-    $text: String!
-    $userImage: String!
-    $walletAddress: String!
-    $username: String!
-  ) {
-    addMessage(
-      text: $text
-      userImage: $userImage
-      walletAddress: $walletAddress
-      username: $username
-    ) {
-      id
-      text
-      userImage
-      walletAddress
-      username
-      timestamp
-    }
-  }
-`;
-=======
->>>>>>> origin/timeout-fe-patch
