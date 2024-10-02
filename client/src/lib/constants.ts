@@ -546,6 +546,9 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
+export const SLOT_RPC_URL =
+  "https://api.cartridge.gg/x/mancala-alpha-v13/katana";
+
 const ACTION_ADDRESS =
   "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef";
 
@@ -581,7 +584,7 @@ export const POLICIES = [
   {
     target: ACTION_ADDRESS,
     method: "forfeited",
-  }
+  },
 ];
 
 export const MancalaBoardModelsQuery = gql`
@@ -617,7 +620,7 @@ export const MancalaBoardModelQuery = gql`
           winner
           status
           is_private
-          time_between_move
+          max_block_between_move
           entity {
             executedAt
           }
@@ -684,4 +687,4 @@ export const MancalaHeaderQuery = gql`
       }
     }
   }
-`
+`;
