@@ -8,6 +8,7 @@ trait IActions<TContractState> {
     fn initialize_game_counter(self: @TContractState);
     fn new_game(self: @TContractState) -> MancalaBoard;
     fn join_game(self: @TContractState, game_id: u128);
+    fn timeout(self: @TContractState, game_id: u128, opponent_address: ContractAddress);
     fn create_private_game(self: @TContractState, opponent_address: ContractAddress);
     fn get_players(self: @TContractState, game_id: u128) -> (Player, Player);
     fn move(self: @TContractState, game_id: u128, selected_pit: u8);
@@ -51,6 +52,10 @@ mod actions {
 
         fn join_game(self: @ContractState, game_id: u128) {
             self.playable.join_game(self.world(), game_id)
+        }
+
+        fn timeout(self: @ContractState, game_id: u128, opponent_address: ContractAddress) {
+            self.playable.timeout(self.world(), game_id, opponent_address)
         }
 
         fn create_private_game(self: @ContractState, opponent_address: ContractAddress) {
