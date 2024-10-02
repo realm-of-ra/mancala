@@ -210,7 +210,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
                           i,
                     )}
                   setTimeRemaining={setTimeRemaining}
+<<<<<<< HEAD
                   time_between_move={parseInt(game_node?.time_between_move, 16)}
+=======
+                  max_block_between_move={parseInt(
+                    game_node?.max_block_between_move,
+                    16,
+                  )}
+>>>>>>> origin/timeout-fe-patch
                 />
               ))}
             </div>
@@ -273,7 +280,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     )
                     .filter((item: any) => item?.node.pit_number === i + 1)}
                   setTimeRemaining={setTimeRemaining}
-                  time_between_move={parseInt(game_node?.time_between_move, 16)}
+                  max_block_between_move={parseInt(
+                    game_node?.max_block_between_move,
+                    16,
+                  )}
                 />
               ))}
             </div>

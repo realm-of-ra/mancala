@@ -14,6 +14,7 @@ export default function MessageArea({
   address,
   game_players,
 }: IMessageAreaProps) {
+<<<<<<< HEAD
   const active_players_addrs =
     game_players?.mancalaPlayerModels?.edges?.map(
       (item: any) => item?.node?.address,
@@ -23,6 +24,11 @@ export default function MessageArea({
     game_players?.mancalaPlayerModels?.edges?.filter(
       (item: any) => item?.node?.restart_requested === true,
     )[opponent_position]?.node?.restart_requested;
+=======
+  const active_players_addrs = game_players?.mancalaPlayerModels?.edges?.map((item: any) => item?.node?.address) ?? [];
+  const opponent_position = active_players_addrs.indexOf(address) === 0 ? 1 : 0;
+  const opponent_requested_restart = game_players?.mancalaPlayerModels?.edges?.filter((item: any) => item?.node?.restart_requested === true)[opponent_position]?.node?.restart_requested;
+>>>>>>> origin/timeout-fe-patch
   const { toast } = useToast();
   const account = useAccount();
   const { system } = useDojo();
@@ -30,6 +36,7 @@ export default function MessageArea({
   const { gameId } = useParams();
   const restart_game = async () => {
     if (account.account) {
+<<<<<<< HEAD
       await system.restart_game(
         account.account,
         gameId || "",
@@ -38,10 +45,16 @@ export default function MessageArea({
       );
     }
   };
+=======
+      await system.restart_game(account.account, gameId || "", setRestarted, opponent_requested_restart);
+    }
+  }
+>>>>>>> origin/timeout-fe-patch
   useEffect(() => {
     if (opponent_requested_restart) {
       toast({
         title: "Opponent requested a restart",
+<<<<<<< HEAD
         description:
           "Click on the restart button to accept, or ignore to continue playing",
         action: (
@@ -52,6 +65,11 @@ export default function MessageArea({
           >
             Restart
           </ToastAction>
+=======
+        description: "Click on the restart button to accept, or ignore to continue playing",
+        action: (
+          <ToastAction className="text-white !bg-transparent" altText="Click on the restart button to accept, or ignore to continue playing" onClick={restart_game}>Restart</ToastAction>
+>>>>>>> origin/timeout-fe-patch
         ),
         duration: undefined,
       });

@@ -5,6 +5,7 @@ import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 
+<<<<<<< HEAD
 export default function RestartButton({
   gameId,
   game_players,
@@ -35,12 +36,27 @@ export default function RestartButton({
       );
     }
   };
+=======
+export default function RestartButton({ gameId, game_players }: { gameId: string, game_players: any }) {
+  const account = useAccount();
+  const { system } = useDojo();
+  const [restarted, setRestarted] = useState(false);
+  const active_players_addrs = game_players?.mancalaPlayerModels?.edges?.map((item: any) => item?.node?.address) ?? [];
+  const opponent_position = active_players_addrs.indexOf(account?.address) === 0 ? 1 : 0;
+  const opponent_requested_restart = game_players?.mancalaPlayerModels?.edges?.filter((item: any) => item?.node?.restart_requested === true)[opponent_position]?.node?.restart_requested;
+  const restart_game = async () => {
+    if (account.account) {
+      await system.restart_game(account.account, gameId, setRestarted, opponent_requested_restart);
+    }
+  }
+>>>>>>> origin/timeout-fe-patch
   const { toast } = useToast();
   useEffect(() => {
     if (restarted) {
       toast({
         title: "Restart notification sent to opponent!",
         description: "Waiting for opponent to accept the restart request",
+<<<<<<< HEAD
         duration: undefined,
       });
     }
@@ -63,3 +79,26 @@ export default function RestartButton({
     </div>
   );
 }
+=======
+        duration: undefined
+      });
+    }
+  }, [restarted, toast]);
+    return(
+        <div className="space-y-1">
+          <Button className="p-0 bg-transparent rounded-full" onClick={restart_game}>
+            <img
+              src={restart}
+              width={75}
+              height={75}
+              alt="restart"
+              className="rounded-full"
+            />
+          </Button>
+          <p className="text-lg text-[#656C7D] font-medium text-center">
+            Restart
+          </p>
+        </div>
+    )
+}
+>>>>>>> origin/timeout-fe-patch

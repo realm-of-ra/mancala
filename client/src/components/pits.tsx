@@ -13,7 +13,11 @@ export function TopPit({
   userAccount,
   system,
   setTimeRemaining,
+<<<<<<< HEAD
   time_between_move,
+=======
+  max_block_between_move,
+>>>>>>> origin/timeout-fe-patch
   seed_count,
   seeds,
   message,
@@ -30,7 +34,11 @@ export function TopPit({
   system: any;
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
+<<<<<<< HEAD
   time_between_move: number;
+=======
+  max_block_between_move: number;
+>>>>>>> origin/timeout-fe-patch
 }) {
   const handleMove = async () => {
     if (
@@ -40,7 +48,11 @@ export function TopPit({
     ) {
       message(undefined);
       const res = await system.move(userAccount?.account, game_id, pit);
+<<<<<<< HEAD
       setTimeRemaining(time_between_move);
+=======
+      setTimeRemaining(max_block_between_move);
+>>>>>>> origin/timeout-fe-patch
     } else {
       if (address !== userAccount?.account?.address) {
         message("Not your pit");
@@ -107,7 +119,11 @@ export function BottomPit({
   userAccount,
   system,
   setTimeRemaining,
+<<<<<<< HEAD
   time_between_move,
+=======
+  max_block_between_move,
+>>>>>>> origin/timeout-fe-patch
   seed_count,
   seeds,
   message,
@@ -124,7 +140,11 @@ export function BottomPit({
   system: any;
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
+<<<<<<< HEAD
   time_between_move: number;
+=======
+  max_block_between_move: number;
+>>>>>>> origin/timeout-fe-patch
 }) {
   const handleMove = async () => {
     message(undefined);
@@ -135,7 +155,11 @@ export function BottomPit({
     ) {
       message(undefined);
       const res = await system.move(userAccount?.account, game_id, pit);
+<<<<<<< HEAD
       setTimeRemaining(time_between_move);
+=======
+      setTimeRemaining(max_block_between_move);
+>>>>>>> origin/timeout-fe-patch
     } else {
       if (address !== userAccount?.account?.address) {
         message("Not your pit");

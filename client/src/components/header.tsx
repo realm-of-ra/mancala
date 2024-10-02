@@ -126,9 +126,13 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
+<<<<<<< HEAD
                 {controllerData?.username
                   ? controllerData?.username
                   : truncateString(address)}
+=======
+                {controllerData?.username ? controllerData?.username : truncateString(address)}
+>>>>>>> origin/timeout-fe-patch
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
@@ -183,6 +187,7 @@ export default function Header() {
                   onClick={handleDropdownToggleClose}
                 >
                   <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5">
+<<<<<<< HEAD
                     <p className="text-white">
                       {controllerData?.username || truncateString(address)}
                     </p>
@@ -191,6 +196,14 @@ export default function Header() {
                         "transform rotate-180": isDropdownOpen,
                       })}
                     />
+=======
+                    <p className="text-white">{controllerData?.username || truncateString(address)}</p>
+                  <ChevronDownIcon
+                    className={clsx("w-4 h-4 ml-3 transition duration-300", {
+                      "transform rotate-180": isDropdownOpen,
+                    })}
+                  />
+>>>>>>> origin/timeout-fe-patch
                   </div>
                 </Button>
 

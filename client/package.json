@@ -10,8 +10,12 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+<<<<<<< HEAD
     "preview": "vite preview",
     "format": "prettier --write \"**/*.ts\""
+=======
+    "preview": "vite preview"
+>>>>>>> origin/timeout-fe-patch
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",

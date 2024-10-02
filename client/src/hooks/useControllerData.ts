@@ -20,6 +20,7 @@ export default function useControllerData() {
   }, [account, connector]);
 
   if (username !== undefined && icon !== undefined) {
+<<<<<<< HEAD
     return { username, icon, controllerConnector: contollerConnector };
   } else if (account) {
     return {
@@ -27,6 +28,11 @@ export default function useControllerData() {
       icon: undefined,
       controllerConnector: undefined,
     };
+=======
+    return { username, icon , controllerConnector: contollerConnector };
+  } else if (account) {
+    return { username: formatAddress(account.address), icon: undefined, controllerConnector: undefined };
+>>>>>>> origin/timeout-fe-patch
   }
 }
 

@@ -14,11 +14,11 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
-import { POLICIES } from "./lib/constants";
+import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Profile from "./pages/Profile";
 
 const options: ControllerOptions = {
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  rpc: SLOT_RPC_URL,
   theme: "realm-of-ra",
   paymaster: {
     caller: bigintToHex(stringToFelt("ANY_CALLER")),
@@ -32,7 +32,7 @@ const connectorOptions = {
 
 function rpc(_chain: Chain) {
   return {
-    nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia",
+    nodeUrl: SLOT_RPC_URL,
   };
 }
 

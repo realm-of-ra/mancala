@@ -42,7 +42,11 @@ export default function GameMessage({
       gameStarted &&
       game_node?.winner === "0x0"
     ) {
+<<<<<<< HEAD
       const initialTime = parseInt(game_node?.time_between_move, 16);
+=======
+      const initialTime = parseInt(game_node?.max_block_between_move, 16);
+>>>>>>> origin/timeout-fe-patch
       setStartTime(Date.now());
       setTimeRemaining(initialTime);
     }
@@ -58,7 +62,11 @@ export default function GameMessage({
       ) {
         const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
         const newTimeRemaining = Math.max(
+<<<<<<< HEAD
           parseInt(game_node?.time_between_move, 16) - elapsedTime,
+=======
+          parseInt(game_node?.max_block_between_move, 16) - elapsedTime,
+>>>>>>> origin/timeout-fe-patch
           0,
         );
         setTimeRemaining(newTimeRemaining);

@@ -97,14 +97,24 @@ export default function Lobby() {
   const handleConnect = () => {
     connectWallet();
   };
+<<<<<<< HEAD
 
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.address ||
       game?.node?.player_two === account.address,
   );
+=======
+>>>>>>> origin/timeout-fe-patch
 
+  const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
+    (game: any) =>
+      game?.node?.player_one === account.address ||
+      game?.node?.player_two === account.address
+  );
+  
   const filteredTransactions =
+<<<<<<< HEAD
     data?.mancalaMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
       if (
         (game?.node?.player_one === account.address ||
@@ -118,6 +128,24 @@ export default function Lobby() {
       }
       return acc;
     }, []) || [];
+=======
+    data?.mancalaMancalaBoardModels?.edges?.reduce(
+      (acc: any[], game: any) => {
+        if (
+          (game?.node?.player_one === account.address ||
+            game?.node?.player_two === account.address) &&
+          game?.node?.entity.executedAt
+        ) {
+          acc.push({
+            ...game.node,
+            executedAt: game?.node?.entity.executedAt,
+          });
+        }
+        return acc;
+      },
+      []
+    ) || [];
+>>>>>>> origin/timeout-fe-patch
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -341,7 +369,13 @@ export default function Lobby() {
             {isConnected ? (
               <>
                 <TabsContent value="players">
+<<<<<<< HEAD
                   <Players data={data?.mancalaMancalaBoardModels?.edges} />
+=======
+                  <Players
+                    data={data?.mancalaMancalaBoardModels?.edges}
+                  />
+>>>>>>> origin/timeout-fe-patch
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
@@ -351,7 +385,13 @@ export default function Lobby() {
                   />
                 </TabsContent>
                 <TabsContent value="live">
+<<<<<<< HEAD
                   <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
+=======
+                  <LiveDuels
+                    games={data?.mancalaMancalaBoardModels?.edges}
+                  />
+>>>>>>> origin/timeout-fe-patch
                 </TabsContent>
               </>
             ) : (

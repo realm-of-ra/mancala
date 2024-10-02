@@ -33,7 +33,7 @@ pub struct MancalaBoard {
     pub player_two: ContractAddress,
     pub current_player: ContractAddress,
     pub last_move: u64,
-    pub time_between_move: u64,
+    pub max_block_between_move: u64,
     pub winner: ContractAddress,
     pub status: GameStatus,
     pub is_private: bool

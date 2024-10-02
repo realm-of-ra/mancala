@@ -76,7 +76,11 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.join_game(
         account,
+<<<<<<< HEAD
         game_id,
+=======
+        game_id
+>>>>>>> origin/timeout-fe-patch
       );
 
       const receipt = await account.waitForTransaction(transaction_hash, {
@@ -124,6 +128,7 @@ export function createSystemCalls(
     }
   };
 
+<<<<<<< HEAD
   const restart_game = async (
     account: AccountInterface,
     game_id: string,
@@ -166,20 +171,64 @@ export function createSystemCalls(
     game_id: string,
     setHasTimeout: any,
   ) => {
+=======
+  const restart_game = async (account: AccountInterface, game_id: string, setRestarted: any, approver: boolean) => {
+>>>>>>> origin/timeout-fe-patch
     try {
-      const { transaction_hash } = await client.actions.timeout(
+      const { transaction_hash } = await client.actions.restart_game(
         account,
         game_id,
+<<<<<<< HEAD
+=======
+        approver
+>>>>>>> origin/timeout-fe-patch
       );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
+<<<<<<< HEAD
       setHasTimeout(true);
     } catch (error) {
       console.error("Error executing timeout:", error);
+=======
+      setRestarted(true);
+    } catch (error) {
+      console.error("Error executing restart_game:", error);
+>>>>>>> origin/timeout-fe-patch
       throw error;
     }
   };
+
+  const end_game = async (account: AccountInterface, game_id: string) => {
+    try {
+      const { transaction_hash } = await client.actions.end_game(
+        account,
+        game_id
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+    } catch (error) {
+      console.error("Error executing end_game:", error);
+      throw error;
+    }
+  }
+
+  // const timeout = async (account: AccountInterface, game_id: string) => {
+  //   try {
+  //     const { transaction_hash } = await client.actions.timeout(
+  //       account,
+  //       game_id,
+  //     )
+
+  //     await account.waitForTransaction(transaction_hash, {
+  //       retryInterval: 100,
+  //     })
+  //   } catch (error) {
+  //     console.error('Error executing timeout:', error)
+  //     throw error
+  //   }
+  // }
 
   return {
     create_initial_game_id,
@@ -189,6 +238,10 @@ export function createSystemCalls(
     move,
     restart_game,
     end_game,
+<<<<<<< HEAD
     timeout,
+=======
+    // timeout,
+>>>>>>> origin/timeout-fe-patch
   };
 }
