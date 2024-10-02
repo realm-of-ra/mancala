@@ -12,6 +12,7 @@ import LeaderboardButton from "@/components/gameplay/leaderboard-button";
 import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import GameNavigation from "@/components/gameplay/game-navigation";
+import TimeoutButton from "@/components/gameplay/timeout-button";
 
 export default function Gameplay() {
   const { gameId } = useParams();
@@ -22,7 +23,10 @@ export default function Gameplay() {
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
-
+  const involved = game_players?.mancalaPlayerModels.edges.filter((item: any) => item?.node.address === account.address).length > 0 ? true : false;
+  const player_position = involved ? game_players?.mancalaPlayerModels.edges.findIndex((item: any) => item?.node.address === account.address) : 0;
+  const opponent_position = player_position === 0 ? 1 : 0;
+  const opposition_address = game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (
@@ -32,6 +36,7 @@ export default function Gameplay() {
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <RestartButton gameId={gameId || ""} game_players={game_players} />
           <EndgameButton gameId={gameId || ""} game_players={game_players} />
+          <TimeoutButton gameId={gameId || ""} opposition_address={opposition_address} />
         </div>
         <div className="flex-1 w-full h-full">
           <GameBoard

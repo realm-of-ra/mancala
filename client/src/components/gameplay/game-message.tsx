@@ -58,7 +58,7 @@ export default function GameMessage({
       ) {
         const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
         const newTimeRemaining = Math.max(
-          parseInt(game_node?.max_block_between_move, 16) - elapsedTime,
+          Number(game_node?.max_block_between_move * 30) - elapsedTime,
           0,
         );
         setTimeRemaining(newTimeRemaining);
