@@ -59,7 +59,7 @@ async function startServer() {
       // cors<cors.CorsRequest>(),
       bodyParser.json(),
       expressMiddleware(server, {
-        context: async ({ req }) => ({ db: database }),
+        context: async () => ({ db: database }),
       }),
     );
 
