@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
-    "original_class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
+    "class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
+    "original_class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
     "abi": [
       {
         "type": "impl",
@@ -1234,13 +1234,13 @@
         ]
       }
     ],
-    "address": "0x211a00916edfc32dfb67114b653cb80bccbb646ded281d7c57bd75b31a7ede4",
-    "transaction_hash": "0x7f99937627cb348cad1475c59be0bf4e6ec2b356876e1b3b9a226afb162d9ff",
+    "address": "0x3be278cb163a0e994541be78f1fb95b14e70eab504ae00d9879133a34268518",
+    "transaction_hash": "0x6515d4cee5d0f8e9f2b8ec4797f285cf57d0a63d1679a96560bc1b129f6ef4e",
     "block_number": 3,
     "seed": "mancala",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v12/katana"
+      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v13/katana"
     },
     "manifest_name": "dojo-world"
   },
@@ -1255,9 +1255,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef",
-      "class_hash": "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93",
-      "original_class_hash": "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93",
+      "address": "0x118a60389f608c67c639f83683a265a22102f2d226c41aa04af65135ff8103e",
+      "class_hash": "0x7a4f6d2e65d7872bb72332651d2428b0d001343ac76c572c6e609022d370659",
+      "original_class_hash": "0x7a4f6d2e65d7872bb72332651d2428b0d001343ac76c572c6e609022d370659",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1457,7 +1457,7 @@
               "type": "core::integer::u64"
             },
             {
-              "name": "time_between_move",
+              "name": "max_block_between_move",
               "type": "core::integer::u64"
             },
             {
@@ -1525,6 +1525,22 @@
                 {
                   "name": "game_id",
                   "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "timeout",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "opponent_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
                 }
               ],
               "outputs": [],
@@ -1742,6 +1758,7 @@
       "systems": [
         "initialize_game_counter",
         "join_game",
+        "timeout",
         "create_private_game",
         "move",
         "forfeited",
@@ -2208,7 +2225,7 @@
           "key": false
         },
         {
-          "name": "time_between_move",
+          "name": "max_block_between_move",
           "type": "u64",
           "key": false
         },
@@ -2228,8 +2245,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f",
-      "original_class_hash": "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f",
+      "class_hash": "0x332503203f4af4cb2fa6830659f4be81ebf9c5115a1dc5c3818c78eb396036c",
+      "original_class_hash": "0x332503203f4af4cb2fa6830659f4be81ebf9c5115a1dc5c3818c78eb396036c",
       "abi": [
         {
           "type": "impl",
@@ -2663,7 +2680,7 @@
               "type": "core::integer::u64"
             },
             {
-              "name": "time_between_move",
+              "name": "max_block_between_move",
               "type": "core::integer::u64"
             },
             {

@@ -24,7 +24,7 @@ mod test_init_game {
         // Check player 1 exists
         let player_1 = store.get_player(game_id, setup::OWNER());
         assert(player_1.len_pits == 6, 'Player 1 pits length is wrong');
-        
+
         // Check mancala board exists
         let mancala_board = store.get_mancala_board(game_id);
         assert(mancala_board.player_one == setup::OWNER(), 'Player one address is wrong');
@@ -155,7 +155,7 @@ mod test_init_game {
 }
 
 mod test_play {
-use starknet::{ContractAddress, get_caller_address};
+    use starknet::{ContractAddress, get_caller_address};
     use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
     use dojo::world::{IWorldDispatcherTrait, IWorldDispatcher};
     use dojo::utils::test::{spawn_test_world};
@@ -206,7 +206,8 @@ use starknet::{ContractAddress, get_caller_address};
         // Go back to player 1 to start the game
         set_contract_address(setup::OWNER());
 
-        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in the opponent pit 1
+        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in the
+        // opponent pit 1
         systems.actions.move(game_id, 4);
 
         // Pit 4 of player 1 should be empty
@@ -230,7 +231,8 @@ use starknet::{ContractAddress, get_caller_address};
         // Player 2 turn
         set_contract_address(ANYONE);
 
-        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in other player pit 1
+        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in other
+        // player pit 1
         systems.actions.move(game_id, 4);
         // Pit 3 of player 1 should be empty
         let p2_pit_4 = store.get_pit(game_id, ANYONE, 4);
@@ -275,7 +277,8 @@ use starknet::{ContractAddress, get_caller_address};
         // Check player 2 pit 1 before capturing
         let p2_pit_1_before = store.get_pit(game_id, ANYONE, 1);
 
-        // Player 1 turn, move seeds from pit 2, last seed should be on pit 6, capture other player seeds on pit 1
+        // Player 1 turn, move seeds from pit 2, last seed should be on pit 6, capture other player
+        // seeds on pit 1
         set_contract_address(setup::OWNER());
         systems.actions.move(game_id, 2);
 
@@ -284,7 +287,36 @@ use starknet::{ContractAddress, get_caller_address};
 
         let p1_store_after = store.get_pit(game_id, setup::OWNER(), 7);
         let expected_seeds_in_store = p1_store_before.seed_count + p2_pit_1_before.seed_count + 1;
-        assert(p1_store_after.seed_count == expected_seeds_in_store, 'P1 store seed count is wrong');
+        assert(
+            p1_store_after.seed_count == expected_seeds_in_store, 'P1 store seed count is wrong'
+        );
+    }
+
+    #[test]
+    #[available_gas(300000000000)]
+    fn test_timeout() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        systems.actions.new_game();
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+
+        systems.actions.join_game(game_id);
+
+        // Set initial block number
+        set_block_number(14);
+
+        systems.actions.timeout(game_id, setup::OWNER());
+
+        let mancala_board_after = store.get_mancala_board(game_id);
+
+        assert(mancala_board_after.status == GameStatus::TimeOut, 'Game not timeout');
     }
 
     #[test]

@@ -1,6 +1,7 @@
 use starknet::{get_block_number, ContractAddress, get_caller_address};
 
 use mancala::models::index::{MancalaBoard, GameStatus};
+use mancala::constants::AVERAGE_BLOCK_TIME;
 use mancala::models::player::{Player, PlayerTrait};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
@@ -10,6 +11,7 @@ mod errors {
     const PLAYER_TWO_ALREADY_JOINED: felt252 = 'MancalaBoard: already joined';
     const NOT_PLAYER_TURN: felt252 = 'MancalaBoard: not your turn';
     const INVALID_PIT: felt252 = 'MancalaBoard: invalid pit';
+    const NOT_TIMEOUT: felt252 = 'MancalaBoard: invalid timeout';
 }
 
 /// Trait implementation for MancalaBoard operations
@@ -30,7 +32,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             player_one,
             player_two: core::num::traits::Zero::<ContractAddress>::zero(),
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -47,13 +49,15 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// # Returns
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
-    fn private_mancala(game_id: u128, player_one: ContractAddress, player_two: ContractAddress) -> MancalaBoard {
+    fn private_mancala(
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress
+    ) -> MancalaBoard {
         MancalaBoard {
             game_id,
             player_one,
             player_two,
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -76,6 +80,25 @@ impl MancalaBoardImpl of MancalaBoardTrait {
         assert(self.player_two.is_zero(), errors::PLAYER_TWO_ALREADY_JOINED);
         self.player_two = player_two.address;
         self.status = GameStatus::InProgress;
+    }
+
+    #[inline]
+    fn timeout_opponent(ref self: MancalaBoard, player: ContractAddress) {
+        let current_block = get_block_number();
+        let elapsed_seconds = self._block_number_to_seconds(self.last_move, current_block);
+        let time_limit_seconds = self.max_block_between_move * AVERAGE_BLOCK_TIME;
+
+        assert(self.current_player == player, errors::NOT_PLAYER_TURN);
+        assert(elapsed_seconds > time_limit_seconds, errors::NOT_TIMEOUT);
+
+        if player == self.player_one {
+            self.status = GameStatus::TimeOut;
+            self.winner = self.player_two;
+        }
+        if player == self.player_two {
+            self.status = GameStatus::TimeOut;
+            self.winner = self.player_one;
+        }
     }
 
     /// Validates if a move is legal according to the game rules
@@ -162,10 +185,18 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             player_two: player_two,
             current_player: player_one,
             last_move: get_block_number(),
-            time_between_move: 100,
+            max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::Pending,
             is_private: private
         }
+    }
+}
+
+#[generate_trait]
+impl PrivateFunctions of PrivateFunctionsTrait {
+    fn _block_number_to_seconds(self: MancalaBoard, start_block: u64, end_block: u64) -> u64 {
+        let block_difference = end_block - start_block;
+        block_difference * AVERAGE_BLOCK_TIME
     }
 }

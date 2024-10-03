@@ -1,4 +1,3 @@
-
 export {default as eniola} from '../assets/eniola.png';
 export {default as israel} from "../assets/israel.png";
 export {default as logo} from "../assets/logo.png";
@@ -12,3 +11,4 @@ export {default as playnext} from "../assets/play-next.svg";
 export {default as playprevious} from "../assets/play-previous.svg";
 export {default as speaker} from "../assets/speaker.svg";
 export {default as arrowup} from "../assets/arrow-up.svg";
+export {default as timeout} from "../assets/timeout.png";

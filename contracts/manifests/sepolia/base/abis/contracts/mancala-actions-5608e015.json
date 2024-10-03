@@ -196,7 +196,7 @@
         "type": "core::integer::u64"
       },
       {
-        "name": "time_between_move",
+        "name": "max_block_between_move",
         "type": "core::integer::u64"
       },
       {
@@ -264,6 +264,22 @@
           {
             "name": "game_id",
             "type": "core::integer::u128"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "timeout",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u128"
+          },
+          {
+            "name": "opponent_address",
+            "type": "core::starknet::contract_address::ContractAddress"
           }
         ],
         "outputs": [],

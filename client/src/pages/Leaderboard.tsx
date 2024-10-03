@@ -23,7 +23,7 @@ export default function Leaderboard() {
 
   const { loading, error, data, startPolling } = useQuery(MancalaBoardModelsQuery)
 
-  startPolling(100);
+  startPolling(1000);
 
   // Extracting player_one and player_two from the data object and get the the top 8 highest winners
   // TODO: instead of type coercion, we can use this to aid loading state
@@ -192,7 +192,7 @@ export default function Leaderboard() {
                               {profiles[index + 3]?.name
                                 ? profiles[index + 3].name
                                 : addresses &&
-                                truncateString(addresses[index + 3])}
+                                  truncateString(addresses[index + 3])}
                             </p>
                           </div>
                         </td>
