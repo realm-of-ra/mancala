@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x3f309e7d10e3c4834d61e67ae0d6520a2ad51d5f0eefac21b15e27f5b034319"
-original_class_hash = "0x3f309e7d10e3c4834d61e67ae0d6520a2ad51d5f0eefac21b15e27f5b034319"
+class_hash = "0x51d1b457052c94b83d42ac7c4105211586bde1b840b5563bded7b40818ddcf8"
+original_class_hash = "0x51d1b457052c94b83d42ac7c4105211586bde1b840b5563bded7b40818ddcf8"
 abi = "manifests/dev/base/abis/models/mancala-Seed-64c952d1.json"
 tag = "mancala-Seed"
 qualified_path = "mancala::models::index::seed"
@@ -17,7 +17,7 @@ type = "ContractAddress"
 key = true
 
 [[members]]
-name = "pit_number"
+name = "current_pit"
 type = "u8"
 key = true
 
@@ -33,5 +33,10 @@ key = false
 
 [[members]]
 name = "seed_id"
+type = "u8"
+key = false
+
+[[members]]
+name = "previous_pit"
 type = "u8"
 key = false

@@ -58,7 +58,7 @@ pub struct Pit {
     #[key]
     pub player: ContractAddress,
     #[key]
-    pub pit_number: u8,
+    pub current_pit: u8,
     pub seed_count: u8,
 }
 
@@ -70,9 +70,10 @@ pub struct Seed {
     #[key]
     pub player: ContractAddress,
     #[key]
-    pub pit_number: u8,
+    pub current_pit: u8,
     #[key]
     pub seed_number: u8,
     pub color: SeedColor,
-    pub seed_id: u8,  // New field to maintain the unique seed identifier
+    pub seed_id: u8,
+    pub previous_pit: u8,
 }

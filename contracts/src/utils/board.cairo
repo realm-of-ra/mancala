@@ -8,11 +8,11 @@ use mancala::store::{Store, StoreTrait};
 
 use core::traits::TryInto;
 
-fn get_pit_seeds(world: IWorldDispatcher, player: @Player, pit_number: u8) -> Array<Seed>{
-    assert(pit_number <= *player.len_pits, 'Pit number out of bounds');
+fn get_pit_seeds(world: IWorldDispatcher, player: @Player, current_pit: u8) -> Array<Seed>{
+    assert(current_pit <= *player.len_pits, 'Pit number out of bounds');
 
     let mut store: Store = StoreTrait::new(world);
-    let pit = store.get_pit(*player.game_id, *player.address, pit_number);
+    let pit = store.get_pit(*player.game_id, *player.address, current_pit);
 
     let mut result = array![];
     let mut idx = 1;
@@ -20,22 +20,23 @@ fn get_pit_seeds(world: IWorldDispatcher, player: @Player, pit_number: u8) -> Ar
         if idx > pit.seed_count {
             break;
         }
-        let seed = store.get_seed(*player.game_id, *player.address, pit_number, idx);
+        let seed = store.get_seed(*player.game_id, *player.address, current_pit, idx);
         result.append(seed);
         idx += 1;
     };
     result
 }
 
-fn add_seed_to_pit(world: IWorldDispatcher, ref seed: Seed, player_address: ContractAddress, pit_number: u8) {
+fn add_seed_to_pit(world: IWorldDispatcher, ref seed: Seed, player_address: ContractAddress, current_pit: u8) {
     let mut store: Store = StoreTrait::new(world);
 
-    let mut pit = store.get_pit(seed.game_id, player_address, pit_number);
+    let mut pit = store.get_pit(seed.game_id, player_address, current_pit);
     pit.seed_count += 1;
     store.set_pit(pit);
 
     seed.player = pit.player;
-    seed.pit_number = pit.pit_number;
+    seed.previous_pit = seed.current_pit;
+    seed.current_pit = pit.current_pit;
     seed.seed_number = pit.seed_count;
     store.set_seed(seed);
 }
@@ -59,7 +60,8 @@ fn distribute_seeds(
 
         // Move the seed to the new pit
         seed.player = target_player;
-        seed.pit_number = target_pit;
+        seed.previous_pit = seed.current_pit;
+        seed.current_pit = target_pit;
         store.set_seed(seed);
 
         // Update pit seed counts
@@ -92,14 +94,16 @@ fn capture_seeds(world: IWorldDispatcher, last_pit: u8, ref current_player: Play
                 while seed_idx < opposite_seeds.len() {
                     let mut seed = *opposite_seeds.at(seed_idx);
                     seed.player = current_player.address;
-                    seed.pit_number = 7;
+                    seed.previous_pit = seed.current_pit;
+                    seed.current_pit = 7;
                     store.set_seed(seed);
                     seed_idx += 1;
                 };
 
                 // Move the last seed to the store
                 let mut last_seed = store.get_seed(current_player.game_id, current_player.address, last_pit, 1);
-                last_seed.pit_number = 7;
+                last_seed.previous_pit = last_seed.current_pit;
+                last_seed.current_pit = 7;
                 store.set_seed(last_seed);
 
                 // Update pit seed counts
@@ -165,7 +169,8 @@ fn capture_remaining_seeds(world: IWorldDispatcher, ref player: Player) {
         }
         store_pit.seed_count += 1;
         let mut seed = *remaining_seeds.at(idx);
-        seed.pit_number = 7;
+        seed.previous_pit = seed.current_pit;
+        seed.current_pit = 7;
         seed.seed_number = store_pit.seed_count;
         store.set_seed(seed);
         idx += 1;
@@ -195,15 +200,16 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
             let mut seed = Seed {
                 game_id: *player.game_id,
                 player: *player.address,
-                pit_number: idx,
+                current_pit: idx,
                 seed_number: seeds_set,
                 color: seed_color,
-                seed_id: seed_id,  // Assign the unique seed ID
+                seed_id: seed_id,
+                previous_pit: 0,
             };
             store.set_seed(seed);
             pit.seed_count += 1;
             seeds_set += 1;
-            seed_id += 1;  // Increment the seed ID for the next seed
+            seed_id += 1;
         };
         store.set_pit(pit);
         idx += 1;

@@ -6,7 +6,7 @@ mod errors {}
 #[generate_trait]
 impl SeedImpl of SeedTrait {
     #[inline]
-    fn new(game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8, color: SeedColor) -> Seed {
-        Seed { game_id, player, pit_number, seed_number, color, seed_id: 0 }
+    fn new(game_id: u128, player: ContractAddress, current_pit: u8, seed_number: u8, color: SeedColor) -> Seed {
+        Seed { game_id, player, current_pit, seed_number, color, seed_id: 0, previous_pit: 0 }
     }
 }
