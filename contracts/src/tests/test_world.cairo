@@ -379,70 +379,78 @@ mod test_play {
     }
 
     #[test]
-    #[available_gas(300000000000)]
-    fn test_end_game() {
-        let (world, systems) = setup::spawn_game();
-        let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
-    
-        systems.actions.new_game();
-    
-        let game_counter = store.get_game_counter(1);
-        let game_id = game_counter.count - 1;
-    
-        // Change caller to player 2
-        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
-        set_contract_address(ANYONE);
-        systems.actions.join_game(game_id);
-    
-        // Player 1 turn
-        set_contract_address(setup::OWNER());
-        systems.actions.move(game_id, 5);
-    
-        // Player 2 turn
-        set_contract_address(ANYONE);
-        systems.actions.move(game_id, 4);
-    
-        // Player 1 turn
-        set_contract_address(setup::OWNER());
-    
-        // Move all player 2 seeds to store to finish the game
-        let player_2 = store.get_player(game_id, ANYONE);
-        move_player_seeds_to_store(world, @player_2);
-    
-        systems.actions.move(game_id, 3);
-    
-        let mancala_board = store.get_mancala_board(game_id);
-        assert(mancala_board.status == GameStatus::Finished, 'Game status is wrong');
-    
-        // Player 2 should win because has all its seeds in the store
-        assert(mancala_board.winner == ANYONE, 'Game winner is wrong');
-    
-        let (p1_score, p2_score) = systems.actions.get_score(game_id);
-        assert(p1_score == 23, 'Player 1 score is wrong');
-        assert(p2_score == 25, 'Player 2 score is wrong');
-    
-        // Check that there is the correct amount of seeds in the store
-        let mut p1_index = 1;
-        loop {
-            if p1_index > p1_score {
-                break;
-            }
-            let p1_seed = store.get_seed(game_id, setup::OWNER(), 7, p1_index);
-            assert(p1_seed.seed_id != 0, 'P1 seed not exist');
-            p1_index += 1;
-        };
-    
-        let mut p2_index = 1;
-        loop {
-            if p2_index > p2_score {
-                break;
-            }
-            let p2_seed = store.get_seed(game_id, ANYONE, 7, p2_index);
-            assert(p2_seed.seed_id != 0, 'P2 seed not exist');
-            p2_index += 1;
-        };
-    }
+#[available_gas(300000000000)]
+fn test_end_game() {
+    let (world, systems) = setup::spawn_game();
+    let mut store: Store = StoreTrait::new(world);
+    systems.actions.initialize_game_counter();
+
+    systems.actions.new_game();
+
+    let game_counter = store.get_game_counter(1);
+    let game_id = game_counter.count - 1;
+
+    // Change caller to player 2
+    let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+    set_contract_address(ANYONE);
+    systems.actions.join_game(game_id);
+
+    // Player 1 turn
+    set_contract_address(setup::OWNER());
+    systems.actions.move(game_id, 5);
+
+    // Player 2 turn
+    set_contract_address(ANYONE);
+    systems.actions.move(game_id, 4);
+
+    // Player 1 turn
+    set_contract_address(setup::OWNER());
+
+    // Move all player 2 seeds to store to finish the game
+    let player_2 = store.get_player(game_id, ANYONE);
+    move_player_seeds_to_store(world, @player_2);
+
+    systems.actions.move(game_id, 3);
+
+    let mancala_board = store.get_mancala_board(game_id);
+    assert(mancala_board.status == GameStatus::Finished, 'Game status is wrong');
+
+    // Player 2 should win because has all its seeds in the store
+    assert(mancala_board.winner == ANYONE, 'Game winner is wrong');
+
+    let (p1_score, p2_score) = systems.actions.get_score(game_id);
+    assert(p1_score == 23, 'Player 1 score is wrong');
+    assert(p2_score == 25, 'Player 2 score is wrong');
+
+    // Check that there is the correct amount of seeds for each player
+    let mut p1_seed_count = 0;
+    let mut p2_seed_count = 0;
+
+    // Count seeds in all pits for player 1
+    let mut pit_idx = 1;
+    loop {
+        if pit_idx > 7 {
+            break;
+        }
+        let pit = store.get_pit(game_id, setup::OWNER(), pit_idx);
+        p1_seed_count += pit.seed_count;
+        pit_idx += 1;
+    };
+
+    // Count seeds in all pits for player 2
+    pit_idx = 1;
+    loop {
+        if pit_idx > 7 {
+            break;
+        }
+        let pit = store.get_pit(game_id, ANYONE, pit_idx);
+        p2_seed_count += pit.seed_count;
+        pit_idx += 1;
+    };
+
+    assert(p1_seed_count == p1_score, 'P1 seed count mismatch');
+    assert(p2_seed_count == p2_score, 'P2 seed count mismatch');
+}
 }
 
 mod test_validations {

@@ -22,7 +22,6 @@ fn move_player_seeds_to_store(world: IWorldDispatcher, player: @Player) {
             seed.pit_number = 7;
             player_store.seed_count += 1;
             seed.seed_number = player_store.seed_count;
-            // Preserve the seed_id when moving to the store
             store.set_seed(seed);
             seeds_idx += 1;
         };
@@ -30,5 +29,7 @@ fn move_player_seeds_to_store(world: IWorldDispatcher, player: @Player) {
         store.set_pit(pit);
         idx += 1;
     };
+    
+    // Update the store pit with the new seed count
     store.set_pit(player_store);
 }
