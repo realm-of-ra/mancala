@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
-original_class_hash = "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9"
+class_hash = "0x3f309e7d10e3c4834d61e67ae0d6520a2ad51d5f0eefac21b15e27f5b034319"
+original_class_hash = "0x3f309e7d10e3c4834d61e67ae0d6520a2ad51d5f0eefac21b15e27f5b034319"
 abi = "manifests/dev/base/abis/models/mancala-Seed-64c952d1.json"
 tag = "mancala-Seed"
 qualified_path = "mancala::models::index::seed"
@@ -29,4 +29,9 @@ key = true
 [[members]]
 name = "color"
 type = "SeedColor"
+key = false
+
+[[members]]
+name = "seed_id"
+type = "u8"
 key = false
