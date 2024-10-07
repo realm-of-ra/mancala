@@ -19,7 +19,7 @@ fn move_player_seeds_to_store(world: IWorldDispatcher, player: @Player) {
                 break;
             }
             let mut seed = store.get_seed(*player.game_id, *player.address, idx, seeds_idx);
-            seed.pit_number = 7;
+            seed.current_pit = 7;
             player_store.seed_count += 1;
             seed.seed_number = player_store.seed_count;
             store.set_seed(seed);

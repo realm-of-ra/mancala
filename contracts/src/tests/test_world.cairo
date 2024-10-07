@@ -378,7 +378,7 @@ mod test_play {
         assert(mancala_board_after.status == GameStatus::TimeOut, 'Game not timeout');
     }
 
-    #[test]
+#[test]
 #[available_gas(300000000000)]
 fn test_end_game() {
     let (world, systems) = setup::spawn_game();
@@ -450,6 +450,84 @@ fn test_end_game() {
 
     assert(p1_seed_count == p1_score, 'P1 seed count mismatch');
     assert(p2_seed_count == p2_score, 'P2 seed count mismatch');
+}
+
+#[test]
+#[available_gas(300000000000)]
+fn test_previous_pit_correctness() {
+    let (world, systems) = setup::spawn_game();
+    let mut store: Store = StoreTrait::new(world);
+    systems.actions.initialize_game_counter();
+
+    systems.actions.new_game();
+
+    let game_counter = store.get_game_counter(1);
+    let game_id = game_counter.count - 1;
+
+    // Change caller to player 2
+    let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+    set_contract_address(ANYONE);
+    systems.actions.join_game(game_id);
+
+    // Check initial game state
+    let initial_board = store.get_mancala_board(game_id);
+    assert(initial_board.current_player == setup::OWNER(), 'Initial player should be OWNER');
+
+    // Player 1 turn (OWNER)
+    set_contract_address(setup::OWNER());
+    systems.actions.move(game_id, 3);
+
+    // Check game state after first move
+    let board_after_move1 = store.get_mancala_board(game_id);
+    
+    // If the last seed didn't land in the store, the current player should change
+    if board_after_move1.current_player == ANYONE {
+        // Player 2 turn (ANYONE)
+        set_contract_address(ANYONE);
+        systems.actions.move(game_id, 4);
+
+        // Check game state after second move
+        let board_after_move2 = store.get_mancala_board(game_id);
+        assert(board_after_move2.current_player == setup::OWNER(), 'Current player should be OWNER');
+    } else {
+        // If it's still OWNER's turn, make another move
+        assert(board_after_move1.current_player == setup::OWNER(), 'Current player should be OWNER');
+        systems.actions.move(game_id, 2);
+    }
+
+    // Now check previous_pit for all seeds
+    let players = array![setup::OWNER(), ANYONE];
+    let mut player_idx = 0;
+    loop {
+        if player_idx >= players.len() {
+            break;
+        }
+        let player = *players.at(player_idx);
+        let mut pit_idx: u8 = 1;
+        loop {
+            if pit_idx > 7 {
+                break;
+            }
+            let pit = store.get_pit(game_id, player, pit_idx);
+            let mut seed_idx: u8 = 1;
+            loop {
+                if seed_idx > pit.seed_count {
+                    break;
+                }
+                let seed = store.get_seed(game_id, player, pit_idx, seed_idx);
+                if seed.previous_pit != 0 {
+                    assert(
+                        seed.previous_pit != seed.current_pit,
+                        'Invalid previous pit'
+                    );
+                    assert(seed.previous_pit <= 7, 'Previous pit > 7');
+                }
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+        player_idx += 1;
+    };
 }
 }
 
