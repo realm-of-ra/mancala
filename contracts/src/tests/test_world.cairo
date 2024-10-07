@@ -152,6 +152,65 @@ mod test_init_game {
             pit_idx += 1;
         };
     }
+
+    #[test]
+#[available_gas(300000000000)]
+fn test_seed_count_and_numbering() {
+    let (world, systems) = setup::spawn_game();
+    let mut store: Store = StoreTrait::new(world);
+    systems.actions.initialize_game_counter();
+
+    systems.actions.new_game();
+
+    let game_counter = store.get_game_counter(1);
+    let game_id = game_counter.count - 1;
+
+    // Change caller to player 2
+    let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+    set_contract_address(ANYONE);
+    systems.actions.join_game(game_id);
+
+    // Initialize variables to keep track of seed numbers
+    let mut seed_count: u32 = 0;
+    let mut seed_id_count: u32 = 0;
+
+    // Check seeds for both players
+    let players = array![setup::OWNER(), ANYONE];
+    let mut player_idx = 0;
+    loop {
+        if player_idx >= players.len() {
+            break;
+        }
+        let player = *players.at(player_idx);
+        let mut pit_idx: u8 = 1;
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let pit = store.get_pit(game_id, player, pit_idx);
+            seed_count += pit.seed_count.into();
+            let mut seed_idx: u8 = 1;
+            loop {
+                if seed_idx > pit.seed_count {
+                    break;
+                }
+                let seed = store.get_seed(game_id, player, pit_idx, seed_idx);
+                assert(seed.seed_id > 0 && seed.seed_id <= 48, 'Invalid seed ID');
+                seed_id_count += 1;
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+        player_idx += 1;
+    };
+
+    // Assert that the total number of seeds is 48
+    assert(seed_count == 48, 'Total seeds should be 48');
+
+    // Check if all seed IDs from 1 to 48 are present
+    assert(seed_id_count == 48, 'Some seed IDs are missing');
+
+}
 }
 
 mod test_play {
@@ -325,44 +384,44 @@ mod test_play {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
-
+    
         systems.actions.new_game();
-
+    
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
-
+    
         // Change caller to player 2
         let ANYONE = starknet::contract_address_const::<'ANYONE'>();
         set_contract_address(ANYONE);
         systems.actions.join_game(game_id);
-
+    
         // Player 1 turn
         set_contract_address(setup::OWNER());
         systems.actions.move(game_id, 5);
-
+    
         // Player 2 turn
         set_contract_address(ANYONE);
         systems.actions.move(game_id, 4);
-
+    
         // Player 1 turn
         set_contract_address(setup::OWNER());
-
+    
         // Move all player 2 seeds to store to finish the game
         let player_2 = store.get_player(game_id, ANYONE);
         move_player_seeds_to_store(world, @player_2);
-
+    
         systems.actions.move(game_id, 3);
-
+    
         let mancala_board = store.get_mancala_board(game_id);
         assert(mancala_board.status == GameStatus::Finished, 'Game status is wrong');
-
+    
         // Player 2 should win because has all its seeds in the store
         assert(mancala_board.winner == ANYONE, 'Game winner is wrong');
-
+    
         let (p1_score, p2_score) = systems.actions.get_score(game_id);
         assert(p1_score == 23, 'Player 1 score is wrong');
         assert(p2_score == 25, 'Player 2 score is wrong');
-
+    
         // Check that there is the correct amount of seeds in the store
         let mut p1_index = 1;
         loop {
@@ -370,78 +429,20 @@ mod test_play {
                 break;
             }
             let p1_seed = store.get_seed(game_id, setup::OWNER(), 7, p1_index);
-            assert(p1_seed.color != SeedColor::None, 'P1 seed not exist');
+            assert(p1_seed.seed_id != 0, 'P1 seed not exist');
             p1_index += 1;
         };
-
+    
         let mut p2_index = 1;
         loop {
             if p2_index > p2_score {
                 break;
             }
             let p2_seed = store.get_seed(game_id, ANYONE, 7, p2_index);
-            assert(p2_seed.color != SeedColor::None, 'P2 seed not exist');
+            assert(p2_seed.seed_id != 0, 'P2 seed not exist');
             p2_index += 1;
         };
     }
-
-    #[test]
-#[available_gas(300000000000)]
-fn test_seed_count_and_numbering() {
-    let (world, systems) = setup::spawn_game();
-    let mut store: Store = StoreTrait::new(world);
-    systems.actions.initialize_game_counter();
-
-    systems.actions.new_game();
-
-    let game_counter = store.get_game_counter(1);
-    let game_id = game_counter.count - 1;
-
-    // Change caller to player 2
-    let ANYONE = starknet::contract_address_const::<'ANYONE'>();
-    set_contract_address(ANYONE);
-    systems.actions.join_game(game_id);
-
-    // Initialize variables to keep track of seed numbers
-    let mut seed_count: u32 = 0;
-    let mut seed_id_count: u32 = 0;
-
-    // Check seeds for both players
-    let players = array![setup::OWNER(), ANYONE];
-    let mut player_idx = 0;
-    loop {
-        if player_idx >= players.len() {
-            break;
-        }
-        let player = *players.at(player_idx);
-        let mut pit_idx: u8 = 1;
-        loop {
-            if pit_idx > 6 {
-                break;
-            }
-            let pit = store.get_pit(game_id, player, pit_idx);
-            seed_count += pit.seed_count.into();
-            let mut seed_idx: u8 = 1;
-            loop {
-                if seed_idx > pit.seed_count {
-                    break;
-                }
-                let seed = store.get_seed(game_id, player, pit_idx, seed_idx);
-                assert(seed.seed_id > 0 && seed.seed_id <= 48, 'Invalid seed ID');
-                seed_id_count += 1;
-                seed_idx += 1;
-            };
-            pit_idx += 1;
-        };
-        player_idx += 1;
-    };
-
-    // Assert that the total number of seeds is 48
-    assert(seed_count == 48, 'Total seeds should be 48');
-
-    // Check if all seed IDs from 1 to 48 are present
-    assert(seed_id_count == 48, 'Some seed IDs are missing');
-}
 }
 
 mod test_validations {
