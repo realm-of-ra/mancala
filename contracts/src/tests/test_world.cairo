@@ -172,7 +172,8 @@ fn test_seed_count_and_numbering() {
 
     // Initialize variables to keep track of seed numbers
     let mut seed_count: u32 = 0;
-    let mut seed_id_count: u32 = 0;
+    let mut player1_seed_ids: Array<u8> = ArrayTrait::new();
+    let mut player2_seed_ids: Array<u8> = ArrayTrait::new();
 
     // Check seeds for both players
     let players = array![setup::OWNER(), ANYONE];
@@ -195,8 +196,11 @@ fn test_seed_count_and_numbering() {
                     break;
                 }
                 let seed = store.get_seed(game_id, player, pit_idx, seed_idx);
-                assert(seed.seed_id > 0 && seed.seed_id <= 48, 'Invalid seed ID');
-                seed_id_count += 1;
+                if player_idx == 0 {
+                    player1_seed_ids.append(seed.seed_id);
+                } else {
+                    player2_seed_ids.append(seed.seed_id);
+                }
                 seed_idx += 1;
             };
             pit_idx += 1;
@@ -207,9 +211,31 @@ fn test_seed_count_and_numbering() {
     // Assert that the total number of seeds is 48
     assert(seed_count == 48, 'Total seeds should be 48');
 
-    // Check if all seed IDs from 1 to 48 are present
-    assert(seed_id_count == 48, 'Some seed IDs are missing');
+    // Check if player 1 seed IDs are 1 to 24
+    let mut expected_id = 1;
+    let mut idx = 0;
+    loop {
+        if idx >= player1_seed_ids.len() {
+            break;
+        }
+        assert(*player1_seed_ids.at(idx) == expected_id, 'Invalid player 1 seed ID');
+        expected_id += 1;
+        idx += 1;
+    };
+    assert(expected_id == 25, 'Player 1 should have 24 seeds');
 
+    // Check if player 2 seed IDs are 25 to 48
+    expected_id = 25;
+    idx = 0;
+    loop {
+        if idx >= player2_seed_ids.len() {
+            break;
+        }
+        assert(*player2_seed_ids.at(idx) == expected_id, 'Invalid player 2 seed ID');
+        expected_id += 1;
+        idx += 1;
+    };
+    assert(expected_id == 49, 'Player 2 should have 24 seeds');
 }
 }
 

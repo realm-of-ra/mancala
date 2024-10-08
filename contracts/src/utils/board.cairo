@@ -185,7 +185,8 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
     let mut store: Store = StoreTrait::new(world);
 
     let mut idx = 1;
-    let mut seed_id = 1;
+    let mancala_game = store.get_mancala_board(*player.game_id);
+    let mut seed_id = if *player.address == mancala_game.player_one { 1 } else { 25 };
     loop {
         if idx > *player.len_pits {
             break;
