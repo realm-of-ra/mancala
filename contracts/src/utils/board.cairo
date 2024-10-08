@@ -186,7 +186,9 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
 
     let mut idx = 1;
     let mancala_game = store.get_mancala_board(*player.game_id);
-    let mut seed_id = if *player.address == mancala_game.player_one { 1 } else { 25 };
+    let is_first_player = *player.address == mancala_game.player_one;
+    let base_seed_id = if is_first_player { 0 } else { 24 };
+    
     loop {
         if idx > *player.len_pits {
             break;
@@ -198,6 +200,7 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
             if seeds_set > 4 {
                 break;
             }
+            let seed_id = base_seed_id + (idx - 1) * 4 + seeds_set;
             let mut seed = Seed {
                 game_id: *player.game_id,
                 player: *player.address,
@@ -210,7 +213,6 @@ fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: See
             store.set_seed(seed);
             pit.seed_count += 1;
             seeds_set += 1;
-            seed_id += 1;
         };
         store.set_pit(pit);
         idx += 1;
