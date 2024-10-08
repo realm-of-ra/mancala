@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354"
-class_hash = "0x1db238879c7168fa3cb75e54b73f070cc0dba2d816bdf0e2260b9c0ae4a33e0"
-original_class_hash = "0x1db238879c7168fa3cb75e54b73f070cc0dba2d816bdf0e2260b9c0ae4a33e0"
+class_hash = "0x31e5468f56679ed52becf143d2fdc6873d6a652afb24fee160be7df31a93d48"
+original_class_hash = "0x31e5468f56679ed52becf143d2fdc6873d6a652afb24fee160be7df31a93d48"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/mancala-actions-5608e015.json"
 reads = []
