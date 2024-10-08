@@ -547,10 +547,10 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
   );
 
 export const SLOT_RPC_URL =
-  "https://api.cartridge.gg/x/mancala-alpha-v13/katana";
+  "https://api.cartridge.gg/x/mancala-alpha-v14/katana";
 
 const ACTION_ADDRESS =
-  "0x118a60389f608c67c639f83683a265a22102f2d226c41aa04af65135ff8103e";
+  "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354";
 
 export const POLICIES = [
   {
@@ -652,7 +652,7 @@ export const MancalaPlayQuery = gql`
           game_id
           player
           seed_count
-          pit_number
+          current_pit
         }
       }
     }
@@ -665,7 +665,7 @@ export const MancalaSeedQuery = gql`
       edges {
         node {
           game_id
-          pit_number
+          current_pit
           player
           seed_number
           color
