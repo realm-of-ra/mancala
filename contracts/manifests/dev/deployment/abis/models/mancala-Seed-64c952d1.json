@@ -397,7 +397,7 @@
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "pit_number",
+        "name": "current_pit",
         "type": "core::integer::u8"
       },
       {
@@ -407,6 +407,14 @@
       {
         "name": "color",
         "type": "mancala::models::index::SeedColor"
+      },
+      {
+        "name": "seed_id",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "previous_pit",
+        "type": "core::integer::u8"
       }
     ]
   },

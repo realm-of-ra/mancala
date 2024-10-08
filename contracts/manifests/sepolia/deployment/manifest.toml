@@ -135,7 +135,7 @@ type = "ContractAddress"
 key = true
 
 [[models.members]]
-name = "pit_number"
+name = "current_pit"
 type = "u8"
 key = true
 
@@ -193,7 +193,7 @@ type = "ContractAddress"
 key = true
 
 [[models.members]]
-name = "pit_number"
+name = "current_pit"
 type = "u8"
 key = true
 
