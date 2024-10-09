@@ -65,8 +65,10 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_seed(self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8) -> Seed {
-        get!(self.world, (game_id, player, pit_number, seed_number), (Seed))
+    fn get_seed(
+        self: Store, game_id: u128, player: ContractAddress, current_pit: u8, seed_number: u8
+    ) -> Seed {
+        get!(self.world, (game_id, player, current_pit, seed_number), (Seed))
     }
 
     #[inline]
@@ -75,9 +77,9 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_pit(self: Store, game_id: u128, player_address: ContractAddress, pit_number: u8) -> Pit {
-        get!(self.world, (game_id, player_address, pit_number), (Pit))
+    fn get_pit(
+        self: Store, game_id: u128, player_address: ContractAddress, current_pit: u8
+    ) -> Pit {
+        get!(self.world, (game_id, player_address, current_pit), (Pit))
     }
-
-
 }
