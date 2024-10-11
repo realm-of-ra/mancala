@@ -669,6 +669,9 @@ export const MancalaSeedQuery = gql`
           player
           seed_number
           color
+          seed_id
+          previous_pit
+          current_pit
         }
       }
     }
