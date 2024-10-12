@@ -1235,12 +1235,12 @@
       }
     ],
     "address": "0x416fdfcb98f9791ca4ce50fc287863d3ddef1f9ca7ffc20b84efa4fc60149",
-    "transaction_hash": "0x6b5376f31d2ce1ce46fb1bdb68d0582032dba5a17905df37fe40223e7583f18",
+    "transaction_hash": "0x6cf7acfa50fbd65de26cd4742652c0b184c5ac5c4202d2f1001f9d323cfcde0",
     "block_number": 3,
     "seed": "mancala",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v14/katana"
+      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v15/katana"
     },
     "manifest_name": "dojo-world"
   },
@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354",
-      "class_hash": "0x6c10505b85b8d7b7fb29dbb0428d1eb48065fbdf39fdc6058278972e3c80bde",
-      "original_class_hash": "0x6c10505b85b8d7b7fb29dbb0428d1eb48065fbdf39fdc6058278972e3c80bde",
+      "class_hash": "0x1cbe19f255cfab2c3b9fd11a8c87be8aa2240f2f32d528a65332565678cd644",
+      "original_class_hash": "0x1cbe19f255cfab2c3b9fd11a8c87be8aa2240f2f32d528a65332565678cd644",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
