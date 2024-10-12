@@ -108,3 +108,47 @@ export function getPlayer(data: any[] | undefined, address: string) {
 
   return playerStats;
 }
+
+// ... existing code ...
+
+export function renameSeedIds(data: any, playerOneAddress: string, playerTwoAddress: string) {
+  const playerOnePits = [1, 2, 3, 4, 5, 6];
+  const playerTwoPits = [1, 2, 3, 4, 5, 6];
+
+  const renameSeeds = (node: any) => {
+    const isPlayerOne = node.player === playerOneAddress;
+    const correctColor = isPlayerOne ? "Green" : "Blue";
+    const isInCorrectPit = isPlayerOne ? playerOnePits.includes(node.current_pit) : playerTwoPits.includes(node.current_pit);
+
+    let newSeedId = node.seed_id;
+
+    if (isPlayerOne) {
+      if (node.color !== correctColor || !isInCorrectPit) {
+        newSeedId = ((node.seed_id - 1) % 24) + 1;
+      }
+    } else {
+      if (node.color !== correctColor || !isInCorrectPit) {
+        newSeedId = ((node.seed_id - 25) % 24) + 25;
+      }
+    }
+
+    return {
+      ...node,
+      seed_id: newSeedId
+    };
+  };
+
+  const renamedEdges = data?.mancalaSeedModels.edges.map((edge: any) => ({
+    node: renameSeeds(edge.node)
+  }));
+
+  const sortedEdges = renamedEdges.sort((a: any, b: any) => a.node.seed_id - b.node.seed_id);
+
+  return {
+    data: {
+      mancalaSeedModels: {
+        edges: sortedEdges
+      }
+    }
+  };
+}

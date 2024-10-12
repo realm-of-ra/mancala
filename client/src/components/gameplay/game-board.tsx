@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client";
 import { MancalaSeedQuery } from "@/lib/constants";
 import Seed from "../seed";
 import AnimatedSeed from "../animated-seed";
+import { renameSeedIds } from "@/lib/utils";
 
 interface GameBoardProps {
   game_players: any; // Replace 'any' with the correct type from your GraphQL query
@@ -74,6 +75,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
       .filter((item: any) => item?.node.current_pit === 7)[0]?.node
       ?.seed_count || 0;
+      const player_one = game_players?.mancalaPlayerModels.edges[0]?.node.address;
+      const player_two = game_players?.mancalaPlayerModels.edges[1]?.node.address;
+      
+      console.log("hehehe: ", renameSeedIds(data, player_one, player_two))
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
