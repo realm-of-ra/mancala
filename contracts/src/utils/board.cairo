@@ -184,38 +184,40 @@ fn capture_remaining_seeds(world: IWorldDispatcher, ref player: Player) {
 fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: SeedColor) {
     let mut store: Store = StoreTrait::new(world);
 
-    let mut idx = 1;
     let mancala_game = store.get_mancala_board(*player.game_id);
     let is_first_player = *player.address == mancala_game.player_one;
     let base_seed_id = if is_first_player { 0 } else { 24 };
     
+    let mut current_seed_id = base_seed_id + 1; // Start from 1 or 25
+
+    let mut pit_idx = 1;
     loop {
-        if idx > *player.len_pits {
+        if pit_idx > *player.len_pits {
             break;
         }
-        let mut pit = store.get_pit(*player.game_id, *player.address, idx);
+        let mut pit = store.get_pit(*player.game_id, *player.address, pit_idx);
         pit.seed_count = 0;
         let mut seeds_set = 1;
         loop {
             if seeds_set > 4 {
                 break;
             }
-            let seed_id = base_seed_id + (idx - 1) * 4 + seeds_set;
             let mut seed = Seed {
                 game_id: *player.game_id,
                 player: *player.address,
-                current_pit: idx,
+                current_pit: pit_idx,
                 seed_number: seeds_set,
                 color: seed_color,
-                seed_id: seed_id,
+                seed_id: current_seed_id,
                 previous_pit: 0,
             };
             store.set_seed(seed);
             pit.seed_count += 1;
             seeds_set += 1;
+            current_seed_id += 1;
         };
         store.set_pit(pit);
-        idx += 1;
+        pit_idx += 1;
     };
 
     let mut store_pit = store.get_pit(*player.game_id, *player.address, 7);
