@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useQuery } from "@apollo/client";
 import { MancalaSeedQuery } from "@/lib/constants";
 import Seed from "../seed";
-import AnimatedSeed from "../animated-seed";
 import { renameSeedIds } from "@/lib/utils";
 
 interface GameBoardProps {
@@ -114,11 +113,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       width: opposition_length > 30 ? "8px" : "auto",
                     }}
                   >
-                  <AnimatedSeed
+                  <Seed
                     color={seed.node.color}
-                    previousPit={seed.node.previous_pit}
-                    currentPit={seed.node.current_pit}
-                    playerPosition={opponent_position}
                   />
                   </div>
                 ))}
@@ -340,11 +336,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       zIndex: index,
                     }}
                   >
-                  <AnimatedSeed
+                  <Seed
                     color={seed.node.color}
-                    previousPit={seed.node.previous_pit}
-                    currentPit={seed.node.current_pit}
-                    playerPosition={player_position}
                   />
                   </div>
                 ))}
