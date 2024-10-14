@@ -2721,7 +2721,7 @@
           "key": true
         },
         {
-          "name": "pit_number",
+          "name": "current_pit",
           "type": "u8",
           "key": true
         },
@@ -3114,7 +3114,7 @@
               "type": "core::starknet::contract_address::ContractAddress"
             },
             {
-              "name": "pit_number",
+              "name": "current_pit",
               "type": "core::integer::u8"
             },
             {
@@ -3625,7 +3625,7 @@
           "key": true
         },
         {
-          "name": "pit_number",
+          "name": "current_pit",
           "type": "u8",
           "key": true
         },
@@ -4041,7 +4041,7 @@
               "type": "core::starknet::contract_address::ContractAddress"
             },
             {
-              "name": "pit_number",
+              "name": "current_pit",
               "type": "core::integer::u8"
             },
             {

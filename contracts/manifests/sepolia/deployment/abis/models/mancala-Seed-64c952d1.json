@@ -397,7 +397,7 @@
         "type": "core::starknet::contract_address::ContractAddress"
       },
       {
-        "name": "pit_number",
+        "name": "current_pit",
         "type": "core::integer::u8"
       },
       {

@@ -87,6 +87,7 @@ export function TopPit({
                   <Seed
                     key={seedIndex}
                     color={seeds != undefined ? seed.node.color : []}
+                    seed={seed.node.seed_id}
                   />
                 ))}
             </div>
@@ -179,6 +180,7 @@ export function BottomPit({
                   <Seed
                     key={seedIndex}
                     color={seeds != undefined ? seed.node.color : []}
+                    seed={seed.node.seed_id}
                   />
                 ))}
             </div>
