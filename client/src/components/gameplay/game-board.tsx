@@ -210,13 +210,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
                           opponent_position
                         ]?.node.address,
                     )
-                    .filter(
-                      (item: any) =>
-                        item?.node.current_pit ===
-                        game_players?.mancalaPlayerModels.edges[0]?.node
-                          .len_pits -
-                          i,
-                    )}
+                    // .filter(
+                    //   (item: any) =>
+                    //     item?.node.current_pit ===
+                    //     game_players?.mancalaPlayerModels.edges[0]?.node
+                    //       .len_pits -
+                    //       i,
+                    // )
+                    }
                   setTimeRemaining={setTimeRemaining}
                   max_block_between_move={parseInt(
                     game_node?.max_block_between_move,
@@ -284,7 +285,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                         game_players?.mancalaPlayerModels.edges[player_position]
                           ?.node.address,
                     )
-                    .filter((item: any) => item?.node.current_pit === i + 1)}
+                    // .filter((item: any) => item?.node.current_pit === i + 1)
+                  }
                   setTimeRemaining={setTimeRemaining}
                   max_block_between_move={parseInt(
                     game_node?.max_block_between_move,
