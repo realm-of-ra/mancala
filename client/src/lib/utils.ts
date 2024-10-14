@@ -142,7 +142,7 @@ export function renameSeedIds(data: any, playerOneAddress: string, playerTwoAddr
     node: renameSeeds(edge.node)
   }));
 
-  const sortedEdges = renamedEdges.sort((a: any, b: any) => a.node.seed_id - b.node.seed_id);
+  const sortedEdges = renamedEdges?.sort((a: any, b: any) => a.node.seed_id - b.node.seed_id);
 
   return {
     data: {

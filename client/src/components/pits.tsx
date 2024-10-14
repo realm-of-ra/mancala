@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
 import Seed from "./seed";
 import { UseAccountResult } from "@starknet-react/core";
-import AnimatedSeed from "./animated-seed";
 
 export function TopPit({
   amount,
@@ -18,7 +17,6 @@ export function TopPit({
   seed_count,
   seeds,
   message,
-  playerPosition,
 }: {
   amount: number;
   address: string;
@@ -33,7 +31,6 @@ export function TopPit({
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   max_block_between_move: number;
-  playerPosition: number;
 }) {
   const handleMove = async () => {
     if (
@@ -87,12 +84,9 @@ export function TopPit({
               {seeds
                 ?.slice(0, seed_count)
                 .map((seed, seedIndex) => (
-                  <AnimatedSeed
+                  <Seed
                     key={seedIndex}
-                    color={seed.node.color}
-                    previousPit={seed.node.previous_pit}
-                    currentPit={seed.node.current_pit}
-                    playerPosition={playerPosition}
+                    color={seeds != undefined ? seed.node.color : []}
                   />
                 ))}
             </div>
@@ -117,7 +111,6 @@ export function BottomPit({
   seed_count,
   seeds,
   message,
-  playerPosition,
 }: {
   amount: number;
   address: string;
@@ -132,7 +125,6 @@ export function BottomPit({
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   max_block_between_move: number;
-  playerPosition: number;
 }) {
   const handleMove = async () => {
     message(undefined);
@@ -184,12 +176,9 @@ export function BottomPit({
               {seeds
                 ?.slice(0, seed_count)
                 .map((seed, seedIndex) => (
-                  <AnimatedSeed
+                  <Seed
                     key={seedIndex}
-                    color={seed.node.color}
-                    previousPit={seed.node.previous_pit}
-                    currentPit={seed.node.current_pit}
-                    playerPosition={playerPosition}
+                    color={seeds != undefined ? seed.node.color : []}
                   />
                 ))}
             </div>
