@@ -115,6 +115,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   >
                   <Seed
                     color={seed.node.color}
+                    seed={seed.node.seed_id}
                   />
                   </div>
                 ))}
@@ -338,6 +339,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   >
                   <Seed
                     color={seed.node.color}
+                    seed={seed.node.seed_id}
                   />
                   </div>
                 ))}
