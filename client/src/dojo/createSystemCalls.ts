@@ -76,7 +76,7 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.join_game(
         account,
-        game_id
+        game_id,
       );
 
       const receipt = await account.waitForTransaction(transaction_hash, {
@@ -124,12 +124,17 @@ export function createSystemCalls(
     }
   };
 
-  const restart_game = async (account: AccountInterface, game_id: string, setRestarted: any, approver: boolean) => {
+  const restart_game = async (
+    account: AccountInterface,
+    game_id: string,
+    setRestarted: any,
+    approver: boolean,
+  ) => {
     try {
       const { transaction_hash } = await client.actions.restart_game(
         account,
         game_id,
-        approver
+        approver,
       );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
@@ -145,7 +150,7 @@ export function createSystemCalls(
     try {
       const { transaction_hash } = await client.actions.end_game(
         account,
-        game_id
+        game_id,
       );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
@@ -154,24 +159,29 @@ export function createSystemCalls(
       console.error("Error executing end_game:", error);
       throw error;
     }
-  }
+  };
 
-  const timeout = async (account: AccountInterface, game_id: string, opposition_address: string, setHasTimeout: any) => {
+  const timeout = async (
+    account: AccountInterface,
+    game_id: string,
+    opposition_address: string,
+    setHasTimeout: any,
+  ) => {
     try {
       const { transaction_hash } = await client.actions.timeout(
         account,
         game_id,
-        opposition_address
-      )
+        opposition_address,
+      );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
-      })
+      });
       setHasTimeout(true);
     } catch (error) {
-      console.error('Error executing timeout:', error)
-      throw error
+      console.error("Error executing timeout:", error);
+      throw error;
     }
-  }
+  };
 
   return {
     create_initial_game_id,
