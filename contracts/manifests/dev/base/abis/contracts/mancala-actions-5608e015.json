@@ -28,7 +28,7 @@
     "items": [
       {
         "type": "function",
-        "name": "contract_name",
+        "name": "name",
         "inputs": [],
         "outputs": [
           {
@@ -248,7 +248,7 @@
       },
       {
         "type": "function",
-        "name": "new_game",
+        "name": "create_game",
         "inputs": [],
         "outputs": [
           {

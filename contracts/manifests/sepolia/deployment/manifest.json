@@ -1509,7 +1509,7 @@
             },
             {
               "type": "function",
-              "name": "new_game",
+              "name": "create_game",
               "inputs": [],
               "outputs": [
                 {

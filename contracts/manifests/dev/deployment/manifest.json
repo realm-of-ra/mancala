@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
-    "original_class_hash": "0x5c4271c8cd454ceb8049d2b0724c99d12c2ef8077fc6ad325b18978f614aab0",
+    "class_hash": "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce",
+    "original_class_hash": "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce",
     "abi": [
       {
         "type": "impl",
@@ -1234,13 +1234,13 @@
         ]
       }
     ],
-    "address": "0x3be278cb163a0e994541be78f1fb95b14e70eab504ae00d9879133a34268518",
-    "transaction_hash": "0x6515d4cee5d0f8e9f2b8ec4797f285cf57d0a63d1679a96560bc1b129f6ef4e",
+    "address": "0x416fdfcb98f9791ca4ce50fc287863d3ddef1f9ca7ffc20b84efa4fc60149",
+    "transaction_hash": "0x7156899be00c38b84a4e9f6c681eb501d4467778a153ba34e046cda7e6a080d",
     "block_number": 3,
     "seed": "mancala",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v13/katana"
+      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v16/katana"
     },
     "manifest_name": "dojo-world"
   },
@@ -1255,9 +1255,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x118a60389f608c67c639f83683a265a22102f2d226c41aa04af65135ff8103e",
-      "class_hash": "0x7a4f6d2e65d7872bb72332651d2428b0d001343ac76c572c6e609022d370659",
-      "original_class_hash": "0x7a4f6d2e65d7872bb72332651d2428b0d001343ac76c572c6e609022d370659",
+      "address": "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354",
+      "class_hash": "0x1c7bc19fd309d5055cf27aabead15511001bb79181845febe5ba0bf3bde3387",
+      "original_class_hash": "0x1c7bc19fd309d5055cf27aabead15511001bb79181845febe5ba0bf3bde3387",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1289,7 +1289,7 @@
           "items": [
             {
               "type": "function",
-              "name": "contract_name",
+              "name": "name",
               "inputs": [],
               "outputs": [
                 {
@@ -1509,7 +1509,7 @@
             },
             {
               "type": "function",
-              "name": "new_game",
+              "name": "create_game",
               "inputs": [],
               "outputs": [
                 {

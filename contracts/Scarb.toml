@@ -1,13 +1,13 @@
 [package]
 cairo-version = "=2.7.0"
 name = "mancala"
-version = "0.1.13"
+version = "0.1.16"
 
 [cairo]
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.13" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.16" }
 
 [[target.dojo]]
 

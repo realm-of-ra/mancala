@@ -61,11 +61,11 @@ export default function Lobby() {
     }
   };
   const isConnected = account.account != null;
-  const new_game = async () => {
+  const create_game = async () => {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      await system.new_game(account.account, setGameId);
+      await system.create_game(account.account, setGameId);
     } else {
       console.log("Account not found");
     }
@@ -312,7 +312,7 @@ export default function Lobby() {
                             onClick={() =>
                               type == "private"
                                 ? create_private_game()
-                                : new_game()
+                                : create_game()
                             }
                           >
                             <div className="flex flex-row items-center space-x-1">

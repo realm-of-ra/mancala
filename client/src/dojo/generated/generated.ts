@@ -26,19 +26,19 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const new_game = async (account: AccountInterface) => {
+    const create_game = async (account: AccountInterface) => {
       try {
         return await provider.execute(
           account,
           {
             contractName: "actions",
-            entrypoint: "new_game",
+            entrypoint: "create_game",
             calldata: [],
           },
           NAMESPACE,
         );
       } catch (error) {
-        console.error("Error executing new_game:", error);
+        console.error("Error executing create_game:", error);
         throw error;
       }
     };
@@ -175,7 +175,7 @@ export async function setupWorld(provider: DojoProvider) {
 
     return {
       create_initial_game_id,
-      new_game,
+      create_game,
       create_private_game,
       join_game,
       move,

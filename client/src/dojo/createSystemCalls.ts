@@ -27,9 +27,9 @@ export function createSystemCalls(
     }
   };
 
-  const new_game = async (account: AccountInterface, setGameId: any) => {
+  const create_game = async (account: AccountInterface, setGameId: any) => {
     try {
-      const { transaction_hash } = await client.actions.new_game(account);
+      const { transaction_hash } = await client.actions.create_game(account);
       const transaction = await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
@@ -185,7 +185,7 @@ export function createSystemCalls(
 
   return {
     create_initial_game_id,
-    new_game,
+    create_game,
     create_private_game,
     join_game,
     move,

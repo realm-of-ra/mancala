@@ -6,7 +6,7 @@ use mancala::models::index::{Player, MancalaBoard};
 #[starknet::interface]
 trait IActions<TContractState> {
     fn initialize_game_counter(self: @TContractState);
-    fn new_game(self: @TContractState) -> MancalaBoard;
+    fn create_game(self: @TContractState) -> MancalaBoard;
     fn join_game(self: @TContractState, game_id: u128);
     fn timeout(self: @TContractState, game_id: u128, opponent_address: ContractAddress);
     fn create_private_game(self: @TContractState, opponent_address: ContractAddress);
@@ -46,8 +46,8 @@ mod actions {
             self.playable.initialize_game_counter(self.world())
         }
 
-        fn new_game(self: @ContractState) -> MancalaBoard {
-            self.playable.new_game(self.world())
+        fn create_game(self: @ContractState) -> MancalaBoard {
+            self.playable.create_game(self.world())
         }
 
         fn join_game(self: @ContractState, game_id: u128) {

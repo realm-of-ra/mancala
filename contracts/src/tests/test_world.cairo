@@ -12,12 +12,12 @@ mod test_init_game {
 
     #[test]
     #[available_gas(300000000000)]
-    fn test_new_game() {
+    fn test_create_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
 
@@ -38,7 +38,7 @@ mod test_init_game {
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -193,7 +193,7 @@ mod test_play {
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -253,7 +253,7 @@ mod test_play {
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -299,7 +299,7 @@ mod test_play {
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
 
@@ -326,7 +326,7 @@ mod test_play {
         let mut store: Store = StoreTrait::new(world);
         systems.actions.initialize_game_counter();
 
-        systems.actions.new_game();
+        systems.actions.create_game();
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
