@@ -61,11 +61,11 @@ export default function Lobby() {
     }
   };
   const isConnected = account.account != null;
-  const create_game = async () => {
+  const new_game = async () => {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      await system.create_game(account.account, setGameId);
+      await system.new_game(account.account, setGameId);
     } else {
       console.log("Account not found");
     }
@@ -101,26 +101,23 @@ export default function Lobby() {
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_two === account.address,
   );
-  
+
   const filteredTransactions =
-    data?.mancalaMancalaBoardModels?.edges?.reduce(
-      (acc: any[], game: any) => {
-        if (
-          (game?.node?.player_one === account.address ||
-            game?.node?.player_two === account.address) &&
-          game?.node?.entity.executedAt
-        ) {
-          acc.push({
-            ...game.node,
-            executedAt: game?.node?.entity.executedAt,
-          });
-        }
-        return acc;
-      },
-      []
-    ) || [];
+    data?.mancalaMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
+      if (
+        (game?.node?.player_one === account.address ||
+          game?.node?.player_two === account.address) &&
+        game?.node?.entity.executedAt
+      ) {
+        acc.push({
+          ...game.node,
+          executedAt: game?.node?.entity.executedAt,
+        });
+      }
+      return acc;
+    }, []) || [];
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -315,7 +312,7 @@ export default function Lobby() {
                             onClick={() =>
                               type == "private"
                                 ? create_private_game()
-                                : create_game()
+                                : new_game()
                             }
                           >
                             <div className="flex flex-row items-center space-x-1">
@@ -344,9 +341,7 @@ export default function Lobby() {
             {isConnected ? (
               <>
                 <TabsContent value="players">
-                  <Players
-                    data={data?.mancalaMancalaBoardModels?.edges}
-                  />
+                  <Players data={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
@@ -356,9 +351,7 @@ export default function Lobby() {
                   />
                 </TabsContent>
                 <TabsContent value="live">
-                  <LiveDuels
-                    games={data?.mancalaMancalaBoardModels?.edges}
-                  />
+                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
               </>
             ) : (
