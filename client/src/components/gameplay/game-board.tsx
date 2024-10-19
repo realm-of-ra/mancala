@@ -41,7 +41,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         item?.node.player ===
         game_players?.mancalaPlayerModels.edges[player_position]?.node.address,
     )
-    .filter((item: any) => item?.node.pit_number === 7).length;
+    .filter((item: any) => item?.node.current_pit === 7).length;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_length = data?.mancalaSeedModels.edges
     .filter(
@@ -50,7 +50,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         game_players?.mancalaPlayerModels.edges[opponent_position]?.node
           .address,
     )
-    .filter((item: any) => item?.node.pit_number === 7).length;
+    .filter((item: any) => item?.node.current_pit === 7).length;
   const player_pot_seed_count =
     game_players?.mancalaPitModels.edges
       .filter(
@@ -59,7 +59,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           game_players?.mancalaPlayerModels.edges[player_position]?.node
             .address,
       )
-      .filter((item: any) => item?.node.pit_number === 7)[0]?.node
+      .filter((item: any) => item?.node.current_pit === 7)[0]?.node
       ?.seed_count || 0;
   const opponent_pot_seed_count =
     game_players?.mancalaPitModels.edges
@@ -69,7 +69,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           game_players?.mancalaPlayerModels.edges[opponent_position]?.node
             .address,
       )
-      .filter((item: any) => item?.node.pit_number === 7)[0]?.node
+      .filter((item: any) => item?.node.current_pit === 7)[0]?.node
       ?.seed_count || 0;
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
@@ -97,7 +97,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     game_players?.mancalaPlayerModels.edges[opponent_position]
                       ?.node.address,
                 )
-                .filter((item: any) => item?.node.pit_number === 7)
+                .filter((item: any) => item?.node.current_pit === 7)
                 .slice(0, opponent_pot_seed_count)
                 .map((seed: any, index: number) => (
                   <div
@@ -121,7 +121,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       game_players?.mancalaPlayerModels.edges[opponent_position]
                         ?.node.address,
                   )
-                  .filter((item: any) => item?.node.pit_number === 7).length
+                  .filter((item: any) => item?.node.current_pit === 7).length
               }
             </p>
           </div>
@@ -152,7 +152,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       )
                       .filter(
                         (item: any) =>
-                          item?.node.pit_number ===
+                          item?.node.current_pit ===
                           game_players?.mancalaPlayerModels.edges[0]?.node
                             .len_pits -
                             i,
@@ -183,7 +183,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       )
                       .filter(
                         (item: any) =>
-                          item?.node.pit_number ===
+                          item?.node.current_pit ===
                           game_players?.mancalaPlayerModels.edges[0]?.node
                             .len_pits -
                             i,
@@ -199,7 +199,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     )
                     .filter(
                       (item: any) =>
-                        item?.node.pit_number ===
+                        item?.node.current_pit ===
                         game_players?.mancalaPlayerModels.edges[0]?.node
                           .len_pits -
                           i,
@@ -236,7 +236,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                             player_position
                           ]?.node.address,
                       )
-                      .filter((item: any) => item?.node.pit_number === i + 1)[0]
+                      .filter((item: any) => item?.node.current_pit === i + 1)[0]
                       ?.node?.seed_count
                   }
                   address={
@@ -259,7 +259,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                             player_position
                           ]?.node.address,
                       )
-                      .filter((item: any) => item?.node.pit_number === i + 1)[0]
+                      .filter((item: any) => item?.node.current_pit === i + 1)[0]
                       ?.node?.seed_count
                   }
                   seeds={data?.mancalaSeedModels.edges
@@ -269,7 +269,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                         game_players?.mancalaPlayerModels.edges[player_position]
                           ?.node.address,
                     )
-                    .filter((item: any) => item?.node.pit_number === i + 1)}
+                    .filter((item: any) => item?.node.current_pit === i + 1)}
                   setTimeRemaining={setTimeRemaining}
                   max_block_between_move={parseInt(
                     game_node?.max_block_between_move,
@@ -306,7 +306,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     game_players?.mancalaPlayerModels.edges[player_position]
                       ?.node.address,
                 )
-                .filter((item: any) => item?.node.pit_number === 7)
+                .filter((item: any) => item?.node.current_pit === 7)
                 .slice(0, player_pot_seed_count)
                 .map((seed: any, index: number) => (
                   <div

@@ -559,7 +559,7 @@ export const POLICIES = [
   },
   {
     target: ACTION_ADDRESS,
-    method: "create_game",
+    method: "new_game",
   },
   {
     target: ACTION_ADDRESS,
@@ -652,7 +652,7 @@ export const MancalaPlayQuery = gql`
           game_id
           player
           seed_count
-          pit_number
+          current_pit
         }
       }
     }
@@ -665,9 +665,11 @@ export const MancalaSeedQuery = gql`
       edges {
         node {
           game_id
-          pit_number
-          player
+          seed_id
           seed_number
+          current_pit
+          previous_pit
+          player
           color
         }
       }
