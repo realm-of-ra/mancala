@@ -248,7 +248,7 @@
       },
       {
         "type": "function",
-        "name": "create_game",
+        "name": "new_game",
         "inputs": [],
         "outputs": [
           {

@@ -1,6 +1,6 @@
 kind = "DojoModel"
-class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
-original_class_hash = "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317"
+class_hash = "0x466da8580f02547d1260c65a8b93080da94b25091055834203f66b638264412"
+original_class_hash = "0x466da8580f02547d1260c65a8b93080da94b25091055834203f66b638264412"
 abi = "manifests/dev/base/abis/models/mancala-Pit-22175c12.json"
 tag = "mancala-Pit"
 qualified_path = "mancala::models::index::pit"
@@ -17,7 +17,7 @@ type = "ContractAddress"
 key = true
 
 [[members]]
-name = "pit_number"
+name = "current_pit"
 type = "u8"
 key = true
 

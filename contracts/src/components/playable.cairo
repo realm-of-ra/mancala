@@ -67,7 +67,7 @@ mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn create_game(
+        fn new_game(
             self: @ComponentState<TContractState>, world: IWorldDispatcher
         ) -> MancalaBoard {
             // [Setup] Datastore
