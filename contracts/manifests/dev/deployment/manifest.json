@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354",
-      "class_hash": "0x1c7bc19fd309d5055cf27aabead15511001bb79181845febe5ba0bf3bde3387",
-      "original_class_hash": "0x1c7bc19fd309d5055cf27aabead15511001bb79181845febe5ba0bf3bde3387",
+      "class_hash": "0x3d7d97d375882e19ac0b808ef3d7398df8c99f358a947b36ddf577d9e682c5e",
+      "original_class_hash": "0x3d7d97d375882e19ac0b808ef3d7398df8c99f358a947b36ddf577d9e682c5e",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1509,7 +1509,7 @@
             },
             {
               "type": "function",
-              "name": "create_game",
+              "name": "new_game",
               "inputs": [],
               "outputs": [
                 {
@@ -2740,7 +2740,7 @@
           "key": true
         },
         {
-          "name": "pit_number",
+          "name": "current_pit",
           "type": "u8",
           "key": true
         },
@@ -2750,8 +2750,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317",
-      "original_class_hash": "0x796c962533bf60ca361c12773c863da8af427a0998b6c315c08b080de192317",
+      "class_hash": "0x466da8580f02547d1260c65a8b93080da94b25091055834203f66b638264412",
+      "original_class_hash": "0x466da8580f02547d1260c65a8b93080da94b25091055834203f66b638264412",
       "abi": [
         {
           "type": "impl",
@@ -3133,7 +3133,7 @@
               "type": "core::starknet::contract_address::ContractAddress"
             },
             {
-              "name": "pit_number",
+              "name": "current_pit",
               "type": "core::integer::u8"
             },
             {
@@ -3644,7 +3644,7 @@
           "key": true
         },
         {
-          "name": "pit_number",
+          "name": "current_pit",
           "type": "u8",
           "key": true
         },
@@ -3657,10 +3657,20 @@
           "name": "color",
           "type": "SeedColor",
           "key": false
+        },
+        {
+          "name": "seed_id",
+          "type": "u8",
+          "key": false
+        },
+        {
+          "name": "previous_pit",
+          "type": "u8",
+          "key": false
         }
       ],
-      "class_hash": "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9",
-      "original_class_hash": "0x2125db58a7a4e208f86d273c076ddd86cec7ba48fb5838e0a8cf00c0ed97ed9",
+      "class_hash": "0x51d1b457052c94b83d42ac7c4105211586bde1b840b5563bded7b40818ddcf8",
+      "original_class_hash": "0x51d1b457052c94b83d42ac7c4105211586bde1b840b5563bded7b40818ddcf8",
       "abi": [
         {
           "type": "impl",
@@ -4060,7 +4070,7 @@
               "type": "core::starknet::contract_address::ContractAddress"
             },
             {
-              "name": "pit_number",
+              "name": "current_pit",
               "type": "core::integer::u8"
             },
             {
@@ -4070,6 +4080,14 @@
             {
               "name": "color",
               "type": "mancala::models::index::SeedColor"
+            },
+            {
+              "name": "seed_id",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "previous_pit",
+              "type": "core::integer::u8"
             }
           ]
         },
