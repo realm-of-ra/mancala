@@ -1,4 +1,3 @@
-
 //! Store struct and component management methods.
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use starknet::ContractAddress;

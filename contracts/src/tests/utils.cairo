@@ -29,7 +29,7 @@ fn move_player_seeds_to_store(world: IWorldDispatcher, player: @Player) {
         store.set_pit(pit);
         idx += 1;
     };
-    
+
     // Update the store pit with the new seed count
     store.set_pit(player_store);
 }

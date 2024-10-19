@@ -79,7 +79,7 @@ mod PlayableComponent {
             let mancala_game: MancalaBoard = MancalaBoardTrait::new(
                 game_id.count, player_one_address
             );
-            restart_player_pits(world, @player_one, SeedColor::Green);
+            restart_player_pits(world, @player_one, SeedColor::Green, 1);
             game_id.increment();
 
             store.set_state(mancala_game, game_id, player_one);
@@ -104,7 +104,7 @@ mod PlayableComponent {
             let mut player_two: Player = PlayerTrait::new(mancala_game.game_id, player_two_address);
             mancala_game.join_game(player_two);
 
-            restart_player_pits(world, @player_two, SeedColor::Blue);
+            restart_player_pits(world, @player_two, SeedColor::Blue, 25);
             store.set_mancala_board(mancala_game);
             store.set_player(player_two);
         }
@@ -151,8 +151,8 @@ mod PlayableComponent {
 
             store.set_state(mancala_game, game_id, player_one);
 
-            restart_player_pits(world, @player_one, SeedColor::Green);
-            restart_player_pits(world, @player_two, SeedColor::Blue);
+            restart_player_pits(world, @player_one, SeedColor::Green, 1);
+            restart_player_pits(world, @player_two, SeedColor::Blue, 25);
             store.set_player(player_two);
         }
 
@@ -400,8 +400,8 @@ mod PlayableComponent {
             store.set_player(player_two);
             store.set_mancala_board(mancala_game);
 
-            restart_player_pits(world, @player_one, SeedColor::Green);
-            restart_player_pits(world, @player_two, SeedColor::Blue);
+            restart_player_pits(world, @player_one, SeedColor::Green, 1);
+            restart_player_pits(world, @player_two, SeedColor::Blue, 25);
         }
     }
 }

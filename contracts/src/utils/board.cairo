@@ -62,6 +62,7 @@ fn distribute_seeds(
         seed.player = target_player;
         seed.previous_pit = seed.current_pit;
         seed.current_pit = target_pit;
+        // The seed_id remains unchanged
         store.set_seed(seed);
 
         // Update pit seed counts
@@ -71,7 +72,9 @@ fn distribute_seeds(
 
         let mut to_pit = store.get_pit(current_player.game_id, target_player, target_pit);
         to_pit.seed_count += 1;
+        seed.seed_number = to_pit.seed_count; // Update the seed number in the new pit
         store.set_pit(to_pit);
+        store.set_seed(seed); // Update the seed again with the new seed_number
 
         last_pit = current_pit;
         seed_idx += 1;
@@ -181,14 +184,10 @@ fn capture_remaining_seeds(world: IWorldDispatcher, ref player: Player) {
     remove_player_seeds(world, @player);
 }
 
-fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: SeedColor) {
+fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: SeedColor, base_seed_id: u8) {
     let mut store: Store = StoreTrait::new(world);
 
-    let mancala_game = store.get_mancala_board(*player.game_id);
-    let is_first_player = *player.address == mancala_game.player_one;
-    let base_seed_id = if is_first_player { 0 } else { 24 };
-    
-    let mut current_seed_id = base_seed_id + 1; // Start from 1 or 25
+    let mut current_seed_id = base_seed_id;
 
     let mut pit_idx = 1;
     loop {

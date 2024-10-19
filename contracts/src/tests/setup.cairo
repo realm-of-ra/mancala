@@ -30,7 +30,6 @@ mod setup {
             game_counter::TEST_CLASS_HASH,
             pit::TEST_CLASS_HASH,
             seed::TEST_CLASS_HASH,
-
         ];
         let world = spawn_test_world(array!["mancala"].span(), models.span());
         let systems = Systems {
@@ -40,7 +39,10 @@ mod setup {
             }
         };
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"mancala"), systems.actions.contract_address);
+        world
+            .grant_writer(
+                dojo::utils::bytearray_hash(@"mancala"), systems.actions.contract_address
+            );
 
         set_contract_address(OWNER());
         (world, systems)
