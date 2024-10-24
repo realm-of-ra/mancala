@@ -4,11 +4,11 @@ version = 1
 [[package]]
 name = "dojo"
 version = "1.0.0-alpha.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.16#3b3a78cd8239ca2ee524c49c83f36db4d79cb4bc"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.18#615e9fdea899d451ac2ad343a71bcebabb6b6cf6"
 
 [[package]]
 name = "mancala"
-version = "0.1.16"
+version = "0.1.18"
 dependencies = [
  "dojo",
 ]
