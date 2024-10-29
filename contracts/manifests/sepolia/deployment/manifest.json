@@ -1,8 +1,8 @@
 {
   "world": {
     "kind": "WorldContract",
-    "class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
-    "original_class_hash": "0x6f4515274ee23404789c3351a77107d0ec07508530119822046600ca6948d6e",
+    "class_hash": "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce",
+    "original_class_hash": "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce",
     "abi": [
       {
         "type": "impl",
@@ -1234,7 +1234,7 @@
         ]
       }
     ],
-    "address": "0x211a00916edfc32dfb67114b653cb80bccbb646ded281d7c57bd75b31a7ede4",
+    "address": "0x416fdfcb98f9791ca4ce50fc287863d3ddef1f9ca7ffc20b84efa4fc60149",
     "transaction_hash": "0x52dff4bf2d62caed6d52b6e857078c6e0c33de2eb00374e23819dc1b550553",
     "block_number": null,
     "seed": "mancala",
@@ -1255,9 +1255,9 @@
   "contracts": [
     {
       "kind": "DojoContract",
-      "address": "0x791828986079ffeb03255c0aa5bfbc40adfcca8e3567302700dc9f5e5753cef",
-      "class_hash": "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93",
-      "original_class_hash": "0x3c8f0563324a47e6d1d4c888963c0ca688dfa33ea7cd7c794ad067ed61c7e93",
+      "address": "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354",
+      "class_hash": "0x5b0be4aef3910d376c5a14447500df8e32a243546e825840d04a7ab85a9bc20",
+      "original_class_hash": "0x5b0be4aef3910d376c5a14447500df8e32a243546e825840d04a7ab85a9bc20",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1289,7 +1289,7 @@
           "items": [
             {
               "type": "function",
-              "name": "contract_name",
+              "name": "name",
               "inputs": [],
               "outputs": [
                 {
@@ -1532,6 +1532,22 @@
             },
             {
               "type": "function",
+              "name": "timeout",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                },
+                {
+                  "name": "opponent_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
               "name": "create_private_game",
               "inputs": [
                 {
@@ -1734,12 +1750,15 @@
         }
       ],
       "reads": [],
-      "writes": ["ns:mancala"],
+      "writes": [
+        "ns:mancala"
+      ],
       "init_calldata": [],
       "tag": "mancala-actions",
       "systems": [
         "initialize_game_counter",
         "join_game",
+        "timeout",
         "create_private_game",
         "move",
         "forfeited",
@@ -2226,8 +2245,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f",
-      "original_class_hash": "0x72bdc384ce91d178a2df982276a4b53e7bac39dace8507276ce77cd1d7b186f",
+      "class_hash": "0x332503203f4af4cb2fa6830659f4be81ebf9c5115a1dc5c3818c78eb396036c",
+      "original_class_hash": "0x332503203f4af4cb2fa6830659f4be81ebf9c5115a1dc5c3818c78eb396036c",
       "abi": [
         {
           "type": "impl",

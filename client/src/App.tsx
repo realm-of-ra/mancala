@@ -23,6 +23,19 @@ const options: ControllerOptions = {
   paymaster: {
     caller: bigintToHex(stringToFelt("ANY_CALLER")),
   },
+  config: {
+    presets: {
+      "realm-of-ra": {
+        id: "realm-of-ra",
+        name: "Realm of Ra",
+        icon: "/whitelabel/realm-of-ra/icon.png",
+        cover: "/whitelabel/realm-of-ra/cover.png",
+        colors: {
+          primary: "#de9534",
+        },
+      },
+    },
+  },
 };
 
 const connectorOptions = {
@@ -63,8 +76,6 @@ export default function App() {
   const connectors = [
     new CartridgeConnector(connectorOptions) as never as Connector,
   ];
-
-
 
   return (
     <StarknetConfig
