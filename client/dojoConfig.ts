@@ -1,9 +1,9 @@
-import manifest from "../contracts/manifests/dev/deployment/manifest.json";
+import manifest from "../contracts/manifests/sepolia/deployment/manifest.json";
 import { createDojoConfig } from "@dojoengine/core";
 
 export const dojoConfig = createDojoConfig({
   manifest,
-  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha-v13/katana",
+  rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia",
   toriiUrl: "https://api.cartridge.gg/x/mancala-alpha-v13/torii",
   masterAddress:
     "0x02A54eFf65D55a2E7D2fC7E23eF0F0e6030dB0313b16c8F0eaD0b4a83807f6d6",
