@@ -1240,7 +1240,7 @@
     "seed": "mancala",
     "metadata": {
       "profile_name": "dev",
-      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v13/katana"
+      "rpc_url": "https://api.cartridge.gg/x/mancala-alpha-v19/katana"
     },
     "manifest_name": "dojo-world"
   },
