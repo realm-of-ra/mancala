@@ -16,7 +16,7 @@ telegram = "https://t.me/dojoengine"
 default = "mancala"
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v13/katana"
+rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v19/katana"
 # Default account for katana with seed = 0
 account_address = "0x6f3c5e9f3161c9b2545d8a0a08183df56e6e9adcd04864c31e591b6c8343afe"
 private_key = "0x503b610edf67c295099d5184f75159e0e9e044940c86db2e10d07595ecc6e3c"
