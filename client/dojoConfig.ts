@@ -1,12 +1,12 @@
-import manifest from "../contracts/manifests/dev/deployment/manifest.json";
+import manifest from "../contracts/manifest_dev.json";
 import { createDojoConfig } from "@dojoengine/core";
 
 export const dojoConfig = createDojoConfig({
   manifest,
-  rpcUrl: "https://api.cartridge.gg/x/mancala-alpha-v19/katana",
-  toriiUrl: "https://api.cartridge.gg/x/mancala-alpha-v19/torii",
+  rpcUrl: "https://api.cartridge.gg/x/mancala-rc-test/katana",
+  toriiUrl: "https://api.cartridge.gg/x/mancala-rc-test/torii",
   masterAddress:
-    "0x6f3c5e9f3161c9b2545d8a0a08183df56e6e9adcd04864c31e591b6c8343afe",
+    "0x68344c60413f55bb7390e8ef5ca86fbecae0b168f87a91eebade2f47ec414b8",
   masterPrivateKey:
-    "0x503b610edf67c295099d5184f75159e0e9e044940c86db2e10d07595ecc6e3c",
+    "0x17d99a9091ec1f925137baab87f5c149c1eae160b8d04117b2dac7795ce4374",
 });
