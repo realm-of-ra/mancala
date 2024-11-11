@@ -1,5 +1,7 @@
 //! Store struct and component management methods.
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use dojo::world::WorldStorage;
+use dojo::model::ModelStorage;
+
 use starknet::ContractAddress;
 
 // Models imports
@@ -12,7 +14,7 @@ use mancala::models::game_counter::GameCounter;
 // Structs
 #[derive(Copy, Drop)]
 struct Store {
-    world: IWorldDispatcher,
+    world: WorldStorage,
 }
 
 // Implementations
@@ -20,64 +22,59 @@ struct Store {
 #[generate_trait]
 impl StoreImpl of StoreTrait {
     #[inline]
-    fn new(world: IWorldDispatcher) -> Store {
+    fn new(world: WorldStorage) -> Store {
         Store { world: world }
     }
 
     #[inline]
-    fn set_state(self: Store, game_board: MancalaBoard, count: GameCounter, player: Player) {
-        set!(self.world, (game_board, count, player))
+    fn set_player(ref self: Store, player: Player) {
+        self.world.write_model(@player);
     }
 
     #[inline]
-    fn set_player(self: Store, player: Player) {
-        set!(self.world, (player))
+    fn set_mancala_board(ref self: Store, game_board: MancalaBoard) {
+        self.world.write_model(@game_board);
     }
 
     #[inline]
-    fn set_mancala_board(self: Store, game_board: MancalaBoard) {
-        set!(self.world, (game_board))
+    fn set_seed(ref self: Store, seed: Seed) {
+        self.world.write_model(@seed);
     }
 
     #[inline]
-    fn set_seed(self: Store, seed: Seed) {
-        set!(self.world, (seed))
+    fn set_game_counter(ref self: Store, count: GameCounter) {
+        self.world.write_model(@count);
     }
 
     #[inline]
-    fn set_game_counter(self: Store, count: GameCounter) {
-        set!(self.world, (count))
-    }
-
-    #[inline]
-    fn set_pit(self: Store, pit: Pit) {
-        set!(self.world, (pit))
+    fn set_pit(ref self: Store, pit: Pit) {
+        self.world.write_model(@pit);
     }
 
     #[inline]
     fn get_mancala_board(self: Store, game_id: u128) -> MancalaBoard {
-        get!(self.world, game_id, (MancalaBoard))
+        self.world.read_model(game_id)
     }
 
     #[inline]
     fn get_player(self: Store, game_id: u128, player_address: ContractAddress) -> Player {
-        get!(self.world, (game_id, player_address), (Player))
+        self.world.read_model((game_id, player_address))
     }
 
     #[inline]
-    fn get_seed(self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8) -> Seed {
-        get!(self.world, (game_id, player, pit_number, seed_number), (Seed))
+    fn get_seed(
+        self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8
+    ) -> Seed {
+        self.world.read_model((game_id, player, pit_number, seed_number))
     }
 
     #[inline]
     fn get_game_counter(self: Store, id: u32) -> GameCounter {
-        get!(self.world, id, (GameCounter))
+        self.world.read_model(id)
     }
 
     #[inline]
     fn get_pit(self: Store, game_id: u128, player_address: ContractAddress, pit_number: u8) -> Pit {
-        get!(self.world, (game_id, player_address, pit_number), (Pit))
+        self.world.read_model((game_id, player_address, pit_number))
     }
-
-
 }
