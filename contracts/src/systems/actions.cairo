@@ -1,7 +1,7 @@
 use starknet::ContractAddress;
 
 use dojo::world::IWorldDispatcher;
-use mancala::models::index::{Player, MancalaBoard};
+use mancala::models::player::Player;
 
 #[starknet::interface]
 trait IActions<TContractState> {
@@ -21,7 +21,8 @@ trait IActions<TContractState> {
 
 #[dojo::contract]
 mod actions {
-    use super::{ContractAddress, Player, IActions, MancalaBoard};
+    use super::{ContractAddress, Player, IActions};
+    use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
 
     use dojo::world::WorldStorage;

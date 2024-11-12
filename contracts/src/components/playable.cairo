@@ -7,9 +7,8 @@ mod PlayableComponent {
     use starknet::info::{get_caller_address};
 
     use mancala::store::{Store, StoreTrait};
-    use mancala::models::index::{GameStatus};
     use mancala::models::player::{Player, PlayerTrait};
-    use mancala::models::mancala_board::{MancalaBoard, MancalaBoardTrait};
+    use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
@@ -218,6 +217,7 @@ mod PlayableComponent {
             let (mut current_player, mut opponent) = self.get_players(world, game_id);
             let mut current_player_pit = store
                 .get_pit(current_player.game_id, current_player.address, selected_pit);
+            let pit_seed_number: u8 = current_player_pit.seed_count;
             if current_player_pit.seed_count == 0 {
                 panic!("Selected pit is empty. Choose another pit.");
             }
@@ -252,6 +252,8 @@ mod PlayableComponent {
             store.set_mancala_board(mancala_game);
             store.set_player(current_player);
             store.set_player(opponent);
+
+            store.player_move(mancala_game.game_id, selected_pit, pit_seed_number);
         }
 
         /// Retrieves the current score for both players

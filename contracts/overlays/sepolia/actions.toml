@@ -1,4 +1,0 @@
-tag = "mancala-actions"
-writes = [
-    "ns:mancala"
-]

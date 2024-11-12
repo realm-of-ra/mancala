@@ -1,6 +1,7 @@
 //! Store struct and component management methods.
 use dojo::world::WorldStorage;
 use dojo::model::ModelStorage;
+use dojo::event::EventStorage;
 
 use starknet::ContractAddress;
 
@@ -10,6 +11,8 @@ use mancala::models::mancala_board::MancalaBoard;
 use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
+
+use mancala::events::move::{PlayerMove, PlayerMoveTrait};
 
 // Structs
 #[derive(Copy, Drop)]
@@ -24,6 +27,12 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn new(world: WorldStorage) -> Store {
         Store { world: world }
+    }
+
+    #[inline]
+    fn player_move(mut self: Store, id: u128, pit_number: u8, seed_number: u8) {
+        let event: PlayerMove = PlayerMoveTrait::new(id, pit_number, seed_number);
+        self.world.emit_event(@event);
     }
 
     #[inline]

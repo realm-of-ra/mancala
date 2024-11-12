@@ -7,7 +7,7 @@ version = "0.2.0"
 sierra-replace-ids = true
 
 [scripts]
-dev = "sozo clean && sozo build --typescript && sozo migrate apply"
+dev = "sozo clean && sozo build --typescript && sozo migrate"
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0" }

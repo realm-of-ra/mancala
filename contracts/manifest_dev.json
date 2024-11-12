@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x5e0674b7e85e4cdfad44afd51c0ce2709515367ea03a6668c51e9a672bfa460",
-      "class_hash": "0x4e3045a3f34745f400f1afe6f65a1f08d34f1dfc2e13da7d6165a8ab736d0bd",
+      "address": "0x664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a",
+      "class_hash": "0x4bd46de500d102e2e8e6a0aae4f40cbd39636771e33466f1af1d8428884108f",
       "abi": [
         {
           "type": "impl",
@@ -1663,5 +1663,12 @@
       "selector": "0x64c952d1dc8cabfc4ddb06f4da6c83dbd845beddf9999d1f1ee772e52db74e"
     }
   ],
-  "events": []
+  "events": [
+    {
+      "members": [],
+      "class_hash": "0x49fa2e09b02e37efe06209800c7fa4b07cd78e05559a83acfd3fcd4eb5e54e0",
+      "tag": "mancala-PlayerMove",
+      "selector": "0x68d8a0f36144cb1f36e8de3993dbf83635eeea1166f93eaf7a6491c4bc4392a"
+    }
+  ]
 }
