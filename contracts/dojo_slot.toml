@@ -19,8 +19,8 @@ default = "mancala"
 "mancala" = ["mancala-actions"]
 
 [env]
-rpc_url = "http://localhost:5050"
+rpc_url = "https://api.cartridge.gg/x/mancala-v0-2-0/katana"
 # Default account for katana with seed = 0
-account_address = "0x127fd5f1fe78a71f8bcd1fec63e3fe2f0486b6ecd5c86a0466c3a21fa5cfcec"
-private_key = "0xc5b2fcab997346f3ea1c00b002ecf6f382c5f9c9659a3894eb783c5320f912"
+account_address = "0x77ead979a906c7b5f9c5eca5d9fc57aba7a451f3e111967b1625cc4977ee798"
+private_key = "0x7b2e1f09de2699f021d730e734c38c5094900289078ef400befd684ce9dd4a6"
 world_address = "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3"  # Uncomment and update this line with your world address.
