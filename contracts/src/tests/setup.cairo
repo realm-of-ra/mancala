@@ -10,6 +10,7 @@ mod setup {
 
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
     use mancala::models::{index as models};
+    use mancala::events::{index as events};
 
     use starknet::ContractAddress;
     use starknet::testing::set_contract_address;
@@ -31,12 +32,13 @@ mod setup {
     #[inline]
     fn setup_namespace() -> NamespaceDef {
         NamespaceDef {
-            namespace: "namespace", resources: [
+            namespace: "mancala", resources: [
                 TestResource::Model(models::m_GameCounter::TEST_CLASS_HASH),
                 TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Pit::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Player::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Seed::TEST_CLASS_HASH),
+                TestResource::Event(events::e_PlayerMove::TEST_CLASS_HASH),
                 TestResource::Contract(actions::TEST_CLASS_HASH),
             ].span()
         }
@@ -44,8 +46,8 @@ mod setup {
 
     fn setup_contracts() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@"namespace", @"mancala")
-                .with_writer_of([dojo::utils::bytearray_hash(@"namespace")].span()),
+            ContractDefTrait::new(@"mancala", @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"mancala")].span()),
         ].span()
     }
 
