@@ -1,19 +1,22 @@
 [world]
 name = "Mancala"
-description = "The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world."
+description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo."
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
-website = "https://github.com/dojoengine/dojo-starter"
+website = "https://github.com/realm-of-ra/mancala"
 seed = "mancala"
 
 [world.socials]
-x = "https://x.com/ohayo_dojo"
+x = "https://x.com/realm_of_ra"
 discord = "https://discord.gg/FB2wR6uF"
-github = "https://github.com/dojoengine/dojo-starter"
+github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
 default = "mancala"
+
+[writers]
+"mancala" = ["mancala-actions"]
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"

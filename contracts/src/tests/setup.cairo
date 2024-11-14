@@ -1,10 +1,16 @@
 mod setup {
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
+    use core::debug::PrintTrait;
 
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::model::{ModelStorage, ModelValueStorage, ModelStorageTest};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::{
+        spawn_test_world, NamespaceDef, ContractDef, TestResource, ContractDefTrait,
+        WorldStorageTestTrait
+    };
 
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
-    use mancala::models::index::{mancala_board, player, game_counter, pit, seed};
+    use mancala::models::{index as models};
+    use mancala::events::{index as events};
 
     use starknet::ContractAddress;
     use starknet::testing::set_contract_address;
@@ -23,26 +29,40 @@ mod setup {
         actions: IActionsDispatcher,
     }
 
-    fn spawn_game() -> (IWorldDispatcher, Systems) {
-        let mut models = array![
-            mancala_board::TEST_CLASS_HASH,
-            player::TEST_CLASS_HASH,
-            game_counter::TEST_CLASS_HASH,
-            pit::TEST_CLASS_HASH,
-            seed::TEST_CLASS_HASH,
+    #[inline]
+    fn setup_namespace() -> NamespaceDef {
+        NamespaceDef {
+            namespace: "mancala", resources: [
+                TestResource::Model(models::m_GameCounter::TEST_CLASS_HASH),
+                TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
+                TestResource::Model(models::m_Pit::TEST_CLASS_HASH),
+                TestResource::Model(models::m_Player::TEST_CLASS_HASH),
+                TestResource::Model(models::m_Seed::TEST_CLASS_HASH),
+                TestResource::Event(events::e_PlayerMove::TEST_CLASS_HASH),
+                TestResource::Contract(actions::TEST_CLASS_HASH),
+            ].span()
+        }
+    }
 
-        ];
-        let world = spawn_test_world(array!["mancala"].span(), models.span());
+    fn setup_contracts() -> Span<ContractDef> {
+        [
+            ContractDefTrait::new(@"mancala", @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"mancala")].span()),
+        ].span()
+    }
+
+    fn spawn_game() -> (WorldStorage, Systems) {
+        // [Setup] World
+        set_contract_address(OWNER());
+        let namespace_def = setup_namespace();
+        let world = spawn_test_world([namespace_def].span());
+        world.sync_perms_and_inits(setup_contracts());
+        // [Setup] Systems
+        let (actions_address, _) = world.dns(@"actions").unwrap();
         let systems = Systems {
-            actions: IActionsDispatcher {
-                contract_address: world
-                    .deploy_contract('actions', actions::TEST_CLASS_HASH.try_into().unwrap(),)
-            }
+            actions: IActionsDispatcher { contract_address: actions_address },
         };
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"mancala"), systems.actions.contract_address);
-
-        set_contract_address(OWNER());
         (world, systems)
     }
 }

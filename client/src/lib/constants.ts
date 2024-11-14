@@ -547,10 +547,10 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
   );
 
 export const SLOT_RPC_URL =
-  "https://api.cartridge.gg/x/mancala-alpha-v19/katana";
+  "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana";
 
 const ACTION_ADDRESS =
-  "0x4c64651a6efcca1f12b4fbcb5301565126fc12a0c410bc22d98da4d94cf6354";
+  "0x7859578bf652591b5aeebb076eb62fe500883c9acb3585a95b049888e504555";
 
 export const POLICIES = [
   {

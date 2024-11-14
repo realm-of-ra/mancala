@@ -10,6 +10,11 @@ mod models {
     mod pit;
 }
 
+mod events {
+    mod index;
+    mod move;
+}
+
 mod components {
     mod playable;
 }

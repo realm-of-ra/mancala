@@ -1,4 +1,4 @@
-use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
+use dojo::world::WorldStorage;
 use starknet::ContractAddress;
 
 use mancala::models::player::Player;
@@ -6,7 +6,7 @@ use mancala::models::seed::{Seed, SeedColor};
 use mancala::models::pit::Pit;
 use mancala::store::{Store, StoreTrait};
 
-fn get_pit_seeds(world: IWorldDispatcher, player: @Player, pit_number: u8) -> Array<Seed>{
+fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Array<Seed> {
     assert(pit_number <= *player.len_pits, 'Pit number out of bounds');
 
     let mut store: Store = StoreTrait::new(world);
@@ -25,7 +25,9 @@ fn get_pit_seeds(world: IWorldDispatcher, player: @Player, pit_number: u8) -> Ar
     result
 }
 
-fn add_seed_to_pit(world: IWorldDispatcher, ref seed: Seed, player_address: ContractAddress, pit_number: u8) {
+fn add_seed_to_pit(
+    world: WorldStorage, ref seed: Seed, player_address: ContractAddress, pit_number: u8
+) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut pit = store.get_pit(seed.game_id, player_address, pit_number);
@@ -39,10 +41,7 @@ fn add_seed_to_pit(world: IWorldDispatcher, ref seed: Seed, player_address: Cont
 }
 
 fn distribute_seeds(
-    world: IWorldDispatcher,
-    ref current_player: Player,
-    ref opponent: Player,
-    selected_pit: u8
+    world: WorldStorage, ref current_player: Player, ref opponent: Player, selected_pit: u8
 ) -> u8 {
     let mut current_pit = selected_pit + 1;
     let mut last_pit = current_pit;
@@ -74,17 +73,21 @@ fn distribute_seeds(
 
     // Empty seeds on selected pit
     let mut store: Store = StoreTrait::new(world);
-    let mut selected_pit_model = store.get_pit(current_player.game_id, current_player.address, selected_pit);
+    let mut selected_pit_model = store
+        .get_pit(current_player.game_id, current_player.address, selected_pit);
     selected_pit_model.seed_count = 0;
     store.set_pit(selected_pit_model);
 
     last_pit
 }
 
-fn capture_seeds(world: IWorldDispatcher, last_pit: u8, ref current_player: Player, ref opponent: Player) {
+fn capture_seeds(
+    world: WorldStorage, last_pit: u8, ref current_player: Player, ref opponent: Player
+) {
     let mut store: Store = StoreTrait::new(world);
     if last_pit >= 1 && last_pit <= 6 {
-        let mut last_pit_model = store.get_pit(current_player.game_id, current_player.address, last_pit);
+        let mut last_pit_model = store
+            .get_pit(current_player.game_id, current_player.address, last_pit);
         if last_pit_model.seed_count == 1 {
             let mut opposite_pit = store.get_pit(opponent.game_id, opponent.address, 7 - last_pit);
             if opposite_pit.seed_count > 0 {
@@ -94,13 +97,15 @@ fn capture_seeds(world: IWorldDispatcher, last_pit: u8, ref current_player: Play
                     if seed_idx > opposite_pit.seed_count {
                         break;
                     }
-                    let mut seed = store.get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
+                    let mut seed = store
+                        .get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
                     add_seed_to_pit(world, ref seed, current_player.address, 7);
                     seed_idx += 1;
                 };
 
                 // transfer current seed to store
-                let mut seed_of_player = store.get_seed(current_player.game_id, current_player.address, last_pit, 1);
+                let mut seed_of_player = store
+                    .get_seed(current_player.game_id, current_player.address, last_pit, 1);
                 add_seed_to_pit(world, ref seed_of_player, current_player.address, 7);
 
                 last_pit_model.seed_count = 0;
@@ -108,13 +113,13 @@ fn capture_seeds(world: IWorldDispatcher, last_pit: u8, ref current_player: Play
 
                 // remove seeds from opposite pit
                 opposite_pit.seed_count = 0;
-                store.set_pit(opposite_pit);   
+                store.set_pit(opposite_pit);
             }
         }
     }
 }
 
-fn get_player_seeds(world: IWorldDispatcher, player: @Player) -> Array<Seed> {
+fn get_player_seeds(world: WorldStorage, player: @Player) -> Array<Seed> {
     let mut idx = 1;
     let mut result = array![];
     loop {
@@ -135,9 +140,9 @@ fn get_player_seeds(world: IWorldDispatcher, player: @Player) -> Array<Seed> {
     result
 }
 
-fn remove_player_seeds(world: IWorldDispatcher, player: @Player) {
+fn remove_player_seeds(world: WorldStorage, player: @Player) {
     let mut store: Store = StoreTrait::new(world);
-    
+
     let mut idx = 1;
     loop {
         if idx > *player.len_pits {
@@ -150,7 +155,7 @@ fn remove_player_seeds(world: IWorldDispatcher, player: @Player) {
     };
 }
 
-fn capture_remaining_seeds(world: IWorldDispatcher, ref player: Player) {
+fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut remaining_seeds = get_player_seeds(world, @player);
@@ -175,7 +180,7 @@ fn capture_remaining_seeds(world: IWorldDispatcher, ref player: Player) {
     remove_player_seeds(world, @player);
 }
 
-fn restart_player_pits(world: IWorldDispatcher, player: @Player, seed_color: SeedColor) {
+fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut idx = 1;

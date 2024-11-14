@@ -1,8 +1,8 @@
 mod test_init_game {
     use starknet::{ContractAddress, get_caller_address};
     use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
-    use dojo::world::{IWorldDispatcherTrait, IWorldDispatcher};
-    use dojo::utils::test::{spawn_test_world};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
 
     use mancala::store::{Store, StoreTrait};
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
@@ -157,8 +157,8 @@ mod test_init_game {
 mod test_play {
     use starknet::{ContractAddress, get_caller_address};
     use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
-    use dojo::world::{IWorldDispatcherTrait, IWorldDispatcher};
-    use dojo::utils::test::{spawn_test_world};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
 
     use mancala::store::{Store, StoreTrait};
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
@@ -389,8 +389,8 @@ mod test_play {
 mod test_validations {
     use starknet::{ContractAddress, get_caller_address};
     use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
-    use dojo::world::{IWorldDispatcherTrait, IWorldDispatcher};
-    use dojo::utils::test::{spawn_test_world};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
 
     use mancala::store::{Store, StoreTrait};
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};

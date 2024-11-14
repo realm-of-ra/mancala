@@ -1,12 +1,12 @@
 use starknet::ContractAddress;
 
 use dojo::world::IWorldDispatcher;
-use mancala::models::index::{Player, MancalaBoard};
+use mancala::models::player::Player;
 
 #[starknet::interface]
 trait IActions<TContractState> {
     fn initialize_game_counter(self: @TContractState);
-    fn new_game(self: @TContractState) -> MancalaBoard;
+    fn new_game(self: @TContractState);
     fn join_game(self: @TContractState, game_id: u128);
     fn timeout(self: @TContractState, game_id: u128, opponent_address: ContractAddress);
     fn create_private_game(self: @TContractState, opponent_address: ContractAddress);
@@ -21,8 +21,11 @@ trait IActions<TContractState> {
 
 #[dojo::contract]
 mod actions {
-    use super::{ContractAddress, Player, IActions, MancalaBoard};
+    use super::{ContractAddress, Player, IActions};
+    use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
+
+    use dojo::world::WorldStorage;
 
     component!(path: PlayableComponent, storage: playable, event: PlayableEvent);
     impl PlayableInternalImpl = PlayableComponent::InternalImpl<ContractState>;
@@ -43,51 +46,70 @@ mod actions {
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
         fn initialize_game_counter(self: @ContractState) {
-            self.playable.initialize_game_counter(self.world())
+            let world = self.world_storage();
+            self.playable.initialize_game_counter(world)
         }
 
-        fn new_game(self: @ContractState) -> MancalaBoard {
-            self.playable.new_game(self.world())
+        fn new_game(self: @ContractState) {
+            let world = self.world_storage();
+            self.playable.new_game(world);
         }
 
         fn join_game(self: @ContractState, game_id: u128) {
-            self.playable.join_game(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.join_game(world, game_id)
         }
 
         fn timeout(self: @ContractState, game_id: u128, opponent_address: ContractAddress) {
-            self.playable.timeout(self.world(), game_id, opponent_address)
+            let world = self.world_storage();
+            self.playable.timeout(world, game_id, opponent_address)
         }
 
         fn create_private_game(self: @ContractState, opponent_address: ContractAddress) {
-            self.playable.create_private_game(self.world(), opponent_address)
+            let world = self.world_storage();
+            self.playable.create_private_game(world, opponent_address)
         }
 
         fn get_players(self: @ContractState, game_id: u128) -> (Player, Player) {
-            self.playable.get_players(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.get_players(world, game_id)
         }
 
         fn move(self: @ContractState, game_id: u128, selected_pit: u8) {
-            self.playable.move(self.world(), game_id, selected_pit)
+            let world = self.world_storage();
+            self.playable.move(world, game_id, selected_pit)
         }
 
         fn get_score(self: @ContractState, game_id: u128) -> (u8, u8) {
-            self.playable.get_score(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.get_score(world, game_id)
         }
 
         fn is_game_over(self: @ContractState, game_id: u128) -> bool {
-            self.playable.is_game_over(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.is_game_over(world, game_id)
         }
 
         fn forfeited(self: @ContractState, game_id: u128) {
-            self.playable.forfeited(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.forfeited(world, game_id)
         }
 
         fn request_restart_game(self: @ContractState, game_id: u128) {
-            self.playable.request_restart_game(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.request_restart_game(world, game_id)
         }
 
         fn restart_current_game(self: @ContractState, game_id: u128) {
-            self.playable.restart_current_game(self.world(), game_id)
+            let world = self.world_storage();
+            self.playable.restart_current_game(world, game_id)
+        }
+    }
+
+    #[generate_trait]
+    impl Private of PrivateTrait {
+        fn world_storage(self: @ContractState) -> WorldStorage {
+            self.world(@"mancala")
         }
     }
 }

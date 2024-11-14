@@ -1,9 +1,9 @@
-use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
+use dojo::world::{WorldStorage, WorldStorageTrait};
 
 use mancala::store::{Store, StoreTrait};
 use mancala::models::player::Player;
 
-fn move_player_seeds_to_store(world: IWorldDispatcher, player: @Player) {
+fn move_player_seeds_to_store(world: WorldStorage, player: @Player) {
     let mut store: Store = StoreTrait::new(world);
     let mut player_store = store.get_pit(*player.game_id, *player.address, 7);
 

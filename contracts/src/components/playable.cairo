@@ -2,14 +2,13 @@
 mod PlayableComponent {
     use core::debug::PrintTrait;
 
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use dojo::world::WorldStorage;
     use starknet::ContractAddress;
     use starknet::info::{get_caller_address};
 
     use mancala::store::{Store, StoreTrait};
-    use mancala::models::index::{GameStatus};
     use mancala::models::player::{Player, PlayerTrait};
-    use mancala::models::mancala_board::{MancalaBoard, MancalaBoardTrait};
+    use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
@@ -43,9 +42,9 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Sets up the initial game counter in the world state
-        fn initialize_game_counter(self: @ComponentState<TContractState>, world: IWorldDispatcher) {
+        fn initialize_game_counter(self: @ComponentState<TContractState>, world: WorldStorage) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let current_game_counter = store.get_game_counter(1);
             assert(current_game_counter.count == 0, 'Counter already initialized');
@@ -67,11 +66,9 @@ mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn new_game(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher
-        ) -> MancalaBoard {
+        fn new_game(self: @ComponentState<TContractState>, world: WorldStorage) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let player_one_address = get_caller_address();
             let mut game_id = store.get_game_counter(1);
@@ -82,9 +79,9 @@ mod PlayableComponent {
             restart_player_pits(world, @player_one, SeedColor::Green);
             game_id.increment();
 
-            store.set_state(mancala_game, game_id, player_one);
-
-            mancala_game
+            store.set_mancala_board(mancala_game);
+            store.set_game_counter(game_id);
+            store.set_player(player_one);
         }
 
         /// Allows a second player to join an existing game
@@ -93,11 +90,9 @@ mod PlayableComponent {
         /// * `self` - Reference to the component state
         /// * `world` - The World dispatcher
         /// * `game_id` - The ID of the game to join
-        fn join_game(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
-        ) {
+        fn join_game(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let player_two_address = get_caller_address();
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
@@ -111,12 +106,12 @@ mod PlayableComponent {
 
         fn timeout(
             self: @ComponentState<TContractState>,
-            world: IWorldDispatcher,
+            world: WorldStorage,
             game_id: u128,
             opponent_address: ContractAddress
         ) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
             mancala_game.timeout_opponent(opponent_address);
 
@@ -134,11 +129,11 @@ mod PlayableComponent {
         /// * `MancalaBoard` - The newly created MancalaBoard instance
         fn create_private_game(
             self: @ComponentState<TContractState>,
-            world: IWorldDispatcher,
+            world: WorldStorage,
             opponent_address: ContractAddress
         ) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let player_one_address = get_caller_address();
             let mut game_id = store.get_game_counter(1);
@@ -149,7 +144,9 @@ mod PlayableComponent {
             );
             game_id.increment();
 
-            store.set_state(mancala_game, game_id, player_one);
+            store.set_mancala_board(mancala_game);
+            store.set_game_counter(game_id);
+            store.set_player(player_one);
 
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
@@ -166,7 +163,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(Player, Player)` - A tuple containing the current player and the opponent
         fn get_players(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128
         ) -> (Player, Player) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -197,12 +194,12 @@ mod PlayableComponent {
         /// status
         fn move(
             self: @ComponentState<TContractState>,
-            world: IWorldDispatcher,
+            world: WorldStorage,
             game_id: u128,
             selected_pit: u8
         ) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
 
@@ -220,6 +217,7 @@ mod PlayableComponent {
             let (mut current_player, mut opponent) = self.get_players(world, game_id);
             let mut current_player_pit = store
                 .get_pit(current_player.game_id, current_player.address, selected_pit);
+            let pit_seed_number: u8 = current_player_pit.seed_count;
             if current_player_pit.seed_count == 0 {
                 panic!("Selected pit is empty. Choose another pit.");
             }
@@ -251,7 +249,11 @@ mod PlayableComponent {
                     mancala_game.winner = opponent.address;
                 }
             }
-            set!(world, (mancala_game, current_player, opponent));
+            store.set_mancala_board(mancala_game);
+            store.set_player(current_player);
+            store.set_player(opponent);
+
+            store.player_move(mancala_game.game_id, selected_pit, pit_seed_number);
         }
 
         /// Retrieves the current score for both players
@@ -263,7 +265,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(u8, u8)` - The scores of player one and player two respectively
         fn get_score(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128
         ) -> (u8, u8) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -288,7 +290,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `bool` - True if the game is finished, false otherwise
         fn is_game_over(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128
         ) -> bool {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -312,11 +314,9 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Updates the game status to forfeited and sets the winner
-        fn forfeited(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
-        ) {
+        fn forfeited(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
             let player_address: ContractAddress = get_caller_address();
@@ -344,10 +344,10 @@ mod PlayableComponent {
         /// # Effects
         /// * Sets the restart_requested flag for the calling player
         fn request_restart_game(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128
         ) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let player_address: ContractAddress = get_caller_address();
             let mut player: Player = store.get_player(game_id, player_address);
@@ -369,10 +369,10 @@ mod PlayableComponent {
         /// # Panics
         /// * If either player has not requested a restart
         fn restart_current_game(
-            self: @ComponentState<TContractState>, world: IWorldDispatcher, game_id: u128
+            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128
         ) {
             // [Setup] Datastore
-            let store: Store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
             let player_one: Player = store

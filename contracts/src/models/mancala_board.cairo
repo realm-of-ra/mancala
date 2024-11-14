@@ -12,6 +12,7 @@ mod errors {
     const NOT_PLAYER_TURN: felt252 = 'MancalaBoard: not your turn';
     const INVALID_PIT: felt252 = 'MancalaBoard: invalid pit';
     const NOT_TIMEOUT: felt252 = 'MancalaBoard: invalid timeout';
+    const CANNOT_PLAY_SELF: felt252 = 'MancalaBoard: cannot play self';
 }
 
 /// Trait implementation for MancalaBoard operations
@@ -74,10 +75,12 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// # Panics
     /// * If the game status is not Pending
     /// * If player_two has already joined
+    /// * If player_two is the same as player_one
     #[inline]
     fn join_game(ref self: MancalaBoard, player_two: Player) {
         assert(self.status == GameStatus::Pending, errors::GAME_NOT_PENDING);
         assert(self.player_two.is_zero(), errors::PLAYER_TWO_ALREADY_JOINED);
+        assert(player_two.address != self.player_one, errors::CANNOT_PLAY_SELF);
         self.player_two = player_two.address;
         self.status = GameStatus::InProgress;
     }

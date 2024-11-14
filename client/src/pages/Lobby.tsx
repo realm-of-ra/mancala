@@ -65,7 +65,10 @@ export default function Lobby() {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      await system.create_game(account.account, setGameId);
+      const res = await system.create_game(account.account, setGameId);
+      if (!res) {
+        setCreating(false);
+      }
     } else {
       console.log("Account not found");
     }
@@ -74,7 +77,14 @@ export default function Lobby() {
   const create_private_game = async () => {
     setCreating(true);
     if (account.account) {
-      await system.create_private_game(account.account, player2, setGameId);
+      const res = await system.create_private_game(
+        account.account,
+        player2,
+        setGameId,
+      );
+      if (!res) {
+        setCreating(false);
+      }
     }
   };
 
@@ -101,26 +111,23 @@ export default function Lobby() {
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_two === account.address,
   );
-  
+
   const filteredTransactions =
-    data?.mancalaMancalaBoardModels?.edges?.reduce(
-      (acc: any[], game: any) => {
-        if (
-          (game?.node?.player_one === account.address ||
-            game?.node?.player_two === account.address) &&
-          game?.node?.entity.executedAt
-        ) {
-          acc.push({
-            ...game.node,
-            executedAt: game?.node?.entity.executedAt,
-          });
-        }
-        return acc;
-      },
-      []
-    ) || [];
+    data?.mancalaMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
+      if (
+        (game?.node?.player_one === account.address ||
+          game?.node?.player_two === account.address) &&
+        game?.node?.entity.executedAt
+      ) {
+        acc.push({
+          ...game.node,
+          executedAt: game?.node?.entity.executedAt,
+        });
+      }
+      return acc;
+    }, []) || [];
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -254,6 +261,7 @@ export default function Lobby() {
                             defaultValue={type}
                             className="flex flex-row space-x-10"
                             onValueChange={(value) => {
+                              setCreating(false);
                               //prevent clip value from persisting when switching between private and public
                               if (type != value) {
                                 setClipped(undefined);
@@ -344,9 +352,7 @@ export default function Lobby() {
             {isConnected ? (
               <>
                 <TabsContent value="players">
-                  <Players
-                    data={data?.mancalaMancalaBoardModels?.edges}
-                  />
+                  <Players data={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
@@ -356,9 +362,7 @@ export default function Lobby() {
                   />
                 </TabsContent>
                 <TabsContent value="live">
-                  <LiveDuels
-                    games={data?.mancalaMancalaBoardModels?.edges}
-                  />
+                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
               </>
             ) : (
