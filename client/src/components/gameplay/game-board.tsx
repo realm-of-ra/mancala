@@ -98,34 +98,30 @@ const GameBoard: React.FC<GameBoardProps> = ({
                         : "170px",
             }}
           >
-            {
-              // involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
-              // data?.mancalaSeedModels.edges
-              //   .filter(
-              //     (item: any) =>
-              //       item?.node.player ===
-              //       game_players?.mancalaPlayerModels.edges[opponent_position]
-              //         ?.node.address,
-              //   )
-              //   .filter((item: any) => item?.node.pit_number === 7)
-              //   .slice(0, opponent_pot_seed_count)
-              Array.from({ length: opponent_pot_seed_count }).map(
-                (seed: any, index: number) => (
-                  <div
-                    key={index}
-                    style={{
-                      width: opposition_length > 30 ? "8px" : "auto",
-                    }}
-                  >
-                    <Seed
-                      color={seed?.node.color || "Blue"}
-                      length={opponent_pot_seed_count}
-                      type="opponent"
-                    />
-                  </div>
-                ),
+            {// involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
+            data?.mancalaSeedModels.edges
+              .filter(
+                (item: any) =>
+                  item?.node.player ===
+                  game_players?.mancalaPlayerModels.edges[opponent_position]
+                    ?.node.address,
               )
-            }
+              .filter((item: any) => item?.node.pit_number === 7)
+              .slice(0, opponent_pot_seed_count)
+              .map((seed: any, index: number) => (
+                <div
+                  key={index}
+                  style={{
+                    width: opposition_length > 30 ? "8px" : "auto",
+                  }}
+                >
+                  <Seed
+                    color={seed?.node.color || "Blue"}
+                    length={opponent_pot_seed_count}
+                    type="opponent"
+                  />
+                </div>
+              ))}
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">
