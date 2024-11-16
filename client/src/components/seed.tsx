@@ -9,6 +9,20 @@ export default function Seed({
   length?: number;
   type?: "player" | "opponent";
 }) {
+  const getMarginLeft = (
+    length: number | 0,
+    type: "player" | "opponent" | undefined,
+  ) => {
+    if (length >= 21 && type === "player") {
+      return "-8px";
+    } else if (length > 30 && length <= 40 && type === "opponent") {
+      return "-5px";
+    } else if (length > 40 && type === "opponent") {
+      return "-7px";
+    } else {
+      return "0px";
+    }
+  };
   return (
     <div
       className={clsx(
@@ -18,14 +32,7 @@ export default function Seed({
         "w-[16px] h-[16px] bg-center bg-cover bg-no-repeat",
       )}
       style={{
-        marginLeft:
-          length >= 21 && type === "player"
-            ? "-8px"
-            : length > 30 && length <= 40 && type === "opponent"
-              ? "-5px"
-              : length > 40 && type === "opponent"
-                ? "-7px"
-                : "0px",
+        marginLeft: getMarginLeft(length, type),
       }}
     />
   );
