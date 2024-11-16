@@ -6,8 +6,8 @@ export default function Seed({
   type,
 }: {
   color?: string;
-  length: number;
-  type: "player" | "opponent";
+  length?: number;
+  type?: "player" | "opponent";
 }) {
   return (
     <div
