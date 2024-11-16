@@ -29,7 +29,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
     variables: { gameId: gameId },
   });
   startPolling(1000);
-  const involved = game_players?.mancalaPlayerModels.edges.some((item: any) => item?.node.address === account.address);
+  const involved = game_players?.mancalaPlayerModels.edges.some(
+    (item: any) => item?.node.address === account.address,
+  );
   const player_position = involved
     ? game_players?.mancalaPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
@@ -71,6 +73,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
       .filter((item: any) => item?.node.pit_number === 7)[0]?.node
       ?.seed_count || 0;
+
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -283,50 +286,46 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot */}
           <div
-            className={clsx(
-              player_length > 10 && "mr-[170px]",
-              player_length > 20 && "mr-[160px]",
-              player_length > 30 && "mr-[170px]",
-              player_length > 44 && "-mt-4",
-              "mr-[185px] 2xl:mr-[165px] 2xl:-mt-2 -mt-1 flex flex-row justify-center items-center h-[75%]",
-            )}
+            className={
+              "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
+            }
+            style={{
+              marginRight:
+                player_pot_seed_count <= 10
+                  ? "185px"
+                  : player_pot_seed_count >= 31 && player_pot_seed_count < 41
+                    ? "160px"
+                    : player_pot_seed_count >= 41
+                      ? "155px"
+                      : "170px",
+            }}
           >
-            <div
-              className={clsx(
-                player_length > 10 && "grid grid-cols-2",
-                player_length > 20 && "grid grid-cols-3",
-                player_length > 30 && "grid grid-cols-4",
-              )}
-            >
-              {// involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
-              data?.mancalaSeedModels.edges
-                .filter(
-                  (item: any) =>
-                    item?.node.player ===
-                    game_players?.mancalaPlayerModels.edges[player_position]
-                      ?.node.address,
-                )
-                .filter((item: any) => item?.node.pit_number === 7)
-                .slice(0, player_pot_seed_count)
-                .map((seed: any, index: number) => (
-                  <div
-                    key={index}
-                    style={{
-                      width:
-                        player_length > 20
-                          ? "10px"
-                          : player_length > 30
-                            ? "6px"
-                            : "auto",
-                      marginRight: player_length > 30 ? -1.5 : 0,
-                      marginTop: player_length > 30 ? -1.5 : 0,
-                      zIndex: index,
-                    }}
-                  >
-                    <Seed color={seed.node.color} />
-                  </div>
-                ))}
-            </div>
+            {// involved && data?.mancalaSeedModels.edges
+            // .filter(
+            //   (item: any) =>
+            //     item?.node.player ===
+            //     game_players?.mancalaPlayerModels.edges[player_position]?.node
+            //       .address,
+            // )
+            // .filter((item: any) => item?.node.pit_number === 7)
+            // .slice(0, player_pot_seed_count))
+            data?.mancalaSeedModels.edges
+              .filter(
+                (item: any) =>
+                  item?.node.player ===
+                  game_players?.mancalaPlayerModels.edges[player_position]?.node
+                    .address,
+              )
+              .filter((item: any) => item?.node.pit_number === 7)
+              .slice(0, player_pot_seed_count)
+              .map((seed: any, index: number) => (
+                <div key={index}>
+                  <Seed
+                    color={seed?.node.color || "Blue"}
+                    length={player_pot_seed_count}
+                  />
+                </div>
+              ))}
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
