@@ -74,22 +74,92 @@ export default function Duels({
         <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
           <Card className="w-full h-full bg-transparent">
             <div className="w-full text-left bg-transparent table-auto">
-              <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
-                <div className="flex flex-row items-center justify-between w-full">
-                  {duels_header.map((head) => (
-                    <div key={head.id} className="p-4 mr-10">
-                      <Typography
-                        variant="small"
-                        className="font-medium leading-none text-[#BDC2CC]"
-                      >
-                        {head.name}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </div>
               <div className="absolute h-[450px] w-[814px] overflow-y-scroll">
-                <table className="w-full text-left table-auto">
+                <table>
+                  <thead className="w-[814px] flex gap-10 border-b border-[#313640] py-4">
+                    {duels_header.map((head) => (
+                      <div key={head.id} className="w-full">
+                        <p>{head.name}</p>
+                      </div>
+                    ))}
+                  </thead>
+                  <tbody className="w-[814px] max-h-[450px] overflow-y-scroll">
+                    {data?.map((item: any, index: number) => {
+                      const isLast = index === data?.length - 1;
+                      const date = new Date(item.date);
+                      return (
+                        <tr
+                          key={index}
+                          className={clsx(
+                            !isLast && "border-b border-[#1a1e25]",
+                            "w-[814px] bg-[#0F1116] flex flex-row items-center gap-4 border-b border-[#313640] py-5"
+                          )}
+                        >
+                          <td className="flex flex-row items-center w-full justify-start">
+                            <div className="flex flex-row items-center space-x-2.5 w-fit">
+                              <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                <div className="bg-[#15171E] rounded-full p-1">
+                                  <UserIcon
+                                    color="#F58229"
+                                    className="w-4 h-4"
+                                  />
+                                </div>
+                              </div>
+                              <p className="font-normal text-white">
+                                {item.challenger.name
+                                  ? item.challenger.name
+                                  : truncateString(
+                                      games[index].node.player_one
+                                    )}
+                              </p>
+                            </div>
+                          </td>
+                          <td className="flex flex-row items-center w-full justify-center">
+                            {games[index].node.player_two !== "0x0" ? (
+                              <div className="flex flex-row items-center space-x-2.5  w-fit">
+                                <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
+                                  <div className="bg-[#15171E] rounded-full p-1">
+                                    <UserIcon
+                                      color="#F58229"
+                                      className="w-4 h-4"
+                                    />
+                                  </div>
+                                </div>
+                                <p className="font-normal text-white">
+                                  {item.challenged.name
+                                    ? item.challenged.name
+                                    : truncateString(
+                                        games[index].node.player_two
+                                      )}
+                                </p>
+                              </div>
+                            ) : (
+                              <p className="text-white">Matchmaking</p>
+                            )}
+                          </td>
+                          <td className="w-full text-left">
+                            <p className="font-normal text-[#FAB580]">
+                              {item.winner.name
+                                ? item.winner.name
+                                : truncateString(games[index].node.winner)}
+                            </p>
+                          </td>
+                          <td className="w-full text-left">
+                            <p className="font-normal text-[#F97E22]">
+                              {date.toLocaleDateString()}
+                            </p>
+                          </td>
+                          <td className="w-full text-left">
+                            <p className="font-normal text-[#F97E22]">
+                              Join game
+                            </p>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                {/* <table className="w-full text-left table-auto">
                   <thead className="border-b border-[#313640] hidden">
                     <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
                       {duels_header.map((head) => (
@@ -113,13 +183,12 @@ export default function Duels({
                           key={index}
                           className={clsx(
                             !isLast && "border-b border-[#23272F]",
-                            "w-[814px] bg-[#0F1116] flex flex-row items-center",
+                            "w-[814px] bg-[#0F1116] flex flex-row items-center"
                           )}
                         >
                           <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
-                            {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
+                            ={" "}
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
-                              {/* <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" /> */}
                               <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
                                 <div className="bg-[#15171E] rounded-full p-2.5">
                                   <UserIcon
@@ -132,7 +201,7 @@ export default function Duels({
                                 {item.challenger.name
                                   ? item.challenger.name
                                   : truncateString(
-                                      games[index].node.player_one,
+                                      games[index].node.player_one
                                     )}
                               </p>
                             </div>
@@ -140,7 +209,6 @@ export default function Duels({
                           <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-center">
                             {games[index].node.player_two !== "0x0" ? (
                               <div className="flex flex-row items-center space-x-2.5 w-fit">
-                                {/* <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" /> */}
                                 <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
                                   <div className="bg-[#15171E] rounded-full p-2.5">
                                     <UserIcon
@@ -153,7 +221,7 @@ export default function Duels({
                                   {item.challenged.name
                                     ? item.challenged.name
                                     : truncateString(
-                                        games[index].node.player_two,
+                                        games[index].node.player_two
                                       )}
                                 </p>
                               </div>
@@ -177,7 +245,7 @@ export default function Duels({
                       );
                     })}
                   </tbody>
-                </table>
+                </table> */}
               </div>
             </div>
           </Card>

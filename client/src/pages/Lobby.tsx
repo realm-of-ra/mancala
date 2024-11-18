@@ -80,7 +80,7 @@ export default function Lobby() {
       const res = await system.create_private_game(
         account.account,
         player2,
-        setGameId,
+        setGameId
       );
       if (!res) {
         setCreating(false);
@@ -111,7 +111,7 @@ export default function Lobby() {
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
+      game?.node?.player_two === account.address
   );
 
   const filteredTransactions =
@@ -138,20 +138,12 @@ export default function Lobby() {
             <div className="flex flex-row items-center justify-between w-full">
               <TabsList className="bg-transparent space-x-1.5">
                 <TabsTrigger
-                  value="players"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229]"
-                >
-                  Players
-                </TabsTrigger>
-                <TabsTrigger
                   value="duels"
                   className="data-[state=active]:bg-[#1A1D25]
                             data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
                             data-[state=active]:text-[#F58229]"
                 >
-                  Your Duels
+                  Duels
                 </TabsTrigger>
                 <TabsTrigger
                   value="live"
@@ -167,15 +159,23 @@ export default function Lobby() {
                     <p>Live Duels</p>
                   </div>
                 </TabsTrigger>
+                <TabsTrigger
+                  value="players"
+                  className="data-[state=active]:bg-[#1A1D25]
+                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
+                            data-[state=active]:text-[#F58229]"
+                >
+                  <div className="flex flex-row items-center space-x-1.5">
+                    <div className="bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat" />
+                    <p className="text-base">Leaderboard</p>
+                  </div>
+                </TabsTrigger>
               </TabsList>
               <div className="flex flex-row items-center space-x-5">
-                <Link
-                  to="/leaderboard"
-                  className="flex flex-row items-center justify-center space-x-1"
-                >
-                  <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                  <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
-                </Link>
+                <div className="flex flex-row items-center justify-center space-x-1">
+                  <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
+                  <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
+                </div>
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                   disabled={!isConnected}
