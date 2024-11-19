@@ -27,8 +27,11 @@ import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
 import { MancalaBoardModelsQuery } from "@/lib/constants";
+import Dropdown from "@/components/dropdown";
 
 export default function Lobby() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownClose, setIsDropdownClose] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
@@ -129,22 +132,22 @@ export default function Lobby() {
       return acc;
     }, []) || [];
 
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleDropdownToggleClose = () => {
+    setIsDropdownClose(!isDropdownClose);
+  };
+
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="w-[874px]">
-          <Tabs defaultValue="players" className="w-full space-y-10">
+          <Tabs defaultValue="live" className="w-full space-y-10">
             <div className="flex flex-row items-center justify-between w-full">
               <TabsList className="bg-transparent space-x-1.5">
-                <TabsTrigger
-                  value="duels"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229]"
-                >
-                  Duels
-                </TabsTrigger>
                 <TabsTrigger
                   value="live"
                   className="data-[state=active]:bg-[#1A1D25]
@@ -160,6 +163,14 @@ export default function Lobby() {
                   </div>
                 </TabsTrigger>
                 <TabsTrigger
+                  value="duels"
+                  className="data-[state=active]:bg-[#1A1D25]
+                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
+                            data-[state=active]:text-[#F58229]"
+                >
+                  Duels
+                </TabsTrigger>
+                <TabsTrigger
                   value="players"
                   className="data-[state=active]:bg-[#1A1D25]
                             data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
@@ -171,11 +182,15 @@ export default function Lobby() {
                   </div>
                 </TabsTrigger>
               </TabsList>
-              <div className="flex flex-row items-center space-x-5">
-                <div className="flex flex-row items-center justify-center space-x-1">
+              <div className="flex flex-row items-center space-x-5 relative">
+                <Button
+                  className="flex flex-row items-center justify-center space-x-1"
+                  onClick={handleDropdownToggle}
+                >
                   <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                   <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
-                </div>
+                </Button>
+                {isDropdownOpen && <Dropdown />}
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                   disabled={!isConnected}
@@ -349,6 +364,7 @@ export default function Lobby() {
                 </div>
               </div>
             </Dialog>
+
             {isConnected ? (
               <>
                 <TabsContent value="players">

@@ -2,6 +2,59 @@ import eniola from "../assets/eniola.png";
 import israel from "../assets/israel.png";
 import { gql } from "@apollo/client";
 
+export const colors = [
+  "#FF5733",
+  "#33FF57",
+  "#5733FF",
+  "#FF33A1",
+  "#33FFF3",
+  "#FF8C33",
+  "#338CFF",
+  "#8CFF33",
+  "#FF33E5",
+  "#33FFD1",
+  "#B833FF",
+  "#FFB833",
+  "#33FFB8",
+  "#FF338C",
+  "#8C33FF",
+  "#338FFF",
+  "#FF3333",
+  "#33FF33",
+  "#3333FF",
+  "#FF8333",
+  "#8333FF",
+  "#FF3383",
+  "#33FF83",
+  "#FF8357",
+  "#8357FF",
+  "#57FF83",
+  "#8357FF",
+  "#57FF33",
+  "#FF3357",
+  "#33FF57",
+  "#FF57FF",
+  "#FF5733",
+  "#3357FF",
+  "#5733FF",
+  "#33FF33",
+  "#FF57A1",
+  "#57FFA1",
+  "#A157FF",
+  "#FF57E5",
+  "#57FFE5",
+  "#FF3333",
+  "#33FF57",
+  "#5733FF",
+  "#FF5733",
+  "#33A1FF",
+  "#57FF33",
+  "#33FF57",
+  "#5733FF",
+  "#FF3357",
+  "#57FF33",
+];
+
 export const chat = [
   {
     user: "isreal",
@@ -74,11 +127,11 @@ export const player_header = [
   },
   {
     id: 5,
-    name: "Wins",
+    name: "Games Won",
   },
   {
     id: 6,
-    name: "Losses",
+    name: "Games Lost",
   },
 ];
 
