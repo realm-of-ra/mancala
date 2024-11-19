@@ -1,4 +1,4 @@
-import manifest from "../contracts/manifest_dev.json";
+import manifest from "../contracts/manifest_sepolia.json";
 import { createDojoConfig } from "@dojoengine/core";
 
 export const dojoConfig = createDojoConfig({
