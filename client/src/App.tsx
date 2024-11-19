@@ -56,6 +56,7 @@ export default function App() {
 
   return (
     <StarknetConfig
+      autoConnect={true}
       chains={[sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}

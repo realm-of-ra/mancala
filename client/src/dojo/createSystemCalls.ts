@@ -30,6 +30,11 @@ export function createSystemCalls(
   const create_game = async (account: AccountInterface, setGameId: any) => {
     try {
       const { transaction_hash } = await client.actions.create_game(account);
+      getEvents(
+        await account.waitForTransaction(transaction_hash, {
+          retryInterval: 100,
+        }),
+      );
       const transaction: any =
         await account.getTransactionReceipt(transaction_hash);
       setGameId(transaction.events[1].data[1]);
@@ -49,12 +54,14 @@ export function createSystemCalls(
         account,
         player_2,
       );
-
+      getEvents(
+        await account.waitForTransaction(transaction_hash, {
+          retryInterval: 100,
+        }),
+      );
       const transaction: any =
         await account.getTransactionReceipt(transaction_hash);
-
       setGameId(transaction.events[1].data[1]);
-
       return transaction.events[1].data[1];
     } catch (e) {
       console.log(e);
