@@ -546,8 +546,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
-export const SLOT_RPC_URL =
-  "https://starknet-sepolia.blastapi.io/ab914dde-4484-4558-9c2b-bf20aa43c1a3/rpc/v0_7";
+export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
   "0x0664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a";
