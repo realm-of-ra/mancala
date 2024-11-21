@@ -92,12 +92,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       return "170px";
     }
   };
-
-  console.log('player position: ', player_position);
-  console.log('player address: ', game_players?.mancalaPlayerModels.edges[player_position]?.node.address)
-  console.log('players: ', game_players?.mancalaPlayerModels.edges.findIndex(
-    (item: any) => item?.node.address === account.account.address,
-  ))
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
