@@ -183,13 +183,13 @@ export default function Lobby() {
                 </TabsTrigger>
               </TabsList>
               <div className="flex flex-row items-center space-x-5 relative">
-                <Button
+                <div
                   className="flex flex-row items-center justify-center space-x-1"
                   onClick={handleDropdownToggle}
                 >
                   <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                   <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
-                </Button>
+                </div>
                 {isDropdownOpen && <Dropdown />}
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
