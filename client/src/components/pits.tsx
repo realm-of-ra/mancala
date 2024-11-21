@@ -42,7 +42,7 @@ export function TopPit({
       const res = await system.move(userAccount?.account, game_id, pit);
       setTimeRemaining(max_block_between_move);
     } else {
-      if (address !== userAccount?.account?.address) {
+      if (address === userAccount?.account?.address) {
         message("Not your pit");
       } else if (status !== "InProgress") {
         message("Game over");
