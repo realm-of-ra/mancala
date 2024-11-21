@@ -225,8 +225,23 @@ mod PlayableComponent {
             // Distribute seeds and get last pit
             let last_pit = distribute_seeds(world, ref current_player, ref opponent, selected_pit);
 
-            mancala_game.handle_player_switch(last_pit, opponent);
-            capture_seeds(world, last_pit, ref current_player, ref opponent);
+            // **Handle Player Switch and Check for Extra Turn**
+            let switched: bool = mancala_game.handle_player_switch(last_pit, opponent);
+            if !switched {
+                // Emit extra turn
+                store.player_extra_turn(mancala_game.game_id, current_player.address);
+            } else {
+                // Emit end turn event when player switches
+                store.end_turn(mancala_game.game_id, current_player.address, opponent.address);
+            }
+
+            let captured_seeds = capture_seeds(world, last_pit, ref current_player, ref opponent);
+            if captured_seeds > 0 {
+                store
+                    .capture(
+                        mancala_game.game_id, current_player.address, last_pit, captured_seeds
+                    );
+            }
 
             let current_player_seeds = get_player_seeds(world, @current_player);
             let opponent_seeds = get_player_seeds(world, @opponent);

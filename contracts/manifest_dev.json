@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a",
-      "class_hash": "0x4bd46de500d102e2e8e6a0aae4f40cbd39636771e33466f1af1d8428884108f",
+      "address": "0x3fefd15805503695b39d8189e9cefdb50d517fc38e1623abea667d676a11349",
+      "class_hash": "0x2c34abea84edbe27ec75599b58307981dfce626dee1696b30c90562363918b1",
       "abi": [
         {
           "type": "impl",
@@ -1664,6 +1664,24 @@
     }
   ],
   "events": [
+    {
+      "members": [],
+      "class_hash": "0x41b8c256c71fd189f2f4a46fc883903dfce72959d851807e61dc2e42361cb1f",
+      "tag": "mancala-Capture",
+      "selector": "0x783826761c2ce6c3db27ad092e5db4ecd012972781287101b3021ea38c5563f"
+    },
+    {
+      "members": [],
+      "class_hash": "0x6ad2c5b0a64992b068e6e3ada4f86d3ac692915006b60ac25f1d55b5e2f5c89",
+      "tag": "mancala-EndTurn",
+      "selector": "0x1c3df739f3e55026bc0da4caba3f42b0d6271006c20c2ea21d545c846f980c4"
+    },
+    {
+      "members": [],
+      "class_hash": "0x68aa78a7fe02585f67b17540762e5103c14c5d23fd94b5222200054e68ccc24",
+      "tag": "mancala-PlayerExtraTurn",
+      "selector": "0x6d36db43414068495c3d7866da5beee74ac39143a23ef23c4605a824d397c9f"
+    },
     {
       "members": [],
       "class_hash": "0x49fa2e09b02e37efe06209800c7fa4b07cd78e05559a83acfd3fcd4eb5e54e0",

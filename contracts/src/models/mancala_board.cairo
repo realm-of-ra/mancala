@@ -131,9 +131,12 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `last_pit` - The last pit where a seed was placed
     /// * `opponent` - The opponent Player
     #[inline]
-    fn handle_player_switch(ref self: MancalaBoard, last_pit: u8, opponent: Player) {
+    fn handle_player_switch(ref self: MancalaBoard, last_pit: u8, opponent: Player) -> bool {
         if last_pit != 7 {
             self.current_player = opponent.address;
+            true
+        } else {
+            false
         }
     }
 

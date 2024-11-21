@@ -12,7 +12,10 @@ use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
 
-use mancala::events::move::{PlayerMove, PlayerMoveTrait};
+use mancala::events::move::{
+    PlayerMove, PlayerMoveTrait, PlayerExtraTurn, PlayerExtraTurnTrait, EndTurn, EndTurnTrait,
+    Capture, CaptureTrait
+};
 
 // Structs
 #[derive(Copy, Drop)]
@@ -32,6 +35,31 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn player_move(mut self: Store, id: u128, pit_number: u8, seed_number: u8) {
         let event: PlayerMove = PlayerMoveTrait::new(id, pit_number, seed_number);
+        self.world.emit_event(@event);
+    }
+
+    #[inline]
+    fn player_extra_turn(mut self: Store, game_id: u128, player: ContractAddress) {
+        let event: PlayerExtraTurn = PlayerExtraTurnTrait::new(game_id, player);
+        self.world.emit_event(@event);
+    }
+
+    #[inline]
+    fn end_turn(
+        mut self: Store,
+        game_id: u128,
+        current_player: ContractAddress,
+        next_player: ContractAddress
+    ) {
+        let event: EndTurn = EndTurnTrait::new(game_id, current_player, next_player);
+        self.world.emit_event(@event);
+    }
+
+    #[inline]
+    fn capture(
+        mut self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_count: u8
+    ) {
+        let event: Capture = CaptureTrait::new(game_id, player, pit_number, seed_count);
         self.world.emit_event(@event);
     }
 
