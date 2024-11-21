@@ -14,7 +14,7 @@ export default function PlayersSkeleton() {
               "bg-[#0F1116]"
             )}
           >
-            <td className="flex flex-row items-center p-4 space-x-5 w-[1075px] justify-start">
+            <td className="flex flex-row items-center p-4 justify-between w-full">
               <div className="flex flex-row items-center space-x-5 w-fit">
                 <div className="w-8 h-8 bg-gray-700 rounded-full" />
                 <div className="w-24 h-4 bg-gray-700 rounded" />
