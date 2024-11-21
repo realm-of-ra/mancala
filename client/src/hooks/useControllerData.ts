@@ -1,4 +1,4 @@
-import ControllerConnector from "@cartridge/connector";
+import ControllerConnector from "@cartridge/connector/controller";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 
@@ -12,7 +12,7 @@ export default function useControllerData() {
   useEffect(() => {
     if (account && connector?.id === "controller") {
       contollerConnector.username()?.then(setUsername);
-      setIcon(contollerConnector.icon.dark);
+      // setIcon(contollerConnector.icon);
     } else {
       setUsername(undefined);
       setIcon(undefined);
@@ -20,9 +20,13 @@ export default function useControllerData() {
   }, [account, connector]);
 
   if (username !== undefined && icon !== undefined) {
-    return { username, icon , controllerConnector: contollerConnector };
+    return { username, icon, controllerConnector: contollerConnector };
   } else if (account) {
-    return { username: formatAddress(account.address), icon: undefined, controllerConnector: undefined };
+    return {
+      username: formatAddress(account.address),
+      icon: undefined,
+      controllerConnector: undefined,
+    };
   }
 }
 
