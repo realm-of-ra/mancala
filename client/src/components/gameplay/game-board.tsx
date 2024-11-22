@@ -30,20 +30,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
   });
   startPolling(1000);
   const involved = game_players?.mancalaPlayerModels.edges.some(
-    (item: any) => item?.node.address === account.address,
+    (item: any) => item?.node.address === account.account.address,
   );
   const player_position = involved
     ? game_players?.mancalaPlayerModels.edges.findIndex(
-        (item: any) => item?.node.address === account.address,
+        (item: any) => item?.node.address === account.account.address,
       )
     : 0;
-  const player_length = data?.mancalaSeedModels.edges
-    .filter(
-      (item: any) =>
-        item?.node.player ===
-        game_players?.mancalaPlayerModels.edges[player_position]?.node.address,
-    )
-    .filter((item: any) => item?.node.pit_number === 7).length;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_length = data?.mancalaSeedModels.edges
     .filter(
@@ -99,7 +92,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       return "170px";
     }
   };
-
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -157,85 +149,32 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 1 */}
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
-              {/* {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[opponent_position]?.node?.len_pits }, (_, zero_index) => zero_index + 1).map((_, i) => ( */}
-              {Array.from(
-                {
-                  length:
-                    game_players?.mancalaPlayerModels.edges[opponent_position]
-                      ?.node?.len_pits,
-                },
-                (_, zero_index) => zero_index + 1,
-              ).map((_, i) => (
+              {game_players?.mancalaPitModels.edges
+              .filter(
+                (item: any) =>
+                  item?.node.player ===
+                  game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address
+              )
+              .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
+              .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
+              .map((pit: any, i: number) => (
                 <TopPit
                   key={i}
-                  amount={
-                    game_players?.mancalaPitModels.edges
-                      .filter(
-                        (item: any) =>
-                          item?.node.player ===
-                          game_players?.mancalaPlayerModels.edges[
-                            opponent_position
-                          ]?.node.address,
-                      )
-                      .filter(
-                        (item: any) =>
-                          item?.node.pit_number ===
-                          game_players?.mancalaPlayerModels.edges[0]?.node
-                            .len_pits -
-                            i,
-                      )[0]?.node?.seed_count
-                  }
-                  address={
-                    game_players?.mancalaPlayerModels.edges[opponent_position]
-                      ?.node.address
-                  }
-                  pit={
-                    game_players?.mancalaPlayerModels.edges[opponent_position]
-                      ?.node.len_pits - i
-                  }
+                  amount={pit.node.seed_count}
+                  address={pit.node.player}
+                  pit={pit.node.pit_number}
                   system={system}
                   userAccount={account}
                   game_id={gameId}
                   message={setMoveMessage}
                   status={game_node?.status}
                   winner={game_node?.winner}
-                  seed_count={
-                    game_players?.mancalaPitModels.edges
-                      .filter(
-                        (item: any) =>
-                          item?.node.player ===
-                          game_players?.mancalaPlayerModels.edges[
-                            opponent_position
-                          ]?.node.address,
-                      )
-                      .filter(
-                        (item: any) =>
-                          item?.node.pit_number ===
-                          game_players?.mancalaPlayerModels.edges[0]?.node
-                            .len_pits -
-                            i,
-                      )[0]?.node?.seed_count
-                  }
+                  seed_count={pit.node.seed_count}
                   seeds={data?.mancalaSeedModels.edges
-                    .filter(
-                      (item: any) =>
-                        item?.node.player ===
-                        game_players?.mancalaPlayerModels.edges[
-                          opponent_position
-                        ]?.node.address,
-                    )
-                    .filter(
-                      (item: any) =>
-                        item?.node.pit_number ===
-                        game_players?.mancalaPlayerModels.edges[0]?.node
-                          .len_pits -
-                          i,
-                    )}
+                    .filter((seed: any) => seed?.node.player === pit.node.player)
+                    .filter((seed: any) => seed?.node.pit_number === pit.node.pit_number)}
                   setTimeRemaining={setTimeRemaining}
-                  max_block_between_move={parseInt(
-                    game_node?.max_block_between_move,
-                    16,
-                  )}
+                  max_block_between_move={parseInt(game_node?.max_block_between_move, 16)}
                 />
               ))}
             </div>
@@ -243,67 +182,43 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 2 */}
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
-              {/* {involved && Array.from({ length: game_players?.mancalaPlayerModels.edges[player_position]?.node.len_pits }, (_, zero_index) => zero_index + 1).map((pit_key, i) => ( */}
-              {Array.from(
-                {
-                  length:
-                    game_players?.mancalaPlayerModels.edges[player_position]
-                      ?.node.len_pits,
-                },
-                (_, zero_index) => zero_index + 1,
-              ).map((pit_key, i) => (
-                <BottomPit
-                  key={i}
-                  amount={
-                    game_players?.mancalaPitModels.edges
-                      .filter(
-                        (item: any) =>
-                          item?.node.player ===
-                          game_players?.mancalaPlayerModels.edges[
-                            player_position
-                          ]?.node.address,
-                      )
-                      .filter((item: any) => item?.node.pit_number === i + 1)[0]
-                      ?.node?.seed_count
-                  }
-                  address={
-                    game_players?.mancalaPlayerModels.edges[player_position]
-                      ?.node.address
-                  }
-                  pit={pit_key}
-                  userAccount={account}
-                  system={system}
-                  game_id={gameId}
-                  message={setMoveMessage}
-                  status={game_node?.status}
-                  winner={game_node?.winner}
-                  seed_count={
-                    game_players?.mancalaPitModels.edges
-                      .filter(
-                        (item: any) =>
-                          item?.node.player ===
-                          game_players?.mancalaPlayerModels.edges[
-                            player_position
-                          ]?.node.address,
-                      )
-                      .filter((item: any) => item?.node.pit_number === i + 1)[0]
-                      ?.node?.seed_count
-                  }
-                  seeds={data?.mancalaSeedModels.edges
-                    .filter(
-                      (item: any) =>
-                        item?.node.player ===
-                        game_players?.mancalaPlayerModels.edges[player_position]
-                          ?.node.address,
-                    )
-                    .filter((item: any) => item?.node.pit_number === i + 1)}
-                  setTimeRemaining={setTimeRemaining}
-                  max_block_between_move={parseInt(
-                    game_node?.max_block_between_move,
-                    16,
-                  )}
-                />
-              ))}
+            {game_players?.mancalaPitModels.edges
+              .filter(
+                (item: any) =>
+                  item?.node.player ===
+                  game_players?.mancalaPlayerModels.edges[player_position]?.node.address
+              )
+              .filter((item: any) => item?.node.pit_number !== 7)
+              .sort((a: any, b: any) => a.node.pit_number - b.node.pit_number)
+              .map((pit: any, i: number) => {
+                // Filter seeds for this specific pit number (1-6)
+                const pitSeeds = data?.mancalaSeedModels.edges
+                  .filter((seed: any) => 
+                    seed?.node.player === pit.node.player && 
+                    seed?.node.pit_number === pit.node.pit_number &&
+                    pit.node.pit_number >= 1 &&
+                    pit.node.pit_number <= 6
+                  );
+
+                return (
+                  <BottomPit
+                    key={i}
+                    amount={pit.node.seed_count}
+                    address={pit.node.player}
+                    pit={pit.node.pit_number}
+                    userAccount={account}
+                    system={system}
+                    game_id={gameId}
+                    message={setMoveMessage}
+                    status={game_node?.status}
+                    winner={game_node?.winner}
+                    seed_count={pit.node.seed_count}
+                    seeds={pitSeeds}
+                    setTimeRemaining={setTimeRemaining}
+                    max_block_between_move={parseInt(game_node?.max_block_between_move, 16)}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
