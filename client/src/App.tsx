@@ -1,7 +1,6 @@
-import CartridgeConnector from "@cartridge/connector";
+import ControllerConnector from "@cartridge/connector/controller";
 import { ControllerOptions } from "@cartridge/controller";
 import { Chain, sepolia } from "@starknet-react/chains";
-import { stringToFelt, bigintToHex } from "@/lib/utils";
 import {
   Connector,
   StarknetConfig,
@@ -20,27 +19,7 @@ import Profile from "./pages/Profile";
 const options: ControllerOptions = {
   rpc: SLOT_RPC_URL,
   theme: "realm-of-ra",
-  paymaster: {
-    caller: bigintToHex(stringToFelt("ANY_CALLER")),
-  },
-  config: {
-    presets: {
-      "realm-of-ra": {
-        id: "realm-of-ra",
-        name: "Realm of Ra",
-        icon: "/whitelabel/realm-of-ra/icon.png",
-        cover: "/whitelabel/realm-of-ra/cover.png",
-        colors: {
-          primary: "#de9534",
-        },
-      },
-    },
-  },
-};
-
-const connectorOptions = {
   policies: POLICIES,
-  ...options,
 };
 
 function rpc(_chain: Chain) {
@@ -73,12 +52,11 @@ export default function App() {
     };
   }, []);
 
-  const connectors = [
-    new CartridgeConnector(connectorOptions) as never as Connector,
-  ];
+  const connectors = [new ControllerConnector(options) as never as Connector];
 
   return (
     <StarknetConfig
+      autoConnect={true}
       chains={[sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}

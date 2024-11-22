@@ -603,11 +603,10 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
-export const SLOT_RPC_URL =
-  "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana";
+export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
-  "0x7859578bf652591b5aeebb076eb62fe500883c9acb3585a95b049888e504555";
+  "0x0664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a";
 
 export const POLICIES = [
   {

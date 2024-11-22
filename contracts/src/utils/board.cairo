@@ -83,14 +83,19 @@ fn distribute_seeds(
 
 fn capture_seeds(
     world: WorldStorage, last_pit: u8, ref current_player: Player, ref opponent: Player
-) {
+) -> u8 {
     let mut store: Store = StoreTrait::new(world);
+    let mut captured_seeds: u8 = 0;
+
     if last_pit >= 1 && last_pit <= 6 {
         let mut last_pit_model = store
             .get_pit(current_player.game_id, current_player.address, last_pit);
         if last_pit_model.seed_count == 1 {
             let mut opposite_pit = store.get_pit(opponent.game_id, opponent.address, 7 - last_pit);
             if opposite_pit.seed_count > 0 {
+                // Calculate total seeds to be captured (opposite pit + landing seed)
+                captured_seeds = opposite_pit.seed_count + 1;
+
                 // transfer seeds from other player to store
                 let mut seed_idx = 1;
                 loop {
@@ -117,6 +122,8 @@ fn capture_seeds(
             }
         }
     }
+
+    captured_seeds
 }
 
 fn get_player_seeds(world: WorldStorage, player: @Player) -> Array<Seed> {

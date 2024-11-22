@@ -12,13 +12,13 @@ async function init() {
   const Loading = () => <div className="text-4xl text-black">Loading...</div>;
 
   root.render(
-    <React.StrictMode>
-      <ErrorBoundary>
-        <Suspense fallback={<Loading />}>
-          <AppWrapper />
-        </Suspense>
-      </ErrorBoundary>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <ErrorBoundary>
+      <Suspense fallback={<Loading />}>
+        <AppWrapper />
+      </Suspense>
+    </ErrorBoundary>,
+    // </React.StrictMode>,
   );
 }
 
