@@ -351,11 +351,7 @@ export const duels_header = [
   },
   {
     id: 4,
-    name: "Date",
-  },
-  {
-    id: 5,
-    name: "",
+    name: "Status",
   },
 ];
 

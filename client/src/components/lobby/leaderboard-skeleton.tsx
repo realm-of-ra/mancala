@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function PlayersSkeleton() {
+export default function LeaderboardSkeleton() {
   const arr = Array(6).fill(null);
   return (
     <>

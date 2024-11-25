@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAtom } from "jotai";
 import connectionIcon from "../assets/connect.png";
-import Players from "@/components/lobby/players.tsx";
+import Leaderboard from "@/components/lobby/leaderboard.tsx";
 import Duels from "@/components/lobby/duels.tsx";
 import { Dialog } from "@material-tailwind/react";
 import { Label } from "@/components/ui/label";
@@ -107,21 +107,17 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const handleConnect = () => {
-    connectWallet();
-  };
-
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
-      game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_one === account.account?.address ||
+      game?.node?.player_two === account.account?.address
   );
 
   const filteredTransactions =
     data?.mancalaMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
       if (
-        (game?.node?.player_one === account.address ||
-          game?.node?.player_two === account.address) &&
+        (game?.node?.player_one === account.account?.address ||
+          game?.node?.player_two === account.account?.address) &&
         game?.node?.entity.executedAt
       ) {
         acc.push({
@@ -368,7 +364,7 @@ export default function Lobby() {
             {isConnected ? (
               <>
                 <TabsContent value="players">
-                  <Players data={data?.mancalaMancalaBoardModels?.edges} />
+                  <Leaderboard data={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels

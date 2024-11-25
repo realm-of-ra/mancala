@@ -69,7 +69,7 @@ export default function LiveDuels({ games }: { games: any }) {
                   key={head.id}
                   className={clsx(
                     head.id === 3
-                      ? "text-center"
+                      ? "text-start"
                       : head.id === 4
                         ? "text-end"
                         : "text-start",
@@ -141,7 +141,7 @@ export default function LiveDuels({ games }: { games: any }) {
                             </Typography>
                           </div>
                         </td>
-                        <td className="flex flex-row items-center px-4 py-5 space-x-5 w-[200px] justify-center">
+                        <td className="flex flex-row px-4 py-5 space-x-5 w-[200px] ">
                           {games[index].node.player_two !== "0x0" ? (
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
                               <div
@@ -170,12 +170,12 @@ export default function LiveDuels({ games }: { games: any }) {
                             </p>
                           )}
                         </td>
-                        <td className="w-[200px] text-center">
+                        <td className="w-[200px] px-4">
                           <p className="font-normal text-[#BDC2CC]">
                             {date.toLocaleDateString()}
                           </p>
                         </td>
-                        <td className="flex flex-row justify-center w-[200px]">
+                        <td className="flex flex-row  w-[200px]">
                           <Link
                             to={
                               games[index].node.player_one ===

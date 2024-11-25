@@ -180,7 +180,7 @@ export default function Header() {
                 >
                   <div className="bg-[#272a32] px-4 py-2 rounded-l-full">
                     <img
-                      src={controllerData?.icon}
+                      src={controllerSvg}
                       width={40}
                       height={40}
                       alt=""
@@ -236,11 +236,11 @@ export default function Header() {
                 className="flex justify-between font-medium relative items-center bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full"
                 onClick={handleDropdownToggle}
               >
-                <span className="bg-[#FFA158] h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
+                <span className="h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
                   <img
                     src={controllerSvg}
-                    width={30}
-                    height={30}
+                    width={40}
+                    height={40}
                     className="text-left"
                   />
                 </span>
