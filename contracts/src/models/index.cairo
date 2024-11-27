@@ -50,7 +50,7 @@ pub struct Player {
     pub restart_requested: bool
 }
 
-#[derive(Copy, Drop, Serde)]
+#[derive(Clone, Drop, Serde)]
 #[dojo::model]
 pub struct Pit {
     #[key]
@@ -59,7 +59,7 @@ pub struct Pit {
     pub player: ContractAddress,
     #[key]
     pub pit_number: u8,
-    pub seed_count: u8,
+    pub seeds: Array<u8>,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -70,8 +70,8 @@ pub struct Seed {
     #[key]
     pub player: ContractAddress,
     #[key]
+    pub seed_id: u8,
     pub pit_number: u8,
-    #[key]
-    pub seed_number: u8,
+    pub prev_pit_number: u8,
     pub color: SeedColor
 }

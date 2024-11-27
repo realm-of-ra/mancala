@@ -99,10 +99,8 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_seed(
-        self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8
-    ) -> Seed {
-        self.world.read_model((game_id, player, pit_number, seed_number))
+    fn get_seed(self: Store, game_id: u128, player: ContractAddress, seed_id: u8) -> Seed {
+        self.world.read_model((game_id, player, seed_id))
     }
 
     #[inline]

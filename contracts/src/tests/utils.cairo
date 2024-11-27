@@ -13,19 +13,20 @@ fn move_player_seeds_to_store(world: WorldStorage, player: @Player) {
             break;
         }
         let mut pit = store.get_pit(*player.game_id, *player.address, idx);
-        let mut seeds_idx = 1;
+        let mut seeds_idx = 0;
         loop {
-            if seeds_idx > pit.seed_count {
+            if seeds_idx == pit.seeds.len() {
                 break;
             }
-            let mut seed = store.get_seed(*player.game_id, *player.address, idx, seeds_idx);
+            let seed_id = *pit.seeds.at(seeds_idx);
+            let mut seed = store.get_seed(*player.game_id, *player.address, seed_id);
+            seed.prev_pit_number = seed.pit_number;
             seed.pit_number = 7;
-            player_store.seed_count += 1;
-            seed.seed_number = player_store.seed_count;
+            player_store.seeds.append(seed.seed_id);
             store.set_seed(seed);
             seeds_idx += 1;
         };
-        pit.seed_count = 0;
+        pit.seeds = array![];
         store.set_pit(pit);
         idx += 1;
     };

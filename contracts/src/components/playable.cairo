@@ -217,8 +217,8 @@ mod PlayableComponent {
             let (mut current_player, mut opponent) = self.get_players(world, game_id);
             let mut current_player_pit = store
                 .get_pit(current_player.game_id, current_player.address, selected_pit);
-            let pit_seed_number: u8 = current_player_pit.seed_count;
-            if current_player_pit.seed_count == 0 {
+            let pit_seed_number: u8 = current_player_pit.seeds.len().try_into().unwrap();
+            if current_player_pit.seeds.len() == 0 {
                 panic!("Selected pit is empty. Choose another pit.");
             }
 
@@ -258,9 +258,9 @@ mod PlayableComponent {
                     .get_pit(current_player.game_id, current_player.address, 7);
                 let mut opponet_store = store.get_pit(opponent.game_id, opponent.address, 7);
 
-                if current_player_store.seed_count > opponet_store.seed_count {
+                if current_player_store.seeds.len() > opponet_store.seeds.len() {
                     mancala_game.winner = current_player.address;
-                } else if current_player_store.seed_count < opponet_store.seed_count {
+                } else if current_player_store.seeds.len() < opponet_store.seeds.len() {
                     mancala_game.winner = opponent.address;
                 }
             }
@@ -293,7 +293,7 @@ mod PlayableComponent {
 
             let player_one_store = store.get_pit(player_one.game_id, player_one.address, 7);
             let player_two_store = store.get_pit(player_one.game_id, player_two.address, 7);
-            (player_one_store.seed_count, player_two_store.seed_count)
+            (player_one_store.seeds.len().try_into().unwrap(), player_two_store.seeds.len().try_into().unwrap())
         }
 
         /// Checks if the game is over

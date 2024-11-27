@@ -39,6 +39,9 @@ mod setup {
                 TestResource::Model(models::m_Player::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Seed::TEST_CLASS_HASH),
                 TestResource::Event(events::e_PlayerMove::TEST_CLASS_HASH),
+                TestResource::Event(events::e_PlayerExtraTurn::TEST_CLASS_HASH),
+                TestResource::Event(events::e_EndTurn::TEST_CLASS_HASH),
+                TestResource::Event(events::e_Capture::TEST_CLASS_HASH),
                 TestResource::Contract(actions::TEST_CLASS_HASH),
             ].span()
         }

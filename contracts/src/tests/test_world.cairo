@@ -55,20 +55,23 @@ mod test_init_game {
 
         // Check player 1 pits are correctly initialized
         let mut pit_idx = 1;
+        let mut seeds_seen = 0;
         loop {
             if pit_idx > 6 {
                 break;
             }
             let player_1_pit = store.get_pit(game_id, setup::OWNER(), pit_idx);
-            assert(player_1_pit.seed_count == 4, 'P1 pit seed count is wrong');
-            let mut seed_idx = 1;
+            assert(player_1_pit.seeds.len() == 4, 'P1 pit seed count is wrong');
+            let mut seed_idx = 0;
             loop {
-                if seed_idx > 4 {
+                if seed_idx == 4 {
                     break;
                 }
-                let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+                let seed_id = *player_1_pit.seeds.at(seed_idx);
+                let seed = store.get_seed(game_id, setup::OWNER(), seed_id);
                 assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
                 seed_idx += 1;
+                seeds_seen += 1;
             };
             pit_idx += 1;
         };
@@ -80,18 +83,22 @@ mod test_init_game {
                 break;
             }
             let player_1_pit = store.get_pit(game_id, ANYONE, pit_idx);
-            assert(player_1_pit.seed_count == 4, 'P2 pit seed count is wrong');
-            let mut seed_idx = 1;
+            assert(player_1_pit.seeds.len() == 4, 'P2 pit seed count is wrong');
+            let mut seed_idx = 0;
             loop {
-                if seed_idx > 4 {
+                if seed_idx == 4 {
                     break;
                 }
-                let seed = store.get_seed(game_id, ANYONE, pit_idx, seed_idx);
+                let seed_id = *player_1_pit.seeds.at(seed_idx);
+                let seed = store.get_seed(game_id, ANYONE, seed_id);
                 assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
                 seed_idx += 1;
+                seeds_seen += 1;
             };
             pit_idx += 1;
         };
+
+        assert(seeds_seen == 48, 'Wrong seed count');
     }
 
     #[test]
@@ -119,14 +126,16 @@ mod test_init_game {
                 break;
             }
             let player_1_pit = store.get_pit(game_id, setup::OWNER(), pit_idx);
-            assert(player_1_pit.seed_count == 4, 'P1 pit seed count is wrong');
-            let mut seed_idx = 1;
+            assert(player_1_pit.seeds.len() == 4, 'P1 pit seed count is wrong');
+            let mut seed_idx = 0;
             loop {
-                if seed_idx > 4 {
+                if seed_idx == 4 {
                     break;
                 }
-                let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+                let seed_id = *player_1_pit.seeds.at(seed_idx);
+                let seed = store.get_seed(game_id, setup::OWNER(), seed_id);
                 assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
+                assert(seed.pit_number == pit_idx, 'P1 Seed pit number is wrong');
                 seed_idx += 1;
             };
             pit_idx += 1;
@@ -139,14 +148,16 @@ mod test_init_game {
                 break;
             }
             let player_1_pit = store.get_pit(game_id, OPPONENT, pit_idx);
-            assert(player_1_pit.seed_count == 4, 'P2 pit seed count is wrong');
-            let mut seed_idx = 1;
+            assert(player_1_pit.seeds.len() == 4, 'P2 pit seed count is wrong');
+            let mut seed_idx = 0;
             loop {
-                if seed_idx > 4 {
+                if seed_idx == 4 {
                     break;
                 }
-                let seed = store.get_seed(game_id, OPPONENT, pit_idx, seed_idx);
+                let seed_id = *player_1_pit.seeds.at(seed_idx);
+                let seed = store.get_seed(game_id, OPPONENT, seed_id);
                 assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
+                assert(seed.pit_number == pit_idx, 'P2 Seed pit number is wrong');
                 seed_idx += 1;
             };
             pit_idx += 1;
@@ -212,21 +223,21 @@ mod test_play {
 
         // Pit 4 of player 1 should be empty
         let p1_pit_4 = store.get_pit(game_id, setup::OWNER(), 4);
-        assert(p1_pit_4.seed_count == 0, 'P1 pit 4 seed count is wrong');
+        assert(p1_pit_4.seeds.len() == 0, 'P1 pit 4 seed count is wrong');
 
         // Pit 4, 5, 6 of player 1 should have 5 seeds
         let p1_pit_5 = store.get_pit(game_id, setup::OWNER(), 5);
         let p1_pit_6 = store.get_pit(game_id, setup::OWNER(), 6);
-        assert(p1_pit_5.seed_count == 5, 'P1 pit 5 seed count is wrong');
-        assert(p1_pit_6.seed_count == 5, 'P1 pit 6 seed count is wrong');
+        assert(p1_pit_5.seeds.len() == 5, 'P1 pit 5 seed count is wrong');
+        assert(p1_pit_6.seeds.len() == 5, 'P1 pit 6 seed count is wrong');
 
         // Store pit should have 1 seed
         let p1_store = store.get_pit(game_id, setup::OWNER(), 7);
-        assert(p1_store.seed_count == 1, 'P1 store seed count is wrong');
+        assert(p1_store.seeds.len() == 1, 'P1 store seed count is wrong');
 
         // Player2 pit 1 should have 1 extra seed
         let p2_pit_1 = store.get_pit(game_id, ANYONE, 1);
-        assert(p2_pit_1.seed_count == 5, 'P2 pit 1 seed count is wrong');
+        assert(p2_pit_1.seeds.len() == 5, 'P2 pit 1 seed count is wrong');
 
         // Player 2 turn
         set_contract_address(ANYONE);
@@ -236,14 +247,14 @@ mod test_play {
         systems.actions.move(game_id, 4);
         // Pit 3 of player 1 should be empty
         let p2_pit_4 = store.get_pit(game_id, ANYONE, 4);
-        assert(p2_pit_4.seed_count == 0, 'P2 pit 4 seed count is wrong');
+        assert(p2_pit_4.seeds.len() == 0, 'P2 pit 4 seed count is wrong');
 
         let p2_pit_5 = store.get_pit(game_id, ANYONE, 5);
         let p2_pit_6 = store.get_pit(game_id, ANYONE, 6);
         let p2_pit_store = store.get_pit(game_id, ANYONE, 7);
-        assert(p2_pit_5.seed_count == 5, 'P2 pit 5 seed count is wrong');
-        assert(p2_pit_6.seed_count == 5, 'P2 pit 6 seed count is wrong');
-        assert(p2_pit_store.seed_count == 1, 'P2 store seed count is wrong');
+        assert(p2_pit_5.seeds.len() == 5, 'P2 pit 5 seed count is wrong');
+        assert(p2_pit_6.seeds.len() == 5, 'P2 pit 6 seed count is wrong');
+        assert(p2_pit_store.seeds.len() == 1, 'P2 store seed count is wrong');
     }
 
     #[test]
@@ -283,12 +294,12 @@ mod test_play {
         systems.actions.move(game_id, 2);
 
         let p2_pit_1 = store.get_pit(game_id, ANYONE, 1);
-        assert(p2_pit_1.seed_count == 0, 'P2 pit 1 seed count is wrong');
+        assert(p2_pit_1.seeds.len() == 0, 'P2 pit 1 seed count is wrong');
 
         let p1_store_after = store.get_pit(game_id, setup::OWNER(), 7);
-        let expected_seeds_in_store = p1_store_before.seed_count + p2_pit_1_before.seed_count + 1;
+        let expected_seeds_in_store = p1_store_before.seeds.len() + p2_pit_1_before.seeds.len() + 1;
         assert(
-            p1_store_after.seed_count == expected_seeds_in_store, 'P1 store seed count is wrong'
+            p1_store_after.seeds.len() == expected_seeds_in_store, 'P1 store seed count is wrong'
         );
     }
 
@@ -364,23 +375,30 @@ mod test_play {
         assert(p2_score == 25, 'Player 2 score is wrong');
 
         // Check that there is the correct amount of seeds in the store
-        let mut p1_index = 1;
+        let p1_store = store.get_pit(game_id, setup::OWNER(), 7);
+        assert(p1_store.seeds.len().try_into().unwrap() == p1_score, 'P1 store seed count is wrong');
+        let mut p1_index = 0;
         loop {
-            if p1_index > p1_score {
+            if p1_index == p1_store.seeds.len() {
                 break;
             }
-            let p1_seed = store.get_seed(game_id, setup::OWNER(), 7, p1_index);
-            assert(p1_seed.color != SeedColor::None, 'P1 seed not exist');
+            let seed_id = *p1_store.seeds.at(p1_index);
+            let p1_seed = store.get_seed(game_id, setup::OWNER(), seed_id);
+            assert(p1_seed.pit_number == 7, 'P1 Seed not in store');
             p1_index += 1;
         };
 
-        let mut p2_index = 1;
+        let p2_store = store.get_pit(game_id, ANYONE, 7);
+        assert(p2_store.seeds.len().try_into().unwrap() == p2_score, 'P2 store seed count is wrong');
+        let mut p2_index = 0;
         loop {
-            if p2_index > p2_score {
+            if p2_index == p2_store.seeds.len() {
                 break;
             }
-            let p2_seed = store.get_seed(game_id, ANYONE, 7, p2_index);
+            let seed_id = *p2_store.seeds.at(p2_index);
+            let p2_seed = store.get_seed(game_id, ANYONE, seed_id);
             assert(p2_seed.color != SeedColor::None, 'P2 seed not exist');
+            assert(p2_seed.pit_number == 7, 'P2 Seed not in store');
             p2_index += 1;
         };
     }
