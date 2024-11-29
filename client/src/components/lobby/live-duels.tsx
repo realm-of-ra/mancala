@@ -1,4 +1,4 @@
-import { live_duels_header, player_header } from "@/lib/constants.ts";
+import { live_duels_header, player_header, colors } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "../ui/button.tsx";
@@ -37,7 +37,7 @@ export default function LiveDuels({ games }: { games: any }) {
         game_id,
         player_2_address,
         setJoinStatus,
-        index,
+        index
       );
     }
   };
@@ -68,19 +68,21 @@ export default function LiveDuels({ games }: { games: any }) {
                 <div
                   key={head.id}
                   className={clsx(
-                    head.id === 1
-                      ? "text-start"
+                    head.id === 2
+                      ? "text-center"
+                      : head.id === 3
+                        ? "text-center"
                       : head.id === 4
                         ? "text-end"
-                        : "text-center",
-                    "w-[200px] p-4",
+                        : "text-start",
+                    "w-[200px] p-4"
                   )}
                 >
                   <Typography
                     variant="small"
                     className={clsx(
                       head.id === 4 && "hidden",
-                      "font-medium leading-none text-[#BDC2CC]",
+                      "font-medium leading-none text-[#BDC2CC]"
                     )}
                   >
                     {head.name}
@@ -89,7 +91,7 @@ export default function LiveDuels({ games }: { games: any }) {
               ))}
             </div>
           </div>
-          <div className="absolute h-[450px] w-[814px] overflow-x-clip overflow-y-scroll">
+          <div className="absolute h-[450px] w-[814px] overflow-x-clip overflow-y-scroll scrollbar">
             <table className="w-full text-left table-auto">
               <thead className="border-b border-[#313640] hidden">
                 <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
@@ -110,63 +112,72 @@ export default function LiveDuels({ games }: { games: any }) {
                   data?.map((data: any, index: number) => {
                     const isLast = index === games?.length - 1;
                     const date = new Date(data.date);
+                    const challengerColor = colors[index % colors.length];
+                    const challengedColor = colors[(index + 3) % colors.length];
                     return (
                       <tr
                         key={index}
                         className={clsx(
                           !isLast && "border-b border-[#23272F]",
-                          "w-full bg-[#0F1116] flex flex-row items-center",
+                          "w-full bg-[#0F1116] flex flex-row items-center"
                         )}
                       >
-                        <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
+                        <td className="flex flex-row items-center px-4 py-5 space-x-5 w-[200px] justify-start">
                           <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
-                            {/* <img src={data.challenger.profilePicture} width={35} height={35}
-                                                        alt={`${data.challenger.name} profile picture`}
-                                                        className="rounded-full" /> */}
-                            <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                              <div className="bg-[#15171E] rounded-full p-2.5">
-                                <UserIcon color="#F58229" className="w-6 h-6" />
-                              </div>
+                            <div
+                              className="w-8 h-8 flex items-center justify-center rounded-full"
+                              style={{ backgroundColor: challengerColor }}
+                            >
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
                             </div>
-                            <p className="font-normal text-white">
+                            <Typography
+                              variant="paragraph"
+                              className="font-medium leading-none text-white"
+                            >
                               {data.challenger.name
                                 ? data.challenger.name
                                 : truncateString(games[index].node.player_one)}
-                            </p>
+                            </Typography>
                           </div>
                         </td>
-                        <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-center">
+                        <td className="flex flex-row px-4 py-5 space-x-5 w-[200px] text-center">
                           {games[index].node.player_two !== "0x0" ? (
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
-                              {/* <img src={data.challenged.profilePicture} width={35} height={35}
-                                                                alt={`${data.challenged.name} profile picture`}
-                                                                className="rounded-full" /> */}
-                              <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <div className="bg-[#15171E] rounded-full p-2.5">
-                                  <UserIcon
-                                    color="#F58229"
-                                    className="w-6 h-6"
-                                  />
-                                </div>
+                              <div
+                                className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
+                                style={{ backgroundColor: challengedColor }}
+                              >
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
                               </div>
-                              <p className="font-normal text-white">
+                              <Typography
+                                variant="paragraph"
+                                className="font-medium leading-none text-white"
+                              >
                                 {data.challenged.name
                                   ? data.challenged.name
                                   : truncateString(
-                                      games[index].node.player_two,
+                                      games[index].node.player_two
                                     )}
-                              </p>
+                              </Typography>
                             </div>
                           ) : (
-                            <p className="text-white">Matchmaking</p>
+                            <p className="text-[#646976] font-semibold text-center w-full">
+                              Matchmaking...
+                            </p>
                           )}
                         </td>
-                        <td className="w-[200px] text-center">
+                        <td className="w-[200px] px-4 text-center">
                           <p className="font-normal text-[#BDC2CC]">
                             {date.toLocaleDateString()}
                           </p>
                         </td>
-                        <td className="flex flex-row justify-center w-[200px]">
+                        <td className="flex flex-row w-[200px] items-center justify-center">
                           <Link
                             to={
                               games[index].node.player_one ===
@@ -230,7 +241,7 @@ export default function LiveDuels({ games }: { games: any }) {
                                 "Go to game"
                               ) : games[index].node.player_one !== "0x0" &&
                                 games[index].node.player_two !== "0x0" ? (
-                                "Watch game"
+                                "Spectate game"
                               ) : (
                                 "Join game"
                               )}

@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAtom } from "jotai";
 import connectionIcon from "../assets/connect.png";
-import Players from "@/components/lobby/players.tsx";
+import Leaderboard from "@/components/lobby/leaderboard.tsx";
 import Duels from "@/components/lobby/duels.tsx";
 import { Dialog } from "@material-tailwind/react";
 import { Label } from "@/components/ui/label";
@@ -27,8 +27,10 @@ import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
 import { MancalaBoardModelsQuery } from "@/lib/constants";
+import Dropdown from "@/components/dropdown";
 
 export default function Lobby() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
@@ -80,7 +82,7 @@ export default function Lobby() {
       const res = await system.create_private_game(
         account.account,
         player2,
-        setGameId,
+        setGameId
       );
       if (!res) {
         setCreating(false);
@@ -104,21 +106,17 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const handleConnect = () => {
-    connectWallet();
-  };
-
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
-      game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
+      game?.node?.player_one === account.account?.address ||
+      game?.node?.player_two === account.account?.address
   );
 
   const filteredTransactions =
     data?.mancalaMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
       if (
-        (game?.node?.player_one === account.address ||
-          game?.node?.player_two === account.address) &&
+        (game?.node?.player_one === account.account?.address ||
+          game?.node?.player_two === account.account?.address) &&
         game?.node?.entity.executedAt
       ) {
         acc.push({
@@ -129,30 +127,18 @@ export default function Lobby() {
       return acc;
     }, []) || [];
 
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="w-[874px]">
-          <Tabs defaultValue="players" className="w-full space-y-10">
+          <Tabs defaultValue="live" className="w-full space-y-10">
             <div className="flex flex-row items-center justify-between w-full">
               <TabsList className="bg-transparent space-x-1.5">
-                <TabsTrigger
-                  value="players"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229]"
-                >
-                  Players
-                </TabsTrigger>
-                <TabsTrigger
-                  value="duels"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229]"
-                >
-                  Your Duels
-                </TabsTrigger>
                 <TabsTrigger
                   value="live"
                   className="data-[state=active]:bg-[#1A1D25]
@@ -167,15 +153,35 @@ export default function Lobby() {
                     <p>Live Duels</p>
                   </div>
                 </TabsTrigger>
-              </TabsList>
-              <div className="flex flex-row items-center space-x-5">
-                <Link
-                  to="/leaderboard"
-                  className="flex flex-row items-center justify-center space-x-1"
+                <TabsTrigger
+                  value="duels"
+                  className="data-[state=active]:bg-[#1A1D25]
+                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
+                            data-[state=active]:text-[#F58229]"
                 >
-                  <div className="bg-[url('./assets/cup.png')] w-4 h-4 bg-cover bg-no-repeat" />
-                  <h4 className="text-[#F58229] font-medium">Leaderboard</h4>
-                </Link>
+                  Duels
+                </TabsTrigger>
+                <TabsTrigger
+                  value="leaderboard"
+                  className="data-[state=active]:bg-[#1A1D25]
+                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
+                            data-[state=active]:text-[#F58229]"
+                >
+                  <div className="flex flex-row items-center space-x-1.5">
+                    <div className="bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat" />
+                    <p className="text-base">Leaderboard</p>
+                  </div>
+                </TabsTrigger>
+              </TabsList>
+              <div className="flex flex-row items-center space-x-5 relative">
+                <div
+                  className="flex flex-row items-center justify-center space-x-1 hover:cursor-pointer"
+                  onClick={handleDropdownToggle}
+                >
+                  <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
+                  <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
+                </div>
+                {isDropdownOpen && <Dropdown />}
                 <Button
                   className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                   disabled={!isConnected}
@@ -349,10 +355,11 @@ export default function Lobby() {
                 </div>
               </div>
             </Dialog>
+
             {isConnected ? (
               <>
-                <TabsContent value="players">
-                  <Players data={data?.mancalaMancalaBoardModels?.edges} />
+                <TabsContent value="live">
+                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
@@ -361,8 +368,8 @@ export default function Lobby() {
                     loading={loading}
                   />
                 </TabsContent>
-                <TabsContent value="live">
-                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
+                <TabsContent value="leaderboard">
+                  <Leaderboard data={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
               </>
             ) : (
