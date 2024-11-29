@@ -31,7 +31,6 @@ import Dropdown from "@/components/dropdown";
 
 export default function Lobby() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownClose, setIsDropdownClose] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
@@ -176,7 +175,7 @@ export default function Lobby() {
               </TabsList>
               <div className="flex flex-row items-center space-x-5 relative">
                 <div
-                  className="flex flex-row items-center justify-center space-x-1"
+                  className="flex flex-row items-center justify-center space-x-1 hover:cursor-pointer"
                   onClick={handleDropdownToggle}
                 >
                   <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
