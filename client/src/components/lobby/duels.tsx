@@ -97,8 +97,10 @@ export default function Duels({
                     <div
                       key={head.id}
                       className={clsx(
-                        head.id === 3
+                        head.id === 2
                           ? "text-center"
+                          : head.id === 3
+                            ? "text-center"
                           : head.id === 4
                             ? "text-end"
                             : "text-start",
@@ -137,7 +139,6 @@ export default function Duels({
                   <tbody className="max-h-[450px] overflow-y-scroll">
                     {data?.map((item: any, index: number) => {
                       const isLast = index === data?.length - 1;
-                      const date = new Date(item.date);
                       const challengerColor = colors[index % colors.length];
                       const challengedColor =
                         colors[(index + 3) % colors.length];
@@ -191,12 +192,12 @@ export default function Duels({
                                 </p>
                               </div>
                             ) : (
-                              <p className="text-[#646976] font-medium">
+                              <p className="text-[#646976] font-medium w-full text-center">
                                 Matchmaking
                               </p>
                             )}
                           </td>
-                          <td className="w-[200px] text-center">
+                          <td className="w-[210px] text-center">
                             <p className="font-normal text-[#FAB580]">
                               {item.winner.name
                                 ? item.winner.name
