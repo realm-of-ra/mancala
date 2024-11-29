@@ -8,6 +8,8 @@ sierra-replace-ids = true
 
 [scripts]
 dev = "sozo clean && sozo build --typescript && sozo migrate"
+deploy-sepolia = "rm -rf ./manifest_sepolia.json && sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate"
+deploy-slot = "rm -rf ./manifest_slot.json && sozo --profile slot clean && sozo --profile slot build && sozo --profile slot migrate"
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.1" }

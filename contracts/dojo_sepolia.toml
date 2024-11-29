@@ -4,7 +4,7 @@ description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo.
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
 website = "https://github.com/realm-of-ra/mancala"
-seed = "mancala"
+seed = "mancala_new"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
@@ -23,4 +23,4 @@ rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
 # Default account for katana with seed = 0
 account_address = "0x02A54eFf65D55a2E7D2fC7E23eF0F0e6030dB0313b16c8F0eaD0b4a83807f6d6"
 private_key = "0x0396533b7a1182ef03da483eca82e9dd2b17bee9c7fec07ac6cbbeb8bfd573cb"
-world_address = "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3"  # Uncomment and update this line with your world address.
+world_address = "0x04fb1a0cc9679a17d61c939a737a2e57a5c78db48d724600669f2df1d417673b"  # Uncomment and update this line with your world address.
