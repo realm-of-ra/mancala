@@ -24,7 +24,7 @@ export default function Dropdown() {
             />
             <label
               htmlFor={filter}
-              className="text-base font-normal text-[#C7CAD4]"
+              className="text-base font-normal text-[#C7CAD4] cursor-pointer"
             >
               {filter}
             </label>

@@ -370,7 +370,7 @@ export default function Lobby() {
                   <Duels
                     games={filteredGames}
                     transactions={filteredTransactions}
-                    loading={loading}
+                    loading={true}
                   />
                 </TabsContent>
                 <TabsContent value="live">
