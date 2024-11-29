@@ -132,10 +132,6 @@ export default function Lobby() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleDropdownToggleClose = () => {
-    setIsDropdownClose(!isDropdownClose);
-  };
-
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
@@ -167,7 +163,7 @@ export default function Lobby() {
                   Duels
                 </TabsTrigger>
                 <TabsTrigger
-                  value="players"
+                  value="leaderboard"
                   className="data-[state=active]:bg-[#1A1D25]
                             data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
                             data-[state=active]:text-[#F58229]"
@@ -363,8 +359,8 @@ export default function Lobby() {
 
             {isConnected ? (
               <>
-                <TabsContent value="players">
-                  <Leaderboard data={data?.mancalaMancalaBoardModels?.edges} />
+                <TabsContent value="live">
+                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
                 <TabsContent value="duels">
                   <Duels
@@ -373,8 +369,8 @@ export default function Lobby() {
                     loading={loading}
                   />
                 </TabsContent>
-                <TabsContent value="live">
-                  <LiveDuels games={data?.mancalaMancalaBoardModels?.edges} />
+                <TabsContent value="leaderboard">
+                  <Leaderboard data={data?.mancalaMancalaBoardModels?.edges} />
                 </TabsContent>
               </>
             ) : (
