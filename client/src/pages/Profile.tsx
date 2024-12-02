@@ -13,17 +13,17 @@ export default function Profile() {
   const account = useAccount();
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
-      game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address
+      game?.node?.player_one === account.account?.address ||
+      game?.node?.player_two === account.account?.address
   );
 
   const filteredWonGames =
-    filteredGames?.filter((game: any) => game?.node?.winner === account.address) ||
+    filteredGames?.filter((game: any) => game?.node?.winner === account.account?.address) ||
     [];
   const filteredLostGames =
     filteredGames?.filter(
       (game: any) =>
-        game?.node?.winner !== "0x0" && game?.node?.winner !== account.address,
+        game?.node?.winner !== "0x0" && game?.node?.winner !== account.account?.address,
     ) || [];
 
   const { data: playerData, startPolling: startPollingPlayer } =
