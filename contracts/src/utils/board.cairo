@@ -188,11 +188,14 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
     remove_player_seeds(world, @player);
 }
 
-fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
+fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor, is_player_one: bool) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut idx = 1;
     let mut seed_id = 1;
+    if !is_player_one {
+        seed_id = 25;
+    }
     loop {
         if idx > *player.len_pits {
             break;

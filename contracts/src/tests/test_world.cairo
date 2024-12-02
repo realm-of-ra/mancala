@@ -103,6 +103,50 @@ mod test_init_game {
 
     #[test]
     #[available_gas(300000000000)]
+    fn test_seed_id() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        systems.actions.new_game();
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+
+        systems.actions.join_game(game_id);
+
+        let mancala_board_after = store.get_mancala_board(game_id);
+        assert(mancala_board_after.player_one == setup::OWNER(), 'Player one address is wrong');
+        assert(mancala_board_after.player_two == ANYONE, 'Player two address is wrong');
+
+        // Check all 48 seeds ids exists
+        let mut seeds_seen = 1;
+        loop {
+            if seeds_seen == 48 {
+                break;
+            }
+            let mut seed = store.get_seed(game_id, setup::OWNER(), seeds_seen);
+            if seed.pit_number == 0 {
+                seed = store.get_seed(game_id, ANYONE, seeds_seen);
+            }
+            assert(seed.pit_number != 0, 'Seed does not exist');
+            seeds_seen += 1;
+        };
+
+        // check 49 seed id does not exist for any player
+        let seed_49_p1 = store.get_seed(game_id, setup::OWNER(), 49);
+        assert(seed_49_p1.pit_number == 0, 'Seed 49 exists on P1');
+        
+        let seed_49_p2 = store.get_seed(game_id, ANYONE, 49);
+        assert(seed_49_p2.pit_number == 0, 'Seed 49 exists on P2');
+    }
+
+    #[test]
+    #[available_gas(300000000000)]
     fn test_create_private_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
