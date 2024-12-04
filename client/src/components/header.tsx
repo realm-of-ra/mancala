@@ -1,12 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
-import eniola from "../assets/eniola.png";
-import muteImage from "../assets/mute.png";
-import unmuteImage from "../assets/unmute.png";
-import { useAtom } from "jotai";
-import { isPlayingAtom } from "../atom/atoms";
-import audio from "../music/audio_1.mp4";
 import {
   useAccount,
   useConnect,
@@ -51,28 +45,6 @@ export default function Header() {
   const { data: profile } = useStarkProfile({
     address,
   });
-
-  const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
-  const audioRef = useRef(new Audio(audio));
-  useEffect(() => {
-    if (isPlaying) {
-      try {
-        audioRef.current.play();
-        audioRef.current.loop = true;
-      } catch (error) {
-        console.error("Error playing the audio", error);
-      }
-    } else {
-      audioRef.current.pause();
-    }
-    return () => {
-      audioRef.current.pause();
-    };
-  }, [isPlaying]);
-
-  const togglePlay = () => {
-    setPlaying(!isPlaying);
-  };
 
   const { account } = useAccount();
 
@@ -159,18 +131,6 @@ export default function Header() {
       </div>
       <div className="flex-1 w-full -ml-16">
         <div className="flex flex-row space-x-2.5 items-center justify-start">
-          <Button
-            className="p-0 bg-transparent rounded-full"
-            onClick={togglePlay}
-          >
-            <img
-              src={isPlaying ? unmuteImage : muteImage}
-              width={65}
-              height={65}
-              alt="restart"
-              className="rounded-full"
-            />
-          </Button>
           <div className="relative ">
             {address ? (
               <div className="relative ">
