@@ -68,7 +68,7 @@ mod test_init_game {
                     break;
                 }
                 let seed_id = *player_1_pit.seeds.at(seed_idx);
-                let seed = store.get_seed(game_id, setup::OWNER(), seed_id);
+                let seed = store.get_seed(game_id, seed_id);
                 assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
                 seed_idx += 1;
                 seeds_seen += 1;
@@ -90,7 +90,7 @@ mod test_init_game {
                     break;
                 }
                 let seed_id = *player_1_pit.seeds.at(seed_idx);
-                let seed = store.get_seed(game_id, ANYONE, seed_id);
+                let seed = store.get_seed(game_id, seed_id);
                 assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
                 seed_idx += 1;
                 seeds_seen += 1;
@@ -129,20 +129,14 @@ mod test_init_game {
             if seeds_seen == 48 {
                 break;
             }
-            let mut seed = store.get_seed(game_id, setup::OWNER(), seeds_seen);
-            if seed.pit_number == 0 {
-                seed = store.get_seed(game_id, ANYONE, seeds_seen);
-            }
+            let mut seed = store.get_seed(game_id, seeds_seen);
             assert(seed.pit_number != 0, 'Seed does not exist');
             seeds_seen += 1;
         };
 
         // check 49 seed id does not exist for any player
-        let seed_49_p1 = store.get_seed(game_id, setup::OWNER(), 49);
+        let seed_49_p1 = store.get_seed(game_id, 49);
         assert(seed_49_p1.pit_number == 0, 'Seed 49 exists on P1');
-        
-        let seed_49_p2 = store.get_seed(game_id, ANYONE, 49);
-        assert(seed_49_p2.pit_number == 0, 'Seed 49 exists on P2');
     }
 
     #[test]
@@ -177,9 +171,10 @@ mod test_init_game {
                     break;
                 }
                 let seed_id = *player_1_pit.seeds.at(seed_idx);
-                let seed = store.get_seed(game_id, setup::OWNER(), seed_id);
+                let seed = store.get_seed(game_id, seed_id);
                 assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
                 assert(seed.pit_number == pit_idx, 'P1 Seed pit number is wrong');
+                assert(seed.player == setup::OWNER(), 'P1 Seed player is wrong');
                 seed_idx += 1;
             };
             pit_idx += 1;
@@ -199,7 +194,8 @@ mod test_init_game {
                     break;
                 }
                 let seed_id = *player_1_pit.seeds.at(seed_idx);
-                let seed = store.get_seed(game_id, OPPONENT, seed_id);
+                let seed = store.get_seed(game_id, seed_id);
+                assert(seed.player == OPPONENT, 'P2 Seed player is wrong');
                 assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
                 assert(seed.pit_number == pit_idx, 'P2 Seed pit number is wrong');
                 seed_idx += 1;
@@ -427,7 +423,8 @@ mod test_play {
                 break;
             }
             let seed_id = *p1_store.seeds.at(p1_index);
-            let p1_seed = store.get_seed(game_id, setup::OWNER(), seed_id);
+            let p1_seed = store.get_seed(game_id, seed_id);
+            assert(p1_seed.player == setup::OWNER(), 'P1 Seed player is wrong');
             assert(p1_seed.pit_number == 7, 'P1 Seed not in store');
             p1_index += 1;
         };
@@ -440,7 +437,8 @@ mod test_play {
                 break;
             }
             let seed_id = *p2_store.seeds.at(p2_index);
-            let p2_seed = store.get_seed(game_id, ANYONE, seed_id);
+            let p2_seed = store.get_seed(game_id, seed_id);
+            assert(p2_seed.player == ANYONE, 'P2 Seed player is wrong');
             assert(p2_seed.color != SeedColor::None, 'P2 seed not exist');
             assert(p2_seed.pit_number == 7, 'P2 Seed not in store');
             p2_index += 1;

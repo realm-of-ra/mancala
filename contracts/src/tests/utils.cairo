@@ -19,7 +19,7 @@ fn move_player_seeds_to_store(world: WorldStorage, player: @Player) {
                 break;
             }
             let seed_id = *pit.seeds.at(seeds_idx);
-            let mut seed = store.get_seed(*player.game_id, *player.address, seed_id);
+            let mut seed = store.get_seed(*player.game_id, seed_id);
             seed.prev_pit_number = seed.pit_number;
             seed.pit_number = 7;
             player_store.seeds.append(seed.seed_id);

@@ -19,7 +19,7 @@ fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Array<
             break;
         }
         let seed_id = *pit.seeds.at(idx);
-        let seed = store.get_seed(*player.game_id, *player.address, seed_id);
+        let seed = store.get_seed(*player.game_id, seed_id);
         result.append(seed);
         idx += 1;
     };
@@ -104,14 +104,14 @@ fn capture_seeds(
                         break;
                     }
                     let seed_id = *opposite_pit.seeds.at(seed_idx);
-                    let mut seed = store.get_seed(opponent.game_id, opponent.address, seed_id);
+                    let mut seed = store.get_seed(opponent.game_id, seed_id);
                     add_seed_to_pit(world, ref seed, current_player.address, 7);
                     seed_idx += 1;
                 };
 
                 // transfer current seed to store
                 let mut seed_of_player = store
-                    .get_seed(current_player.game_id, current_player.address, *last_pit_model.seeds.at(0));
+                    .get_seed(current_player.game_id, *last_pit_model.seeds.at(0));
                 add_seed_to_pit(world, ref seed_of_player, current_player.address, 7);
 
                 last_pit_model.seeds = array![];

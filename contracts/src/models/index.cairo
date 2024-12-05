@@ -68,9 +68,8 @@ pub struct Seed {
     #[key]
     pub game_id: u128,
     #[key]
-    pub player: ContractAddress,
-    #[key]
     pub seed_id: u8,
+    pub player: ContractAddress,
     pub pit_number: u8,
     pub prev_pit_number: u8,
     pub color: SeedColor
