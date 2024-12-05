@@ -85,7 +85,7 @@ export default function Lobby() {
       const res = await system.create_private_game(
         account.account,
         player2,
-        setGameId
+        setGameId,
       );
       if (!res) {
         setCreating(false);
@@ -112,7 +112,7 @@ export default function Lobby() {
   const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
-      game?.node?.player_two === account.account?.address
+      game?.node?.player_two === account.account?.address,
   );
 
   const filteredTransactions =
@@ -408,7 +408,9 @@ export default function Lobby() {
                     />
                   </TabsContent>
                   <TabsContent value="leaderboard">
-                    <Leaderboard data={data?.mancalaMancalaBoardModels?.edges} />
+                    <Leaderboard
+                      data={data?.mancalaMancalaBoardModels?.edges}
+                    />
                   </TabsContent>
                 </>
               ) : (
@@ -430,7 +432,12 @@ export default function Lobby() {
                       className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                       onClick={connectWallet}
                     >
-                      <img src={controller} width={30} height={30} alt="wallet" />{" "}
+                      <img
+                        src={controller}
+                        width={30}
+                        height={30}
+                        alt="wallet"
+                      />{" "}
                       Connect Wallet
                     </Button>
                   </div>

@@ -22,7 +22,9 @@ export function Toaster() {
             <div className="grid gap-1">
               {title && <ToastTitle className="text-white">{title}</ToastTitle>}
               {description && (
-                <ToastDescription className="text-white">{description}</ToastDescription>
+                <ToastDescription className="text-white">
+                  {description}
+                </ToastDescription>
               )}
             </div>
             {action}

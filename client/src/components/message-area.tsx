@@ -14,9 +14,15 @@ export default function MessageArea({
   address,
   game_players,
 }: IMessageAreaProps) {
-  const active_players_addrs = game_players?.mancalaPlayerModels?.edges?.map((item: any) => item?.node?.address) ?? [];
+  const active_players_addrs =
+    game_players?.mancalaPlayerModels?.edges?.map(
+      (item: any) => item?.node?.address,
+    ) ?? [];
   const opponent_position = active_players_addrs.indexOf(address) === 0 ? 1 : 0;
-  const opponent_requested_restart = game_players?.mancalaPlayerModels?.edges?.filter((item: any) => item?.node?.restart_requested === true)[opponent_position]?.node?.restart_requested;
+  const opponent_requested_restart =
+    game_players?.mancalaPlayerModels?.edges?.filter(
+      (item: any) => item?.node?.restart_requested === true,
+    )[opponent_position]?.node?.restart_requested;
   const { toast } = useToast();
   const account = useAccount();
   const { system } = useDojo();
@@ -24,16 +30,28 @@ export default function MessageArea({
   const { gameId } = useParams();
   const restart_game = async () => {
     if (account.account) {
-      await system.restart_game(account.account, gameId || "", setRestarted, opponent_requested_restart);
+      await system.restart_game(
+        account.account,
+        gameId || "",
+        setRestarted,
+        opponent_requested_restart,
+      );
     }
-  }
+  };
   useEffect(() => {
     if (opponent_requested_restart) {
       toast({
         title: "Opponent requested a restart",
-        description: "Click on the restart button to accept, or ignore to continue playing",
+        description:
+          "Click on the restart button to accept, or ignore to continue playing",
         action: (
-          <ToastAction className="text-white !bg-transparent" altText="Click on the restart button to accept, or ignore to continue playing" onClick={restart_game}>Restart</ToastAction>
+          <ToastAction
+            className="text-white !bg-transparent"
+            altText="Click on the restart button to accept, or ignore to continue playing"
+            onClick={restart_game}
+          >
+            Restart
+          </ToastAction>
         ),
         duration: undefined,
       });

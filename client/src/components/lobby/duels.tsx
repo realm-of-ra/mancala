@@ -53,7 +53,7 @@ export default function Duels({
         game_id,
         player_2_address,
         setJoinStatus,
-        index
+        index,
       );
     }
   };
@@ -101,17 +101,17 @@ export default function Duels({
                           ? "text-center"
                           : head.id === 3
                             ? "text-center"
-                          : head.id === 4
-                            ? "text-end"
-                            : "text-start",
-                        "w-[200px] p-4"
+                            : head.id === 4
+                              ? "text-end"
+                              : "text-start",
+                        "w-[200px] p-4",
                       )}
                     >
                       <Typography
                         variant="small"
                         className={clsx(
                           head.id === 4 && "hidden",
-                          "font-medium leading-none text-[#BDC2CC]"
+                          "font-medium leading-none text-[#BDC2CC]",
                         )}
                       >
                         {head.name}
@@ -147,7 +147,7 @@ export default function Duels({
                           key={index}
                           className={clsx(
                             !isLast && "border-b border-[#23272F]",
-                            "w-full bg-[#0F1116] flex flex-row items-center"
+                            "w-full bg-[#0F1116] flex flex-row items-center",
                           )}
                         >
                           <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
@@ -166,7 +166,7 @@ export default function Duels({
                                 {item.challenger.name
                                   ? item.challenger.name
                                   : truncateString(
-                                      games[index].node.player_one
+                                      games[index].node.player_one,
                                     )}
                               </p>
                             </div>
@@ -187,7 +187,7 @@ export default function Duels({
                                   {item.challenged.name
                                     ? item.challenged.name
                                     : truncateString(
-                                        games[index].node.player_two
+                                        games[index].node.player_two,
                                       )}
                                 </p>
                               </div>

@@ -28,7 +28,7 @@ export default function Header() {
   const { provider } = useProvider();
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
-    constants.StarknetChainId.SN_SEPOLIA
+    constants.StarknetChainId.SN_SEPOLIA,
   );
 
   const { connect, connectors } = useConnect();
@@ -53,7 +53,7 @@ export default function Header() {
 
   const player = getPlayer(
     data?.mancalaAlphaMancalaGameModels?.edges,
-    account?.address || ""
+    account?.address || "",
   );
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

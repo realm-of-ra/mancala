@@ -11,7 +11,7 @@ export default function LeaderboardSkeleton() {
             key={index}
             className={clsx(
               !isLast ? "border-b border-[#23272F]" : "",
-              "bg-[#0F1116]"
+              "bg-[#0F1116]",
             )}
           >
             <td className="flex flex-row items-center p-4 justify-between w-full">
