@@ -38,7 +38,7 @@ export default function Profile() {
   );
 
   return (
-    <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
+    <div className="w-full h-screen bg-[#15181E] space-y-4 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="w-full flex flex-row items-start justify-center space-x-10">
@@ -67,41 +67,11 @@ export default function Profile() {
                 >
                   All games
                 </TabsTrigger>
-                <TabsTrigger
-                  value="won"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229] font-medium"
-                >
-                  Won
-                </TabsTrigger>
-                <TabsTrigger
-                  value="lost"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229] font-medium"
-                >
-                  Lost
-                </TabsTrigger>
               </TabsList>
             </div>
             <div>
               <TabsContent value="all-games">
                 <GameHistory games={filteredGames} loading={loading} id="all" />
-              </TabsContent>
-              <TabsContent value="won">
-                <GameHistory
-                  games={filteredWonGames}
-                  loading={loading}
-                  id="won"
-                />
-              </TabsContent>
-              <TabsContent value="lost">
-                <GameHistory
-                  games={filteredLostGames}
-                  loading={loading}
-                  id="lost"
-                />
               </TabsContent>
             </div>
           </Tabs>

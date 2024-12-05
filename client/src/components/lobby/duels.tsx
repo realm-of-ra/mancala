@@ -120,7 +120,7 @@ export default function Duels({
                   ))}
                 </div>
               </div>
-              <div className="absolute h-[450px] w-[814px] overflow-y-scroll scrollbar">
+              <div className="absolute h-[450px] w-[814px] overflow-y-auto overflow-x-hidden scrollbar">
                 <table className="w-full text-left table-auto">
                   <thead className="border-b border-[#313640] hidden">
                     <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
@@ -141,7 +141,7 @@ export default function Duels({
                       const isLast = index === data?.length - 1;
                       const challengerColor = colors[index % colors.length];
                       const challengedColor =
-                        colors[(index + 3) % colors.length];
+                      colors[(index + 3) % colors.length];
                       return (
                         <tr
                           key={index}

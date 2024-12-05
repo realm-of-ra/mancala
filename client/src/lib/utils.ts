@@ -117,20 +117,17 @@ export function getPlayer(data: any[] | undefined, address: string) {
 }
 
 export function getColorOfTheDay(walletAddress: string, date: Date) {
-  // Hash the wallet address to a number
-  const hashWallet = [...walletAddress].reduce(
-    (hash, char) => hash + char.charCodeAt(0),
-    0,
-  );
+  // Extract the year, month, and day as a string
+  const dateKey = new Date(date).toISOString().split("T")[0]; // "YYYY-MM-DD"
 
-  // Use the date to introduce variability
-  const dayHash = new Date(date).getDate();
+  // Combine the wallet address and date string
+  const combinedKey = walletAddress + dateKey;
 
-  // Combine wallet hash and day hash
-  const combinedHash = hashWallet + dayHash;
+  // Hash the combined string
+  const hash = [...combinedKey].reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-  // Map the combined hash to an index within the colors array
-  const colorIndex = combinedHash % colors.length;
+  // Map the hash to an index in the colors array
+  const colorIndex = hash % colors.length;
 
   return colors[colorIndex];
 }

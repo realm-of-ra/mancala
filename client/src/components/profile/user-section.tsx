@@ -2,9 +2,10 @@ import twitter from "@/assets/twitter.png";
 import telegram from "@/assets/telegram.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { truncateString } from "@/lib/utils";
+import { getColorOfTheDay, truncateString } from "@/lib/utils";
 import { useAccount } from "@starknet-react/core";
 import useControllerData from "@/hooks/useControllerData";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function UserSection({
   level,
@@ -28,16 +29,27 @@ export default function UserSection({
   }, [open]);
 
   const url = window.location.href;
+
+  const color = getColorOfTheDay(account?.address || "", new Date());
+
   return (
     <div className="w-[350px] h-[500px] bg-[url('./assets/long-box.png')] bg-contain bg-no-repeat py-8 px-6 overflow-x-hidden">
       <div className="w-full h-full space-y-5">
         <div className="flex flex-row items-center space-x-5">
-          <img
+          {
+            controllerData?.icon ? <img
             src={controllerData?.icon}
             width={80}
             height={80}
             className="rounded-full border-2 border-[#4B505C]"
-          />
+          /> : 
+          <div
+            className="flex items-center justify-center rounded-full p-2.5"
+            style={{ backgroundColor: color }}
+          >
+            <UserIcon color="#F58229" className="w-10 h-10 text-white" />
+          </div>
+          }
           <div>
             <h3 className="text-2xl text-[#CBCDD6] font-medium">
               {controllerData?.username ||

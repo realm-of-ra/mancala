@@ -1,11 +1,11 @@
-import { duels_header } from "@/lib/constants.ts";
+import { colors, duels_header } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 // import { useProvider } from "@starknet-react/core";
 // import { useEffect, useMemo, useState } from "react";
 // import { StarknetIdNavigator } from "starknetid.js";
 // import { constants, StarkProfile } from "starknet";
 import clsx from "clsx";
-import { truncateString } from "@/lib/utils.ts";
+import { getColorOfTheDay, truncateString } from "@/lib/utils.ts";
 import { GameHistorySkeleton } from "./game-history-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 import EmptyGameHistory from "./empty-game-history.tsx";
@@ -55,8 +55,7 @@ export default function GameHistory({
   //     }
   // })
 
-  const data = games?.map((data: any, index: number) => {
-    console.log(data);
+  const data = games?.map((data: any) => {
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
@@ -109,6 +108,8 @@ export default function GameHistory({
                     {data?.map((item: any, index: number) => {
                       const isLast = index === data?.length - 1;
                       const date = new Date(item.date);
+                      const challengerColor = colors[index % colors.length];
+                      const challengedColor = colors[(index + 3) % colors.length];
                       return (
                         <tr
                           key={index}
@@ -122,12 +123,15 @@ export default function GameHistory({
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
                               {/* <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" /> */}
                               <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <div className="bg-[#15171E] rounded-full p-2.5">
-                                  <UserIcon
-                                    color="#F58229"
-                                    className="w-6 h-6"
-                                  />
-                                </div>
+                              <div
+                                className="w-8 h-8 flex items-center justify-center rounded-full"
+                                style={{ backgroundColor: challengerColor }}
+                              >
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              </div>
                               </div>
                               <p className="font-normal text-white">
                                 {item.challenger.name
@@ -143,12 +147,15 @@ export default function GameHistory({
                               <div className="flex flex-row items-center space-x-2.5 w-fit">
                                 {/* <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" /> */}
                                 <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                  <div className="bg-[#15171E] rounded-full p-2.5">
-                                    <UserIcon
-                                      color="#F58229"
-                                      className="w-6 h-6"
-                                    />
-                                  </div>
+                              <div
+                                className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
+                                style={{ backgroundColor: challengedColor }}
+                              >
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              </div>
                                 </div>
                                 <p className="font-normal text-white">
                                   {item.challenged.name

@@ -174,7 +174,7 @@ export default function Lobby() {
               className="rounded-full"
             />
           </Button>
-          <div className="w-[874px]">
+          <div className="w-[920px]">
             <Tabs defaultValue="live" className="w-full space-y-10">
               <div className="flex flex-row items-center justify-between w-full">
                 <TabsList className="bg-transparent space-x-1.5">
