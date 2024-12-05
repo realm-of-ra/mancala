@@ -56,7 +56,7 @@ module.exports = withMT({
           foreground: "hsl(var(--card-foreground))",
         },
         backdropBlur: {
-          'md': '6px',
+          md: "6px",
         },
       },
       borderRadius: {

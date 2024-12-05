@@ -37,7 +37,7 @@ export default function LiveDuels({ games }: { games: any }) {
         game_id,
         player_2_address,
         setJoinStatus,
-        index
+        index,
       );
     }
   };
@@ -72,17 +72,17 @@ export default function LiveDuels({ games }: { games: any }) {
                       ? "text-center"
                       : head.id === 3
                         ? "text-center"
-                      : head.id === 4
-                        ? "text-end"
-                        : "text-start",
-                    "w-[200px] p-4"
+                        : head.id === 4
+                          ? "text-end"
+                          : "text-start",
+                    "w-[200px] p-4",
                   )}
                 >
                   <Typography
                     variant="small"
                     className={clsx(
                       head.id === 4 && "hidden",
-                      "font-medium leading-none text-[#BDC2CC]"
+                      "font-medium leading-none text-[#BDC2CC]",
                     )}
                   >
                     {head.name}
@@ -119,7 +119,7 @@ export default function LiveDuels({ games }: { games: any }) {
                         key={index}
                         className={clsx(
                           !isLast && "border-b border-[#23272F]",
-                          "w-full bg-[#0F1116] flex flex-row items-center"
+                          "w-full bg-[#0F1116] flex flex-row items-center",
                         )}
                       >
                         <td className="flex flex-row items-center px-4 py-5 space-x-5 w-[200px] justify-start">
@@ -162,7 +162,7 @@ export default function LiveDuels({ games }: { games: any }) {
                                 {data.challenged.name
                                   ? data.challenged.name
                                   : truncateString(
-                                      games[index].node.player_two
+                                      games[index].node.player_two,
                                     )}
                               </Typography>
                             </div>

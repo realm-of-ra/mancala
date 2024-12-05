@@ -14,7 +14,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
 
   const starknetIdNavigator = new StarknetIdNavigator(
     provider,
-    constants.StarknetChainId.SN_MAIN
+    constants.StarknetChainId.SN_MAIN,
   );
 
   // Extracting player_one and player_two from the data object
@@ -45,7 +45,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                     key={head.id}
                     className={clsx(
                       "p-4",
-                      index === 0 ? "text-start" : "text-center"
+                      index === 0 ? "text-start" : "text-center",
                     )}
                   >
                     <Typography
@@ -74,7 +74,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                       wins: number;
                       totalAppearances: number;
                     },
-                    index: number
+                    index: number,
                   ) => {
                     const isLast = index === players.length - 1;
                     const challengerColor = colors[index % colors.length];
@@ -83,7 +83,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                         key={index}
                         className={clsx(
                           !isLast ? "border-b border-[#23272F]" : "",
-                          "bg-[#0F1116]"
+                          "bg-[#0F1116]",
                         )}
                       >
                         <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
@@ -134,7 +134,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                         </td>
                       </tr>
                     );
-                  }
+                  },
                 )}
               </tbody>
             ) : (
