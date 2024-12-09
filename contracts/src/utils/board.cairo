@@ -230,45 +230,44 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
 
 fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
     let mut store: Store = StoreTrait::new(world);
+    let game = store.get_mancala_board(*player.game_id);
     
     // Calculate starting seed_id based on whether this is player one or two
-    let start_seed_id = if *player.address == store.get_mancala_board(*player.game_id).player_one {
-        1_u128 // Player one starts at 1
+    let start_seed_id = if *player.address == game.player_one {
+        1_u128 // Player one's seeds are 1-24
     } else {
-        25_u128 // Player two starts at 25
+        25_u128 // Player two's seeds are 25-48
     };
     
-    let mut seed_id_counter = start_seed_id;
-
     let mut idx = 1;
     loop {
         if idx > *player.len_pits {
             break;
         }
         let mut pit = store.get_pit(*player.game_id, *player.address, idx);
-        pit.seed_count = 0;
+        pit.seed_count = 4;
+        store.set_pit(pit);
+
+        // Update the position of existing seeds instead of creating new ones
         let mut seeds_set = 1;
         loop {
             if seeds_set > 4 {
                 break;
             }
-            let mut seed = Seed {
-                game_id: *player.game_id,
-                player: *player.address,
-                pit_number: idx,
-                seed_number: seeds_set,
-                seed_id: seed_id_counter,
-                color: seed_color
-            };
+            let seed_id = start_seed_id + (((idx.into() - 1_u128) * 4_u128) + (seeds_set.into() - 1_u128));
+            let mut seed = store.get_seed(*player.game_id, *player.address, idx, seeds_set);
+            seed.player = *player.address;
+            seed.pit_number = idx;
+            seed.seed_number = seeds_set;
+            seed.seed_id = seed_id;
+            seed.color = seed_color;
             store.set_seed(seed);
-            pit.seed_count += 1;
             seeds_set += 1;
-            seed_id_counter += 1;
         };
-        store.set_pit(pit);
         idx += 1;
     };
 
+    // Clear store pit
     let mut store_pit = store.get_pit(*player.game_id, *player.address, 7);
     store_pit.seed_count = 0;
     store.set_pit(store_pit);
