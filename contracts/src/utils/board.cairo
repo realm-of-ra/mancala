@@ -46,43 +46,68 @@ fn add_seed_to_pit(
 fn distribute_seeds(
     world: WorldStorage, ref current_player: Player, ref opponent: Player, selected_pit: u8
 ) -> u8 {
+    let mut store: Store = StoreTrait::new(world);
     let mut current_pit = selected_pit + 1;
     let mut last_pit = current_pit;
-    let mut seed_idx = 0_u32;
-    let seeds = get_pit_seeds(world, @current_player, selected_pit);
     
-    // Keep track of original seeds being moved
-    while seed_idx < seeds.len() {
-        let mut seed = *seeds.at(seed_idx);
-        match current_pit {
-            0 => panic!("Invalid pit selected"),
-            1 => { add_seed_to_pit(world, ref seed, current_player.address, 1); },
-            2 => { add_seed_to_pit(world, ref seed, current_player.address, 2); },
-            3 => { add_seed_to_pit(world, ref seed, current_player.address, 3); },
-            4 => { add_seed_to_pit(world, ref seed, current_player.address, 4); },
-            5 => { add_seed_to_pit(world, ref seed, current_player.address, 5); },
-            6 => { add_seed_to_pit(world, ref seed, current_player.address, 6); },
-            7 => { add_seed_to_pit(world, ref seed, current_player.address, 7); },
-            8 => { add_seed_to_pit(world, ref seed, opponent.address, 1); },
-            9 => { add_seed_to_pit(world, ref seed, opponent.address, 2); },
-            10 => { add_seed_to_pit(world, ref seed, opponent.address, 3); },
-            11 => { add_seed_to_pit(world, ref seed, opponent.address, 4); },
-            12 => { add_seed_to_pit(world, ref seed, opponent.address, 5); },
-            13 => { add_seed_to_pit(world, ref seed, opponent.address, 6); },
-            _ => { current_pit = 1 }
-        };
+    // Get all seeds from selected pit first
+    let mut selected_pit_model = store
+        .get_pit(current_player.game_id, current_player.address, selected_pit);
+    let seed_count = selected_pit_model.seed_count;
+    
+    // Clear the selected pit first
+    selected_pit_model.seed_count = 0;
+    store.set_pit(selected_pit_model);
+    
+    // Move each seed
+    let mut seed_idx = 1;
+    loop {
+        if seed_idx > seed_count {
+            break;
+        }
+        
+        let mut seed = store
+            .get_seed(current_player.game_id, current_player.address, selected_pit, seed_idx);
+        
+        // Update pit count and seed location
+        if current_pit <= 7 {
+            let mut target_pit = store.get_pit(current_player.game_id, current_player.address, current_pit);
+            target_pit.seed_count += 1;
+            store.set_pit(target_pit);
+            
+            seed.pit_number = current_pit;
+            seed.seed_number = target_pit.seed_count;
+            store.set_seed(seed);
+        } else if current_pit <= 13 {
+            let opponent_pit = current_pit - 7;
+            let mut target_pit = store.get_pit(opponent.game_id, opponent.address, opponent_pit);
+            target_pit.seed_count += 1;
+            store.set_pit(target_pit);
+            
+            seed.player = opponent.address;
+            seed.pit_number = opponent_pit;
+            seed.seed_number = target_pit.seed_count;
+            store.set_seed(seed);
+        } else {
+            current_pit = 1;
+            let mut target_pit = store.get_pit(current_player.game_id, current_player.address, current_pit);
+            target_pit.seed_count += 1;
+            store.set_pit(target_pit);
+            
+            seed.pit_number = current_pit;
+            seed.seed_number = target_pit.seed_count;
+            store.set_seed(seed);
+        }
+        
         last_pit = current_pit;
         current_pit += 1;
         seed_idx += 1;
     };
 
-    // Empty seeds on selected pit
-    let mut store: Store = StoreTrait::new(world);
-    let mut selected_pit_model = store
-        .get_pit(current_player.game_id, current_player.address, selected_pit);
-    selected_pit_model.seed_count = 0;
-    store.set_pit(selected_pit_model);
-
+    if last_pit > 7 {
+        last_pit -= 7;
+    }
+    
     last_pit
 }
 
@@ -115,14 +140,26 @@ fn capture_seeds(
                     }
                     let mut seed = store
                         .get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
-                    add_seed_to_pit(world, ref seed, current_player.address, 7);
+                    // Just update the seed location without emitting
+                    seed.player = current_player.address;
+                    seed.pit_number = 7;
+                    seed.seed_number = seed_idx;
+                    store.set_seed(seed);
                     seed_idx += 1;
                 };
 
                 // Move landing seed to store
                 let mut seed_of_player = store
                     .get_seed(current_player.game_id, current_player.address, last_pit, 1);
-                add_seed_to_pit(world, ref seed_of_player, current_player.address, 7);
+                // Just update the seed location without emitting
+                seed_of_player.pit_number = 7;
+                seed_of_player.seed_number = captured_seeds;
+                store.set_seed(seed_of_player);
+
+                // Update store pit count once at the end
+                let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
+                store_pit.seed_count += captured_seeds;
+                store.set_pit(store_pit);
             }
         }
     }
