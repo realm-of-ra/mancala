@@ -36,6 +36,6 @@ export default function Seed({
       style={{
         marginLeft: getMarginLeft(length, type),
       }}
-    >{id?.toString()}</div>
+    />
   );
 }
