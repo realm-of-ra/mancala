@@ -277,10 +277,7 @@ fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedCol
 fn verify_seed_counts(world: WorldStorage, game_id: u128) {
     let mut store: Store = StoreTrait::new(world);
     
-    // Get both players
     let game = store.get_mancala_board(game_id);
-    let player_one = store.get_player(game_id, game.player_one);
-    let player_two = store.get_player(game_id, game.player_two);
 
     // Check player one pits
     let mut pit_idx = 1;
