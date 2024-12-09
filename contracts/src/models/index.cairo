@@ -75,3 +75,12 @@ pub struct Seed {
     pub seed_number: u8,
     pub color: SeedColor
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Profile {
+    #[key]
+    pub player_id: ContractAddress,
+    pub player_name: u128,
+    pub profile_image_url: u128
+}

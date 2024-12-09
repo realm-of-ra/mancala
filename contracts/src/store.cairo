@@ -114,4 +114,16 @@ impl StoreImpl of StoreTrait {
     fn get_pit(self: Store, game_id: u128, player_address: ContractAddress, pit_number: u8) -> Pit {
         self.world.read_model((game_id, player_address, pit_number))
     }
+
+
+    #[inline]
+    fn set_profile(ref self: Store, profile: Profile) {
+        self.world.write_model(@profile);
+    };
+
+    #[inline]
+    fn get_profile(self: Store, player_id: ContractAddress) -> Profile {
+        self.world.read_model(player_id)
+    }
+
 }

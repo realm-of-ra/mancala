@@ -418,5 +418,77 @@ mod PlayableComponent {
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
         }
+
+        
+
+        /// Creates a Player profile 
+        ///
+        /// # Arguments
+        /// * `self` - Reference to the component state
+        /// * `world` - The World dispatcher
+        /// * `player_name` - The ID of the game to join
+        fn create_profile(self: @ComponentState<TContractState>, world: WorldStorage ) {
+            let player_address = get_caller_address();
+            let mut store: Store= StoreTrait::new(world);
+
+            // check if profile already exists
+            let existing_profile = store.get_profile(player_address);
+            asert(existing_profile.is_none(), "Player profile already exists");
+
+            let new_profile = Profile {
+                player: player_address,
+                player_name,
+                profile_image_url,
+            };
+            store.set_profile(new_profile);
+        }
+
+         /// Retrieves the profile for the caller
+        ///
+        /// # Arguments
+        /// * `self` - Reference to the component state
+        /// * `world` - The World dispatcher
+        ///
+        /// # Returns
+        /// * `Profile` - The caller's profile object
+        fn get_profile(
+            self: @ComponentState<TContractState>,
+            world: WorldStorage
+        ) -> Profile {
+            let player_id = get_caller_address();
+            let store: Store = StoreTrait::new(world);
+
+            store.get_profile(player_id)
+            //catch non-exisit profile
+        }
+        
+
+        /// Updates an existing profile for the caller
+        ///
+        /// # Arguments
+        /// * `self` - Reference to the component state
+        /// * `world` - The World dispatcher
+        /// * `player_name` - The new player's name as a u128
+        /// * `profile_image_url` - The new profile image URL as a u128
+        fn update_profile(
+            self: @ComponentState<TContractState>,
+            world: WorldStorage,
+            player_name: u128,
+            profile_image_url: u128
+        ) {
+            let player_id = get_caller_address();
+            let mut store: Store = StoreTrait::new(world);
+            let mut profile = store.get_profile(player_id)
+            //catch if profile doesn't exist
+
+            profile.player_name = player_name;
+            profile.profile_image_url = profile_image_url;
+
+            store.set_profile(profile);
+        }
+
+
+
+
     }
 }

@@ -1243,7 +1243,7 @@
   },
   "contracts": [
     {
-      "address": "0x3fefd15805503695b39d8189e9cefdb50d517fc38e1623abea667d676a11349",
+      "address": "0x73a1c863bf70ebc81c72f66c95cada1e711a71954bf1948c40e18a1d1aa6b69",
       "class_hash": "0x2c34abea84edbe27ec75599b58307981dfce626dee1696b30c90562363918b1",
       "abi": [
         {
