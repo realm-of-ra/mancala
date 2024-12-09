@@ -83,12 +83,15 @@ export function TopPit({
             >
               {seeds
                 ?.slice(0, seed_count)
-                .map((seed, seedIndex) => (
-                  <Seed
-                    key={seedIndex}
-                    color={seeds != undefined ? seed.node.color : []}
-                  />
-                ))}
+                .map((seed, seedIndex) => {
+                  return (
+                    <Seed
+                      key={seedIndex}
+                      color={seeds != undefined ? seed.node.color : []}
+                      id={parseInt(seed.node.seed_id, 16)}
+                    />
+                  )
+                })}
             </div>
           )}
         </div>
@@ -179,6 +182,7 @@ export function BottomPit({
                   <Seed
                     key={seedIndex}
                     color={seeds != undefined ? seed.node.color : []}
+                    id={parseInt(seed.node.seed_id, 16)}
                   />
                 ))}
             </div>

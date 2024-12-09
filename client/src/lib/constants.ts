@@ -2,6 +2,59 @@ import eniola from "../assets/eniola.png";
 import israel from "../assets/israel.png";
 import { gql } from "@apollo/client";
 
+export const colors = [
+  "#FF5733",
+  "#33FF57",
+  "#5733FF",
+  "#FF33A1",
+  "#33FFF3",
+  "#FF8C33",
+  "#338CFF",
+  "#8CFF33",
+  "#FF33E5",
+  "#33FFD1",
+  "#B833FF",
+  "#FFB833",
+  "#33FFB8",
+  "#FF338C",
+  "#8C33FF",
+  "#338FFF",
+  "#FF3333",
+  "#33FF33",
+  "#3333FF",
+  "#FF8333",
+  "#8333FF",
+  "#FF3383",
+  "#33FF83",
+  "#FF8357",
+  "#8357FF",
+  "#57FF83",
+  "#8357FF",
+  "#57FF33",
+  "#FF3357",
+  "#33FF57",
+  "#FF57FF",
+  "#FF5733",
+  "#3357FF",
+  "#5733FF",
+  "#33FF33",
+  "#FF57A1",
+  "#57FFA1",
+  "#A157FF",
+  "#FF57E5",
+  "#57FFE5",
+  "#FF3333",
+  "#33FF57",
+  "#5733FF",
+  "#FF5733",
+  "#33A1FF",
+  "#57FF33",
+  "#33FF57",
+  "#5733FF",
+  "#FF3357",
+  "#57FF33",
+];
+
 export const chat = [
   {
     user: "isreal",
@@ -74,11 +127,11 @@ export const player_header = [
   },
   {
     id: 5,
-    name: "Wins",
+    name: "Games Won",
   },
   {
     id: 6,
-    name: "Losses",
+    name: "Games Lost",
   },
 ];
 
@@ -298,7 +351,7 @@ export const duels_header = [
   },
   {
     id: 4,
-    name: "Date",
+    name: "Status",
   },
 ];
 
@@ -549,7 +602,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
-  "0x0664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a";
+  "0x4a55d05d1abf91227df0d03903e78c4f22e794ea9c13ac05b27b6d9140ebf73";
 
 export const POLICIES = [
   {
@@ -591,8 +644,8 @@ export const POLICIES = [
 ];
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaMancalaBoardModels {
-    mancalaMancalaBoardModels {
+  query mancalaTMancalaBoardModels {
+    mancalaTMancalaBoardModels {
       edges {
         node {
           game_id
@@ -612,8 +665,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaMancalaBoardModel($gameId: u128) {
-    mancalaMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTMancalaBoardModel($gameId: u128) {
+    mancalaTMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -634,8 +687,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaPlayerModels($gameId: u128) {
-    mancalaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTPlayerModels($gameId: u128) {
+    mancalaTPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -645,7 +698,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaTPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -659,8 +712,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaSeedModels($gameId: u128) {
-    mancalaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTSeedModels($gameId: u128) {
+    mancalaTSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -668,6 +721,7 @@ export const MancalaSeedQuery = gql`
           player
           seed_number
           color
+          seed_id
         }
       }
     }
@@ -676,7 +730,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaGameModels {
+    mancalaTGameModels {
       edges {
         node {
           game_id

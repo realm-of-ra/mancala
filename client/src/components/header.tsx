@@ -1,12 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { getPlayer, truncateString } from "../lib/utils";
+import { useState } from "react";
+import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
-import eniola from "../assets/eniola.png";
-import muteImage from "../assets/mute.png";
-import unmuteImage from "../assets/unmute.png";
-import { useAtom } from "jotai";
-import { isPlayingAtom } from "../atom/atoms";
-import audio from "../music/audio_1.mp4";
 import {
   useAccount,
   useConnect,
@@ -52,28 +46,6 @@ export default function Header() {
     address,
   });
 
-  const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
-  const audioRef = useRef(new Audio(audio));
-  useEffect(() => {
-    if (isPlaying) {
-      try {
-        audioRef.current.play();
-        audioRef.current.loop = true;
-      } catch (error) {
-        console.error("Error playing the audio", error);
-      }
-    } else {
-      audioRef.current.pause();
-    }
-    return () => {
-      audioRef.current.pause();
-    };
-  }, [isPlaying]);
-
-  const togglePlay = () => {
-    setPlaying(!isPlaying);
-  };
-
   const { account } = useAccount();
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
@@ -106,6 +78,8 @@ export default function Header() {
 
   const controllerData = useControllerData();
 
+  const color = getColorOfTheDay(account?.address || "", new Date());
+
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
@@ -113,20 +87,18 @@ export default function Header() {
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
             <div className="rounded-full border-2 border-[#4B505C] relative">
-              <img
-                src={controllerData?.icon}
-                width={60}
-                height={60}
-                alt=""
-                className="rounded-full"
-              />
+              <div className="bg-[#15171E] rounded-full p-2.5">
+                <UserIcon color="#F58229" className="w-10 h-10" />
+              </div>
               <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                 <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
               </div>
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {controllerData?.username ? controllerData?.username : truncateString(address)}
+                {controllerData?.username
+                  ? controllerData?.username
+                  : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.[0]?.wins < 4
@@ -138,16 +110,21 @@ export default function Header() {
         ) : (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-              <div className="bg-[#15171E] rounded-full p-2.5">
-                <UserIcon color="#F58229" className="w-8 h-8" />
+              <div>
+              <div
+                className="flex items-center justify-center rounded-full p-2.5"
+                style={{ backgroundColor: color }}
+              >
+                <UserIcon color="#F58229" className="w-10 h-10 text-white" />
+              </div>
                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                   <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
                 </div>
               </div>
             </div>
-            <div>
+            <div className="flex flex-col items-start">
               <h3 className="text-2xl text-right text-white">Player</h3>
-              <h4 className="text-sm text-[#F58229] text-start">Guest</h4>
+              <h4 className="text-sm text-[#F58229] text-start">Setup Profile</h4>
             </div>
           </div>
         )}
@@ -161,32 +138,31 @@ export default function Header() {
       </div>
       <div className="flex-1 w-full -ml-16">
         <div className="flex flex-row space-x-2.5 items-center justify-start">
-          <Button
-            className="p-0 bg-transparent rounded-full"
-            onClick={togglePlay}
-          >
-            <img
-              src={isPlaying ? unmuteImage : muteImage}
-              width={65}
-              height={65}
-              alt="restart"
-              className="rounded-full"
-            />
-          </Button>
-          <div className="relative">
+          <div className="relative ">
             {address ? (
-              <div className="relative">
+              <div className="relative ">
                 <Button
                   className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
                   onClick={handleDropdownToggleClose}
                 >
-                  <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5">
-                    <p className="text-white">{controllerData?.username || truncateString(address)}</p>
-                  <ChevronDownIcon
-                    className={clsx("w-4 h-4 ml-3 transition duration-300", {
-                      "transform rotate-180": isDropdownOpen,
-                    })}
-                  />
+                  <div className="bg-[#272a32] px-4 py-2 rounded-l-full">
+                    <img
+                      src={controllerSvg}
+                      width={40}
+                      height={40}
+                      alt=""
+                      className="rounded-full"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5 ">
+                    <p className="text-[18px] text-white leading-3 normal-case">
+                      {truncateString(address)}
+                    </p>
+                    <ChevronDownIcon
+                      className={clsx("w-4 h-4 ml-3 transition duration-300", {
+                        "transform rotate-180": isDropdownOpen,
+                      })}
+                    />
                   </div>
                 </Button>
 
@@ -227,11 +203,11 @@ export default function Header() {
                 className="flex justify-between font-medium relative items-center bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full"
                 onClick={handleDropdownToggle}
               >
-                <span className="bg-[#FFA158] h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
+                <span className="h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
                   <img
                     src={controllerSvg}
-                    width={30}
-                    height={30}
+                    width={40}
+                    height={40}
                     className="text-left"
                   />
                 </span>

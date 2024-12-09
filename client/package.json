@@ -31,6 +31,7 @@
     "@latticexyz/utils": "^2.1.0",
     "@material-tailwind/react": "^2.1.9",
     "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",

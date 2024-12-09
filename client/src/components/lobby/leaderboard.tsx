@@ -1,4 +1,4 @@
-import { player_header } from "../../lib/constants";
+import { player_header, colors } from "../../lib/constants";
 import { getPlayers, truncateString } from "../../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
 import { useProvider } from "@starknet-react/core";
@@ -6,10 +6,10 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { constants } from "starknet";
 import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
-import PlayersSkeleton from "./players-skeleton";
+import LeaderboardSkeleton from "./leaderboard-skeleton";
 import { UserIcon } from "@heroicons/react/24/solid";
 
-export default function Players({ data }: { data: any[] | undefined }) {
+export default function Leaderboard({ data }: { data: any[] | undefined }) {
   const { provider } = useProvider();
 
   const starknetIdNavigator = new StarknetIdNavigator(
@@ -77,6 +77,7 @@ export default function Players({ data }: { data: any[] | undefined }) {
                     index: number,
                   ) => {
                     const isLast = index === players.length - 1;
+                    const challengerColor = colors[index % colors.length];
                     return (
                       <tr
                         key={index}
@@ -87,17 +88,17 @@ export default function Players({ data }: { data: any[] | undefined }) {
                       >
                         <td className="flex flex-row items-center p-4 space-x-5 max-w-fit">
                           <div>
-                            {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
-                              {/* <img src={profiles ? profiles[index]?.profilePicture : ""} width={35} height={35} alt={`${profiles ? profiles[index]?.name : truncateString(address)} profile picture`} className="w-8 h-8 bg-gray-700 rounded-full" /> */}
-                              <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <div className="bg-[#15171E] rounded-full p-2.5">
-                                  <UserIcon
-                                    color="#F58229"
-                                    className="w-6 h-6"
-                                  />
-                                </div>
+                              <div
+                                className="w-8 h-8 flex items-center justify-center rounded-full"
+                                style={{ backgroundColor: challengerColor }}
+                              >
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
                               </div>
+
                               <p className="font-normal text-white">
                                 {profiles[index]?.name
                                   ? profiles[index]?.name
@@ -138,7 +139,7 @@ export default function Players({ data }: { data: any[] | undefined }) {
               </tbody>
             ) : (
               <tbody>
-                <PlayersSkeleton />
+                <LeaderboardSkeleton />
               </tbody>
             )}
           </table>

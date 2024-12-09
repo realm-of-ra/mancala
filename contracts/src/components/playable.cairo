@@ -13,7 +13,7 @@ mod PlayableComponent {
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
-        restart_player_pits
+        restart_player_pits, initialize_player_seeds
     };
 
     mod errors {
@@ -82,6 +82,7 @@ mod PlayableComponent {
             store.set_mancala_board(mancala_game);
             store.set_game_counter(game_id);
             store.set_player(player_one);
+            initialize_player_seeds(world, @player_one, 1_u128, SeedColor::Green);
         }
 
         /// Allows a second player to join an existing game
@@ -102,6 +103,7 @@ mod PlayableComponent {
             restart_player_pits(world, @player_two, SeedColor::Blue);
             store.set_mancala_board(mancala_game);
             store.set_player(player_two);
+            initialize_player_seeds(world, @player_two, 25_u128, SeedColor::Blue);
         }
 
         fn timeout(
@@ -151,6 +153,7 @@ mod PlayableComponent {
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
             store.set_player(player_two);
+            initialize_player_seeds(world, @player_one, 1_u128, SeedColor::Green);
         }
 
         /// Retrieves both players for a given game, with the current player first
