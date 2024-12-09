@@ -134,16 +134,19 @@ fn capture_seeds(
 
                 // Move opposite pit seeds to store
                 let mut seed_idx = 1;
+                let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
                 loop {
-                    if seed_idx > captured_seeds - 1 { // Use captured_seeds - 1 since we haven't moved the landing seed yet
+                    if seed_idx > captured_seeds - 1 {
                         break;
                     }
                     let mut seed = store
                         .get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
-                    // Just update the seed location without emitting
+                    // Preserve seed_id when moving to store
+                    let original_seed_id = seed.seed_id;
                     seed.player = current_player.address;
                     seed.pit_number = 7;
-                    seed.seed_number = seed_idx;
+                    seed.seed_number = store_pit.seed_count + seed_idx;
+                    seed.seed_id = original_seed_id;
                     store.set_seed(seed);
                     seed_idx += 1;
                 };
@@ -151,13 +154,13 @@ fn capture_seeds(
                 // Move landing seed to store
                 let mut seed_of_player = store
                     .get_seed(current_player.game_id, current_player.address, last_pit, 1);
-                // Just update the seed location without emitting
+                let original_seed_id = seed_of_player.seed_id;
                 seed_of_player.pit_number = 7;
-                seed_of_player.seed_number = captured_seeds;
+                seed_of_player.seed_number = store_pit.seed_count + captured_seeds;
+                seed_of_player.seed_id = original_seed_id;
                 store.set_seed(seed_of_player);
 
                 // Update store pit count once at the end
-                let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
                 store_pit.seed_count += captured_seeds;
                 store.set_pit(store_pit);
             }
@@ -217,8 +220,10 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
         }
         store_pit.seed_count += 1;
         let mut seed = *remaining_seeds.at(idx);
+        let original_seed_id = seed.seed_id;
         seed.pit_number = 7;
         seed.seed_number = store_pit.seed_count;
+        seed.seed_id = original_seed_id;  // Preserve the original seed ID
         store.set_seed(seed);
         idx += 1;
     };
