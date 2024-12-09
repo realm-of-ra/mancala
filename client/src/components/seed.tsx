@@ -4,10 +4,12 @@ export default function Seed({
   color,
   length = 0,
   type,
+  id,
 }: {
   color?: string;
   length?: number;
   type?: "player" | "opponent";
+  id: number;
 }) {
   const getMarginLeft = (
     length: number | 0,

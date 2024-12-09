@@ -25,24 +25,24 @@ export default function Gameplay() {
     { variables: { gameId: gameId } },
   );
   const { system } = useDojo();
-  const game_node = game_metadata?.mancalaMancalaBoardModels?.edges?.[0]?.node;
+  const game_node = game_metadata?.mancalaTMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaPlayerModels.edges.filter(
+    game_players?.mancalaTPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaPlayerModels.edges.findIndex(
+    ? game_players?.mancalaTPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaTPlayerModels.edges[opponent_position]?.node.address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (

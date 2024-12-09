@@ -602,7 +602,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
-  "0x0664b4fe00df56c523a49aeab379391ba3a5bb6102dfbcb5981a1695648a3d6a";
+  "0x4a55d05d1abf91227df0d03903e78c4f22e794ea9c13ac05b27b6d9140ebf73";
 
 export const POLICIES = [
   {
@@ -644,8 +644,8 @@ export const POLICIES = [
 ];
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaMancalaBoardModels {
-    mancalaMancalaBoardModels {
+  query mancalaTMancalaBoardModels {
+    mancalaTMancalaBoardModels {
       edges {
         node {
           game_id
@@ -665,8 +665,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaMancalaBoardModel($gameId: u128) {
-    mancalaMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTMancalaBoardModel($gameId: u128) {
+    mancalaTMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -687,8 +687,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaPlayerModels($gameId: u128) {
-    mancalaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTPlayerModels($gameId: u128) {
+    mancalaTPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -698,7 +698,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaTPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -712,8 +712,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaSeedModels($gameId: u128) {
-    mancalaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaTSeedModels($gameId: u128) {
+    mancalaTSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -721,6 +721,7 @@ export const MancalaSeedQuery = gql`
           player
           seed_number
           color
+          seed_id
         }
       }
     }
@@ -729,7 +730,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaGameModels {
+    mancalaTGameModels {
       edges {
         node {
           game_id

@@ -73,5 +73,6 @@ pub struct Seed {
     pub pit_number: u8,
     #[key]
     pub seed_number: u8,
+    pub seed_id: u128,
     pub color: SeedColor
 }
