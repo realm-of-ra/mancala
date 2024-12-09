@@ -384,6 +384,39 @@ mod test_play {
             p2_index += 1;
         };
     }
+
+    #[test]
+    #[available_gas(300000000000)]
+    fn test_seed_ids() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        systems.actions.new_game();
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Verify that each seed has a unique ID
+        let mut pit_idx = 1;
+        let mut seen_ids = ArrayTrait::new();
+        
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > 4 {
+                    break;
+                }
+                let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+                assert(!seen_ids.contains(seed.seed_id), 'Duplicate seed ID found');
+                seen_ids.append(seed.seed_id);
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+    }
 }
 
 mod test_validations {

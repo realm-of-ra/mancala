@@ -34,9 +34,11 @@ fn add_seed_to_pit(
     pit.seed_count += 1;
     store.set_pit(pit);
 
+    let original_seed_id = seed.seed_id;
     seed.player = pit.player;
     seed.pit_number = pit.pit_number;
     seed.seed_number = pit.seed_count;
+    seed.seed_id = original_seed_id;
     store.set_seed(seed);
 }
 
@@ -189,6 +191,15 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
 
 fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
     let mut store: Store = StoreTrait::new(world);
+    
+    // Calculate starting seed_id based on whether this is player one or two
+    let start_seed_id = if *player.address == store.get_mancala_board(*player.game_id).player_one {
+        1_u128 // Player one starts at 1
+    } else {
+        25_u128 // Player two starts at 25
+    };
+    
+    let mut seed_id_counter = start_seed_id;
 
     let mut idx = 1;
     loop {
@@ -207,11 +218,13 @@ fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedCol
                 player: *player.address,
                 pit_number: idx,
                 seed_number: seeds_set,
+                seed_id: seed_id_counter,
                 color: seed_color
             };
             store.set_seed(seed);
             pit.seed_count += 1;
             seeds_set += 1;
+            seed_id_counter += 1;
         };
         store.set_pit(pit);
         idx += 1;
