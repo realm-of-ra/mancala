@@ -2,7 +2,7 @@ import Header from "@/components/header";
 import GameHistory from "@/components/profile/game-history";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MancalaBoardModelsQuery, MancalaHeaderQuery } from "@/lib/constants";
+import { MancalaBoardModelsQuery } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
 import { useQuery } from "@apollo/client";
 import { useAccount } from "@starknet-react/core";
@@ -11,7 +11,7 @@ export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
   startPolling(1000);
   const account = useAccount();
-  const filteredGames = data?.mancalaMancalaBoardModels?.edges?.filter(
+  const filteredGames = data?.mancalaTMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
       game?.node?.player_two === account.account?.address,
@@ -28,12 +28,8 @@ export default function Profile() {
         game?.node?.winner !== account.account?.address,
     ) || [];
 
-  const { data: playerData, startPolling: startPollingPlayer } =
-    useQuery(MancalaHeaderQuery);
-  startPollingPlayer(1000);
-
   const player = getPlayer(
-    data?.mancalaAlphaMancalaGameModels?.edges,
+    data?.mancalaTMancalaBoardModels?.edges,
     account?.address || "",
   );
 
