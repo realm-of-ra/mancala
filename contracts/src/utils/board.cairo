@@ -34,11 +34,10 @@ fn add_seed_to_pit(
     pit.seed_count += 1;
     store.set_pit(pit);
 
-    let original_seed_id = seed.seed_id;
-    seed.player = pit.player;
-    seed.pit_number = pit.pit_number;
+    // Keep original seed_id and color, just update location
+    seed.player = player_address;
+    seed.pit_number = pit_number;
     seed.seed_number = pit.seed_count;
-    seed.seed_id = original_seed_id;
     store.set_seed(seed);
 }
 
@@ -49,6 +48,8 @@ fn distribute_seeds(
     let mut last_pit = current_pit;
     let mut seed_idx = 0_u32;
     let seeds = get_pit_seeds(world, @current_player, selected_pit);
+    
+    // Keep track of original seeds being moved
     while seed_idx < seeds.len() {
         let mut seed = *seeds.at(seed_idx);
         match current_pit {
@@ -69,8 +70,8 @@ fn distribute_seeds(
             _ => { current_pit = 1 }
         };
         last_pit = current_pit;
-        seed_idx += 1;
         current_pit += 1;
+        seed_idx += 1;
     };
 
     // Empty seeds on selected pit
@@ -95,10 +96,9 @@ fn capture_seeds(
         if last_pit_model.seed_count == 1 {
             let mut opposite_pit = store.get_pit(opponent.game_id, opponent.address, 7 - last_pit);
             if opposite_pit.seed_count > 0 {
-                // Calculate total seeds to be captured (opposite pit + landing seed)
                 captured_seeds = opposite_pit.seed_count + 1;
 
-                // transfer seeds from other player to store
+                // Move existing seeds from opposite pit to store
                 let mut seed_idx = 1;
                 loop {
                     if seed_idx > opposite_pit.seed_count {
@@ -110,7 +110,7 @@ fn capture_seeds(
                     seed_idx += 1;
                 };
 
-                // transfer current seed to store
+                // Move landing seed to store
                 let mut seed_of_player = store
                     .get_seed(current_player.game_id, current_player.address, last_pit, 1);
                 add_seed_to_pit(world, ref seed_of_player, current_player.address, 7);
@@ -118,7 +118,6 @@ fn capture_seeds(
                 last_pit_model.seed_count = 0;
                 store.set_pit(last_pit_model);
 
-                // remove seeds from opposite pit
                 opposite_pit.seed_count = 0;
                 store.set_pit(opposite_pit);
             }
