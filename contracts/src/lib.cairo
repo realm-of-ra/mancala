@@ -8,6 +8,7 @@ mod models {
     mod seed;
     mod game_counter;
     mod pit;
+    mod profile;
 }
 
 mod events {

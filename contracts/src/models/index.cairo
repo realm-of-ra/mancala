@@ -82,6 +82,6 @@ pub struct Seed {
 pub struct Profile {
     #[key]
     pub player_id: ContractAddress,
-    pub player_name: u128,
-    pub profile_image_url: u128
+    pub player_name: felt252,
+    pub profile_image_url: felt252
 }
