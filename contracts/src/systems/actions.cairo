@@ -17,7 +17,7 @@ trait IActions<TContractState> {
     fn forfeited(self: @TContractState, game_id: u128);
     fn request_restart_game(self: @TContractState, game_id: u128);
     fn restart_current_game(self: @TContractState, game_id: u128);
-    fn create_player_profile(self: @TContractState, name: felt252, image_url: felt252);
+    fn create_player_profile(self: @TContractState, name: felt252, image_url: ByteArray);
 }
 
 #[dojo::contract]
@@ -106,7 +106,7 @@ mod actions {
             self.playable.restart_current_game(world, game_id)
         }
 
-        fn create_player_profile(self: @ContractState, name: felt252, image_url: felt252) {
+        fn create_player_profile(self: @ContractState, name: felt252, image_url: ByteArray) {
             let world = self.world_storage();
             self.playable.create_profile(world, name, image_url)
         }

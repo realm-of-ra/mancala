@@ -2,6 +2,9 @@
 use dojo::world::WorldStorage;
 use dojo::model::ModelStorage;
 use dojo::event::EventStorage;
+// use dojo::model::storage::ModelStorage;
+use core::option::Option;
+
 
 use starknet::ContractAddress;
 
@@ -122,7 +125,7 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_profile(self: Store, player_id: ContractAddress) -> Profile {
-        self.world.read_model(player_id)
+    fn get_profile(self: Store, profile_id: felt252) -> Profile {
+        self.world.read_model(profile_id)
     }
 }

@@ -1,4 +1,5 @@
 use starknet::ContractAddress;
+use core::byte_array::ByteArray;
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum SeedColor {
@@ -77,11 +78,11 @@ pub struct Seed {
     pub color: SeedColor
 }
 
-#[derive(Copy, Drop, Serde)]
+#[derive(Clone, Drop, Serde)]
 #[dojo::model]
 pub struct Profile {
     #[key]
-    pub player_id: ContractAddress,
-    pub player_name: felt252,
-    pub profile_image_url: felt252
+    pub profile_id: felt252,
+    pub name: felt252,
+    pub profile_image_url: ByteArray
 }

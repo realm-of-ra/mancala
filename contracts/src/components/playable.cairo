@@ -1,6 +1,7 @@
 #[starknet::component]
 mod PlayableComponent {
     use core::debug::PrintTrait;
+    use core::option::Option;
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
@@ -8,7 +9,7 @@ mod PlayableComponent {
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
-    use mancala::models::profile::{Profile, ProfileTrait};
+    use mancala::models::profile::{Profile, ProfileTrait, ProfileAssert};
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
@@ -422,72 +423,79 @@ mod PlayableComponent {
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
         }
-
+ 
 
         /// Creates a Player profile
         ///
         /// # Arguments
         /// * `self` - Reference to the component state
         /// * `world` - The World dispatcher
-        /// * `player_name` - The ID of the game to join
-        fn create_profile(
-            self: @ComponentState<TContractState>,
-            world: WorldStorage,
-            player_name: felt252,
-            profile_image_url: felt252,
-        ) {
-            let player_address = get_caller_address();
+        /// * `name` - The player's name as a felt252  
+        /// * `profile_image_url` - The profile image URL as a ByteArray  
+        fn create_profile(self: @ComponentState<TContractState>, world: WorldStorage, name: felt252, profile_image_url: ByteArray, ) {
             let mut store: Store = StoreTrait::new(world);
 
-            // Get Profile
+            // [Check] Profile exists
+            let profile_id: felt252 = get_caller_address().into();
+            let mut profile = store.get_profile(profile_id);
+            profile.assert_not_created();
+
+            // Spawn new profile and store entity
             let mut new_profile: Profile = ProfileTrait::new(
-                player_address, player_name, profile_image_url,
+                profile_id, name, profile_image_url,
             );
-
             store.set_profile(new_profile);
+            
         }
+        
         /// Retrieves the profile for the caller
-    ///
-    /// # Arguments
-    /// * `self` - Reference to the component state
-    /// * `world` - The World dispatcher
-    ///
-    /// # Returns
-    /// * `Profile` - The caller's profile object
-    //fn get_profile(
-    //    self: @ComponentState<TContractState>,
-    //    world: WorldStorage
-    //) -> Profile {
-    //    let player_id = get_caller_address();
-    //    let store: Store = StoreTrait::new(world);
+        ///
+        /// # Arguments
+        /// * `self` - Reference to the component state
+        /// * `world` - The World dispatcher
+        ///
+        /// # Returns
+        /// * `Profile` - The caller's profile object
+        fn get_profile(self: @ComponentState<TContractState>, world: WorldStorage, profile_id:felt252) -> Profile {
+           let store: Store = StoreTrait::new(world);
+           let profile = store.get_profile(profile_id);
+            return profile;
+        }
 
-        //    store.get_profile(player_id)
-    //    //catch non-exisit profile
-    //}
+        ///// Updates an existing profile name for the caller
+        /////
+        ///// # Arguments
+        ///// * `self` - Reference to the component state
+        ///// * `world` - The World dispatcher
+        ///// * `name` - The new player's name as a felt252
+        fn update_profile_name(self: @ComponentState<TContractState>, world: WorldStorage, name: felt252) {
+            let mut store: Store = StoreTrait::new(world);
+            let profile_id: felt252 = get_caller_address().into();
+            let mut profile = store.get_profile(profile_id);
+            //catch if profile doesn't exist
+            // profile.assert_is_created();
+            profile.update_profile_name(name);
+            store.set_profile(profile);
+        }
 
-        ///// Updates an existing profile for the caller
-    /////
-    ///// # Arguments
-    ///// * `self` - Reference to the component state
-    ///// * `world` - The World dispatcher
-    ///// * `player_name` - The new player's name as a u128
-    ///// * `profile_image_url` - The new profile image URL as a u128
-    //fn update_profile(
-    //    self: @ComponentState<TContractState>,
-    //    world: WorldStorage,
-    //    player_name: u128,
-    //    profile_image_url: u128
-    //) {
-    //    let player_id = get_caller_address();
-    //    let mut store: Store = StoreTrait::new(world);
-    //    let mut profile = store.get_profile(player_id)
-    //    //catch if profile doesn't exist
 
-        //    profile.player_name = player_name;
-    //    profile.profile_image_url = profile_image_url;
+        ///// Updates an existing profile image url for the caller
+        /////
+        ///// # Arguments
+        ///// * `self` - Reference to the component state
+        ///// * `world` - The World dispatcher
+        ///// * `profile_image_url` - The new profile image URL as a u128
+        // fn update_profile_image_url(self: @ComponentState<TContractState>, world: WorldStorage, profile_image_url: u128
+        // ) {
+        // let mut store: Store = StoreTrait::new(world);
+        // let profile_id: felt252 = get_caller_address().into();
+        // let mut profile = store.get_profile(profile_id)
+        // //catch if profile doesn't exist
+        // profile.assert_is_created();
 
-        //    store.set_profile(profile);
-    //}
+        // profile.update_profile_image_url(profile_image_url);
+        // store.set_profile(profile);
+        // }
 
     }
 }
