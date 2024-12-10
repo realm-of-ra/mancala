@@ -193,7 +193,7 @@ export default function GameMessage({
       return React.createElement(
         "div",
         null,
-        `${game_node?.winner === account.address ? "You won the game!" : "You lost the game!"}`,
+        `${game_node?.winner === account.account?.address ? "You won the game!" : "You lost the game!"}`,
       );
     }
   };

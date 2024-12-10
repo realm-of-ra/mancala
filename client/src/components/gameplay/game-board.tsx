@@ -30,11 +30,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   });
   startPolling(1000);
   const involved = game_players?.mancalaTPlayerModels.edges.some(
-    (item: any) => item?.node.address === account.account.address,
+    (item: any) => item?.node.address === account.account?.address,
   );
   const player_position = involved
     ? game_players?.mancalaTPlayerModels.edges.findIndex(
-        (item: any) => item?.node.address === account.account.address,
+        (item: any) => item?.node.address === account.account?.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
