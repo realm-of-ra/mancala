@@ -459,7 +459,13 @@ mod PlayableComponent {
         fn get_profile(self: @ComponentState<TContractState>, world: WorldStorage, profile_id:felt252) -> Profile {
            let store: Store = StoreTrait::new(world);
            let profile = store.get_profile(profile_id);
-            return profile;
+
+           // [Check] Profile does not exist 
+           if profile.profile_id == 0 {  
+            panic!("Profile does not exist");
+            }
+    
+        return profile;
         }
 
         ///// Updates an existing profile name for the caller
@@ -472,8 +478,12 @@ mod PlayableComponent {
             let mut store: Store = StoreTrait::new(world);
             let profile_id: felt252 = get_caller_address().into();
             let mut profile = store.get_profile(profile_id);
-            //catch if profile doesn't exist
-            // profile.assert_is_created();
+
+            //catch if profile exists
+            if profile.profile_id == 0 {
+                panic!("Profile does not exist.");
+            }
+
             profile.update_profile_name(name);
             store.set_profile(profile);
         }
@@ -484,18 +494,20 @@ mod PlayableComponent {
         ///// # Arguments
         ///// * `self` - Reference to the component state
         ///// * `world` - The World dispatcher
-        ///// * `profile_image_url` - The new profile image URL as a u128
-        // fn update_profile_image_url(self: @ComponentState<TContractState>, world: WorldStorage, profile_image_url: u128
-        // ) {
-        // let mut store: Store = StoreTrait::new(world);
-        // let profile_id: felt252 = get_caller_address().into();
-        // let mut profile = store.get_profile(profile_id)
-        // //catch if profile doesn't exist
-        // profile.assert_is_created();
-
-        // profile.update_profile_image_url(profile_image_url);
-        // store.set_profile(profile);
-        // }
+        ///// * `profile_image_url` - The new profile image URL as a ByteArray
+        fn update_profile_image_url(self: @ComponentState<TContractState>, world: WorldStorage, profile_image_url: ByteArray
+        ) {
+            let mut store: Store = StoreTrait::new(world);
+            let profile_id: felt252 = get_caller_address().into();
+            let mut profile = store.get_profile(profile_id);
+            
+            //catch if profile exists
+            if profile.profile_id == 0 {
+                panic!("Profile does not exist.");
+            }
+            profile.update_profile_image_url(profile_image_url);
+            store.set_profile(profile);
+        }
 
     }
 }

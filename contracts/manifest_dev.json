@@ -1243,8 +1243,8 @@
   },
   "contracts": [
     {
-      "address": "0x73a1c863bf70ebc81c72f66c95cada1e711a71954bf1948c40e18a1d1aa6b69",
-      "class_hash": "0x2c34abea84edbe27ec75599b58307981dfce626dee1696b30c90562363918b1",
+      "address": "0x4458c5d47108b1616aa54ec664c5723281937334485bea4b125a233931827c4",
+      "class_hash": "0x1465ca832545eea2b3aca7a486ee33a196beae872deae1da71fa324e24701de",
       "abi": [
         {
           "type": "impl",
@@ -1494,6 +1494,22 @@
               ],
               "outputs": [],
               "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "create_player_profile",
+              "inputs": [
+                {
+                  "name": "name",
+                  "type": "core::felt252"
+                },
+                {
+                  "name": "image_url",
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
             }
           ]
         },
@@ -1658,7 +1674,13 @@
     },
     {
       "members": [],
-      "class_hash": "0x265c101c64283245a6886b21f001fabf57ca2cc5dbdf1e305a38cb16234e740",
+      "class_hash": "0x6cce2c81296476e9e862f1e042ea03d0648d144b411c0fb752acdcd9cba7e56",
+      "tag": "mancala-Profile",
+      "selector": "0x99be461177345c29196fdff49db22cfa0962b51991a5feef28745b27e0d9e"
+    },
+    {
+      "members": [],
+      "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
       "tag": "mancala-Seed",
       "selector": "0x64c952d1dc8cabfc4ddb06f4da6c83dbd845beddf9999d1f1ee772e52db74e"
     }
