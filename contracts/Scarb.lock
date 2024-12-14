@@ -3,8 +3,8 @@ version = 1
 
 [[package]]
 name = "dojo"
-version = "1.0.1"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.1#d7335e6f5c76a1dda887ec00c594c2c019b4a05f"
+version = "1.0.7"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.7#180c6d21132f58436c356d5d7585cee1fbce4ece"
 dependencies = [
  "dojo_plugin",
 ]
@@ -12,7 +12,7 @@ dependencies = [
 [[package]]
 name = "dojo_cairo_test"
 version = "1.0.0-rc.0"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.1#d7335e6f5c76a1dda887ec00c594c2c019b4a05f"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.7#180c6d21132f58436c356d5d7585cee1fbce4ece"
 dependencies = [
  "dojo",
 ]
@@ -20,7 +20,7 @@ dependencies = [
 [[package]]
 name = "dojo_plugin"
 version = "2.8.4"
-source = "git+https://github.com/dojoengine/dojo?tag=v1.0.1#d7335e6f5c76a1dda887ec00c594c2c019b4a05f"
+source = "git+https://github.com/dojoengine/dojo?tag=v1.0.7#180c6d21132f58436c356d5d7585cee1fbce4ece"
 
 [[package]]
 name = "mancala"
