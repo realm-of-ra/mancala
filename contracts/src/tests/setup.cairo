@@ -5,7 +5,7 @@ mod setup {
     use dojo::world::{WorldStorage, WorldStorageTrait};
     use dojo_cairo_test::{
         spawn_test_world, NamespaceDef, ContractDef, TestResource, ContractDefTrait,
-        WorldStorageTestTrait
+        WorldStorageTestTrait,
     };
 
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
@@ -32,23 +32,29 @@ mod setup {
     #[inline]
     fn setup_namespace() -> NamespaceDef {
         NamespaceDef {
-            namespace: "mancala", resources: [
+            namespace: "mancala_t",
+            resources: [
                 TestResource::Model(models::m_GameCounter::TEST_CLASS_HASH),
                 TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Pit::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Player::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Seed::TEST_CLASS_HASH),
                 TestResource::Event(events::e_PlayerMove::TEST_CLASS_HASH),
+                TestResource::Event(events::e_PlayerExtraTurn::TEST_CLASS_HASH),
+                TestResource::Event(events::e_EndTurn::TEST_CLASS_HASH),
+                TestResource::Event(events::e_Capture::TEST_CLASS_HASH),
                 TestResource::Contract(actions::TEST_CLASS_HASH),
-            ].span()
+            ]
+                .span(),
         }
     }
 
     fn setup_contracts() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@"mancala", @"actions")
-                .with_writer_of([dojo::utils::bytearray_hash(@"mancala")].span()),
-        ].span()
+            ContractDefTrait::new(@"mancala_t", @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"mancala_t")].span()),
+        ]
+            .span()
     }
 
     fn spawn_game() -> (WorldStorage, Systems) {
@@ -59,9 +65,7 @@ mod setup {
         world.sync_perms_and_inits(setup_contracts());
         // [Setup] Systems
         let (actions_address, _) = world.dns(@"actions").unwrap();
-        let systems = Systems {
-            actions: IActionsDispatcher { contract_address: actions_address },
-        };
+        let systems = Systems { actions: IActionsDispatcher { contract_address: actions_address } };
 
         (world, systems)
     }

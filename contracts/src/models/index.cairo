@@ -36,7 +36,7 @@ pub struct MancalaBoard {
     pub max_block_between_move: u64,
     pub winner: ContractAddress,
     pub status: GameStatus,
-    pub is_private: bool
+    pub is_private: bool,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -47,7 +47,7 @@ pub struct Player {
     #[key]
     pub address: ContractAddress,
     pub len_pits: u8,
-    pub restart_requested: bool
+    pub restart_requested: bool,
 }
 
 #[derive(Copy, Drop, Serde)]
@@ -74,5 +74,14 @@ pub struct Seed {
     #[key]
     pub seed_number: u8,
     pub seed_id: u128,
-    pub color: SeedColor
+    pub color: SeedColor,
+}
+
+#[derive(Drop, Serde)]
+#[dojo::model]
+pub struct Profile {
+    #[key]
+    pub address: ContractAddress,
+    pub name: ByteArray,
+    pub profile_uri: ByteArray,
 }
