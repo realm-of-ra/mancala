@@ -110,7 +110,7 @@ export default function Seed({
       return 0;
     }
   };
-  const calculateY = (type: "player" | "opponent" | undefined, seed_number: number, pit_number: number) => {
+  const calculateY = (type: "player" | "opponent" | undefined, seed_number: number) => {
     if (type === "opponent") {
       switch (seed_number) {
         case 1:
@@ -169,10 +169,10 @@ export default function Seed({
     }
   };
   const [x, setX] = useState(calculateX(type, seed_number, pit_number));
-  const [y, setY] = useState(calculateY(type, seed_number, pit_number));
+  const [y, setY] = useState(calculateY(type, seed_number));
   useEffect(() => {
     setX(calculateX(type, seed_number, pit_number));
-    setY(calculateY(type, seed_number, pit_number));
+    setY(calculateY(type, seed_number));
   }, [type, seed_number, pit_number]);
   return (
     <motion.div

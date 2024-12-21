@@ -92,6 +92,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
       return "170px";
     }
   };
+
+  const getOpponentSeed = (seed_id: number) => {
+    return data?.mancalaTSeedModels.edges
+      .filter(
+        (item: any) =>
+          item?.node.player ===
+          game_players?.mancalaTPlayerModels.edges[opponent_position]?.node
+            .address,
+      )
+      .filter((item: any) => item?.node.seed_id === `0x${seed_id.toString(16)}`)
+  };
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -132,15 +143,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   />
                 </div>
               ))}
-              <Seed
-                color="Blue"
-                length={opponent_pot_seed_count}
-                type="opponent"
-                seed_id={1}
-                pit_number={4}
-                seed_number={24}
-                pit_length={24}
-              />
+              {
+                Array.from({ length: 24 }).map((_, index) => {
+                  const seed = getOpponentSeed(index + 1) || [];
+                  return <Seed
+                    color={seed[0]?.node.color || "Blue"}
+                    length={opponent_pot_seed_count}
+                    type="opponent"
+                    seed_id={seed[0]?.node.seed_id || 1}
+                    pit_number={seed[0]?.node.pit_number || 7}
+                    seed_number={seed?.seed_number || 1}
+                  />
+                })
+              }
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">

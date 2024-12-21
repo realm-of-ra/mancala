@@ -81,7 +81,7 @@ export function TopPit({
               )}
               data-testid="seeds"
             >
-              {seeds
+              {/* {seeds
                 ?.slice(0, seed_count)
                 .map((seed, seedIndex) => {
                   return (
@@ -93,7 +93,7 @@ export function TopPit({
                       seed_number={seed.node.seed_number}
                     />
                   )
-                })}
+                })} */}
             </div>
           )}
         </div>
@@ -178,7 +178,7 @@ export function BottomPit({
               )}
               data-testid="seeds"
             >
-              {seeds
+              {/* {seeds
                 ?.slice(0, seed_count)
                 .map((seed, seedIndex) => (
                   <Seed
@@ -188,7 +188,7 @@ export function BottomPit({
                     pit_number={seed.node.pit_number}
                     seed_number={seed.node.seed_number}
                   />
-                ))}
+                ))} */}
             </div>
           )}
         </div>
