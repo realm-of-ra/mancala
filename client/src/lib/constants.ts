@@ -722,6 +722,9 @@ export const MancalaSeedQuery = gql`
           seed_number
           color
           seed_id
+          entity {
+            createdAt
+          }
         }
       }
     }

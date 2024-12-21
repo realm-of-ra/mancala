@@ -36,8 +36,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
     const uniqueSeeds = new Map();
     data.mancalaTSeedModels.edges.forEach((seed: any) => {
       const seedId = seed?.node.seed_id;
-      if (seedId && !uniqueSeeds.has(seedId)) {
-        uniqueSeeds.set(seedId, seed.node);
+      if (seedId) {
+        const existingSeed = uniqueSeeds.get(seedId);
+        const currentCreatedAt = new Date(seed.node.entity.createdAt).getTime();
+        
+        if (!existingSeed || 
+            currentCreatedAt > new Date(existingSeed.entity.createdAt).getTime()) {
+          uniqueSeeds.set(seedId, seed.node);
+        }
       }
     });
     return Array.from(uniqueSeeds.values());
@@ -142,6 +148,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
               if (!seedDetails) return null;
               
               // const isPlayerSeed = seedDetails.player === account.account?.address;
+
+              if (seedNumber === 1) {
+                console.log('seedDetails: ', seedDetails);
+              }
               
               return (
                 <Seed
