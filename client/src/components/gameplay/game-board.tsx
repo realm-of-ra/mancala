@@ -29,6 +29,25 @@ const GameBoard: React.FC<GameBoardProps> = ({
     variables: { gameId: gameId },
   });
   startPolling(1000);
+
+  const seeds = React.useMemo(() => {
+    if (!data?.mancalaTSeedModels?.edges) return [];
+    
+    const uniqueSeeds = new Map();
+    data.mancalaTSeedModels.edges.forEach((seed: any) => {
+      const seedId = seed?.node.seed_id;
+      if (seedId && !uniqueSeeds.has(seedId)) {
+        uniqueSeeds.set(seedId, seed.node);
+      }
+    });
+    return Array.from(uniqueSeeds.values());
+  }, [data]);
+
+  const getSeed = (seedId: string | number) => {
+    const hexSeedId = typeof seedId === 'number' ? `0x${seedId.toString(16)}` : seedId;
+    return seeds.find(seed => seed.seed_id === hexSeedId);
+  };
+
   const involved = game_players?.mancalaTPlayerModels.edges.some(
     (item: any) => item?.node.address === account.account?.address,
   );
@@ -116,56 +135,24 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginLeft: getOpponentMarginLeft(),
             }}
           >
-            {// involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
-            data?.mancalaTSeedModels.edges
-              .filter(
-                (item: any) =>
-                  item?.node.player ===
-                  game_players?.mancalaTPlayerModels.edges[opponent_position]
-                    ?.node.address,
-              )
-              .filter((item: any) => item?.node.pit_number === 7)
-              .slice(0, opponent_pot_seed_count)
-              .map((seed: any, index: number) => (
-                <div
-                  key={index}
-                  style={{
-                    width: opposition_length > 30 ? "8px" : "auto",
-                  }}
-                >
-                  <Seed
-                    color={seed?.node.color || "Blue"}
-                    length={opponent_pot_seed_count}
-                    type="opponent"
-                    seed_id={parseInt(seed.node.seed_id, 16)}
-                    pit_number={seed.node.pit_number}
-                    seed_number={seed.node.seed_number}
-                  />
-                </div>
-              ))}
-              {
-                data?.mancalaTSeedModels.edges
-                .filter(
-                  (item: any) =>
-                    item?.node.player ===
-                    game_players?.mancalaTPlayerModels.edges[opponent_position]
-                      ?.node.address,
-                )
-                // .filter((item: any) => item?.node.pit_number === 7)
-                // .slice(0, opponent_pot_seed_count)
-                .map((seed: any, index: number) => {
-                  console.log('seed', seed);
-                  return <Seed
-                    key={index}
-                    color={seed?.node.color || "Blue"}
-                    length={opponent_pot_seed_count}
-                    type="opponent"
-                    seed_id={parseInt(seed?.node.seed_id, 16) || 1}
-                    pit_number={seed?.node.pit_number || 7}
-                    seed_number={seed?.node.seed_number || 1}
-                  />
-                })
-              }
+            {Array.from({ length: 24 }, (_, i) => i + 1).map((seedNumber) => {
+              const seedDetails = getSeed(seedNumber);
+              if (!seedDetails) return null;
+              
+              const isPlayerSeed = seedDetails.player === account.account?.address;
+              
+              return (
+                <Seed
+                  key={seedNumber}
+                  color={seedDetails?.color || "Blue"}
+                  length={opponent_pot_seed_count}
+                  type={isPlayerSeed ? "player" : "opponent"}
+                  seed_id={parseInt(seedDetails?.seed_id, 16)}
+                  pit_number={seedDetails?.pit_number}
+                  seed_number={seedDetails?.seed_number}
+                />
+              );
+            })}
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">
