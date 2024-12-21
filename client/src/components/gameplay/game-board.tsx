@@ -145,7 +145,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginLeft: getOpponentMarginLeft(),
             }}
           >
-            {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 25 : i + 1).map((seedNumber) => {
+            <Seed
+              color="Green"
+              length={4}
+              type="player"
+              seed_id={1}
+              pit_number={7}
+              seed_number={1}
+            />
+            {/* {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 25 : i + 1).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
@@ -166,7 +174,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   seed_number={seedDetails?.seed_number}
                 />
               );
-            })}
+            })} */}
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">
@@ -283,7 +291,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginRight: getPlayerMarginRight(),
             }}
           >
-            {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 1 : i + 25).map((seedNumber) => {
+            {/* {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 1 : i + 25).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
@@ -300,7 +308,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   seed_number={seedDetails?.seed_number}
                 />
               );
-            })}
+            })} */}
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">

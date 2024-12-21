@@ -19,52 +19,31 @@ export default function Seed({
   seed_number: number;
   pit_length?: number;
 }) {
-  // Get base grid position
-  const getGridPosition = (seed_number: number) => {
-    const row = Math.floor((seed_number - 1) / 4);
-    const col = (seed_number - 1) % 4;
-    return { row, col };
+  // Define position maps for both player and opponent
+  const playerPositions = {
+    1: { x: 100, y: 110 },
+    2: { x: 215, y: 110 },
+    3: { x: 335, y: 110 },
+    4: { x: 455, y: 110 },
+    5: { x: 575, y: 110 },
+    6: { x: 695, y: 110 },
+    7: { x: 0, y: 110 },
   };
 
-  // Calculate animation offset based on pit position
-  const calculateOffset = (type: "player" | "opponent" | undefined, pit_number: number) => {
-    if (type === "opponent") {
-      const baseOffsets = {
-        1: { x: 675, y: 0 },
-        2: { x: 555, y: 0 },
-        3: { x: 435, y: 0 },
-        4: { x: 315, y: 0 },
-        5: { x: 200, y: 0 },
-        6: { x: 75, y: 0 },
-        7: { x: 0, y: 0 },
-      };
-      return baseOffsets[pit_number as keyof typeof baseOffsets] || { x: 0, y: 0 };
-    } else if (type === "player") {
-      // For player (bottom), we need to adjust x coordinates to move from right to left
-      const baseOffsets = {
-        1: { x: -725, y: 110 },
-        2: { x: -605, y: 110 },
-        3: { x: -485, y: 110 },
-        4: { x: -365, y: 110 },
-        5: { x: -245, y: 110 },
-        6: { x: -125, y: 110 },
-        7: { x: 0, y: 110 },
-      };
-      return baseOffsets[pit_number as keyof typeof baseOffsets] || { x: 0, y: 0 };
-    }
-    return { x: 0, y: 0 };
+  const opponentPositions = {
+    1: { x: 675, y: 0 },
+    2: { x: 555, y: 0 },
+    3: { x: 435, y: 0 },
+    4: { x: 315, y: 0 },
+    5: { x: 200, y: 0 },
+    6: { x: 75, y: 0 },
+    7: { x: 785, y: 150 },
   };
 
-  const { row, col } = getGridPosition(seed_number);
-  const offset = calculateOffset(type, pit_number);
-
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
-
-  useEffect(() => {
-    setX(offset.x + (col * 12));
-    setY(offset.y + (row * 15));
-  }, [offset, col, row])
+  // Get position based on type and pit number
+  const position = type === 'player' 
+    ? playerPositions[pit_number as keyof typeof playerPositions] 
+    : opponentPositions[pit_number as keyof typeof opponentPositions];
 
   return (
     <motion.div
@@ -72,16 +51,12 @@ export default function Seed({
         color === "Green"
           ? "bg-[url('./assets/green-seed.png')]"
           : "bg-[url('./assets/purple-seed.png')]",
-        "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute", // Reduced size from 16px to 12px
+        "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      style={{
-        gridRow: row + 1,
-        gridColumn: col + 1,
-      }}
       initial={{ x: 0, y: 0 }}
       animate={{ 
-        x,
-        y,
+        x: position?.x ?? 0,
+        y: position?.y ?? 0,
         transition: {
           type: "spring",
           stiffness: 100,
