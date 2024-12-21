@@ -39,16 +39,32 @@ export default function Seed({
         7: { x: 0, y: 0 },
       };
       return baseOffsets[pit_number as keyof typeof baseOffsets] || { x: 0, y: 0 };
+    } else if (type === "player") {
+      // For player (bottom), we need to adjust x coordinates to move from right to left
+      const baseOffsets = {
+        1: { x: -725, y: 110 },
+        2: { x: -605, y: 110 },
+        3: { x: -485, y: 110 },
+        4: { x: -365, y: 110 },
+        5: { x: -245, y: 110 },
+        6: { x: -125, y: 110 },
+        7: { x: 0, y: 110 },
+      };
+      return baseOffsets[pit_number as keyof typeof baseOffsets] || { x: 0, y: 0 };
     }
     return { x: 0, y: 0 };
   };
 
   const { row, col } = getGridPosition(seed_number);
   const offset = calculateOffset(type, pit_number);
-  
-  // Calculate final position combining grid and animation offset
-  const x = offset.x + (col * 12); // Reduced from 15px to 12px for tighter horizontal spacing
-  const y = offset.y + (row * 15); // Keep vertical spacing the same
+
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  useEffect(() => {
+    setX(offset.x + (col * 12));
+    setY(offset.y + (row * 15));
+  }, [offset, col, row])
 
   return (
     <motion.div
@@ -56,7 +72,7 @@ export default function Seed({
         color === "Green"
           ? "bg-[url('./assets/green-seed.png')]"
           : "bg-[url('./assets/purple-seed.png')]",
-        "w-[12px] h-[12px] bg-center bg-cover bg-no-repeat absolute", // Reduced size from 16px to 12px
+        "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute", // Reduced size from 16px to 12px
       )}
       style={{
         gridRow: row + 1,

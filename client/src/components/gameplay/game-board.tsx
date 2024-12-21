@@ -122,6 +122,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
       .filter((item: any) => item?.node.seed_id === `0x${seed_id.toString(16)}`)
   };
+
+  console.log('seeds: ', seeds);
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -140,6 +142,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
               if (!seedDetails) return null;
               
               const isPlayerSeed = seedDetails.player === account.account?.address;
+
+              console.log('top player: ', isPlayerSeed ? "player" : "opponent");
               
               return (
                 <Seed
@@ -269,27 +273,27 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginRight: getPlayerMarginRight(),
             }}
           >
-            {data?.mancalaTSeedModels.edges
-              .filter(
-                (item: any) =>
-                  item?.node.player ===
-                  game_players?.mancalaTPlayerModels.edges[player_position]?.node
-                    .address,
-              )
-              .filter((item: any) => item?.node.pit_number === 7)
-              .slice(0, player_pot_seed_count)
-              .map((seed: any, index: number) => (
-                <div key={index}>
-                  <Seed
-                    color={seed?.node.color || "Blue"}
-                    length={player_pot_seed_count}
-                    type="player"
-                    seed_id={parseInt(seed.node.seed_id, 16)}
-                    pit_number={seed.node.pit_number}
-                    seed_number={seed.node.seed_number}
-                  />
-                </div>
-              ))}
+          {Array.from({ length: 24 }, (_, i) => i + 25).map((seedNumber) => {
+            const hexSeedId = `0x${seedNumber.toString(16)}`;
+            const seedDetails = getSeed(hexSeedId);
+            if (!seedDetails) return null;
+            
+            const isPlayerSeed = seedDetails.player === account.account?.address;
+
+            console.log('bottom player: ', isPlayerSeed ? "player" : "opponent");
+            
+            return (
+              <Seed
+                key={seedNumber}
+                color={seedDetails?.color || "Blue"}
+                length={player_pot_seed_count}
+                type={isPlayerSeed ? "player" : "opponent"}
+                seed_id={parseInt(seedDetails?.seed_id, 16)}
+                pit_number={seedDetails?.pit_number}
+                seed_number={seedDetails?.seed_number}
+              />
+            );
+          })}
           </div>
           <div className="absolute inset-y-0 self-center right-32 bottom-20 w-7 h-12">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
