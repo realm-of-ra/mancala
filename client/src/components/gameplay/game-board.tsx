@@ -144,15 +144,25 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 </div>
               ))}
               {
-                Array.from({ length: 24 }).map((_, index) => {
-                  const seed = getOpponentSeed(index + 1) || [];
+                data?.mancalaTSeedModels.edges
+                .filter(
+                  (item: any) =>
+                    item?.node.player ===
+                    game_players?.mancalaTPlayerModels.edges[opponent_position]
+                      ?.node.address,
+                )
+                // .filter((item: any) => item?.node.pit_number === 7)
+                // .slice(0, opponent_pot_seed_count)
+                .map((seed: any, index: number) => {
+                  console.log('seed', seed);
                   return <Seed
-                    color={seed[0]?.node.color || "Blue"}
+                    key={index}
+                    color={seed?.node.color || "Blue"}
                     length={opponent_pot_seed_count}
                     type="opponent"
-                    seed_id={seed[0]?.node.seed_id || 1}
-                    pit_number={seed[0]?.node.pit_number || 7}
-                    seed_number={seed?.seed_number || 1}
+                    seed_id={parseInt(seed?.node.seed_id, 16) || 1}
+                    pit_number={seed?.node.pit_number || 7}
+                    seed_number={seed?.node.seed_number || 1}
                   />
                 })
               }

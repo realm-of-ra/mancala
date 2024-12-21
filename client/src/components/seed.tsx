@@ -19,175 +19,61 @@ export default function Seed({
   seed_number: number;
   pit_length?: number;
 }) {
-  const getMarginLeft = (
-    length: number | 0,
-    type: "player" | "opponent" | undefined,
-  ) => {
-    if (length >= 21 && type === "player") {
-      return "-8px";
-    } else if (length > 30 && length <= 40 && type === "opponent") {
-      return "-5px";
-    } else if (length > 40 && type === "opponent") {
-      return "-7px";
-    } else {
-      return "0px";
-    }
+  // Get base grid position
+  const getGridPosition = (seed_number: number) => {
+    const row = Math.floor((seed_number - 1) / 2);
+    const col = (seed_number - 1) % 2;
+    return { row, col };
   };
-  const calculateX = (type: "player" | "opponent" | undefined, seed_number: number, pit_number: number) => {
+
+  // Calculate animation offset based on pit position
+  const calculateOffset = (type: "player" | "opponent" | undefined, pit_number: number) => {
     if (type === "opponent") {
-      if (seed_number < 6) {
-        switch(pit_number) {
-          case 1:
-            return 675;
-          case 2:
-            return 555;
-          case 3:
-            return 435;
-          case 4:
-            return 315;
-          case 5:
-            return 200;
-          case 6:
-            return 75;
-          case 7:
-            return 0;
-        }
-      } else if (seed_number < 12) {
-        switch(pit_number) {
-          case 1:
-            return 690;
-          case 2:
-            return 570;
-          case 3:
-            return 450;
-          case 4:
-            return 330;
-          case 5:
-            return 210;
-          case 6:
-            return 90;
-          case 7:
-            return 0;
-        }
-      }
-      else if (seed_number < 18) {
-        switch(pit_number) {
-          case 1:
-            return 705;
-          case 2:
-            return 585;
-          case 3:
-            return 465;
-          case 4:
-            return 345;
-          case 5:
-            return 225;
-          case 6:
-            return 105;
-          case 7:
-            return 0;
-        }
-      }
-      else if (seed_number > 17 && seed_number <= 24) {
-        switch(pit_number) {
-          case 1:
-            return 720;
-          case 2:
-            return 600;
-          case 3:
-            return 480;
-          case 4:
-            return 360;
-          case 5:
-            return 240;
-          case 6:
-            return 120;
-          case 7:
-            return 0;
-        }
-      }
-    } else {
-      return 0;
+      const baseOffsets = {
+        1: { x: 675, y: 0 },
+        2: { x: 555, y: 0 },
+        3: { x: 435, y: 0 },
+        4: { x: 315, y: 0 },
+        5: { x: 200, y: 0 },
+        6: { x: 75, y: 0 },
+        7: { x: 0, y: 0 },
+      };
+      return baseOffsets[pit_number as keyof typeof baseOffsets] || { x: 0, y: 0 };
     }
+    return { x: 0, y: 0 };
   };
-  const calculateY = (type: "player" | "opponent" | undefined, seed_number: number) => {
-    if (type === "opponent") {
-      switch (seed_number) {
-        case 1:
-          return 0;
-        case 2:
-          return 10;
-        case 3:
-          return 20;
-        case 4:
-          return 30;
-        case 5:
-          return 40;
-        case 6:
-          return 0;
-        case 7:
-          return 10;
-        case 8:
-          return 20;
-        case 9:
-          return 30;
-        case 10:
-          return 40;
-        case 11:
-          return 0;
-        case 12:
-          return 10;
-        case 13:
-          return 20;
-        case 14:
-          return 30;
-        case 15:
-          return 40;
-        case 16:
-          return 0;
-        case 17:
-          return 10;
-        case 18:
-          return 20;
-        case 19:
-          return 30;
-        case 20:
-          return 40;
-        case 21:
-          return 0;
-        case 22:
-          return 10;
-        case 23:
-          return 20;
-        case 24:
-          return 30;
-        case 25:
-          return 40;
-      }
-    } else {
-      return 0;
-    }
-  };
-  const [x, setX] = useState(calculateX(type, seed_number, pit_number));
-  const [y, setY] = useState(calculateY(type, seed_number));
-  useEffect(() => {
-    setX(calculateX(type, seed_number, pit_number));
-    setY(calculateY(type, seed_number));
-  }, [type, seed_number, pit_number]);
+
+  const { row, col } = getGridPosition(seed_number);
+  const offset = calculateOffset(type, pit_number);
+  
+  // Calculate final position combining grid and animation offset
+  const x = offset.x + (col * 20); // 20px is grid cell width
+  const y = offset.y + (row * 20); // 20px is grid cell height
+
   return (
     <motion.div
       className={clsx(
         color === "Green"
           ? "bg-[url('./assets/green-seed.png')]"
           : "bg-[url('./assets/purple-seed.png')]",
-        "w-[16px] h-[16px] bg-center bg-cover bg-no-repeat",
+        "w-[16px] h-[16px] bg-center bg-cover bg-no-repeat absolute", // Added absolute positioning
       )}
       style={{
-        marginLeft: getMarginLeft(length, type),
+        gridRow: row + 1,
+        gridColumn: col + 1,
       }}
       initial={{ x: 0, y: 0 }}
-      animate={{ x, y }}
-      transition={{ duration: 0.5 }}
-    />
+      animate={{ 
+        x,
+        y,
+        transition: {
+          type: "spring",
+          stiffness: 100,
+          damping: 15
+        }
+      }}
+    >
+      <p className="text-white text-xs">{seed_id}</p>
+    </motion.div>
   );
 }
