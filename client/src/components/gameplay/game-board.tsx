@@ -141,8 +141,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              const isPlayerSeed = seedDetails.player === account.account?.address;
-              if (isPlayerSeed) return null;  // Only render opponent seeds
+              // const isPlayerSeed = seedDetails.player === account.account?.address;
               
               return (
                 <Seed
@@ -276,8 +275,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              const isPlayerSeed = seedDetails.player === account.account?.address;
-              if (!isPlayerSeed) return null;  // Only render player seeds
+              // const isPlayerSeed = seedDetails.player === account.account?.address;
               
               return (
                 <Seed
