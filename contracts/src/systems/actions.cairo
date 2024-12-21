@@ -116,7 +116,7 @@ mod actions {
     #[generate_trait]
     impl Private of PrivateTrait {
         fn world_storage(self: @ContractState) -> WorldStorage {
-            self.world(@"mancala_t")
+            self.world(@"mancala")
         }
     }
 }

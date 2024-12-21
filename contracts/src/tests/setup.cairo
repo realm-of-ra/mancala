@@ -32,7 +32,7 @@ mod setup {
     #[inline]
     fn setup_namespace() -> NamespaceDef {
         NamespaceDef {
-            namespace: "mancala_t",
+            namespace: "mancala",
             resources: [
                 TestResource::Model(models::m_GameCounter::TEST_CLASS_HASH),
                 TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
@@ -51,8 +51,8 @@ mod setup {
 
     fn setup_contracts() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@"mancala_t", @"actions")
-                .with_writer_of([dojo::utils::bytearray_hash(@"mancala_t")].span()),
+            ContractDefTrait::new(@"mancala", @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@"mancala")].span()),
         ]
             .span()
     }
