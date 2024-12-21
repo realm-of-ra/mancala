@@ -157,18 +157,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              // const isPlayerSeed = seedDetails.player === account.account?.address;
-
-              if (seedNumber === 1) {
-                console.log('seedDetails: ', seedDetails);
-              }
+              const isPlayerSeed = seedDetails.player === account.account?.address;
               
               return (
                 <Seed
                   key={seedNumber}
                   color={seedDetails?.color || "Blue"}
                   length={opponent_pot_seed_count}
-                  type={"opponent"}
+                  type={isPlayerSeed ? "player" : "opponent"}
                   seed_id={parseInt(seedDetails?.seed_id, 16)}
                   pit_number={seedDetails?.pit_number}
                   seed_number={seedDetails?.seed_number}
@@ -295,14 +291,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              // const isPlayerSeed = seedDetails.player === account.account?.address;
+              const isPlayerSeed = seedDetails.player === account.account?.address;
               
               return (
                 <Seed
                   key={seedNumber}
                   color={seedDetails?.color || "Blue"}
                   length={player_pot_seed_count}
-                  type={"player"}
+                  type={isPlayerSeed ? "player" : "opponent"}
                   seed_id={parseInt(seedDetails?.seed_id, 16)}
                   pit_number={seedDetails?.pit_number}
                   seed_number={seedDetails?.seed_number}
