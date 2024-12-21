@@ -148,9 +148,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <Seed
               color="Green"
               length={4}
-              type="player"
+              type="opponent"
               seed_id={1}
-              pit_number={7}
+              pit_number={1}
               seed_number={1}
             />
             {/* {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 25 : i + 1).map((seedNumber) => {
