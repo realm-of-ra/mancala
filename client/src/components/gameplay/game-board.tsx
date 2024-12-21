@@ -38,16 +38,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
       const seedId = seed?.node.seed_id;
       if (seedId) {
         const existingSeed = uniqueSeeds.get(seedId);
-        const currentCreatedAt = new Date(seed.node.entity.createdAt).getTime();
+        const currentPitNumber = seed.node.pit_number;
+        const isOpponentSeed = seed.node.player !== account.account?.address;
         
         if (!existingSeed || 
-            currentCreatedAt > new Date(existingSeed.entity.createdAt).getTime()) {
+            (isOpponentSeed && existingSeed.player === account.account?.address) ||
+            (existingSeed.player === seed.node.player && currentPitNumber > existingSeed.pit_number)) {
           uniqueSeeds.set(seedId, seed.node);
         }
       }
     });
     return Array.from(uniqueSeeds.values());
-  }, [data]);
+  }, [data, account.account?.address]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId = typeof seedId === 'number' ? `0x${seedId.toString(16)}` : seedId;
