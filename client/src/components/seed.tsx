@@ -21,8 +21,8 @@ export default function Seed({
 }) {
   // Get base grid position
   const getGridPosition = (seed_number: number) => {
-    const row = Math.floor((seed_number - 1) / 2);
-    const col = (seed_number - 1) % 2;
+    const row = Math.floor((seed_number - 1) / 4);
+    const col = (seed_number - 1) % 4;
     return { row, col };
   };
 
@@ -47,8 +47,8 @@ export default function Seed({
   const offset = calculateOffset(type, pit_number);
   
   // Calculate final position combining grid and animation offset
-  const x = offset.x + (col * 20); // 20px is grid cell width
-  const y = offset.y + (row * 20); // 20px is grid cell height
+  const x = offset.x + (col * 12); // Reduced from 15px to 12px for tighter horizontal spacing
+  const y = offset.y + (row * 15); // Keep vertical spacing the same
 
   return (
     <motion.div
@@ -56,7 +56,7 @@ export default function Seed({
         color === "Green"
           ? "bg-[url('./assets/green-seed.png')]"
           : "bg-[url('./assets/purple-seed.png')]",
-        "w-[16px] h-[16px] bg-center bg-cover bg-no-repeat absolute", // Added absolute positioning
+        "w-[12px] h-[12px] bg-center bg-cover bg-no-repeat absolute", // Reduced size from 16px to 12px
       )}
       style={{
         gridRow: row + 1,
@@ -73,7 +73,7 @@ export default function Seed({
         }
       }}
     >
-      <p className="text-white text-xs">{seed_id}</p>
+      <p className="text-white text-[8px]">{seed_id}</p>
     </motion.div>
   );
 }
