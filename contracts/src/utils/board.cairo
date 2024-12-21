@@ -2,7 +2,7 @@ use dojo::world::WorldStorage;
 use starknet::ContractAddress;
 
 use mancala::models::player::Player;
-use mancala::models::seed::{Seed, SeedColor};
+use mancala::models::seed::{Seed, SeedColor, SeedTrait};
 use mancala::models::pit::Pit;
 use mancala::store::{Store, StoreTrait};
 
@@ -125,8 +125,10 @@ fn capture_seeds(
             if opposite_pit.seed_count > 0 {
                 // Calculate before modifying any state
                 captured_seeds = opposite_pit.seed_count + 1;
+                let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
+                let store_start_count = store_pit.seed_count;
 
-                // First clear the pit counts to prevent double counting
+                // First clear the pit counts
                 last_pit_model.seed_count = 0;
                 opposite_pit.seed_count = 0;
                 store.set_pit(last_pit_model);
@@ -134,31 +136,38 @@ fn capture_seeds(
 
                 // Move opposite pit seeds to store
                 let mut seed_idx = 1;
-                let mut store_pit = store.get_pit(current_player.game_id, current_player.address, 7);
                 loop {
                     if seed_idx > captured_seeds - 1 {
                         break;
                     }
-                    let mut seed = store
+                    let seed = store
                         .get_seed(opponent.game_id, opponent.address, 7 - last_pit, seed_idx);
-                    // Preserve seed_id when moving to store
-                    let original_seed_id = seed.seed_id;
-                    seed.player = current_player.address;
-                    seed.pit_number = 7;
-                    seed.seed_number = store_pit.seed_count + seed_idx;
-                    seed.seed_id = original_seed_id;
-                    store.set_seed(seed);
+                    
+                    // Create new seed in store with incremented number
+                    let new_seed = SeedTrait::new(
+                        current_player.game_id,
+                        current_player.address,
+                        7, // pit 7
+                        store_start_count + seed_idx,
+                        seed.seed_id,
+                        seed.color
+                    );
+                    store.set_seed(new_seed);
                     seed_idx += 1;
                 };
 
                 // Move landing seed to store
-                let mut seed_of_player = store
+                let seed_of_player = store
                     .get_seed(current_player.game_id, current_player.address, last_pit, 1);
-                let original_seed_id = seed_of_player.seed_id;
-                seed_of_player.pit_number = 7;
-                seed_of_player.seed_number = store_pit.seed_count + captured_seeds;
-                seed_of_player.seed_id = original_seed_id;
-                store.set_seed(seed_of_player);
+                let new_store_seed = SeedTrait::new(
+                    current_player.game_id,
+                    current_player.address, 
+                    7,
+                    store_start_count + captured_seeds,
+                    seed_of_player.seed_id,
+                    seed_of_player.color
+                );
+                store.set_seed(new_store_seed);
 
                 // Update store pit count once at the end
                 store_pit.seed_count += captured_seeds;
@@ -208,22 +217,23 @@ fn remove_player_seeds(world: WorldStorage, player: @Player) {
 
 fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
     let mut store: Store = StoreTrait::new(world);
+    let mut store_pit = store.get_pit(player.game_id, player.address, 7);
+    let store_start_count: u8 = store_pit.seed_count;
 
     let mut remaining_seeds = get_player_seeds(world, @player);
 
     // transfer seeds to store
-    let mut store_pit = store.get_pit(player.game_id, player.address, 7);
     let mut idx = 0;
     loop {
         if idx >= remaining_seeds.len() {
             break;
         }
-        store_pit.seed_count += 1;
         let mut seed = *remaining_seeds.at(idx);
-        let original_seed_id = seed.seed_id;
         seed.pit_number = 7;
-        seed.seed_number = store_pit.seed_count;
-        seed.seed_id = original_seed_id;  // Preserve the original seed ID
+        // Convert idx to u8 and add to store_start_count
+        let new_seed_number: u8 = store_start_count + (idx + 1).try_into().unwrap();
+        seed.seed_number = new_seed_number;
+        store_pit.seed_count += 1;
         store.set_seed(seed);
         idx += 1;
     };
