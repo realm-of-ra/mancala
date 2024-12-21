@@ -126,10 +126,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     color={seed?.node.color || "Blue"}
                     length={opponent_pot_seed_count}
                     type="opponent"
-                    id={parseInt(seed.node.seed_id, 16)}
+                    seed_id={parseInt(seed.node.seed_id, 16)}
+                    pit_number={seed.node.pit_number}
+                    seed_number={seed.node.seed_number}
                   />
                 </div>
               ))}
+              <Seed
+                color="Blue"
+                length={opponent_pot_seed_count}
+                type="opponent"
+                seed_id={1}
+                pit_number={6}
+                seed_number={24}
+                pit_length={24}
+              />
           </div>
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">
@@ -161,7 +172,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
                 .map((pit: any, i: number) => (
                   <TopPit
-                    key={i}
+                    key={i} 
                     amount={pit.node.seed_count}
                     address={pit.node.player}
                     pit={pit.node.pit_number}
@@ -261,7 +272,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     color={seed?.node.color || "Blue"}
                     length={player_pot_seed_count}
                     type="player"
-                    id={parseInt(seed.node.seed_id, 16)}
+                    seed_id={parseInt(seed.node.seed_id, 16)}
+                    pit_number={seed.node.pit_number}
+                    seed_number={seed.node.seed_number}
                   />
                 </div>
               ))}
