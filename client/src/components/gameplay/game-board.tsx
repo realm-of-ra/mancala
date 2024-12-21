@@ -137,7 +137,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 length={opponent_pot_seed_count}
                 type="opponent"
                 seed_id={1}
-                pit_number={6}
+                pit_number={4}
                 seed_number={24}
                 pit_length={24}
               />

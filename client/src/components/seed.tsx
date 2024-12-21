@@ -110,16 +110,69 @@ export default function Seed({
       return 0;
     }
   };
-  const calculateY = () => {
+  const calculateY = (type: "player" | "opponent" | undefined, seed_number: number, pit_number: number) => {
     if (type === "opponent") {
-      return 100;
+      switch (seed_number) {
+        case 1:
+          return 0;
+        case 2:
+          return 10;
+        case 3:
+          return 20;
+        case 4:
+          return 30;
+        case 5:
+          return 40;
+        case 6:
+          return 0;
+        case 7:
+          return 10;
+        case 8:
+          return 20;
+        case 9:
+          return 30;
+        case 10:
+          return 40;
+        case 11:
+          return 0;
+        case 12:
+          return 10;
+        case 13:
+          return 20;
+        case 14:
+          return 30;
+        case 15:
+          return 40;
+        case 16:
+          return 0;
+        case 17:
+          return 10;
+        case 18:
+          return 20;
+        case 19:
+          return 30;
+        case 20:
+          return 40;
+        case 21:
+          return 0;
+        case 22:
+          return 10;
+        case 23:
+          return 20;
+        case 24:
+          return 30;
+        case 25:
+          return 40;
+      }
     } else {
       return 0;
     }
   };
   const [x, setX] = useState(calculateX(type, seed_number, pit_number));
+  const [y, setY] = useState(calculateY(type, seed_number, pit_number));
   useEffect(() => {
     setX(calculateX(type, seed_number, pit_number));
+    setY(calculateY(type, seed_number, pit_number));
   }, [type, seed_number, pit_number]);
   return (
     <motion.div
@@ -132,8 +185,8 @@ export default function Seed({
       style={{
         marginLeft: getMarginLeft(length, type),
       }}
-      initial={{ x: 0 }}
-      animate={{ x }}
+      initial={{ x: 0, y: 0 }}
+      animate={{ x, y }}
       transition={{ duration: 0.5 }}
     />
   );
