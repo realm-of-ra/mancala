@@ -7,6 +7,7 @@ use starknet::ContractAddress;
 
 // Models imports
 use mancala::models::player::Player;
+use mancala::models::profile::Profile;
 use mancala::models::mancala_board::MancalaBoard;
 use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
@@ -14,7 +15,7 @@ use mancala::models::game_counter::GameCounter;
 
 use mancala::events::move::{
     PlayerMove, PlayerMoveTrait, PlayerExtraTurn, PlayerExtraTurnTrait, EndTurn, EndTurnTrait,
-    Capture, CaptureTrait
+    Capture, CaptureTrait,
 };
 
 // Structs
@@ -49,7 +50,7 @@ impl StoreImpl of StoreTrait {
         mut self: Store,
         game_id: u128,
         current_player: ContractAddress,
-        next_player: ContractAddress
+        next_player: ContractAddress,
     ) {
         let event: EndTurn = EndTurnTrait::new(game_id, current_player, next_player);
         self.world.emit_event(@event);
@@ -57,7 +58,7 @@ impl StoreImpl of StoreTrait {
 
     #[inline]
     fn capture(
-        mut self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_count: u8
+        mut self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_count: u8,
     ) {
         let event: Capture = CaptureTrait::new(game_id, player, pit_number, seed_count);
         self.world.emit_event(@event);
@@ -66,6 +67,11 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn set_player(ref self: Store, player: Player) {
         self.world.write_model(@player);
+    }
+
+    #[inline]
+    fn set_profile(ref self: Store, profile: Profile) {
+        self.world.write_model(@profile);
     }
 
     #[inline]
@@ -99,8 +105,13 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn get_profile(self: Store, player_address: ContractAddress) -> Profile {
+        self.world.read_model(player_address)
+    }
+
+    #[inline]
     fn get_seed(
-        self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8
+        self: Store, game_id: u128, player: ContractAddress, pit_number: u8, seed_number: u8,
     ) -> Seed {
         self.world.read_model((game_id, player, pit_number, seed_number))
     }
