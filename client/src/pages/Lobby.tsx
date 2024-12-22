@@ -95,6 +95,8 @@ export default function Lobby() {
 
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
+  console.log('data: ', data);
+
   startPolling(1000);
   useEffect(() => {
     runOnceForever();
@@ -109,14 +111,14 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const filteredGames = data?.mancalaTMancalaBoardModels?.edges?.filter(
+  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
       game?.node?.player_two === account.account?.address,
   );
 
   const filteredTransactions =
-    data?.mancalaTMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
+    data?.mancalaDevMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
       if (
         (game?.node?.player_one === account.account?.address ||
           game?.node?.player_two === account.account?.address) &&
@@ -398,7 +400,7 @@ export default function Lobby() {
               {isConnected ? (
                 <>
                   <TabsContent value="live">
-                    <LiveDuels games={data?.mancalaTMancalaBoardModels?.edges} />
+                    <LiveDuels games={data?.mancalaDevMancalaBoardModels?.edges} />
                   </TabsContent>
                   <TabsContent value="duels">
                     <Duels
@@ -409,7 +411,7 @@ export default function Lobby() {
                   </TabsContent>
                   <TabsContent value="leaderboard">
                     <Leaderboard
-                      data={data?.mancalaTMancalaBoardModels?.edges}
+                      data={data?.mancalaDevMancalaBoardModels?.edges}
                     />
                   </TabsContent>
                 </>

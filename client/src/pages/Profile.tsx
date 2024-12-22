@@ -11,7 +11,7 @@ export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
   startPolling(1000);
   const account = useAccount();
-  const filteredGames = data?.mancalaTMancalaBoardModels?.edges?.filter(
+  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
       game?.node?.player_two === account.account?.address,
@@ -29,7 +29,7 @@ export default function Profile() {
     ) || [];
 
   const player = getPlayer(
-    data?.mancalaTMancalaBoardModels?.edges,
+    data?.mancalaDevMancalaBoardModels?.edges,
     account?.address || "",
   );
 

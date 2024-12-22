@@ -25,24 +25,24 @@ export default function Gameplay() {
     { variables: { gameId: gameId } },
   );
   const { system } = useDojo();
-  const game_node = game_metadata?.mancalaTMancalaBoardModels?.edges?.[0]?.node;
+  const game_node = game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaTPlayerModels.edges.filter(
+    game_players?.mancalaDevPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaTPlayerModels.edges.findIndex(
+    ? game_players?.mancalaDevPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaTPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node.address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (
@@ -77,7 +77,7 @@ export default function Gameplay() {
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <AudioSection />
             <MessageArea
-              address={account?.account?.address}
+              address={account?.account.account?.address}
               game_players={game_players}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
