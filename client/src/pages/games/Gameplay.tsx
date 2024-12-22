@@ -25,7 +25,8 @@ export default function Gameplay() {
     { variables: { gameId: gameId } },
   );
   const { system } = useDojo();
-  const game_node = game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
+  const game_node =
+    game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
@@ -77,7 +78,7 @@ export default function Gameplay() {
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <AudioSection />
             <MessageArea
-              address={account?.account.account?.address}
+              address={account?.account?.address}
               game_players={game_players}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
