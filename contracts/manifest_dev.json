@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x6035bd70a8116d897c05dc1b00bc85af496bc8b00b1efe15d3108ad13b09f81",
-      "class_hash": "0x4a00d6093ce9730e1b4dd1a6ccce59e11c728c27f6f134e2e36a6da3e65489",
+      "address": "0x602756f69b29f461510932d22b51138c8ae8366357d81f17a2b43860f9d35ee",
+      "class_hash": "0x2444c16a649e220e07c9ffab8958188d2e97a173bf59fb5d0c44bd4d111deee",
       "abi": [
         {
           "type": "impl",
@@ -1515,6 +1515,18 @@
               ],
               "outputs": [],
               "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "update_player_uri",
+              "inputs": [
+                {
+                  "name": "new_uri",
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
             }
           ]
         },
@@ -1679,7 +1691,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x30953eb0ded838e023c1d918cbdccbaa318564876ed4557c27e27f2c364136f",
+      "class_hash": "0x5169d0098ab6e13c88bb73e6eb1a59acdf3440753c45b5eebb614553e3bf1a7",
       "tag": "mancala-Profile",
       "selector": "0x99be461177345c29196fdff49db22cfa0962b51991a5feef28745b27e0d9e"
     },

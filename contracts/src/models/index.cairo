@@ -84,4 +84,6 @@ pub struct Profile {
     pub address: ContractAddress,
     pub name: ByteArray,
     pub profile_uri: ByteArray,
+    pub is_initialized: bool,
+    pub creation_time: u64,
 }

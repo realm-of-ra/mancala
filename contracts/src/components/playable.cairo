@@ -22,6 +22,9 @@ mod PlayableComponent {
         const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
         const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
         const PLAYER_DID_NOT_REQUEST_RESTART: felt252 = 'Player did not request restart';
+        const PROFILE_EXISTS: felt252 = 'Player profile already exists';
+        const PROFILE_NOT_FOUND: felt252 = 'Player profile does not exist';
+        const NOT_PROFILE_OWNER: felt252 = 'Not profile owner';
     }
 
     #[storage]
@@ -430,8 +433,29 @@ mod PlayableComponent {
             let mut store: Store = StoreTrait::new(world);
 
             let player = get_caller_address();
-            let mut player_profile: Profile = ProfileTrait::new(player, name);
 
+            let profile = store.get_profile(player);
+            assert(!profile.is_initialized, errors::PROFILE_EXISTS);
+
+            let mut player_profile: Profile = ProfileTrait::new(player, name);
+            player_profile.is_initialized = true;
+
+            store.set_profile(player_profile);
+        }
+
+        fn update_profile_uri(
+            self: @ComponentState<TContractState>, world: WorldStorage, new_uri: ByteArray,
+        ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let player = get_caller_address();
+            let mut player_profile = store.get_profile(player);
+
+            assert(player_profile.is_initialized, errors::PROFILE_NOT_FOUND);
+            assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
+
+            player_profile.update_profile_uri(new_uri);
             store.set_profile(player_profile);
         }
     }
