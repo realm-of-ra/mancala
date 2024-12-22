@@ -95,8 +95,6 @@ export default function Lobby() {
 
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
-  console.log('data: ', data);
-
   startPolling(1000);
   useEffect(() => {
     runOnceForever();
