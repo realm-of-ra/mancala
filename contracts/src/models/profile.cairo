@@ -41,7 +41,7 @@ mod tests {
     fn test_new_profile() {
         let profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
 
-        assert(profile.address == ADDRESS(), 'Invalid address');
+        assert_eq!(profile.address, ADDRESS());
         assert_eq!(profile.name, PLAYER_NAME);
     }
 

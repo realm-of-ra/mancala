@@ -15,7 +15,6 @@ mod test_init_game {
     fn test_new_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
         let game_counter = store.get_game_counter(1);
@@ -36,7 +35,6 @@ mod test_init_game {
     fn test_join_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
 
@@ -99,7 +97,6 @@ mod test_init_game {
     fn test_create_private_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
         systems.actions.create_private_game(OPPONENT);
@@ -173,7 +170,6 @@ mod test_play {
     fn test_get_players() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
         systems.actions.create_private_game(OPPONENT);
@@ -191,7 +187,6 @@ mod test_play {
     fn test_move() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
 
@@ -251,7 +246,6 @@ mod test_play {
     fn test_capture_seeds() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
 
@@ -297,7 +291,6 @@ mod test_play {
     fn test_timeout() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
         let game_counter = store.get_game_counter(1);
@@ -324,7 +317,6 @@ mod test_play {
     fn test_end_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
-        systems.actions.initialize_game_counter();
 
         systems.actions.new_game();
 
@@ -389,7 +381,6 @@ mod test_play {
 //fn test_seed_ids() {
 //    let (world, systems) = setup::spawn_game();
 //    let mut store: Store = StoreTrait::new(world);
-//    systems.actions.initialize_game_counter();
 
     //    systems.actions.new_game();
 //    let game_counter = store.get_game_counter(1);
@@ -416,44 +407,4 @@ mod test_play {
 //        pit_idx += 1;
 //    };
 //}
-}
-
-mod test_validations {
-    use starknet::{ContractAddress, get_caller_address};
-    use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
-    use dojo::world::{WorldStorage, WorldStorageTrait};
-    use dojo_cairo_test::spawn_test_world;
-
-    use mancala::store::{Store, StoreTrait};
-    use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
-    use mancala::tests::setup::setup;
-    use mancala::models::game_counter::{GameCounter, GameCounterTrait};
-
-    #[test]
-    #[available_gas(300000000000)]
-    fn test_initialize_game_counter() {
-        let (world, systems) = setup::spawn_game();
-        let mut store: Store = StoreTrait::new(world);
-
-        systems.actions.initialize_game_counter();
-        let mut game_counter = store.get_game_counter(1);
-        assert(game_counter.count == 1, 'Wrong game counter');
-
-        game_counter.increment();
-        assert(game_counter.count == 2, 'Wrong game counter after');
-    }
-
-    #[test]
-    #[available_gas(300000000000)]
-    #[should_panic]
-    fn test_initialize_game_counter_error() {
-        let (world, systems) = setup::spawn_game();
-        let mut store: Store = StoreTrait::new(world);
-
-        systems.actions.initialize_game_counter();
-        let game_counter = store.get_game_counter(1);
-        assert(game_counter.count == 1, 'Wrong game counter');
-
-        systems.actions.initialize_game_counter();
-    }
 }

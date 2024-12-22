@@ -18,6 +18,7 @@ mod events {
 
 mod components {
     mod playable;
+    mod initializable;
 }
 
 mod systems {

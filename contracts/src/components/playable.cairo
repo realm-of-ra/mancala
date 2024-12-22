@@ -38,30 +38,6 @@ mod PlayableComponent {
     impl InternalImpl<
         TContractState, +HasComponent<TContractState>,
     > of InternalTrait<TContractState> {
-        /// Initializes the game counter
-        ///
-        /// # Arguments
-        /// * `self` - Reference to the component state
-        /// * `world` - The World dispatcher
-        ///
-        /// # Effects
-        /// * Sets up the initial game counter in the world state
-        fn initialize_game_counter(self: @ComponentState<TContractState>, world: WorldStorage) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            let current_game_counter = store.get_game_counter(1);
-            assert(current_game_counter.count == 0, 'Counter already initialized');
-
-            // [Effect] Create GameCounter
-            let mut game_counter = GameCounterTrait::new();
-
-            // [Effect] GameCounter increment
-            game_counter.increment();
-
-            store.set_game_counter(game_counter);
-        }
-
         /// Creates a new game
         ///
         /// # Arguments

@@ -5,7 +5,6 @@ use mancala::models::player::Player;
 
 #[starknet::interface]
 trait IActions<TContractState> {
-    fn initialize_game_counter(self: @TContractState);
     fn new_game(self: @TContractState);
     fn join_game(self: @TContractState, game_id: u128);
     fn timeout(self: @TContractState, game_id: u128, opponent_address: ContractAddress);
@@ -26,16 +25,21 @@ mod actions {
     use super::{ContractAddress, Player, IActions};
     use mancala::models::profile::Profile;
     use mancala::models::mancala_board::MancalaBoard;
+    use mancala::components::initializable::InitializableComponent;
     use mancala::components::playable::PlayableComponent;
     use mancala::constants::NAMESPACE;
 
     use dojo::world::WorldStorage;
 
+    component!(path: InitializableComponent, storage: initializable, event: InitializableEvent);
+    impl InitializableImpl = InitializableComponent::InternalImpl<ContractState>;
     component!(path: PlayableComponent, storage: playable, event: PlayableEvent);
     impl PlayableInternalImpl = PlayableComponent::InternalImpl<ContractState>;
 
     #[storage]
     struct Storage {
+        #[substorage(v0)]
+        initializable: InitializableComponent::Storage,
         #[substorage(v0)]
         playable: PlayableComponent::Storage,
     }
@@ -44,16 +48,17 @@ mod actions {
     #[derive(Drop, starknet::Event)]
     enum Event {
         #[flat]
+        InitializableEvent: InitializableComponent::Event,
+        #[flat]
         PlayableEvent: PlayableComponent::Event,
+    }
+
+    fn dojo_init(self: @ContractState) {
+        self.initializable.initialize(self.world_storage());
     }
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
-        fn initialize_game_counter(self: @ContractState) {
-            let world = self.world_storage();
-            self.playable.initialize_game_counter(world)
-        }
-
         fn new_game(self: @ContractState) {
             let world = self.world_storage();
             self.playable.new_game(world);
