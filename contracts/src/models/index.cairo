@@ -82,7 +82,7 @@ pub struct Seed {
 pub struct Profile {
     #[key]
     pub address: ContractAddress,
-    pub name: ByteArray,
+    pub name: felt252,
     pub profile_uri: ByteArray,
     pub is_initialized: bool,
     pub creation_time: u64,

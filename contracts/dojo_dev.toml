@@ -13,10 +13,10 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala"
+default = "mancala_t"
 
 [writers]
-"mancala" = ["mancala-actions"]
+"mancala_t" = ["mancala_t-actions"]
 
 [env]
 rpc_url = "http://localhost:5050"

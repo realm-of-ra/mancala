@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x602756f69b29f461510932d22b51138c8ae8366357d81f17a2b43860f9d35ee",
-      "class_hash": "0x2444c16a649e220e07c9ffab8958188d2e97a173bf59fb5d0c44bd4d111deee",
+      "address": "0x499f810163dfdbcfd212bf7d932a0b43530a0a9e7f2ea88e318981dbf5c7a06",
+      "class_hash": "0x6787e6a0a6db65ad6f1d1768c7095412b9b35fb44b2eba321ecb7daca9ca478",
       "abi": [
         {
           "type": "impl",
@@ -1657,8 +1657,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "mancala-actions",
-      "selector": "0x5608e0158c9abc329dd5b680edd8bdfebe0e17a765c0f0c305af7ccb6746c0d",
+      "tag": "mancala_t-actions",
+      "selector": "0xf102a2ba3c171e806168ed058f1023276011ab41799ff1a08cfac9d6f4365f",
       "systems": [
         "upgrade"
       ]
@@ -1668,64 +1668,64 @@
     {
       "members": [],
       "class_hash": "0x1e1240342fddd02b51ab99edbf05a09ac1114a6c53902685b3be5680e305825",
-      "tag": "mancala-GameCounter",
-      "selector": "0x70698b2ca04aff8b89be8173106718ffe69c9f3c3ad60570ba5278a5deb5a05"
+      "tag": "mancala_t-GameCounter",
+      "selector": "0x6087d8460428fb7310866d252c08a1bbe02239315b4098046258e829c8579fd"
     },
     {
       "members": [],
       "class_hash": "0x710a5f1623497788fc2140a253036216960c9ac693d68a94799ab86a720f750",
-      "tag": "mancala-MancalaBoard",
-      "selector": "0x43323da891f10c1fa5e865b34a6ab0625b5d73ee8db40b837ba7d3697a7fb97"
+      "tag": "mancala_t-MancalaBoard",
+      "selector": "0x5129ed9010547ad3239713394df45eace101903b4673a33c998e753aa81c931"
     },
     {
       "members": [],
       "class_hash": "0x4f978622482494ba19ac995f11c904648561252f4a5b3af328b2e44da62c932",
-      "tag": "mancala-Pit",
-      "selector": "0x22175c12d5798084c388d3a7d4fd01b4845fe587f73e1821d37390affc9e492"
+      "tag": "mancala_t-Pit",
+      "selector": "0xc305978b098f98e55686c659f4d10112cb91386bb2002150f69b245caa4fa2"
     },
     {
       "members": [],
       "class_hash": "0x5421477787f0fd37f442d42b02bb803d8e1d0108afa750e83d35c18f659a4c6",
-      "tag": "mancala-Player",
-      "selector": "0x37ce719d35029a9c09340e20518e41579a218ecafd94071f2b8c0ce0109b3d9"
+      "tag": "mancala_t-Player",
+      "selector": "0x420ef787905fe6e17a7b9540ece01ec19bede3592d9a6275fdbc12fda78442"
     },
     {
       "members": [],
       "class_hash": "0x5169d0098ab6e13c88bb73e6eb1a59acdf3440753c45b5eebb614553e3bf1a7",
-      "tag": "mancala-Profile",
-      "selector": "0x99be461177345c29196fdff49db22cfa0962b51991a5feef28745b27e0d9e"
+      "tag": "mancala_t-Profile",
+      "selector": "0x7d81de39776c988c163b887a4d53090147f39b61818edf72784402d90dbb57c"
     },
     {
       "members": [],
       "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
-      "tag": "mancala-Seed",
-      "selector": "0x64c952d1dc8cabfc4ddb06f4da6c83dbd845beddf9999d1f1ee772e52db74e"
+      "tag": "mancala_t-Seed",
+      "selector": "0x3162c81b7527e340883f5245474c93cc3246ca07df971f4178a313d1ee0d50"
     }
   ],
   "events": [
     {
       "members": [],
       "class_hash": "0x41b8c256c71fd189f2f4a46fc883903dfce72959d851807e61dc2e42361cb1f",
-      "tag": "mancala-Capture",
-      "selector": "0x783826761c2ce6c3db27ad092e5db4ecd012972781287101b3021ea38c5563f"
+      "tag": "mancala_t-Capture",
+      "selector": "0x12503866a249a05faffdc392f3f4cbfa29e1360e95cc370f385408abe2473a6"
     },
     {
       "members": [],
       "class_hash": "0x6ad2c5b0a64992b068e6e3ada4f86d3ac692915006b60ac25f1d55b5e2f5c89",
-      "tag": "mancala-EndTurn",
-      "selector": "0x1c3df739f3e55026bc0da4caba3f42b0d6271006c20c2ea21d545c846f980c4"
+      "tag": "mancala_t-EndTurn",
+      "selector": "0x3a39d173ef544c50ca03243ada9b89654bc51eff5ec9a8b89f25a85732bf918"
     },
     {
       "members": [],
       "class_hash": "0x68aa78a7fe02585f67b17540762e5103c14c5d23fd94b5222200054e68ccc24",
-      "tag": "mancala-PlayerExtraTurn",
-      "selector": "0x6d36db43414068495c3d7866da5beee74ac39143a23ef23c4605a824d397c9f"
+      "tag": "mancala_t-PlayerExtraTurn",
+      "selector": "0x54a87d52216726bd88460b7913f47bb972a8e5b39bbf1582b55594d7f8f698"
     },
     {
       "members": [],
       "class_hash": "0x49fa2e09b02e37efe06209800c7fa4b07cd78e05559a83acfd3fcd4eb5e54e0",
-      "tag": "mancala-PlayerMove",
-      "selector": "0x68d8a0f36144cb1f36e8de3993dbf83635eeea1166f93eaf7a6491c4bc4392a"
+      "tag": "mancala_t-PlayerMove",
+      "selector": "0x4a6659723ee85da1b80561e07673ca12f2883151a7df259241792855d1a3087"
     }
   ]
 }

@@ -426,9 +426,7 @@ mod PlayableComponent {
             restart_player_pits(world, @player_two, SeedColor::Blue);
         }
 
-        fn new_profile(
-            self: @ComponentState<TContractState>, world: WorldStorage, name: ByteArray,
-        ) {
+        fn new_profile(self: @ComponentState<TContractState>, world: WorldStorage, name: felt252) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -438,7 +436,6 @@ mod PlayableComponent {
             assert(!profile.is_initialized, errors::PROFILE_EXISTS);
 
             let mut player_profile: Profile = ProfileTrait::new(player, name);
-            player_profile.is_initialized = true;
 
             store.set_profile(player_profile);
         }
@@ -456,6 +453,23 @@ mod PlayableComponent {
             assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
 
             player_profile.update_profile_uri(new_uri);
+            store.set_profile(player_profile);
+        }
+
+        fn rename_player(
+            self: @ComponentState<TContractState>, world: WorldStorage, name: felt252,
+        ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let player = get_caller_address();
+            let mut player_profile = store.get_profile(player);
+
+            assert(player_profile.is_initialized, errors::PROFILE_NOT_FOUND);
+            assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
+
+            player_profile.update_name(name);
+
             store.set_profile(player_profile);
         }
     }

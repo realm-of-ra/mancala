@@ -8,6 +8,7 @@ mod setup {
         WorldStorageTestTrait,
     };
 
+    use mancala::constants::NAMESPACE;
     use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
     use mancala::models::{index as models};
     use mancala::events::{index as events};
@@ -32,7 +33,7 @@ mod setup {
     #[inline]
     fn setup_namespace() -> NamespaceDef {
         NamespaceDef {
-            namespace: "mancala",
+            namespace: NAMESPACE(),
             resources: [
                 TestResource::Model(models::m_GameCounter::TEST_CLASS_HASH),
                 TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
@@ -51,8 +52,8 @@ mod setup {
 
     fn setup_contracts() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@"mancala", @"actions")
-                .with_writer_of([dojo::utils::bytearray_hash(@"mancala")].span()),
+            ContractDefTrait::new(@NAMESPACE(), @"actions")
+                .with_writer_of([dojo::utils::bytearray_hash(@NAMESPACE())].span()),
         ]
             .span()
     }
