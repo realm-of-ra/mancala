@@ -1,7 +1,7 @@
 {
   "world": {
-    "class_hash": "0x79d9ce84b97bcc2a631996c3100d57966fc2f5b061fb1ec4dfd0040976bcac6",
-    "address": "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3",
+    "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
+    "address": "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e1779",
     "seed": "mancala",
     "name": "Mancala",
     "entrypoints": [
@@ -92,6 +92,10 @@
           {
             "name": "metadata_uri",
             "type": "core::byte_array::ByteArray"
+          },
+          {
+            "name": "metadata_hash",
+            "type": "core::felt252"
           }
         ]
       },
@@ -1002,6 +1006,11 @@
             "name": "uri",
             "type": "core::byte_array::ByteArray",
             "kind": "data"
+          },
+          {
+            "name": "hash",
+            "type": "core::felt252",
+            "kind": "data"
           }
         ]
       },
@@ -1243,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x4a55d05d1abf91227df0d03903e78c4f22e794ea9c13ac05b27b6d9140ebf73",
-      "class_hash": "0x23976e75646c625e704e2f9e3d324daeb3bd2083e4f4e6b63a9a9cdad9956e1",
+      "address": "0x2893d993a077a379c0f19d13fb0148785c31f64fb11f5ba886ae69a4ac69b0f",
+      "class_hash": "0x775337b02cbecc03ce6a9b202ab1a6bcc33c76d323e2be1c80494e1791cdfa",
       "abi": [
         {
           "type": "impl",
@@ -1494,6 +1503,42 @@
               ],
               "outputs": [],
               "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "create_player_profile",
+              "inputs": [
+                {
+                  "name": "name",
+                  "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "update_player_uri",
+              "inputs": [
+                {
+                  "name": "new_uri",
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "rename_player",
+              "inputs": [
+                {
+                  "name": "name",
+                  "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
             }
           ]
         },
@@ -1655,6 +1700,12 @@
       "class_hash": "0x5421477787f0fd37f442d42b02bb803d8e1d0108afa750e83d35c18f659a4c6",
       "tag": "mancala_t-Player",
       "selector": "0x420ef787905fe6e17a7b9540ece01ec19bede3592d9a6275fdbc12fda78442"
+    },
+    {
+      "members": [],
+      "class_hash": "0x4996e86ed67b3f0ff4a26d45448d02996c42c0fc3b9f34d783f80a0dcb4a7cc",
+      "tag": "mancala_t-Profile",
+      "selector": "0x7d81de39776c988c163b887a4d53090147f39b61818edf72784402d90dbb57c"
     },
     {
       "members": [],
