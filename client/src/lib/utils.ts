@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
+import { create } from '@web3-storage/w3up-client';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -130,4 +131,12 @@ export function getColorOfTheDay(walletAddress: string, date: Date) {
   const colorIndex = hash % colors.length;
 
   return colors[colorIndex];
+}
+
+export async function uploadFileToIpfs() {
+  const client = await create();
+  const account = await client.login('victoromorogbe69@gmail.com');
+  const space = await client.createSpace('users-profile-images', {
+    account
+  })
 }
