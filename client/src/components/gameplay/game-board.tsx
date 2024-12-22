@@ -32,20 +32,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   const seeds = React.useMemo(() => {
     if (!data?.mancalaTSeedModels?.edges) return [];
-    
     const uniqueSeeds = new Map();
     data.mancalaTSeedModels.edges.forEach((seed: any) => {
       const seedId = seed?.node.seed_id;
-      if (seedId) {
-        const existingSeed = uniqueSeeds.get(seedId);
-        const currentPitNumber = seed.node.pit_number;
-        const isOpponentSeed = seed.node.player !== account.account?.address;
-        
-        if (!existingSeed || 
-            (isOpponentSeed && existingSeed.player === account.account?.address) ||
-            (existingSeed.player === seed.node.player && currentPitNumber > existingSeed.pit_number)) {
-          uniqueSeeds.set(seedId, seed.node);
-        }
+      if (seedId && !uniqueSeeds.has(seedId)) {
+        uniqueSeeds.set(seedId, seed.node);
       }
     });
     return Array.from(uniqueSeeds.values());
