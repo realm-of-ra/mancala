@@ -3,7 +3,7 @@
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 
-export const NAMESPACE = "mancala_t";
+export const NAMESPACE = "mancala_dev";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -173,6 +173,47 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
+    const create_player_profile = async (
+      account: AccountInterface,
+      name: string,
+    ) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: "actions",
+            entrypoint: "create_player_profile",
+            calldata: [name],
+          },
+          NAMESPACE,
+        );
+      } catch (error) {
+        console.error("Error executing create_player_profile:", error);
+        throw error;
+      }
+    };
+
+    const update_player_profile = async (
+      account: AccountInterface,
+      name: string,
+      new_uri: string,
+    ) => {
+      try {
+        return await provider.execute(
+          account,
+          {
+            contractName: "actions",
+            entrypoint: "update_player_profile",
+            calldata: [name, new_uri],
+          },
+          NAMESPACE,
+        );
+      } catch (error) {
+        console.error("Error executing update_player_profile:", error);
+        throw error;
+      }
+    };
+
     return {
       create_initial_game_id,
       create_game,
@@ -182,6 +223,8 @@ export async function setupWorld(provider: DojoProvider) {
       restart_game,
       end_game,
       timeout,
+      create_player_profile,
+      update_player_profile,
     };
   }
   return {

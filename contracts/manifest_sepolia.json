@@ -1253,7 +1253,7 @@
   "contracts": [
     {
       "address": "0x2893d993a077a379c0f19d13fb0148785c31f64fb11f5ba886ae69a4ac69b0f",
-      "class_hash": "0x775337b02cbecc03ce6a9b202ab1a6bcc33c76d323e2be1c80494e1791cdfa",
+      "class_hash": "0xc05634c8ad7020a8cf7c1c6cb60eb1055a7ca1e2ce95bdce9b58efa160065c",
       "abi": [
         {
           "type": "impl",
@@ -1518,23 +1518,15 @@
             },
             {
               "type": "function",
-              "name": "update_player_uri",
-              "inputs": [
-                {
-                  "name": "new_uri",
-                  "type": "core::byte_array::ByteArray"
-                }
-              ],
-              "outputs": [],
-              "state_mutability": "view"
-            },
-            {
-              "type": "function",
-              "name": "rename_player",
+              "name": "update_player_profile",
               "inputs": [
                 {
                   "name": "name",
                   "type": "core::felt252"
+                },
+                {
+                  "name": "new_uri",
+                  "type": "core::byte_array::ByteArray"
                 }
               ],
               "outputs": [],
