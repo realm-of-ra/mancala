@@ -5,6 +5,7 @@ mod models {
     mod index;
     mod mancala_board;
     mod player;
+    mod profile;
     mod seed;
     mod game_counter;
     mod pit;
