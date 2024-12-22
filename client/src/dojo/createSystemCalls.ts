@@ -188,8 +188,10 @@ export function createSystemCalls(
   const create_player_profile = async (
     account: AccountInterface,
     name: string,
+    setLoading: any,
   ) => {
     try {
+      setLoading({ status: 'CREATING', finished: false });
       const { transaction_hash } = await client.actions.create_player_profile(
         account,
         name,
@@ -197,7 +199,9 @@ export function createSystemCalls(
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
+      setLoading({ status: 'CREATED', finished: true });
     } catch (error) {
+      setLoading({ status: 'ERROR', finished: true });
       console.error("Error executing timeout:", error);
       throw error;
     }

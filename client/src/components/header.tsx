@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
-import { constants } from "starknet";
+import { constants, shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 // import { useDojo } from "@/dojo/useDojo";
@@ -21,7 +21,7 @@ import leader from "../assets/leader.svg";
 import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
-import { MancalaHeaderQuery } from "@/lib/constants";
+import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
 import useControllerData from "@/hooks/useControllerData";
 
 export default function Header() {
@@ -41,10 +41,6 @@ export default function Header() {
   const disconnectWallet = async () => {
     disconnect();
   };
-
-  const { data: profile } = useStarkProfile({
-    address,
-  });
 
   const { account } = useAccount();
 
@@ -76,14 +72,21 @@ export default function Header() {
     disconnectWallet();
   };
 
-  const controllerData = useControllerData();
-
   const color = getColorOfTheDay(account?.address || "", new Date());
+
+  const { data: playerData } = useQuery(MancalaPlayerNames);
+  const profile: any = playerData?.mancalaDevProfileModels?.edges.find((player: any) => player.address === account?.address);
+  const [playerName, setPlayerName] = useState('');
+  useEffect(() => {
+    if (profile?.node?.name) {
+      setPlayerName(shortString.decodeShortString(profile?.node?.name || ''));
+    }
+  }, [playerData?.mancalaDevProfileModels?.edges]);
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {controllerData?.icon != undefined ? (
+        {address && playerName && playerName !== '0' ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
             <div className="rounded-full border-2 border-[#4B505C] relative">
@@ -96,14 +99,14 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {controllerData?.username
-                  ? controllerData?.username
+                {playerName !== '0'
+                  ? playerName
                   : truncateString(address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
-                {player?.[0]?.wins < 4
+                {player?.wins < 4
                   ? "Level 1"
-                  : `Level ${Number.isNaN(Math.floor(player?.[0]?.wins)) ? 1 : Math.floor(player?.[0]?.wins) < 4 ? 1 : Math.floor(player?.[0]?.wins / 4) + 1}`}
+                  : `Level ${Number.isNaN(Math.floor(player?.wins)) ? 1 : Math.floor(player?.wins) < 4 ? 1 : Math.floor(player?.wins / 4) + 1}`}
               </h4>
             </div>
           </div>
@@ -156,7 +159,7 @@ export default function Header() {
                   </div>
                   <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5 ">
                     <p className="text-[18px] text-white leading-3 normal-case">
-                      {truncateString(address)}
+                      {playerName ? playerName.length > 18 ? truncateString(playerName) : playerName : truncateString(address)}
                     </p>
                     <ChevronDownIcon
                       className={clsx("w-4 h-4 ml-3 transition duration-300", {

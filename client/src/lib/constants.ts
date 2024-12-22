@@ -757,3 +757,17 @@ export const MancalaHeaderQuery = gql`
     }
   }
 `;
+
+export const MancalaPlayerNames = gql`
+  query mancalaDevPlayerNames {
+    mancalaDevProfileModels {
+      edges {
+        node {
+          name
+          address
+          profile_uri
+        }
+      }
+    }
+  }
+`;

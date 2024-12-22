@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
-import { create } from '@web3-storage/w3up-client';
+import axios from 'axios';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -133,10 +133,21 @@ export function getColorOfTheDay(walletAddress: string, date: Date) {
   return colors[colorIndex];
 }
 
-export async function uploadFileToIpfs() {
-  const client = await create();
-  const account = await client.login('victoromorogbe69@gmail.com');
-  const space = await client.createSpace('users-profile-images', {
-    account
-  })
+export async function uploadFile(file: File) {
+  try {
+    const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await axios.post(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    // Return the direct image URL
+    return response.data.data.url;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;
+  }
 }

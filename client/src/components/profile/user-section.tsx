@@ -2,13 +2,14 @@ import twitter from "@/assets/twitter.png";
 import telegram from "@/assets/telegram.png";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
-import { getColorOfTheDay, truncateString } from "@/lib/utils";
+import { getColorOfTheDay, truncateString, uploadFile } from "@/lib/utils";
 import { useAccount } from "@starknet-react/core";
 import useControllerData from "@/hooks/useControllerData";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Dialog } from "@material-tailwind/react";
 import image from "@/assets/image-add.svg";
 import avatar from "@/assets/avatar.png";
+import { useDojo } from "@/dojo/useDojo";
 
 export default function UserSection({
   level,
@@ -23,25 +24,29 @@ export default function UserSection({
 }) {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState("");
+  const [loading, setLoading] = useState<{ status: string; finished: boolean }>({ status: '', finished: false });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { system, account } = useDojo();
   
   const controllerData = useControllerData();
-  const account = useAccount();
   const url = window.location.href;
   const color = getColorOfTheDay(account.account?.address || "", new Date());
 
   const handleOpen = () => setOpen(!open);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setSelectedImage(URL.createObjectURL(event.target.files[0]));
+      const file = event.target.files?.[0];
+      const url = await uploadFile(file as File);
+      setSelectedImage(URL.createObjectURL(event.target.files[0]) || url);
+      setImageUrl(url);
     }
   };
 
-  const handleSaveProfile = () => {
-    console.log("Saving profile:", { displayName, selectedImage });
-    handleOpen();
+  const handleSaveProfile = async () => {
+    system.create_player_profile(account.account, displayName, setLoading);
   };
 
   return (
@@ -189,7 +194,7 @@ export default function UserSection({
                     className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52"
                     onClick={handleSaveProfile}
                   >
-                    Save Changes
+                    {loading.status === 'CREATING' && !loading.finished ? 'Saving...' : loading.status === 'CREATED' && loading.finished ? 'Saved' : 'Save Changes'}
                   </button>
                 </div>
               </div>
