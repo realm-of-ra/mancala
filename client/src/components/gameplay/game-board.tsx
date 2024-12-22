@@ -44,7 +44,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId = typeof seedId === 'number' ? `0x${seedId.toString(16)}` : seedId;
-    return seeds.find(seed => seed.seed_id === hexSeedId);
+    const seed = seeds.find(seed => seed.seed_id === hexSeedId);
+    if (!seed) return null;
+
+    const seedNumber = parseInt(seed.seed_id, 16);
+    const isNative = (seed.player === game_node?.player_one && seedNumber >= 1 && seedNumber <= 24) || 
+                    (seed.player === game_node?.player_two && seedNumber >= 25 && seedNumber <= 48);
+    
+    return { ...seed, isNative };
   };
 
   const involved = game_players?.mancalaTPlayerModels.edges.some(
@@ -159,6 +166,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   seed_id={parseInt(seedDetails?.seed_id, 16)}
                   pit_number={seedDetails?.pit_number}
                   seed_number={seedDetails?.seed_number}
+                  isNative={seedDetails.isNative}
                 />
               );
             })}
@@ -283,6 +291,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
               if (!seedDetails) return null;
               
               const isPlayerSeed = seedDetails.player === account.account?.address;
+
+              if (seedNumber === 2) {
+                console.log(seedDetails);
+              }
               
               return (
                 <Seed
@@ -293,6 +305,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   seed_id={parseInt(seedDetails?.seed_id, 16)}
                   pit_number={seedDetails?.pit_number}
                   seed_number={seedDetails?.seed_number}
+                  isNative={seedDetails.isNative}
                 />
               );
             })}

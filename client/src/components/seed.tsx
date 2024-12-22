@@ -10,6 +10,7 @@ export default function Seed({
   pit_number,
   seed_number,
   pit_length,
+  isNative
 }: {
   color?: string;
   length?: number;
@@ -18,9 +19,10 @@ export default function Seed({
   pit_number: number;
   seed_number: number;
   pit_length?: number;
+  isNative: boolean;
 }) {
   // Define position maps for both player and opponent
-  const playerPositions = {
+  const playerPositions = isNative ? {
     1: { x: -715, y: 120 },
     2: { x: -595, y: 120 },
     3: { x: -475, y: 120 },
@@ -28,15 +30,31 @@ export default function Seed({
     5: { x: -235, y: 120 },
     6: { x: -115, y: 120 },
     7: { x: 0, y: 110 },
+  } : {
+    1: { x: 90, y: 120 },
+    2: { x: 205, y: 120 },
+    3: { x: 325, y: 120 },
+    4: { x: 445, y: 120 },
+    5: { x: 565, y: 120 },
+    6: { x: 685, y: 120 },
+    7: { x: 0, y: 110 },
   };
 
-  const opponentPositions = {
+  const opponentPositions = isNative ? {
     1: { x: 685, y: 10 },
     2: { x: 565, y: 10 },
     3: { x: 445, y: 10 },
     4: { x: 325, y: 10 },
     5: { x: 205, y: 10 },
     6: { x: 85, y: 10 },
+    7: { x: 785, y: 150 },
+  } : {
+    1: { x: -110, y: 10 },
+    2: { x: -235, y: 10 },
+    3: { x: -355, y: 10 },
+    4: { x: -475, y: 10 },
+    5: { x: -595, y: 10 },
+    6: { x: -715, y: 10 },
     7: { x: 785, y: 150 },
   };
 
