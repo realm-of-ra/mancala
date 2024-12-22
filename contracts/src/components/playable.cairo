@@ -440,8 +440,11 @@ mod PlayableComponent {
             store.set_profile(player_profile);
         }
 
-        fn update_profile_uri(
-            self: @ComponentState<TContractState>, world: WorldStorage, new_uri: ByteArray,
+        fn update_player_profile(
+            self: @ComponentState<TContractState>,
+            world: WorldStorage,
+            name: felt252,
+            new_uri: ByteArray,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -452,24 +455,7 @@ mod PlayableComponent {
             assert(player_profile.is_initialized, errors::PROFILE_NOT_FOUND);
             assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
 
-            player_profile.update_profile_uri(new_uri);
-            store.set_profile(player_profile);
-        }
-
-        fn rename_player(
-            self: @ComponentState<TContractState>, world: WorldStorage, name: felt252,
-        ) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            let player = get_caller_address();
-            let mut player_profile = store.get_profile(player);
-
-            assert(player_profile.is_initialized, errors::PROFILE_NOT_FOUND);
-            assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
-
-            player_profile.update_name(name);
-
+            player_profile.update_profile(name, new_uri);
             store.set_profile(player_profile);
         }
     }
