@@ -4,7 +4,7 @@ import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
-import { MancalaBoardModelQuery, MancalaPlayQuery } from "@/lib/constants";
+import { MancalaBoardModelQuery, MancalaPlayerNames, MancalaPlayQuery } from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
@@ -24,6 +24,7 @@ export default function Gameplay() {
     MancalaPlayQuery,
     { variables: { gameId: gameId } },
   );
+  const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
     game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
@@ -50,6 +51,7 @@ export default function Gameplay() {
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <GameNavigation
         game_players={game_players}
+        player_names={player_names}
         game_node={game_node}
         account={account}
         gameId={gameId}

@@ -7,10 +7,10 @@ import { MancalaSeedQuery } from "@/lib/constants";
 import Seed from "../seed";
 
 interface GameBoardProps {
-  game_players: any; // Replace 'any' with the correct type from your GraphQL query
-  game_node: any; // Replace 'any' with the correct type from your GraphQL query
-  system: any; // Replace 'any' with the correct type from your dojo system
-  account: any; // Replace 'any' with the correct type from your account
+  game_players: any;
+  game_node: any;
+  system: any;
+  account: any;
   gameId: string;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
@@ -29,39 +29,39 @@ const GameBoard: React.FC<GameBoardProps> = ({
     variables: { gameId: gameId },
   });
   startPolling(1000);
-  const involved = game_players?.mancalaTPlayerModels.edges.some(
+  const involved = game_players?.mancalaDevPlayerModels.edges.some(
     (item: any) => item?.node.address === account.account?.address,
   );
   const player_position = involved
-    ? game_players?.mancalaTPlayerModels.edges.findIndex(
+    ? game_players?.mancalaDevPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.account?.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
-  const opposition_length = data?.mancalaTSeedModels.edges
+  const opposition_length = data?.mancalaDevSeedModels.edges
     .filter(
       (item: any) =>
         item?.node.player ===
-        game_players?.mancalaTPlayerModels.edges[opponent_position]?.node
+        game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node
           .address,
     )
     .filter((item: any) => item?.node.pit_number === 7).length;
   const player_pot_seed_count =
-    game_players?.mancalaTPitModels.edges
+    game_players?.mancalaDevPitModels.edges
       .filter(
         (item: any) =>
           item?.node.player ===
-          game_players?.mancalaTPlayerModels.edges[player_position]?.node
+          game_players?.mancalaDevPlayerModels.edges[player_position]?.node
             .address,
       )
       .filter((item: any) => item?.node.pit_number === 7)[0]?.node
       ?.seed_count || 0;
   const opponent_pot_seed_count =
-    game_players?.mancalaTPitModels.edges
+    game_players?.mancalaDevPitModels.edges
       .filter(
         (item: any) =>
           item?.node.player ===
-          game_players?.mancalaTPlayerModels.edges[opponent_position]?.node
+          game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node
             .address,
       )
       .filter((item: any) => item?.node.pit_number === 7)[0]?.node
@@ -106,11 +106,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
             }}
           >
             {// involved && data?.mancalaSeedModels.edges.filter((item: any) => item?.node.player === game_players?.mancalaPlayerModels.edges[opponent_position]?.node.address)
-            data?.mancalaTSeedModels.edges
+            data?.mancalaDevSeedModels.edges
               .filter(
                 (item: any) =>
                   item?.node.player ===
-                  game_players?.mancalaTPlayerModels.edges[opponent_position]
+                  game_players?.mancalaDevPlayerModels.edges[opponent_position]
                     ?.node.address,
               )
               .filter((item: any) => item?.node.pit_number === 7)
@@ -134,11 +134,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div className="absolute inset-y-0 self-center left-32 ml-1.5 mb-20">
             <p className="text-white text-center">
               {
-                data?.mancalaTSeedModels.edges
+                data?.mancalaDevSeedModels.edges
                   .filter(
                     (item: any) =>
                       item?.node.player ===
-                      game_players?.mancalaTPlayerModels.edges[opponent_position]
+                      game_players?.mancalaDevPlayerModels.edges[opponent_position]
                         ?.node.address,
                   )
                   .filter((item: any) => item?.node.pit_number === 7).length
@@ -150,11 +150,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 1 */}
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
-              {game_players?.mancalaTPitModels.edges
+              {game_players?.mancalaDevPitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaTPlayerModels.edges[opponent_position]
+                    game_players?.mancalaDevPlayerModels.edges[opponent_position]
                       ?.node.address,
                 )
                 .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
@@ -172,7 +172,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     status={game_node?.status}
                     winner={game_node?.winner}
                     seed_count={pit.node.seed_count}
-                    seeds={data?.mancalaTSeedModels.edges
+                    seeds={data?.mancalaDevSeedModels.edges
                       .filter(
                         (seed: any) => seed?.node.player === pit.node.player,
                       )
@@ -192,18 +192,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 2 */}
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
-              {game_players?.mancalaTPitModels.edges
+              {game_players?.mancalaDevPitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaTPlayerModels.edges[player_position]
+                    game_players?.mancalaDevPlayerModels.edges[player_position]
                       ?.node.address,
                 )
                 .filter((item: any) => item?.node.pit_number !== 7)
                 .sort((a: any, b: any) => a.node.pit_number - b.node.pit_number)
                 .map((pit: any, i: number) => {
                   // Filter seeds for this specific pit number (1-6)
-                  const pitSeeds = data?.mancalaTSeedModels.edges.filter(
+                  const pitSeeds = data?.mancalaDevSeedModels.edges.filter(
                     (seed: any) =>
                       seed?.node.player === pit.node.player &&
                       seed?.node.pit_number === pit.node.pit_number &&
@@ -246,11 +246,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginRight: getPlayerMarginRight(),
             }}
           >
-            {data?.mancalaTSeedModels.edges
+            {data?.mancalaDevSeedModels.edges
               .filter(
                 (item: any) =>
                   item?.node.player ===
-                  game_players?.mancalaTPlayerModels.edges[player_position]?.node
+                  game_players?.mancalaDevPlayerModels.edges[player_position]?.node
                     .address,
               )
               .filter((item: any) => item?.node.pit_number === 7)
