@@ -175,6 +175,23 @@ export default function Lobby() {
     setPlaying(!isPlaying);
   };
 
+  const gamesWithPlayerNames = data?.mancalaDevMancalaBoardModels?.edges?.map((game: any) => {
+    const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_one
+    );
+    const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_two
+    );
+    return {
+      ...game,
+      node: {
+        ...game.node,
+        player_one_name: player1Profile?.node?.name,
+        player_two_name: player2Profile?.node?.name
+      }
+    };
+  });
+
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
       <Header />
@@ -416,7 +433,7 @@ export default function Lobby() {
               {isConnected ? (
                 <>
                   <TabsContent value="live">
-                    <LiveDuels games={data?.mancalaDevMancalaBoardModels?.edges} />
+                    <LiveDuels games={gamesWithPlayerNames} />
                   </TabsContent>
                   <TabsContent value="duels">
                     <Duels
@@ -427,7 +444,7 @@ export default function Lobby() {
                   </TabsContent>
                   <TabsContent value="leaderboard">
                     <Leaderboard
-                      data={data?.mancalaDevMancalaBoardModels?.edges}
+                      data={gamesWithPlayerNames}
                     />
                   </TabsContent>
                 </>
