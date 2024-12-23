@@ -64,13 +64,20 @@ export default function Header() {
 
   const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
-  const profile: any = playerData?.mancalaDevProfileModels?.edges.find((player: any) => player.address === account?.address);
   const [playerName, setPlayerName] = useState('');
+  
   useEffect(() => {
+    const profile: any = playerData?.mancalaDevProfileModels?.edges.find((player: any) => player.node.address === account?.address);
+    console.log('profile: ', playerData?.mancalaDevProfileModels?.edges.map((player: any) => player))
+    if (!account?.address || !profile) {
+      setPlayerName('');
+      return;
+    }
+    
     if (profile?.node?.name) {
       setPlayerName(shortString.decodeShortString(profile?.node?.name || ''));
     }
-  }, [playerData?.mancalaDevProfileModels?.edges, profile?.node?.name]);
+  }, [account?.address, playerData?.mancalaDevProfileModels?.edges, playerData, account?.address]);
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
