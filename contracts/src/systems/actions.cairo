@@ -18,8 +18,7 @@ trait IActions<TContractState> {
     fn request_restart_game(self: @TContractState, game_id: u128);
     fn restart_current_game(self: @TContractState, game_id: u128);
     fn create_player_profile(self: @TContractState, name: felt252);
-    fn update_player_uri(self: @TContractState, new_uri: ByteArray);
-    fn rename_player(self: @TContractState, name: felt252);
+    fn update_player_profile(self: @TContractState, name: felt252, new_uri: ByteArray);
 }
 
 #[dojo::contract]
@@ -115,14 +114,9 @@ mod actions {
             self.playable.new_profile(world, name)
         }
 
-        fn update_player_uri(self: @ContractState, new_uri: ByteArray) {
+        fn update_player_profile(self: @ContractState, name: felt252, new_uri: ByteArray) {
             let world = self.world_storage();
-            self.playable.update_profile_uri(world, new_uri)
-        }
-
-        fn rename_player(self: @ContractState, name: felt252) {
-            let world = self.world_storage();
-            self.playable.new_profile(world, name)
+            self.playable.update_player_profile(world, name, new_uri)
         }
     }
 

@@ -3,7 +3,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "../ui/button.tsx";
 import { useAccount } from "@starknet-react/core";
-import { truncateString } from "@/lib/utils.ts";
+import { formatPlayerName } from "@/lib/utils.ts";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { LiveSkeleton } from "./live-skeleton.tsx";
@@ -16,10 +16,12 @@ export default function LiveDuels({ games }: { games: any }) {
     status: string;
     index: number;
   }>();
-  const data = games?.map((data: any, index: number) => {
+  const data = games?.map((data: any) => {
     return {
       challenger: data?.node.player_one,
       challenged: data?.node.player_two,
+      challenger_name: data.node.player_one === "0x0" ? "0x0" : formatPlayerName(data.node.player_one_name, data.node.player_one),
+      challenged_name: data.node.player_two === "0x0" ? "0x0" : formatPlayerName(data.node.player_two_name, data.node.player_two),
       date: data?.node.entity?.executedAt,
     };
   });
@@ -137,9 +139,7 @@ export default function LiveDuels({ games }: { games: any }) {
                               variant="paragraph"
                               className="font-medium leading-none text-white"
                             >
-                              {data.challenger.name
-                                ? data.challenger.name
-                                : truncateString(games[index].node.player_one)}
+                              {data.challenger_name}
                             </Typography>
                           </div>
                         </td>
@@ -159,11 +159,7 @@ export default function LiveDuels({ games }: { games: any }) {
                                 variant="paragraph"
                                 className="font-medium leading-none text-white"
                               >
-                                {data.challenged.name
-                                  ? data.challenged.name
-                                  : truncateString(
-                                      games[index].node.player_two,
-                                    )}
+                                {data.challenged_name}
                               </Typography>
                             </div>
                           ) : (

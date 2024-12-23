@@ -16,14 +16,10 @@ impl ProfileImpl of ProfileTrait {
     }
 
     #[inline]
-    fn update_profile_uri(ref self: Profile, new_uri: ByteArray) {
+    fn update_profile(ref self: Profile, new_name: felt252, new_uri: ByteArray) {
         assert(new_uri.len() != 0, Errors::INVALID_URI);
-        self.profile_uri = new_uri;
-    }
-
-    #[inline]
-    fn update_name(ref self: Profile, new_name: felt252) {
         assert(new_name != 0, Errors::INVALID_NAME);
+        self.profile_uri = new_uri;
         self.name = new_name;
     }
 }
@@ -56,20 +52,13 @@ mod tests {
     }
 
     #[test]
-    fn test_update_profile_uri() {
+    fn test_update_profile() {
         let new_uri: ByteArray = "ipfs://QmTest";
 
         let mut profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
-        profile.update_profile_uri(new_uri.clone());
+        profile.update_profile(PlAYER_NEW_NAME, new_uri.clone());
 
         assert(profile.profile_uri == new_uri, Errors::INVALID_URI);
-    }
-
-    #[test]
-    fn test_update_name() {
-        let mut profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
-        profile.update_name(PlAYER_NEW_NAME);
-
         assert(profile.name == PlAYER_NEW_NAME, Errors::INVALID_NAME);
     }
 }
