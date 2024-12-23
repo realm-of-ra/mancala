@@ -28,11 +28,11 @@ export default function UserSection({
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState<{ status: string; finished: boolean }>({ status: '', finished: false });
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { system, account } = useDojo();
-  
+  const { system } = useDojo();
+  const account = useAccount();
   const controllerData = useControllerData();
   const url = window.location.href;
-  const color = getColorOfTheDay(account.account?.address || "", new Date());
+  const color = getColorOfTheDay(account.address || "", new Date());
 
   const handleOpen = () => setOpen(!open);
 
@@ -46,7 +46,9 @@ export default function UserSection({
   };
 
   const handleSaveProfile = async () => {
-    system.create_player_profile(account.account, displayName, setLoading);
+    if (account.account) {
+      system.create_player_profile(account.account, displayName, setLoading);
+    }
   };
 
   return (

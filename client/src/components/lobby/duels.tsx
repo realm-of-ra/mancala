@@ -5,7 +5,7 @@ import { Card, Typography } from "@material-tailwind/react";
 // import { StarknetIdNavigator } from "starknetid.js";
 // import { constants, StarkProfile } from "starknet";
 import clsx from "clsx";
-import { truncateString } from "@/lib/utils.ts";
+import { formatPlayerName, truncateString } from "@/lib/utils.ts";
 import { DuelsSkeleton } from "./duels-skeleton.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 import EmptyDuels from "./empty-duels.tsx";
@@ -15,6 +15,7 @@ import { useAccount } from "@starknet-react/core";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { LiveSkeleton } from "./live-skeleton.tsx";
+import { shortString } from "starknet";
 
 export default function Duels({
   games,
@@ -34,11 +35,14 @@ export default function Duels({
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
-      winner: data.node.winner,
+      challenger_name: formatPlayerName(data.node.player_one_name, data.node.player_one),
+      challenged_name: data.node.player_two === "0x0" ? "0x0" : formatPlayerName(data.node.player_two_name, data.node.player_two),
+      winner: data.node.winner === "0x0" ? "0x0" : formatPlayerName(data.node.winner, data.node.winner),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
   });
+  console.log('data: ', data, 'games: ', games);
   const { system } = useDojo();
   const account = useAccount();
   const join_game = async (game_id: string, index: number) => {
@@ -163,8 +167,8 @@ export default function Duels({
                               </div>
 
                               <p className="font-normal text-white">
-                                {item.challenger.name
-                                  ? item.challenger.name
+                                {item.challenger_name
+                                  ? item.challenger_name
                                   : truncateString(
                                       games[index].node.player_one,
                                     )}
@@ -184,8 +188,8 @@ export default function Duels({
                                   />
                                 </div>
                                 <p className="font-normal text-white">
-                                  {item.challenged.name
-                                    ? item.challenged.name
+                                  {item.challenged_name
+                                    ? item.challenged_name
                                     : truncateString(
                                         games[index].node.player_two,
                                       )}

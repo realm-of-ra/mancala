@@ -33,7 +33,6 @@ export default function Header() {
 
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
-  const { address } = useAccount();
 
   const connectWallet = async () => {
     connect({ connector: connectors[0] });
@@ -86,7 +85,7 @@ export default function Header() {
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {address && playerName && playerName !== '0' ? (
+        {account?.address && playerName && playerName !== '0' ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
             <div className="rounded-full border-2 border-[#4B505C] relative">
@@ -101,7 +100,7 @@ export default function Header() {
               <h3 className="text-2xl text-right text-white">
                 {playerName !== '0'
                   ? playerName
-                  : truncateString(address)}
+                  : truncateString(account?.address)}
               </h3>
               <h4 className="text-sm text-[#F58229] text-start">
                 {player?.wins < 4
@@ -142,7 +141,7 @@ export default function Header() {
       <div className="flex-1 w-full -ml-16">
         <div className="flex flex-row space-x-2.5 items-center justify-start">
           <div className="relative ">
-            {address ? (
+            {account?.address ? (
               <div className="relative ">
                 <Button
                   className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
@@ -159,7 +158,7 @@ export default function Header() {
                   </div>
                   <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5 ">
                     <p className="text-[18px] text-white leading-3 normal-case">
-                      {playerName ? playerName.length > 18 ? truncateString(playerName) : playerName : truncateString(address)}
+                      {playerName ? playerName.length > 18 ? truncateString(playerName) : playerName : truncateString(account?.address)}
                     </p>
                     <ChevronDownIcon
                       className={clsx("w-4 h-4 ml-3 transition duration-300", {

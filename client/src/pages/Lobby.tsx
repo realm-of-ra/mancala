@@ -26,7 +26,7 @@ import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
-import { MancalaBoardModelsQuery } from "@/lib/constants";
+import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import Dropdown from "@/components/dropdown";
 import audio from "../music/audio_1.mp4";
 import muteImage from "../assets/mute.png";
@@ -109,11 +109,29 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
+  const { data: playerData } = useQuery(MancalaPlayerNames);
+
   const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
       game?.node?.player_two === account.account?.address,
-  );
+  ).map((game: any) => {
+    const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_one
+    );
+    const player2Profile = playerData?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_two
+    );
+    return {
+      ...game,
+      node: {
+        ...game.node,
+        player_one_name: player1Profile?.node?.name,
+        player_two_name: player2Profile?.node?.names,
+        winner: game.node.winner
+      }
+    };
+  });
 
   const filteredTransactions =
     data?.mancalaDevMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
