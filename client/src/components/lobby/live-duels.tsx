@@ -3,7 +3,7 @@ import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Button } from "../ui/button.tsx";
 import { useAccount } from "@starknet-react/core";
-import { formatPlayerName, truncateString } from "@/lib/utils.ts";
+import { formatPlayerName } from "@/lib/utils.ts";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { LiveSkeleton } from "./live-skeleton.tsx";

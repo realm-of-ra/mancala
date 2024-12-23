@@ -1,38 +1,12 @@
 import { player_header, colors } from "../../lib/constants";
 import { getPlayers, truncateString } from "../../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
-import { useProvider } from "@starknet-react/core";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { constants } from "starknet";
-import { StarknetIdNavigator, StarkProfile } from "starknetid.js";
 import LeaderboardSkeleton from "./leaderboard-skeleton";
 import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Leaderboard({ data }: { data: any[] | undefined }) {
-  const { provider } = useProvider();
-
-  const starknetIdNavigator = new StarknetIdNavigator(
-    provider,
-    constants.StarknetChainId.SN_MAIN,
-  );
-
-  // Extracting player_one and player_two from the data object
   const players = getPlayers(data);
-
-  const addresses = players?.map((player: any) => player.address);
-
-  const [profiles, setProfiles] = useState<StarkProfile[]>([]);
-
-  useEffect(() => {
-    if (!starknetIdNavigator || !addresses) return;
-    (async () => {
-      const data = await starknetIdNavigator?.getStarkProfiles(addresses);
-      if (!data) return;
-      setProfiles(data);
-    })();
-  }, [addresses]);
-
   return (
     <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
       <div className="w-full max-h-[500px] overflow-y-scroll hide-scrollbar pb-4">
@@ -100,12 +74,12 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                               </div>
 
                               <p className="font-normal text-white">
-                                {profiles[index]?.name
-                                  ? profiles[index]?.name
+                                {players[index]?.name
+                                  ? players[index]?.name
                                   : truncateString(address)}
                               </p>
                             </div>
-                          </div>
+                          </div >
                         </td>
                         <td>
                           <p className="font-normal text-[#FAB580] text-center">

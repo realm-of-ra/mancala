@@ -29,7 +29,7 @@ export function getPlayers(data: any[] | undefined) {
 
   // Extracting player_one and player_two from the data object
   const players = data.reduce((acc: any, edge: any) => {
-    const { player_one, player_two, winner } = edge.node;
+    const { player_one, player_two, winner, player_one_name } = edge.node;
 
     // Update player_one
     const playerOneIndex = acc.findIndex(
@@ -48,6 +48,7 @@ export function getPlayers(data: any[] | undefined) {
         wins: winner === player_one ? 1 : 0,
         losses: winner !== player_one ? 1 : 0,
         totalAppearances: 1,
+        name: formatPlayerName(player_one_name, player_one),
       });
     }
 
