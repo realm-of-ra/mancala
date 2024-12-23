@@ -653,6 +653,14 @@ export const POLICIES = [
     target: ACTION_ADDRESS,
     method: "rename_player",
   },
+  {
+    target: ACTION_ADDRESS,
+    method: "update_player_profile",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "new_profile",
+  },
 ];
 
 export const MancalaBoardModelsQuery = gql`
