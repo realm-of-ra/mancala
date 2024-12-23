@@ -119,16 +119,20 @@ export default function Lobby() {
     const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
       (profile: any) => profile.node.address === game.node.player_one
     );
-    const player2Profile = playerData?.edges?.find(
+    const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
       (profile: any) => profile.node.address === game.node.player_two
     );
+
+    const winner = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.winner
+    )
     return {
       ...game,
       node: {
         ...game.node,
         player_one_name: player1Profile?.node?.name,
-        player_two_name: player2Profile?.node?.names,
-        winner: game.node.winner
+        player_two_name: player2Profile?.node?.name,
+        winner: winner?.node?.name || game.node.winner
       }
     };
   });
