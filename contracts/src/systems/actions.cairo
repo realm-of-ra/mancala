@@ -61,7 +61,7 @@ mod actions {
     impl ActionsImpl of IActions<ContractState> {
         fn new_game(self: @ContractState) {
             let world = self.world_storage();
-            self.playable.new_game(world);
+            self.playable.new_game(world)
         }
 
         fn join_game(self: @ContractState, game_id: u128) {

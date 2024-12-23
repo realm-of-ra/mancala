@@ -29,6 +29,30 @@ mod utils {
     mod board;
 }
 
+mod types {
+    mod task;
+    mod trophy;
+}
+
+mod elements {
+    mod tasks {
+        mod clearing;
+        mod collecting;
+        mod dominating;
+        mod interface;
+        mod mastering;
+        mod reigning;
+    }
+    mod trophies {
+        mod collector;
+        mod dominator;
+        mod extractor;
+        mod strategist;
+        mod victor;
+        mod interface;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     mod setup;

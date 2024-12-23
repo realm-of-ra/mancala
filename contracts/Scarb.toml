@@ -1,7 +1,7 @@
 [package]
 cairo-version = "=2.8.4"
 name = "mancala"
-version = "0.2.1"
+version = "0.3.0"
 
 [cairo]
 sierra-replace-ids = true
@@ -10,13 +10,18 @@ sierra-replace-ids = true
 dev = "sozo clean && sozo build --typescript && sozo migrate"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.8" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.5" }
+achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.0.5" }
 
 [dev-dependencies]
-dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.8" }
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.5" }
 
 [[target.starknet-contract]]
-build-external-contracts = ["dojo::world::world_contract::world"]
+build-external-contracts = [
+  "dojo::world::world_contract::world",
+  "achievement::events::index::e_TrophyCreation",
+  "achievement::events::index::e_TrophyProgression",
+]
 
 [profile.slot]
 [profile.sepolia]
