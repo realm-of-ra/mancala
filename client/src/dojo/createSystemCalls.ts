@@ -211,8 +211,10 @@ export function createSystemCalls(
     account: AccountInterface,
     name: string,
     new_uri: string,
+    setLoading: any,
   ) => {
     try {
+      setLoading({ status: 'UPDATING', finished: false });
       const { transaction_hash } = await client.actions.update_player_profile(
         account,
         name,
@@ -221,8 +223,10 @@ export function createSystemCalls(
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
+      setLoading({ status: 'UPDATED', finished: true });
     } catch (error) {
-      console.error("Error executing timeout:", error);
+      setLoading({ status: 'ERROR', finished: true });
+      console.error("Error executing update player profile:", error);
       throw error;
     }
   };

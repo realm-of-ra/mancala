@@ -2,14 +2,16 @@ import Header from "@/components/header";
 import GameHistory from "@/components/profile/game-history";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MancalaBoardModelsQuery } from "@/lib/constants";
+import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
 import { useQuery } from "@apollo/client";
 import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
+  const { data: profiles, startPolling: startPollingProfiles } = useQuery(MancalaPlayerNames);
   startPolling(1000);
+  startPollingProfiles(1000);
   const account = useAccount();
   const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
@@ -51,6 +53,7 @@ export default function Profile() {
             wins={filteredWonGames?.length}
             losses={filteredLostGames?.length}
             total={filteredGames?.length || 0}
+            profiles={profiles}
           />
           <Tabs defaultValue="all-games" className="w-[800px] space-y-10">
             <div className="flex flex-row items-center justify-between w-full">

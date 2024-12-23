@@ -16,11 +16,13 @@ export default function UserSection({
   wins,
   losses,
   total,
+  profiles,
 }: {
   level: number;
   wins: number;
   losses: number;
   total: number;
+  profiles: any;
 }) {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -47,7 +49,21 @@ export default function UserSection({
 
   const handleSaveProfile = async () => {
     if (account.account) {
-      system.create_player_profile(account.account, displayName, setLoading);
+      const userExists = profiles.mancalaDevProfileModels.edges.some(
+        (profile: any) => profile.node.address === account.account?.address
+      );
+
+      if (userExists) {
+        const imageUrlToUse = imageUrl || "https://localhost:3000/avatar.png";
+        system.update_player_profile(
+          account.account, 
+          displayName,
+          imageUrlToUse,
+          setLoading
+        );
+      } else {
+        system.create_player_profile(account.account, displayName, setLoading);
+      }
     }
   };
 
