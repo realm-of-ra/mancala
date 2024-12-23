@@ -16,7 +16,7 @@ export default function LiveDuels({ games }: { games: any }) {
     status: string;
     index: number;
   }>();
-  const data = games?.map((data: any, index: number) => {
+  const data = games?.map((data: any) => {
     return {
       challenger: data?.node.player_one,
       challenged: data?.node.player_two,

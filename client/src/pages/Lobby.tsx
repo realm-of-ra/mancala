@@ -109,8 +109,8 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const { data: playerData } = useQuery(MancalaPlayerNames);
-
+  const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
+  startPollingPlayerData(1000);
   const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||

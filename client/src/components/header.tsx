@@ -5,15 +5,11 @@ import {
   useAccount,
   useConnect,
   useDisconnect,
-  useProvider,
-  useStarkProfile,
 } from "@starknet-react/core";
-import { StarknetIdNavigator } from "starknetid.js";
 import { Link } from "react-router-dom";
-import { constants, shortString } from "starknet";
+import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-// import { useDojo } from "@/dojo/useDojo";
 import clsx from "clsx";
 import controllerSvg from "../assets/controller.svg";
 import connectB from "../assets/connect.svg";
@@ -22,15 +18,8 @@ import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
-import useControllerData from "@/hooks/useControllerData";
 
 export default function Header() {
-  const { provider } = useProvider();
-  const starknetIdNavigator = new StarknetIdNavigator(
-    provider,
-    constants.StarknetChainId.SN_SEPOLIA,
-  );
-
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -73,14 +62,15 @@ export default function Header() {
 
   const color = getColorOfTheDay(account?.address || "", new Date());
 
-  const { data: playerData } = useQuery(MancalaPlayerNames);
+  const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
+  startPollingPlayerData(1000);
   const profile: any = playerData?.mancalaDevProfileModels?.edges.find((player: any) => player.address === account?.address);
   const [playerName, setPlayerName] = useState('');
   useEffect(() => {
     if (profile?.node?.name) {
       setPlayerName(shortString.decodeShortString(profile?.node?.name || ''));
     }
-  }, [playerData?.mancalaDevProfileModels?.edges]);
+  }, [playerData?.mancalaDevProfileModels?.edges, profile?.node?.name]);
 
   return (
     <div className="flex flex-row items-center justify-between w-full">

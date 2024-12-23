@@ -156,13 +156,11 @@ export async function uploadFile(file: File) {
 
 export const formatPlayerName = (name: string, address: string) => {
   if (!name || name === "0x0") {
-    // If no name, show truncated address
     return truncateString(address);
   }
   try {
     return shortString.decodeShortString(name);
   } catch (e) {
-    // Fallback to truncated address if decoding fails
     return truncateString(address);
   }
 };
