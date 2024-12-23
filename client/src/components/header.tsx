@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import {
@@ -79,6 +79,22 @@ export default function Header() {
     }
   }, [account?.address, playerData?.mancalaDevProfileModels?.edges, playerData, account?.address]);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownClose(false);
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
@@ -137,7 +153,7 @@ export default function Header() {
       </div>
       <div className="flex-1 w-full -ml-16">
         <div className="flex flex-row space-x-2.5 items-center justify-start">
-          <div className="relative ">
+          <div className="relative " ref={dropdownRef}>
             {account?.address ? (
               <div className="relative ">
                 <Button
