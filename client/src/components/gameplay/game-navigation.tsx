@@ -61,6 +61,8 @@ export default function GameNavigation({
       <GameMessage
         game_node={game_node}
         game_players={game_players}
+        player_one_name={player_one_name}
+        player_two_name={player_two_name}
         account={account}
         profiles={profiles}
         gameStarted={started}

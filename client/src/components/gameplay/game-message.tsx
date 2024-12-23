@@ -11,6 +11,8 @@ import { logo } from "@/lib/icons_store";
 export default function GameMessage({
   game_node,
   game_players,
+  player_one_name,
+  player_two_name,
   account,
   profiles,
   gameStarted,
@@ -20,6 +22,8 @@ export default function GameMessage({
 }: {
   game_node: any;
   game_players: any;
+  player_one_name: any;
+  player_two_name: any;
   account: any;
   profiles: any;
   gameStarted: any;
@@ -98,7 +102,7 @@ export default function GameMessage({
     starknetIdNavigator,
     setProfiles,
   ]);
-  const moveMessageOnTimer = (player: string) => {
+  const moveMessageOnTimer = (player: string, player_one_name: string, player_two_name: string) => {
     if (game_node?.winner === "0x0")
       if (
         game_node?.status === "TimeOut" ||
@@ -128,9 +132,7 @@ export default function GameMessage({
                 React.createElement(
                   "span",
                   { className: "text-[#F58229]" },
-                  profiles?.[0].name
-                    ? profiles?.[0].name
-                    : truncateString(player),
+                  player_one_name
                 ),
               );
             } else {
@@ -141,9 +143,7 @@ export default function GameMessage({
                 React.createElement(
                   "span",
                   { className: "text-[#F58229]" },
-                  profiles?.[1].name
-                    ? profiles?.[1].name
-                    : truncateString(player),
+                  player_two_name
                 ),
               );
             }
@@ -159,9 +159,7 @@ export default function GameMessage({
                 React.createElement(
                   "span",
                   { className: "text-[#F58229]" },
-                  profiles?.[0].name
-                    ? profiles?.[0].name
-                    : truncateString(player),
+                  player_one_name
                 ),
                 ` move`,
               );
@@ -173,9 +171,7 @@ export default function GameMessage({
                 React.createElement(
                   "span",
                   { className: "text-[#F58229]" },
-                  profiles?.[1].name
-                    ? profiles?.[1].name
-                    : truncateString(player),
+                  player_two_name
                 ),
                 ` move`,
               );
@@ -220,7 +216,7 @@ export default function GameMessage({
                 <AlarmClock className="w-6 h-6 text-white" />
               )}
               <div className="text-white">
-                {moveMessageOnTimer(game_node?.current_player)}
+                {moveMessageOnTimer(game_node?.current_player, player_one_name, player_two_name)}
               </div>
             </div>
           }
