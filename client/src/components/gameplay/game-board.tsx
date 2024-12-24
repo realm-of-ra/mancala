@@ -170,7 +170,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="absolute inset-y-0 self-center left-[135px] top-14">
+          <div className="h-[160px] ml-24 flex flex-col items-center justify-center">
             <p className="text-white text-center">
               {
                 data?.mancalaDevSeedModels.edges
@@ -309,7 +309,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="absolute inset-y-0 self-center right-32 top-11 w-7 h-12">
+          <div className="h-[160px] mr-24 flex flex-col items-center justify-center">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>
