@@ -29,7 +29,7 @@ export default function Seed({
     4: { x: -355, y: 120 },
     5: { x: -235, y: 120 },
     6: { x: -115, y: 120 },
-    7: { x: 785, y: 150 },
+    7: { x: 0, y: 150 },
   } : {
     1: { x: 90, y: 120 },
     2: { x: 205, y: 120 },
@@ -60,8 +60,6 @@ export default function Seed({
 
   // Updated grid position calculation
   const SEED_SIZE = 15;
-  const INNER_GAP = 5;  // Gap for inner grid
-  const OUTER_GAP = 8;  // Slightly larger gap for outer seeds
   
   const getGridPosition = (seedNumber: number, totalSeeds: number) => {
     const INNER_GRID_GAP = 5;
