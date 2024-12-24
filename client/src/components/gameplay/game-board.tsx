@@ -1,7 +1,6 @@
 import React from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
-import clsx from "clsx";
 import { useQuery } from "@apollo/client";
 import { MancalaSeedQuery } from "@/lib/constants";
 import Seed from "../seed";
@@ -31,9 +30,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
   startPolling(1000);
 
   const seeds = React.useMemo(() => {
-    if (!data?.mancalaTSeedModels?.edges) return [];
+    if (!data?.mancalaDevSeedModels?.edges) return [];
     const uniqueSeeds = new Map();
-    data.mancalaTSeedModels.edges.forEach((seed: any) => {
+    data.mancalaDevSeedModels.edges.forEach((seed: any) => {
       const seedId = seed?.node.seed_id;
       if (seedId && !uniqueSeeds.has(seedId)) {
         uniqueSeeds.set(seedId, seed.node);
@@ -54,7 +53,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return { ...seed, isNative };
   };
 
-  const involved = game_players?.mancalaTPlayerModels.edges.some(
+  const involved = game_players?.mancalaDevPlayerModels.edges.some(
     (item: any) => item?.node.address === account.account?.address,
   );
   const player_position = involved
@@ -119,11 +118,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   const getOpponentSeed = (seed_id: number) => {
-    return data?.mancalaTSeedModels.edges
+    return data?.mancalaDevSeedModels.edges
       .filter(
         (item: any) =>
           item?.node.player ===
-          game_players?.mancalaTPlayerModels.edges[opponent_position]?.node
+          game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node
             .address,
       )
       .filter((item: any) => item?.node.seed_id === `0x${seed_id.toString(16)}`)
