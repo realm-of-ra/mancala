@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 
 export default function Seed({
   color,
-  length = 0,
+  length,
   type,
   seed_id,
   pit_number,
   seed_number,
-  pit_length,
   isNative
 }: {
   color?: string;
@@ -18,7 +17,6 @@ export default function Seed({
   seed_id: number;
   pit_number: number;
   seed_number: number;
-  pit_length?: number;
   isNative: boolean;
 }) {
   // Define position maps for both player and opponent
@@ -29,7 +27,7 @@ export default function Seed({
     4: { x: -355, y: 120 },
     5: { x: -235, y: 120 },
     6: { x: -115, y: 120 },
-    7: { x: 0, y: 110 },
+    7: { x: -30, y: 110 },
   } : {
     1: { x: 90, y: 120 },
     2: { x: 205, y: 120 },
@@ -37,7 +35,7 @@ export default function Seed({
     4: { x: 445, y: 120 },
     5: { x: 565, y: 120 },
     6: { x: 685, y: 120 },
-    7: { x: 785, y: 110 },
+    7: { x: 800, y: 110 },
   };
 
   const opponentPositions = isNative ? {
@@ -47,7 +45,7 @@ export default function Seed({
     4: { x: 325, y: 10 },
     5: { x: 205, y: 10 },
     6: { x: 85, y: 10 },
-    7: { x: -20, y: 110 },
+    7: { x: 10, y: 90 },
   } : {
     1: { x: -110, y: 10 },
     2: { x: -235, y: 10 },
@@ -55,7 +53,7 @@ export default function Seed({
     4: { x: -475, y: 10 },
     5: { x: -595, y: 10 },
     6: { x: -715, y: 10 },
-    7: { x: 0, y: 110 },
+    7: { x: -815, y: 90 },
   };
 
   // Updated grid position calculation
@@ -71,11 +69,29 @@ export default function Seed({
     // Special case for pit 7 (store)
     if (pit_number === 7) {
       const STORE_GRID_COLS = 3;
-      const row = Math.floor((seedNumber - 1) / STORE_GRID_COLS);
-      const col = (seedNumber - 1) % STORE_GRID_COLS;
+      const STORE_GRID_ROWS = 5;
+      const SEEDS_PER_LAYER = STORE_GRID_COLS * STORE_GRID_ROWS;
+      
+      // Normalize the seed number to ensure consistent positioning
+      const normalizedSeedNumber = ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
+      
+      // Calculate layer, row, and column
+      const layer = Math.floor((normalizedSeedNumber - 1) / SEEDS_PER_LAYER);
+      const positionInLayer = ((normalizedSeedNumber - 1) % SEEDS_PER_LAYER);
+      const row = Math.floor(positionInLayer / STORE_GRID_COLS);
+      const col = positionInLayer % STORE_GRID_COLS;
+      
+      // Reduced gaps for more compact layout
+      const COMPACT_GAP = 3;
+      const verticalOffset = (STORE_GRID_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
+      
+      // Smaller layer offsets for tighter clustering
+      const LAYER_X_OFFSET = 2;
+      const LAYER_Y_OFFSET = 2;
+      
       return {
-        gridX: (col - 1) * (SEED_SIZE + INNER_GRID_GAP),
-        gridY: (row - 4.5) * (SEED_SIZE + INNER_GRID_GAP)
+        gridX: (col - 1) * (SEED_SIZE + COMPACT_GAP) + (layer * LAYER_X_OFFSET),
+        gridY: (row * (SEED_SIZE + COMPACT_GAP)) - verticalOffset + (layer * LAYER_Y_OFFSET)
       };
     }
 
@@ -125,7 +141,7 @@ export default function Seed({
     : opponentPositions[pit_number as keyof typeof opponentPositions];
 
   // Calculate final position including grid offset
-  const gridOffset = getGridPosition(seed_number, pit_length || 0);
+  const gridOffset = getGridPosition(seed_number, length || 0);
   const finalPosition = {
     x: (basePosition?.x ?? 0) + gridOffset.gridX,
     y: (basePosition?.y ?? 0) + gridOffset.gridY
