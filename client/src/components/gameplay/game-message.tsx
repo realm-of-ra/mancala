@@ -1,6 +1,5 @@
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { truncateString } from "@/lib/utils";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
@@ -11,6 +10,8 @@ import { logo } from "@/lib/icons_store";
 export default function GameMessage({
   game_node,
   game_players,
+  player_one_name,
+  player_two_name,
   account,
   profiles,
   gameStarted,
@@ -20,6 +21,8 @@ export default function GameMessage({
 }: {
   game_node: any;
   game_players: any;
+  player_one_name: any;
+  player_two_name: any;
   account: any;
   profiles: any;
   gameStarted: any;
@@ -98,8 +101,8 @@ export default function GameMessage({
     starknetIdNavigator,
     setProfiles,
   ]);
-  const moveMessageOnTimer = (player: string) => {
-    if (game_node?.winner === "0x0")
+  const moveMessageOnTimer = (player: string, player_one_name: string, player_two_name: string) => {
+    if (game_node?.winner === "0x0") {
       if (
         game_node?.status === "TimeOut" ||
         game_node?.status === "Finished" ||
@@ -116,70 +119,33 @@ export default function GameMessage({
         );
       } else {
         if (game_node?.status !== "Pending") {
-          if (
-            player === account.account?.address &&
-            game_players?.player_one?.edges
-          ) {
-            if (player === game_players?.player_one.edges[0]?.node?.address) {
-              return React.createElement(
-                "div",
-                null,
-                `Make your move `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[0].name
-                    ? profiles?.[0].name
-                    : truncateString(player),
-                ),
-              );
-            } else {
-              return React.createElement(
-                "div",
-                null,
-                `Make your move `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[1].name
-                    ? profiles?.[1].name
-                    : truncateString(player),
-                ),
-              );
-            }
+          const isCurrentUserTurn = game_node?.current_player === account.account?.address;
+          const currentPlayerName = profiles?.find((item: any) => item.address === game_node?.current_player)?.name;
+          const displayName = currentPlayerName || (game_node?.current_player === game_node?.player_one ? player_one_name : player_two_name);
+
+          if (isCurrentUserTurn) {
+            return React.createElement(
+              "div",
+              null,
+              `Make your move `,
+              React.createElement(
+                "span",
+                { className: "text-[#F58229]" },
+                displayName
+              ),
+            );
           } else {
-            if (
-              game_players?.player_one?.edges &&
-              player === game_players?.player_one.edges[0]?.node?.address
-            ) {
-              return React.createElement(
-                "div",
-                null,
-                `Waiting for `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[0].name
-                    ? profiles?.[0].name
-                    : truncateString(player),
-                ),
-                ` move`,
-              );
-            } else {
-              return React.createElement(
-                "div",
-                null,
-                `Waiting for `,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  profiles?.[1].name
-                    ? profiles?.[1].name
-                    : truncateString(player),
-                ),
-                ` move`,
-              );
-            }
+            return React.createElement(
+              "div",
+              null,
+              `Waiting for `,
+              React.createElement(
+                "span",
+                { className: "text-[#F58229]" },
+                displayName
+              ),
+              ` move`,
+            );
           }
         } else {
           return React.createElement(
@@ -189,7 +155,7 @@ export default function GameMessage({
           );
         }
       }
-    else {
+    } else {
       return React.createElement(
         "div",
         null,
@@ -220,7 +186,7 @@ export default function GameMessage({
                 <AlarmClock className="w-6 h-6 text-white" />
               )}
               <div className="text-white">
-                {moveMessageOnTimer(game_node?.current_player)}
+                {moveMessageOnTimer(game_node?.current_player, player_one_name, player_two_name)}
               </div>
             </div>
           }

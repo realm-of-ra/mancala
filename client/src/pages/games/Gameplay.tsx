@@ -4,7 +4,7 @@ import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
-import { MancalaBoardModelQuery, MancalaPlayQuery } from "@/lib/constants";
+import { MancalaBoardModelQuery, MancalaPlayerNames, MancalaPlayQuery } from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
@@ -24,31 +24,34 @@ export default function Gameplay() {
     MancalaPlayQuery,
     { variables: { gameId: gameId } },
   );
+  const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
-  const game_node = game_metadata?.mancalaTMancalaBoardModels?.edges?.[0]?.node;
+  const game_node =
+    game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaTPlayerModels.edges.filter(
+    game_players?.mancalaDevPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaTPlayerModels.edges.findIndex(
+    ? game_players?.mancalaDevPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaTPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node.address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
       <GameNavigation
         game_players={game_players}
+        player_names={player_names}
         game_node={game_node}
         account={account}
         gameId={gameId}

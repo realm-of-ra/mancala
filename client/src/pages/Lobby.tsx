@@ -26,7 +26,7 @@ import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
-import { MancalaBoardModelsQuery } from "@/lib/constants";
+import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import Dropdown from "@/components/dropdown";
 import audio from "../music/audio_1.mp4";
 import muteImage from "../assets/mute.png";
@@ -109,14 +109,36 @@ export default function Lobby() {
     connect({ connector: connectors[0] });
   };
 
-  const filteredGames = data?.mancalaTMancalaBoardModels?.edges?.filter(
+  const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
+  startPollingPlayerData(1000);
+  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
     (game: any) =>
       game?.node?.player_one === account.account?.address ||
       game?.node?.player_two === account.account?.address,
-  );
+  ).map((game: any) => {
+    const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_one
+    );
+    const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_two
+    );
+
+    const winner = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.winner
+    )
+    return {
+      ...game,
+      node: {
+        ...game.node,
+        player_one_name: player1Profile?.node?.name,
+        player_two_name: player2Profile?.node?.name,
+        winner: winner?.node?.name || game.node.winner
+      }
+    };
+  });
 
   const filteredTransactions =
-    data?.mancalaTMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
+    data?.mancalaDevMancalaBoardModels?.edges?.reduce((acc: any[], game: any) => {
       if (
         (game?.node?.player_one === account.account?.address ||
           game?.node?.player_two === account.account?.address) &&
@@ -156,6 +178,23 @@ export default function Lobby() {
   const togglePlay = () => {
     setPlaying(!isPlaying);
   };
+
+  const gamesWithPlayerNames = data?.mancalaDevMancalaBoardModels?.edges?.map((game: any) => {
+    const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_one
+    );
+    const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      (profile: any) => profile.node.address === game.node.player_two
+    );
+    return {
+      ...game,
+      node: {
+        ...game.node,
+        player_one_name: player1Profile?.node?.name,
+        player_two_name: player2Profile?.node?.name
+      }
+    };
+  });
 
   return (
     <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
@@ -213,14 +252,14 @@ export default function Lobby() {
                   </TabsTrigger>
                 </TabsList>
                 <div className="flex flex-row items-center space-x-5 relative">
-                  <div
+                  {/* <div
                     className="flex flex-row items-center justify-center space-x-1 hover:cursor-pointer"
                     onClick={handleDropdownToggle}
                   >
                     <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                     <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
-                  </div>
-                  {isDropdownOpen && <Dropdown />}
+                  </div> */}
+                  {/* {isDropdownOpen && <Dropdown />} */}
                   <Button
                     className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                     disabled={!isConnected}
@@ -398,7 +437,7 @@ export default function Lobby() {
               {isConnected ? (
                 <>
                   <TabsContent value="live">
-                    <LiveDuels games={data?.mancalaTMancalaBoardModels?.edges} />
+                    <LiveDuels games={gamesWithPlayerNames} />
                   </TabsContent>
                   <TabsContent value="duels">
                     <Duels
@@ -409,7 +448,7 @@ export default function Lobby() {
                   </TabsContent>
                   <TabsContent value="leaderboard">
                     <Leaderboard
-                      data={data?.mancalaTMancalaBoardModels?.edges}
+                      data={gamesWithPlayerNames}
                     />
                   </TabsContent>
                 </>

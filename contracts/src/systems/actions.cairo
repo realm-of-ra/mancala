@@ -17,13 +17,17 @@ trait IActions<TContractState> {
     fn forfeited(self: @TContractState, game_id: u128);
     fn request_restart_game(self: @TContractState, game_id: u128);
     fn restart_current_game(self: @TContractState, game_id: u128);
+    fn create_player_profile(self: @TContractState, name: felt252);
+    fn update_player_profile(self: @TContractState, name: felt252, new_uri: ByteArray);
 }
 
 #[dojo::contract]
 mod actions {
     use super::{ContractAddress, Player, IActions};
+    use mancala::models::profile::Profile;
     use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
+    use mancala::constants::NAMESPACE;
 
     use dojo::world::WorldStorage;
 
@@ -104,12 +108,22 @@ mod actions {
             let world = self.world_storage();
             self.playable.restart_current_game(world, game_id)
         }
+
+        fn create_player_profile(self: @ContractState, name: felt252) {
+            let world = self.world_storage();
+            self.playable.new_profile(world, name)
+        }
+
+        fn update_player_profile(self: @ContractState, name: felt252, new_uri: ByteArray) {
+            let world = self.world_storage();
+            self.playable.update_player_profile(world, name, new_uri)
+        }
     }
 
     #[generate_trait]
     impl Private of PrivateTrait {
         fn world_storage(self: @ContractState) -> WorldStorage {
-            self.world(@"mancala_t")
+            self.world(@NAMESPACE())
         }
     }
 }

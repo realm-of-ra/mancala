@@ -185,6 +185,52 @@ export function createSystemCalls(
     }
   };
 
+  const create_player_profile = async (
+    account: AccountInterface,
+    name: string,
+    setLoading: any,
+  ) => {
+    try {
+      setLoading({ status: 'CREATING', finished: false });
+      const { transaction_hash } = await client.actions.create_player_profile(
+        account,
+        name,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+      setLoading({ status: 'CREATED', finished: true });
+    } catch (error) {
+      setLoading({ status: 'ERROR', finished: true });
+      console.error("Error executing timeout:", error);
+      throw error;
+    }
+  };
+
+  const update_player_profile = async (
+    account: AccountInterface,
+    name: string,
+    new_uri: string,
+    setLoading: any,
+  ) => {
+    try {
+      setLoading({ status: 'UPDATING', finished: false });
+      const { transaction_hash } = await client.actions.update_player_profile(
+        account,
+        name,
+        new_uri,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+      setLoading({ status: 'UPDATED', finished: true });
+    } catch (error) {
+      setLoading({ status: 'ERROR', finished: true });
+      console.error("Error executing update player profile:", error);
+      throw error;
+    }
+  };
+
   return {
     create_initial_game_id,
     create_game,
@@ -194,5 +240,7 @@ export function createSystemCalls(
     restart_game,
     end_game,
     timeout,
+    create_player_profile,
+    update_player_profile,
   };
 }

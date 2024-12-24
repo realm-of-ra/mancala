@@ -602,7 +602,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
-  "0x4a55d05d1abf91227df0d03903e78c4f22e794ea9c13ac05b27b6d9140ebf73";
+  "0x2893d993a077a379c0f19d13fb0148785c31f64fb11f5ba886ae69a4ac69b0f";
 
 export const POLICIES = [
   {
@@ -641,11 +641,31 @@ export const POLICIES = [
     target: ACTION_ADDRESS,
     method: "timeout",
   },
+  {
+    target: ACTION_ADDRESS,
+    method: "create_player_profile",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "update_player_uri",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "rename_player",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "update_player_profile",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "new_profile",
+  },
 ];
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaTMancalaBoardModels {
-    mancalaTMancalaBoardModels {
+  query mancalaDevMancalaBoardModels {
+    mancalaDevMancalaBoardModels {
       edges {
         node {
           game_id
@@ -665,8 +685,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaTMancalaBoardModel($gameId: u128) {
-    mancalaTMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaDevMancalaBoardModel($gameId: u128) {
+    mancalaDevMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -687,8 +707,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaTPlayerModels($gameId: u128) {
-    mancalaTPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaDevPlayerModels($gameId: u128) {
+    mancalaDevPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -698,7 +718,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaTPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaDevPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -712,8 +732,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaTSeedModels($gameId: u128) {
-    mancalaTSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaDevSeedModels($gameId: u128) {
+    mancalaDevSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -733,7 +753,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaTGameModels {
+    mancalaDevGameModels {
       edges {
         node {
           game_id
@@ -743,6 +763,20 @@ export const MancalaHeaderQuery = gql`
           winner
           status
           is_private
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaPlayerNames = gql`
+  query mancalaDevPlayerNames {
+    mancalaDevProfileModels {
+      edges {
+        node {
+          name
+          address
+          profile_uri
         }
       }
     }
