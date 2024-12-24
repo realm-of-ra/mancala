@@ -64,45 +64,44 @@ export default function Seed({
   const OUTER_GAP = 8;  // Slightly larger gap for outer seeds
   
   const getGridPosition = (seedNumber: number, totalSeeds: number) => {
-    // First 4 seeds form a 2x2 grid in the center
-    if (seedNumber <= 4) {
-      const row = Math.floor((seedNumber - 1) / 2);
-      const col = (seedNumber - 1) % 2;
+    const INNER_GRID_GAP = 5;    // Gap for inner 2x2 grids
+    const RING_GAP = 4;         // Reduced from 6 to 4
+    const BASE_OFFSET = 8;      // Reduced from 12 to 8
+    const MULTIPLIER = Math.floor((seedNumber - 1) / 16);
+    const SPACING_INCREASE = 1.1; // Reduced from 1.2 to 1.1 for even tighter scaling
+    
+    const positionInSet = ((seedNumber - 1) % 16) + 1;
+    const currentSpacing = MULTIPLIER === 0 ? 1 : (1 + (MULTIPLIER * SPACING_INCREASE));
+    
+    // First 4 seeds (2x2 grid) - keeping fixed positioning
+    if (positionInSet <= 4) {
+      const row = Math.floor((positionInSet - 1) / 2);
+      const col = (positionInSet - 1) % 2;
       return {
-        gridX: (col - 0.5) * (SEED_SIZE + INNER_GAP),
-        gridY: (row - 0.5) * (SEED_SIZE + INNER_GAP)
+        gridX: (col - 0.5) * (SEED_SIZE + INNER_GRID_GAP),
+        gridY: (row - 0.5) * (SEED_SIZE + INNER_GRID_GAP)
       };
     }
     
-    // Next 12 seeds form a surrounding ring
-    if (seedNumber <= 16) {
-      const ringPosition = seedNumber - 5;
-      let x = 0, y = 0;
-      
-      if (ringPosition < 3) { // Top row
-        x = (ringPosition - 1) * (SEED_SIZE + OUTER_GAP);
-        y = -(SEED_SIZE + OUTER_GAP);
-      } else if (ringPosition < 6) { // Right side
-        x = SEED_SIZE + OUTER_GAP;
-        y = ((ringPosition - 3) - 1) * (SEED_SIZE + OUTER_GAP);
-      } else if (ringPosition < 9) { // Bottom row
-        x = (8 - ringPosition) * (SEED_SIZE + OUTER_GAP);
-        y = SEED_SIZE + OUTER_GAP;
-      } else { // Left side
-        x = -(SEED_SIZE + OUTER_GAP);
-        y = (12 - ringPosition) * (SEED_SIZE + OUTER_GAP);
-      }
-      
-      return { gridX: x, gridY: y };
+    // Ring positioning with tighter gaps
+    const ringPosition = positionInSet - 5;
+    let x = 0, y = 0;
+    
+    if (ringPosition < 4) { // Top row
+      x = (ringPosition - 1.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
+      y = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
+    } else if (ringPosition < 6) { // Right side
+      x = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
+      y = (ringPosition - 4.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
+    } else if (ringPosition < 10) { // Bottom row
+      x = (4.5 - (ringPosition - 5)) * (SEED_SIZE + RING_GAP) * currentSpacing;
+      y = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
+    } else { // Left side
+      x = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
+      y = (11.5 - ringPosition) * (SEED_SIZE + RING_GAP) * currentSpacing;
     }
     
-    // Beyond 16 seeds, create a 4x4 grid with larger spacing
-    const row = Math.floor((seedNumber - 17) / 4);
-    const col = (seedNumber - 17) % 4;
-    return {
-      gridX: (col - 1.5) * (SEED_SIZE + OUTER_GAP * 2),
-      gridY: (row - 1.5) * (SEED_SIZE + OUTER_GAP * 2)
-    };
+    return { gridX: x, gridY: y };
   };
 
   // Get base position based on type and pit number
