@@ -54,11 +54,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   const involved = game_players?.mancalaDevPlayerModels.edges.some(
-    (item: any) => item?.node.address === account.account?.address,
+    (item: any) => item?.node.address === (account.account?.address || game_node?.player_one),
   );
   const player_position = involved
     ? game_players?.mancalaDevPlayerModels.edges.findIndex(
-        (item: any) => item?.node.address === account.account?.address,
+        (item: any) => item?.node.address === (account.account?.address || game_node?.player_one),
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
@@ -150,11 +150,20 @@ const GameBoard: React.FC<GameBoardProps> = ({
               pit_number={1}
               seed_number={1}
             /> */}
-            {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 25 : i + 1).map((seedNumber) => {
+            {Array.from({ length: 24 }, (_, i) => {
+              if (account.account?.address) {
+                return game_node?.player_one === account.account?.address ? i + 25 : i + 1;
+              } else {
+                // If no account, player_two seeds go on top
+                return i + 25;
+              }
+            }).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              const isPlayerSeed = seedDetails.player === account.account?.address;
+              const isPlayerSeed = account.account?.address 
+                ? seedDetails.player === account.account?.address
+                : seedDetails.player === game_node?.player_one;
               
               return (
                 <Seed
@@ -285,15 +294,20 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginRight: getPlayerMarginRight(),
             }}
           >
-            {Array.from({ length: 24 }, (_, i) => game_node?.player_one === account.account?.address ? i + 1 : i + 25).map((seedNumber) => {
+            {Array.from({ length: 24 }, (_, i) => {
+              if (account.account?.address) {
+                return game_node?.player_one === account.account?.address ? i + 1 : i + 25;
+              } else {
+                // If no account, player_one seeds go on bottom
+                return i + 1;
+              }
+            }).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
               
-              const isPlayerSeed = seedDetails.player === account.account?.address;
-
-              if (seedNumber === 2) {
-                console.log(seedDetails);
-              }
+              const isPlayerSeed = account.account?.address 
+                ? seedDetails.player === account.account?.address
+                : seedDetails.player === game_node?.player_one;
               
               return (
                 <Seed
