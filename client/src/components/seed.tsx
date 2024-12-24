@@ -29,7 +29,7 @@ export default function Seed({
     4: { x: -355, y: 120 },
     5: { x: -235, y: 120 },
     6: { x: -115, y: 120 },
-    7: { x: 0, y: 110 },
+    7: { x: 785, y: 150 },
   } : {
     1: { x: 90, y: 120 },
     2: { x: 205, y: 120 },
@@ -37,7 +37,7 @@ export default function Seed({
     4: { x: 445, y: 120 },
     5: { x: 565, y: 120 },
     6: { x: 685, y: 120 },
-    7: { x: 0, y: 110 },
+    7: { x: 785, y: 150 },
   };
 
   const opponentPositions = isNative ? {
@@ -47,7 +47,7 @@ export default function Seed({
     4: { x: 325, y: 10 },
     5: { x: 205, y: 10 },
     6: { x: 85, y: 10 },
-    7: { x: 785, y: 150 },
+    7: { x: 0, y: 110 },
   } : {
     1: { x: -110, y: 10 },
     2: { x: -235, y: 10 },
@@ -55,7 +55,7 @@ export default function Seed({
     4: { x: -475, y: 10 },
     5: { x: -595, y: 10 },
     6: { x: -715, y: 10 },
-    7: { x: 785, y: 150 },
+    7: { x: 0, y: 110 },
   };
 
   // Updated grid position calculation
