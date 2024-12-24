@@ -79,7 +79,6 @@ export default function Seed({
       };
     }
 
-    // Rest of the original getGridPosition logic for other pits
     const MULTIPLIER = Math.floor((seedNumber - 1) / 16);
     const SPACING_INCREASE = 1.1;
     
@@ -100,18 +99,18 @@ export default function Seed({
     const ringPosition = positionInSet - 5;
     let x = 0, y = 0;
     
-    if (ringPosition < 4) {
+    if (ringPosition < 4) {  // Positions 5-8: Top edge
       x = (ringPosition - 1.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
       y = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else if (ringPosition < 6) {
+    } else if (ringPosition < 6) {  // Positions 9-10: Right edge
       x = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
       y = (ringPosition - 4.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
-    } else if (ringPosition < 10) {
-      x = (4.5 - (ringPosition - 5)) * (SEED_SIZE + RING_GAP) * currentSpacing;
+    } else if (ringPosition < 8) {  // Positions 11-12: Bottom edge
+      x = (1.5 - (ringPosition - 6)) * (SEED_SIZE + RING_GAP) * currentSpacing;
       y = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else {
+    } else {  // Positions 13-16: Left edge
       x = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-      y = (11.5 - ringPosition) * (SEED_SIZE + RING_GAP) * currentSpacing;
+      y = (2.5 - (ringPosition - 8)) * (SEED_SIZE + RING_GAP) * currentSpacing;
     }
     
     return { 
@@ -151,7 +150,7 @@ export default function Seed({
         }
       }}
     >
-      <p className="text-white text-[8px]">{seed_id}</p>
+      <p className="text-white text-[8px]">{seed_number}</p>
     </motion.div>
   );
 }
