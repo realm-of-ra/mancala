@@ -58,16 +58,50 @@ export default function Seed({
     7: { x: 785, y: 150 },
   };
 
-  // Calculate grid positions
+  // Updated grid position calculation
   const SEED_SIZE = 15;
-  const SEEDS_PER_ROW = 2;  // Adjust this based on pit size
+  const INNER_GAP = 5;  // Gap for inner grid
+  const OUTER_GAP = 8;  // Slightly larger gap for outer seeds
   
-  const getGridPosition = (seedNumber: number) => {
-    const row = Math.floor((seedNumber - 1) / SEEDS_PER_ROW);
-    const col = (seedNumber - 1) % SEEDS_PER_ROW;
+  const getGridPosition = (seedNumber: number, totalSeeds: number) => {
+    // First 4 seeds form a 2x2 grid in the center
+    if (seedNumber <= 4) {
+      const row = Math.floor((seedNumber - 1) / 2);
+      const col = (seedNumber - 1) % 2;
+      return {
+        gridX: (col - 0.5) * (SEED_SIZE + INNER_GAP),
+        gridY: (row - 0.5) * (SEED_SIZE + INNER_GAP)
+      };
+    }
+    
+    // Next 12 seeds form a surrounding ring
+    if (seedNumber <= 16) {
+      const ringPosition = seedNumber - 5;
+      let x = 0, y = 0;
+      
+      if (ringPosition < 3) { // Top row
+        x = (ringPosition - 1) * (SEED_SIZE + OUTER_GAP);
+        y = -(SEED_SIZE + OUTER_GAP);
+      } else if (ringPosition < 6) { // Right side
+        x = SEED_SIZE + OUTER_GAP;
+        y = ((ringPosition - 3) - 1) * (SEED_SIZE + OUTER_GAP);
+      } else if (ringPosition < 9) { // Bottom row
+        x = (8 - ringPosition) * (SEED_SIZE + OUTER_GAP);
+        y = SEED_SIZE + OUTER_GAP;
+      } else { // Left side
+        x = -(SEED_SIZE + OUTER_GAP);
+        y = (12 - ringPosition) * (SEED_SIZE + OUTER_GAP);
+      }
+      
+      return { gridX: x, gridY: y };
+    }
+    
+    // Beyond 16 seeds, create a 4x4 grid with larger spacing
+    const row = Math.floor((seedNumber - 17) / 4);
+    const col = (seedNumber - 17) % 4;
     return {
-      gridX: col * (SEED_SIZE + 5),  // 5px gap between seeds
-      gridY: row * (SEED_SIZE + 5)
+      gridX: (col - 1.5) * (SEED_SIZE + OUTER_GAP * 2),
+      gridY: (row - 1.5) * (SEED_SIZE + OUTER_GAP * 2)
     };
   };
 
@@ -77,7 +111,7 @@ export default function Seed({
     : opponentPositions[pit_number as keyof typeof opponentPositions];
 
   // Calculate final position including grid offset
-  const gridOffset = getGridPosition(seed_number);
+  const gridOffset = getGridPosition(seed_number, pit_length || 0);
   const finalPosition = {
     x: (basePosition?.x ?? 0) + gridOffset.gridX,
     y: (basePosition?.y ?? 0) + gridOffset.gridY
