@@ -60,11 +60,11 @@ export default function Seed({
   const SEED_SIZE = 15;
   
   const getGridPosition = (seedNumber: number, totalSeeds: number) => {
-    const INNER_GRID_GAP = 5;
-    const RING_GAP = 4;
+    const INNER_GRID_GAP = 2;
+    const RING_GAP = 1;
     const BASE_OFFSET = 8;
-    const X_SHIFT = 6;
-    const Y_SHIFT = 6;
+    const X_SHIFT = 10;
+    const Y_SHIFT = 10;
     
     // Special case for pit 7 (store)
     if (pit_number === 7) {
