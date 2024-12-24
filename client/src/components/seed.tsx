@@ -29,7 +29,7 @@ export default function Seed({
     4: { x: -355, y: 120 },
     5: { x: -235, y: 120 },
     6: { x: -115, y: 120 },
-    7: { x: 35, y: 110 },
+    7: { x: 0, y: 110 },
   } : {
     1: { x: 90, y: 120 },
     2: { x: 205, y: 120 },
@@ -47,7 +47,7 @@ export default function Seed({
     4: { x: 325, y: 10 },
     5: { x: 205, y: 10 },
     6: { x: 85, y: 10 },
-    7: { x: 12.5, y: 110 },
+    7: { x: -20, y: 110 },
   } : {
     1: { x: -110, y: 10 },
     2: { x: -235, y: 10 },
@@ -70,11 +70,11 @@ export default function Seed({
     
     // Special case for pit 7 (store)
     if (pit_number === 7) {
-      const STORE_GRID_COLS = 5;
+      const STORE_GRID_COLS = 3;
       const row = Math.floor((seedNumber - 1) / STORE_GRID_COLS);
       const col = (seedNumber - 1) % STORE_GRID_COLS;
       return {
-        gridX: (col - 2) * (SEED_SIZE + INNER_GRID_GAP),
+        gridX: (col - 1) * (SEED_SIZE + INNER_GRID_GAP),
         gridY: (row - 4.5) * (SEED_SIZE + INNER_GRID_GAP)
       };
     }
