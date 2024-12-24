@@ -64,44 +64,49 @@ export default function Seed({
   const OUTER_GAP = 8;  // Slightly larger gap for outer seeds
   
   const getGridPosition = (seedNumber: number, totalSeeds: number) => {
-    const INNER_GRID_GAP = 5;    // Gap for inner 2x2 grids
-    const RING_GAP = 4;         // Reduced from 6 to 4
-    const BASE_OFFSET = 8;      // Reduced from 12 to 8
+    const INNER_GRID_GAP = 5;
+    const RING_GAP = 4;
+    const BASE_OFFSET = 8;
+    const X_SHIFT = 6;
+    const Y_SHIFT = 6;
     const MULTIPLIER = Math.floor((seedNumber - 1) / 16);
-    const SPACING_INCREASE = 1.1; // Reduced from 1.2 to 1.1 for even tighter scaling
+    const SPACING_INCREASE = 1.1;
     
     const positionInSet = ((seedNumber - 1) % 16) + 1;
     const currentSpacing = MULTIPLIER === 0 ? 1 : (1 + (MULTIPLIER * SPACING_INCREASE));
     
-    // First 4 seeds (2x2 grid) - keeping fixed positioning
+    // First 4 seeds (2x2 grid)
     if (positionInSet <= 4) {
       const row = Math.floor((positionInSet - 1) / 2);
       const col = (positionInSet - 1) % 2;
       return {
-        gridX: (col - 0.5) * (SEED_SIZE + INNER_GRID_GAP),
-        gridY: (row - 0.5) * (SEED_SIZE + INNER_GRID_GAP)
+        gridX: (col - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + X_SHIFT,
+        gridY: (row - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + Y_SHIFT
       };
     }
     
-    // Ring positioning with tighter gaps
+    // Ring positioning
     const ringPosition = positionInSet - 5;
     let x = 0, y = 0;
     
-    if (ringPosition < 4) { // Top row
+    if (ringPosition < 4) {
       x = (ringPosition - 1.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
       y = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else if (ringPosition < 6) { // Right side
+    } else if (ringPosition < 6) {
       x = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
       y = (ringPosition - 4.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
-    } else if (ringPosition < 10) { // Bottom row
+    } else if (ringPosition < 10) {
       x = (4.5 - (ringPosition - 5)) * (SEED_SIZE + RING_GAP) * currentSpacing;
       y = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else { // Left side
+    } else {
       x = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
       y = (11.5 - ringPosition) * (SEED_SIZE + RING_GAP) * currentSpacing;
     }
     
-    return { gridX: x, gridY: y };
+    return { 
+      gridX: x + X_SHIFT,
+      gridY: y + Y_SHIFT
+    };
   };
 
   // Get base position based on type and pit number
