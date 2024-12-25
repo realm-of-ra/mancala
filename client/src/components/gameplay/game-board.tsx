@@ -32,12 +32,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const seeds = React.useMemo(() => {
     if (!data?.mancalaDevSeedModels?.edges) return [];
     const uniqueSeeds = new Map();
-    data.mancalaDevSeedModels.edges.forEach((seed: any) => {
+    
+    // Sort edges by timestamp in descending order (newest first)
+    const sortedEdges = [...data.mancalaDevSeedModels.edges].sort((a, b) => {
+      const timeA = new Date(a.node.entity.updatedAt).getTime();
+      const timeB = new Date(b.node.entity.updatedAt).getTime();
+      return timeB - timeA;  // Descending order
+    });
+
+    // Now the first occurrence of each seed_id will be the most recent one
+    sortedEdges.forEach((seed: any) => {
       const seedId = seed?.node.seed_id;
       if (seedId && !uniqueSeeds.has(seedId)) {
         uniqueSeeds.set(seedId, seed.node);
       }
     });
+    
     return Array.from(uniqueSeeds.values());
   }, [data, account.account?.address]);
 
