@@ -40,7 +40,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       return timeB - timeA;  // Descending order
     });
 
-    // Now the first occurrence of each seed_id will be the most recent one
     sortedEdges.forEach((seed: any) => {
       const seedId = seed?.node.seed_id;
       if (seedId && !uniqueSeeds.has(seedId)) {
@@ -72,14 +71,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
-  const opposition_length = data?.mancalaDevSeedModels.edges
-    .filter(
-      (item: any) =>
-        item?.node.player ===
-        game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node
-          .address,
-    )
-    .filter((item: any) => item?.node.pit_number === 7).length;
   const player_pot_seed_count =
     game_players?.mancalaDevPitModels.edges
       .filter(
@@ -127,17 +118,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
-  const getOpponentSeed = (seed_id: number) => {
-    return data?.mancalaDevSeedModels.edges
-      .filter(
-        (item: any) =>
-          item?.node.player ===
-          game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node
-            .address,
-      )
-      .filter((item: any) => item?.node.seed_id === `0x${seed_id.toString(16)}`)
-  };
-
   console.log('seeds: ', seeds);
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
@@ -152,19 +132,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginLeft: getOpponentMarginLeft(),
             }}
           >
-            {/* <Seed
-              color="Green"
-              length={4}
-              type="opponent"
-              seed_id={1}
-              pit_number={1}
-              seed_number={1}
-            /> */}
             {Array.from({ length: 24 }, (_, i) => {
               if (account.account?.address) {
                 return game_node?.player_one === account.account?.address ? i + 25 : i + 1;
               } else {
-                // If no account, player_two seeds go on top
                 return i + 25;
               }
             }).map((seedNumber) => {
@@ -221,28 +192,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   <TopPit
                     key={i} 
                     amount={pit.node.seed_count}
-                    address={pit.node.player}
-                    pit={pit.node.pit_number}
-                    system={system}
-                    userAccount={account}
-                    game_id={gameId}
-                    message={setMoveMessage}
-                    status={game_node?.status}
-                    winner={game_node?.winner}
-                    seed_count={pit.node.seed_count}
-                    seeds={data?.mancalaDevSeedModels.edges
-                      .filter(
-                        (seed: any) => seed?.node.player === pit.node.player,
-                      )
-                      .filter(
-                        (seed: any) =>
-                          seed?.node.pit_number === pit.node.pit_number,
-                      )}
-                    setTimeRemaining={setTimeRemaining}
-                    max_block_between_move={parseInt(
-                      game_node?.max_block_between_move,
-                      16,
-                    )}
                   />
                 ))}
             </div>
@@ -260,15 +209,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter((item: any) => item?.node.pit_number !== 7)
                 .sort((a: any, b: any) => a.node.pit_number - b.node.pit_number)
                 .map((pit: any, i: number) => {
-                  // Filter seeds for this specific pit number (1-6)
-                  const pitSeeds = data?.mancalaDevSeedModels.edges.filter(
-                    (seed: any) =>
-                      seed?.node.player === pit.node.player &&
-                      seed?.node.pit_number === pit.node.pit_number &&
-                      pit.node.pit_number >= 1 &&
-                      pit.node.pit_number <= 6,
-                  );
-
                   return (
                     <BottomPit
                       key={i}
@@ -281,8 +221,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       message={setMoveMessage}
                       status={game_node?.status}
                       winner={game_node?.winner}
-                      seed_count={pit.node.seed_count}
-                      seeds={pitSeeds}
                       setTimeRemaining={setTimeRemaining}
                       max_block_between_move={parseInt(
                         game_node?.max_block_between_move,
@@ -308,7 +246,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
               if (account.account?.address) {
                 return game_node?.player_one === account.account?.address ? i + 1 : i + 25;
               } else {
-                // If no account, player_one seeds go on bottom
                 return i + 1;
               }
             }).map((seedNumber) => {
