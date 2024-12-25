@@ -165,8 +165,6 @@ export default function Seed({
           damping: 15
         }
       }}
-    >
-      <p className="text-white text-[8px]">{seed_number}</p>
-    </motion.div>
+    />
   );
 }
