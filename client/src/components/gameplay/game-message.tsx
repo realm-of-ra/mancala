@@ -101,7 +101,11 @@ export default function GameMessage({
     starknetIdNavigator,
     setProfiles,
   ]);
-  const moveMessageOnTimer = (player: string, player_one_name: string, player_two_name: string) => {
+  const moveMessageOnTimer = (
+    player: string,
+    player_one_name: string,
+    player_two_name: string,
+  ) => {
     if (game_node?.winner === "0x0") {
       if (
         game_node?.status === "TimeOut" ||
@@ -119,9 +123,16 @@ export default function GameMessage({
         );
       } else {
         if (game_node?.status !== "Pending") {
-          const isCurrentUserTurn = game_node?.current_player === account.account?.address;
-          const currentPlayerName = profiles?.find((item: any) => item.address === game_node?.current_player)?.name;
-          const displayName = currentPlayerName || (game_node?.current_player === game_node?.player_one ? player_one_name : player_two_name);
+          const isCurrentUserTurn =
+            game_node?.current_player === account.account?.address;
+          const currentPlayerName = profiles?.find(
+            (item: any) => item.address === game_node?.current_player,
+          )?.name;
+          const displayName =
+            currentPlayerName ||
+            (game_node?.current_player === game_node?.player_one
+              ? player_one_name
+              : player_two_name);
 
           if (isCurrentUserTurn) {
             return React.createElement(
@@ -131,7 +142,7 @@ export default function GameMessage({
               React.createElement(
                 "span",
                 { className: "text-[#F58229]" },
-                displayName
+                displayName,
               ),
             );
           } else {
@@ -142,7 +153,7 @@ export default function GameMessage({
               React.createElement(
                 "span",
                 { className: "text-[#F58229]" },
-                displayName
+                displayName,
               ),
               ` move`,
             );
@@ -186,7 +197,11 @@ export default function GameMessage({
                 <AlarmClock className="w-6 h-6 text-white" />
               )}
               <div className="text-white">
-                {moveMessageOnTimer(game_node?.current_player, player_one_name, player_two_name)}
+                {moveMessageOnTimer(
+                  game_node?.current_player,
+                  player_one_name,
+                  player_two_name,
+                )}
               </div>
             </div>
           }

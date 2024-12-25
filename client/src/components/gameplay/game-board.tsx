@@ -32,12 +32,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const seeds = React.useMemo(() => {
     if (!data?.mancalaDevSeedModels?.edges) return [];
     const uniqueSeeds = new Map();
-    
+
     // Sort edges by timestamp in descending order (newest first)
     const sortedEdges = [...data.mancalaDevSeedModels.edges].sort((a, b) => {
       const timeA = new Date(a.node.entity.updatedAt).getTime();
       const timeB = new Date(b.node.entity.updatedAt).getTime();
-      return timeB - timeA;  // Descending order
+      return timeB - timeA; // Descending order
     });
 
     sortedEdges.forEach((seed: any) => {
@@ -46,28 +46,38 @@ const GameBoard: React.FC<GameBoardProps> = ({
         uniqueSeeds.set(seedId, seed.node);
       }
     });
-    
+
     return Array.from(uniqueSeeds.values());
   }, [data, account.account?.address]);
 
   const getSeed = (seedId: string | number) => {
-    const hexSeedId = typeof seedId === 'number' ? `0x${seedId.toString(16)}` : seedId;
-    const seed = seeds.find(seed => seed.seed_id === hexSeedId);
+    const hexSeedId =
+      typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
+    const seed = seeds.find((seed) => seed.seed_id === hexSeedId);
     if (!seed) return null;
 
     const seedNumber = parseInt(seed.seed_id, 16);
-    const isNative = (seed.player === game_node?.player_one && seedNumber >= 1 && seedNumber <= 24) || 
-                    (seed.player === game_node?.player_two && seedNumber >= 25 && seedNumber <= 48);
-    
+    const isNative =
+      (seed.player === game_node?.player_one &&
+        seedNumber >= 1 &&
+        seedNumber <= 24) ||
+      (seed.player === game_node?.player_two &&
+        seedNumber >= 25 &&
+        seedNumber <= 48);
+
     return { ...seed, isNative };
   };
 
   const involved = game_players?.mancalaDevPlayerModels.edges.some(
-    (item: any) => item?.node.address === (account.account?.address || game_node?.player_one),
+    (item: any) =>
+      item?.node.address ===
+      (account.account?.address || game_node?.player_one),
   );
   const player_position = involved
     ? game_players?.mancalaDevPlayerModels.edges.findIndex(
-        (item: any) => item?.node.address === (account.account?.address || game_node?.player_one),
+        (item: any) =>
+          item?.node.address ===
+          (account.account?.address || game_node?.player_one),
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
@@ -118,7 +128,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
-  console.log('seeds: ', seeds);
+  console.log("seeds: ", seeds);
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -134,18 +144,20 @@ const GameBoard: React.FC<GameBoardProps> = ({
           >
             {Array.from({ length: 24 }, (_, i) => {
               if (account.account?.address) {
-                return game_node?.player_one === account.account?.address ? i + 25 : i + 1;
+                return game_node?.player_one === account.account?.address
+                  ? i + 25
+                  : i + 1;
               } else {
                 return i + 25;
               }
             }).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
-              
-              const isPlayerSeed = account.account?.address 
+
+              const isPlayerSeed = account.account?.address
                 ? seedDetails.player === account.account?.address
                 : seedDetails.player === game_node?.player_one;
-              
+
               return (
                 <Seed
                   key={seedNumber}
@@ -167,8 +179,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   .filter(
                     (item: any) =>
                       item?.node.player ===
-                      game_players?.mancalaDevPlayerModels.edges[opponent_position]
-                        ?.node.address,
+                      game_players?.mancalaDevPlayerModels.edges[
+                        opponent_position
+                      ]?.node.address,
                   )
                   .filter((item: any) => item?.node.pit_number === 7).length
               }
@@ -183,16 +196,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaDevPlayerModels.edges[opponent_position]
-                      ?.node.address,
+                    game_players?.mancalaDevPlayerModels.edges[
+                      opponent_position
+                    ]?.node.address,
                 )
                 .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
                 .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
                 .map((pit: any, i: number) => (
-                  <TopPit
-                    key={i} 
-                    amount={pit.node.seed_count}
-                  />
+                  <TopPit key={i} amount={pit.node.seed_count} />
                 ))}
             </div>
           </div>
@@ -244,18 +255,20 @@ const GameBoard: React.FC<GameBoardProps> = ({
           >
             {Array.from({ length: 24 }, (_, i) => {
               if (account.account?.address) {
-                return game_node?.player_one === account.account?.address ? i + 1 : i + 25;
+                return game_node?.player_one === account.account?.address
+                  ? i + 1
+                  : i + 25;
               } else {
                 return i + 1;
               }
             }).map((seedNumber) => {
               const seedDetails = getSeed(seedNumber);
               if (!seedDetails) return null;
-              
-              const isPlayerSeed = account.account?.address 
+
+              const isPlayerSeed = account.account?.address
                 ? seedDetails.player === account.account?.address
                 : seedDetails.player === game_node?.player_one;
-              
+
               return (
                 <Seed
                   key={seedNumber}

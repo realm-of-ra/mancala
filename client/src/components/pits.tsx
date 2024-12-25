@@ -1,18 +1,18 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseAccountResult } from "@starknet-react/core";
 
-export function TopPit({
-  amount
-}: {
-  amount: number;
-}) {
+export function TopPit({ amount }: { amount: number }) {
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-6">
       <div className="rounded-lg w-fit">
         <p className="text-white ml-2">{amount}</p>
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
-        <div className={"w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer"} />
+        <div
+          className={
+            "w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer"
+          }
+        />
       </div>
     </div>
   );

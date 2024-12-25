@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
-import {
-  useAccount,
-  useConnect,
-  useDisconnect,
-} from "@starknet-react/core";
+import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { Link } from "react-router-dom";
 import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
@@ -62,43 +58,57 @@ export default function Header() {
 
   const color = getColorOfTheDay(account?.address || "", new Date());
 
-  const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
+  const { data: playerData, startPolling: startPollingPlayerData } =
+    useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
-  const [playerName, setPlayerName] = useState('');
-  
+  const [playerName, setPlayerName] = useState("");
+
   useEffect(() => {
-    const profile: any = playerData?.mancalaDevProfileModels?.edges.find((player: any) => player.node.address === account?.address);
-    console.log('profile: ', playerData?.mancalaDevProfileModels?.edges.map((player: any) => player))
+    const profile: any = playerData?.mancalaDevProfileModels?.edges.find(
+      (player: any) => player.node.address === account?.address,
+    );
+    console.log(
+      "profile: ",
+      playerData?.mancalaDevProfileModels?.edges.map((player: any) => player),
+    );
     if (!account?.address || !profile) {
-      setPlayerName('');
+      setPlayerName("");
       return;
     }
-    
+
     if (profile?.node?.name) {
-      setPlayerName(shortString.decodeShortString(profile?.node?.name || ''));
+      setPlayerName(shortString.decodeShortString(profile?.node?.name || ""));
     }
-  }, [account?.address, playerData?.mancalaDevProfileModels?.edges, playerData, account?.address]);
+  }, [
+    account?.address,
+    playerData?.mancalaDevProfileModels?.edges,
+    playerData,
+    account?.address,
+  ]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownClose(false);
         setIsDropdownOpen(false);
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10">
-        {account?.address && playerName && playerName !== '0' ? (
+        {account?.address && playerName && playerName !== "0" ? (
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
             <div className="rounded-full border-2 border-[#4B505C] relative">
@@ -111,7 +121,7 @@ export default function Header() {
             </div>
             <div>
               <h3 className="text-2xl text-right text-white">
-                {playerName !== '0'
+                {playerName !== "0"
                   ? playerName
                   : truncateString(account?.address)}
               </h3>
@@ -126,12 +136,12 @@ export default function Header() {
           <div className="flex flex-row space-x-2.5 items-center justify-end">
             <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
               <div>
-              <div
-                className="flex items-center justify-center rounded-full p-2.5"
-                style={{ backgroundColor: color }}
-              >
-                <UserIcon color="#F58229" className="w-10 h-10 text-white" />
-              </div>
+                <div
+                  className="flex items-center justify-center rounded-full p-2.5"
+                  style={{ backgroundColor: color }}
+                >
+                  <UserIcon color="#F58229" className="w-10 h-10 text-white" />
+                </div>
                 <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
                   <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
                 </div>
@@ -139,7 +149,9 @@ export default function Header() {
             </div>
             <div className="flex flex-col items-start">
               <h3 className="text-2xl text-right text-white">Player</h3>
-              <h4 className="text-sm text-[#F58229] text-start">Setup Profile</h4>
+              <h4 className="text-sm text-[#F58229] text-start">
+                Setup Profile
+              </h4>
             </div>
           </div>
         )}
@@ -171,7 +183,11 @@ export default function Header() {
                   </div>
                   <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5 ">
                     <p className="text-[18px] text-white leading-3 normal-case">
-                      {playerName ? playerName.length > 18 ? truncateString(playerName) : playerName : truncateString(account?.address)}
+                      {playerName
+                        ? playerName.length > 18
+                          ? truncateString(playerName)
+                          : playerName
+                        : truncateString(account?.address)}
                     </p>
                     <ChevronDownIcon
                       className={clsx("w-4 h-4 ml-3 transition duration-300", {

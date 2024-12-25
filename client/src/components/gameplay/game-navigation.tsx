@@ -34,8 +34,18 @@ export default function GameNavigation({
     game_players?.player_two?.edges,
     game_players?.player_two?.edges?.[0]?.node?.address,
   );
-  const player_one_name = formatPlayerName(player_names?.mancalaDevProfileModels.edges.find((item: any) => item.node.address === game_node?.player_one)?.node.name, game_node?.player_one);
-  const player_two_name = formatPlayerName(player_names?.mancalaDevProfileModels.edges.find((item: any) => item.node.address === game_node?.player_two)?.node.name, game_node?.player_two);
+  const player_one_name = formatPlayerName(
+    player_names?.mancalaDevProfileModels.edges.find(
+      (item: any) => item.node.address === game_node?.player_one,
+    )?.node.name,
+    game_node?.player_one,
+  );
+  const player_two_name = formatPlayerName(
+    player_names?.mancalaDevProfileModels.edges.find(
+      (item: any) => item.node.address === game_node?.player_two,
+    )?.node.name,
+    game_node?.player_two,
+  );
   return (
     <nav className="relative w-full h-40">
       <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">

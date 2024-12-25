@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
-import axios from 'axios';
+import axios from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -126,7 +126,10 @@ export function getColorOfTheDay(walletAddress: string, date: Date) {
   const combinedKey = walletAddress + dateKey;
 
   // Hash the combined string
-  const hash = [...combinedKey].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const hash = [...combinedKey].reduce(
+    (acc, char) => acc + char.charCodeAt(0),
+    0,
+  );
 
   // Map the hash to an index in the colors array
   const colorIndex = hash % colors.length;
@@ -138,21 +141,24 @@ export async function uploadFile(file: File) {
   try {
     const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
 
-    const response = await axios.post(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    const response = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
     // Return the direct image URL
     return response.data.data.url;
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.error("Error uploading file:", error);
     throw error;
   }
 }
-
 
 export const formatPlayerName = (name: string, address: string) => {
   if (!name || name === "0x0") {

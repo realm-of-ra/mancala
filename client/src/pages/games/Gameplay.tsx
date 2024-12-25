@@ -4,7 +4,11 @@ import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
-import { MancalaBoardModelQuery, MancalaPlayerNames, MancalaPlayQuery } from "@/lib/constants";
+import {
+  MancalaBoardModelQuery,
+  MancalaPlayerNames,
+  MancalaPlayQuery,
+} from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";

@@ -28,7 +28,9 @@ export default function UserSection({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState("");
-  const [loading, setLoading] = useState<{ status: string; finished: boolean }>({ status: '', finished: false });
+  const [loading, setLoading] = useState<{ status: string; finished: boolean }>(
+    { status: "", finished: false },
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { system } = useDojo();
   const account = useAccount();
@@ -38,7 +40,9 @@ export default function UserSection({
 
   const handleOpen = () => setOpen(!open);
 
-  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files?.[0];
       const url = await uploadFile(file as File);
@@ -50,16 +54,16 @@ export default function UserSection({
   const handleSaveProfile = async () => {
     if (account.account) {
       const userExists = profiles.mancalaDevProfileModels.edges.some(
-        (profile: any) => profile.node.address === account.account?.address
+        (profile: any) => profile.node.address === account.account?.address,
       );
 
       if (userExists) {
         const imageUrlToUse = imageUrl || "https://localhost:3000/avatar.png";
         system.update_player_profile(
-          account.account, 
+          account.account,
           displayName,
           imageUrlToUse,
-          setLoading
+          setLoading,
         );
       } else {
         system.create_player_profile(account.account, displayName, setLoading);
@@ -92,10 +96,7 @@ export default function UserSection({
                 truncateString(account.account?.address) ||
                 "Guest user"}
             </h3>
-            <button
-              className="text-[#F58229] font-medium"
-              onClick={handleOpen}
-            >
+            <button className="text-[#F58229] font-medium" onClick={handleOpen}>
               Edit details
             </button>
           </div>
@@ -212,7 +213,11 @@ export default function UserSection({
                     className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52"
                     onClick={handleSaveProfile}
                   >
-                    {loading.status === 'CREATING' && !loading.finished ? 'Saving...' : loading.status === 'CREATED' && loading.finished ? 'Saved' : 'Save Changes'}
+                    {loading.status === "CREATING" && !loading.finished
+                      ? "Saving..."
+                      : loading.status === "CREATED" && loading.finished
+                        ? "Saved"
+                        : "Save Changes"}
                   </button>
                 </div>
               </div>

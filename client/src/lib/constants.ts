@@ -686,7 +686,10 @@ export const MancalaBoardModelsQuery = gql`
 
 export const MancalaBoardModelQuery = gql`
   query mancalaDevMancalaBoardModel($gameId: u128) {
-    mancalaDevMancalaBoardModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaDevMancalaBoardModels(
+      where: { game_id: $gameId }
+      limit: 1000000000
+    ) {
       edges {
         node {
           game_id

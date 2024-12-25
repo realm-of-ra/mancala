@@ -109,7 +109,8 @@ export default function GameHistory({
                       const isLast = index === data?.length - 1;
                       const date = new Date(item.date);
                       const challengerColor = colors[index % colors.length];
-                      const challengedColor = colors[(index + 3) % colors.length];
+                      const challengedColor =
+                        colors[(index + 3) % colors.length];
                       return (
                         <tr
                           key={index}
@@ -123,15 +124,15 @@ export default function GameHistory({
                             <div className="flex flex-row items-center space-x-2.5 w-fit">
                               {/* <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" /> */}
                               <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                              <div
-                                className="w-8 h-8 flex items-center justify-center rounded-full"
-                                style={{ backgroundColor: challengerColor }}
-                              >
-                                <UserIcon
-                                  color="#F58229"
-                                  className="w-5 h-5 text-white"
-                                />
-                              </div>
+                                <div
+                                  className="w-8 h-8 flex items-center justify-center rounded-full"
+                                  style={{ backgroundColor: challengerColor }}
+                                >
+                                  <UserIcon
+                                    color="#F58229"
+                                    className="w-5 h-5 text-white"
+                                  />
+                                </div>
                               </div>
                               <p className="font-normal text-white">
                                 {item.challenger.name
@@ -147,15 +148,15 @@ export default function GameHistory({
                               <div className="flex flex-row items-center space-x-2.5 w-fit">
                                 {/* <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" /> */}
                                 <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                              <div
-                                className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
-                                style={{ backgroundColor: challengedColor }}
-                              >
-                                <UserIcon
-                                  color="#F58229"
-                                  className="w-5 h-5 text-white"
-                                />
-                              </div>
+                                  <div
+                                    className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
+                                    style={{ backgroundColor: challengedColor }}
+                                  >
+                                    <UserIcon
+                                      color="#F58229"
+                                      className="w-5 h-5 text-white"
+                                    />
+                                  </div>
                                 </div>
                                 <p className="font-normal text-white">
                                   {item.challenged.name
