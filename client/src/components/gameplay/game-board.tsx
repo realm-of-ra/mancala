@@ -171,19 +171,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="h-[160px] ml-24 flex flex-col items-center justify-center">
+          <div className="h-[160px] flex flex-col items-center justify-center" style={{marginLeft: opponent_pot_seed_count > 24 ? "128px" : "96px"}}>
             <p className="text-white text-center">
-              {
-                data?.mancalaDevSeedModels.edges
-                  .filter(
-                    (item: any) =>
-                      item?.node.player ===
-                      game_players?.mancalaDevPlayerModels.edges[
-                        opponent_position
-                      ]?.node.address,
-                  )
-                  .filter((item: any) => item?.node.pit_number === 7).length
-              }
+              {opponent_pot_seed_count}
             </p>
           </div>
         </div>
@@ -282,7 +272,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="h-[160px] mr-24 flex flex-col items-center justify-center">
+          <div className="h-[160px] mr-24 flex flex-col items-center justify-center" style={{marginRight: player_pot_seed_count > 24 ? "128px" : "96px"}}>
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>
