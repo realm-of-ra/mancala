@@ -37,7 +37,7 @@ export default function Seed({
         4: { x: 445, y: 120 },
         5: { x: 565, y: 120 },
         6: { x: 685, y: 120 },
-        7: { x: (length || 0) > 24 ? -10 : 815, y: 90 },
+        7: { x: (length || 0) > 24 ? -10 : 800, y: 90 },
       };
 
   const opponentPositions = isNative
