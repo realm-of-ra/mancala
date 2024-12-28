@@ -37,7 +37,7 @@ export default function Seed({
         4: { x: 445, y: 120 },
         5: { x: 565, y: 120 },
         6: { x: 685, y: 120 },
-        7: { x: (length || 0) > 24 ? 0 : 800, y: 90 },
+        7: { x: (length || 0) > 24 ? 0 : 815, y: 90 },
       };
 
   const opponentPositions = isNative
@@ -48,7 +48,7 @@ export default function Seed({
         4: { x: 325, y: 10 },
         5: { x: 205, y: 10 },
         6: { x: 85, y: 10 },
-        7: { x: (length || 0) > 24 ? 10 : -10, y: 90 },
+        7: { x: (length || 0) > 24 ? 10 : 0, y: 90 },
       }
     : {
         1: { x: -110, y: 10 },
@@ -63,7 +63,7 @@ export default function Seed({
   // Updated grid position calculation
   const SEED_SIZE = 15;
 
-  const getGridPosition = (seedNumber: number, totalSeeds: number) => {
+  const getGridPosition = (seedNumber: number) => {
     const INNER_GRID_GAP = 2;
     const RING_GAP = 1;
     const BASE_OFFSET = 8;
@@ -76,30 +76,27 @@ export default function Seed({
       const STORE_GRID_ROWS = 5;
       const SEEDS_PER_LAYER = STORE_GRID_COLS * STORE_GRID_ROWS;
 
-      // Normalize the seed number to ensure consistent positioning
-      const normalizedSeedNumber =
-        ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
-
-      // Calculate layer, row, and column
+      // Safari detection
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      
+      // Safari-specific adjustments
+      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -17 : -13 : type === "player" ? -1.5 : 1.5;
+      
+      // Rest of the store pit calculations
+      const normalizedSeedNumber = ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
       const layer = Math.floor((normalizedSeedNumber - 1) / SEEDS_PER_LAYER);
       const positionInLayer = (normalizedSeedNumber - 1) % SEEDS_PER_LAYER;
       const row = Math.floor(positionInLayer / STORE_GRID_COLS);
       const col = positionInLayer % STORE_GRID_COLS;
 
-      // Reduced gaps for more compact layout
-      const COMPACT_GAP = 3;
+      const COMPACT_GAP = 1.5;
       const verticalOffset = (STORE_GRID_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
-
-      // Smaller layer offsets for tighter clustering
-      const LAYER_X_OFFSET = 2;
-      const LAYER_Y_OFFSET = 2;
+      const LAYER_X_OFFSET = 3;
+      const LAYER_Y_OFFSET = 2.5;
 
       return {
-        gridX: (col - 1) * (SEED_SIZE + COMPACT_GAP) + layer * LAYER_X_OFFSET,
-        gridY:
-          row * (SEED_SIZE + COMPACT_GAP) -
-          verticalOffset +
-          layer * LAYER_Y_OFFSET,
+        gridX: Math.floor((col - 1) * (SEED_SIZE + COMPACT_GAP) + layer * LAYER_X_OFFSET) + SAFARI_X_ADJUSTMENT,
+        gridY: Math.floor(row * (SEED_SIZE + COMPACT_GAP) - verticalOffset + layer * LAYER_Y_OFFSET),
       };
     }
 
@@ -156,7 +153,7 @@ export default function Seed({
       : opponentPositions[pit_number as keyof typeof opponentPositions];
 
   // Calculate final position including grid offset
-  const gridOffset = getGridPosition(seed_number, length || 0);
+  const gridOffset = getGridPosition(seed_number);
   const finalPosition = {
     x: (basePosition?.x ?? 0) + gridOffset.gridX,
     y: (basePosition?.y ?? 0) + gridOffset.gridY,
