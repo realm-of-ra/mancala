@@ -10,7 +10,7 @@ export function TopPit({ amount }: { amount: number }) {
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
           className={
-            "w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer"
+            "w-[60px] h-[60px] flex flex-col items-center justify-center"
           }
         />
       </div>

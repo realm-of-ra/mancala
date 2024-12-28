@@ -128,7 +128,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
-  console.log("seeds: ", seeds);
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
