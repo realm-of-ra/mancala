@@ -80,7 +80,7 @@ export default function Seed({
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       
       // Safari-specific adjustments
-      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -17 : -13 : type === "player" ? -1.5 : 1.5;
+      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -3 : 2 : type === "player" ? -17 : -13;
       
       // Rest of the store pit calculations
       const normalizedSeedNumber = ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
@@ -160,7 +160,7 @@ export default function Seed({
   };
 
   // Calculate a staggered delay based on seed number
-  const animationDelay = seed_number * 0.25; // 100ms delay between each seed
+  const animationDelay = seed_number * 0.5; // Increased from 0.35 to 0.5 seconds
 
   return (
     <motion.div
@@ -170,17 +170,26 @@ export default function Seed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 0, y: 0, opacity: 0 }}
+      initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
       animate={{
         x: finalPosition.x,
         y: finalPosition.y,
         opacity: 1,
+        scale: 1,
         transition: {
           type: "spring",
-          stiffness: 100,
-          damping: 15,
+          stiffness: 35, // Reduced from 45 for slower movement
+          damping: 15, // Increased from 5 for less bounce
           delay: animationDelay,
-          opacity: { duration: 0.2, delay: animationDelay }
+          opacity: { duration: 0.8, delay: animationDelay }, // Slower fade in
+          scale: { 
+            duration: 0.6, 
+            delay: animationDelay,
+            type: "spring",
+            stiffness: 100, // Reduced bounce on scale
+            damping: 12
+          },
+          duration: 2.5, // Increased from 1.8 to 2.5 seconds
         },
       }}
     />
