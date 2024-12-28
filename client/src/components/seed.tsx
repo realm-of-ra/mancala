@@ -159,8 +159,11 @@ export default function Seed({
     y: (basePosition?.y ?? 0) + gridOffset.gridY,
   };
 
-  // Calculate a staggered delay based on seed number
-  const animationDelay = seed_number * 0.5; // Increased from 0.35 to 0.5 seconds
+  const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
+
+  useEffect(() => {
+    setAnimationDelay(seed_number * 0.75);
+  }, [seed_number]);
 
   return (
     <motion.div
