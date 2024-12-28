@@ -48,7 +48,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     });
 
     return Array.from(uniqueSeeds.values());
-  }, [data, account.account?.address]);
+  }, [data]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId =

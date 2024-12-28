@@ -162,6 +162,9 @@ export default function Seed({
     y: (basePosition?.y ?? 0) + gridOffset.gridY,
   };
 
+  // Calculate a staggered delay based on seed number
+  const animationDelay = seed_number * 0.25; // 100ms delay between each seed
+
   return (
     <motion.div
       className={clsx(
@@ -170,14 +173,17 @@ export default function Seed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 0, y: 0 }}
+      initial={{ x: 0, y: 0, opacity: 0 }}
       animate={{
         x: finalPosition.x,
         y: finalPosition.y,
+        opacity: 1,
         transition: {
           type: "spring",
           stiffness: 100,
           damping: 15,
+          delay: animationDelay,
+          opacity: { duration: 0.2, delay: animationDelay }
         },
       }}
     />
