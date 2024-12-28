@@ -80,7 +80,7 @@ export default function Seed({
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       
       // Safari-specific adjustments
-      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -3 : 2 : type === "player" ? -17 : -13;
+      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -3 : -14 : type === "player" ? -2 : -13;
       
       // Rest of the store pit calculations
       const normalizedSeedNumber = ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
