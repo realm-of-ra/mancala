@@ -6,6 +6,11 @@ mod PlayableComponent {
     use starknet::ContractAddress;
     use starknet::info::{get_caller_address};
 
+    use achievement::components::achievable::{
+        AchievableComponent, AchievableComponent::InternalImpl as AchievableInternalImpl,
+    };
+    use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
+
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
     use mancala::models::profile::{Profile, ProfileTrait};
@@ -36,7 +41,10 @@ mod PlayableComponent {
 
     #[generate_trait]
     impl InternalImpl<
-        TContractState, +HasComponent<TContractState>,
+        TContractState,
+        +HasComponent<TContractState>,
+        +Drop<TContractState>,
+        impl Arcade: AchievableComponent::HasComponent<TContractState>,
     > of InternalTrait<TContractState> {
         /// Creates a new game
         ///

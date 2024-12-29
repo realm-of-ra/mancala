@@ -27,7 +27,13 @@ mod actions {
     use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::initializable::InitializableComponent;
     use mancala::components::playable::PlayableComponent;
+    use achievement::components::achievable::{
+        AchievableComponent, AchievableComponent::InternalImpl as AchievableInternalImpl,
+    };
+    use mancala::types::task::{Task, TaskTrait};
+    use mancala::types::trophy::{Trophy, TrophyTrait, TROPHY_COUNT};
     use mancala::constants::NAMESPACE;
+
 
     use dojo::world::WorldStorage;
 
@@ -35,6 +41,7 @@ mod actions {
     impl InitializableImpl = InitializableComponent::InternalImpl<ContractState>;
     component!(path: PlayableComponent, storage: playable, event: PlayableEvent);
     impl PlayableInternalImpl = PlayableComponent::InternalImpl<ContractState>;
+    component!(path: AchievableComponent, storage: achievable, event: AchievableEvent);
 
     #[storage]
     struct Storage {
@@ -42,6 +49,8 @@ mod actions {
         initializable: InitializableComponent::Storage,
         #[substorage(v0)]
         playable: PlayableComponent::Storage,
+        #[substorage(v0)]
+        achievable: AchievableComponent::Storage,
     }
 
     #[event]
@@ -51,10 +60,36 @@ mod actions {
         InitializableEvent: InitializableComponent::Event,
         #[flat]
         PlayableEvent: PlayableComponent::Event,
+        #[flat]
+        AchievableEvent: AchievableComponent::Event,
     }
 
     fn dojo_init(self: @ContractState) {
         self.initializable.initialize(self.world_storage());
+        // [Event] Emit all Trophy events
+        let world = self.world(@NAMESPACE());
+        let mut trophy_id: u8 = TROPHY_COUNT;
+        while trophy_id > 0 {
+            let trophy: Trophy = trophy_id.into();
+            self
+                .achievable
+                .create(
+                    world,
+                    id: trophy.identifier(),
+                    hidden: trophy.hidden(),
+                    index: trophy.index(),
+                    points: trophy.points(),
+                    start: trophy.start(),
+                    end: trophy.end(),
+                    group: trophy.group(),
+                    icon: trophy.icon(),
+                    title: trophy.title(),
+                    description: trophy.description(),
+                    tasks: trophy.tasks(),
+                    data: trophy.data(),
+                );
+            trophy_id -= 1;
+        }
     }
 
     #[abi(embed_v0)]
