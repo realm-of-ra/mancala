@@ -65,80 +65,71 @@ export default function Seed({
 
   const getGridPosition = (seedNumber: number) => {
     const INNER_GRID_GAP = 2;
-    const RING_GAP = 1;
-    const BASE_OFFSET = 8;
+    const RING_GAP = 1.5;
+    const BASE_OFFSET = 10;
     const X_SHIFT = 10;
     const Y_SHIFT = 10;
 
     // Special case for pit 7 (store)
     if (pit_number === 7) {
-      const STORE_GRID_COLS = 3;
-      const STORE_GRID_ROWS = 5;
-      const SEEDS_PER_LAYER = STORE_GRID_COLS * STORE_GRID_ROWS;
-
-      // Safari detection
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      
-      // Safari-specific adjustments
-      const SAFARI_X_ADJUSTMENT = isSafari ? type === "player" ? -3 : -14 : type === "player" ? -2 : -13;
-      
-      // Rest of the store pit calculations
-      const normalizedSeedNumber = ((seedNumber - 1) % (SEEDS_PER_LAYER * 3)) + 1;
-      const layer = Math.floor((normalizedSeedNumber - 1) / SEEDS_PER_LAYER);
-      const positionInLayer = (normalizedSeedNumber - 1) % SEEDS_PER_LAYER;
-      const row = Math.floor(positionInLayer / STORE_GRID_COLS);
-      const col = positionInLayer % STORE_GRID_COLS;
-
+      const STORE_COLS = 3;
+      const STORE_ROWS = 8;
       const COMPACT_GAP = 1.5;
-      const verticalOffset = (STORE_GRID_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
-      const LAYER_X_OFFSET = 3;
-      const LAYER_Y_OFFSET = 2.5;
+      
+      // Calculate position based on sequential order
+      const totalPositions = STORE_COLS * STORE_ROWS;
+      const adjustedSeedNumber = (seedNumber - 1) % totalPositions;
+      
+      // Calculate initial row and column
+      const row = Math.floor(adjustedSeedNumber / STORE_COLS);
+      let col = adjustedSeedNumber % STORE_COLS;
+      
+      // Determine if we're in the middle section (the vertical parts of the U)
+      const isMiddleSection = row > 1 && row < 6;
+      
+      if (isMiddleSection) {
+        // For player's store (right side), seeds go on the left of the U
+        // For opponent's store (left side), seeds go on the right of the U
+        col = type === "player" ? 0 : STORE_COLS - 1;
+      }
+
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      const SAFARI_X_ADJUSTMENT = isSafari ? 
+        (type === "player" ? -3 : -14) : 
+        (type === "player" ? -2 : -13);
+
+      // Calculate base positions
+      const baseX = type === "player" ? 
+        col * (SEED_SIZE + COMPACT_GAP) :
+        (STORE_COLS - 1 - col) * (SEED_SIZE + COMPACT_GAP);
+
+      const verticalOffset = (STORE_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
+      
+      // Add a slight curve to the U shape
+      const rowOffset = Math.abs(row - STORE_ROWS / 2) * 0.5;
+      const curveX = type === "player" ? -rowOffset : rowOffset;
+
+      // Calculate layer based on total seeds
+      const layer = Math.floor((seedNumber - 1) / totalPositions);
+      const LAYER_X_OFFSET = 2;
+      const LAYER_Y_OFFSET = 1.5;
 
       return {
-        gridX: Math.floor((col - 1) * (SEED_SIZE + COMPACT_GAP) + layer * LAYER_X_OFFSET) + SAFARI_X_ADJUSTMENT,
+        gridX: Math.floor(baseX + layer * LAYER_X_OFFSET + curveX) + SAFARI_X_ADJUSTMENT,
         gridY: Math.floor(row * (SEED_SIZE + COMPACT_GAP) - verticalOffset + layer * LAYER_Y_OFFSET),
       };
     }
 
-    const MULTIPLIER = Math.floor((seedNumber - 1) / 16);
-    const SPACING_INCREASE = 1.1;
+    // Regular pit logic remains the same
+    const SEEDS_PER_RING = 6;
+    const ringNumber = Math.floor((seedNumber - 1) / SEEDS_PER_RING);
+    const positionInRing = (seedNumber - 1) % SEEDS_PER_RING;
+    
+    const angle = (Math.PI * positionInRing) / (SEEDS_PER_RING - 1);
+    const radius = BASE_OFFSET + (ringNumber * (SEED_SIZE + RING_GAP));
 
-    const positionInSet = ((seedNumber - 1) % 16) + 1;
-    const currentSpacing =
-      MULTIPLIER === 0 ? 1 : 1 + MULTIPLIER * SPACING_INCREASE;
-
-    // First 4 seeds (2x2 grid)
-    if (positionInSet <= 4) {
-      const row = Math.floor((positionInSet - 1) / 2);
-      const col = (positionInSet - 1) % 2;
-      return {
-        gridX: (col - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + X_SHIFT,
-        gridY: (row - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + Y_SHIFT,
-      };
-    }
-
-    // Ring positioning
-    const ringPosition = positionInSet - 5;
-    let x = 0,
-      y = 0;
-
-    if (ringPosition < 4) {
-      // Positions 5-8: Top edge
-      x = (ringPosition - 1.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
-      y = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else if (ringPosition < 6) {
-      // Positions 9-10: Right edge
-      x = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-      y = (ringPosition - 4.5) * (SEED_SIZE + RING_GAP) * currentSpacing;
-    } else if (ringPosition < 8) {
-      // Positions 11-12: Bottom edge
-      x = (1.5 - (ringPosition - 6)) * (SEED_SIZE + RING_GAP) * currentSpacing;
-      y = (SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-    } else {
-      // Positions 13-16: Left edge
-      x = -(SEED_SIZE + RING_GAP + BASE_OFFSET) * currentSpacing;
-      y = (2.5 - (ringPosition - 8)) * (SEED_SIZE + RING_GAP) * currentSpacing;
-    }
+    const x = Math.cos(angle) * radius;
+    const y = (type === "player" ? 1 : -1) * Math.sin(angle) * radius;
 
     return {
       gridX: x + X_SHIFT,

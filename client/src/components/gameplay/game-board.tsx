@@ -104,28 +104,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   const getOpponentMarginLeft = () => {
     if (opponent_pot_seed_count <= 10) {
-      return "185px";
+      return "165px";
     } else if (opponent_pot_seed_count >= 21 && opponent_pot_seed_count < 31) {
-      return "155px";
-    } else if (opponent_pot_seed_count >= 31 && opponent_pot_seed_count < 41) {
-      return "160px";
-    } else if (opponent_pot_seed_count >= 41) {
-      return "160px";
-    } else {
-      return "170px";
+      return "145px";
+    } else if (opponent_pot_seed_count >= 31) {
+      return "140px";
     }
+    return "150px";
   };
 
   const getPlayerMarginRight = () => {
     if (player_pot_seed_count <= 10) {
-      return "185px";
-    } else if (player_pot_seed_count >= 31 && player_pot_seed_count < 41) {
-      return "160px";
-    } else if (player_pot_seed_count >= 41) {
-      return "155px";
-    } else {
-      return "170px";
+      return "165px";
+    } else if (player_pot_seed_count >= 31) {
+      return "140px";
     }
+    return "150px";
   };
 
   return (
@@ -141,32 +135,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginLeft: getOpponentMarginLeft(),
             }}
           >
-            {Array.from({ length: 24 }, (_, i) => {
-              if (account.account?.address) {
-                return game_node?.player_one === account.account?.address
-                  ? i + 25
-                  : i + 1;
-              } else {
-                return i + 25;
-              }
-            }).map((seedNumber) => {
-              const seedDetails = getSeed(seedNumber);
-              if (!seedDetails) return null;
-
-              const isPlayerSeed = account.account?.address
-                ? seedDetails.player === account.account?.address
-                : seedDetails.player === game_node?.player_one;
-
+            {Array.from({ length: opponent_pot_seed_count }, (_, i) => {
               return (
                 <Seed
-                  key={seedNumber}
-                  color={seedDetails?.color || "Blue"}
+                  key={i}
+                  color="Purple"
                   length={opponent_pot_seed_count}
-                  type={isPlayerSeed ? "player" : "opponent"}
-                  seed_id={parseInt(seedDetails?.seed_id, 16)}
-                  pit_number={seedDetails?.pit_number}
-                  seed_number={seedDetails?.seed_number}
-                  isNative={seedDetails.isNative}
+                  type="opponent"
+                  seed_id={i}
+                  pit_number={7}
+                  seed_number={i + 1}
+                  isNative={true}
                 />
               );
             })}
@@ -242,32 +221,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
               marginRight: getPlayerMarginRight(),
             }}
           >
-            {Array.from({ length: 24 }, (_, i) => {
-              if (account.account?.address) {
-                return game_node?.player_one === account.account?.address
-                  ? i + 1
-                  : i + 25;
-              } else {
-                return i + 1;
-              }
-            }).map((seedNumber) => {
-              const seedDetails = getSeed(seedNumber);
-              if (!seedDetails) return null;
-
-              const isPlayerSeed = account.account?.address
-                ? seedDetails.player === account.account?.address
-                : seedDetails.player === game_node?.player_one;
-
+            {Array.from({ length: player_pot_seed_count }, (_, i) => {
               return (
                 <Seed
-                  key={seedNumber}
-                  color={seedDetails?.color || "Blue"}
+                  key={i}
+                  color="Green"
                   length={player_pot_seed_count}
-                  type={isPlayerSeed ? "player" : "opponent"}
-                  seed_id={parseInt(seedDetails?.seed_id, 16)}
-                  pit_number={seedDetails?.pit_number}
-                  seed_number={seedDetails?.seed_number}
-                  isNative={seedDetails.isNative}
+                  type="player"
+                  seed_id={i}
+                  pit_number={7}
+                  seed_number={i + 1}
+                  isNative={true}
                 />
               );
             })}
