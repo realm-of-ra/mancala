@@ -73,8 +73,8 @@ export default function Seed({
     // Special case for pit 7 (store)
     if (pit_number === 7) {
       const SEEDS_PER_COLUMN = 10;
-      const BASE_COMPACT_GAP = 4;
-      const CURVE_FACTOR = 5;
+      const BASE_COMPACT_GAP = 3;
+      const CURVE_FACTOR = 4;
       
       // Calculate which layer this seed belongs to
       const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_COLUMN);
@@ -85,13 +85,13 @@ export default function Seed({
       const MIN_SCALE = 0.4;
       const LAYER_SCALE = Math.max(MIN_SCALE, 1 - (currentLayer * SCALE_REDUCTION));
       
-      // Base offset and spacing
-      const BASE_LAYER_OFFSET = 12;
-      const SPACING_INCREMENT = 0.5;
+      // Tighter base offset and spacing
+      const BASE_LAYER_OFFSET = 10;
+      const SPACING_INCREMENT = 0.3;
       
       // Calculate vertical position
       const row = positionInLayer;
-      const verticalSpacing = (SEED_SIZE * LAYER_SCALE) + BASE_COMPACT_GAP;
+      const verticalSpacing = (SEED_SIZE * LAYER_SCALE) + (BASE_COMPACT_GAP * LAYER_SCALE);
       const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
       
       // Create spherical convex mirror effect
