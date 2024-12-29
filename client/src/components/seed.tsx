@@ -106,8 +106,9 @@ export default function Seed({
           -(Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
         layerOffset = -currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
       } else {
-        // Player side remains the same
-        curveX = (Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
+        // Player side: start with vertical line on right (layer 0), then curve outward
+        curveX = currentLayer === 0 ? 0 : 
+          (Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
         layerOffset = currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
       }
       
