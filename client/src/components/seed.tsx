@@ -28,7 +28,7 @@ export default function Seed({
         4: { x: -355, y: 120 },
         5: { x: -235, y: 120 },
         6: { x: -115, y: 120 },
-        7: { x: (length || 0) > 24 ? -30 : 0, y: 90 },
+        7: { x: -30, y: 90 },
       }
     : {
         1: { x: 90, y: 120 },
@@ -37,7 +37,7 @@ export default function Seed({
         4: { x: 445, y: 120 },
         5: { x: 565, y: 120 },
         6: { x: 685, y: 120 },
-        7: { x: (length || 0) > 24 ? -10 : 800, y: 90 },
+        7: { x: 800, y: 90 },
       };
 
   const opponentPositions = isNative
@@ -48,7 +48,7 @@ export default function Seed({
         4: { x: 325, y: 10 },
         5: { x: 205, y: 10 },
         6: { x: 85, y: 10 },
-        7: { x: (length || 0) > 24 ? 22 : 0, y: 90 },
+        7: { x: -30, y: 90 },
       }
     : {
         1: { x: -110, y: 10 },
@@ -57,7 +57,7 @@ export default function Seed({
         4: { x: -475, y: 10 },
         5: { x: -595, y: 10 },
         6: { x: -715, y: 10 },
-        7: { x: (length || 0) > 24 ? 0 : -805, y: 90 },
+        7: { x: -805, y: 90 },
       };
 
   // Updated grid position calculation
@@ -85,19 +85,31 @@ export default function Seed({
       const MIN_SCALE = 0.4;
       const LAYER_SCALE = Math.max(MIN_SCALE, 1 - (currentLayer * SCALE_REDUCTION));
       
-      // Reduced base offset and kept small increment
+      // Base offset and spacing
       const BASE_LAYER_OFFSET = 12;
       const SPACING_INCREMENT = 0.5;
-      const LAYER_X_OFFSET = currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
       
-      // Calculate vertical position with curve
+      // Calculate vertical position
       const row = positionInLayer;
       const verticalSpacing = (SEED_SIZE * LAYER_SCALE) + BASE_COMPACT_GAP;
       const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
       
-      // Create an S-curve effect
+      // Create spherical convex mirror effect
       const progress = row / (SEEDS_PER_COLUMN - 1);
-      const curveX = Math.sin(progress * Math.PI) * CURVE_FACTOR * currentLayer;
+      const normalizedY = 2 * (progress - 0.5);
+      
+      let curveX, layerOffset;
+      
+      if (type === "opponent") {
+        // Start with vertical line on left (layer 0), then curve outward
+        curveX = currentLayer === 0 ? 0 : 
+          -(Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
+        layerOffset = -currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
+      } else {
+        // Player side remains the same
+        curveX = (Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
+        layerOffset = currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
+      }
       
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       const SAFARI_X_ADJUSTMENT = isSafari ? 
@@ -105,7 +117,7 @@ export default function Seed({
         (type === "player" ? -2 : -13);
 
       return {
-        gridX: Math.floor(LAYER_X_OFFSET + curveX) + SAFARI_X_ADJUSTMENT,
+        gridX: Math.floor(layerOffset + curveX) + SAFARI_X_ADJUSTMENT,
         gridY: Math.floor(row * verticalSpacing - totalHeight/2),
       };
     }
