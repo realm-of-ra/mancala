@@ -19,8 +19,11 @@ export default function Seed({
   seed_number: number;
   isNative: boolean;
 }) {
+  // For non-native seeds in opponent pits, treat them as native
+  const effectiveIsNative = pit_number === 7 ? isNative : true;
+
   // Define position maps for both player and opponent
-  const playerPositions = isNative
+  const playerPositions = effectiveIsNative
     ? {
         1: { x: -715, y: 120 },
         2: { x: -595, y: 120 },
@@ -40,7 +43,7 @@ export default function Seed({
         7: { x: (length || 0) > 24 ? 1000 : 1040, y: 90 },
       };
 
-  const opponentPositions = isNative
+  const opponentPositions = effectiveIsNative
     ? {
         1: { x: 685, y: 10 },
         2: { x: 565, y: 10 },
@@ -57,7 +60,7 @@ export default function Seed({
         4: { x: -475, y: 10 },
         5: { x: -595, y: 10 },
         6: { x: -715, y: 10 },
-        7: { x: (length || 0) > 24 ? -945 : -1025, y: 90 },
+        7: { x: (length || 0) > 24 ? -945 : -785, y: 90 },
       };
 
   // Updated grid position calculation
