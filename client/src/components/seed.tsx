@@ -72,25 +72,47 @@ export default function Seed({
 
     // Special case for pit 7 (store)
     if (pit_number === 7) {
-      const STORE_COLS = 3;
-      const STORE_ROWS = 8;
-      const COMPACT_GAP = 1.5;
+      const STORE_ROWS = 8;  // Height of vertical line
+      const HORIZONTAL_LENGTH = 3;  // Length of horizontal lines
+      const COMPACT_GAP = 2.5;
       
-      // Calculate position based on sequential order
-      const totalPositions = STORE_COLS * STORE_ROWS;
-      const adjustedSeedNumber = (seedNumber - 1) % totalPositions;
+      // Calculate which E-shape layer this seed belongs to
+      const SEEDS_PER_E = STORE_ROWS + (HORIZONTAL_LENGTH * 2); // Vertical line + top & bottom horizontals
+      const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_E);
+      const positionInLayer = (seedNumber - 1) % SEEDS_PER_E;
       
-      // Calculate initial row and column
-      const row = Math.floor(adjustedSeedNumber / STORE_COLS);
-      let col = adjustedSeedNumber % STORE_COLS;
+      let row, col;
       
-      // Determine if we're in the middle section (the vertical parts of the U)
-      const isMiddleSection = row > 1 && row < 6;
-      
-      if (isMiddleSection) {
-        // For player's store (right side), seeds go on the left of the U
-        // For opponent's store (left side), seeds go on the right of the U
-        col = type === "player" ? 0 : STORE_COLS - 1;
+      if (type === "player") {
+        // Player's store (right side) - E opens to the right
+        if (positionInLayer < STORE_ROWS) {
+          // Vertical line
+          row = positionInLayer;
+          col = 0;
+        } else if (positionInLayer < STORE_ROWS + HORIZONTAL_LENGTH) {
+          // Top horizontal line
+          row = 0;
+          col = positionInLayer - STORE_ROWS + 1;
+        } else {
+          // Bottom horizontal line
+          row = STORE_ROWS - 1;
+          col = positionInLayer - (STORE_ROWS + HORIZONTAL_LENGTH) + 1;
+        }
+      } else {
+        // Opponent's store (left side) - E opens to the left
+        if (positionInLayer < STORE_ROWS) {
+          // Vertical line
+          row = positionInLayer;
+          col = HORIZONTAL_LENGTH - 1;
+        } else if (positionInLayer < STORE_ROWS + HORIZONTAL_LENGTH) {
+          // Top horizontal line
+          row = 0;
+          col = HORIZONTAL_LENGTH - 1 - (positionInLayer - STORE_ROWS);
+        } else {
+          // Bottom horizontal line
+          row = STORE_ROWS - 1;
+          col = HORIZONTAL_LENGTH - 1 - (positionInLayer - (STORE_ROWS + HORIZONTAL_LENGTH));
+        }
       }
 
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -98,25 +120,16 @@ export default function Seed({
         (type === "player" ? -3 : -14) : 
         (type === "player" ? -2 : -13);
 
-      // Calculate base positions
-      const baseX = type === "player" ? 
-        col * (SEED_SIZE + COMPACT_GAP) :
-        (STORE_COLS - 1 - col) * (SEED_SIZE + COMPACT_GAP);
-
-      const verticalOffset = (STORE_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
+      // Calculate base positions with layer offsets
+      const LAYER_X_OFFSET = 4;
+      const LAYER_Y_OFFSET = 0;
       
-      // Add a slight curve to the U shape
-      const rowOffset = Math.abs(row - STORE_ROWS / 2) * 0.5;
-      const curveX = type === "player" ? -rowOffset : rowOffset;
-
-      // Calculate layer based on total seeds
-      const layer = Math.floor((seedNumber - 1) / totalPositions);
-      const LAYER_X_OFFSET = 2;
-      const LAYER_Y_OFFSET = 1.5;
+      const baseX = col * (SEED_SIZE + COMPACT_GAP);
+      const verticalOffset = (STORE_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
 
       return {
-        gridX: Math.floor(baseX + layer * LAYER_X_OFFSET + curveX) + SAFARI_X_ADJUSTMENT,
-        gridY: Math.floor(row * (SEED_SIZE + COMPACT_GAP) - verticalOffset + layer * LAYER_Y_OFFSET),
+        gridX: Math.floor(baseX + currentLayer * LAYER_X_OFFSET) + SAFARI_X_ADJUSTMENT,
+        gridY: Math.floor(row * (SEED_SIZE + COMPACT_GAP) - verticalOffset),
       };
     }
 

@@ -108,7 +108,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     } else if (opponent_pot_seed_count >= 21 && opponent_pot_seed_count < 31) {
       return "145px";
     } else if (opponent_pot_seed_count >= 31) {
-      return "140px";
+      return "135px";
     }
     return "150px";
   };
@@ -116,8 +116,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const getPlayerMarginRight = () => {
     if (player_pot_seed_count <= 10) {
       return "165px";
+    } else if (player_pot_seed_count >= 21 && player_pot_seed_count < 31) {
+      return "145px";
     } else if (player_pot_seed_count >= 31) {
-      return "140px";
+      return "135px";
     }
     return "150px";
   };
