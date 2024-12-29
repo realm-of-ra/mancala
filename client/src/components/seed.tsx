@@ -19,47 +19,45 @@ export default function Seed({
   seed_number: number;
   isNative: boolean;
 }) {
-  // For non-native seeds in opponent pits, treat them as native
-  const effectiveIsNative = pit_number === 7 ? isNative : true;
 
   // Define position maps for both player and opponent
-  const playerPositions = effectiveIsNative
+  const playerPositions = isNative
     ? {
-        1: { x: -715, y: 120 },
-        2: { x: -595, y: 120 },
-        3: { x: -475, y: 120 },
-        4: { x: -355, y: 120 },
-        5: { x: -235, y: 120 },
-        6: { x: -115, y: 120 },
+      1: { x: -715, y: 120 },
+      2: { x: -595, y: 120 },
+      3: { x: -475, y: 120 },
+      4: { x: -355, y: 120 },
+      5: { x: -235, y: 120 },
+      6: { x: -115, y: 120 },
         7: { x: (length || 0) > 24 ? -40 : -15, y: 90 },
       }
     : {
-        1: { x: 90, y: 120 },
-        2: { x: 205, y: 120 },
-        3: { x: 325, y: 120 },
-        4: { x: 445, y: 120 },
-        5: { x: 565, y: 120 },
-        6: { x: 685, y: 120 },
+      1: { x: 90, y: 120 },
+      2: { x: 205, y: 120 },
+      3: { x: 325, y: 120 },
+      4: { x: 445, y: 120 },
+      5: { x: 565, y: 120 },
+      6: { x: 685, y: 120 },
         7: { x: (length || 0) > 24 ? 1000 : 1040, y: 90 },
       };
 
-  const opponentPositions = effectiveIsNative
+  const opponentPositions = isNative
     ? {
-        1: { x: 685, y: 10 },
-        2: { x: 565, y: 10 },
-        3: { x: 445, y: 10 },
-        4: { x: 325, y: 10 },
-        5: { x: 205, y: 10 },
-        6: { x: 85, y: 10 },
+      1: { x: 685, y: 10 },
+      2: { x: 565, y: 10 },
+      3: { x: 445, y: 10 },
+      4: { x: 325, y: 10 },
+      5: { x: 205, y: 10 },
+      6: { x: 85, y: 10 },
         7: { x: (length || 0) > 24 ? 40 : 12, y: 90 },
       }
     : {
-        1: { x: -110, y: 10 },
-        2: { x: -235, y: 10 },
-        3: { x: -355, y: 10 },
-        4: { x: -475, y: 10 },
-        5: { x: -595, y: 10 },
-        6: { x: -715, y: 10 },
+      1: { x: -110, y: 10 },
+      2: { x: -235, y: 10 },
+      3: { x: -355, y: 10 },
+      4: { x: -475, y: 10 },
+      5: { x: -595, y: 10 },
+      6: { x: -715, y: 10 },
         7: { x: (length || 0) > 24 ? -945 : -785, y: 90 },
       };
 
