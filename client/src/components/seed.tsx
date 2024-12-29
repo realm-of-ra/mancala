@@ -72,76 +72,41 @@ export default function Seed({
 
     // Special case for pit 7 (store)
     if (pit_number === 7) {
-      const STORE_ROWS = 8;  // Height of vertical line
-      const HORIZONTAL_LENGTH = 3;  // Length of horizontal lines
-      const COMPACT_GAP = 2.5;
-      const CURVE_OFFSET = 15; // Base curve offset
+      const SEEDS_PER_COLUMN = 10;
+      const BASE_COMPACT_GAP = 4;
+      const CURVE_FACTOR = 5;
       
-      // Calculate which E-shape layer this seed belongs to
-      const SEEDS_PER_E = STORE_ROWS + (HORIZONTAL_LENGTH * 2); // Seeds in one complete E
-      const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_E);
-      const positionInLayer = (seedNumber - 1) % SEEDS_PER_E;
+      // Calculate which layer this seed belongs to
+      const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_COLUMN);
+      const positionInLayer = (seedNumber - 1) % SEEDS_PER_COLUMN;
       
       // Progressive scaling for each layer
-      const SCALE_REDUCTION = 0.15; // 15% reduction per layer
-      const MIN_SCALE = 0.4; // Minimum scale (40% of original size)
+      const SCALE_REDUCTION = 0.15;
+      const MIN_SCALE = 0.4;
       const LAYER_SCALE = Math.max(MIN_SCALE, 1 - (currentLayer * SCALE_REDUCTION));
       
-      // Progressive spacing between layers
-      const BASE_LAYER_OFFSET = 12; // Base offset between layers
-      const LAYER_X_OFFSET = currentLayer * (BASE_LAYER_OFFSET * LAYER_SCALE);
+      // Reduced base offset and kept small increment
+      const BASE_LAYER_OFFSET = 12;
+      const SPACING_INCREMENT = 0.5;
+      const LAYER_X_OFFSET = currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
       
-      let row, col;
+      // Calculate vertical position with curve
+      const row = positionInLayer;
+      const verticalSpacing = (SEED_SIZE * LAYER_SCALE) + BASE_COMPACT_GAP;
+      const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
       
-      if (type === "player") {
-        // Player's store (right side) - E opens to the right
-        if (positionInLayer < STORE_ROWS) {
-          // Vertical line
-          row = positionInLayer;
-          col = 0;
-        } else if (positionInLayer < STORE_ROWS + HORIZONTAL_LENGTH) {
-          // Top horizontal line
-          row = 0;
-          col = positionInLayer - STORE_ROWS + 1;
-        } else {
-          // Bottom horizontal line
-          row = STORE_ROWS - 1;
-          col = positionInLayer - (STORE_ROWS + HORIZONTAL_LENGTH) + 1;
-        }
-      } else {
-        // Opponent's store (left side) - E opens to the left
-        if (positionInLayer < STORE_ROWS) {
-          // Vertical line
-          row = positionInLayer;
-          col = HORIZONTAL_LENGTH - 1;
-        } else if (positionInLayer < STORE_ROWS + HORIZONTAL_LENGTH) {
-          // Top horizontal line
-          row = 0;
-          col = HORIZONTAL_LENGTH - 1 - (positionInLayer - STORE_ROWS);
-        } else {
-          // Bottom horizontal line
-          row = STORE_ROWS - 1;
-          col = HORIZONTAL_LENGTH - 1 - (positionInLayer - (STORE_ROWS + HORIZONTAL_LENGTH));
-        }
-      }
-
+      // Create an S-curve effect
+      const progress = row / (SEEDS_PER_COLUMN - 1);
+      const curveX = Math.sin(progress * Math.PI) * CURVE_FACTOR * currentLayer;
+      
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       const SAFARI_X_ADJUSTMENT = isSafari ? 
         (type === "player" ? -3 : -14) : 
         (type === "player" ? -2 : -13);
 
-      // Base position calculation
-      const baseX = col * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE));
-      const verticalOffset = (STORE_ROWS / 2) * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE));
-
-      // Curve adjustment for first layer
-      const curveAdjustX = currentLayer === 0 ? 
-        (type === "player" ? CURVE_OFFSET : -CURVE_OFFSET) : 
-        (type === "player" ? CURVE_OFFSET * LAYER_SCALE : -CURVE_OFFSET * LAYER_SCALE);
-
       return {
-        gridX: Math.floor((baseX) + LAYER_X_OFFSET + curveAdjustX) + SAFARI_X_ADJUSTMENT,
-        gridY: Math.floor(row * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE)) - verticalOffset),
+        gridX: Math.floor(LAYER_X_OFFSET + curveX) + SAFARI_X_ADJUSTMENT,
+        gridY: Math.floor(row * verticalSpacing - totalHeight/2),
       };
     }
 
