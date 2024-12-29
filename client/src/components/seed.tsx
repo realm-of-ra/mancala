@@ -114,7 +114,7 @@ export default function Seed({
       
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       const SAFARI_X_ADJUSTMENT = isSafari ? 
-        (type === "player" ? 0 : -6) : 
+        (type === "player" ? -2 : -13) : 
         (type === "player" ? -2 : -13);
 
       return {
