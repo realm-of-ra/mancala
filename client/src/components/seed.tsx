@@ -75,11 +75,21 @@ export default function Seed({
       const STORE_ROWS = 8;  // Height of vertical line
       const HORIZONTAL_LENGTH = 3;  // Length of horizontal lines
       const COMPACT_GAP = 2.5;
+      const CURVE_OFFSET = 15; // Base curve offset
       
       // Calculate which E-shape layer this seed belongs to
-      const SEEDS_PER_E = STORE_ROWS + (HORIZONTAL_LENGTH * 2); // Vertical line + top & bottom horizontals
+      const SEEDS_PER_E = STORE_ROWS + (HORIZONTAL_LENGTH * 2); // Seeds in one complete E
       const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_E);
       const positionInLayer = (seedNumber - 1) % SEEDS_PER_E;
+      
+      // Progressive scaling for each layer
+      const SCALE_REDUCTION = 0.15; // 15% reduction per layer
+      const MIN_SCALE = 0.4; // Minimum scale (40% of original size)
+      const LAYER_SCALE = Math.max(MIN_SCALE, 1 - (currentLayer * SCALE_REDUCTION));
+      
+      // Progressive spacing between layers
+      const BASE_LAYER_OFFSET = 12; // Base offset between layers
+      const LAYER_X_OFFSET = currentLayer * (BASE_LAYER_OFFSET * LAYER_SCALE);
       
       let row, col;
       
@@ -120,16 +130,18 @@ export default function Seed({
         (type === "player" ? -3 : -14) : 
         (type === "player" ? -2 : -13);
 
-      // Calculate base positions with layer offsets
-      const LAYER_X_OFFSET = 4;
-      const LAYER_Y_OFFSET = 0;
-      
-      const baseX = col * (SEED_SIZE + COMPACT_GAP);
-      const verticalOffset = (STORE_ROWS / 2) * (SEED_SIZE + COMPACT_GAP);
+      // Base position calculation
+      const baseX = col * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE));
+      const verticalOffset = (STORE_ROWS / 2) * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE));
+
+      // Curve adjustment for first layer
+      const curveAdjustX = currentLayer === 0 ? 
+        (type === "player" ? CURVE_OFFSET : -CURVE_OFFSET) : 
+        (type === "player" ? CURVE_OFFSET * LAYER_SCALE : -CURVE_OFFSET * LAYER_SCALE);
 
       return {
-        gridX: Math.floor(baseX + currentLayer * LAYER_X_OFFSET) + SAFARI_X_ADJUSTMENT,
-        gridY: Math.floor(row * (SEED_SIZE + COMPACT_GAP) - verticalOffset),
+        gridX: Math.floor((baseX) + LAYER_X_OFFSET + curveAdjustX) + SAFARI_X_ADJUSTMENT,
+        gridY: Math.floor(row * ((SEED_SIZE * LAYER_SCALE) + (COMPACT_GAP * LAYER_SCALE)) - verticalOffset),
       };
     }
 
