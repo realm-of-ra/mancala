@@ -64,13 +64,7 @@ export default function Seed({
   const SEED_SIZE = 15;
 
   const getGridPosition = (seedNumber: number) => {
-    const INNER_GRID_GAP = 2;
-    const RING_GAP = 1.5;
-    const BASE_OFFSET = 10;
-    const X_SHIFT = 10;
-    const Y_SHIFT = 10;
-
-    // Special case for pit 7 (store)
+    // Keep pit 7 (store) logic exactly as is
     if (pit_number === 7) {
       const SEEDS_PER_COLUMN = 10;
       const BASE_COMPACT_GAP = 3;
@@ -123,16 +117,46 @@ export default function Seed({
       };
     }
 
-    // Regular pit logic remains the same
-    const SEEDS_PER_RING = 6;
-    const ringNumber = Math.floor((seedNumber - 1) / SEEDS_PER_RING);
-    const positionInRing = (seedNumber - 1) % SEEDS_PER_RING;
-    
-    const angle = (Math.PI * positionInRing) / (SEEDS_PER_RING - 1);
-    const radius = BASE_OFFSET + (ringNumber * (SEED_SIZE + RING_GAP));
+    // New logic for pits 1-6
+    const INNER_GRID_GAP = 2;
+    const RING_GAP = 1;
+    const BASE_OFFSET = 8;
+    const X_SHIFT = 10;
+    const Y_SHIFT = 10;
 
-    const x = Math.cos(angle) * radius;
-    const y = (type === "player" ? 1 : -1) * Math.sin(angle) * radius;
+    const positionInSet = ((seedNumber - 1) % 16) + 1;
+
+    // First 4 seeds in a 2x2 grid
+    if (seedNumber <= 4) {
+      const row = Math.floor((seedNumber - 1) / 2);
+      const col = (positionInSet - 1) % 2;
+      return {
+        gridX: (col - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + X_SHIFT,
+        gridY: (row - 0.5) * (SEED_SIZE + INNER_GRID_GAP) + Y_SHIFT,
+      };
+    }
+
+    // Ring positioning for seeds 5 and up
+    const ringPosition = seedNumber - 4; // Position in the ring pattern
+    let x = 0, y = 0;
+
+    if (ringPosition <= 4) {
+      // Left side: 4 seeds
+      x = -(SEED_SIZE + BASE_OFFSET);
+      y = ((ringPosition - 2.5) * (SEED_SIZE + RING_GAP));
+    } else if (ringPosition <= 6) {
+      // Top: 2 seeds
+      x = ((ringPosition - 5.5) * (SEED_SIZE + RING_GAP));
+      y = -(SEED_SIZE + BASE_OFFSET);
+    } else if (ringPosition <= 10) {
+      // Right side: 4 seeds
+      x = (SEED_SIZE + BASE_OFFSET);
+      y = ((ringPosition - 8.5) * (SEED_SIZE + RING_GAP));
+    } else if (ringPosition <= 12) {
+      // Bottom: 2 seeds
+      x = ((ringPosition - 11.5) * (SEED_SIZE + RING_GAP));
+      y = (SEED_SIZE + BASE_OFFSET);
+    }
 
     return {
       gridX: x + X_SHIFT,
