@@ -4,7 +4,7 @@ mod PlayableComponent {
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address};
+    use starknet::info::{get_caller_address, get_block_timestamp};
 
     use achievement::components::achievable::{
         AchievableComponent, AchievableComponent::InternalImpl as AchievableInternalImpl,
@@ -21,6 +21,7 @@ mod PlayableComponent {
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
         restart_player_pits, initialize_player_seeds,
     };
+    use mancala::types::task::{Task, TaskTrait};
 
     mod errors {
         const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
@@ -191,6 +192,7 @@ mod PlayableComponent {
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+            let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
 
@@ -232,6 +234,12 @@ mod PlayableComponent {
                     .capture(
                         mancala_game.game_id, current_player.address, last_pit, captured_seeds,
                     );
+
+                // Trophy: Collecting
+                let player_id: felt252 = get_caller_address().into();
+                let time = get_block_timestamp();
+                let task_id = Task::Collecting.identifier(0);
+                arcade_store.progress(player_id, task_id, captured_seeds.into(), time);
             }
 
             let current_player_seeds = get_player_seeds(world, @current_player);
