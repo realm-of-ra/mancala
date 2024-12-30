@@ -49,7 +49,7 @@ export default function Seed({
       4: { x: 325, y: 10 },
       5: { x: 205, y: 10 },
       6: { x: 85, y: 10 },
-        7: { x: (length || 0) > 24 ? 40 : 15, y: 90 },
+        7: { x: (length || 0) > 24 ? 10 : 15, y: 80 },
       }
     : {
       1: { x: -110, y: 10 },
@@ -58,64 +58,56 @@ export default function Seed({
       4: { x: -475, y: 10 },
       5: { x: -595, y: 10 },
       6: { x: -715, y: 10 },
-        7: { x: (length || 0) > 24 ? -800 : -810, y: 90 },
+        7: { x: (length || 0) > 24 ? -825 : 840, y: 80 },
       };
 
   // Updated grid position calculation
   const SEED_SIZE = 15;
 
   const getGridPosition = (seedNumber: number) => {
-    // Keep pit 7 (store) logic exactly as is
     if (pit_number === 7) {
       const SEEDS_PER_COLUMN = 10;
-      const BASE_COMPACT_GAP = 3;
-      const CURVE_FACTOR = 4;
+      const COLUMNS = 3;
+      const INTERMEDIATE_COLUMNS = 2;
+      const BASE_COMPACT_GAP = 0.8;
       
-      // Calculate which layer this seed belongs to
-      const currentLayer = Math.floor((seedNumber - 1) / SEEDS_PER_COLUMN);
-      const positionInLayer = (seedNumber - 1) % SEEDS_PER_COLUMN;
+      // Calculate which grid the seed belongs to (main or intermediate)
+      const totalMainGridSeeds = SEEDS_PER_COLUMN * COLUMNS; // 30 seeds in main grid
+      const seedsPerIntermediateColumn = SEEDS_PER_COLUMN; // Changed to 10 seeds per intermediate column
       
-      // Progressive scaling for each layer
-      const SCALE_REDUCTION = 0.15;
-      const MIN_SCALE = 0.4;
-      const LAYER_SCALE = Math.max(MIN_SCALE, 1 - (currentLayer * SCALE_REDUCTION));
-      
-      // Tighter base offset and spacing
-      const BASE_LAYER_OFFSET = 10;
-      const SPACING_INCREMENT = 0.3;
-      
-      // Calculate vertical position
-      const row = positionInLayer;
-      const verticalSpacing = (SEED_SIZE * LAYER_SCALE) + (BASE_COMPACT_GAP * LAYER_SCALE);
-      const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
-      
-      // Create spherical convex mirror effect
-      const progress = row / (SEEDS_PER_COLUMN - 1);
-      const normalizedY = 2 * (progress - 0.5);
-      
-      let curveX, layerOffset;
-      
-      if (type === "opponent") {
-        // Start with vertical line on left (layer 0), then curve outward
-        curveX = currentLayer === 0 ? 0 : 
-          -(Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
-        layerOffset = -currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
+      if (seedNumber <= totalMainGridSeeds) {
+        // Main 3x10 grid
+        const column = Math.floor((seedNumber - 1) / SEEDS_PER_COLUMN);
+        const row = (seedNumber - 1) % SEEDS_PER_COLUMN;
+        
+        const COLUMN_SPACING = 15;
+        const verticalSpacing = SEED_SIZE + BASE_COMPACT_GAP;
+        const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
+        
+        const columnOffset = [-COLUMN_SPACING, 0, COLUMN_SPACING];
+        
+        return {
+          gridX: columnOffset[column],
+          gridY: Math.floor(row * verticalSpacing - totalHeight/2)
+        };
       } else {
-        // Player side: start with vertical line on right (layer 0), then curve outward
-        curveX = currentLayer === 0 ? 0 : 
-          (Math.sqrt(1 - (normalizedY * normalizedY))) * CURVE_FACTOR * currentLayer;
-        layerOffset = currentLayer * (BASE_LAYER_OFFSET + (currentLayer * SPACING_INCREMENT));
+        // Modified intermediate columns layout
+        const remainingSeeds = seedNumber - totalMainGridSeeds;
+        const intermediateSection = Math.floor((remainingSeeds - 1) / seedsPerIntermediateColumn);
+        const positionInSection = (remainingSeeds - 1) % seedsPerIntermediateColumn;
+        
+        const COLUMN_SPACING = 15;
+        const verticalSpacing = SEED_SIZE + BASE_COMPACT_GAP;
+        const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
+        
+        // Adjusted spacing for better distribution
+        const baseOffset = [-COLUMN_SPACING/2, COLUMN_SPACING/2];
+        
+        return {
+          gridX: baseOffset[intermediateSection],
+          gridY: Math.floor(positionInSection * verticalSpacing - totalHeight/2) + (SEED_SIZE/2)
+        };
       }
-      
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      const SAFARI_X_ADJUSTMENT = isSafari ? 
-        (type === "player" ? -2 : -13) : 
-        (type === "player" ? -2 : -13);
-
-      return {
-        gridX: Math.floor(layerOffset + curveX) + SAFARI_X_ADJUSTMENT,
-        gridY: Math.floor(row * verticalSpacing - totalHeight/2),
-      };
     }
 
     // New logic for pits 1-6
@@ -214,8 +206,6 @@ export default function Seed({
           duration: 2.5, // Increased from 1.8 to 2.5 seconds
         },
       }}
-    >
-      {length}
-    </motion.div>
+    />
   );
 }
