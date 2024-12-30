@@ -171,7 +171,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="h-[160px] flex flex-col items-center justify-center" style={{marginLeft: opponent_pot_seed_count > 24 ? "128px" : "96px"}}>
+          <div className="h-[160px] flex flex-col items-center justify-center" style={{marginLeft: opponent_pot_seed_count > 24 ? "128px" : "113px"}}>
             <p className="text-white text-center">
               {opponent_pot_seed_count}
             </p>
@@ -272,7 +272,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               );
             })}
           </div>
-          <div className="h-[160px] mr-24 flex flex-col items-center justify-center" style={{marginRight: player_pot_seed_count > 24 ? "128px" : "96px"}}>
+          <div className="h-[160px] mr-24 flex flex-col items-center justify-center" style={{marginRight: player_pot_seed_count > 24 ? "120px" : "113px"}}>
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>
