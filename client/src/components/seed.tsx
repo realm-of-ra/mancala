@@ -58,7 +58,7 @@ export default function Seed({
       4: { x: -475, y: 10 },
       5: { x: -595, y: 10 },
       6: { x: -715, y: 10 },
-        7: { x: (length || 0) > 24 ? -825 : 840, y: 80 },
+        7: { x: (length || 0) > 24 ? (length || 0) > 38 ? -815 : -830 : 840, y: 80 },
       };
 
   // Updated grid position calculation
@@ -73,12 +73,15 @@ export default function Seed({
       
       // Calculate which grid the seed belongs to (main or intermediate)
       const totalMainGridSeeds = SEEDS_PER_COLUMN * COLUMNS; // 30 seeds in main grid
-      const seedsPerIntermediateColumn = SEEDS_PER_COLUMN; // Changed to 10 seeds per intermediate column
+      const seedsPerIntermediateColumn = SEEDS_PER_COLUMN;
+      
+      // Sort seeds from bottom to top by adjusting the row calculation
+      const getAdjustedRow = (row: number) => SEEDS_PER_COLUMN - 1 - row;
       
       if (seedNumber <= totalMainGridSeeds) {
         // Main 3x10 grid
         const column = Math.floor((seedNumber - 1) / SEEDS_PER_COLUMN);
-        const row = (seedNumber - 1) % SEEDS_PER_COLUMN;
+        const row = getAdjustedRow((seedNumber - 1) % SEEDS_PER_COLUMN);
         
         const COLUMN_SPACING = 15;
         const verticalSpacing = SEED_SIZE + BASE_COMPACT_GAP;
@@ -91,16 +94,15 @@ export default function Seed({
           gridY: Math.floor(row * verticalSpacing - totalHeight/2)
         };
       } else {
-        // Modified intermediate columns layout
+        // Intermediate columns
         const remainingSeeds = seedNumber - totalMainGridSeeds;
         const intermediateSection = Math.floor((remainingSeeds - 1) / seedsPerIntermediateColumn);
-        const positionInSection = (remainingSeeds - 1) % seedsPerIntermediateColumn;
+        const positionInSection = getAdjustedRow((remainingSeeds - 1) % seedsPerIntermediateColumn);
         
         const COLUMN_SPACING = 15;
         const verticalSpacing = SEED_SIZE + BASE_COMPACT_GAP;
         const totalHeight = SEEDS_PER_COLUMN * verticalSpacing;
         
-        // Adjusted spacing for better distribution
         const baseOffset = [-COLUMN_SPACING/2, COLUMN_SPACING/2];
         
         return {
