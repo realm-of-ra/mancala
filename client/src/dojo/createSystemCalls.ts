@@ -191,7 +191,7 @@ export function createSystemCalls(
     setLoading: any,
   ) => {
     try {
-      setLoading({ status: 'CREATING', finished: false });
+      setLoading({ status: "CREATING", finished: false });
       const { transaction_hash } = await client.actions.create_player_profile(
         account,
         name,
@@ -199,9 +199,9 @@ export function createSystemCalls(
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
-      setLoading({ status: 'CREATED', finished: true });
+      setLoading({ status: "CREATED", finished: true });
     } catch (error) {
-      setLoading({ status: 'ERROR', finished: true });
+      setLoading({ status: "ERROR", finished: true });
       console.error("Error executing timeout:", error);
       throw error;
     }
@@ -214,7 +214,7 @@ export function createSystemCalls(
     setLoading: any,
   ) => {
     try {
-      setLoading({ status: 'UPDATING', finished: false });
+      setLoading({ status: "UPDATING", finished: false });
       const { transaction_hash } = await client.actions.update_player_profile(
         account,
         name,
@@ -223,9 +223,9 @@ export function createSystemCalls(
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
       });
-      setLoading({ status: 'UPDATED', finished: true });
+      setLoading({ status: "UPDATED", finished: true });
     } catch (error) {
-      setLoading({ status: 'ERROR', finished: true });
+      setLoading({ status: "ERROR", finished: true });
       console.error("Error executing update player profile:", error);
       throw error;
     }

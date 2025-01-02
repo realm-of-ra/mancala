@@ -20,8 +20,14 @@ export default function LiveDuels({ games }: { games: any }) {
     return {
       challenger: data?.node.player_one,
       challenged: data?.node.player_two,
-      challenger_name: data.node.player_one === "0x0" ? "0x0" : formatPlayerName(data.node.player_one_name, data.node.player_one),
-      challenged_name: data.node.player_two === "0x0" ? "0x0" : formatPlayerName(data.node.player_two_name, data.node.player_two),
+      challenger_name:
+        data.node.player_one === "0x0"
+          ? "0x0"
+          : formatPlayerName(data.node.player_one_name, data.node.player_one),
+      challenged_name:
+        data.node.player_two === "0x0"
+          ? "0x0"
+          : formatPlayerName(data.node.player_two_name, data.node.player_two),
       date: data?.node.entity?.executedAt,
     };
   });

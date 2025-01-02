@@ -9,7 +9,8 @@ import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
-  const { data: profiles, startPolling: startPollingProfiles } = useQuery(MancalaPlayerNames);
+  const { data: profiles, startPolling: startPollingProfiles } =
+    useQuery(MancalaPlayerNames);
   startPolling(1000);
   startPollingProfiles(1000);
   const account = useAccount();

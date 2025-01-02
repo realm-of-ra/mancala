@@ -230,7 +230,9 @@ mod PlayableComponent {
             }
 
             // Distribute seeds and get last pit
-            let last_pit = distribute_seeds(world, ref current_player, ref opponent, selected_pit);
+            let (last_pit, is_in_current_player_side) = distribute_seeds(
+                world, ref current_player, ref opponent, selected_pit,
+            );
 
             // **Handle Player Switch and Check for Extra Turn**
             let switched: bool = mancala_game.handle_player_switch(last_pit, opponent);
@@ -242,12 +244,17 @@ mod PlayableComponent {
                 store.end_turn(mancala_game.game_id, current_player.address, opponent.address);
             }
 
-            let captured_seeds = capture_seeds(world, last_pit, ref current_player, ref opponent);
-            if captured_seeds > 0 {
-                store
-                    .capture(
-                        mancala_game.game_id, current_player.address, last_pit, captured_seeds,
-                    );
+            // TODO: Validate last pit is not the opponent's pit
+            if is_in_current_player_side {
+                let captured_seeds = capture_seeds(
+                    world, last_pit, ref current_player, ref opponent,
+                );
+                if captured_seeds > 0 {
+                    store
+                        .capture(
+                            mancala_game.game_id, current_player.address, last_pit, captured_seeds,
+                        );
+                }
             }
 
             let current_player_seeds = get_player_seeds(world, @current_player);

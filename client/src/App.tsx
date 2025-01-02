@@ -1,13 +1,14 @@
 import ControllerConnector from "@cartridge/connector/controller";
 import { ControllerOptions } from "@cartridge/controller";
-import { Chain, sepolia } from "@starknet-react/chains";
+import { sepolia } from "@starknet-react/chains";
 import {
   Connector,
   StarknetConfig,
   jsonRpcProvider,
+  voyager,
 } from "@starknet-react/core";
 import { Provider as JotaiProvider } from "jotai";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
@@ -21,12 +22,6 @@ const options: ControllerOptions = {
   theme: "realm-of-ra",
   policies: POLICIES,
 };
-
-function rpc(_chain: Chain) {
-  return {
-    nodeUrl: SLOT_RPC_URL,
-  };
-}
 
 const SmallScreenWarning = () => (
   <div className="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-75 backdrop-blur-sm">
@@ -54,12 +49,17 @@ export default function App() {
 
   const connectors = [new ControllerConnector(options) as never as Connector];
 
+  const rpc = useCallback(() => {
+    return { nodeUrl: SLOT_RPC_URL };
+  }, []);
+
   return (
     <StarknetConfig
-      autoConnect={true}
       chains={[sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}
+      explorer={voyager}
+      autoConnect
     >
       <JotaiProvider>
         <Router>

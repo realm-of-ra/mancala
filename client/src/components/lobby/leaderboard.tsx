@@ -79,7 +79,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                                   : truncateString(address)}
                               </p>
                             </div>
-                          </div >
+                          </div>
                         </td>
                         <td>
                           <p className="font-normal text-[#FAB580] text-center">

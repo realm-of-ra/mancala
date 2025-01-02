@@ -1,100 +1,18 @@
-import clsx from "clsx";
 import { Dispatch, SetStateAction } from "react";
-import Seed from "./seed";
 import { UseAccountResult } from "@starknet-react/core";
 
-export function TopPit({
-  amount,
-  address,
-  pit,
-  game_id,
-  status,
-  winner,
-  userAccount,
-  system,
-  setTimeRemaining,
-  max_block_between_move,
-  seed_count,
-  seeds,
-  message,
-}: {
-  amount: number;
-  address: string;
-  pit: number;
-  winner: string;
-  game_id: string;
-  status: string;
-  userAccount?: UseAccountResult;
-  seed_count: number;
-  seeds: any[];
-  system: any;
-  message: Dispatch<SetStateAction<string | undefined>>;
-  setTimeRemaining: Dispatch<SetStateAction<number>>;
-  max_block_between_move: number;
-}) {
-  const handleMove = async () => {
-    if (
-      address === userAccount?.account?.address &&
-      status === "InProgress" &&
-      winner === "0x0"
-    ) {
-      message(undefined);
-      const res = await system.move(userAccount?.account, game_id, pit);
-      setTimeRemaining(max_block_between_move);
-    } else {
-      if (address === userAccount?.account?.address) {
-        message("Not your pit");
-      } else if (status !== "InProgress") {
-        message("Game over");
-      } else {
-        if (winner === userAccount?.account?.address) {
-          message("You won");
-        } else {
-          message("You lost");
-        }
-      }
-    }
-  };
+export function TopPit({ amount }: { amount: number }) {
   return (
-    <div
-      className={
-        "flex-col h-[125px] w-full flex justify-between items-center space-y-6"
-      }
-      onClick={handleMove}
-    >
+    <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-6">
       <div className="rounded-lg w-fit">
         <p className="text-white ml-2">{amount}</p>
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
-          className={clsx(
-            "w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer",
-            pit < 4 ? "ml-2" : "ml-2.5",
-          )}
-        >
-          {amount > 0 && (
-            <div
-              className={clsx(
-                amount > 6 && "grid-cols-3",
-                amount >= 12 && "grid-cols-4",
-                "grid grid-cols-2",
-              )}
-              data-testid="seeds"
-            >
-              {seeds
-                ?.slice(0, seed_count)
-                .map((seed, seedIndex) => {
-                  return (
-                    <Seed
-                      key={seedIndex}
-                      color={seeds != undefined ? seed.node.color : []}
-                      id={parseInt(seed.node.seed_id, 16)}
-                    />
-                  )
-                })}
-            </div>
-          )}
-        </div>
+          className={
+            "w-[60px] h-[60px] flex flex-col items-center justify-center"
+          }
+        />
       </div>
     </div>
   );
@@ -111,8 +29,6 @@ export function BottomPit({
   system,
   setTimeRemaining,
   max_block_between_move,
-  seed_count,
-  seeds,
   message,
 }: {
   amount: number;
@@ -122,8 +38,6 @@ export function BottomPit({
   game_id: string;
   status: string;
   userAccount?: UseAccountResult;
-  seed_count: number;
-  seeds: any[];
   system: any;
   message: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
@@ -137,7 +51,7 @@ export function BottomPit({
       winner === "0x0"
     ) {
       message(undefined);
-      const res = await system.move(userAccount?.account, game_id, pit);
+      await system.move(userAccount?.account, game_id, pit);
       setTimeRemaining(max_block_between_move);
     } else {
       if (address !== userAccount?.account?.address) {
@@ -154,40 +68,12 @@ export function BottomPit({
     }
   };
   return (
-    <div
-      className={
-        "flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-2.5"
-      }
-      onClick={handleMove}
-    >
+    <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-3">
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
-          className={clsx(
-            "w-[60px] h-[60px] flex flex-col items-center justify-center hover:cursor-pointer",
-            pit < 4 ? "ml-2" : "ml-2.5",
-          )}
-        >
-          {amount > 0 && (
-            <div
-              className={clsx(
-                amount > 6 && "grid-cols-3",
-                amount >= 12 && "grid-cols-4",
-                "grid grid-cols-2",
-              )}
-              data-testid="seeds"
-            >
-              {seeds
-                ?.slice(0, seed_count)
-                .map((seed, seedIndex) => (
-                  <Seed
-                    key={seedIndex}
-                    color={seeds != undefined ? seed.node.color : []}
-                    id={parseInt(seed.node.seed_id, 16)}
-                  />
-                ))}
-            </div>
-          )}
-        </div>
+          className="w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40"
+          onClick={handleMove}
+        />
       </div>
       <div className="rounded-lg w-fit">
         <p className="text-white ml-2">{amount}</p>

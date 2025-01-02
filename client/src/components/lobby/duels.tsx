@@ -29,9 +29,18 @@ export default function Duels({
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
-      challenger_name: data.node.player_one === "0x0" ? "0x0" : formatPlayerName(data.node.player_one_name, data.node.player_one),
-      challenged_name: data.node.player_two === "0x0" ? "0x0" : formatPlayerName(data.node.player_two_name, data.node.player_two),
-      winner: data.node.winner === "0x0" ? "0x0" : formatPlayerName(data.node.winner, data.node.winner),
+      challenger_name:
+        data.node.player_one === "0x0"
+          ? "0x0"
+          : formatPlayerName(data.node.player_one_name, data.node.player_one),
+      challenged_name:
+        data.node.player_two === "0x0"
+          ? "0x0"
+          : formatPlayerName(data.node.player_two_name, data.node.player_two),
+      winner:
+        data.node.winner === "0x0"
+          ? "0x0"
+          : formatPlayerName(data.node.winner, data.node.winner),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
@@ -137,7 +146,7 @@ export default function Duels({
                       const isLast = index === data?.length - 1;
                       const challengerColor = colors[index % colors.length];
                       const challengedColor =
-                      colors[(index + 3) % colors.length];
+                        colors[(index + 3) % colors.length];
                       return (
                         <tr
                           key={index}
