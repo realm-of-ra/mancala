@@ -5,20 +5,20 @@ use mancala::models::player::Player;
 
 #[starknet::interface]
 trait IActions<TContractState> {
-    fn initialize_game_counter(self: @TContractState);
-    fn new_game(self: @TContractState);
-    fn join_game(self: @TContractState, game_id: u128);
-    fn timeout(self: @TContractState, game_id: u128, opponent_address: ContractAddress);
-    fn create_private_game(self: @TContractState, opponent_address: ContractAddress);
-    fn get_players(self: @TContractState, game_id: u128) -> (Player, Player);
-    fn move(self: @TContractState, game_id: u128, selected_pit: u8);
-    fn get_score(self: @TContractState, game_id: u128) -> (u8, u8);
-    fn is_game_over(self: @TContractState, game_id: u128) -> bool;
-    fn forfeited(self: @TContractState, game_id: u128);
-    fn request_restart_game(self: @TContractState, game_id: u128);
-    fn restart_current_game(self: @TContractState, game_id: u128);
-    fn create_player_profile(self: @TContractState, name: felt252);
-    fn update_player_profile(self: @TContractState, name: felt252, new_uri: ByteArray);
+    fn initialize_game_counter(ref self: TContractState);
+    fn new_game(ref self: TContractState);
+    fn join_game(ref self: TContractState, game_id: u128);
+    fn timeout(ref self: TContractState, game_id: u128, opponent_address: ContractAddress);
+    fn create_private_game(ref self: TContractState, opponent_address: ContractAddress);
+    fn get_players(ref self: TContractState, game_id: u128) -> (Player, Player);
+    fn move(ref self: TContractState, game_id: u128, selected_pit: u8);
+    fn get_score(ref self: TContractState, game_id: u128) -> (u8, u8);
+    fn is_game_over(ref self: TContractState, game_id: u128) -> bool;
+    fn forfeited(ref self: TContractState, game_id: u128);
+    fn request_restart_game(ref self: TContractState, game_id: u128);
+    fn restart_current_game(ref self: TContractState, game_id: u128);
+    fn create_player_profile(ref self: TContractState, name: felt252);
+    fn update_player_profile(ref self: TContractState, name: felt252, new_uri: ByteArray);
 }
 
 #[dojo::contract]
@@ -49,72 +49,72 @@ mod actions {
 
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {
-        fn initialize_game_counter(self: @ContractState) {
+        fn initialize_game_counter(ref self: ContractState) {
             let world = self.world_storage();
             self.playable.initialize_game_counter(world)
         }
 
-        fn new_game(self: @ContractState) {
+        fn new_game(ref self: ContractState) {
             let world = self.world_storage();
             self.playable.new_game(world);
         }
 
-        fn join_game(self: @ContractState, game_id: u128) {
+        fn join_game(ref self: ContractState, game_id: u128) {
             let world = self.world_storage();
             self.playable.join_game(world, game_id)
         }
 
-        fn timeout(self: @ContractState, game_id: u128, opponent_address: ContractAddress) {
+        fn timeout(ref self: ContractState, game_id: u128, opponent_address: ContractAddress) {
             let world = self.world_storage();
             self.playable.timeout(world, game_id, opponent_address)
         }
 
-        fn create_private_game(self: @ContractState, opponent_address: ContractAddress) {
+        fn create_private_game(ref self: ContractState, opponent_address: ContractAddress) {
             let world = self.world_storage();
             self.playable.create_private_game(world, opponent_address)
         }
 
-        fn get_players(self: @ContractState, game_id: u128) -> (Player, Player) {
+        fn get_players(ref self: ContractState, game_id: u128) -> (Player, Player) {
             let world = self.world_storage();
             self.playable.get_players(world, game_id)
         }
 
-        fn move(self: @ContractState, game_id: u128, selected_pit: u8) {
+        fn move(ref self: ContractState, game_id: u128, selected_pit: u8) {
             let world = self.world_storage();
             self.playable.move(world, game_id, selected_pit)
         }
 
-        fn get_score(self: @ContractState, game_id: u128) -> (u8, u8) {
+        fn get_score(ref self: ContractState, game_id: u128) -> (u8, u8) {
             let world = self.world_storage();
             self.playable.get_score(world, game_id)
         }
 
-        fn is_game_over(self: @ContractState, game_id: u128) -> bool {
+        fn is_game_over(ref self: ContractState, game_id: u128) -> bool {
             let world = self.world_storage();
             self.playable.is_game_over(world, game_id)
         }
 
-        fn forfeited(self: @ContractState, game_id: u128) {
+        fn forfeited(ref self: ContractState, game_id: u128) {
             let world = self.world_storage();
             self.playable.forfeited(world, game_id)
         }
 
-        fn request_restart_game(self: @ContractState, game_id: u128) {
+        fn request_restart_game(ref self: ContractState, game_id: u128) {
             let world = self.world_storage();
             self.playable.request_restart_game(world, game_id)
         }
 
-        fn restart_current_game(self: @ContractState, game_id: u128) {
+        fn restart_current_game(ref self: ContractState, game_id: u128) {
             let world = self.world_storage();
             self.playable.restart_current_game(world, game_id)
         }
 
-        fn create_player_profile(self: @ContractState, name: felt252) {
+        fn create_player_profile(ref self: ContractState, name: felt252) {
             let world = self.world_storage();
             self.playable.new_profile(world, name)
         }
 
-        fn update_player_profile(self: @ContractState, name: felt252, new_uri: ByteArray) {
+        fn update_player_profile(ref self: ContractState, name: felt252, new_uri: ByteArray) {
             let world = self.world_storage();
             self.playable.update_player_profile(world, name, new_uri)
         }

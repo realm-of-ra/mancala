@@ -46,7 +46,7 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Sets up the initial game counter in the world state
-        fn initialize_game_counter(self: @ComponentState<TContractState>, world: WorldStorage) {
+        fn initialize_game_counter(ref self: ComponentState<TContractState>, world: WorldStorage) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -70,7 +70,7 @@ mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn new_game(self: @ComponentState<TContractState>, world: WorldStorage) {
+        fn new_game(ref self: ComponentState<TContractState>, world: WorldStorage) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -95,7 +95,7 @@ mod PlayableComponent {
         /// * `self` - Reference to the component state
         /// * `world` - The World dispatcher
         /// * `game_id` - The ID of the game to join
-        fn join_game(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
+        fn join_game(ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -111,7 +111,7 @@ mod PlayableComponent {
         }
 
         fn timeout(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TContractState>,
             world: WorldStorage,
             game_id: u128,
             opponent_address: ContractAddress,
@@ -134,7 +134,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
         fn create_private_game(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TContractState>,
             world: WorldStorage,
             opponent_address: ContractAddress,
         ) {
@@ -170,7 +170,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(Player, Player)` - A tuple containing the current player and the opponent
         fn get_players(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128,
         ) -> (Player, Player) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -200,7 +200,7 @@ mod PlayableComponent {
         /// * `(ContractAddress, GameStatus)` - The address of the current player and the game
         /// status
         fn move(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TContractState>,
             world: WorldStorage,
             game_id: u128,
             selected_pit: u8,
@@ -294,7 +294,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(u8, u8)` - The scores of player one and player two respectively
         fn get_score(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128,
         ) -> (u8, u8) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -319,7 +319,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `bool` - True if the game is finished, false otherwise
         fn is_game_over(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128,
         ) -> bool {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -343,7 +343,7 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Updates the game status to forfeited and sets the winner
-        fn forfeited(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
+        fn forfeited(ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -373,7 +373,7 @@ mod PlayableComponent {
         /// # Effects
         /// * Sets the restart_requested flag for the calling player
         fn request_restart_game(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -398,7 +398,7 @@ mod PlayableComponent {
         /// # Panics
         /// * If either player has not requested a restart
         fn restart_current_game(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TContractState>, world: WorldStorage, game_id: u128,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -433,7 +433,9 @@ mod PlayableComponent {
             restart_player_pits(world, @player_two, SeedColor::Blue);
         }
 
-        fn new_profile(self: @ComponentState<TContractState>, world: WorldStorage, name: felt252) {
+        fn new_profile(
+            ref self: ComponentState<TContractState>, world: WorldStorage, name: felt252,
+        ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -448,7 +450,7 @@ mod PlayableComponent {
         }
 
         fn update_player_profile(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TContractState>,
             world: WorldStorage,
             name: felt252,
             new_uri: ByteArray,

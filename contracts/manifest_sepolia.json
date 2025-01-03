@@ -1253,7 +1253,7 @@
   "contracts": [
     {
       "address": "0x39e885bb49e7002da73d0b77efee67ac3801cada2767eb382e4dc63755def20",
-      "class_hash": "0x48dc9a86cb8adbe69982cdd63a571efe14e61b042be46ef771d5dbb065fec0f",
+      "class_hash": "0x4814b06771a10686047a61c626870d50c7e555c78fb414f3c8d3c34d9a9b8e1",
       "abi": [
         {
           "type": "impl",
@@ -1355,14 +1355,14 @@
               "name": "initialize_game_counter",
               "inputs": [],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
               "name": "new_game",
               "inputs": [],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1374,7 +1374,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1390,7 +1390,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1402,7 +1402,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1418,7 +1418,7 @@
                   "type": "(mancala::models::index::Player, mancala::models::index::Player)"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1434,7 +1434,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1450,7 +1450,7 @@
                   "type": "(core::integer::u8, core::integer::u8)"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1466,7 +1466,7 @@
                   "type": "core::bool"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1478,7 +1478,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1490,7 +1490,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1502,7 +1502,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1514,7 +1514,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1530,7 +1530,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             }
           ]
         },
@@ -1664,6 +1664,20 @@
       "tag": "mancala_dev-actions",
       "selector": "0x7b930635503779ecdfcfa8527ac681171727ab74a0315e32138325eb255fc89",
       "systems": [
+        "initialize_game_counter",
+        "new_game",
+        "join_game",
+        "timeout",
+        "create_private_game",
+        "get_players",
+        "move",
+        "get_score",
+        "is_game_over",
+        "forfeited",
+        "request_restart_game",
+        "restart_current_game",
+        "create_player_profile",
+        "update_player_profile",
         "upgrade"
       ]
     }
