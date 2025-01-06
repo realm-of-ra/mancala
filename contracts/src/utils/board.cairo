@@ -48,7 +48,7 @@ fn distribute_seeds(
     let mut store: Store = StoreTrait::new(world);
     let mut current_pit = selected_pit + 1;
     let mut last_pit = current_pit;
-    let mut is_current_player = true; // Track whose pits we're distributing to
+    let mut is_current_player = true;
 
     // Get all seeds from selected pit first
     let mut selected_pit_model = store
@@ -70,8 +70,15 @@ fn distribute_seeds(
             .get_seed(current_player.game_id, current_player.address, selected_pit, seed_idx);
 
         if current_pit > 7 {
-            current_pit = 1; // Reset to pit 1
-            is_current_player = !is_current_player; // Switch players
+            current_pit = 1;
+            is_current_player = !is_current_player;
+        }
+
+        // Skip opponent's store (pit 7)
+        if !is_current_player && current_pit == 7 {
+            current_pit = 1;
+            is_current_player = !is_current_player;
+            continue;
         }
 
         if is_current_player {
@@ -85,7 +92,7 @@ fn distribute_seeds(
             seed.seed_number = target_pit.seed_count;
             store.set_seed(seed);
         } else {
-            // Opponent's pits (1-7)
+            // Opponent's pits (1-6 only)
             let mut target_pit = store.get_pit(opponent.game_id, opponent.address, current_pit);
 
             // Verify no duplicates
