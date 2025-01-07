@@ -13,6 +13,25 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.scrollbar::-webkit-scrollbar {
+  width: 8px; /* Slim width */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.6); /* Gray thumb with transparency */
+  border-radius: 100px; /* Rounded corners */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #39404d; /* Slightly visible track */
+  border-radius: 100px;
+}
+
+.scrollbar {
+  scrollbar-width: thin; /* Slim scrollbar for Firefox */
+  scrollbar-color: rgba(100, 100, 100, 0.6) rgba(0, 0, 0, 0.2);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -94,12 +113,23 @@ input[type="range"]::-webkit-slider-thumb {
   height: 0; /* height of the thumb */
   background: transparent; /* thumb background color */
   cursor: pointer;
-  }
+}
 
-  input[type="range"]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
   width: 0;
   height: 0;
   background: transparent;
   border: none;
   cursor: pointer;
-  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

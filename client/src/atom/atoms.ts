@@ -1,10 +1,4 @@
-import { atom } from 'jotai'
-import { ConnectedStarknetWindowObject } from 'starknetkit'
+import { atom } from "jotai";
 
-export const isPlayingAtom = atom(false)
-export const profileDataAtom = atom({})
-export const addressAtom = atom('')
-export const connectionAtom = atom<ConnectedStarknetWindowObject | undefined>(
-  undefined,
-)
-export const gameIdAtom = atom(null)
+export const isPlayingAtom = atom(false);
+export const gameIdAtom = atom(null);

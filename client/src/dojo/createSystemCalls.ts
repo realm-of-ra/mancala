@@ -30,14 +30,15 @@ export function createSystemCalls(
   const create_game = async (account: AccountInterface, setGameId: any) => {
     try {
       const { transaction_hash } = await client.actions.create_game(account);
-
-      const transaction = await account.waitForTransaction(transaction_hash, {
-        retryInterval: 100,
-      });
-
-      const events = getEvents(transaction);
-
-      setGameId(events[0].data[3]);
+      getEvents(
+        await account.waitForTransaction(transaction_hash, {
+          retryInterval: 100,
+        }),
+      );
+      const transaction: any =
+        await account.getTransactionReceipt(transaction_hash);
+      setGameId(transaction.events[1].data[1]);
+      return transaction.events[1].data[1];
     } catch (e) {
       console.log(e);
     }
@@ -53,17 +54,15 @@ export function createSystemCalls(
         account,
         player_2,
       );
-
-      const waitForTransaction = await account.waitForTransaction(
-        transaction_hash,
-        {
+      getEvents(
+        await account.waitForTransaction(transaction_hash, {
           retryInterval: 100,
-        },
+        }),
       );
-
-      const events = getEvents(waitForTransaction);
-
-      setGameId(events[0].data[3]);
+      const transaction: any =
+        await account.getTransactionReceipt(transaction_hash);
+      setGameId(transaction.events[1].data[1]);
+      return transaction.events[1].data[1];
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +79,6 @@ export function createSystemCalls(
       const { transaction_hash } = await client.actions.join_game(
         account,
         game_id,
-        player_2_address,
       );
 
       const receipt = await account.waitForTransaction(transaction_hash, {
@@ -128,21 +126,110 @@ export function createSystemCalls(
     }
   };
 
-  const timeout = async (account: AccountInterface, game_id: string) => {
+  const restart_game = async (
+    account: AccountInterface,
+    game_id: string,
+    setRestarted: any,
+    approver: boolean,
+  ) => {
+    try {
+      const { transaction_hash } = await client.actions.restart_game(
+        account,
+        game_id,
+        approver,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+      setRestarted(true);
+    } catch (error) {
+      console.error("Error executing restart_game:", error);
+      throw error;
+    }
+  };
+
+  const end_game = async (account: AccountInterface, game_id: string) => {
+    try {
+      const { transaction_hash } = await client.actions.end_game(
+        account,
+        game_id,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+    } catch (error) {
+      console.error("Error executing end_game:", error);
+      throw error;
+    }
+  };
+
+  const timeout = async (
+    account: AccountInterface,
+    game_id: string,
+    opposition_address: string,
+    setHasTimeout: any,
+  ) => {
     try {
       const { transaction_hash } = await client.actions.timeout(
         account,
         game_id,
-      )
-
+        opposition_address,
+      );
       await account.waitForTransaction(transaction_hash, {
         retryInterval: 100,
-      })
+      });
+      setHasTimeout(true);
     } catch (error) {
-      console.error('Error executing timeout:', error)
-      throw error
+      console.error("Error executing timeout:", error);
+      throw error;
     }
-  }
+  };
+
+  const create_player_profile = async (
+    account: AccountInterface,
+    name: string,
+    setLoading: any,
+  ) => {
+    try {
+      setLoading({ status: "CREATING", finished: false });
+      const { transaction_hash } = await client.actions.create_player_profile(
+        account,
+        name,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+      setLoading({ status: "CREATED", finished: true });
+    } catch (error) {
+      setLoading({ status: "ERROR", finished: true });
+      console.error("Error executing timeout:", error);
+      throw error;
+    }
+  };
+
+  const update_player_profile = async (
+    account: AccountInterface,
+    name: string,
+    new_uri: string,
+    setLoading: any,
+  ) => {
+    try {
+      setLoading({ status: "UPDATING", finished: false });
+      const { transaction_hash } = await client.actions.update_player_profile(
+        account,
+        name,
+        new_uri,
+      );
+      await account.waitForTransaction(transaction_hash, {
+        retryInterval: 100,
+      });
+      setLoading({ status: "UPDATED", finished: true });
+    } catch (error) {
+      setLoading({ status: "ERROR", finished: true });
+      console.error("Error executing update player profile:", error);
+      throw error;
+    }
+  };
 
   return {
     create_initial_game_id,
@@ -150,6 +237,10 @@ export function createSystemCalls(
     create_private_game,
     join_game,
     move,
+    restart_game,
+    end_game,
     timeout,
+    create_player_profile,
+    update_player_profile,
   };
 }

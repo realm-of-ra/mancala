@@ -1,524 +1,459 @@
-#[cfg(test)]
-mod tests {
+mod test_init_game {
     use starknet::{ContractAddress, get_caller_address};
     use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
-    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use dojo::utils::test::{spawn_test_world, deploy_contract};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
 
-    use mancala::{
-        systems::{actions::{actions, IActionsDispatcher, IActionsDispatcherTrait}},
-        models::{mancala_game::{MancalaGame, GameId, mancala_game, game_id, GameStatus, MancalaImpl}},
-        models::{player::{GamePlayer, game_player}}
-    };
+    use mancala::store::{Store, StoreTrait};
+    use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use mancala::tests::setup::setup;
+    use mancala::models::seed::SeedColor;
+    use mancala::models::index::GameStatus;
 
+    #[test]
+    #[available_gas(300000000000)]
+    fn test_new_game() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
 
-    fn setup_game() -> (
-        GamePlayer, GamePlayer, IWorldDispatcher, IActionsDispatcher, MancalaGame, ContractAddress
-    ) {
-        let player_one_address = starknet::contract_address_const::<0x0>();
-        let player_two_address = starknet::contract_address_const::<0x456>();
-        let mut models = array![mancala_game::TEST_CLASS_HASH, game_player::TEST_CLASS_HASH, game_id::TEST_CLASS_HASH];
-        let mut world = spawn_test_world("mancala_alpha", models);
-        let contract_address = world
-            .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
+        systems.actions.new_game();
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"mancala_alpha"), contract_address);
+        // Check player 1 exists
+        let player_1 = store.get_player(game_id, setup::OWNER());
+        assert(player_1.len_pits == 6, 'Player 1 pits length is wrong');
 
-        actions_system.create_initial_game_id();
-        let game: MancalaGame = actions_system.create_game();
-        actions_system.join_game(game.game_id, player_two_address);
-        let player_one: GamePlayer = get!(world, (player_one_address, game.game_id), (GamePlayer));
-        let player_two: GamePlayer = get!(world, (player_two_address, game.game_id), (GamePlayer));
-
-        (player_one, player_two, world, actions_system, game, contract_address)
+        // Check mancala board exists
+        let mancala_board = store.get_mancala_board(game_id);
+        assert(mancala_board.player_one == setup::OWNER(), 'Player one address is wrong');
+        assert(mancala_board.status == GameStatus::Pending, 'Game status is wrong');
     }
 
     #[test]
-    #[available_gas(3000000000000)]
-    fn test_create_game() {
-        let (player_one, player_two, _, _, _, _) = setup_game();
-        assert(player_one.pit1 == 4, 'p1 pit 1 not init correctly');
-        assert(player_one.pit2 == 4, 'p1 pit 2 not init correctly');
-        assert(player_one.pit3 == 4, 'p1 pit 3 not init correctly');
-        assert(player_one.pit4 == 4, 'p1 pit 4 not init correctly');
-        assert(player_one.pit5 == 4, 'p1 pit 5 not init correctly');
-        assert(player_one.pit6 == 4, 'p1 pit 6 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 1 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 2 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 3 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 4 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 5 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
+    #[available_gas(300000000000)]
+    fn test_join_game() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        systems.actions.new_game();
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+
+        systems.actions.join_game(game_id);
+
+        let mancala_board_after = store.get_mancala_board(game_id);
+        assert(mancala_board_after.player_one == setup::OWNER(), 'Player one address is wrong');
+        assert(mancala_board_after.player_two == ANYONE, 'Player two address is wrong');
+
+        // Check player 1 pits are correctly initialized
+        let mut pit_idx = 1;
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let player_1_pit = store.get_pit(game_id, setup::OWNER(), pit_idx);
+            assert(player_1_pit.seed_count == 4, 'P1 pit seed count is wrong');
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > 4 {
+                    break;
+                }
+                let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+                assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+
+        // Check player 2 pits are correctly initialized
+        pit_idx = 1;
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let player_1_pit = store.get_pit(game_id, ANYONE, pit_idx);
+            assert(player_1_pit.seed_count == 4, 'P2 pit seed count is wrong');
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > 4 {
+                    break;
+                }
+                let seed = store.get_seed(game_id, ANYONE, pit_idx, seed_idx);
+                assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
     }
 
     #[test]
-    #[available_gas(3000000000000)]
+    #[available_gas(300000000000)]
     fn test_create_private_game() {
-        let _player_one_address = starknet::contract_address_const::<0x0>();
-        let player_two_address = starknet::contract_address_const::<0x456>();
-        let mut models = array![mancala_game::TEST_CLASS_HASH, game_player::TEST_CLASS_HASH, game_id::TEST_CLASS_HASH];
-        let mut world = spawn_test_world("mancala_alpha", models);
-        let contract_address = world
-          .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap());
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"mancala_alpha"), contract_address);
+        let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
+        systems.actions.create_private_game(OPPONENT);
 
-        actions_system.create_initial_game_id();
-        let mancala_game: MancalaGame = actions_system.create_private_game(player_two_address);
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
 
-        let player_one: GamePlayer = get!(
-            world, (mancala_game.player_one, mancala_game.game_id), (GamePlayer)
-        );
-        let player_two: GamePlayer = get!(
-            world, (mancala_game.player_two, mancala_game.game_id), (GamePlayer)
-        );
-        let mancala_game: MancalaGame = get!(world, (mancala_game.game_id), (MancalaGame));
+        let mancala_board_after = store.get_mancala_board(game_id);
+        assert(mancala_board_after.player_one == setup::OWNER(), 'Player one address is wrong');
+        assert(mancala_board_after.player_two == OPPONENT, 'Player two address is wrong');
+        assert(mancala_board_after.is_private == true, 'Game is not private');
 
-        assert(mancala_game.is_private == true, 'mancala game is not private');
-        assert(player_one.pit1 == 4, 'p1 pit 1 not init correctly');
-        assert(player_one.pit2 == 4, 'p1 pit 2 not init correctly');
-        assert(player_one.pit3 == 4, 'p1 pit 3 not init correctly');
-        assert(player_one.pit4 == 4, 'p1 pit 4 not init correctly');
-        assert(player_one.pit5 == 4, 'p1 pit 5 not init correctly');
-        assert(player_one.pit6 == 4, 'p1 pit 6 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 1 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 2 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 3 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 4 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 5 not init correctly');
-        assert(player_two.pit6 == 4, 'p2 pit 6 not init correctly');
+        // Check player 1 pits are correctly initialized
+        let mut pit_idx = 1;
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let player_1_pit = store.get_pit(game_id, setup::OWNER(), pit_idx);
+            assert(player_1_pit.seed_count == 4, 'P1 pit seed count is wrong');
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > 4 {
+                    break;
+                }
+                let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+                assert(seed.color == SeedColor::Green, 'P1 Seed color is wrong');
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+
+        // Check player 2 pits are correctly initialized
+        pit_idx = 1;
+        loop {
+            if pit_idx > 6 {
+                break;
+            }
+            let player_1_pit = store.get_pit(game_id, OPPONENT, pit_idx);
+            assert(player_1_pit.seed_count == 4, 'P2 pit seed count is wrong');
+            let mut seed_idx = 1;
+            loop {
+                if seed_idx > 4 {
+                    break;
+                }
+                let seed = store.get_seed(game_id, OPPONENT, pit_idx, seed_idx);
+                assert(seed.color == SeedColor::Blue, 'P2 Seed color is wrong');
+                seed_idx += 1;
+            };
+            pit_idx += 1;
+        };
+    }
+}
+
+mod test_play {
+    use starknet::{ContractAddress, get_caller_address};
+    use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
+
+    use mancala::store::{Store, StoreTrait};
+    use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use mancala::tests::setup::setup;
+    use mancala::models::seed::SeedColor;
+    use mancala::models::index::GameStatus;
+
+    use mancala::tests::utils::{move_player_seeds_to_store};
+
+    #[test]
+    #[available_gas(300000000000)]
+    fn test_get_players() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
+        systems.actions.create_private_game(OPPONENT);
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        let (player_one, player_two) = systems.actions.get_players(game_id);
+        assert(player_one.address == setup::OWNER(), 'Player one address is wrong');
+        assert(player_two.address == OPPONENT, 'Player two address is wrong');
     }
 
     #[test]
-    #[available_gas(3000000000000)]
-    fn test_game_id_increments() {
-        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
+    #[available_gas(300000000000)]
+    fn test_move() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
 
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
-        let game_two: MancalaGame = actions_system.create_game();
-        assert!(game_two.game_id == 2, "incorrect id set");
-        let game_three: MancalaGame = actions_system.create_game();
-        assert!(game_three.game_id == 3, "incorrect id set");
+        systems.actions.new_game();
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+        systems.actions.join_game(game_id);
+
+        // Go back to player 1 to start the game
+        set_contract_address(setup::OWNER());
+
+        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in the
+        // opponent pit 1
+        systems.actions.move(game_id, 4);
+
+        // Pit 4 of player 1 should be empty
+        let p1_pit_4 = store.get_pit(game_id, setup::OWNER(), 4);
+        assert(p1_pit_4.seed_count == 0, 'P1 pit 4 seed count is wrong');
+
+        // Pit 4, 5, 6 of player 1 should have 5 seeds
+        let p1_pit_5 = store.get_pit(game_id, setup::OWNER(), 5);
+        let p1_pit_6 = store.get_pit(game_id, setup::OWNER(), 6);
+        assert(p1_pit_5.seed_count == 5, 'P1 pit 5 seed count is wrong');
+        assert(p1_pit_6.seed_count == 5, 'P1 pit 6 seed count is wrong');
+
+        // Store pit should have 1 seed
+        let p1_store = store.get_pit(game_id, setup::OWNER(), 7);
+        assert(p1_store.seed_count == 1, 'P1 store seed count is wrong');
+
+        // Player2 pit 1 should have 1 extra seed
+        let p2_pit_1 = store.get_pit(game_id, ANYONE, 1);
+        assert(p2_pit_1.seed_count == 5, 'P2 pit 1 seed count is wrong');
+
+        // Player 2 turn
+        set_contract_address(ANYONE);
+
+        // Move the seeds from pit 4. Means pit 5, 6, 7 should now have seeds and also one in other
+        // player pit 1
+        systems.actions.move(game_id, 4);
+        // Pit 3 of player 1 should be empty
+        let p2_pit_4 = store.get_pit(game_id, ANYONE, 4);
+        assert(p2_pit_4.seed_count == 0, 'P2 pit 4 seed count is wrong');
+
+        let p2_pit_5 = store.get_pit(game_id, ANYONE, 5);
+        let p2_pit_6 = store.get_pit(game_id, ANYONE, 6);
+        let p2_pit_store = store.get_pit(game_id, ANYONE, 7);
+        assert(p2_pit_5.seed_count == 5, 'P2 pit 5 seed count is wrong');
+        assert(p2_pit_6.seed_count == 5, 'P2 pit 6 seed count is wrong');
+        assert(p2_pit_store.seed_count == 1, 'P2 store seed count is wrong');
     }
 
     #[test]
-    #[available_gas(3000000000000)]
-    fn test_move_pit1() {
-        let (player_one, player_two, world, actions_system, game, _) = setup_game();
-        let selected_pit: u8 = 1;
-        actions_system.move(game.game_id, selected_pit);
-        let game_after_move: MancalaGame = get!(world, game.game_id, (MancalaGame));
-        let player_one: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+    #[available_gas(300000000000)]
+    fn test_capture_seeds() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
 
-        assert!(player_one.game_id == game.game_id, "player_one game id not correct");
-        assert!(player_two.game_id == game.game_id, "player_two game id not correct");
-        assert!(player_one.pit1 == 0, "pit1 not cleared");
-        assert!(player_one.pit2 == 5, "pit2 does not have correct count");
-        assert!(player_one.pit3 == 5, "pit3 does not have correct count");
-        assert!(player_one.pit4 == 5, "pit4 does not have correct count");
-        assert!(player_one.pit5 == 5, "pit5 does not have correct count");
-        assert!(player_one.pit6 == 4, "pit5 does not have correct count");
-        assert!(
-            game_after_move.current_player == player_two.address, "current player did not switch"
-        );
-        assert!(
-            actions_system.is_game_finished(game.game_id) == false, "game should not be finished"
+        systems.actions.new_game();
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+        systems.actions.join_game(game_id);
+
+        // Player 1 turn, empty pit 6
+        set_contract_address(setup::OWNER());
+        systems.actions.move(game_id, 6);
+
+        // Player 2 turn, move seeds from pit 4
+        set_contract_address(ANYONE);
+        systems.actions.move(game_id, 4);
+
+        // Check player 1 store before capturing
+        let p1_store_before = store.get_pit(game_id, setup::OWNER(), 7);
+
+        // Check player 2 pit 1 before capturing
+        let p2_pit_1_before = store.get_pit(game_id, ANYONE, 1);
+
+        // Player 1 turn, move seeds from pit 2, last seed should be on pit 6, capture other player
+        // seeds on pit 1
+        set_contract_address(setup::OWNER());
+        systems.actions.move(game_id, 2);
+
+        let p2_pit_1 = store.get_pit(game_id, ANYONE, 1);
+        assert(p2_pit_1.seed_count == 0, 'P2 pit 1 seed count is wrong');
+
+        let p1_store_after = store.get_pit(game_id, setup::OWNER(), 7);
+        let expected_seeds_in_store = p1_store_before.seed_count + p2_pit_1_before.seed_count + 1;
+        assert(
+            p1_store_after.seed_count == expected_seeds_in_store, 'P1 store seed count is wrong',
         );
     }
 
     #[test]
-    #[available_gas(3000000000000)]
-    fn test_move_pit3() {
-        let (player_one, _, world, actions_system, game, _) = setup_game();
-        let selected_pit: u8 = 3;
-        let (_, game_status_after_move) = actions_system.move(game.game_id, selected_pit);
-        let game_after_move: MancalaGame = get!(world, game.game_id, (MancalaGame));
-        let player_one: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
+    #[available_gas(300000000000)]
+    fn test_timeout() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
 
-        assert!(player_one.pit1 == 4, "pit1 not cleared");
-        assert!(player_one.pit2 == 4, "pit2 does not have correct count");
-        assert!(player_one.pit3 == 0, "pit3 does not have correct count");
-        assert!(player_one.pit4 == 5, "pit4 does not have correct count");
-        assert!(player_one.pit5 == 5, "pit5 does not have correct count");
-        assert!(player_one.pit6 == 5, "pit5 does not have correct count");
-        assert!(player_one.mancala == 1, "mancala should have 1 seed");
-        assert!(
-            game_after_move.current_player == player_one.address,
-            "current player should remain the same"
-        );
-        assert!(
-            actions_system.is_game_finished(game.game_id) == false, "game should not be finished"
-        );
-        assert!(game_status_after_move == GameStatus::InProgress, "game is not in progress");
-    }
+        systems.actions.new_game();
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
 
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
 
-    // todo this test needs to be implemented
-    #[test]
-    #[available_gas(3000000000000)]
-    fn test_capture() {
-        let (mut player1, mut player2, _, _, mut game, _) = setup_game();
-        game.status = GameStatus::InProgress;
-        let last_pit: u8 = 3;
-        assert!(game.status == GameStatus::InProgress, "Game is not in progress");
-        player1.pit3 = 1;
-        let pit4 = player2.pit4;
-        assert!(player1.mancala == 0, "incorrect initial mancala count");
-        MancalaImpl::capture(game, last_pit, ref player1, ref player2);
-        assert!(player1.pit3 == 0, "pit3 does not have correct count");
-        assert!(player1.mancala == pit4 + 1, "pit not captured");
+        systems.actions.join_game(game_id);
+
+        // Set initial block number
+        set_block_number(14);
+
+        systems.actions.timeout(game_id, setup::OWNER());
+
+        let mancala_board_after = store.get_mancala_board(game_id);
+
+        assert(mancala_board_after.status == GameStatus::TimeOut, 'Game not timeout');
     }
 
     #[test]
+    #[available_gas(300000000000)]
+    fn test_end_game() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+        systems.actions.initialize_game_counter();
+
+        systems.actions.new_game();
+
+        let game_counter = store.get_game_counter(1);
+        let game_id = game_counter.count - 1;
+
+        // Change caller to player 2
+        let ANYONE = starknet::contract_address_const::<'ANYONE'>();
+        set_contract_address(ANYONE);
+        systems.actions.join_game(game_id);
+
+        // Player 1 turn
+        set_contract_address(setup::OWNER());
+        systems.actions.move(game_id, 5);
+
+        // Player 2 turn
+        set_contract_address(ANYONE);
+        systems.actions.move(game_id, 4);
+
+        // Player 1 turn
+        set_contract_address(setup::OWNER());
+
+        // Move all player 2 seeds to store to finish the game
+        let player_2 = store.get_player(game_id, ANYONE);
+        move_player_seeds_to_store(world, @player_2);
+
+        systems.actions.move(game_id, 3);
+
+        let mancala_board = store.get_mancala_board(game_id);
+        assert(mancala_board.status == GameStatus::Finished, 'Game status is wrong');
+
+        // Player 2 should win because has all its seeds in the store
+        assert(mancala_board.winner == ANYONE, 'Game winner is wrong');
+
+        let (p1_score, p2_score) = systems.actions.get_score(game_id);
+        assert(p1_score == 23, 'Player 1 score is wrong');
+        assert(p2_score == 25, 'Player 2 score is wrong');
+
+        // Check that there is the correct amount of seeds in the store
+        let mut p1_index = 1;
+        loop {
+            if p1_index > p1_score {
+                break;
+            }
+            let p1_seed = store.get_seed(game_id, setup::OWNER(), 7, p1_index);
+            assert(p1_seed.color != SeedColor::None, 'P1 seed not exist');
+            p1_index += 1;
+        };
+
+        let mut p2_index = 1;
+        loop {
+            if p2_index > p2_score {
+                break;
+            }
+            let p2_seed = store.get_seed(game_id, ANYONE, 7, p2_index);
+            assert(p2_seed.color != SeedColor::None, 'P2 seed not exist');
+            p2_index += 1;
+        };
+    }
+    //#[test]
+//#[available_gas(300000000000)]
+//fn test_seed_ids() {
+//    let (world, systems) = setup::spawn_game();
+//    let mut store: Store = StoreTrait::new(world);
+//    systems.actions.initialize_game_counter();
+
+    //    systems.actions.new_game();
+//    let game_counter = store.get_game_counter(1);
+//    let game_id = game_counter.count - 1;
+
+    //    // Verify that each seed has a unique ID
+//    let mut pit_idx = 1;
+//    let mut seen_ids = ArrayTrait::new();
+
+    //    loop {
+//        if pit_idx > 6 {
+//            break;
+//        }
+//        let mut seed_idx = 1;
+//        loop {
+//            if seed_idx > 4 {
+//                break;
+//            }
+//            let seed = store.get_seed(game_id, setup::OWNER(), pit_idx, seed_idx);
+//            assert(!seen_ids.contains(seed.seed_id), 'Duplicate seed ID found');
+//            seen_ids.append(seed.seed_id);
+//            seed_idx += 1;
+//        };
+//        pit_idx += 1;
+//    };
+//}
+}
+
+mod test_validations {
+    use starknet::{ContractAddress, get_caller_address};
+    use starknet::testing::{set_block_number, set_caller_address, set_contract_address};
+    use dojo::world::{WorldStorage, WorldStorageTrait};
+    use dojo_cairo_test::spawn_test_world;
+
+    use mancala::store::{Store, StoreTrait};
+    use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use mancala::tests::setup::setup;
+    use mancala::models::game_counter::{GameCounter, GameCounterTrait};
+
+    #[test]
+    #[available_gas(300000000000)]
+    fn test_initialize_game_counter() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
+
+        systems.actions.initialize_game_counter();
+        let mut game_counter = store.get_game_counter(1);
+        assert(game_counter.count == 1, 'Wrong game counter');
+
+        game_counter.increment();
+        assert(game_counter.count == 2, 'Wrong game counter after');
+    }
+
+    #[test]
+    #[available_gas(300000000000)]
     #[should_panic]
-    fn test_cannot_move_if_game_finished() {
-        let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
-        mancala_game.status = GameStatus::Finished;
-        set!(world, (mancala_game));
-        let selected_pit: u8 = 1;
-        actions_system.move(mancala_game.game_id, selected_pit);
-    }
+    fn test_initialize_game_counter_error() {
+        let (world, systems) = setup::spawn_game();
+        let mut store: Store = StoreTrait::new(world);
 
-    #[test]
-    #[should_panic(expected: ("Game is not in progress", 0x454e545259504f494e545f4641494c4544))]
-    fn test_cannot_move_if_game_timeout() {
-        let (_, _, world, actions_system, mut mancala_game, _) = setup_game();
-        mancala_game.status = GameStatus::TimeOut;
-        set!(world, (mancala_game));
-        let selected_pit: u8 = 1;
-        actions_system.move(mancala_game.game_id, selected_pit);
-    }
+        systems.actions.initialize_game_counter();
+        let game_counter = store.get_game_counter(1);
+        assert(game_counter.count == 1, 'Wrong game counter');
 
-    #[test]
-    #[should_panic(expected: ("Game is in progress", 0x454e545259504f494e545f4641494c4544))]
-    fn test_cannot_call_timeout_if_move_is_allowed() {
-        let (_, _, _, actions_system, game, _) = setup_game();
-        actions_system.time_out(game.game_id);
-    }
-
-    #[test]
-    fn test_can_call_timeout_once_enough_time_has_passed() {
-        let (_, player_two, world, actions_system, game, _) = setup_game();
-        set_block_number(10000);
-        actions_system.time_out(game.game_id);
-        let mancala_game_after_move = get!(world, (game.game_id), (MancalaGame));
-        assert!(mancala_game_after_move.status == GameStatus::TimeOut, "Game is not timed out");
-        assert!(mancala_game_after_move.winner == player_two.address, "winner is not player two");
-    }
-
-    #[test]
-    fn test_game_should_be_finished() {
-        let (mut player_one, mut player_two, world, actions_system, mancala_game, _) = setup_game();
-        player_one.pit1 = 0;
-        player_one.pit2 = 0;
-        player_one.pit3 = 0;
-        player_one.pit4 = 0;
-        player_one.pit5 = 0;
-        player_one.pit6 = 1;
-        set!(world, (player_one));
-
-        let selected_pit: u8 = 6;
-        actions_system.move(mancala_game.game_id, selected_pit);
-        let mancala_game_after_move = get!(world, (mancala_game.game_id), (MancalaGame));
-        assert!(
-            actions_system.is_game_finished(mancala_game_after_move.game_id) == true,
-            "game is not finished"
-        );
-        assert!(
-            mancala_game_after_move.status == GameStatus::Finished, "game status is not Finished"
-        );
-        assert!(mancala_game_after_move.winner == player_two.address, "winner is not player two");
-    }
-
-    // New tests for the updated Player model
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_initialize_player() {
-    //    let init_calldata: Span<felt252> = array![].span();
-    //    let world = spawn_test_world("mancala_alpha", array![mancala_game::TEST_CLASS_HASH]);
-    //    let contract_address = world
-    //        .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
-    //    let actions_system = IActionsDispatcher { contract_address: contract_address };
-
-    //    let player_address = starknet::contract_address_const::<0x123>();
-    //    actions_system.initialize_player(player_address);
-
-    //    let player: Player = get!(world, player_address, (Player));
-    //    assert!(player.address == player_address, "Player address not set correctly");
-    //    assert!(player.games_won.len() == 0, "Games won should be empty");
-    //    assert!(player.games_lost.len() == 0, "Games lost should be empty");
-    //}
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_finish_game() {
-    //    let (player_one, player_two, mut world, actions_system, game, _) = setup_game();
-
-    //    // Initialize players
-    //    actions_system.initialize_player(player_one.address);
-    //    actions_system.initialize_player(player_two.address);
-
-    //    // Set game as finished with player_one as winner
-    //    let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
-    //    mancala_game.status = GameStatus::Finished;
-    //    mancala_game.winner = player_one.address;
-    //    set!(world, (mancala_game));
-
-    //    let (loser, winner) = mancala_game.finish_game(world, game.game_id);
-
-    //    set!(world, (loser, winner));
-
-    //    let winner: Player = get!(world, player_one.address, (Player));
-    //    let loser: Player = get!(world, player_two.address, (Player));
-
-    //    assert!(winner.games_won.len() == 1, "Winner should have 1 game won");
-    //    assert!(*winner.games_won.at(0) == game.game_id, "Winner's game ID should match");
-    //    assert!(winner.games_lost.len() == 0, "Winner should have 0 games lost");
-
-    //    assert!(loser.games_lost.len() == 1, "Loser should have 1 game lost");
-    //    assert!(*loser.games_lost.at(0) == game.game_id, "Loser's game ID should match");
-    //    assert!(loser.games_won.len() == 0, "Loser should have 0 games won");
-    //}
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_get_player_history() {
-    //    let init_calldata: Span<felt252> = array![].span();
-    //    let world = spawn_test_world("mancala_alpha", array![mancala_game::TEST_CLASS_HASH]);
-    //    let contract_address = world
-    //        .deploy_contract('salt', actions::TEST_CLASS_HASH.try_into().unwrap(), init_calldata);
-    //    let actions_system = IActionsDispatcher { contract_address: contract_address };
-
-    //    let player_address = starknet::contract_address_const::<0x123>();
-    //    actions_system.initialize_player(player_address);
-
-    //    // Manually add some game IDs to the player's history
-    //    let mut player: Player = get!(world, player_address, (Player));
-    //    player.games_won.append(1);
-    //    player.games_won.append(2);
-    //    player.games_lost.append(3);
-    //    set!(world, (player));
-
-    //    let (games_won, games_lost) = actions_system.get_player_history(player_address);
-
-    //    assert!(games_won.len() == 2, "Should have 2 games won");
-    //    // assert!(games_won[0] == 1, "First won game should be 1");
-    //    // assert!(games_won[1] == 2, "Second won game should be 2");
-    //    assert!(games_lost.len() == 1, "Should have 1 game lost");
-    //// assert!(games_lost[0] == 3, "Lost game should be 3");
-    //}
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_move_updates_player_history() {
-    //    let (player_one, player_two, world, actions_system, game, _) = setup_game();
-
-    //    // Initialize players
-    //    actions_system.initialize_player(player_one.address);
-    //    actions_system.initialize_player(player_two.address);
-
-    //    // Set up the game so it will finish after one move
-    //    let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
-    //    let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
-    //    let mut p2: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
-    //    p1.pit1 = 1;
-    //    p1.pit2 = 0;
-    //    p1.pit3 = 0;
-    //    p1.pit4 = 0;
-    //    p1.pit5 = 0;
-    //    p1.pit6 = 0;
-    //    p2.pit1 = 0;
-    //    p2.pit2 = 0;
-    //    p2.pit3 = 0;
-    //    p2.pit4 = 0;
-    //    p2.pit5 = 0;
-    //    p2.pit6 = 0;
-    //    set!(world, (mancala_game, p1));
-    //    set!(world, (mancala_game, p2));
-
-    //    // Make the move that should finish the game
-    //    actions_system.move(game.game_id, 1);
-
-    //    // Check player histories
-    //    let (p1_won, p1_lost) = actions_system.get_player_history(player_one.address);
-    //    let (p2_won, p2_lost) = actions_system.get_player_history(player_two.address);
-
-    //    assert!(p1_won.len() == 1, "Player one should have won 1 game");
-    //    // assert!(p1_won[0] == game.game_id, "Player one's won game should match");
-    //    assert!(p1_lost.len() == 0, "Player one should have lost 0 games");
-
-    //    assert!(p2_won.len() == 0, "Player two should have won 0 games");
-    //    assert!(p2_lost.len() == 1, "Player two should have lost 1 game");
-    //// assert!(p2_lost[0] == game.game_id, "Player two's lost game should match");
-    //}
-
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_forfeited() {
-    //    let (player_one, player_two, world, actions_system, game, _) = setup_game();
-
-    //    // Initialize players
-    //    actions_system.initialize_player(player_one.address);
-    //    actions_system.initialize_player(player_two.address);
-
-    //    //player_one forfeits
-    //    actions_system.forfeited(game.game_id, player_one.address);
-    //    let mancala_game_after = get!(world, (game.game_id), (MancalaGame));
-    //    assert!(mancala_game_after.status == GameStatus::Forfeited, "Game is forfeited");
-    //    assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
-    //}
-
-    //#[test]
-    //#[available_gas(3000000000000)]
-    //fn test_final_capture() {
-    //    let (player_one, player_two, world, actions_system, game, _) = setup_game();
-
-    //    // Initialize players
-    //    actions_system.initialize_player(player_one.address);
-    //    actions_system.initialize_player(player_two.address);
-
-    //    // Set up the game so it will finish after one move
-    //    let mut mancala_game: MancalaGame = get!(world, game.game_id, (MancalaGame));
-    //    let mut p1: GamePlayer = get!(world, (player_one.address, game.game_id), (GamePlayer));
-    //    let mut p2: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
-    //    p1.pit1 = 1;
-    //    p1.pit2 = 0;
-    //    p1.pit3 = 0;
-    //    p1.pit4 = 0;
-    //    p1.pit5 = 0;
-    //    p1.pit6 = 0;
-    //    set!(world, (mancala_game, p1));
-    //    set!(world, (mancala_game, p2));
-
-    //    let selected_pit: u8 = 1;
-    //    actions_system.move(game.game_id, selected_pit);
-
-    //    let mancala_game_after = get!(world, (game.game_id), (MancalaGame));
-    //    let player_two: GamePlayer = get!(world, (player_two.address, game.game_id), (GamePlayer));
-
-    //    assert!(player_one.game_id == game.game_id, "player_one game id not correct");
-    //    assert!(player_two.game_id == game.game_id, "player_two game id not correct");
-
-    //    // assert all pits are cleared on the board
-    //    assert!(player_two.pit1 == 0, "pit1 not cleared");
-    //    assert!(player_two.pit2 == 0, "pit2 does not have correct count");
-    //    assert!(player_two.pit3 == 0, "pit3 does not have correct count");
-    //    assert!(player_two.pit4 == 0, "pit4 does not have correct count");
-    //    assert!(player_two.pit5 == 0, "pit5 does not have correct count");
-    //    assert!(player_two.pit6 == 0, "pit5 does not have correct count");
-
-    //    assert!(mancala_game_after.winner == player_two.address, "player_two is the winner");
-    //}
-
-    #[test]
-    #[available_gas(3000000000000)]
-    #[should_panic(expected: ('player two did not restart', 'ENTRYPOINT_FAILED'))]
-    fn test_should_revert_if_only_player_one_has_requested_to_restart() {
-        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
-        let player_one_address = starknet::contract_address_const::<0x456>();
-        let player_two_address = starknet::contract_address_const::<0x455>();
-
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
-
-        set_contract_address(player_one_address);
-        let game_two: MancalaGame = actions_system.create_game();
-
-        set_contract_address(player_two_address);
-        actions_system.join_game(game_two.game_id, player_two_address);
-        // player 1 requests to restart
-        set_contract_address(player_one_address);
-        actions_system.request_restart_game(2);
-
-        actions_system.restart_game(2, true);
-    }
-    #[test]
-    #[available_gas(3000000000000)]
-    #[should_panic(expected: ('player one did not restart', 'ENTRYPOINT_FAILED'))]
-    fn test_should_revert_if_only_player_two_has_requested_to_restart() {
-        let (_player_one, _player_two, _, _, _, contract_address) = setup_game();
-        let player_one_address = starknet::contract_address_const::<0x456>();
-        let player_two_address = starknet::contract_address_const::<0x455>();
-
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
-
-        set_contract_address(player_one_address);
-        let game_two: MancalaGame = actions_system.create_game();
-
-        set_contract_address(player_two_address);
-        actions_system.join_game(game_two.game_id, player_two_address);
-        // player 1 requests to restart
-        set_contract_address(player_two_address);
-        actions_system.request_restart_game(2);
-
-        actions_system.restart_game(2, true);
-    }
-
-    #[test]
-    #[available_gas(3000000000000)]
-    fn test_restart_function_with_two_players() {
-        let (_player_one, _player_two, world, _, _, contract_address) = setup_game();
-        let player_one_address = starknet::contract_address_const::<0x456>();
-        let player_two_address = starknet::contract_address_const::<0x455>();
-
-        let actions_system = IActionsDispatcher { contract_address: contract_address };
-
-        set_contract_address(player_one_address);
-        let game_two: MancalaGame = actions_system.create_game();
-
-        set_contract_address(player_two_address);
-        actions_system.join_game(game_two.game_id, player_two_address);
-
-        //  player one moves
-        let selected_pit: u8 = 1;
-        set_contract_address(player_one_address);
-        actions_system.move(game_two.game_id, selected_pit);
-        let player_one_game: GamePlayer = get!(
-            world, (player_one_address, game_two.game_id), (GamePlayer)
-        );
-
-        assert!(player_one_game.pit1 == 0, "pit1 not cleared");
-
-        // player two moves
-        set_contract_address(player_two_address);
-        actions_system.move(game_two.game_id, selected_pit);
-        let player_two_game: GamePlayer = get!(
-            world, (player_one_address, game_two.game_id), (GamePlayer)
-        );
-
-        assert!(player_two_game.pit1 == 0, "pit1 b not cleared");
-
-        // player 1 requests to restart
-        set_contract_address(player_one_address);
-        actions_system.request_restart_game(2);
-
-        // player 2 requests to restart
-        set_contract_address(player_two_address);
-        actions_system.request_restart_game(2);
-
-        let mancala_game: MancalaGame = actions_system.restart_game(2, true);
-        let player_one_game: GamePlayer = get!(
-            world, (player_one_address, game_two.game_id), (GamePlayer)
-        );
-        let player_two_game: GamePlayer = get!(
-            world, (player_one_address, game_two.game_id), (GamePlayer)
-        );
-
-        assert(mancala_game.is_private == true, 'mancala game is not private');
-        assert(player_one_game.pit1 == 4, 'p1 pit 1 not init correctly');
-        assert(player_one_game.pit2 == 4, 'p1 pit 2 not init correctly');
-        assert(player_one_game.pit3 == 4, 'p1 pit 3 not init correctly');
-        assert(player_one_game.pit4 == 4, 'p1 pit 4 not init correctly');
-        assert(player_one_game.pit5 == 4, 'p1 pit 5 not init correctly');
-        assert(player_one_game.pit6 == 4, 'p1 pit 6 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 1 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 2 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 3 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 4 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 5 not init correctly');
-        assert(player_two_game.pit6 == 4, 'p2 pit 6 not init correctly');
+        systems.actions.initialize_game_counter();
     }
 }

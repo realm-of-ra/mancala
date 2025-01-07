@@ -1,18 +1,22 @@
 [package]
-cairo-version = "=2.7.0"
+cairo-version = "=2.8.4"
 name = "mancala"
-version = "0.0.8"
-edition = "2024_07"
+version = "0.2.1"
 
 [cairo]
 sierra-replace-ids = true
 
 [scripts]
-migrate = "sozo build && sozo migrate plan && sozo migrate apply"
+dev = "sozo clean && sozo build --typescript && sozo migrate"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.9" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.8" }
 
-[[target.dojo]]
+[dev-dependencies]
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.8" }
 
+[[target.starknet-contract]]
+build-external-contracts = ["dojo::world::world_contract::world"]
+
+[profile.slot]
 [profile.sepolia]

@@ -2,61 +2,42 @@ import Header from "@/components/header";
 import GameHistory from "@/components/profile/game-history";
 import UserSection from "@/components/profile/user-section";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  MancalaGameEdge,
-  useFetchModelsForHeaderQuery,
-  useMancalaModelsFetchQuery,
-} from "@/generated/graphql";
+import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
+import { useQuery } from "@apollo/client";
 import { useAccount } from "@starknet-react/core";
 
 export default function Profile() {
-  const { data, startPolling, loading } = useMancalaModelsFetchQuery();
+  const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
+  const { data: profiles, startPolling: startPollingProfiles } =
+    useQuery(MancalaPlayerNames);
   startPolling(1000);
+  startPollingProfiles(1000);
   const account = useAccount();
-  const filteredGames = data?.mancalaAlphaMancalaGameModels?.edges?.filter(
-    (game) =>
-      game?.node?.player_one === account.address ||
-      game?.node?.player_two === account.address,
+  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges?.filter(
+    (game: any) =>
+      game?.node?.player_one === account.account?.address ||
+      game?.node?.player_two === account.account?.address,
   );
 
-  // const filteredTransactions = data?.mancalaAlphaMancalaGameModels?.edges?.reduce(
-  //     (acc: any[], game: any) => {
-  //         if (
-  //             (game?.node?.player_one === account.address ||
-  //                 game?.node?.player_two === account.address) &&
-  //             game?.node?.entity?.executedAt
-  //         ) {
-  //             acc.push({
-  //                 ...game.node,
-  //                 executedAt: game?.node?.entity?.executedAt,
-  //             });
-  //         }
-  //         return acc;
-  //     },
-  //     []
-  // ) || [];
-
   const filteredWonGames =
-    filteredGames?.filter((game) => game?.node?.winner === account.address) ||
-    [];
+    filteredGames?.filter(
+      (game: any) => game?.node?.winner === account.account?.address,
+    ) || [];
   const filteredLostGames =
     filteredGames?.filter(
-      (game) =>
-        game?.node?.winner !== "0x0" && game?.node?.winner !== account.address,
+      (game: any) =>
+        game?.node?.winner !== "0x0" &&
+        game?.node?.winner !== account.account?.address,
     ) || [];
 
-  const { data: playerData, startPolling: startPollingPlayer } =
-    useFetchModelsForHeaderQuery();
-  startPollingPlayer(1000);
-
   const player = getPlayer(
-    playerData?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
-    account.account?.address || "",
+    data?.mancalaDevMancalaBoardModels?.edges,
+    account?.address || "",
   );
 
   return (
-    <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
+    <div className="w-full h-screen bg-[#15181E] space-y-4 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="w-full flex flex-row items-start justify-center space-x-10">
@@ -73,6 +54,7 @@ export default function Profile() {
             wins={filteredWonGames?.length}
             losses={filteredLostGames?.length}
             total={filteredGames?.length || 0}
+            profiles={profiles}
           />
           <Tabs defaultValue="all-games" className="w-[800px] space-y-10">
             <div className="flex flex-row items-center justify-between w-full">
@@ -85,41 +67,11 @@ export default function Profile() {
                 >
                   All games
                 </TabsTrigger>
-                <TabsTrigger
-                  value="won"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229] font-medium"
-                >
-                  Won
-                </TabsTrigger>
-                <TabsTrigger
-                  value="lost"
-                  className="data-[state=active]:bg-[#1A1D25]
-                            data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                            data-[state=active]:text-[#F58229] font-medium"
-                >
-                  Lost
-                </TabsTrigger>
               </TabsList>
             </div>
             <div>
               <TabsContent value="all-games">
                 <GameHistory games={filteredGames} loading={loading} id="all" />
-              </TabsContent>
-              <TabsContent value="won">
-                <GameHistory
-                  games={filteredWonGames}
-                  loading={loading}
-                  id="won"
-                />
-              </TabsContent>
-              <TabsContent value="lost">
-                <GameHistory
-                  games={filteredLostGames}
-                  loading={loading}
-                  id="lost"
-                />
               </TabsContent>
             </div>
           </Tabs>

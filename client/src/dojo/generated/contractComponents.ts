@@ -14,7 +14,7 @@ export function defineContractComponents(world: typeof World) {
         { id: RecsType.Number, game_id: RecsType.BigInt },
         {
           metadata: {
-            name: "mancala_alpha-GameId",
+            name: "mancala_dev-GameId",
             types: ["u32", "u128"],
             customTypes: [],
           },
@@ -38,7 +38,7 @@ export function defineContractComponents(world: typeof World) {
         },
         {
           metadata: {
-            name: "mancala_alpha-GamePlayer",
+            name: "mancala_dev-GamePlayer",
             types: [
               "contractaddress",
               "u128",
@@ -65,14 +65,14 @@ export function defineContractComponents(world: typeof World) {
           player_two: RecsType.BigInt,
           current_player: RecsType.BigInt,
           last_move: RecsType.BigInt,
-          time_between_move: RecsType.BigInt,
+          max_block_between_move: RecsType.BigInt,
           winner: RecsType.BigInt,
           status: RecsType.Number,
           is_private: RecsType.Boolean,
         },
         {
           metadata: {
-            name: "mancala_alpha-MancalaGame",
+            name: "mancala_dev-MancalaGame",
             types: [
               "u128",
               "contractaddress",

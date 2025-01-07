@@ -18,9 +18,29 @@
 
 # Dojo Starter: Official Guide
 
-The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo Autonomous World up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world.
+The official Dojo Starter guide, the quickest and most streamlined way to get your Dojo provable game up and running. This guide will assist you with the initial setup, from cloning the repository to deploying your world.
 
-Read the full tutorial [here](https://book.dojoengine.org/getting-started)
+Read the full tutorial [here](https://book.dojoengine.org/tutorial/dojo-starter).
+
+## Running Locally
+
+#### Terminal one (Make sure this is running)
+```bash
+# Run Katana
+katana --disable-fee --allowed-origins "*"
+```
+
+#### Terminal two
+```bash
+# Build the example
+sozo build
+
+# Migrate the example
+sozo migrate apply
+
+# Start Torii
+torii --world 0x70835f8344647b1e573fe7aeccbf044230089eb19624d3c7dea4080f5dcb025 --allowed-origins "*"
+```
 
 ---
 
@@ -38,7 +58,5 @@ This starter project is a constant work in progress and contributions are greatl
 
 3. **Create a Pull Request**
    - It can't get better then this, your pull request will be appreciated by the community.
-
-For any other questions, feel free to reach out to us [here](https://dojoengine.org/contact).
 
 Happy coding!

@@ -1,13 +1,59 @@
 import eniola from "../assets/eniola.png";
 import israel from "../assets/israel.png";
-import energy from "../assets/energy.png";
+import { gql } from "@apollo/client";
 
-export const animate = {
-  mount: { scale: 1 },
-  unmount: { scale: 0.9 },
-};
-
-export const players = ["isreal", "eniola"];
+export const colors = [
+  "#FF5733",
+  "#33FF57",
+  "#5733FF",
+  "#FF33A1",
+  "#33FFF3",
+  "#FF8C33",
+  "#338CFF",
+  "#8CFF33",
+  "#FF33E5",
+  "#33FFD1",
+  "#B833FF",
+  "#FFB833",
+  "#33FFB8",
+  "#FF338C",
+  "#8C33FF",
+  "#338FFF",
+  "#FF3333",
+  "#33FF33",
+  "#3333FF",
+  "#FF8333",
+  "#8333FF",
+  "#FF3383",
+  "#33FF83",
+  "#FF8357",
+  "#8357FF",
+  "#57FF83",
+  "#8357FF",
+  "#57FF33",
+  "#FF3357",
+  "#33FF57",
+  "#FF57FF",
+  "#FF5733",
+  "#3357FF",
+  "#5733FF",
+  "#33FF33",
+  "#FF57A1",
+  "#57FFA1",
+  "#A157FF",
+  "#FF57E5",
+  "#57FFE5",
+  "#FF3333",
+  "#33FF57",
+  "#5733FF",
+  "#FF5733",
+  "#33A1FF",
+  "#57FF33",
+  "#33FF57",
+  "#5733FF",
+  "#FF3357",
+  "#57FF33",
+];
 
 export const chat = [
   {
@@ -60,83 +106,7 @@ export const chat = [
   },
 ];
 
-export const initialSeeds = [
-  { pot: 1, seeds: 4 },
-  { pot: 2, seeds: 4 },
-  { pot: 3, seeds: 4 },
-  { pot: 4, seeds: 4 },
-  { pot: 5, seeds: 4 },
-  { pot: 6, seeds: 4 },
-  { pot: 7, seeds: 0 },
-  { pot: 8, seeds: 4 },
-  { pot: 9, seeds: 4 },
-  { pot: 10, seeds: 4 },
-  { pot: 11, seeds: 4 },
-  { pot: 12, seeds: 4 },
-  { pot: 13, seeds: 4 },
-  { pot: 14, seeds: 0 },
-];
-
 export const table_head = ["Player", "Level", "Score"];
-
-export const stats = [
-  {
-    id: 1,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 500000,
-  },
-  {
-    id: 2,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 450000,
-  },
-  {
-    id: 3,
-    name: "Israel",
-    image: israel,
-    level: "Level 6",
-    score: 300000,
-  },
-  {
-    id: 4,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 250000,
-  },
-  {
-    id: 5,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 200000,
-  },
-  {
-    id: 6,
-    name: "Israel",
-    image: israel,
-    level: "Level 6",
-    score: 150000,
-  },
-  {
-    id: 7,
-    name: "Energy",
-    image: energy,
-    level: "Level 6",
-    score: 100000,
-  },
-  {
-    id: 8,
-    name: "Eniola",
-    image: eniola,
-    level: "Level 6",
-    score: 50000,
-  },
-];
 
 export const player_header = [
   {
@@ -157,11 +127,11 @@ export const player_header = [
   },
   {
     id: 5,
-    name: "Wins",
+    name: "Games Won",
   },
   {
     id: 6,
-    name: "Losses",
+    name: "Games Lost",
   },
 ];
 
@@ -381,7 +351,7 @@ export const duels_header = [
   },
   {
     id: 4,
-    name: "Date",
+    name: "Status",
   },
 ];
 
@@ -606,17 +576,41 @@ export const live_duels_stats = [
   },
 ];
 
-const ACTION_ADDRESS =
-  "0x66ebcab6f4ae40dba02ac86ac2ebba2f5b459142cbf095d65e5294e4dd7f465";
+export const players = ["Eniola", "Israel"];
+
+export const animate = {
+  mount: { scale: 1 },
+  unmount: { scale: 0.9 },
+};
+
+export const gameStarted = (games_data_one: any, games_data_two: any) =>
+  !(
+    games_data_one?.pit1 == 4 &&
+    games_data_one?.pit2 == 4 &&
+    games_data_one?.pit3 == 4 &&
+    games_data_one?.pit4 == 4 &&
+    games_data_one?.pit5 == 4 &&
+    games_data_one?.pit6 == 4 &&
+    games_data_two?.pit1 == 4 &&
+    games_data_two?.pit2 == 4 &&
+    games_data_two?.pit3 == 4 &&
+    games_data_two?.pit4 == 4 &&
+    games_data_two?.pit5 == 4 &&
+    games_data_two?.pit6 == 4
+  );
+
+export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
+
+const ACTION_ADDRESS = "0x039e885bb49e7002da73d0b77efee67ac3801cada2767eb382e4dc63755def20";
 
 export const POLICIES = [
   {
     target: ACTION_ADDRESS,
-    method: "create_initial_game_id",
+    method: "initialize_game_counter",
   },
   {
     target: ACTION_ADDRESS,
-    method: "create_game",
+    method: "new_game",
   },
   {
     target: ACTION_ADDRESS,
@@ -632,6 +626,161 @@ export const POLICIES = [
   },
   {
     target: ACTION_ADDRESS,
-    method: "time_out",
+    method: "request_restart_game",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "restart_current_game",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "forfeited",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "timeout",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "create_player_profile",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "update_player_uri",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "rename_player",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "update_player_profile",
+  },
+  {
+    target: ACTION_ADDRESS,
+    method: "new_profile",
   },
 ];
+
+export const MancalaBoardModelsQuery = gql`
+  query mancalaDevMancalaBoardModels {
+    mancalaDevMancalaBoardModels {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+          entity {
+            executedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaBoardModelQuery = gql`
+  query mancalaDevMancalaBoardModel($gameId: u128) {
+    mancalaDevMancalaBoardModels(
+      where: { game_id: $gameId }
+      limit: 1000000000
+    ) {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+          max_block_between_move
+          entity {
+            executedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaPlayQuery = gql`
+  query mancalaDevPlayerModels($gameId: u128) {
+    mancalaDevPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          address
+          game_id
+          len_pits
+          restart_requested
+        }
+      }
+    }
+    mancalaDevPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          player
+          seed_count
+          pit_number
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaSeedQuery = gql`
+  query mancalaDevSeedModels($gameId: u128) {
+    mancalaDevSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          pit_number
+          player
+          seed_number
+          color
+          seed_id
+          entity {
+            updatedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaHeaderQuery = gql`
+  query FetchModelsForHeader {
+    mancalaDevGameModels {
+      edges {
+        node {
+          game_id
+          player_one
+          player_two
+          current_player
+          winner
+          status
+          is_private
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaPlayerNames = gql`
+  query mancalaDevPlayerNames {
+    mancalaDevProfileModels {
+      edges {
+        node {
+          name
+          address
+          profile_uri
+        }
+      }
+    }
+  }
+`;

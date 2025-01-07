@@ -1,40 +1,27 @@
-import CartridgeConnector from "@cartridge/connector";
+import ControllerConnector from "@cartridge/connector/controller";
 import { ControllerOptions } from "@cartridge/controller";
-import { Chain, sepolia } from "@starknet-react/chains";
-import { stringToFelt, bigintToHex } from "@/lib/utils";
+import { sepolia } from "@starknet-react/chains";
 import {
   Connector,
   StarknetConfig,
   jsonRpcProvider,
+  voyager,
 } from "@starknet-react/core";
 import { Provider as JotaiProvider } from "jotai";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
-import { POLICIES } from "./lib/constants";
+import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Profile from "./pages/Profile";
 
 const options: ControllerOptions = {
-  rpc: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
+  rpc: SLOT_RPC_URL,
   theme: "realm-of-ra",
-  paymaster: {
-    caller: bigintToHex(stringToFelt("ANY_CALLER")),
-  },
-};
-
-const connectorOptions = {
   policies: POLICIES,
-  ...options,
 };
-
-function rpc(_chain: Chain) {
-  return {
-    nodeUrl: "https://api.cartridge.gg/x/mancala-alpha-v8/katana",
-  };
-}
 
 const SmallScreenWarning = () => (
   <div className="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-75 backdrop-blur-sm">
@@ -60,15 +47,19 @@ export default function App() {
     };
   }, []);
 
-  const connectors = [
-    new CartridgeConnector(connectorOptions) as never as Connector,
-  ];
+  const connectors = [new ControllerConnector(options) as never as Connector];
+
+  const rpc = useCallback(() => {
+    return { nodeUrl: SLOT_RPC_URL };
+  }, []);
 
   return (
     <StarknetConfig
       chains={[sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}
+      explorer={voyager}
+      autoConnect
     >
       <JotaiProvider>
         <Router>

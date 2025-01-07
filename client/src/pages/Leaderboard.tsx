@@ -1,7 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
-import { stats, table_head } from "@/lib/constants";
+import { MancalaBoardModelsQuery, table_head } from "@/lib/constants";
 import Header from "@/components/header";
 import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
@@ -9,11 +9,8 @@ import { constants, StarkProfile } from "starknet";
 import { getPlayers, truncateString } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  MancalaGameEdge,
-  useFetchModelsForLeaderBoardQuery,
-} from "@/generated/graphql.tsx";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useQuery } from "@apollo/client";
 
 export default function Leaderboard() {
   const { provider } = useProvider();
@@ -24,15 +21,15 @@ export default function Leaderboard() {
     constants.StarknetChainId.SN_SEPOLIA,
   );
 
-  const { loading, error, data, startPolling } =
-    useFetchModelsForLeaderBoardQuery();
+  const { loading, error, data, startPolling } = useQuery(
+    MancalaBoardModelsQuery,
+  );
+
   startPolling(1000);
 
   // Extracting player_one and player_two from the data object and get the the top 8 highest winners
   // TODO: instead of type coercion, we can use this to aid loading state
-  const players = getPlayers(
-    data?.mancalaAlphaMancalaGameModels?.edges as MancalaGameEdge[],
-  )
+  const players = getPlayers(data?.mancalaMancalaBoardModels?.edges)
     ?.sort((a: any, b: any) => b?.wins - a?.wins)
     ?.slice(0, 8);
 
@@ -171,7 +168,7 @@ export default function Leaderboard() {
                 {players
                   ?.slice(3, 8)
                   .map(({ wins }: { wins: number }, index: number) => {
-                    const isLast = index === stats.slice(3).length - 1;
+                    const isLast = index === players.slice(3).length - 1;
 
                     return (
                       <tr key={index}>
@@ -195,7 +192,7 @@ export default function Leaderboard() {
                               {profiles[index + 3]?.name
                                 ? profiles[index + 3].name
                                 : addresses &&
-                                truncateString(addresses[index + 3])}
+                                  truncateString(addresses[index + 3])}
                             </p>
                           </div>
                         </td>
