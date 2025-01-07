@@ -784,3 +784,30 @@ export const MancalaPlayerNames = gql`
     }
   }
 `;
+
+export const MancalaCaptureQuery = gql`
+  query mancalaAlphaCaptureModels($gameId: u128) {
+    mancalaAlphaCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          player
+          seed_count
+          pit_number
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaExtraTurnQuery = gql`
+  query mancalaAlphaPlayerExtraTurnModels($gameId: u128) {
+    mancalaAlphaPlayerExtraTurnModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          player
+        }
+      }
+    }
+  }
+`;
