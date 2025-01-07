@@ -227,8 +227,11 @@ mod PlayableComponent {
                     // [Trophy] Update Collecting task event
                     let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
                     let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
                     let time = get_block_timestamp();
                     arcade_store.progress(player.into(), task_id, captured_seeds.into(), time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
             }
 
@@ -241,8 +244,11 @@ mod PlayableComponent {
                     // [Trophy] Update Collecting task event
                     let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
                     let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
                     let time = get_block_timestamp();
                     arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
 
                 if opponent_seeds.len() == 0 {
@@ -251,8 +257,11 @@ mod PlayableComponent {
                     // [Trophy] Update Collecting task event
                     let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
                     let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
                     let time = get_block_timestamp();
                     arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
                 mancala_game.status = GameStatus::Finished;
                 let mut current_player_store = store
