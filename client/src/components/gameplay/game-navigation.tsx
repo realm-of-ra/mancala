@@ -35,13 +35,13 @@ export default function GameNavigation({
     game_players?.player_two?.edges?.[0]?.node?.address,
   );
   const player_one_name = formatPlayerName(
-    player_names?.mancalaDevProfileModels.edges.find(
+    player_names?.mancalaAlphaProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_one,
     )?.node.name,
     game_node?.player_one,
   );
   const player_two_name = formatPlayerName(
-    player_names?.mancalaDevProfileModels.edges.find(
+    player_names?.mancalaAlphaProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_two,
     )?.node.name,
     game_node?.player_two,

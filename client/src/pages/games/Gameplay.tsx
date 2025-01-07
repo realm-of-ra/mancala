@@ -31,24 +31,24 @@ export default function Gameplay() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaDevPlayerModels.edges.filter(
+    game_players?.mancalaAlphaPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaDevPlayerModels.edges.findIndex(
+    ? game_players?.mancalaAlphaPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (

@@ -53,7 +53,7 @@ export default function UserSection({
 
   const handleSaveProfile = async () => {
     if (account.account) {
-      const userExists = profiles.mancalaDevProfileModels.edges.some(
+      const userExists = profiles.mancalaAlphaProfileModels.edges.some(
         (profile: any) => profile.node.address === account.account?.address,
       );
 
