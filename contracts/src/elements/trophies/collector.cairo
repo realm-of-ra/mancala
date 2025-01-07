@@ -24,9 +24,9 @@ impl Collector of TrophyTrait {
     #[inline]
     fn points(level: u8) -> u16 {
         match level {
-            0 => 20,
-            1 => 40,
-            2 => 80,
+            0 => 50,
+            1 => 100,
+            2 => 500,
             _ => 0,
         }
     }
@@ -69,7 +69,7 @@ impl Collector of TrophyTrait {
     #[inline]
     fn count(level: u8) -> u32 {
         match level {
-            0 => 10,
+            0 => 20,
             1 => 200,
             2 => 2000,
             _ => 0,
