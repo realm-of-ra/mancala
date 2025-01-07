@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 import { useQuery } from "@apollo/client";
-import { MancalaSeedQuery } from "@/lib/constants";
+import { MancalaSeedQuery, MancalaCaptureQuery, MancalaExtraTurnQuery } from "@/lib/constants";
 import Seed from "../seed";
+import { useToast } from "@/components/ui/use-toast";
 
 interface GameBoardProps {
   game_players: any;
@@ -24,10 +25,63 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setMoveMessage,
   setTimeRemaining,
 }) => {
+  const { toast } = useToast();
+  
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
   startPolling(1000);
+
+  const { data: captureData, startPolling: startCapturePolling } = useQuery(MancalaCaptureQuery, {
+    variables: { gameId: gameId }
+  });
+  
+  const { data: extraTurnData, startPolling: startExtraTurnPolling } = useQuery(MancalaExtraTurnQuery, {
+    variables: { gameId: gameId }
+  });
+
+  useEffect(() => {
+    startCapturePolling(1000);
+    startExtraTurnPolling(1000);
+  }, [startCapturePolling, startExtraTurnPolling]);
+
+  useEffect(() => {
+    const captures = captureData?.mancalaAlphaCaptureModels?.edges;
+    if (captures && captures.length > 0) {
+      const latestCapture = captures[captures.length - 1]?.node;
+      
+      if (latestCapture) {
+        const isPlayerCapture = latestCapture.player === account.account?.address;
+        
+        toast({
+          title: isPlayerCapture ? "Seeds Captured!" : "Seeds Lost!",
+          description: isPlayerCapture 
+            ? `You captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`
+            : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`,
+          duration: 3000,
+        });
+      }
+    }
+  }, [captureData, account.account?.address, toast]);
+
+  useEffect(() => {
+    const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
+    if (extraTurns && extraTurns.length > 0) {
+      const latestExtraTurn = extraTurns[extraTurns.length - 1]?.node;
+      
+      if (latestExtraTurn) {
+        const isPlayerExtraTurn = latestExtraTurn.player === account.account?.address;
+        
+        toast({
+          title: isPlayerExtraTurn ? "Extra Turn!" : "Opponent Extra Turn",
+          description: isPlayerExtraTurn 
+            ? "You get another turn!"
+            : "Opponent gets another turn",
+          duration: 3000,
+        });
+      }
+    }
+  }, [extraTurnData, account.account?.address, toast]);
 
   const seeds = React.useMemo(() => {
     if (!data?.mancalaAlphaSeedModels?.edges) return [];
