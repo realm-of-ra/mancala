@@ -39,9 +39,9 @@ impl Strategist of TrophyTrait {
     #[inline]
     fn icon(level: u8) -> felt252 {
         match level {
-            0 => 'fa-vial',
-            1 => 'fa-flask',
-            2 => 'fa-flask-vial',
+            0 => 'fa-lightbulb-o',
+            1 => 'fa-magnet',
+            2 => 'fa-university',
             _ => '',
         }
     }

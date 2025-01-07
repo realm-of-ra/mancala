@@ -28,7 +28,7 @@ impl Dominator of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-fork-knife'
+        'fa-shield'
     }
 
     #[inline]

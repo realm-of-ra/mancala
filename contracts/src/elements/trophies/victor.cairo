@@ -28,7 +28,7 @@ impl Victor of TrophyTrait {
 
     #[inline]
     fn icon(level: u8) -> felt252 {
-        'fa-fork-knife'
+        'fa-trophy'
     }
 
     #[inline]
