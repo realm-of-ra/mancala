@@ -64,12 +64,12 @@ export default function Header() {
   const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaDevProfileModels?.edges.find(
+    const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
       (player: any) => player.node.address === account?.address,
     );
     console.log(
       "profile: ",
-      playerData?.mancalaDevProfileModels?.edges.map((player: any) => player),
+      playerData?.mancalaAlphaProfileModels?.edges.map((player: any) => player),
     );
     if (!account?.address || !profile) {
       setPlayerName("");
@@ -81,7 +81,7 @@ export default function Header() {
     }
   }, [
     account?.address,
-    playerData?.mancalaDevProfileModels?.edges,
+    playerData?.mancalaAlphaProfileModels?.edges,
     playerData,
     account?.address,
   ]);

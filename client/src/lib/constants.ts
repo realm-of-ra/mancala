@@ -601,7 +601,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
-const ACTION_ADDRESS = "0x039e885bb49e7002da73d0b77efee67ac3801cada2767eb382e4dc63755def20";
+const ACTION_ADDRESS = "0x073d5f249b9519777bcca407e74b7230c935abded8b1f21717f75a5a8ce962a5";
 
 export const POLICIES = [
   {
@@ -663,8 +663,8 @@ export const POLICIES = [
 ];
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaDevMancalaBoardModels {
-    mancalaDevMancalaBoardModels {
+  query mancalaAlphaMancalaBoardModels {
+    mancalaAlphaMancalaBoardModels {
       edges {
         node {
           game_id
@@ -684,8 +684,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaDevMancalaBoardModel($gameId: u128) {
-    mancalaDevMancalaBoardModels(
+  query mancalaAlphaMancalaBoardModel($gameId: u128) {
+    mancalaAlphaMancalaBoardModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {
@@ -709,8 +709,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaDevPlayerModels($gameId: u128) {
-    mancalaDevPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaAlphaPlayerModels($gameId: u128) {
+    mancalaAlphaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -720,7 +720,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaDevPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaAlphaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -734,8 +734,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaDevSeedModels($gameId: u128) {
-    mancalaDevSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaAlphaSeedModels($gameId: u128) {
+    mancalaAlphaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -755,7 +755,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaDevGameModels {
+    mancalaAlphaGameModels {
       edges {
         node {
           game_id
@@ -772,8 +772,8 @@ export const MancalaHeaderQuery = gql`
 `;
 
 export const MancalaPlayerNames = gql`
-  query mancalaDevPlayerNames {
-    mancalaDevProfileModels {
+  query mancalaAlphaPlayerNames {
+    mancalaAlphaProfileModels {
       edges {
         node {
           name

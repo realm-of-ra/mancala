@@ -66,6 +66,7 @@ export default function Lobby() {
     }
   };
   const isConnected = account.account != null;
+  console.log(account.account?.address);
   const create_game = async () => {
     setCreating(true);
     if (account.account) {
@@ -112,21 +113,21 @@ export default function Lobby() {
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
-  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges
+  const filteredGames = data?.mancalaAlphaMancalaBoardModels?.edges
     ?.filter(
       (game: any) =>
         game?.node?.player_one === account.account?.address ||
         game?.node?.player_two === account.account?.address,
     )
     .map((game: any) => {
-      const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
       );
-      const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player2Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_two,
       );
 
-      const winner = playerData?.mancalaDevProfileModels?.edges?.find(
+      const winner = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.winner,
       );
       return {
@@ -141,7 +142,7 @@ export default function Lobby() {
     });
 
   const filteredTransactions =
-    data?.mancalaDevMancalaBoardModels?.edges?.reduce(
+    data?.mancalaAlphaMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
           (game?.node?.player_one === account.account?.address ||
@@ -185,12 +186,12 @@ export default function Lobby() {
     setPlaying(!isPlaying);
   };
 
-  const gamesWithPlayerNames = data?.mancalaDevMancalaBoardModels?.edges?.map(
+  const gamesWithPlayerNames = data?.mancalaAlphaMancalaBoardModels?.edges?.map(
     (game: any) => {
-      const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
       );
-      const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player2Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_two,
       );
       return {

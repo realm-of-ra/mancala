@@ -3,7 +3,8 @@
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 
-export const NAMESPACE = "mancala_dev";
+export const NAMESPACE = "mancala_alpha";
+export const contractName = "Mancala";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -14,7 +15,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "create_initial_game_id",
             calldata: [],
           },
@@ -27,11 +28,12 @@ export async function setupWorld(provider: DojoProvider) {
     };
 
     const create_game = async (account: AccountInterface) => {
+      console.log('account: ', account)
       try {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "new_game",
             calldata: [],
           },
@@ -51,7 +53,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "create_private_game",
             calldata: [player_2],
           },
@@ -68,7 +70,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "join_game",
             calldata: [game_id],
           },
@@ -89,7 +91,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "move",
             calldata: [game_id, selected_pit],
           },
@@ -112,18 +114,18 @@ export async function setupWorld(provider: DojoProvider) {
           approver
             ? [
                 {
-                  contractName: "actions",
+                  contractName,
                   entrypoint: "request_restart_game",
                   calldata: [game_id],
                 },
                 {
-                  contractName: "actions",
+                  contractName,
                   entrypoint: "restart_current_game",
                   calldata: [game_id],
                 },
               ]
             : {
-                contractName: "actions",
+                contractName,
                 entrypoint: "request_restart_game",
                 calldata: [game_id],
               },
@@ -140,7 +142,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "forfeited",
             calldata: [game_id],
           },
@@ -161,7 +163,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "timeout",
             calldata: [game_id, opposition_address],
           },
@@ -181,7 +183,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "create_player_profile",
             calldata: [name],
           },
@@ -202,7 +204,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName: "actions",
+            contractName,
             entrypoint: "update_player_profile",
             calldata: [name, new_uri],
           },
