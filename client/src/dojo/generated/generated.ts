@@ -183,7 +183,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName,
+            contractName: "PlayerProfile",
             entrypoint: "create_player_profile",
             calldata: [name],
           },
@@ -204,7 +204,7 @@ export async function setupWorld(provider: DojoProvider) {
         return await provider.execute(
           account,
           {
-            contractName,
+            contractName: "PlayerProfile",
             entrypoint: "update_player_profile",
             calldata: [name, new_uri],
           },
