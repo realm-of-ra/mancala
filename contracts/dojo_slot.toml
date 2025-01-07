@@ -13,10 +13,10 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala"
+default = "mancala_alpha"
 
 [writers]
-"mancala" = ["mancala-actions"]
+"mancala_alpha" = ["mancala_alpha-Mancala", "mancala_alpha-PlayerProfile"]
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
@@ -24,3 +24,6 @@ rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
 account_address = "0x7c7e6bcfcb1b408dcef95241681739207d3d8eff5439c9301847222e12dc053"
 private_key = "0x3eb97d72f148146d534d7e6dabdeba45c5bd62c4355db2a41735f847967db1b"
 world_address = "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3"  # Uncomment and update this line with your world address.
+ipfs_config.url = "https://ipfs.infura.io:5001"
+ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
+ipfs_config.password = "12290b883db9138a8ae3363b6739d220"

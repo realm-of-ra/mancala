@@ -18,10 +18,37 @@ mod events {
 
 mod components {
     mod playable;
+    mod initializable;
+    mod profile;
+}
+
+mod elements {
+    mod tasks {
+        mod clearing;
+        mod collecting;
+        mod dominating;
+        mod interface;
+        mod mastering;
+        mod reigning;
+    }
+    mod trophies {
+        mod collector;
+        mod dominator;
+        mod extractor;
+        mod strategist;
+        mod victor;
+        mod interface;
+    }
 }
 
 mod systems {
-    mod actions;
+    mod mancala;
+    mod profile;
+}
+
+mod types {
+    mod task;
+    mod trophy;
 }
 
 mod utils {

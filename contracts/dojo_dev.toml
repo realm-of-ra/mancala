@@ -1,5 +1,5 @@
 [world]
-name = "Mancala"
+name = "RealmOfRa: Mancala"
 description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo."
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
@@ -13,10 +13,10 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_dev"
+default = "mancala_alpha"
 
 [writers]
-"mancala_dev" = ["mancala_dev-actions"]
+"mancala_alpha" = ["mancala_alpha-Mancala", "mancala_alpha-PlayerProfile"]
 
 [env]
 rpc_url = "http://localhost:5050"

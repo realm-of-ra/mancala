@@ -9,7 +9,9 @@ mod setup {
     };
 
     use mancala::constants::NAMESPACE;
-    use mancala::systems::actions::{actions, IActionsDispatcher, IActionsDispatcherTrait};
+    use mancala::systems::mancala::{
+        Mancala, IMancalaSystemDispatcher, IMancalaSystemDispatcherTrait,
+    };
     use mancala::models::{index as models};
     use mancala::events::{index as events};
 
@@ -27,7 +29,7 @@ mod setup {
 
     #[derive(Drop)]
     struct Systems {
-        actions: IActionsDispatcher,
+        Mancala: IMancalaSystemDispatcher,
     }
 
     #[inline]
@@ -44,7 +46,11 @@ mod setup {
                 TestResource::Event(events::e_PlayerExtraTurn::TEST_CLASS_HASH),
                 TestResource::Event(events::e_EndTurn::TEST_CLASS_HASH),
                 TestResource::Event(events::e_Capture::TEST_CLASS_HASH),
-                TestResource::Contract(actions::TEST_CLASS_HASH),
+                TestResource::Event(achievement::events::index::e_TrophyCreation::TEST_CLASS_HASH),
+                TestResource::Event(
+                    achievement::events::index::e_TrophyProgression::TEST_CLASS_HASH,
+                ),
+                TestResource::Contract(Mancala::TEST_CLASS_HASH),
             ]
                 .span(),
         }
@@ -52,7 +58,7 @@ mod setup {
 
     fn setup_contracts() -> Span<ContractDef> {
         [
-            ContractDefTrait::new(@NAMESPACE(), @"actions")
+            ContractDefTrait::new(@NAMESPACE(), @"Mancala")
                 .with_writer_of([dojo::utils::bytearray_hash(@NAMESPACE())].span()),
         ]
             .span()
@@ -65,8 +71,10 @@ mod setup {
         let world = spawn_test_world([namespace_def].span());
         world.sync_perms_and_inits(setup_contracts());
         // [Setup] Systems
-        let (actions_address, _) = world.dns(@"actions").unwrap();
-        let systems = Systems { actions: IActionsDispatcher { contract_address: actions_address } };
+        let (mancala_address, _) = world.dns(@"Mancala").unwrap();
+        let systems = Systems {
+            Mancala: IMancalaSystemDispatcher { contract_address: mancala_address },
+        };
 
         (world, systems)
     }
