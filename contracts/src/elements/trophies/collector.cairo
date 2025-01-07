@@ -39,9 +39,9 @@ impl Collector of TrophyTrait {
     #[inline]
     fn icon(level: u8) -> felt252 {
         match level {
-            0 => 'fa-vial',
-            1 => 'fa-flask',
-            2 => 'fa-flask-vial',
+            0 => 'fa-shopping-basket',
+            1 => 'fa-truck',
+            2 => 'fa-diamond',
             _ => '',
         }
     }
@@ -70,8 +70,8 @@ impl Collector of TrophyTrait {
     fn count(level: u8) -> u32 {
         match level {
             0 => 10,
-            1 => 50,
-            2 => 100,
+            1 => 200,
+            2 => 2000,
             _ => 0,
         }
     }
