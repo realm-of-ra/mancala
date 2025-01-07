@@ -641,23 +641,23 @@ export const POLICIES = [
     method: "timeout",
   },
   {
-    target: ACTION_ADDRESS,
+    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
     method: "create_player_profile",
   },
   {
-    target: ACTION_ADDRESS,
+    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
     method: "update_player_uri",
   },
   {
-    target: ACTION_ADDRESS,
+    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
     method: "rename_player",
   },
   {
-    target: ACTION_ADDRESS,
+    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
     method: "update_player_profile",
   },
   {
-    target: ACTION_ADDRESS,
+    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
     method: "new_profile",
   },
 ];
