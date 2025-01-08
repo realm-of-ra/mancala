@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { isPlayingAtom } from "@/atom/atoms";
 import audio from "@/music/audio_1.mp4";
+import emptyPitSound from "@/music/empty-pit.mp3";
+import seedDropSound from "@/music/seed-drop.mp3";
 
 export function useAudioControl() {
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
@@ -20,6 +22,18 @@ export function useAudioControl() {
     setVolumeDisplayValue(Math.round(newVolume * 100));
   };
 
+  const playEmptyPitSound = () => {
+    const emptySound = new Audio(emptyPitSound);
+    emptySound.volume = volume * 0.6;
+    emptySound.play();
+  };
+
+  const playSeedDropSound = () => {
+    const dropSound = new Audio(seedDropSound);
+    dropSound.volume = volume * 0.4;
+    dropSound.play();
+  };
+
   useEffect(() => {
     const audio = audioRef.current;
 
@@ -35,7 +49,7 @@ export function useAudioControl() {
                 "Audio playback was not allowed. This may be due to autoplay restrictions.",
                 error,
               );
-              setPlaying(false); // Reset playing state
+              setPlaying(false);
             } else if (error.name === "NotSupportedError") {
               console.error(
                 "The audio format is not supported by the browser.",
@@ -74,5 +88,7 @@ export function useAudioControl() {
     volumeDisplayValue,
     handleVolumeChange,
     audioRef,
+    playEmptyPitSound,
+    playSeedDropSound,
   };
 }

@@ -1,3 +1,4 @@
+import { useAudioControl } from "@/hooks/useAudioControl";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -173,10 +174,19 @@ export default function Seed({
   };
 
   const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
+  const { playSeedDropSound } = useAudioControl();
 
   useEffect(() => {
     setAnimationDelay(seed_number * 0.75);
   }, [seed_number]);
+
+  const play = () => {
+    const timer = setTimeout(() => {
+      playSeedDropSound();
+    }, (animationDelay * 1000) + 600);
+
+    return () => clearTimeout(timer);
+  }
 
   return (
     <motion.div
@@ -194,20 +204,21 @@ export default function Seed({
         scale: 1,
         transition: {
           type: "spring",
-          stiffness: 35, // Reduced from 45 for slower movement
-          damping: 15, // Increased from 5 for less bounce
+          stiffness: 35,
+          damping: 15,
           delay: animationDelay,
-          opacity: { duration: 0.8, delay: animationDelay }, // Slower fade in
+          opacity: { duration: 0.8, delay: animationDelay },
           scale: { 
             duration: 0.6, 
             delay: animationDelay,
             type: "spring",
-            stiffness: 100, // Reduced bounce on scale
+            stiffness: 100,
             damping: 12
           },
-          duration: 2.5, // Increased from 1.8 to 2.5 seconds
+          duration: 2.5,
         },
       }}
+      onAnimationStart={play}
     />
   );
 }
