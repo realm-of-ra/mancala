@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseAccountResult } from "@starknet-react/core";
+import { useAudioControl } from "@/hooks/useAudioControl";
 
 export function TopPit({ amount }: { amount: number }) {
   return (
@@ -43,6 +44,7 @@ export function BottomPit({
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   max_block_between_move: number;
 }) {
+  const { playEmptyPitSound } = useAudioControl();
   const handleMove = async () => {
     message(undefined);
     if (
@@ -51,6 +53,7 @@ export function BottomPit({
       winner === "0x0"
     ) {
       message(undefined);
+      playEmptyPitSound();
       await system.move(userAccount?.account, game_id, pit);
       setTimeRemaining(max_block_between_move);
     } else {
