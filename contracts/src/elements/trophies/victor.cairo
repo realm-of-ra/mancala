@@ -23,7 +23,7 @@ impl Victor of TrophyTrait {
 
     #[inline]
     fn group() -> felt252 {
-        'Reigning'
+        'Dominator'
     }
 
     #[inline]
@@ -33,7 +33,7 @@ impl Victor of TrophyTrait {
 
     #[inline]
     fn title(level: u8) -> felt252 {
-        'Reigning'
+        'Victor'
     }
 
     #[inline]

@@ -23,7 +23,7 @@ impl Extractor of TrophyTrait {
 
     #[inline]
     fn group() -> felt252 {
-        'Clearing'
+        'Keeper'
     }
 
     #[inline]
@@ -33,7 +33,7 @@ impl Extractor of TrophyTrait {
 
     #[inline]
     fn title(level: u8) -> felt252 {
-        'Clearing'
+        'Extractor'
     }
 
     #[inline]

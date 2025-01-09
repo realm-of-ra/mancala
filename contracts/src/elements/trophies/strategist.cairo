@@ -49,9 +49,9 @@ impl Strategist of TrophyTrait {
     #[inline]
     fn title(level: u8) -> felt252 {
         match level {
-            0 => 'STRATEGIST I',
-            1 => 'STRATEGIST II',
-            2 => 'STRATEGIST III',
+            0 => 'Strategist I',
+            1 => 'Strategist II',
+            2 => 'Strategist III',
             _ => '',
         }
     }

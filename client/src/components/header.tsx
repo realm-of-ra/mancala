@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
@@ -14,6 +14,7 @@ import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
+import { ControllerTrophy } from "./controller-trophy";
 
 export default function Header() {
   const { connect, connectors } = useConnect();
@@ -161,6 +162,8 @@ export default function Header() {
           <Link to="/" className="mb-4">
             <img src={mancala} className="h-10 w-36" />
           </Link>
+
+          <ControllerTrophy />
         </div>
       </div>
       <div className="flex-1 w-full -ml-16">

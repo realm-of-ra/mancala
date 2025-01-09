@@ -1,0 +1,11 @@
+allowed_origins = ["*"]
+# The World address to index.
+world_address = "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e1779"
+
+# Indexing Options
+[indexing]
+index_pending = true
+polling_interval = 500
+historical = [
+    "mancala_alpha-TrophyProgression",
+]

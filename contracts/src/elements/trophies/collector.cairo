@@ -49,9 +49,9 @@ impl Collector of TrophyTrait {
     #[inline]
     fn title(level: u8) -> felt252 {
         match level {
-            0 => 'COLLECTOR I',
-            1 => 'COLLECTOR II',
-            2 => 'COLLECTOR III',
+            0 => 'Collector I',
+            1 => 'Collector II',
+            2 => 'Collector III',
             _ => '',
         }
     }

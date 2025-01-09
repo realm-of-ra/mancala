@@ -17,6 +17,8 @@ default = "mancala_alpha"
 
 [writers]
 "mancala_alpha" = ["mancala_alpha-Mancala", "mancala_alpha-PlayerProfile"]
+"mancala_alpha-TrophyCreation" = ["mancala_alpha-Mancala"]
+"mancala_alpha-TrophyProgression" = ["mancala_alpha-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"

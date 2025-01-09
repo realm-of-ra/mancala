@@ -21,6 +21,8 @@ const options: ControllerOptions = {
   rpc: SLOT_RPC_URL,
   theme: "realm-of-ra",
   policies: POLICIES,
+  namespace: "mancala_alpha",
+  slot: "mancala-a",
 };
 
 const SmallScreenWarning = () => (
