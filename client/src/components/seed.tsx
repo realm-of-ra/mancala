@@ -223,19 +223,21 @@ export default function Seed({
   const each_position = useMemo(() => {
     switch (pit_number) {
       case 1:
-        return { x: position[seed_number - 1].x - 982.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 982.5 : position[seed_number - 1].x + 420, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
       case 2:
-        return { x: position[seed_number - 1].x - 862.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 862.5 : position[seed_number - 1].x + 300, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
       case 3:
-        return { x: position[seed_number - 1].x - 742.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 742.5 : position[seed_number - 1].x + 180, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
       case 4:
-        return { x: position[seed_number - 1].x - 622.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 622.5 : position[seed_number - 1].x + 60, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
       case 5:
-        return { x: position[seed_number - 1].x - 502.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 502.5 : position[seed_number - 1].x - 60, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
       case 6:
-        return { x: position[seed_number - 1].x - 382.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+        return { x: type === "player" ? position[seed_number - 1].x - 382.5 : position[seed_number - 1].x - 185, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 7:
+        return { x: position[seed_number - 1].x + (type === "player" ? -262.5 : 540), y: position[seed_number - 1].y + (type === "player" ? 10 : -100) };
       default:
-        return position[seed_number - 1];
+        return { x: 0, y: 0 };
     }
   }, [seed_number, pit_number, position, type]);
 
@@ -282,6 +284,6 @@ export default function Seed({
         },
       }}
       onAnimationStart={play}
-    />
+    >{pit_number}</motion.div>
   );
 }
