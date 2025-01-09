@@ -24,296 +24,220 @@ export default function Seed({
   const { playSeedDropSound } = useAudioControl();
 
   const position = useMemo(() => {
-    const positions = [
+    return [
       {
-        player: [
-          {
-            x: 270,
-            y: 110,
-          },
-          {
-            x: 287,
-            y: 110,
-          },
-          {
-            x: 270,
-            y: 127,
-          },
-          {
-            x: 287,
-            y: 127,
-          },
-          {
-            x: 270,
-            y: 144,
-          },
-          {
-            x: 287,
-            y: 144,
-          },
-          {
-            x: 270,
-            y: 93,
-          },
-          {
-            x: 287,
-            y: 93,
-          },
-          {
-            x: 253,
-            y: 100,
-          },
-          {
-            x: 253,
-            y: 117,
-          },
-          {
-            x: 253,
-            y: 134,
-          },
-          {
-            x: 304,
-            y: 100,
-          },
-          {
-            x: 304,
-            y: 117,
-          },
-          {
-            x: 304,
-            y: 134,
-          },
-          {
-            x: 260,
-            y: 100
-          },
-          {
-            x: 260,
-            y: 117
-          },
-          {
-            x: 260,
-            y: 134
-          },
-          {
-            x: 278,
-            y: 93
-          },
-          {
-            x: 278,
-            y: 110
-          },
-          {
-            x: 278,
-            y: 127
-          },
-          {
-            x: 278,
-            y: 143
-          },
-          {
-            x: 296,
-            y: 100
-          },
-          {
-            x: 296,
-            y: 117
-          },
-          {
-            x: 296,
-            y: 134
-          },
-          {
-            x: 314,
-            y: 110
-          },
-          {
-            x: 314,
-            y: 128
-          },
-          {
-            x: 247,
-            y: 110
-          },
-          {
-            x: 247,
-            y: 127
-          },
-          {
-            x: 267,
-            y: 95
-          },
-          {
-            x: 267,
-            y: 112
-          },
-          {
-            x: 267,
-            y: 129
-          },
-          {
-            x: 255,
-            y: 135
-          },
-          {
-            x: 267,
-            y: 146
-          },
-          {
-            x: 278,
-            y: 97
-          },
-          {
-            x: 278,
-            y: 114
-          },
-          {
-            x: 278,
-            y: 131
-          },
-          {
-            x: 278,
-            y: 148
-          },
-          {
-            x: 289,
-            y: 97
-          },
-          {
-            x: 289,
-            y: 114
-          },
-          {
-            x: 289,
-            y: 131
-          },
-          {
-            x: 289,
-            y: 148
-          },
-          {
-            x: 300,
-            y: 93
-          },
-          {
-            x: 300,
-            y: 110
-          },
-          {
-            x: 300,
-            y: 127
-          },
-          {
-            x: 300,
-            y: 144
-          },
-          {
-            x: 312,
-            y: 100
-          },
-          {
-            x: 312,
-            y: 117
-          },
-          {
-            x: 312,
-            y: 134
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 270,
+        y: 110,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 287,
+        y: 110,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 270,
+        y: 127,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 287,
+        y: 127,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 270,
+        y: 144,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 287,
+        y: 144,
       },
       {
-        player: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ],
-        opponent: [
-          {
-            x: 0,
-            y: 0,
-          }
-        ]
+        x: 270,
+        y: 93,
+      },
+      {
+        x: 287,
+        y: 93,
+      },
+      {
+        x: 253,
+        y: 100,
+      },
+      {
+        x: 253,
+        y: 117,
+      },
+      {
+        x: 253,
+        y: 134,
+      },
+      {
+        x: 304,
+        y: 100,
+      },
+      {
+        x: 304,
+        y: 117,
+      },
+      {
+        x: 304,
+        y: 134,
+      },
+      {
+        x: 260,
+        y: 100
+      },
+      {
+        x: 260,
+        y: 117
+      },
+      {
+        x: 260,
+        y: 134
+      },
+      {
+        x: 278,
+        y: 93
+      },
+      {
+        x: 278,
+        y: 110
+      },
+      {
+        x: 278,
+        y: 127
+      },
+      {
+        x: 278,
+        y: 143
+      },
+      {
+        x: 296,
+        y: 100
+      },
+      {
+        x: 296,
+        y: 117
+      },
+      {
+        x: 296,
+        y: 134
+      },
+      {
+        x: 314,
+        y: 110
+      },
+      {
+        x: 314,
+        y: 128
+      },
+      {
+        x: 247,
+        y: 110
+      },
+      {
+        x: 247,
+        y: 127
+      },
+      {
+        x: 267,
+        y: 95
+      },
+      {
+        x: 267,
+        y: 112
+      },
+      {
+        x: 267,
+        y: 129
+      },
+      {
+        x: 255,
+        y: 135
+      },
+      {
+        x: 267,
+        y: 146
+      },
+      {
+        x: 278,
+        y: 97
+      },
+      {
+        x: 278,
+        y: 114
+      },
+      {
+        x: 278,
+        y: 131
+      },
+      {
+        x: 278,
+        y: 148
+      },
+      {
+        x: 289,
+        y: 97
+      },
+      {
+        x: 289,
+        y: 114
+      },
+      {
+        x: 289,
+        y: 131
+      },
+      {
+        x: 289,
+        y: 148
+      },
+      {
+        x: 300,
+        y: 93
+      },
+      {
+        x: 300,
+        y: 110
+      },
+      {
+        x: 300,
+        y: 127
+      },
+      {
+        x: 300,
+        y: 144
+      },
+      {
+        x: 312,
+        y: 100
+      },
+      {
+        x: 312,
+        y: 117
+      },
+      {
+        x: 312,
+        y: 134
       }
     ]
-    return type === "player" ? positions[pit_number - 1]?.player[seed_number - 1] : positions[pit_number - 1]?.opponent[seed_number - 1]
-  }, [seed_number, pit_number, type]);
+  }, []);
+
+  const each_position = useMemo(() => {
+    switch (pit_number) {
+      case 1:
+        return { x: position[seed_number - 1].x - 982.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 2:
+        return { x: position[seed_number - 1].x - 862.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 3:
+        return { x: position[seed_number - 1].x - 742.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 4:
+        return { x: position[seed_number - 1].x - 622.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 5:
+        return { x: position[seed_number - 1].x - 502.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      case 6:
+        return { x: position[seed_number - 1].x - 382.5, y: type === "player" ? position[seed_number - 1].y + 10 : position[seed_number - 1].y - 100 };
+      default:
+        return position[seed_number - 1];
+    }
+  }, [seed_number, pit_number, position, type]);
 
   useEffect(() => {
     setAnimationDelay(seed_number * 0.75);
@@ -337,8 +261,8 @@ export default function Seed({
       )}
       initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
       animate={{
-        x: position?.x,
-        y: position?.y,
+        x: each_position.x,
+        y: each_position.y,
         opacity: 1,
         scale: 1,
         transition: {
