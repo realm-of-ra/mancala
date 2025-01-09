@@ -28,6 +28,7 @@ export default function MessageArea({
   const { system } = useDojo();
   const [_, setRestarted] = useState(false);
   const { gameId } = useParams();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const restart_game = async () => {
     if (account.account) {
       await system.restart_game(
@@ -56,6 +57,6 @@ export default function MessageArea({
         duration: undefined,
       });
     }
-  }, [opponent_requested_restart, game_players, toast]);
+  }, [opponent_requested_restart, game_players, toast, restart_game]);
   return <></>;
 }
