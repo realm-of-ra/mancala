@@ -7,5 +7,6 @@ world_address = "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e17
 index_pending = true
 polling_interval = 500
 historical = [
+    "mancala_alpha-TrophyCreation",
     "mancala_alpha-TrophyProgression",
 ]
