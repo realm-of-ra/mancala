@@ -980,10 +980,16 @@ export const positions = (type: "player" | "opponent" | undefined) => Array.from
     }
   ]
 
-  // Create offset coordinates for this player/opponent pair
   const offsetCoords = baseCoords.map(coord => ({
     x: coord.x + xOffset,
     y: coord.y + yOffset
+  }));
+
+  const coordsOffest = coords.map(coord => ({
+    x: type === "player" 
+      ? (782.5 + (185 - coord.x)) + 185
+      : coord.x,
+    y: coord.y
   }));
 
   if (playerIndex < 6) {
@@ -1001,8 +1007,8 @@ export const positions = (type: "player" | "opponent" | undefined) => Array.from
   else {
     return {
       player: {
-        native: [{ x: 0, y: 0 }],
-        non_native: [{ x: 0, y: 0 }]
+        native: coordsOffest,
+        non_native: coordsOffest
       },
       opponent: {
         native: coords,
