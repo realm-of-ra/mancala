@@ -28,7 +28,7 @@ export async function setupWorld(provider: DojoProvider) {
     };
 
     const create_game = async (account: AccountInterface) => {
-      console.log('account: ', account)
+      console.log("account: ", account);
       try {
         return await provider.execute(
           account,

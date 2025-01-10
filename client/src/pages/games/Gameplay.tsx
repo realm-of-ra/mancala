@@ -48,7 +48,8 @@ export default function Gameplay() {
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node
+      .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (

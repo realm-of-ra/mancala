@@ -22,7 +22,15 @@ export default function Seed({
   const _positions = positions(type);
 
   const position = useMemo(() => {
-    return isNative && type === "player" ? _positions[pit_number - 1].player.native[seed_number - 1] : isNative && type === "opponent" ? _positions[pit_number - 1].opponent?.native[seed_number - 1] : !isNative && type === "player" ? _positions[pit_number - 1].player.non_native[seed_number - 1] : !isNative && type === "opponent" ? _positions[pit_number - 1].opponent?.non_native[seed_number - 1] : { x: 0, y: 0 };
+    return isNative && type === "player"
+      ? _positions[pit_number - 1]?.player?.native[seed_number - 1]
+      : isNative && type === "opponent"
+        ? _positions[pit_number - 1]?.opponent?.native[seed_number - 1]
+        : !isNative && type === "player"
+          ? _positions[pit_number - 1]?.player?.non_native[seed_number - 1]
+          : !isNative && type === "opponent"
+            ? _positions[pit_number - 1]?.opponent?.non_native[seed_number - 1]
+            : { x: 0, y: 0 };
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
@@ -30,12 +38,15 @@ export default function Seed({
   }, [seed_number]);
 
   const play = () => {
-    const timer = setTimeout(() => {
-      playSeedDropSound();
-    }, (animationDelay * 1000) + 600);
+    const timer = setTimeout(
+      () => {
+        playSeedDropSound();
+      },
+      animationDelay * 1000 + 600,
+    );
 
     return () => clearTimeout(timer);
-  }
+  };
 
   return (
     <motion.div
@@ -45,7 +56,7 @@ export default function Seed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+      initial={{ x: 100, y: 100, opacity: 0, scale: 0 }}
       animate={{
         x: position?.x,
         y: position?.y,
@@ -58,11 +69,11 @@ export default function Seed({
           delay: animationDelay,
           opacity: { duration: 0.8, delay: animationDelay },
           scale: {
-            duration: 0.6, 
+            duration: 0.6,
             delay: animationDelay,
             type: "spring",
             stiffness: 100,
-            damping: 12
+            damping: 12,
           },
           duration: 2.5,
         },
