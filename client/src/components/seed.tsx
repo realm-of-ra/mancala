@@ -424,7 +424,7 @@ export default function Seed({
         }
       },
     ]
-    return positions[pit_number - 1][type === "player" ? "player" : "opponent"][isNative ? "native" : "non_native"][seed_number - 1];
+    return isNative && type === "player" ? positions[pit_number - 1].player.native[seed_number - 1] : isNative && type === "opponent" ? positions[pit_number - 1].opponent.native[seed_number - 1] : !isNative && type === "player" ? positions[pit_number - 1].player.non_native[seed_number - 1] : !isNative && type === "opponent" ? positions[pit_number - 1].opponent.non_native[seed_number - 1] : { x: 0, y: 0 };
   }, [pit_number, type, isNative, seed_number]);
 
   useEffect(() => {
@@ -438,6 +438,14 @@ export default function Seed({
 
     return () => clearTimeout(timer);
   }
+
+  console.log("position: ", position);
+  console.log({
+    pit_number,
+    seed_number,
+    type,
+    isNative,
+  })
 
   return (
     <motion.div
