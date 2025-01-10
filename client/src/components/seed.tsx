@@ -6,17 +6,13 @@ import { useEffect, useMemo, useState } from "react";
 
 export default function Seed({
   color,
-  length,
   type,
-  seed_id,
   pit_number,
   seed_number,
   isNative,
 }: {
   color?: string;
-  length?: number;
   type?: "player" | "opponent";
-  seed_id: number;
   pit_number: number;
   seed_number: number;
   isNative: boolean;
