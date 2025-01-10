@@ -814,7 +814,7 @@ export const MancalaExtraTurnQuery = gql`
 
 export const positions = (type: "player" | "opponent" | undefined) => Array.from({ length: 7 }, (_, playerIndex) => {
   // Base x-offset for this player/opponent pair
-  const xOffset = playerIndex * 120;
+  const xOffset = type === "player" ? playerIndex * 120 : 600 - playerIndex * 120;
   const yOffset = type === "player" ? 0 : -110;
   
   // Base coordinates from player 1

@@ -211,30 +211,30 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <Seed color="Green" length={4} type="opponent" seed_id={22} pit_number={6} seed_number={22} isNative={true} />
           <Seed color="Green" length={4} type="opponent" seed_id={23} pit_number={6} seed_number={23} isNative={true} />
           <Seed color="Green" length={4} type="opponent" seed_id={24} pit_number={6} seed_number={24} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={25} pit_number={6} seed_number={25} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={26} pit_number={6} seed_number={26} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={27} pit_number={6} seed_number={27} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={28} pit_number={6} seed_number={28} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={29} pit_number={6} seed_number={29} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={30} pit_number={6} seed_number={30} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={31} pit_number={6} seed_number={31} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={32} pit_number={6} seed_number={32} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={33} pit_number={6} seed_number={33} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={34} pit_number={6} seed_number={34} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={35} pit_number={6} seed_number={35} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={36} pit_number={6} seed_number={36} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={37} pit_number={6} seed_number={37} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={38} pit_number={6} seed_number={38} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={39} pit_number={6} seed_number={39} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={40} pit_number={6} seed_number={40} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={41} pit_number={6} seed_number={41} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={42} pit_number={6} seed_number={42} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={43} pit_number={6} seed_number={43} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={44} pit_number={6} seed_number={44} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={45} pit_number={6} seed_number={45} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={46} pit_number={6} seed_number={46} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={47} pit_number={6} seed_number={47} isNative={true} />
-          <Seed color="Green" length={4} type="opponent" seed_id={48} pit_number={6} seed_number={48} isNative={true} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={25} pit_number={4} seed_number={25} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={26} pit_number={4} seed_number={26} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={27} pit_number={4} seed_number={27} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={28} pit_number={4} seed_number={28} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={29} pit_number={4} seed_number={29} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={30} pit_number={4} seed_number={30} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={31} pit_number={4} seed_number={31} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={32} pit_number={4} seed_number={32} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={33} pit_number={4} seed_number={33} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={34} pit_number={4} seed_number={34} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={35} pit_number={4} seed_number={35} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={36} pit_number={4} seed_number={36} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={37} pit_number={4} seed_number={37} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={38} pit_number={4} seed_number={38} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={39} pit_number={4} seed_number={39} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={40} pit_number={4} seed_number={40} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={41} pit_number={4} seed_number={41} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={42} pit_number={4} seed_number={42} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={43} pit_number={4} seed_number={43} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={44} pit_number={4} seed_number={44} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={45} pit_number={4} seed_number={45} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={46} pit_number={4} seed_number={46} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={47} pit_number={4} seed_number={47} isNative={false} />
+          <Seed color="Blue" length={4} type="opponent" seed_id={48} pit_number={4} seed_number={48} isNative={false} />
           <div
             className={
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
