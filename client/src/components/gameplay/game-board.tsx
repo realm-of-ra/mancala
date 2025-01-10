@@ -187,6 +187,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 1 pot (opponent) */}
+          
           <div
             className={
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
