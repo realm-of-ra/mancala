@@ -26,7 +26,7 @@ export default function Seed({
   const _positions = positions(type);
 
   const position = useMemo(() => {
-    return isNative && type === "player" ? _positions[pit_number - 1].player.native[seed_number - 1] : isNative && type === "opponent" ? _positions[pit_number - 1].opponent.native[seed_number - 1] : !isNative && type === "player" ? _positions[pit_number - 1].player.non_native[seed_number - 1] : !isNative && type === "opponent" ? _positions[pit_number - 1].opponent.non_native[seed_number - 1] : { x: 0, y: 0 };
+    return isNative && type === "player" ? _positions[pit_number - 1].player.native[seed_number - 1] : isNative && type === "opponent" ? _positions[pit_number - 1].opponent?.native[seed_number - 1] : !isNative && type === "player" ? _positions[pit_number - 1].player.non_native[seed_number - 1] : !isNative && type === "opponent" ? _positions[pit_number - 1].opponent?.non_native[seed_number - 1] : { x: 0, y: 0 };
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
@@ -72,6 +72,6 @@ export default function Seed({
         },
       }}
       onAnimationStart={play}
-    >{pit_number}</motion.div>
+    />
   );
 }

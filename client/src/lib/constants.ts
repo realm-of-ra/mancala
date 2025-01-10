@@ -833,20 +833,181 @@ export const positions = (type: "player" | "opponent" | undefined) => Array.from
     { x: 300, y: 144 }, { x: 312, y: 100 }, { x: 312, y: 117 }, { x: 312, y: 134 }
   ];
 
+  const coords = [
+    {
+      x: 185, y: -10
+    },
+    {
+      x: 185, y: 7
+    },
+    {
+      x: 185, y: 22
+    },
+    {
+      x: 185, y: 37
+    },
+    {
+      x: 185, y: 52
+    },
+    {
+      x: 185, y: 67
+    },
+    {
+      x: 185, y: 82
+    },
+    {
+      x: 185, y: 97
+    },
+    {
+      x: 185, y: 112
+    },
+    {
+      x: 185, y: 127
+    },
+    {
+      x: 185, y: 142
+    },
+    {
+      x: 168, y: -10
+    },
+    {
+      x: 168, y: 7
+    },
+    {
+      x: 168, y: 22
+    },
+    {
+      x: 168, y: 37
+    },
+    {
+      x: 168, y: 52
+    },
+    {
+      x: 168, y: 67
+    },
+    {
+      x: 168, y: 82
+    },
+    {
+      x: 168, y: 97
+    },
+    {
+      x: 168, y: 112
+    },
+    {
+      x: 168, y: 127
+    },
+    {
+      x: 168, y: 142
+    },
+    {
+      x: 157, y: -5
+    },
+    {
+      x: 151, y: 7
+    },
+    {
+      x: 151, y: 22
+    },
+    {
+      x: 151, y: 37
+    },
+    {
+      x: 151, y: 52
+    },
+    {
+      x: 151, y: 67
+    },
+    {
+      x: 151, y: 82
+    },
+    {
+      x: 151, y: 97
+    },
+    {
+      x: 151, y: 112
+    },
+    {
+      x: 151, y: 127
+    },
+    {
+      x: 158, y: 139
+    },
+    {
+      x: 160, y: 129
+    },
+    {
+      x: 160, y: 112
+    },
+    {
+      x: 160, y: 95
+    },
+    {
+      x: 160, y: 78
+    },
+    {
+      x: 160, y: 61
+    },
+    {
+      x: 160, y: 44
+    },
+    {
+      x: 160, y: 27
+    },
+    {
+      x: 160, y: 10
+    },
+    {
+      x: 160, y: -5
+    },
+    {
+      x: 170, y: -15
+    },
+    {
+      x: 170, y: 1
+    },
+    {
+      x: 170, y: 17
+    },
+    {
+      x: 170, y: 33
+    },
+    {
+      x: 170, y: 49
+    },
+    {
+      x: 170, y: 65
+    }
+  ]
+
   // Create offset coordinates for this player/opponent pair
   const offsetCoords = baseCoords.map(coord => ({
     x: coord.x + xOffset,
     y: coord.y + yOffset
   }));
 
-  return {
-    player: {
-      native: offsetCoords,
-      non_native: offsetCoords
-    },
-    opponent: {
-      native: offsetCoords,
-      non_native: offsetCoords
+  if (playerIndex < 6) {
+    return {
+      player: {
+        native: offsetCoords,
+        non_native: offsetCoords
+      },
+      opponent: {
+        native: offsetCoords,
+        non_native: offsetCoords
+      }
+    };
+  }
+  else {
+    return {
+      player: {
+        native: [{ x: 0, y: 0 }],
+        non_native: [{ x: 0, y: 0 }]
+      },
+      opponent: {
+        native: coords,
+        non_native: coords
+      }
     }
-  };
+  }
 });
