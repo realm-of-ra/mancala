@@ -18,7 +18,7 @@ impl Victor of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        50
+        100
     }
 
     #[inline]

@@ -18,7 +18,7 @@ impl Extractor of TrophyTrait {
 
     #[inline]
     fn points(level: u8) -> u16 {
-        1000
+        100
     }
 
     #[inline]
