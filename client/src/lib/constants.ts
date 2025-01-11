@@ -601,65 +601,52 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
-const ACTION_ADDRESS =
+const MANCALA_ADDRESS =
   "0x6759f232ac3f0123a6ca67b7cdbd3d1d94f2f7c32afd9c3a0d4b895bf38ff54";
+
+const PROFILE_ADDRESS =
+  "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275";
 
 export const POLICIES = [
   {
-    target: ACTION_ADDRESS,
-    method: "initialize_game_counter",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "new_game",
   },
   {
-    target: ACTION_ADDRESS,
-    method: "create_private_game",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "join_game",
   },
   {
-    target: ACTION_ADDRESS,
-    method: "move",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "request_restart_game",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "restart_current_game",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "forfeited",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "timeout",
   },
   {
-    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
+    target: MANCALA_ADDRESS,
+    method: "create_private_game",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "move",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "forfeited",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "request_restart_game",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "restart_current_game",
+  },
+  {
+    target: PROFILE_ADDRESS,
     method: "create_player_profile",
   },
   {
-    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
-    method: "update_player_uri",
-  },
-  {
-    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
-    method: "rename_player",
-  },
-  {
-    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
+    target: PROFILE_ADDRESS,
     method: "update_player_profile",
-  },
-  {
-    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
-    method: "new_profile",
   },
 ];
 

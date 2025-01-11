@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
