@@ -602,7 +602,7 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const ACTION_ADDRESS =
-  "0x073d5f249b9519777bcca407e74b7230c935abded8b1f21717f75a5a8ce962a5";
+  "0x6759f232ac3f0123a6ca67b7cdbd3d1d94f2f7c32afd9c3a0d4b895bf38ff54";
 
 export const POLICIES = [
   {
@@ -642,23 +642,23 @@ export const POLICIES = [
     method: "timeout",
   },
   {
-    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
+    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
     method: "create_player_profile",
   },
   {
-    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
+    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
     method: "update_player_uri",
   },
   {
-    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
+    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
     method: "rename_player",
   },
   {
-    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
+    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
     method: "update_player_profile",
   },
   {
-    target: "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
+    target: "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275",
     method: "new_profile",
   },
 ];

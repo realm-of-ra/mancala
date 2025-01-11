@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
@@ -14,6 +14,7 @@ import profileImage from "../assets/profile.svg";
 import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
+import { ControllerTrophy } from "./controller-trophy";
 
 export default function Header() {
   const { connect, connectors } = useConnect();
@@ -217,6 +218,7 @@ export default function Header() {
                         <span className="block px-4 py-2">Leaderboard</span>
                       </button>
                     </Link>
+                    <ControllerTrophy />
                     <button
                       className="flex flex-row items-center w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer"
                       onClick={handleDisconnect}

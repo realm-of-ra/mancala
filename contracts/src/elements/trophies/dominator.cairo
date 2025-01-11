@@ -43,7 +43,7 @@ impl Dominator of TrophyTrait {
 
     #[inline]
     fn count(level: u8) -> u32 {
-        100
+        500
     }
 
     #[inline]
