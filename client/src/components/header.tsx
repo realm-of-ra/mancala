@@ -162,8 +162,6 @@ export default function Header() {
           <Link to="/" className="mb-4">
             <img src={mancala} className="h-10 w-36" />
           </Link>
-
-          <ControllerTrophy />
         </div>
       </div>
       <div className="flex-1 w-full -ml-16">
@@ -220,6 +218,7 @@ export default function Header() {
                         <span className="block px-4 py-2">Leaderboard</span>
                       </button>
                     </Link>
+                    <ControllerTrophy />
                     <button
                       className="flex flex-row items-center w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer"
                       onClick={handleDisconnect}

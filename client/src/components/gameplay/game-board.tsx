@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { BottomPit, TopPit } from "@/components/pits";
 import { Dispatch, SetStateAction } from "react";
 import { useQuery } from "@apollo/client";
-import { MancalaSeedQuery, MancalaCaptureQuery, MancalaExtraTurnQuery } from "@/lib/constants";
+import {
+  MancalaSeedQuery,
+  MancalaCaptureQuery,
+  MancalaExtraTurnQuery,
+} from "@/lib/constants";
 import Seed from "../seed";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -26,19 +30,25 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setTimeRemaining,
 }) => {
   const { toast } = useToast();
-  
+
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
   startPolling(1000);
 
-  const { data: captureData, startPolling: startCapturePolling } = useQuery(MancalaCaptureQuery, {
-    variables: { gameId: gameId }
-  });
-  
-  const { data: extraTurnData, startPolling: startExtraTurnPolling } = useQuery(MancalaExtraTurnQuery, {
-    variables: { gameId: gameId }
-  });
+  const { data: captureData, startPolling: startCapturePolling } = useQuery(
+    MancalaCaptureQuery,
+    {
+      variables: { gameId: gameId },
+    },
+  );
+
+  const { data: extraTurnData, startPolling: startExtraTurnPolling } = useQuery(
+    MancalaExtraTurnQuery,
+    {
+      variables: { gameId: gameId },
+    },
+  );
 
   useEffect(() => {
     startCapturePolling(1000);
@@ -49,13 +59,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
     const captures = captureData?.mancalaAlphaCaptureModels?.edges;
     if (captures && captures.length > 0) {
       const latestCapture = captures[captures.length - 1]?.node;
-      
+
       if (latestCapture) {
-        const isPlayerCapture = latestCapture.player === account.account?.address;
-        
+        const isPlayerCapture =
+          latestCapture.player === account.account?.address;
+
         toast({
           title: isPlayerCapture ? "Seeds Captured!" : "Seeds Lost!",
-          description: isPlayerCapture 
+          description: isPlayerCapture
             ? `You captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`
             : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`,
           duration: 3000,
@@ -68,13 +79,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
     const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
     if (extraTurns && extraTurns.length > 0) {
       const latestExtraTurn = extraTurns[extraTurns.length - 1]?.node;
-      
+
       if (latestExtraTurn) {
-        const isPlayerExtraTurn = latestExtraTurn.player === account.account?.address;
-        
+        const isPlayerExtraTurn =
+          latestExtraTurn.player === account.account?.address;
+
         toast({
           title: isPlayerExtraTurn ? "Extra Turn!" : "Opponent Extra Turn",
-          description: isPlayerExtraTurn 
+          description: isPlayerExtraTurn
             ? "You get another turn!"
             : "Opponent gets another turn",
           duration: 3000,
@@ -187,6 +199,32 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 1 pot (opponent) */}
+          {Array.from({ length: 48 }, (_, i) => i + 1).map((seedNumber) => {
+            const seedDetails = getSeed(seedNumber);
+            if (!seedDetails) return null;
+
+            const isPlayerSeed = (() => {
+              const playerAddress = account.account?.address;
+              if (playerAddress === game_node?.player_one) {
+                return seedDetails.player === game_node?.player_one;
+              }
+              if (playerAddress === game_node?.player_two) {
+                return seedDetails.player === game_node?.player_two;
+              }
+              return seedDetails.player === game_node?.player_one;
+            })();
+
+            return (
+              <Seed
+                key={seedNumber}
+                color={seedDetails?.color || "Blue"}
+                type={isPlayerSeed ? "player" : "opponent"}
+                pit_number={seedDetails?.pit_number}
+                seed_number={seedDetails?.seed_number}
+                isNative={seedDetails.isNative}
+              />
+            );
+          })}
           <div
             className={
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
@@ -194,41 +232,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
             style={{
               marginLeft: getOpponentMarginLeft(),
             }}
+          />
+          <div
+            className="h-[160px] flex flex-col items-center justify-center"
+            style={{
+              marginLeft:
+                opponent_pot_seed_count > 24
+                  ? "128px"
+                  : opponent_pot_seed_count > 10
+                    ? "113px"
+                    : "100px",
+            }}
           >
-            {Array.from({ length: 24 }, (_, i) => {
-              if (account.account?.address) {
-                return game_node?.player_one === account.account?.address
-                  ? i + 25
-                  : i + 1;
-              } else {
-                return i + 25;
-              }
-            }).map((seedNumber) => {
-              const seedDetails = getSeed(seedNumber);
-              if (!seedDetails) return null;
-
-              const isPlayerSeed = account.account?.address
-                ? seedDetails.player === account.account?.address
-                : seedDetails.player === game_node?.player_one;
-
-              return (
-                <Seed
-                  key={seedNumber}
-                  color={seedDetails?.color || "Blue"}
-                  length={isPlayerSeed ? player_pot_seed_count : opponent_pot_seed_count}
-                  type={isPlayerSeed ? "player" : "opponent"}
-                  seed_id={parseInt(seedDetails?.seed_id, 16)}
-                  pit_number={seedDetails?.pit_number}
-                  seed_number={seedDetails?.seed_number}
-                  isNative={seedDetails.isNative}
-                />
-              );
-            })}
-          </div>
-          <div className="h-[160px] flex flex-col items-center justify-center" style={{marginLeft: opponent_pot_seed_count > 24 ? "128px" : opponent_pot_seed_count > 10 ? "113px" : "100px"}}>
-            <p className="text-white text-center">
-              {opponent_pot_seed_count}
-            </p>
+            <p className="text-white text-center">{opponent_pot_seed_count}</p>
           </div>
         </div>
         <div className="w-[700px] h-[350px] flex flex-col items-center justify-between space-y-2 absolute left-[206px]">
@@ -257,8 +273,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaAlphaPlayerModels.edges[player_position]
-                      ?.node.address,
+                    game_players?.mancalaAlphaPlayerModels.edges[
+                      player_position
+                    ]?.node.address,
                 )
                 .filter((item: any) => item?.node.pit_number !== 7)
                 .sort((a: any, b: any) => a.node.pit_number - b.node.pit_number)
@@ -295,38 +312,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
             style={{
               marginRight: getPlayerMarginRight(),
             }}
+          />
+          <div
+            className="h-[160px] flex flex-col items-center justify-center"
+            style={{
+              marginRight:
+                player_pot_seed_count > 24
+                  ? "120px"
+                  : player_pot_seed_count > 10
+                    ? "113px"
+                    : "100px",
+            }}
           >
-            {Array.from({ length: 24 }, (_, i) => {
-              if (account.account?.address) {
-                return game_node?.player_one === account.account?.address
-                  ? i + 1
-                  : i + 25;
-              } else {
-                return i + 1;
-              }
-            }).map((seedNumber) => {
-              const seedDetails = getSeed(seedNumber);
-              if (!seedDetails) return null;
-
-              const isPlayerSeed = account.account?.address
-                ? seedDetails.player === account.account?.address
-                : seedDetails.player === game_node?.player_one;
-
-              return (
-                <Seed
-                  key={seedNumber}
-                  color={seedDetails?.color || "Blue"}
-                  length={isPlayerSeed ? player_pot_seed_count : opponent_pot_seed_count}
-                  type={isPlayerSeed ? "player" : "opponent"}
-                  seed_id={parseInt(seedDetails?.seed_id, 16)}
-                  pit_number={seedDetails?.pit_number}
-                  seed_number={seedDetails?.seed_number}
-                  isNative={seedDetails.isNative}
-                />
-              );
-            })}
-          </div>
-          <div className="h-[160px] flex flex-col items-center justify-center" style={{marginRight: player_pot_seed_count > 24 ? "120px" : player_pot_seed_count > 10 ? "113px" : "100px"}}>
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>

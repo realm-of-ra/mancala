@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",
-    "@cartridge/connector": "^0.5.5",
-    "@cartridge/controller": "^0.5.5",
+    "@cartridge/connector": "^0.5.7",
+    "@cartridge/controller": "^0.5.7",
     "@dojoengine/core": "1.0.8",
     "@dojoengine/create-burner": "1.0.8",
     "@dojoengine/react": "1.0.8",
