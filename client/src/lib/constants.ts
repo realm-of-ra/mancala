@@ -602,10 +602,10 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
 const MANCALA_ADDRESS =
-  "0x6759f232ac3f0123a6ca67b7cdbd3d1d94f2f7c32afd9c3a0d4b895bf38ff54";
+  "0x7ad006889e75acf359a91e7f55a85ac4b77835eded38668c8e6e40e748da51a";
 
 const PROFILE_ADDRESS =
-  "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275";
+  "0x41bd36716be3b8db420807346b3845a4c193a9abc77666392bebf7891603d79";
 
 export const POLICIES = [
   {
