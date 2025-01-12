@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
-    "address": "0x1095ec60c5b7edd7e2602de44c9b9f5c75d77f906f580c53bd120046713059",
-    "seed": "mancala-achievements",
+    "address": "0x2570a4240bf789d09bdbc2cb8f870ad7879b0737d453ee1d70f5dfaedd9f3f6",
+    "seed": "mancala-achievement",
     "name": "Mancala",
     "entrypoints": [
       "uuid",
@@ -1252,7 +1252,7 @@
   },
   "contracts": [
     {
-      "address": "0x7ad006889e75acf359a91e7f55a85ac4b77835eded38668c8e6e40e748da51a",
+      "address": "0x470f026bf97f0781492a95ebb9031da1c524601e8c2a285534545d33ca44797",
       "class_hash": "0x4841cd2b6377e99e48153bb8ee1292f560362fca45ac09f46ae66649af99fcd",
       "abi": [
         {
@@ -1666,7 +1666,7 @@
       ]
     },
     {
-      "address": "0x41bd36716be3b8db420807346b3845a4c193a9abc77666392bebf7891603d79",
+      "address": "0x4a992660cbd6a91cda1e1697e43c52641f3818aeabcf96658a986322603ef85",
       "class_hash": "0x745472c10892d817653891b8fa9d0c84f7ad75d275a8abbf1e71517e4b1e7e8",
       "abi": [
         {

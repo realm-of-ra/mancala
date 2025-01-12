@@ -12,7 +12,7 @@ transactions = true
 polling_interval = 1000
 contracts = []
 
-#[events]
+[events]
 raw = true
 historical = [
     "mancala_alpha-TrophyCreation",

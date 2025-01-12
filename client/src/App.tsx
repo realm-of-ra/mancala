@@ -22,7 +22,7 @@ const options: ControllerOptions = {
   theme: "realm-of-ra",
   policies: POLICIES,
   namespace: "mancala_alpha",
-  slot: "mancala-a",
+  slot: "mancala-e",
 };
 
 const SmallScreenWarning = () => (
