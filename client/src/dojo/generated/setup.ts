@@ -7,68 +7,65 @@ import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { setupWorld } from "./generated";
 import { Account, ArraySignatureType } from "starknet";
+import { setupBurnerManager, useBurnerManager } from "@dojoengine/create-burner";
 import { BurnerManager } from "@dojoengine/create-burner";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
-export async function setup({ ...config }: DojoConfig) {
-  // torii client
-  const toriiClient = await torii.createClient({
-    rpcUrl: config.rpcUrl,
-    toriiUrl: config.toriiUrl,
-    relayUrl: "",
-    worldAddress: config.manifest.world.address || "",
-  });
+export type SetupStatus = {
+  toriiClient: boolean;
+  contractComponents: boolean;
+  syncEntities: boolean;
+  dojoProvider: boolean;
+  worldSetup: boolean;
+  burnerManager: boolean;
+};
 
-  // create contract components
-  const contractComponents = defineContractComponents(world);
-
-  // create client components
-  const clientComponents = createClientComponents({ contractComponents });
-
-  // fetch all existing entities from torii
-  await getSyncEntities(toriiClient, contractComponents as any, undefined, []);
-
-  // create dojo provider
-  const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
-
-  // setup world
-  const client = await setupWorld(dojoProvider);
-
-  // create burner manager
-  const burnerManager = new BurnerManager({
-    masterAccount: new Account(
-      {
-        nodeUrl: config.rpcUrl,
-      },
-      config.masterAddress,
-      config.masterPrivateKey,
-    ),
-    accountClassHash: config.accountClassHash,
-    rpcProvider: dojoProvider.provider,
-    feeTokenAddress: config.feeTokenAddress,
-  });
-
+export async function setup({ ...config }: DojoConfig, 
+  onStatusUpdate?: (status: Partial<SetupStatus>) => void) {
+  
   try {
-    await burnerManager.init();
-    if (burnerManager.list().length === 0) {
-      await burnerManager.create();
-    }
-  } catch (e) {
-    console.error(e);
-  }
+    onStatusUpdate?.({ toriiClient: true });
+    const toriiClient = await torii.createClient({
+      rpcUrl: config.rpcUrl,
+      toriiUrl: config.toriiUrl,
+      relayUrl: "",
+      worldAddress: config.manifest.world.address || "",
+    });
+    onStatusUpdate?.({ toriiClient: false, contractComponents: true });
 
-  return {
-    client,
-    clientComponents,
-    contractComponents,
-    systemCalls: createSystemCalls({ client }, clientComponents),
-    publish: (typedData: string, signature: ArraySignatureType) => {
-      toriiClient.publishMessage(typedData, signature);
-    },
-    config,
-    dojoProvider,
-    burnerManager,
-    toriiClient,
-  };
+    const contractComponents = defineContractComponents(world);
+    const clientComponents = createClientComponents({ contractComponents });
+    onStatusUpdate?.({ contractComponents: false, syncEntities: true });
+
+    await getSyncEntities(toriiClient, contractComponents as any, undefined, []);
+    onStatusUpdate?.({ syncEntities: false, dojoProvider: true });
+
+    const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);
+    onStatusUpdate?.({ dojoProvider: false, worldSetup: true });
+
+    const client = await setupWorld(dojoProvider);
+    onStatusUpdate?.({ worldSetup: false, burnerManager: true });
+
+    const burnerManager = await setupBurnerManager(config);
+
+    onStatusUpdate?.({ burnerManager: false });
+
+    return {
+      client,
+      clientComponents,
+      contractComponents,
+      systemCalls: createSystemCalls({ client }, clientComponents),
+      publish: (typedData: string, signature: ArraySignatureType) => {
+        toriiClient.publishMessage(typedData, signature);
+      },
+      config,
+      dojoProvider,
+      burnerManager,
+      toriiClient,
+    };
+  } catch (error) {
+    console.error("Setup failed:", error);
+    throw error;
+  }
 }
