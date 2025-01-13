@@ -5,7 +5,6 @@ import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.ts";
 import { ApolloProvider } from "@apollo/client";
 import { useEffect, useState, useMemo } from "react";
-import CreateLoaderSVG from "./components/ui/svgs/create-loader.tsx";
 import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
 import logo from "@/assets/logo-icon.png"
