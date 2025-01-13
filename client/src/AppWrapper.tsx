@@ -8,6 +8,7 @@ import { useEffect, useState, useMemo } from "react";
 import CreateLoaderSVG from "./components/ui/svgs/create-loader.tsx";
 import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
+import logo from "@/assets/logo-icon.png"
 
 const SETUP_STATUS_MESSAGES = {
   toriiClient: "Establishing connection to game network",
@@ -41,11 +42,11 @@ export default function AppWrapper() {
 
   if (loading || (!error && !setupResult))
     return (
-      <div className="grid w-full h-screen place-items-center bg-primary">
+      <div className="grid w-full h-screen place-items-center bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center">
         <div className="flex flex-col items-center justify-center space-y-4">
-          <div className="flex flex-row items-center justify-center space-x-1">
-            <CreateLoaderSVG />
-            <p className="text-[#FCE3AA] font-semibold">
+          <div className="flex flex-col items-center justify-center space-y-1.5 w-[400px] h-[275px] rounded-lg bg-[#4920003D] backdrop-blur-md">
+            <img src={logo} width={126} height={126} alt="logo" />
+            <p className="text-white font-semibold">
               {currentLoadingMessage}
             </p>
           </div>

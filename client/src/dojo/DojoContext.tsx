@@ -43,7 +43,7 @@ export const DojoProvider = ({
         client,
         account: {
           ...burnerManagerData,
-          account: burnerManager.account || masterAccount,
+          account: burnerManager.account || masterAccount
         },
       }}
     >
