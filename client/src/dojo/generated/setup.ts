@@ -6,9 +6,8 @@ import { createSystemCalls } from "../createSystemCalls";
 import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { setupWorld } from "./generated";
-import { Account, ArraySignatureType } from "starknet";
-import { setupBurnerManager, useBurnerManager } from "@dojoengine/create-burner";
-import { BurnerManager } from "@dojoengine/create-burner";
+import { ArraySignatureType } from "starknet";
+import { setupBurnerManager } from "@dojoengine/create-burner";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
@@ -38,7 +37,7 @@ export async function setup({ ...config }: DojoConfig,
     const clientComponents = createClientComponents({ contractComponents });
     onStatusUpdate?.({ contractComponents: false, syncEntities: true });
 
-    await getSyncEntities(toriiClient, contractComponents as any, undefined, []);
+    await getSyncEntities(toriiClient, contractComponents as never, undefined, []);
     onStatusUpdate?.({ syncEntities: false, dojoProvider: true });
 
     const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);

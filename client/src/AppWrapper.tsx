@@ -4,20 +4,34 @@ import { setup, SetupStatus } from "./dojo/generated/setup.ts";
 import { DojoProvider } from "./dojo/DojoContext.tsx";
 import { dojoConfig } from "../dojoConfig.ts";
 import { ApolloProvider } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import CreateLoaderSVG from "./components/ui/svgs/create-loader.tsx";
 import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
 
+const SETUP_STATUS_MESSAGES = {
+  toriiClient: "Establishing connection to game network",
+  contractComponents: "Preparing game assets and rules",
+  syncEntities: "Loading current game state",
+  dojoProvider: "Setting up secure connection",
+  worldSetup: "Initializing game environment",
+  burnerManager: "Creating your game wallet"
+} as const;
+
 export default function AppWrapper() {
-  const [setupResult, setSetupResult] = useState<any>(null);
+  const [setupResult, setSetupResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [setupStatus, setSetupStatus] = useState<Partial<SetupStatus>>({});
 
+  const currentLoadingMessage = useMemo(() => {
+    const currentStep = Object.entries(setupStatus).find(([, value]) => value)?.[0];
+    return currentStep ? SETUP_STATUS_MESSAGES[currentStep as keyof typeof SETUP_STATUS_MESSAGES] : 'Loading...';
+  }, [setupStatus]);
+
   useEffect(() => {
     setup(dojoConfig, setSetupStatus)
-      .then((res) => setSetupResult(res))
+      .then((res) => setSetupResult(res as never))
       .catch((errorConnectingDojo) => {
         console.error("Connection error", errorConnectingDojo);
         setError(new Error(errorConnectingDojo));
@@ -32,18 +46,8 @@ export default function AppWrapper() {
           <div className="flex flex-row items-center justify-center space-x-1">
             <CreateLoaderSVG />
             <p className="text-[#FCE3AA] font-semibold">
-              {Object.entries(setupStatus).find(([_, value]) => value)?.[0]?.replace(/([A-Z])/g, ' $1').toLowerCase() || 'Loading...'}
+              {currentLoadingMessage}
             </p>
-          </div>
-          <div className="flex flex-col gap-2 w-64">
-            {Object.entries(setupStatus).map(([key, loading]) => (
-              <div key={key} className="flex items-center gap-2">
-                <div className={`h-2 w-2 rounded-full ${loading ? 'bg-[#F58229] animate-pulse' : 'bg-green-500'}`} />
-                <span className="text-sm text-[#FCE3AA]">
-                  {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                </span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -53,7 +57,7 @@ export default function AppWrapper() {
 
   return (
     <ApolloProvider client={apollo_client}>
-      <DojoProvider value={setupResult}>
+      <DojoProvider value={setupResult as never}>
         <App />
         <Toaster />
       </DojoProvider>
