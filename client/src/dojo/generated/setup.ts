@@ -37,7 +37,13 @@ export async function setup({ ...config }: DojoConfig,
     const clientComponents = createClientComponents({ contractComponents });
     onStatusUpdate?.({ contractComponents: false, syncEntities: true });
 
-    await getSyncEntities(toriiClient, contractComponents as never, undefined, []);
+    await getSyncEntities(
+      toriiClient,
+      contractComponents as never,
+      undefined,
+      []
+    );
+    
     onStatusUpdate?.({ syncEntities: false, dojoProvider: true });
 
     const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);

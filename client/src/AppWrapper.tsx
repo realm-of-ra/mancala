@@ -12,7 +12,7 @@ import { Toaster } from "./components/ui/toaster.tsx";
 const SETUP_STATUS_MESSAGES = {
   toriiClient: "Establishing connection to game network",
   contractComponents: "Preparing game assets and rules",
-  syncEntities: "Loading current game state",
+  syncEntities: "Syncing latest game state",
   dojoProvider: "Setting up secure connection",
   worldSetup: "Initializing game environment",
   burnerManager: "Creating your game wallet"
