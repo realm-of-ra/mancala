@@ -1,5 +1,4 @@
 import ControllerConnector from "@cartridge/connector/controller";
-import { ControllerOptions } from "@cartridge/controller";
 import { sepolia } from "@starknet-react/chains";
 import {
   Connector,
@@ -16,12 +15,12 @@ import Lobby from "./pages/Lobby";
 import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Profile from "./pages/Profile";
 
-const options: ControllerOptions = {
-  rpc: SLOT_RPC_URL,
+const options = {
   theme: "realm-of-ra",
   policies: POLICIES,
   namespace: "mancala_alpha",
   slot: "mancala-a",
+  rpc: SLOT_RPC_URL,
 };
 
 const SmallScreenWarning = () => (
