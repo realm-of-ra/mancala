@@ -42,10 +42,13 @@ export default function UserSection({
   startPollingPlayerData(1000);
   const [playerName, setPlayerName] = useState("");
   const [playerImage, setPlayerImage] = useState("");
-
-  const account = useAccount();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [displayName, setDisplayName] = useState("");
   const [initialDisplayName, setInitialDisplayName] = useState("");
   const [initialImageUrl, setInitialImageUrl] = useState("");
+
+  const account = useAccount();
 
   useEffect(() => {
     const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
@@ -74,9 +77,6 @@ export default function UserSection({
   }, [account?.account?.address, account?.address, playerData]);
 
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>(playerImage);
-  const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState<{ status: string; finished: boolean }>(
     { status: "", finished: false },
   );
