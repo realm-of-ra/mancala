@@ -40,7 +40,7 @@ export default function Lobby() {
   const [gameId, setGameId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [player2, setPlayer2] = useState("");
-  const [playWith, setPlayWith] = useState("AI" || "Human");
+  const [playWith, setPlayWith] = useState("AI");
   const handleOpen = () => {
     setGameUrl(undefined);
     setCreating(false);

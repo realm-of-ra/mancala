@@ -5,6 +5,8 @@ import Bubble from "@/components/ui/svgs/bubble";
 import { useConnect } from "@starknet-react/core";
 import { useEffect } from "react";
 import { useAccount } from "@starknet-react/core";
+import small_logo from "@/assets/small-logo.png";
+
 export default function Home() {
   const { connect } = useConnect();
   const { account } = useAccount();
@@ -33,9 +35,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <p className="text-white font-medium absolute bottom-5">
-        by Realm of Ra Studios
-      </p>
+      <img src={small_logo} alt="logo" className="w-24 h-16 absolute bottom-5" />
     </div>
   );
 }

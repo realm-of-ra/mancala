@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { getColorOfTheDay, truncateString, uploadFile } from "@/lib/utils";
+import { getColorOfTheDay, uploadFile } from "@/lib/utils";
 import { useAccount, useConnect } from "@starknet-react/core";
-import useControllerData from "@/hooks/useControllerData";
 import { UserIcon } from "@heroicons/react/24/solid";
 import image from "@/assets/image-add.svg";
 import avatar from "@/assets/square-avatar.png";

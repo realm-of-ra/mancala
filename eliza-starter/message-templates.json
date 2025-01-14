@@ -1,0 +1,14 @@
+{
+    "new_game": {
+        "description": "Create a new game of Mancala",
+        "message": "Create a new game of Mancala"
+    },
+    "join_game": {
+        "description": "Join an existing Mancala game using its ID",
+        "message": "Join game [gameId]"
+    },
+    "move_game": {
+        "description": "Make a move in an existing Mancala game, showing the current board state",
+        "message": "Game [gameId]. Board state: Your pits (1-6): [4,4,4,4,4,4] Mancala(7): 0 | Opponent pits (8-13): [4,4,4,4,4,4] Mancala(14): 0"
+    }
+}

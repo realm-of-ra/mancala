@@ -1,23 +1,15 @@
-import { useEffect, useState, useRef, useCallback } from "react";
-import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
+import { useEffect, useState, useCallback } from "react";
+import { getPlayer } from "../lib/utils";
 import mancala from "../assets/logo.png";
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { Link } from "react-router-dom";
 import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
-import { UserIcon, ChevronDownIcon, Cog8ToothIcon, TrophyIcon } from "@heroicons/react/24/solid";
+import { Cog8ToothIcon, TrophyIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
-import controllerSvg from "../assets/controller.svg";
-import connectB from "../assets/connect.svg";
-import leader from "../assets/leader.svg";
-import profileImage from "../assets/profile.svg";
-import lobby from "../assets/lobby.svg";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
-import { ControllerTrophy } from "./controller-trophy";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
-import connector from "@cartridge/controller";
-import ControllerConnector from "@cartridge/connector/controller";
 import catridgeImage from "@/assets/controller.png";
 
 export default function Header() {
@@ -31,7 +23,7 @@ export default function Header() {
     disconnect();
   };
 
-  const { account, connector } = useAccount();
+  const { account, connector } = useAccount() as any;
   const controller = connectors[0] as any
   const [username, setUsername] = useState("");
 
