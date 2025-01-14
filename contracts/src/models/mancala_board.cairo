@@ -37,7 +37,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
-            is_private: false
+            is_private: false,
         }
     }
 
@@ -51,7 +51,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
     fn private_mancala(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress,
     ) -> MancalaBoard {
         MancalaBoard {
             game_id,
@@ -61,8 +61,8 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
-            status: GameStatus::Pending,
-            is_private: true
+            status: GameStatus::InProgress,
+            is_private: true,
         }
     }
 
@@ -183,7 +183,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance for the restarted game
     #[inline]
     fn restart_game(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool,
     ) -> MancalaBoard {
         MancalaBoard {
             game_id: game_id,
@@ -194,7 +194,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::Pending,
-            is_private: private
+            is_private: private,
         }
     }
 }
