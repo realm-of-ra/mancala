@@ -60,7 +60,7 @@ export default function AppWrapper() {
   return (
     <ApolloProvider client={apollo_client}>
       <DojoProvider value={setupResult as never}>
-        <App />
+          <App />
         <Toaster />
       </DojoProvider>
     </ApolloProvider>

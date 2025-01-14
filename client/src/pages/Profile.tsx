@@ -5,7 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
 import { useQuery } from "@apollo/client";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
@@ -35,6 +36,12 @@ export default function Profile() {
     data?.mancalaAlphaMancalaBoardModels?.edges,
     account?.address || "",
   );
+  const { connect } = useConnect();
+  useEffect(() => {
+    if (!account?.account?.address) {
+      connect();
+    }
+  }, [account, connect]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat space-y-4 fixed">

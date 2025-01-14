@@ -198,6 +198,12 @@ export default function Lobby() {
     }
   }, [gameId, creating, open, type, playWith]);
 
+  useEffect(() => {
+    if (!account?.account?.address) {
+      connect();
+    }
+  }, [account, connect]);
+
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
       <Header />

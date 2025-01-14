@@ -64,15 +64,14 @@ export default function App() {
       autoConnect
     >
       <JotaiProvider>
-        <Router>
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="/lobby" element={<Lobby />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/games/:gameId" element={<Gameplay />} />
-          </Routes>
-        </Router>
+          <Router>
+              <Routes>
+                <Route index element={<Home />} />
+                <Route path="/lobby" element={<Lobby />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/games/:gameId" element={<Gameplay />} />
+            </Routes>
+          </Router>
       </JotaiProvider>
       {isSmallScreen && <SmallScreenWarning />}
     </StarknetConfig>
