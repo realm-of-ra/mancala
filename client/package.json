@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "bash dev.sh",
     "build": "tsc && vite build",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",
-    "@cartridge/connector": "^0.5.7",
-    "@cartridge/controller": "^0.5.7",
+    "@cartridge/connector": "^0.5.5",
+    "@cartridge/controller": "^0.5.8",
     "@dojoengine/core": "1.0.8",
     "@dojoengine/create-burner": "1.0.8",
     "@dojoengine/react": "1.0.8",
@@ -46,6 +46,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.1.2",
     "ethers": "^5.7.2",
     "framer-motion": "^11.3.24",
     "graphql-request": "^6.1.0",

@@ -52,12 +52,12 @@ export default function Gameplay() {
       .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
-  const { connect } = useConnect();
+  const { connect, connectors } = useConnect();
   useEffect(() => {
     if (!account?.account?.address) {
-      connect();
+      connect({ connector: connectors[0] });
     }
-  }, [account, connect]);
+  }, [account, connect, connectors]);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation

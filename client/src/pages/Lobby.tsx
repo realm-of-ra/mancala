@@ -201,9 +201,9 @@ export default function Lobby() {
 
   useEffect(() => {
     if (!account?.account?.address) {
-      connect();
+      connect({ connector: connectors[0] });
     }
-  }, [account, connect]);
+  }, [account, connect, connectors]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">

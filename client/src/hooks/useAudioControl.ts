@@ -5,7 +5,7 @@ import audio from "@/music/audio_1.mp4";
 import emptyPitSound from "@/music/empty-pit.mp3";
 import seedDropSound from "@/music/seed-drop.mp3";
 
-export function useAudioControl() {
+export function useAudioControl(enableSoundEffects = false) {
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
   const audioRef = useRef(new Audio(audio));
   const [volume, setVolume] = useState(0.5);
@@ -23,12 +23,14 @@ export function useAudioControl() {
   };
 
   const playEmptyPitSound = () => {
+    if (!enableSoundEffects) return;
     const emptySound = new Audio(emptyPitSound);
     emptySound.volume = volume * 0.6;
     emptySound.play();
   };
 
   const playSeedDropSound = () => {
+    if (!enableSoundEffects) return;
     const dropSound = new Audio(seedDropSound);
     dropSound.volume = volume * 0.4;
     dropSound.play();

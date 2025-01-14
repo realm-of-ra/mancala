@@ -8,13 +8,13 @@ import { useAccount } from "@starknet-react/core";
 import small_logo from "@/assets/small-logo.png";
 
 export default function Home() {
-  const { connect } = useConnect();
+  const { connect, connectors } = useConnect();
   const { account } = useAccount();
   useEffect(() => {
     if (!account?.address) {
-      connect();
+      connect({ connector: connectors[0] });
     }
-  }, [account, connect]);
+  }, [account, connect, connectors]);
   return (
     <div className="bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center w-full h-full min-h-screen flex flex-col items-center justify-center">
       <div className="bg-[url('./assets/home-box.png')] bg-cover bg-center bg-no-repeat w-[874px] h-[486px] flex flex-col items-center justify-center space-y-20">
