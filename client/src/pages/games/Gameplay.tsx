@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameBoard from "@/components/gameplay/game-board";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
 import {
   MancalaBoardModelQuery,
@@ -52,8 +52,14 @@ export default function Gameplay() {
       .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
+  const { connect, connectors } = useConnect();
+  useEffect(() => {
+    if (!account?.account?.address) {
+      connect({ connector: connectors[0] });
+    }
+  }, [account, connect, connectors]);
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
         game_players={game_players}
         player_names={player_names}

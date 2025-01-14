@@ -1,5 +1,4 @@
 import ControllerConnector from "@cartridge/connector/controller";
-import { ControllerOptions } from "@cartridge/controller";
 import { sepolia } from "@starknet-react/chains";
 import {
   Connector,
@@ -12,17 +11,16 @@ import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
-import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
 import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Profile from "./pages/Profile";
 
-const options: ControllerOptions = {
-  rpc: SLOT_RPC_URL,
+const options = {
   theme: "realm-of-ra",
   policies: POLICIES,
   namespace: "mancala_alpha",
   slot: "mancala-a",
+  rpc: SLOT_RPC_URL,
 };
 
 const SmallScreenWarning = () => (
@@ -64,15 +62,14 @@ export default function App() {
       autoConnect
     >
       <JotaiProvider>
-        <Router>
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="/lobby" element={<Lobby />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/games/:gameId" element={<Gameplay />} />
-          </Routes>
-        </Router>
+          <Router>
+              <Routes>
+                <Route index element={<Home />} />
+                <Route path="/lobby" element={<Lobby />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/games/:gameId" element={<Gameplay />} />
+            </Routes>
+          </Router>
       </JotaiProvider>
       {isSmallScreen && <SmallScreenWarning />}
     </StarknetConfig>
