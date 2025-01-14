@@ -36,9 +36,23 @@ export default function Header() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    if (account?.address && controller) return
-    (async () => setUsername(await controller.username() || ""))()
-  }, [account?.address, controller])
+    const fetchUsername = async () => {
+      if (!controller) return;
+      try {
+        const name = await controller.username();
+        setUsername(name || "");
+      } catch (error) {
+        console.error("Error fetching username:", error);
+        setUsername("");
+      }
+    };
+
+    if (account?.address) {
+      fetchUsername();
+    } else {
+      setUsername(""); // Reset username when disconnected
+    }
+  }, [account?.address, controller]);
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(1000);
@@ -124,9 +138,9 @@ export default function Header() {
               {
                 account?.address && playerImage !== "" ? <Link to={`/profile?address=${account?.address}`}>
                   <img src={playerImage} className="w-10 h-10 rounded-full border-2 border-[#171922]" />
-                </Link> : account?.address && <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
+                </Link> : account?.address && <Link to={`/profile?address=${account?.address}`}><Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
                 <UserCircleIcon className="w-6 h-6 text-[#DB8534]" />
-              </Button>
+              </Button></Link>
               }
               <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
                 <Cog8ToothIcon className="w-6 h-6 text-[#DB8534]" />

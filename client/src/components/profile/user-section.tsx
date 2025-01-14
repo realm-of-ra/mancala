@@ -17,6 +17,13 @@ import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
 import { shortString } from "starknet";
 import ControllerConnector from "@cartridge/connector/controller";
+import clsx from "clsx";
+
+// Add a new type for save status
+type SaveStatus = {
+  status: 'idle' | 'saving' | 'success' | 'error';
+  message: string;
+};
 
 export default function UserSection({
   level,
@@ -37,6 +44,9 @@ export default function UserSection({
   const [playerImage, setPlayerImage] = useState("");
 
   const account = useAccount();
+  const [initialDisplayName, setInitialDisplayName] = useState("");
+  const [initialImageUrl, setInitialImageUrl] = useState("");
+
   useEffect(() => {
     const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
       (player: any) => player.node.address === account?.account?.address,
@@ -51,14 +61,16 @@ export default function UserSection({
       const decodedName = shortString.decodeShortString(profile?.node?.name || "");
       setPlayerName(decodedName);
       setDisplayName(decodedName);
+      setInitialDisplayName(decodedName);
     }
     if (profile?.node?.profile_uri) {
       const profileUri = profile?.node?.profile_uri || "";
       setPlayerImage(profileUri);
       setSelectedImage(profileUri);
       setImageUrl(profileUri);
+      setInitialImageUrl(profileUri);
     }
-  }, [account?.address, playerData?.mancalaAlphaProfileModels?.edges, playerData, account?.account?.address]);
+  }, [account?.address, playerData]);
 
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -73,7 +85,27 @@ export default function UserSection({
   const color = getColorOfTheDay(account.address || "", new Date());
   const [imageLoading, setImageLoading] = useState(false);
 
-  const handleOpen = () => setOpen(!open);
+  // Add save status state
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>({
+    status: 'idle',
+    message: ''
+  });
+
+  const handleOpen = () => {
+    if (!open) {
+      setDisplayName(initialDisplayName);
+      setSelectedImage(initialImageUrl);
+      setImageUrl(initialImageUrl);
+    }
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setDisplayName(initialDisplayName);
+    setSelectedImage(initialImageUrl);
+    setImageUrl(initialImageUrl);
+    setOpen(false);
+  };
 
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -98,21 +130,47 @@ export default function UserSection({
   };
 
   const handleSaveProfile = async () => {
-    if (account.account) {
+    if (!account.account) return;
+
+    setSaveStatus({ status: 'saving', message: 'Saving changes...' });
+
+    try {
       const userExists = profiles.mancalaAlphaProfileModels.edges.some(
         (profile: any) => profile.node.address === account.account?.address,
       );
 
       if (userExists) {
-        system.update_player_profile(
+        await system.update_player_profile(
           account.account,
           displayName,
           imageUrl,
           setLoading,
         );
       } else {
-        system.create_player_profile(account.account, displayName, setLoading);
+        await system.create_player_profile(
+          account.account, 
+          displayName,
+          setLoading
+        );
       }
+
+      setSaveStatus({ 
+        status: 'success', 
+        message: 'Profile updated successfully!' 
+      });
+      
+      // Close dialog after successful save (after a brief delay to show success)
+      setTimeout(() => {
+        setOpen(false);
+        setSaveStatus({ status: 'idle', message: '' });
+      }, 1500);
+
+    } catch (error) {
+      console.error('Save failed:', error);
+      setSaveStatus({ 
+        status: 'error', 
+        message: 'Failed to save changes. Please try again.' 
+      });
     }
   };
 
@@ -236,7 +294,7 @@ export default function UserSection({
 
         <Dialog
           open={open}
-          onClose={handleOpen}
+          onClose={handleClose}
           className="fixed inset-0 z-50 bg-transparent shadow-none flex items-center justify-center"
         >
           <DialogBackdrop
@@ -309,17 +367,40 @@ export default function UserSection({
                       </div>
                     )}
                   </div>
-                  <div className="w-full flex flex-row items-center justify-center">
-                    <button
-                      className="bg-[#F58229] py-1.5 rounded-lg text-[#FCE3AA] font-semibold w-52"
-                      onClick={handleSaveProfile}
-                    >
-                      {loading.status === "CREATING" && !loading.finished
-                        ? "Saving..."
-                        : loading.status === "CREATED" && loading.finished
-                          ? "Saved"
-                          : "Save Changes"}
-                    </button>
+                  <div className="space-y-4">
+                    {/* Add status message */}
+                    {saveStatus.message && (
+                      <div className={clsx(
+                        "text-center p-2 rounded",
+                        saveStatus.status === 'saving' && "bg-transparent border-2 border-[#4B505C] text-[#4B505C]",
+                        saveStatus.status === 'success' && "bg-green-100 text-green-700",
+                        saveStatus.status === 'error' && "bg-red-100 text-red-700"
+                      )}>
+                        {saveStatus.message}
+                      </div>
+                    )}
+
+                    <div className="w-full flex flex-row items-center justify-center space-x-4">
+                      <button
+                        className={"py-1.5 rounded-lg font-semibold w-52 bg-[#F58229] text-[#FCE3AA] hover:bg-[#E47218]"}
+                        onClick={handleSaveProfile}
+                        disabled={saveStatus.status === 'saving'}
+                      >
+                        {saveStatus.status === 'saving' ? (
+                          <div className="flex items-center justify-center space-x-2 bg-[#F58229] text-[#FCE3AA] hover:bg-[#E47218]">
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                            <span>Saving...</span>
+                          </div>
+                        ) : "Save Changes"}
+                      </button>
+                      <button
+                        className="bg-[#272A32] py-1.5 rounded-lg text-[#BDC2CC] font-semibold w-52 hover:bg-[#1E2128]"
+                        onClick={handleClose}
+                        disabled={saveStatus.status === 'saving'}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
