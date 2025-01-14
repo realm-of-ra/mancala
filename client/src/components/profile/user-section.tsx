@@ -59,9 +59,10 @@ export default function UserSection({
 
     if (profile?.node?.name) {
       const decodedName = shortString.decodeShortString(profile?.node?.name || "");
-      setPlayerName(decodedName);
-      setDisplayName(decodedName);
-      setInitialDisplayName(decodedName);
+      const truncatedName = decodedName.length > 25 ? `${decodedName.slice(0, 25)}...` : decodedName;
+      setPlayerName(truncatedName);
+      setDisplayName(truncatedName);
+      setInitialDisplayName(truncatedName);
     }
     if (profile?.node?.profile_uri) {
       const profileUri = profile?.node?.profile_uri || "";
@@ -70,7 +71,7 @@ export default function UserSection({
       setImageUrl(profileUri);
       setInitialImageUrl(profileUri);
     }
-  }, [account?.address, playerData]);
+  }, [account?.account?.address, account?.address, playerData]);
 
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -142,14 +143,14 @@ export default function UserSection({
       if (userExists) {
         await system.update_player_profile(
           account.account,
-          displayName,
+          displayName.toString(),
           imageUrl,
           setLoading,
         );
       } else {
         await system.create_player_profile(
           account.account, 
-          displayName,
+          displayName.toString(),
           setLoading
         );
       }
