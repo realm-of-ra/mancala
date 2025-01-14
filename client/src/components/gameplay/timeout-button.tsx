@@ -49,7 +49,7 @@ export default function TimeoutButton({
           className="rounded-full"
         />
       </Button>
-      <p className="text-lg text-[#656C7D] font-medium text-center">Timeout</p>
+      <p className="text-lg text-white font-medium text-center">Timeout</p>
     </div>
   );
 }

@@ -24,6 +24,7 @@ export const DojoProvider = ({
     config: { masterAddress, masterPrivateKey },
     burnerManager,
     dojoProvider,
+    client,
   } = value;
 
   const masterAccount = useMemo(
@@ -32,43 +33,17 @@ export const DojoProvider = ({
     [masterAddress, masterPrivateKey, dojoProvider.provider],
   );
 
-  const {
-    create,
-    list,
-    get,
-    select,
-    deselect,
-    remove,
-    clear,
-    account,
-    isDeploying,
-    count,
-    copyToClipboard,
-    applyFromClipboard,
-    checkIsDeployed,
-  } = useBurnerManager({
-    burnerManager,
-  });
+  const burnerManagerData = useBurnerManager({ burnerManager });
 
   return (
     <DojoContext.Provider
       value={{
         ...value,
         masterAccount,
+        client,
         account: {
-          create,
-          list,
-          get,
-          select,
-          deselect,
-          remove,
-          clear,
-          account: account ? account : masterAccount,
-          isDeploying,
-          count,
-          copyToClipboard,
-          applyFromClipboard,
-          checkIsDeployed,
+          ...burnerManagerData,
+          account: burnerManager.account || masterAccount,
         },
       }}
     >

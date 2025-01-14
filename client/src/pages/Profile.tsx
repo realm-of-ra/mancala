@@ -5,7 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import { getPlayer } from "@/lib/utils";
 import { useQuery } from "@apollo/client";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
@@ -35,9 +36,15 @@ export default function Profile() {
     data?.mancalaAlphaMancalaBoardModels?.edges,
     account?.address || "",
   );
+  const { connect, connectors } = useConnect();
+  useEffect(() => {
+    if (!account?.account?.address) {
+      connect({ connector: connectors[0] });
+    }
+  }, [account, connect, connectors]);
 
   return (
-    <div className="w-full h-screen bg-[#15181E] space-y-4 fixed">
+    <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat space-y-4 fixed">
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="w-full flex flex-row items-start justify-center space-x-10">
@@ -56,8 +63,8 @@ export default function Profile() {
             total={filteredGames?.length || 0}
             profiles={profiles}
           />
-          <Tabs defaultValue="all-games" className="w-[800px] space-y-10">
-            <div className="flex flex-row items-center justify-between w-full">
+          <Tabs defaultValue="all-games" className="w-[800px] bg-[#0F1116] rounded-t-xl rounded-b-2xl">
+            <div className="flex flex-row items-center justify-between w-full px-2.5 pt-2.5">
               <TabsList className="bg-transparent space-x-1.5">
                 <TabsTrigger
                   value="all-games"
@@ -65,7 +72,7 @@ export default function Profile() {
                             data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
                             data-[state=active]:text-[#F58229] font-medium"
                 >
-                  All games
+                  Games
                 </TabsTrigger>
               </TabsList>
             </div>
