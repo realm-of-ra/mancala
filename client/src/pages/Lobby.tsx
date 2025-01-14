@@ -28,10 +28,11 @@ import {
   MancalaBoardModelsQuery,
   MancalaPlayerNames,
 } from "@/lib/constants";
+import Dropdown from "@/components/dropdown";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
@@ -146,9 +147,9 @@ export default function Lobby() {
       [],
     ) || [];
 
-  // const handleDropdownToggle = () => {
-  //   setIsDropdownOpen(!isDropdownOpen);
-  // };
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   // const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
 
@@ -242,14 +243,14 @@ export default function Lobby() {
                   </TabsTrigger>
                 </TabsList>
                 <div className="flex flex-row items-center space-x-5 relative">
-                  {/* <div
+                  <div
                     className="flex flex-row items-center justify-center space-x-1 hover:cursor-pointer"
                     onClick={handleDropdownToggle}
                   >
                     <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                     <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
-                  </div> */}
-                  {/* {isDropdownOpen && <Dropdown />} */}
+                  </div>
+                  {isDropdownOpen && <Dropdown />}
                   <Button
                     className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                     disabled={!isConnected}

@@ -12,7 +12,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
-import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
 import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Profile from "./pages/Profile";
