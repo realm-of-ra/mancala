@@ -20,9 +20,10 @@ export type SetupStatus = {
   burnerManager: boolean;
 };
 
-export async function setup({ ...config }: DojoConfig, 
-  onStatusUpdate?: (status: Partial<SetupStatus>) => void) {
-  
+export async function setup(
+  { ...config }: DojoConfig,
+  onStatusUpdate?: (status: Partial<SetupStatus>) => void,
+) {
   try {
     onStatusUpdate?.({ toriiClient: true });
     const toriiClient = await torii.createClient({
@@ -41,9 +42,9 @@ export async function setup({ ...config }: DojoConfig,
       toriiClient,
       contractComponents as never,
       undefined,
-      []
+      [],
     );
-    
+
     onStatusUpdate?.({ syncEntities: false, dojoProvider: true });
 
     const dojoProvider = new DojoProvider(config.manifest, config.rpcUrl);

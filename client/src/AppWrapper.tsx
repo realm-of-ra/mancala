@@ -7,7 +7,7 @@ import { ApolloProvider } from "@apollo/client";
 import { useEffect, useState, useMemo } from "react";
 import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
-import logo from "@/assets/logo-icon.png"
+import logo from "@/assets/logo-icon.png";
 
 const SETUP_STATUS_MESSAGES = {
   toriiClient: "Establishing connection to game network",
@@ -15,7 +15,7 @@ const SETUP_STATUS_MESSAGES = {
   syncEntities: "Syncing latest game state",
   dojoProvider: "Setting up secure connection",
   worldSetup: "Initializing game environment",
-  burnerManager: "Creating your game wallet"
+  burnerManager: "Creating your game wallet",
 } as const;
 
 export default function AppWrapper() {
@@ -25,8 +25,12 @@ export default function AppWrapper() {
   const [setupStatus, setSetupStatus] = useState<Partial<SetupStatus>>({});
 
   const currentLoadingMessage = useMemo(() => {
-    const currentStep = Object.entries(setupStatus).find(([, value]) => value)?.[0];
-    return currentStep ? SETUP_STATUS_MESSAGES[currentStep as keyof typeof SETUP_STATUS_MESSAGES] : 'Loading...';
+    const currentStep = Object.entries(setupStatus).find(
+      ([, value]) => value,
+    )?.[0];
+    return currentStep
+      ? SETUP_STATUS_MESSAGES[currentStep as keyof typeof SETUP_STATUS_MESSAGES]
+      : "Loading...";
   }, [setupStatus]);
 
   useEffect(() => {
@@ -45,9 +49,7 @@ export default function AppWrapper() {
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex flex-col items-center justify-center space-y-1.5 w-[400px] h-[275px] rounded-lg bg-[#4920003D] backdrop-blur-md">
             <img src={logo} width={126} height={126} alt="logo" />
-            <p className="text-white font-semibold">
-              {currentLoadingMessage}
-            </p>
+            <p className="text-white font-semibold">{currentLoadingMessage}</p>
           </div>
         </div>
       </div>

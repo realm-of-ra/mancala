@@ -351,6 +351,10 @@ export const duels_header = [
   },
   {
     id: 4,
+    name: "Date",
+  },
+  {
+    id: 5,
     name: "Status",
   },
 ];
@@ -606,6 +610,9 @@ const MANCALA_ADDRESS =
 
 const PROFILE_ADDRESS =
   "0x21f6b57a00c7e3d5a024ada71918a953229173dc9cd9cbbd88b5dd350c0d275";
+
+export const ELIZA_ADDRESS =
+  "0x076795eb2CDc3E799364F661A409EDBE0f204b67625B179a6880733893f7004d";
 
 export const POLICIES = [
   {

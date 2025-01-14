@@ -53,7 +53,7 @@ export default function Gameplay() {
   startMetadataPolling(100);
   startPlayersPolling(100);
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
         game_players={game_players}
         player_names={player_names}

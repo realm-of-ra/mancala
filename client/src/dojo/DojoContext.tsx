@@ -24,7 +24,7 @@ export const DojoProvider = ({
     config: { masterAddress, masterPrivateKey },
     burnerManager,
     dojoProvider,
-    client
+    client,
   } = value;
 
   const masterAccount = useMemo(
@@ -43,7 +43,7 @@ export const DojoProvider = ({
         client,
         account: {
           ...burnerManagerData,
-          account: burnerManager.account || masterAccount
+          account: burnerManager.account || masterAccount,
         },
       }}
     >
