@@ -19,7 +19,7 @@ const options = {
   theme: "realm-of-ra",
   policies: POLICIES,
   namespace: "mancala_alpha",
-  slot: "mancala-a",
+  slot: "mancala-e",
   rpc: SLOT_RPC_URL,
 };
 

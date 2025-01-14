@@ -1,11 +1,19 @@
+rpc = "https://api.cartridge.gg/x/starknet/sepolia"
+
 allowed_origins = ["*"]
 # The World address to index.
 world_address = "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e1779"
 
 # Indexing Options
 [indexing]
-index_pending = true
-polling_interval = 500
+allowed_origins = ["*"]
+pending = true
+transactions = true
+polling_interval = 1000
+contracts = []
+
+[events]
+raw = true
 historical = [
     "mancala_alpha-TrophyCreation",
     "mancala_alpha-TrophyProgression",
