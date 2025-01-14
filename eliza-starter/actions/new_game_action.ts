@@ -15,7 +15,7 @@ import { getStarknetAccount, getStarknetProvider } from "../utils/index.js";
 import { validateStarknetConfig } from "../environment.js";
 import { Contract } from "starknet";
 
-const CONTRACT_ADDRESS = "0x073d5f249b9519777bcca407e74b7230c935abded8b1f21717f75a5a8ce962a5";
+const CONTRACT_ADDRESS = "0x06759f232ac3f0123a6ca67b7cdbd3d1d94f2f7c32afd9c3a0d4b895bf38ff54";
 
 export interface ContractWriteContent extends Content {
     contractAddress: string;

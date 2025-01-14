@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -6,6 +7,7 @@ import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
 import { logo } from "@/lib/icons_store";
+import { ELIZA_ADDRESS } from "@/lib/constants";
 
 export default function GameMessage({
   game_node,
@@ -39,6 +41,7 @@ export default function GameMessage({
     );
   }, [provider]);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [elizaState, setElizaState] = useState<'idle' | 'thinking' | 'error'>('idle');
   useEffect(() => {
     if (
       game_node?.status === "InProgress" &&
@@ -92,15 +95,7 @@ export default function GameMessage({
       cancelAnimationFrame(animationFrameId);
       audioRef.current.pause();
     };
-  }, [
-    game_players?.player_one?.edges,
-    game_players?.player_two?.edges,
-    game_node,
-    gameStarted,
-    startTime,
-    starknetIdNavigator,
-    setProfiles,
-  ]);
+  }, [game_players?.player_one?.edges, game_players?.player_two?.edges, game_node, gameStarted, startTime, starknetIdNavigator, setProfiles, setTimeRemaining]);
   const moveMessageOnTimer = (
     player: string,
     player_one_name: string,
@@ -133,6 +128,30 @@ export default function GameMessage({
             (game_node?.current_player === game_node?.player_one
               ? player_one_name
               : player_two_name);
+
+          if (normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS)) {
+            if (elizaState === 'thinking') {
+              return React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "span",
+                  { className: "text-[#F58229]" },
+                  "Eliza is thinking..."
+                ),
+              );
+            } else if (elizaState === 'error') {
+              return React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "span",
+                  { className: "text-[#F58229]" },
+                  "Error calling Mancala, retrying..."
+                ),
+              );
+            }
+          }
 
           if (isCurrentUserTurn) {
             return React.createElement(
@@ -183,6 +202,127 @@ export default function GameMessage({
     game_node?.status != "InProgress"
       ? "00"
       : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
+
+  const constructElizaMessage = () => {
+    console.log({ game_node });
+    
+    const pits = game_players?.mancalaAlphaPitModels?.edges;
+    if (!pits || !game_node?.game_id || !game_players?.mancalaAlphaPlayerModels?.edges?.length) {
+      console.log("Missing required game data");
+      return null;
+    }
+
+    // Create arrays to store pit values for both players
+    const player1Address = game_players.mancalaAlphaPlayerModels.edges[0]?.node?.address;
+    const player1Pits = new Array(7).fill(0);
+    const player2Pits = new Array(7).fill(0);
+
+    // Fill the arrays with seed counts
+    pits.forEach(({ node }: { node: any }) => {
+      const { player, pit_number, seed_count } = node;
+      const pitArray = player === player1Address ? player1Pits : player2Pits;
+      // pit_number is 1-based, so we subtract 1 for array indexing
+      pitArray[pit_number - 1] = seed_count;
+    });
+
+    // Get regular pits (excluding Mancala) for both players
+    const playerPits = player1Pits.slice(0, 6);
+    const playerMancala = player1Pits[6];
+    const opponentPits = player2Pits.slice(0, 6);
+    const opponentMancala = player2Pits[6];
+
+    return `You are already a part of game with game id ${game_node.game_id}. This is the board state, Board state: Your pits (1-6): [${playerPits.join(',')}] Mancala(7): ${playerMancala} | Opponent pits (8-13): [${opponentPits.join(',')}] Mancala(14): ${opponentMancala}, make your move`;
+  };
+
+  const callElizaMove = async (retryCount = 0) => {
+    try {
+      const serverPort = import.meta.env.VITE_SERVER_PORT || "3000";
+      const message = constructElizaMessage();
+
+      console.log({
+        message
+      })
+
+      if (message) {      
+        console.log(`Attempting to call Eliza (attempt ${retryCount + 1})`);
+        setElizaState('thinking');
+  
+        const response = await fetch(`http://localhost:${serverPort}/Eliza/message`, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
+          body: JSON.stringify({
+            text: message,
+            userId: "eliza",
+            userName: "Eliza",
+          }),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log("Eliza's response:", data);
+        setElizaState('idle');
+        return data;
+      }
+    } catch (error) {
+      console.error("Error calling Eliza:", error);
+      setElizaState('error');
+      // Wait for 1 second before retrying
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return callElizaMove(retryCount + 1);
+    }
+  };
+
+  const normalizeAddress = (address: string) => {
+    // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
+    const cleanAddress = address.toLowerCase().replace('0x', '');
+    // Pad to 64 characters (32 bytes) with leading zeros
+    return cleanAddress.padStart(64, '0');
+  };
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const makeElizaMove = async () => {
+      if (
+        game_node?.status === "InProgress" &&
+        normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS) &&
+        game_node?.winner === "0x0"
+      ) {
+        console.log("Eliza turn");
+        try {
+          if (isSubscribed) {
+            await callElizaMove();
+            // Wait a short moment to let the game state update
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // If it's still Eliza's turn after the move, make another move
+            if (
+              game_node?.status === "InProgress" &&
+              normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS) &&
+              game_node?.winner === "0x0"
+            ) {
+              makeElizaMove(); // Recursive call for consecutive turns
+            }
+          }
+        } catch (error) {
+          console.error("Failed to complete Eliza's move after all retries:", error);
+        }
+      }
+    };
+
+    makeElizaMove();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [game_node?.current_player, game_node?.status, game_node?.winner]);
+
   return (
     <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
       <div className="flex flex-col items-center justify-center mt-10 space-y-5">

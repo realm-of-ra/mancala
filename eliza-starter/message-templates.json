@@ -9,6 +9,6 @@
     },
     "move_game": {
         "description": "Make a move in an existing Mancala game, showing the current board state",
-        "message": "Game [gameId]. Board state: Your pits (1-6): [4,4,4,4,4,4] Mancala(7): 0 | Opponent pits (8-13): [4,4,4,4,4,4] Mancala(14): 0"
+        "message": "You are already a part of game with game id [GameId]. This is the board state, Board state: Your pits (1-6): [4,4,4,4,4,4] Mancala(7): 0 | Opponent pits (8-13): [4,4,4,4,4,4] Mancala(14): 0"
     }
 }
