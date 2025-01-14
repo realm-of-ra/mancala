@@ -8,7 +8,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
   const players = getPlayers(data);
   return (
     <div className="bg-[#0F1116] bg-contain bg-center bg-no-repeat border-2 border-[#272A32] rounded-2xl w-[928px] h-[437px] flex flex-col items-center justify-center px-8">
-      <div className="w-full h-[500px] overflow-y-scroll hide-scrollbar pb-4">
+      <div className="w-[928px] rounded-t-xl rounded-b-xl fixed h-[500px] overflow-y-scroll hide-scrollbar pb-4">
         <Card className="w-full h-full bg-transparent">
           <table className="text-left bg-transparent table-auto">
             <thead className="sticky -top-3.5 bg-[#0F1116] z-10">

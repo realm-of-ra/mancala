@@ -101,7 +101,7 @@ export default function GameHistory({
           </div>
           <div className="absolute h-[450px] w-full overflow-x-clip overflow-y-scroll scrollbar rounded-b-xl">
             <table className="w-full text-left table-auto px-2.5">
-              <tbody className="h-[450px] w-full overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
+              <tbody className="h-[450px] w-[800px] rounded-b-xl fixed overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
                 {data?.map((item: any, index: number) => {
                   const isLast = index === data?.length - 1;
                   const isFirst = index === 0;

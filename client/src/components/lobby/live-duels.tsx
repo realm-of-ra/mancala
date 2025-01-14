@@ -89,7 +89,7 @@ export default function LiveDuels({ games }: { games: any }) {
                   ))}
                 </tr>
               </thead>
-              <tbody className="h-[450px] w-full overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
+              <tbody className="h-[450px] w-[928px] rounded-b-xl fixed overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
                 {data?.map((data: any, index: number) => {
                   const date = new Date(data.date);
                   const challengerColor = colors[index % colors.length];
