@@ -239,10 +239,6 @@ export default function GameMessage({
       const serverPort = import.meta.env.VITE_SERVER_PORT || "3000";
       const message = constructElizaMessage();
 
-      console.log({
-        message
-      })
-
       if (message) {      
         console.log(`Attempting to call Eliza (attempt ${retryCount + 1})`);
         setElizaState('thinking');
@@ -298,20 +294,9 @@ export default function GameMessage({
         try {
           if (isSubscribed) {
             await callElizaMove();
-            // Wait a short moment to let the game state update
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // If it's still Eliza's turn after the move, make another move
-            if (
-              game_node?.status === "InProgress" &&
-              normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS) &&
-              game_node?.winner === "0x0"
-            ) {
-              makeElizaMove(); // Recursive call for consecutive turns
-            }
           }
         } catch (error) {
-          console.error("Failed to complete Eliza's move after all retries:", error);
+          console.error("Failed to complete Eliza's move:", error);
         }
       }
     };
@@ -321,7 +306,12 @@ export default function GameMessage({
     return () => {
       isSubscribed = false;
     };
-  }, [game_node?.current_player, game_node?.status, game_node?.winner]);
+  }, [
+    game_node?.current_player,
+    game_node?.status,
+    game_node?.winner,
+    game_players?.mancalaAlphaPitModels?.edges
+  ]);
 
   return (
     <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
