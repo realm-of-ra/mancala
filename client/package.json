@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
+		"dev": "sh run.sh",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -46,6 +46,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.1.2",
     "ethers": "^5.7.2",
     "framer-motion": "^11.3.24",
     "graphql-request": "^6.1.0",
