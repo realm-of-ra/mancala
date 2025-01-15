@@ -120,16 +120,17 @@ mod PlayableComponent {
             let mut mancala_game: MancalaBoard = MancalaBoardTrait::private_mancala(
                 game_id.count, player_one_address, opponent_address,
             );
+            restart_player_pits(world, @player_one, SeedColor::Green);
+            restart_player_pits(world, @player_two, SeedColor::Blue);
             game_id.increment();
 
             store.set_mancala_board(mancala_game);
             store.set_game_counter(game_id);
             store.set_player(player_one);
 
-            restart_player_pits(world, @player_one, SeedColor::Green);
-            restart_player_pits(world, @player_two, SeedColor::Blue);
             store.set_player(player_two);
             initialize_player_seeds(world, @player_one, 1_u128, SeedColor::Green);
+            initialize_player_seeds(world, @player_two, 25_u128, SeedColor::Blue);
         }
 
         /// Retrieves both players for a given game, with the current player first
