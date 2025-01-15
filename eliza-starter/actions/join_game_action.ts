@@ -61,28 +61,16 @@ export default {
 
         if (!state) {
             state = (await runtime.composeState(message)) as State;
-        } else {
-            state = await runtime.updateRecentMessageState(state);
         }
 
-        const context = composeContext({
-            state,
-            template: joinGameTemplate,
-        });
+        // Extract game ID from message text
+        const gameIdMatch = message.content.text.match(/0x[a-fA-F0-9]+/);
+        const gameId = gameIdMatch ? gameIdMatch[0] : null;
 
-        const content = await generateObjectDeprecated({
-            runtime,
-            context,
-            modelClass: ModelClass.MEDIUM,
-        });
-
-        elizaLogger.debug("Join game content:", content);
-
-        if (!isJoinGameContent(content) || !content.gameId) {
-            elizaLogger.error("Invalid content for JOIN_GAME action.");
+        if (!gameId) {
             if (callback) {
                 callback({
-                    text: "Could not determine the game ID to join. Please provide a valid game ID.",
+                    text: "Could not determine the game ID to join. Please provide a valid game ID starting with '0x'.",
                     content: { error: "Invalid game ID" },
                 });
             }
@@ -93,35 +81,23 @@ export default {
             const provider = getStarknetProvider(runtime);
             const account = getStarknetAccount(runtime);
 
-            // Get contract ABI
-            const { abi } = await provider.getClassAt(CONTRACT_ADDRESS);
-            if (!abi) {
-                throw new Error("Contract ABI not found");
-            }
+            // Call the join_game function on the contract
+            const { transaction_hash } = await account.execute({
+                contractAddress: CONTRACT_ADDRESS,
+                entrypoint: "join_game",
+                calldata: [gameId],
+            });
 
-            // Create contract instance
-            const contract = new Contract(abi, CONTRACT_ADDRESS, provider);
-            contract.connect(account);
+            elizaLogger.log(`Join game transaction hash: ${transaction_hash}`);
 
-            // Execute join_game function
-            const tx = await contract.invoke("join_game", [content.gameId]);
-
-            elizaLogger.success(
-                `Successfully joined game ${content.gameId}! tx: ${tx.transaction_hash}`
-            );
-            
             if (callback) {
                 callback({
-                    text: `Successfully joined game! Transaction hash: ${tx.transaction_hash}`,
-                    content: {
-                        success: true,
-                        txHash: tx.transaction_hash,
-                        gameId: content.gameId,
-                    },
+                    text: `Successfully joined game ${gameId}. Transaction hash: ${transaction_hash}`,
+                    content: { gameId, transaction_hash },
                 });
             }
-
             return true;
+
         } catch (error) {
             elizaLogger.error("Error joining game:", error);
             if (callback) {

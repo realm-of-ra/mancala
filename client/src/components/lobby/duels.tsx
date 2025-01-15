@@ -12,7 +12,7 @@ import EmptyDuels from "./empty-duels.tsx";
 import { Button } from "../ui/button.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccount } from "@starknet-react/core";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { Twitter } from "lucide-react";
 
@@ -30,6 +30,11 @@ export default function Duels({
     status: string;
     index: number;
   }>();
+  const [elizaStatus, setElizaStatus] = useState<{
+    status: 'IDLE' | 'JOINING' | 'RETRYING' | 'ERROR';
+    attempts: number;
+    index: number | null;
+  }>({ status: 'IDLE', attempts: 0, index: null });
   const data = games?.map((data: any, index: number) => {
     return {
       challenger: data.node.player_one,
@@ -92,6 +97,48 @@ export default function Duels({
   };
 
   const [copied, setCopied] = useState(false);
+
+  const joinWithEliza = useCallback(async (gameId: string, index: number) => {
+    setElizaStatus({ status: 'JOINING', attempts: 1, index });
+    
+    const tryJoin = async (attempt: number) => {
+      try {
+        const serverPort = import.meta.env.VITE_SERVER_PORT || "3000";
+        const response = await fetch(`http://localhost:${serverPort}/Eliza/message`, {
+          method: 'POST',
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
+          body: JSON.stringify({
+            text: `Join game ${gameId}`,
+            userId: "eliza",
+            userName: "Eliza",
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to join');
+        
+        // Success - navigate to game
+        navigate(`/games/${gameId}`);
+        
+      } catch (error) {
+        console.error('Error joining with Eliza:', error);
+        
+        if (attempt < 3) {
+          setElizaStatus({ status: 'RETRYING', attempts: attempt + 1, index });
+          setTimeout(() => tryJoin(attempt + 1), 2000); // Retry after 2 seconds
+        } else {
+          setElizaStatus({ status: 'ERROR', attempts: attempt, index });
+          setTimeout(() => {
+            setElizaStatus({ status: 'IDLE', attempts: 0, index: null });
+          }, 3000);
+        }
+      }
+    };
+
+    tryJoin(1);
+  }, [navigate]);
 
   if (loading) {
     return <DuelsSkeleton />;
@@ -208,8 +255,30 @@ export default function Duels({
                         {games[index].node.player_two === "0x0" &&
                         games[index].node.player_one ===
                           account.account?.address ? (
-                          <Button className="text-[#299DF5] bg-[#171922] hover:bg-[#1d1f2a] transition-colors">
-                            Play With Eliza AI
+                          <Button 
+                            className="text-[#299DF5] bg-[#171922] hover:bg-[#1d1f2a] transition-colors"
+                            onClick={() => joinWithEliza(games[index].node.game_id, index)}
+                            disabled={elizaStatus.status !== 'IDLE'}
+                          >
+                            {elizaStatus.index === index ? (
+                              <>
+                                {elizaStatus.status === 'JOINING' && (
+                                  <div className="flex items-center space-x-2">
+                                    <svg className="animate-spin h-5 w-5" /* ... spinner SVG ... */ />
+                                    <span>Eliza is joining...</span>
+                                  </div>
+                                )}
+                                {elizaStatus.status === 'RETRYING' && (
+                                  <div className="flex items-center space-x-2">
+                                    <svg className="animate-spin h-5 w-5" /* ... spinner SVG ... */ />
+                                    <span>Retrying... ({elizaStatus.attempts}/3)</span>
+                                  </div>
+                                )}
+                                {elizaStatus.status === 'ERROR' && "Failed to join"}
+                              </>
+                            ) : (
+                              "Play With Eliza AI"
+                            )}
                           </Button>
                         ) : (
                           <Link
