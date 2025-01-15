@@ -40,7 +40,7 @@ Example response:
 Given the recent messages, extract the game ID that the user wants to join.
 Respond with a JSON markdown block containing only the extracted game ID.`;
 
-const CONTRACT_ADDRESS = "0x06759f232ac3f0123a6ca67b7cdbd3d1d94f2f7c32afd9c3a0d4b895bf38ff54";
+const CONTRACT_ADDRESS = "0x0470f026bf97f0781492a95ebb9031da1c524601e8c2a285534545d33ca44797";
 
 export default {
     name: "JOIN_GAME",
