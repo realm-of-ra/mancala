@@ -123,13 +123,18 @@ export default function GameMessage({
           const currentPlayerName = profiles?.find(
             (item: any) => item.address === game_node?.current_player,
           )?.name;
-          const displayName =
+          let displayName =
             currentPlayerName ||
             (game_node?.current_player === game_node?.player_one
               ? player_one_name
               : player_two_name);
 
           if (normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS)) {
+            displayName = "Eliza";
+            if (elizaState === 'idle') {
+              callElizaMove();
+            }
+            
             if (elizaState === 'thinking') {
               return React.createElement(
                 "div",
