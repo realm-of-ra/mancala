@@ -243,7 +243,7 @@ export default function Duels({
                                   return (
                                     <div className="flex flex-row items-center justify-center space-x-1">
                                       <svg
-                                        className="text-white animate-spin w-fit"
+                                        className="text-white animate-spin-slow w-fit"
                                         viewBox="0 0 64 64"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
