@@ -236,20 +236,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
             className={
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
             }
-            style={{
-              marginLeft: getOpponentMarginLeft(),
-            }}
           />
           <div
-            className="h-[160px] flex flex-col items-center justify-center"
-            style={{
-              marginLeft:
-                opponent_pot_seed_count > 24
-                  ? "128px"
-                  : opponent_pot_seed_count > 10
-                    ? "113px"
-                    : "100px",
-            }}
+            className="h-[160px] flex flex-col items-center justify-center ml-[135px]"
           >
             <p className="text-white text-center">{opponent_pot_seed_count}</p>
           </div>
@@ -313,23 +302,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot (player) */}
           <div
-            className={
-              "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
-            }
-            style={{
-              marginRight: getPlayerMarginRight(),
-            }}
+            className={"w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"}
           />
           <div
-            className="h-[160px] flex flex-col items-center justify-center"
-            style={{
-              marginRight:
-                player_pot_seed_count > 24
-                  ? "120px"
-                  : player_pot_seed_count > 10
-                    ? "113px"
-                    : "100px",
-            }}
+            className="h-[160px] flex flex-col items-center justify-center mr-[135px]"
           >
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
