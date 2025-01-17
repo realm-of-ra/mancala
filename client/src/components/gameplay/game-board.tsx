@@ -59,9 +59,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
     startExtraTurnPolling(1000);
   }, [startCapturePolling, startExtraTurnPolling]);
 
+  console.log('game node', game_node)
+
   useEffect(() => {
     const captures = captureData?.mancalaAlphaCaptureModels?.edges;
-    if (captures && captures.length > 0) {
+    if (captures && captures.length > 0 && game_node?.status !== "Finished") {
       const latestCapture = captures[captures.length - 1]?.node;
 
       if (latestCapture) {
@@ -77,11 +79,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
         });
       }
     }
-  }, [captureData, account.account?.address, toast]);
+  }, [captureData, account.account?.address, toast, game_node?.status]);
 
   useEffect(() => {
     const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
-    if (extraTurns && extraTurns.length > 0) {
+    if (extraTurns && extraTurns.length > 0 && game_node?.status !== "Finished") {
       const latestExtraTurn = extraTurns[extraTurns.length - 1]?.node;
 
       if (latestExtraTurn) {
@@ -97,7 +99,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         });
       }
     }
-  }, [extraTurnData, account.account?.address, toast]);
+  }, [extraTurnData, account.account?.address, toast, game_node?.status]);
 
   const seeds = React.useMemo(() => {
     if (!data?.mancalaAlphaSeedModels?.edges) return [];
