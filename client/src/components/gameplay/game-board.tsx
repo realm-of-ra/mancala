@@ -267,7 +267,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
                 .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
                 .map((pit: any, i: number) => (
-                  <TopPit key={i} amount={pit.node.seed_count} />
+                  <TopPit key={i} amount={pit.node.seed_count} pit={pit.node.pit_number} />
                 ))}
             </div>
           </div>
