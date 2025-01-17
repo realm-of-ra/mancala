@@ -108,6 +108,24 @@ export default function Lobby() {
         game?.node?.player_two === account.account?.address ||
         game?.node?.player_two === "0x0",
     )
+    .sort((a: any, b: any) => {
+      // First priority: Games without player two (excluding 0x0)
+      const aHasNoPlayerTwo = !a.node.player_two || a.node.player_two === "";
+      const bHasNoPlayerTwo = !b.node.player_two || b.node.player_two === "";
+      if (aHasNoPlayerTwo !== bHasNoPlayerTwo) {
+        return aHasNoPlayerTwo ? -1 : 1;
+      }
+
+      // Second priority: Games with player_two = 0x0
+      const aHasZeroPlayerTwo = a.node.player_two === "0x0";
+      const bHasZeroPlayerTwo = b.node.player_two === "0x0";
+      if (aHasZeroPlayerTwo !== bHasZeroPlayerTwo) {
+        return aHasZeroPlayerTwo ? -1 : 1;
+      }
+
+      // Third priority: Games with both players
+      return 0;
+    })
     .map((game: any) => {
       const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
