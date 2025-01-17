@@ -29,6 +29,7 @@ import {
   MancalaPlayerNames,
 } from "@/lib/constants";
 import Dropdown from "@/components/dropdown";
+import clsx from "clsx";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
@@ -199,11 +200,7 @@ export default function Lobby() {
     }
   }, [gameId, creating, open, type, playWith]);
 
-  useEffect(() => {
-    if (!account?.account?.address) {
-      connect({ connector: connectors[0] });
-    }
-  }, [account, connect, connectors]);
+  const [tabValue, setTabValue] = useState("duels");
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
@@ -211,7 +208,7 @@ export default function Lobby() {
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-row space-x-5">
           <div className="w-[928px]">
-            <Tabs defaultValue="duels" className="w-full space-y-10">
+            <Tabs defaultValue={tabValue} className="w-full space-y-10" onValueChange={(value) => setTabValue(value)}>
               <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] p-4 rounded-l-full rounded-r-full">
                 <TabsList className="bg-transparent space-x-1.5">
                   <TabsTrigger
@@ -237,8 +234,8 @@ export default function Lobby() {
                     className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
                   >
                     <div className="flex flex-row items-center space-x-1.5">
-                      <div className="bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat" />
-                      <p className="text-base">Leaderboard</p>
+                      <div className={clsx("bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat", tabValue === "leaderboard" && "bg-[url('./assets/cup.png')]")} />
+                      <p>Leaderboard</p>
                     </div>
                   </TabsTrigger>
                 </TabsList>

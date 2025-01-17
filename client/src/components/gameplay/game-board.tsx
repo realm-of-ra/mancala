@@ -18,6 +18,8 @@ interface GameBoardProps {
   gameId: string;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
+  volume: number;
+  setVolume: (volume: number) => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
@@ -28,6 +30,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   gameId,
   setMoveMessage,
   setTimeRemaining,
+  volume,
+  setVolume,
 }) => {
   const { toast } = useToast();
 
@@ -222,6 +226,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 pit_number={seedDetails?.pit_number}
                 seed_number={seedDetails?.seed_number}
                 isNative={seedDetails.isNative}
+                volume={volume}
               />
             );
           })}

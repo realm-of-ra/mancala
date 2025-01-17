@@ -1,8 +1,8 @@
-import { useAudioControl } from "@/hooks/useAudioControl";
 import { positions } from "@/lib/constants";
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import audio_url from "@/music/seed-drop.mp3";
 
 export default function Seed({
   color,
@@ -10,16 +10,19 @@ export default function Seed({
   pit_number,
   seed_number,
   isNative,
+  volume,
 }: {
   color?: string;
   type?: "player" | "opponent";
   pit_number: number;
   seed_number: number;
   isNative: boolean;
+  volume: number;
 }) {
   const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
-  const { playSeedDropSound } = useAudioControl();
   const _positions = positions(type);
+  const timerRef = useRef<NodeJS.Timeout>();
+  const [audio] = useState(new Audio(audio_url));
 
   const position = useMemo(() => {
     return isNative && type === "player"
@@ -37,15 +40,28 @@ export default function Seed({
     setAnimationDelay(seed_number * 0.75);
   }, [seed_number]);
 
+  useEffect(() => {
+    audio.volume = volume / 100;
+    if (volume === 0) {
+      audio.pause();
+    }
+    
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, [volume, audio]);
+
   const play = () => {
-    const timer = setTimeout(
+    timerRef.current = setTimeout(
       () => {
-        playSeedDropSound();
+        audio.play().catch(console.error);
       },
       animationDelay * 1000 + 600,
     );
-
-    return () => clearTimeout(timer);
   };
 
   return (

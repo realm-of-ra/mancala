@@ -1,16 +1,18 @@
 import { useEffect, useState, useCallback } from "react";
-import { getPlayer } from "../lib/utils";
 import mancala from "../assets/logo.png";
-import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
-import { Link } from "react-router-dom";
+import { useAccount, useBalance, useConnect, useDisconnect } from "@starknet-react/core";
+import { Link, useNavigate } from "react-router-dom";
 import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
-import { Cog8ToothIcon, TrophyIcon } from "@heroicons/react/24/solid";
-import clsx from "clsx";
+import { Cog8ToothIcon, SpeakerXMarkIcon, TrophyIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
 import catridgeImage from "@/assets/controller.png";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { SpeakerWaveIcon } from "@heroicons/react/24/outline";
+import { Slider } from "@/components/ui/slider"
+import Logout from "./ui/svgs/logout";
+import audio_url from "@/music/audio_1.mp4";
 
 export default function Header() {
   const { connect, connectors } = useConnect();
@@ -49,16 +51,10 @@ export default function Header() {
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(1000);
 
-  const player = getPlayer(
-    data?.mancalaAlphaMancalaGameModels?.edges,
-    account?.address || "",
-  );
-
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
   const [playerName, setPlayerName] = useState("");
-  const [playerImage, setPlayerImage] = useState("");
 
   useEffect(() => {
     const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
@@ -66,15 +62,11 @@ export default function Header() {
     );
     if (!account?.address || !profile) {
       setPlayerName("");
-      setPlayerImage("");
       return;
     }
 
     if (profile?.node?.name) {
       setPlayerName(shortString.decodeShortString(profile?.node?.name));
-    }
-    if (profile?.node?.profile_uri) {
-      setPlayerImage(profile?.node?.profile_uri);
     }
   }, [
     account?.address,
@@ -90,6 +82,46 @@ export default function Header() {
     connector?.controller.openProfile("achievements");
   }, [connector]);
 
+  const navigate = useNavigate();
+
+  //Get user STRK balance
+  const { data: balanceData, error } = useBalance({
+    address: account?.address,
+    token: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+  });
+
+  const [volume, setVolume] = useState(35);
+  const [audio] = useState(new Audio(audio_url));
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    audio.volume = volume / 100;
+    if (volume === 0 && isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else if (volume > 0 && !isPlaying) {
+      audio.play().then(() => setIsPlaying(true)).catch(console.error);
+    }
+  }, [volume, audio, isPlaying]);
+
+  useEffect(() => {
+    audio.loop = true;
+    
+    audio.addEventListener('ended', () => {
+      audio.play().catch(console.error);
+    });
+
+    audio.addEventListener('error', (e) => {
+      console.error('Audio playback error:', e);
+      setIsPlaying(false);
+    });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, [audio]);
+
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <div className="flex-1 w-full -mr-10" />
@@ -100,7 +132,7 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className={clsx("flex-1 w-full", account?.address ? "-ml-28" : "-ml-10")}>
+      <div className={"flex-1 w-full -ml-10"}>
         <div className="flex flex-row space-x-2.5 items-center justify-start">
           {
             account?.address && <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none" onClick={handleTrophyClick}>
@@ -110,7 +142,7 @@ export default function Header() {
               {
                 account?.address ? <Button
                 className="font-medium relative flex flex-col justify-center items-center bg-[#171922] w-fit text-sm rounded-full p-0"
-                onClick={disconnectWallet}
+                onClick={() => navigate("/profile")}
               >
                 <div className="flex flex-row items-center justify-center p-1.5 pl-5 pr-7 -space-x-1">
                   <img src={catridgeImage} className="w-12 h-12" />
@@ -127,16 +159,45 @@ export default function Header() {
                 <p className="text-[#FCE3AA]">Connect Wallet</p>
               </Button>
               }
-              {
-                account?.address && playerImage !== "" ? <Link to={`/profile?address=${account?.address}`}>
-                  <img src={playerImage} className="w-10 h-10 rounded-full border-2 border-[#171922]" />
-                </Link> : account?.address && <Link to={`/profile?address=${account?.address}`}><Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
-                <UserCircleIcon className="w-6 h-6 text-[#DB8534]" />
-              </Button></Link>
-              }
-              <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
-                <Cog8ToothIcon className="w-6 h-6 text-[#DB8534]" />
-              </Button>
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger>
+                  <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
+                    <Cog8ToothIcon className="w-6 h-6 text-[#DB8534]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40"
+                >
+                  {
+                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                    <p className="px-3">Account</p>
+                    <div className="bg-[#111419] mx-1 p-2 rounded-md flex flex-row items-center justify-start space-x-1">
+                      <p>
+                        {error ? "0.00" : balanceData?.formatted} {balanceData?.symbol}
+                      </p>
+                      <div className="bg-[url('./assets/sn.png')] bg-contain bg-no-repeat w-4 h-4" />
+                    </div>
+                  </DropdownMenuItem>
+                  }
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                    <p className="px-3">Sounds</p>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" disabled>
+                    <div className="flex flex-row items-center justify-start space-x-1 mx-1 p-2 w-full">
+                      <div className="flex flex-row items-center justify-start space-x-1 w-full">
+                        {volume > 0 ? <SpeakerWaveIcon className="w-20 h-20 text-white" /> : <SpeakerXMarkIcon className="w-20 h-20 text-white" />}
+                        <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value) => setVolume(value[0])} />
+                      </div>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" onClick={account?.address ? disconnectWallet : connectWallet}>
+                      <button className="flex flex-row items-center justify-start space-x-1 px-3 text-[#F58229]">
+                        <Logout />
+                        <p>{account?.address ? "Disconnect" : "Connect Wallet"}</p>
+                    </button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
         </div>
       </div>
     </div>
