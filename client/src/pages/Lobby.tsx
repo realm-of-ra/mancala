@@ -365,7 +365,7 @@ export default function Lobby() {
                                 <RadioGroupItem value="private" id="private" />
                                 <Label
                                   htmlFor="private"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={type == "private" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
                                 >
                                   Private
                                 </Label>
@@ -378,7 +378,7 @@ export default function Lobby() {
                                 />
                                 <Label
                                   htmlFor="public"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={type == "public" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
                                 >
                                   Public
                                 </Label>
