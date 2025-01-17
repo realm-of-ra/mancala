@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function truncateString(str?: string) {
+export function truncateString(str?: string, num?: number) {
   if (str) {
-    return str.length > 6 ? str.slice(0, 6) + "..." + str.slice(-6) : str;
+    return str.length > (num || 6) ? str.slice(0, num || 6) + "..." + str.slice(-(num || 6)) : str;
   }
 }
 
@@ -160,9 +160,13 @@ export async function uploadFile(file: File) {
   }
 }
 
-export const formatPlayerName = (name: string, address: string) => {
-  if (!name || name === "0x0") {
-    return truncateString(address);
+export const formatPlayerName = (name: string, address: string, num?: number) => {
+  console.log({
+    name,
+    address,
+  })
+  if (!name || name === "0x0" || name === address) {
+    return truncateString(address, num);
   }
   try {
     return shortString.decodeShortString(name);

@@ -45,7 +45,7 @@ export default function Duels({
       winner:
         data.node.winner === "0x0"
           ? "0x0"
-          : formatPlayerName(data.node.winner, data.node.winner),
+          : formatPlayerName(data.node.winner, data.node.winner, 4),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
@@ -196,7 +196,7 @@ export default function Duels({
                       </td>
                       <td className="w-[115px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
                         <p className="font-normal text-[#FAB580]">
-                          {item.winner !== "0x0" ? item.winner : "-"}
+                          {item.winner !== "0x0" ? item.winner : "nil"}
                         </p>
                       </td>
                       <td className="w-[115px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
