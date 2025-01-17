@@ -513,6 +513,9 @@ export default function Lobby() {
           </div>
         </div>
       </div>
+      <Link to="/" className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+          <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">Give feedbacks and get a chance to win Lord of the Mancala</Button>
+      </Link>
     </div>
   );
 }
