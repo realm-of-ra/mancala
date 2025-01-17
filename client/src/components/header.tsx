@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, SetStateAction } from "react";
 import mancala from "../assets/logo.png";
 import { useAccount, useBalance, useConnect, useDisconnect } from "@starknet-react/core";
 import { Link, useNavigate } from "react-router-dom";
@@ -186,7 +186,7 @@ export default function Header() {
                     <div className="flex flex-row items-center justify-start space-x-1 mx-1 p-2 w-full">
                       <div className="flex flex-row items-center justify-start space-x-1 w-full">
                         {volume > 0 ? <SpeakerWaveIcon className="w-20 h-20 text-white" /> : <SpeakerXMarkIcon className="w-20 h-20 text-white" />}
-                        <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value) => setVolume(value[0])} />
+                        <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value: SetStateAction<number>[]) => setVolume(value[0])} />
                       </div>
                     </div>
                   </DropdownMenuItem>

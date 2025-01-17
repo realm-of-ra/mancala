@@ -120,7 +120,7 @@ export default function AudioSection({ volume, setVolume }: { volume: number, se
               alt="toggle play"
               className="rounded-full"
             />
-            <Slider value={[volume]} onValueChange={([value]) => setVolume(value)} className="w-full linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)" />
+            <Slider value={[volume]} onValueChange={([value]) => setVolume(value)} className="w-full" track="bg-[#E48D32]" thumb="bg-[#FCE3AA]" range="bg-[#FCE3AA]" hideThumb={false} />
             <span className="flex text-sm text-[#FCE3AA]">
               {volume}
             </span>
