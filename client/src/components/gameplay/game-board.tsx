@@ -59,8 +59,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     startExtraTurnPolling(1000);
   }, [startCapturePolling, startExtraTurnPolling]);
 
-  console.log('game node', game_node)
-
   useEffect(() => {
     const captures = captureData?.mancalaAlphaCaptureModels?.edges;
     if (captures && captures.length > 0 && game_node?.status !== "Finished") {
@@ -173,32 +171,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
       .filter((item: any) => item?.node.pit_number === 7)[0]?.node
       ?.seed_count || 0;
-
-  const getOpponentMarginLeft = () => {
-    if (opponent_pot_seed_count <= 10) {
-      return "185px";
-    } else if (opponent_pot_seed_count >= 21 && opponent_pot_seed_count < 31) {
-      return "155px";
-    } else if (opponent_pot_seed_count >= 31 && opponent_pot_seed_count < 41) {
-      return "160px";
-    } else if (opponent_pot_seed_count >= 41) {
-      return "160px";
-    } else {
-      return "170px";
-    }
-  };
-
-  const getPlayerMarginRight = () => {
-    if (player_pot_seed_count <= 10) {
-      return "185px";
-    } else if (player_pot_seed_count >= 31 && player_pot_seed_count < 41) {
-      return "160px";
-    } else if (player_pot_seed_count >= 41) {
-      return "155px";
-    } else {
-      return "170px";
-    }
-  };
 
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
