@@ -49,7 +49,7 @@ export default function EndgameButton({
           onClick={end_game}
         />
       </Button>
-      <p className="text-lg text-[#656C7D] font-medium text-center">End</p>
+      <p className="text-lg text-white font-medium text-center">End</p>
     </div>
   );
 }

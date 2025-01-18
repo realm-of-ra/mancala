@@ -59,7 +59,7 @@ export default function RestartButton({
           className="rounded-full"
         />
       </Button>
-      <p className="text-lg text-[#656C7D] font-medium text-center">Restart</p>
+      <p className="text-lg text-white font-medium text-center">Restart</p>
     </div>
   );
 }

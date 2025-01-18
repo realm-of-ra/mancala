@@ -1,19 +1,18 @@
-import { useEffect, useState, useRef } from "react";
-import { getColorOfTheDay, getPlayer, truncateString } from "../lib/utils";
+import { useEffect, useState, useCallback, SetStateAction } from "react";
 import mancala from "../assets/logo.png";
-import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
-import { Link } from "react-router-dom";
+import { useAccount, useBalance, useConnect, useDisconnect } from "@starknet-react/core";
+import { Link, useNavigate } from "react-router-dom";
 import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
-import { UserIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import clsx from "clsx";
-import controllerSvg from "../assets/controller.svg";
-import connectB from "../assets/connect.svg";
-import leader from "../assets/leader.svg";
-import profileImage from "../assets/profile.svg";
-import lobby from "../assets/lobby.svg";
+import { Cog8ToothIcon, SpeakerXMarkIcon, TrophyIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
+import catridgeImage from "@/assets/controller.png";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { SpeakerWaveIcon } from "@heroicons/react/24/outline";
+import { Slider } from "@/components/ui/slider"
+import Logout from "./ui/svgs/logout";
+import audio_url from "@/music/audio_1.mp4";
 
 export default function Header() {
   const { connect, connectors } = useConnect();
@@ -26,37 +25,31 @@ export default function Header() {
     disconnect();
   };
 
-  const { account } = useAccount();
+  const { account, connector } = useAccount() as any;
+  const controller = connectors[0] as any
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (!controller) return;
+      try {
+        const name = await controller.username();
+        setUsername(name || "");
+      } catch (error) {
+        console.error("Error fetching username:", error);
+        setUsername("");
+      }
+    };
+
+    if (account?.address) {
+      fetchUsername();
+    } else {
+      setUsername(""); // Reset username when disconnected
+    }
+  }, [account?.address, controller]);
 
   const { data, startPolling } = useQuery(MancalaHeaderQuery);
   startPolling(1000);
-
-  const player = getPlayer(
-    data?.mancalaAlphaMancalaGameModels?.edges,
-    account?.address || "",
-  );
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownClose, setIsDropdownClose] = useState(false);
-
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleConnect = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-    connectWallet();
-  };
-
-  const handleDropdownToggleClose = () => {
-    setIsDropdownClose(!isDropdownClose);
-  };
-  const handleDisconnect = () => {
-    setIsDropdownClose(!isDropdownClose);
-    disconnectWallet();
-  };
-
-  const color = getColorOfTheDay(account?.address || "", new Date());
 
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
@@ -64,12 +57,8 @@ export default function Header() {
   const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaDevProfileModels?.edges.find(
+    const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
       (player: any) => player.node.address === account?.address,
-    );
-    console.log(
-      "profile: ",
-      playerData?.mancalaDevProfileModels?.edges.map((player: any) => player),
     );
     if (!account?.address || !profile) {
       setPlayerName("");
@@ -77,85 +66,65 @@ export default function Header() {
     }
 
     if (profile?.node?.name) {
-      setPlayerName(shortString.decodeShortString(profile?.node?.name || ""));
+      setPlayerName(shortString.decodeShortString(profile?.node?.name));
     }
   }, [
     account?.address,
-    playerData?.mancalaDevProfileModels?.edges,
+    playerData?.mancalaAlphaProfileModels?.edges,
     playerData,
-    account?.address,
   ]);
+  
+  const handleTrophyClick = useCallback(() => {
+    if (!connector?.controller) {
+      console.error("Connector not initialized");
+      return;
+    }
+    connector?.controller.openProfile("achievements");
+  }, [connector]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  //Get user STRK balance
+  const { data: balanceData, error } = useBalance({
+    address: account?.address,
+    token: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+  });
+
+  const [volume, setVolume] = useState(35);
+  const [audio] = useState(new Audio(audio_url));
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownClose(false);
-        setIsDropdownOpen(false);
-      }
+    audio.volume = volume / 100;
+    if (volume === 0 && isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else if (volume > 0 && !isPlaying) {
+      audio.play().then(() => setIsPlaying(true)).catch(console.error);
     }
+  }, [volume, audio, isPlaying]);
 
-    document.addEventListener("mousedown", handleClickOutside);
+  useEffect(() => {
+    audio.loop = true;
+    
+    audio.addEventListener('ended', () => {
+      audio.play().catch(console.error);
+    });
+
+    audio.addEventListener('error', (e) => {
+      console.error('Audio playback error:', e);
+      setIsPlaying(false);
+    });
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      audio.pause();
+      audio.currentTime = 0;
     };
-  }, []);
+  }, [audio]);
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
-      <div className="flex-1 w-full -mr-10">
-        {account?.address && playerName && playerName !== "0" ? (
-          <div className="flex flex-row space-x-2.5 items-center justify-end">
-            {/* <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative"> */}
-            <div className="rounded-full border-2 border-[#4B505C] relative">
-              <div className="bg-[#15171E] rounded-full p-2.5">
-                <UserIcon color="#F58229" className="w-10 h-10" />
-              </div>
-              <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
-              </div>
-            </div>
-            <div>
-              <h3 className="text-2xl text-right text-white">
-                {playerName !== "0"
-                  ? playerName
-                  : truncateString(account?.address)}
-              </h3>
-              <h4 className="text-sm text-[#F58229] text-start">
-                {player?.wins < 4
-                  ? "Level 1"
-                  : `Level ${Number.isNaN(Math.floor(player?.wins)) ? 1 : Math.floor(player?.wins) < 4 ? 1 : Math.floor(player?.wins / 4) + 1}`}
-              </h4>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-row space-x-2.5 items-center justify-end">
-            <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-              <div>
-                <div
-                  className="flex items-center justify-center rounded-full p-2.5"
-                  style={{ backgroundColor: color }}
-                >
-                  <UserIcon color="#F58229" className="w-10 h-10 text-white" />
-                </div>
-                <div className="absolute bottom-0 right-0 h-6 w-6 bg-[#15171E] rounded-full flex flex-col items-center justify-center">
-                  <div className="h-4 w-4 bg-[#00FF57] rounded-full" />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col items-start">
-              <h3 className="text-2xl text-right text-white">Player</h3>
-              <h4 className="text-sm text-[#F58229] text-start">
-                Setup Profile
-              </h4>
-            </div>
-          </div>
-        )}
-      </div>
+      <div className="flex-1 w-full -mr-10" />
       <div className="h-[100px] w-[800px]">
         <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
           <Link to="/" className="mb-4">
@@ -163,120 +132,72 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex-1 w-full -ml-16">
+      <div className={"flex-1 w-full -ml-10"}>
         <div className="flex flex-row space-x-2.5 items-center justify-start">
-          <div className="relative " ref={dropdownRef}>
-            {account?.address ? (
-              <div className="relative ">
-                <Button
-                  className="p-0 flex font-medium justify-between relative items-center bg-[#171922] w-fit text-sm text-[#BFC5D4] whitespace-nowrap rounded-full"
-                  onClick={handleDropdownToggleClose}
-                >
-                  <div className="bg-[#272a32] px-4 py-2 rounded-l-full">
-                    <img
-                      src={controllerSvg}
-                      width={40}
-                      height={40}
-                      alt=""
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="flex flex-row items-center w-fit px-5 py-3.5 space-x-5 ">
-                    <p className="text-[18px] text-white leading-3 normal-case">
-                      {playerName
-                        ? playerName.length > 18
-                          ? truncateString(playerName)
-                          : playerName
-                        : truncateString(account?.address)}
-                    </p>
-                    <ChevronDownIcon
-                      className={clsx("w-4 h-4 ml-3 transition duration-300", {
-                        "transform rotate-180": isDropdownOpen,
-                      })}
-                    />
-                  </div>
-                </Button>
-
-                {isDropdownClose && (
-                  <div className="absolute top-1/2 font-medium transform translate-y-6 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
-                    <Link to="/profile">
-                      <button className="flex flex-row items-center w-full px-4 py-2 rounded-tl-xl rounded-tr-xl  bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
-                        <img src={profileImage} />
-                        <span className="block px-4 py-2">Profile</span>
-                      </button>
-                    </Link>
-                    <Link to="/lobby">
-                      <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                        <img src={lobby} />
-                        <span className="block px-4 py-2">Lobby</span>
-                      </button>
-                    </Link>
-                    <Link to="/leaderboard">
-                      <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                        <img src={leader} />
-                        <span className="block px-4 py-2">Leaderboard</span>
-                      </button>
-                    </Link>
-                    <button
-                      className="flex flex-row items-center w-full px-4 py-2  rounded-bl-xl rounded-br-xl  bg-[#171922] hover:bg-[#272A32] cursor-pointer"
-                      onClick={handleDisconnect}
-                    >
-                      <img src={connectB} />
-                      <span className="block px-4 py-2 text-[#F58229] whitespace-nowrap">
-                        Disconnect Wallet
-                      </span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Button
-                className="flex justify-between font-medium relative items-center bg-[#F58229] w-[259px] text-sm white whitespace-nowrap rounded-full"
-                onClick={handleDropdownToggle}
+          {
+            account?.address && <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none" onClick={handleTrophyClick}>
+            <TrophyIcon className="w-6 h-6 text-[#DB8534]" />
+          </Button>
+          }
+              {
+                account?.address ? <Button
+                className="font-medium relative flex flex-col justify-center items-center bg-[#171922] w-fit text-sm rounded-full p-0"
+                onClick={() => navigate("/profile")}
               >
-                <span className="h-full flex items-center rounded-tl-full rounded-bl-full absolute left-0 top-0 bottom-0 px-4">
-                  <img
-                    src={controllerSvg}
-                    width={40}
-                    height={40}
-                    className="text-left"
-                  />
-                </span>
-                <span className="ml-12 text-[#FCE3AA]">Connect Wallet</span>
-                <ChevronDownIcon
-                  className={clsx("w-4 h-4 ml-3 transition duration-300", {
-                    "transform rotate-180": isDropdownOpen,
-                  })}
-                />
+                <div className="flex flex-row items-center justify-center p-1.5 pl-5 pr-7 -space-x-1">
+                  <img src={catridgeImage} className="w-12 h-12" />
+                  <p className="text-[#FCE3AA]">
+                    {playerName 
+                      ? (playerName.length > 16 ? playerName.slice(0, 16) + "..." : playerName)
+                      : (username.length > 16 ? username.slice(0, 16) + "..." : username)}
+                  </p>
+                </div>
+              </Button> : <Button
+                className="flex justify-between font-medium relative items-center bg-[#F58229] w-fit text-sm white whitespace-nowrap rounded-full"
+                onClick={connectWallet}
+              >
+                <p className="text-[#FCE3AA]">Connect Wallet</p>
               </Button>
-            )}
-
-            {isDropdownOpen && (
-              <div className="absolute top-1/2 transform font-medium translate-y-5 w-[259px] right-0 mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
-                <button className="flex flex-row items-center w-full px-4 py-2 rounded-t-xl bg-[#171922] hover:bg-[#272A32] cursor-pointer">
-                  <img src={connectB} />
-                  <span
-                    className="block px-4 py-2 text-[#F58229] whitespace-nowrap"
-                    onClick={handleConnect}
-                  >
-                    Connect Wallet
-                  </span>
-                </button>
-                <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] hover:bg-opacity-50 cursor-pointer transition duration-300 ease-in-out">
-                  <img src={lobby} />
-                  <Link to="/" className="block px-4 py-2">
-                    Lobby
-                  </Link>
-                </button>
-                <button className="flex flex-row items-center w-full px-4 py-2 bg-[#171922] hover:bg-[#272A32] cursor-pointer rounded-b-xl">
-                  <img src={leader} />
-                  <Link to="/" className="block px-4 py-2">
-                    Leaderboard
-                  </Link>
-                </button>
-              </div>
-            )}
-          </div>
+              }
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger>
+                  <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none">
+                    <Cog8ToothIcon className="w-6 h-6 text-[#DB8534]" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40"
+                >
+                  {
+                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                    <p className="px-3">Account</p>
+                    <div className="bg-[#111419] mx-1 p-2 rounded-md flex flex-row items-center justify-start space-x-1">
+                      <p>
+                        {error ? "0.00" : balanceData?.formatted} {balanceData?.symbol}
+                      </p>
+                      <div className="bg-[url('./assets/sn.png')] bg-contain bg-no-repeat w-4 h-4" />
+                    </div>
+                  </DropdownMenuItem>
+                  }
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                    <p className="px-3">Sounds</p>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" disabled>
+                    <div className="flex flex-row items-center justify-start space-x-1 mx-1 p-2 w-full">
+                      <div className="flex flex-row items-center justify-start space-x-1 w-full">
+                        {volume > 0 ? <SpeakerWaveIcon className="w-20 h-20 text-white" /> : <SpeakerXMarkIcon className="w-20 h-20 text-white" />}
+                        <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value: SetStateAction<number>[]) => setVolume(value[0])} />
+                      </div>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" onClick={account?.address ? disconnectWallet : connectWallet}>
+                      <button className="flex flex-row items-center justify-start space-x-1 px-3 text-[#F58229]">
+                        <Logout />
+                        <p>{account?.address ? "Disconnect" : "Connect Wallet"}</p>
+                    </button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
         </div>
       </div>
     </div>

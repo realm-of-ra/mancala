@@ -2,7 +2,7 @@ import mancala_duels_logo from "../../assets/mancala_duels.png";
 
 export default function EmptyGameHistory({ id }: { id: string }) {
   return (
-    <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
+    <div className="bg-[#0F1116] bg-contain bg-center bg-no-repeat border-2 border-[#272A32] rounded-2xl w-[full h-[437px] flex flex-col items-center justify-center">
       <div className="w-full h-[500px] flex flex-col items-center justify-center">
         <img
           src={mancala_duels_logo}

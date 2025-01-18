@@ -4,11 +4,11 @@ mod PlayableComponent {
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address};
+    use starknet::info::{get_caller_address, get_block_timestamp};
+    use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
-    use mancala::models::profile::{Profile, ProfileTrait};
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
@@ -16,15 +16,13 @@ mod PlayableComponent {
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
         restart_player_pits, initialize_player_seeds,
     };
+    use mancala::types::task::{Task, TaskTrait};
 
     mod errors {
         const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
         const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
         const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
         const PLAYER_DID_NOT_REQUEST_RESTART: felt252 = 'Player did not request restart';
-        const PROFILE_EXISTS: felt252 = 'Player profile already exists';
-        const PROFILE_NOT_FOUND: felt252 = 'Player profile does not exist';
-        const NOT_PROFILE_OWNER: felt252 = 'Not profile owner';
     }
 
     #[storage]
@@ -35,33 +33,7 @@ mod PlayableComponent {
     enum Event {}
 
     #[generate_trait]
-    impl InternalImpl<
-        TContractState, +HasComponent<TContractState>,
-    > of InternalTrait<TContractState> {
-        /// Initializes the game counter
-        ///
-        /// # Arguments
-        /// * `self` - Reference to the component state
-        /// * `world` - The World dispatcher
-        ///
-        /// # Effects
-        /// * Sets up the initial game counter in the world state
-        fn initialize_game_counter(self: @ComponentState<TContractState>, world: WorldStorage) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            let current_game_counter = store.get_game_counter(1);
-            assert(current_game_counter.count == 0, 'Counter already initialized');
-
-            // [Effect] Create GameCounter
-            let mut game_counter = GameCounterTrait::new();
-
-            // [Effect] GameCounter increment
-            game_counter.increment();
-
-            store.set_game_counter(game_counter);
-        }
-
+    impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
         /// Creates a new game
         ///
         /// # Arguments
@@ -70,7 +42,7 @@ mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn new_game(self: @ComponentState<TContractState>, world: WorldStorage) {
+        fn new_game(ref self: ComponentState<TState>, world: WorldStorage) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -95,7 +67,7 @@ mod PlayableComponent {
         /// * `self` - Reference to the component state
         /// * `world` - The World dispatcher
         /// * `game_id` - The ID of the game to join
-        fn join_game(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
+        fn join_game(ref self: ComponentState<TState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -111,7 +83,7 @@ mod PlayableComponent {
         }
 
         fn timeout(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TState>,
             world: WorldStorage,
             game_id: u128,
             opponent_address: ContractAddress,
@@ -134,7 +106,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
         fn create_private_game(
-            self: @ComponentState<TContractState>,
+            ref self: ComponentState<TState>,
             world: WorldStorage,
             opponent_address: ContractAddress,
         ) {
@@ -170,7 +142,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(Player, Player)` - A tuple containing the current player and the opponent
         fn get_players(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
         ) -> (Player, Player) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -200,10 +172,7 @@ mod PlayableComponent {
         /// * `(ContractAddress, GameStatus)` - The address of the current player and the game
         /// status
         fn move(
-            self: @ComponentState<TContractState>,
-            world: WorldStorage,
-            game_id: u128,
-            selected_pit: u8,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128, selected_pit: u8,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -254,6 +223,15 @@ mod PlayableComponent {
                         .capture(
                             mancala_game.game_id, current_player.address, last_pit, captured_seeds,
                         );
+
+                    // [Trophy] Update Collecting task event
+                    let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
+                    let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
+                    let time = get_block_timestamp();
+                    arcade_store.progress(player.into(), task_id, captured_seeds.into(), time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
             }
 
@@ -261,11 +239,29 @@ mod PlayableComponent {
             let opponent_seeds = get_player_seeds(world, @opponent);
             if current_player_seeds.len() == 0 || opponent_seeds.len() == 0 {
                 if current_player_seeds.len() == 0 {
-                    capture_remaining_seeds(world, ref opponent);
+                    let captured_seeds = capture_remaining_seeds(world, ref opponent);
+
+                    // [Trophy] Update Collecting task event
+                    let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
+                    let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
+                    let time = get_block_timestamp();
+                    arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
 
                 if opponent_seeds.len() == 0 {
-                    capture_remaining_seeds(world, ref current_player);
+                    let captured_seeds = capture_remaining_seeds(world, ref current_player);
+
+                    // [Trophy] Update Collecting task event
+                    let arcade_store: ArcadeStore = ArcadeStoreTrait::new(world);
+                    let task_id = Task::Collecting.identifier(0);
+                    let extractor_task_id = Task::Clearing.identifier(0);
+                    let time = get_block_timestamp();
+                    arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store
+                        .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
                 mancala_game.status = GameStatus::Finished;
                 let mut current_player_store = store
@@ -294,7 +290,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `(u8, u8)` - The scores of player one and player two respectively
         fn get_score(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
         ) -> (u8, u8) {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -319,7 +315,7 @@ mod PlayableComponent {
         /// # Returns
         /// * `bool` - True if the game is finished, false otherwise
         fn is_game_over(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
         ) -> bool {
             // [Setup] Datastore
             let store: Store = StoreTrait::new(world);
@@ -343,7 +339,7 @@ mod PlayableComponent {
         ///
         /// # Effects
         /// * Updates the game status to forfeited and sets the winner
-        fn forfeited(self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128) {
+        fn forfeited(ref self: ComponentState<TState>, world: WorldStorage, game_id: u128) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -373,7 +369,7 @@ mod PlayableComponent {
         /// # Effects
         /// * Sets the restart_requested flag for the calling player
         fn request_restart_game(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -398,7 +394,7 @@ mod PlayableComponent {
         /// # Panics
         /// * If either player has not requested a restart
         fn restart_current_game(
-            self: @ComponentState<TContractState>, world: WorldStorage, game_id: u128,
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
@@ -431,39 +427,6 @@ mod PlayableComponent {
 
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
-        }
-
-        fn new_profile(self: @ComponentState<TContractState>, world: WorldStorage, name: felt252) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            let player = get_caller_address();
-
-            let profile = store.get_profile(player);
-            assert(!profile.is_initialized, errors::PROFILE_EXISTS);
-
-            let mut player_profile: Profile = ProfileTrait::new(player, name);
-
-            store.set_profile(player_profile);
-        }
-
-        fn update_player_profile(
-            self: @ComponentState<TContractState>,
-            world: WorldStorage,
-            name: felt252,
-            new_uri: ByteArray,
-        ) {
-            // [Setup] Datastore
-            let mut store: Store = StoreTrait::new(world);
-
-            let player = get_caller_address();
-            let mut player_profile = store.get_profile(player);
-
-            assert(player_profile.is_initialized, errors::PROFILE_NOT_FOUND);
-            assert(player_profile.address == player, errors::NOT_PROFILE_OWNER);
-
-            player_profile.update_profile(name, new_uri);
-            store.set_profile(player_profile);
         }
     }
 }

@@ -1,7 +1,7 @@
 export default function CreateLoaderSVG() {
   return (
     <svg
-      className="text-white animate-spin w-fit"
+      className="text-white animate-spin-slow w-fit"
       viewBox="0 0 64 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

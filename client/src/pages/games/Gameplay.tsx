@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameBoard from "@/components/gameplay/game-board";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
 import {
   MancalaBoardModelQuery,
@@ -31,28 +31,36 @@ export default function Gameplay() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaDevMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [_, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaDevPlayerModels.edges.filter(
+    game_players?.mancalaAlphaPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaDevPlayerModels.edges.findIndex(
+    ? game_players?.mancalaAlphaPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaDevPlayerModels.edges[opponent_position]?.node.address;
+    game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node
+      .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
+  const { connect, connectors } = useConnect();
+  useEffect(() => {
+    if (!account?.account?.address) {
+      connect({ connector: connectors[0] });
+    }
+  }, [account, connect, connectors]);
+  const [volume, setVolume] = useState(35);
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] flex flex-col items-center overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
         game_players={game_players}
         player_names={player_names}
@@ -80,15 +88,16 @@ export default function Gameplay() {
             gameId={gameId || ""}
             setMoveMessage={setMoveMessage}
             setTimeRemaining={setTimeRemaining}
+            volume={volume}
+            setVolume={setVolume}
           />
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
-            <AudioSection />
+            <AudioSection volume={volume} setVolume={setVolume} />
             <MessageArea
               address={account?.account?.address}
               game_players={game_players}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
-              <LeaderboardButton />
               <GameChat />
             </div>
           </div>

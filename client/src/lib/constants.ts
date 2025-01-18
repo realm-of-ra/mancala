@@ -351,6 +351,10 @@ export const duels_header = [
   },
   {
     id: 4,
+    name: "Date",
+  },
+  {
+    id: 5,
     name: "Status",
   },
 ];
@@ -601,70 +605,61 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
 
 export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
 
-const ACTION_ADDRESS = "0x039e885bb49e7002da73d0b77efee67ac3801cada2767eb382e4dc63755def20";
+const MANCALA_ADDRESS =
+  "0x470f026bf97f0781492a95ebb9031da1c524601e8c2a285534545d33ca44797";
+
+const PROFILE_ADDRESS =
+  "0x4a992660cbd6a91cda1e1697e43c52641f3818aeabcf96658a986322603ef85";
+
+export const ELIZA_ADDRESS =
+  "0x076795eb2CDc3E799364F661A409EDBE0f204b67625B179a6880733893f7004d";
 
 export const POLICIES = [
   {
-    target: ACTION_ADDRESS,
-    method: "initialize_game_counter",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "new_game",
   },
   {
-    target: ACTION_ADDRESS,
-    method: "create_private_game",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "join_game",
   },
   {
-    target: ACTION_ADDRESS,
-    method: "move",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "request_restart_game",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "restart_current_game",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "forfeited",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
     method: "timeout",
   },
   {
-    target: ACTION_ADDRESS,
+    target: MANCALA_ADDRESS,
+    method: "create_private_game",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "move",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "forfeited",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "request_restart_game",
+  },
+  {
+    target: MANCALA_ADDRESS,
+    method: "restart_current_game",
+  },
+  {
+    target: PROFILE_ADDRESS,
     method: "create_player_profile",
   },
   {
-    target: ACTION_ADDRESS,
-    method: "update_player_uri",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "rename_player",
-  },
-  {
-    target: ACTION_ADDRESS,
+    target: PROFILE_ADDRESS,
     method: "update_player_profile",
-  },
-  {
-    target: ACTION_ADDRESS,
-    method: "new_profile",
   },
 ];
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaDevMancalaBoardModels {
-    mancalaDevMancalaBoardModels {
+  query mancalaAlphaMancalaBoardModels {
+    mancalaAlphaMancalaBoardModels {
       edges {
         node {
           game_id
@@ -684,8 +679,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaDevMancalaBoardModel($gameId: u128) {
-    mancalaDevMancalaBoardModels(
+  query mancalaAlphaMancalaBoardModel($gameId: u128) {
+    mancalaAlphaMancalaBoardModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {
@@ -709,8 +704,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaDevPlayerModels($gameId: u128) {
-    mancalaDevPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaAlphaPlayerModels($gameId: u128) {
+    mancalaAlphaPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -720,7 +715,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaDevPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaAlphaPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -734,8 +729,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaDevSeedModels($gameId: u128) {
-    mancalaDevSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaAlphaSeedModels($gameId: u128) {
+    mancalaAlphaSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -755,7 +750,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaDevGameModels {
+    mancalaAlphaGameModels {
       edges {
         node {
           game_id
@@ -772,8 +767,8 @@ export const MancalaHeaderQuery = gql`
 `;
 
 export const MancalaPlayerNames = gql`
-  query mancalaDevPlayerNames {
-    mancalaDevProfileModels {
+  query mancalaAlphaPlayerNames {
+    mancalaAlphaProfileModels {
       edges {
         node {
           name
@@ -784,3 +779,322 @@ export const MancalaPlayerNames = gql`
     }
   }
 `;
+
+export const MancalaCaptureQuery = gql`
+  query mancalaAlphaCaptureModels($gameId: u128) {
+    mancalaAlphaCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
+      edges {
+        node {
+          game_id
+          player
+          seed_count
+          pit_number
+        }
+      }
+    }
+  }
+`;
+
+export const MancalaExtraTurnQuery = gql`
+  query mancalaAlphaPlayerExtraTurnModels($gameId: u128) {
+    mancalaAlphaPlayerExtraTurnModels(
+      where: { game_id: $gameId }
+      limit: 1000000000
+    ) {
+      edges {
+        node {
+          player
+        }
+      }
+    }
+  }
+`;
+
+export const positions = (type: "player" | "opponent" | undefined) =>
+  Array.from({ length: 7 }, (_, playerIndex) => {
+    // Base x-offset for this player/opponent pair
+    const xOffset =
+      type === "player" ? playerIndex * 120 : 600 - playerIndex * 120;
+    const yOffset = type === "player" ? 0 : -110;
+
+    // Base coordinates from player 1
+    const baseCoords = [
+      { x: 270, y: 110 },
+      { x: 287, y: 110 },
+      { x: 270, y: 127 },
+      { x: 287, y: 127 },
+      { x: 270, y: 144 },
+      { x: 287, y: 144 },
+      { x: 270, y: 93 },
+      { x: 287, y: 93 },
+      { x: 253, y: 100 },
+      { x: 253, y: 117 },
+      { x: 253, y: 134 },
+      { x: 304, y: 100 },
+      { x: 304, y: 117 },
+      { x: 304, y: 134 },
+      { x: 260, y: 100 },
+      { x: 260, y: 117 },
+      { x: 260, y: 134 },
+      { x: 278, y: 93 },
+      { x: 278, y: 110 },
+      { x: 278, y: 127 },
+      { x: 278, y: 143 },
+      { x: 296, y: 100 },
+      { x: 296, y: 117 },
+      { x: 296, y: 134 },
+      { x: 314, y: 110 },
+      { x: 314, y: 128 },
+      { x: 247, y: 110 },
+      { x: 247, y: 127 },
+      { x: 267, y: 95 },
+      { x: 267, y: 112 },
+      { x: 267, y: 129 },
+      { x: 255, y: 135 },
+      { x: 267, y: 146 },
+      { x: 278, y: 97 },
+      { x: 278, y: 114 },
+      { x: 278, y: 131 },
+      { x: 278, y: 148 },
+      { x: 289, y: 97 },
+      { x: 289, y: 114 },
+      { x: 289, y: 131 },
+      { x: 289, y: 148 },
+      { x: 300, y: 93 },
+      { x: 300, y: 110 },
+      { x: 300, y: 127 },
+      { x: 300, y: 144 },
+      { x: 312, y: 100 },
+      { x: 312, y: 117 },
+      { x: 312, y: 134 },
+    ];
+
+    const coords = [
+      {
+        x: 185,
+        y: -10,
+      },
+      {
+        x: 185,
+        y: 7,
+      },
+      {
+        x: 185,
+        y: 22,
+      },
+      {
+        x: 185,
+        y: 37,
+      },
+      {
+        x: 185,
+        y: 52,
+      },
+      {
+        x: 185,
+        y: 67,
+      },
+      {
+        x: 185,
+        y: 82,
+      },
+      {
+        x: 185,
+        y: 97,
+      },
+      {
+        x: 185,
+        y: 112,
+      },
+      {
+        x: 185,
+        y: 127,
+      },
+      {
+        x: 185,
+        y: 142,
+      },
+      {
+        x: 168,
+        y: -10,
+      },
+      {
+        x: 168,
+        y: 7,
+      },
+      {
+        x: 168,
+        y: 22,
+      },
+      {
+        x: 168,
+        y: 37,
+      },
+      {
+        x: 168,
+        y: 52,
+      },
+      {
+        x: 168,
+        y: 67,
+      },
+      {
+        x: 168,
+        y: 82,
+      },
+      {
+        x: 168,
+        y: 97,
+      },
+      {
+        x: 168,
+        y: 112,
+      },
+      {
+        x: 168,
+        y: 127,
+      },
+      {
+        x: 168,
+        y: 142,
+      },
+      {
+        x: 157,
+        y: -5,
+      },
+      {
+        x: 151,
+        y: 7,
+      },
+      {
+        x: 151,
+        y: 22,
+      },
+      {
+        x: 151,
+        y: 37,
+      },
+      {
+        x: 151,
+        y: 52,
+      },
+      {
+        x: 151,
+        y: 67,
+      },
+      {
+        x: 151,
+        y: 82,
+      },
+      {
+        x: 151,
+        y: 97,
+      },
+      {
+        x: 151,
+        y: 112,
+      },
+      {
+        x: 151,
+        y: 127,
+      },
+      {
+        x: 158,
+        y: 139,
+      },
+      {
+        x: 160,
+        y: 129,
+      },
+      {
+        x: 160,
+        y: 112,
+      },
+      {
+        x: 160,
+        y: 95,
+      },
+      {
+        x: 160,
+        y: 78,
+      },
+      {
+        x: 160,
+        y: 61,
+      },
+      {
+        x: 160,
+        y: 44,
+      },
+      {
+        x: 160,
+        y: 27,
+      },
+      {
+        x: 160,
+        y: 10,
+      },
+      {
+        x: 160,
+        y: -5,
+      },
+      {
+        x: 170,
+        y: -15,
+      },
+      {
+        x: 170,
+        y: 1,
+      },
+      {
+        x: 170,
+        y: 17,
+      },
+      {
+        x: 170,
+        y: 33,
+      },
+      {
+        x: 170,
+        y: 49,
+      },
+      {
+        x: 170,
+        y: 65,
+      },
+    ];
+
+    const offsetCoords = baseCoords.map((coord) => ({
+      x: coord.x + xOffset,
+      y: coord.y + yOffset,
+    }));
+
+    const coordsOffest = coords.map((coord) => ({
+      x: type === "player" ? 782.5 + (185 - coord.x) + 185 : coord.x,
+      y: coord.y,
+    }));
+
+    if (playerIndex < 6) {
+      return {
+        player: {
+          native: offsetCoords,
+          non_native: offsetCoords,
+        },
+        opponent: {
+          native: offsetCoords,
+          non_native: offsetCoords,
+        },
+      };
+    } else {
+      return {
+        player: {
+          native: coordsOffest,
+          non_native: coordsOffest,
+        },
+        opponent: {
+          native: coords,
+          non_native: coords,
+        },
+      };
+    }
+  });

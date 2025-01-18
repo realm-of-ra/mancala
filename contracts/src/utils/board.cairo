@@ -211,12 +211,14 @@ fn remove_player_seeds(world: WorldStorage, player: @Player) {
     };
 }
 
-fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
+fn capture_remaining_seeds(world: WorldStorage, ref player: Player) -> u32 {
     let mut store: Store = StoreTrait::new(world);
     let mut store_pit = store.get_pit(player.game_id, player.address, 7);
     let store_start_count: u8 = store_pit.seed_count;
 
     let mut remaining_seeds = get_player_seeds(world, @player);
+
+    let total_seeds_remaining = remaining_seeds.len();
 
     // transfer seeds to store
     let mut idx = 0;
@@ -237,6 +239,8 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) {
 
     // remove seeds from pits
     remove_player_seeds(world, @player);
+
+    total_seeds_remaining
 }
 
 fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
