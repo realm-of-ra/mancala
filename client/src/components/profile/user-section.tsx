@@ -363,7 +363,7 @@ export default function UserSection({
                     />
                     {imageLoading && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F58229]" />
+                        <div className="animate-spin-slow rounded-full h-8 w-8 border-b-2 border-[#F58229]" />
                       </div>
                     )}
                   </div>
@@ -388,7 +388,7 @@ export default function UserSection({
                       >
                         {saveStatus.status === 'saving' ? (
                           <div className="flex items-center justify-center space-x-2 bg-[#F58229] text-[#FCE3AA] hover:bg-[#E47218]">
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                            <div className="animate-spin-slow rounded-full h-4 w-4 border-b-2 border-white" />
                             <span>Saving...</span>
                           </div>
                         ) : "Save Changes"}

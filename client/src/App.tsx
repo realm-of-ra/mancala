@@ -6,7 +6,6 @@ import {
   jsonRpcProvider,
   voyager,
 } from "@starknet-react/core";
-import { Provider as JotaiProvider } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
@@ -61,7 +60,6 @@ export default function App() {
       explorer={voyager}
       autoConnect
     >
-      <JotaiProvider>
           <Router>
               <Routes>
                 <Route index element={<Home />} />
@@ -70,7 +68,6 @@ export default function App() {
                 <Route path="/games/:gameId" element={<Gameplay />} />
             </Routes>
           </Router>
-      </JotaiProvider>
       {isSmallScreen && <SmallScreenWarning />}
     </StarknetConfig>
   );

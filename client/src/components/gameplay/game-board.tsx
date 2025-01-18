@@ -18,6 +18,8 @@ interface GameBoardProps {
   gameId: string;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
+  volume: number;
+  setVolume: (volume: number) => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
@@ -28,6 +30,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   gameId,
   setMoveMessage,
   setTimeRemaining,
+  volume,
+  setVolume,
 }) => {
   const { toast } = useToast();
 
@@ -57,7 +61,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   useEffect(() => {
     const captures = captureData?.mancalaAlphaCaptureModels?.edges;
-    if (captures && captures.length > 0) {
+    if (captures && captures.length > 0 && game_node?.status !== "Finished") {
       const latestCapture = captures[captures.length - 1]?.node;
 
       if (latestCapture) {
@@ -73,11 +77,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
         });
       }
     }
-  }, [captureData, account.account?.address, toast]);
+  }, [captureData, account.account?.address, toast, game_node?.status]);
 
   useEffect(() => {
     const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
-    if (extraTurns && extraTurns.length > 0) {
+    if (extraTurns && extraTurns.length > 0 && game_node?.status !== "Finished") {
       const latestExtraTurn = extraTurns[extraTurns.length - 1]?.node;
 
       if (latestExtraTurn) {
@@ -93,7 +97,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         });
       }
     }
-  }, [extraTurnData, account.account?.address, toast]);
+  }, [extraTurnData, account.account?.address, toast, game_node?.status]);
 
   const seeds = React.useMemo(() => {
     if (!data?.mancalaAlphaSeedModels?.edges) return [];
@@ -168,32 +172,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       .filter((item: any) => item?.node.pit_number === 7)[0]?.node
       ?.seed_count || 0;
 
-  const getOpponentMarginLeft = () => {
-    if (opponent_pot_seed_count <= 10) {
-      return "185px";
-    } else if (opponent_pot_seed_count >= 21 && opponent_pot_seed_count < 31) {
-      return "155px";
-    } else if (opponent_pot_seed_count >= 31 && opponent_pot_seed_count < 41) {
-      return "160px";
-    } else if (opponent_pot_seed_count >= 41) {
-      return "160px";
-    } else {
-      return "170px";
-    }
-  };
-
-  const getPlayerMarginRight = () => {
-    if (player_pot_seed_count <= 10) {
-      return "185px";
-    } else if (player_pot_seed_count >= 31 && player_pot_seed_count < 41) {
-      return "160px";
-    } else if (player_pot_seed_count >= 41) {
-      return "155px";
-    } else {
-      return "170px";
-    }
-  };
-
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -222,6 +200,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 pit_number={seedDetails?.pit_number}
                 seed_number={seedDetails?.seed_number}
                 isNative={seedDetails.isNative}
+                volume={volume}
               />
             );
           })}
@@ -229,20 +208,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
             className={
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
             }
-            style={{
-              marginLeft: getOpponentMarginLeft(),
-            }}
           />
           <div
-            className="h-[160px] flex flex-col items-center justify-center"
-            style={{
-              marginLeft:
-                opponent_pot_seed_count > 24
-                  ? "128px"
-                  : opponent_pot_seed_count > 10
-                    ? "113px"
-                    : "100px",
-            }}
+            className="h-[160px] flex flex-col items-center justify-center ml-[135px]"
           >
             <p className="text-white text-center">{opponent_pot_seed_count}</p>
           </div>
@@ -262,7 +230,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
                 .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
                 .map((pit: any, i: number) => (
-                  <TopPit key={i} amount={pit.node.seed_count} />
+                  <TopPit key={i} amount={pit.node.seed_count} pit={pit.node.pit_number} />
                 ))}
             </div>
           </div>
@@ -306,23 +274,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot (player) */}
           <div
-            className={
-              "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
-            }
-            style={{
-              marginRight: getPlayerMarginRight(),
-            }}
+            className={"w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"}
           />
           <div
-            className="h-[160px] flex flex-col items-center justify-center"
-            style={{
-              marginRight:
-                player_pot_seed_count > 24
-                  ? "120px"
-                  : player_pot_seed_count > 10
-                    ? "113px"
-                    : "100px",
-            }}
+            className="h-[160px] flex flex-col items-center justify-center mr-[135px]"
           >
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}

@@ -157,7 +157,7 @@ export default function LiveDuels({ games }: { games: any }) {
                       </td>
                       <td className="w-[200px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
                         <p className="font-normal text-[#BDC2CC]">
-                          {date.toLocaleDateString()}
+                          {date?.toLocaleDateString().replace(/\//g, "-")}
                         </p>
                       </td>
                       <td className="flex flex-row w-[209px] h-16 items-center justify-end pr-5 bg-[#111419] border-y-2 border-r-2 rounded-r-xl border-[#1A1E25]">

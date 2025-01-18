@@ -6,22 +6,52 @@ import {
 } from "../../lib/icons_store";
 import unmuteFlat from "../../assets/unmute_flat.png";
 import muteFlat from "../../assets/mute_flat.png";
-import { useAudioControl } from "@/hooks/useAudioControl";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import audio_url from "@/music/audio_1.mp4";
+import { Slider } from "../ui/slider";
 
-export default function AudioSection() {
-  const {
-    isPlaying,
-    togglePlay,
-    volume,
-    volumeDisplayValue,
-    handleVolumeChange,
-  } = useAudioControl();
+export default function AudioSection({ volume, setVolume }: { volume: number, setVolume: Dispatch<SetStateAction<number>> }) {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+  const [audio] = useState(new Audio(audio_url));
+
+  useEffect(() => {
+    audio.volume = volume / 100;
+    if (volume === 0) {
+      audio.pause();
+    } else if (volume > 0) {
+      audio.play().catch(console.error);
+    }
+  }, [volume, audio]);
+
+  useEffect(() => {
+    audio.loop = true;
+    
+    audio.addEventListener('ended', () => {
+      audio.play().catch(console.error);
+    });
+
+    audio.addEventListener('error', (e) => {
+      console.error('Audio playback error:', e);
+    });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, [audio]);
+
+  const togglePlay = () => {
+    if (volume > 0) {
+      audio.play().catch(console.error);
+    } else {
+      audio.pause();
+      setVolume(0)
+    }
   };
 
   return (
@@ -32,10 +62,9 @@ export default function AudioSection() {
       >
         <button
           className="p-0 bg-transparent rounded-full cursor-pointer"
-          onClick={togglePlay}
         >
           <img
-            src={isPlaying ? unmuteFlat : muteFlat}
+            src={volume > 0 ? unmuteFlat : muteFlat}
             width={55}
             height={35}
             alt="toggle play"
@@ -68,12 +97,12 @@ export default function AudioSection() {
               className="rounded-full cursor-pointer"
             />
             <img
-              src={isPlaying ? unmuteFlat : muteFlat}
+              src={volume > 0 ? unmuteFlat : muteFlat}
               width={50}
               height={50}
               alt="toggle play"
               className="rounded-full cursor-pointer"
-              onClick={togglePlay}
+              onClick={() => setVolume(volume > 0 ? 0 : 35)}
             />
             <img
               src={playnext}
@@ -91,28 +120,9 @@ export default function AudioSection() {
               alt="toggle play"
               className="rounded-full"
             />
-            <input
-              type="range"
-              name="volume"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={handleVolumeChange}
-              style={{
-                // Custom track styling
-                background: `linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)`,
-                // Hide the thumb by making it transparent and very small
-                WebkitAppearance: "none",
-                appearance: "none",
-                width: "100%",
-                height: "12px",
-                borderRadius: "full",
-              }}
-              className="w-20 h-4 rounded-full cursor-grab"
-            />
+            <Slider value={[volume]} onValueChange={([value]: any) => setVolume(value)} className="w-full" track="bg-[#E48D32]" thumb="bg-[#FCE3AA]" range="bg-[#FCE3AA]" hideThumb={false} />
             <span className="flex text-sm text-[#FCE3AA]">
-              {volumeDisplayValue}
+              {volume}
             </span>
           </div>
         </div>

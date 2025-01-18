@@ -29,6 +29,7 @@ import {
   MancalaPlayerNames,
 } from "@/lib/constants";
 import Dropdown from "@/components/dropdown";
+import clsx from "clsx";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
@@ -107,6 +108,24 @@ export default function Lobby() {
         game?.node?.player_two === account.account?.address ||
         game?.node?.player_two === "0x0",
     )
+    .sort((a: any, b: any) => {
+      // First priority: Games without player two (excluding 0x0)
+      const aHasNoPlayerTwo = !a.node.player_two || a.node.player_two === "";
+      const bHasNoPlayerTwo = !b.node.player_two || b.node.player_two === "";
+      if (aHasNoPlayerTwo !== bHasNoPlayerTwo) {
+        return aHasNoPlayerTwo ? -1 : 1;
+      }
+
+      // Second priority: Games with player_two = 0x0
+      const aHasZeroPlayerTwo = a.node.player_two === "0x0";
+      const bHasZeroPlayerTwo = b.node.player_two === "0x0";
+      if (aHasZeroPlayerTwo !== bHasZeroPlayerTwo) {
+        return aHasZeroPlayerTwo ? -1 : 1;
+      }
+
+      // Third priority: Games with both players
+      return 0;
+    })
     .map((game: any) => {
       const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
@@ -199,11 +218,7 @@ export default function Lobby() {
     }
   }, [gameId, creating, open, type, playWith]);
 
-  useEffect(() => {
-    if (!account?.account?.address) {
-      connect({ connector: connectors[0] });
-    }
-  }, [account, connect, connectors]);
+  const [tabValue, setTabValue] = useState("duels");
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
@@ -211,7 +226,7 @@ export default function Lobby() {
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-row space-x-5">
           <div className="w-[928px]">
-            <Tabs defaultValue="duels" className="w-full space-y-10">
+            <Tabs defaultValue={tabValue} className="w-full space-y-10" onValueChange={(value) => setTabValue(value)}>
               <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] p-4 rounded-l-full rounded-r-full">
                 <TabsList className="bg-transparent space-x-1.5">
                   <TabsTrigger
@@ -237,8 +252,8 @@ export default function Lobby() {
                     className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
                   >
                     <div className="flex flex-row items-center space-x-1.5">
-                      <div className="bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat" />
-                      <p className="text-base">Leaderboard</p>
+                      <div className={clsx("bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat", tabValue === "leaderboard" && "bg-[url('./assets/cup.png')]")} />
+                      <p>Leaderboard</p>
                     </div>
                   </TabsTrigger>
                 </TabsList>
@@ -350,7 +365,7 @@ export default function Lobby() {
                                 <RadioGroupItem value="private" id="private" />
                                 <Label
                                   htmlFor="private"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={type == "private" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
                                 >
                                   Private
                                 </Label>
@@ -363,7 +378,7 @@ export default function Lobby() {
                                 />
                                 <Label
                                   htmlFor="public"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={type == "public" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
                                 >
                                   Public
                                 </Label>
@@ -498,6 +513,9 @@ export default function Lobby() {
           </div>
         </div>
       </div>
+      <Link to="/" className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+          <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">Give feedbacks and get a chance to win Lord of the Mancala</Button>
+      </Link>
     </div>
   );
 }

@@ -58,6 +58,7 @@ export default function Gameplay() {
       connect({ connector: connectors[0] });
     }
   }, [account, connect, connectors]);
+  const [volume, setVolume] = useState(35);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
@@ -87,15 +88,16 @@ export default function Gameplay() {
             gameId={gameId || ""}
             setMoveMessage={setMoveMessage}
             setTimeRemaining={setTimeRemaining}
+            volume={volume}
+            setVolume={setVolume}
           />
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
-            <AudioSection />
+            <AudioSection volume={volume} setVolume={setVolume} />
             <MessageArea
               address={account?.account?.address}
               game_players={game_players}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
-              <LeaderboardButton />
               <GameChat />
             </div>
           </div>

@@ -36,12 +36,6 @@ export default function Profile() {
     data?.mancalaAlphaMancalaBoardModels?.edges,
     account?.address || "",
   );
-  const { connect, connectors } = useConnect();
-  useEffect(() => {
-    if (!account?.account?.address) {
-      connect({ connector: connectors[0] });
-    }
-  }, [account, connect, connectors]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat space-y-4 fixed">
