@@ -75,7 +75,8 @@ export function getPlayers(data: any[] | undefined) {
     return acc;
   }, []);
 
-  return players;
+  // Sort players by score (wins * 50) in descending order
+  return players.sort((a: any, b: any) => (b.wins * 50) - (a.wins * 50));
 }
 
 export function getPlayer(data: any[] | undefined, address: string) {
