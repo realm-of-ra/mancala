@@ -7,7 +7,6 @@ import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { setupWorld } from "./generated";
 import { ArraySignatureType } from "starknet";
-import { setupBurnerManager } from "@dojoengine/create-burner";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
@@ -17,7 +16,6 @@ export type SetupStatus = {
   syncEntities: boolean;
   dojoProvider: boolean;
   worldSetup: boolean;
-  burnerManager: boolean;
 };
 
 export async function setup(
@@ -51,11 +49,6 @@ export async function setup(
     onStatusUpdate?.({ dojoProvider: false, worldSetup: true });
 
     const client = await setupWorld(dojoProvider);
-    onStatusUpdate?.({ worldSetup: false, burnerManager: true });
-
-    const burnerManager = await setupBurnerManager(config);
-
-    onStatusUpdate?.({ burnerManager: false });
 
     return {
       client,
@@ -67,7 +60,6 @@ export async function setup(
       },
       config,
       dojoProvider,
-      burnerManager,
       toriiClient,
     };
   } catch (error) {

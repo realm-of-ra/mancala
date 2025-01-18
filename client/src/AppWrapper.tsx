@@ -15,7 +15,6 @@ const SETUP_STATUS_MESSAGES = {
   syncEntities: "Syncing latest game state",
   dojoProvider: "Setting up secure connection",
   worldSetup: "Initializing game environment",
-  burnerManager: "Creating your game wallet",
 } as const;
 
 export default function AppWrapper() {
