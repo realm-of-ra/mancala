@@ -2,13 +2,14 @@ use starknet::ContractAddress;
 
 use dojo::world::IWorldDispatcher;
 use mancala::models::player::Player;
+use mancala::types::varient::Varient;
 
 #[starknet::interface]
 pub(crate) trait IMancalaSystem<TState> {
-    fn new_game(ref self: TState);
+    fn new_game(ref self: TState, varient: Varient);
     fn join_game(ref self: TState, game_id: u128);
     fn timeout(ref self: TState, game_id: u128, opponent_address: ContractAddress);
-    fn create_private_game(ref self: TState, opponent_address: ContractAddress);
+    fn create_private_game(ref self: TState, varient: Varient, opponent_address: ContractAddress);
     fn get_players(ref self: TState, game_id: u128) -> (Player, Player);
     fn move(ref self: TState, game_id: u128, selected_pit: u8);
     fn get_score(ref self: TState, game_id: u128) -> (u8, u8);
@@ -16,11 +17,12 @@ pub(crate) trait IMancalaSystem<TState> {
     fn forfeited(ref self: TState, game_id: u128);
     fn request_restart_game(ref self: TState, game_id: u128);
     fn restart_current_game(ref self: TState, game_id: u128);
+    fn use_extra_turn_boost(ref self: TState, game_id: u128);
 }
 
 #[dojo::contract]
 mod Mancala {
-    use super::{ContractAddress, Player, IMancalaSystem};
+    use super::{ContractAddress, Player, IMancalaSystem, Varient};
     use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
     use mancala::components::initializable::InitializableComponent;
@@ -59,8 +61,9 @@ mod Mancala {
         AchievableEvent: AchievableComponent::Event,
     }
 
-    fn dojo_init(self: @ContractState) {
+    fn dojo_init(self: @ContractState, address: ContractAddress) {
         self.initializable.initialize(self.world_storage());
+        self.initializable.create_extra_turn_boost(self.world_storage(), address);
         // [Event] Emit all Trophy events
         let world = self.world(@NAMESPACE());
         let mut trophy_id: u8 = TROPHY_COUNT;
@@ -89,9 +92,9 @@ mod Mancala {
 
     #[abi(embed_v0)]
     impl MancalaImpl of IMancalaSystem<ContractState> {
-        fn new_game(ref self: ContractState) {
+        fn new_game(ref self: ContractState, varient: Varient) {
             let world = self.world_storage();
-            self.playable.new_game(world);
+            self.playable.new_game(world, varient);
         }
 
         fn join_game(ref self: ContractState, game_id: u128) {
@@ -104,9 +107,11 @@ mod Mancala {
             self.playable.timeout(world, game_id, opponent_address)
         }
 
-        fn create_private_game(ref self: ContractState, opponent_address: ContractAddress) {
+        fn create_private_game(
+            ref self: ContractState, varient: Varient, opponent_address: ContractAddress,
+        ) {
             let world = self.world_storage();
-            self.playable.create_private_game(world, opponent_address)
+            self.playable.create_private_game(world, varient, opponent_address)
         }
 
         fn get_players(ref self: ContractState, game_id: u128) -> (Player, Player) {
@@ -142,6 +147,11 @@ mod Mancala {
         fn restart_current_game(ref self: ContractState, game_id: u128) {
             let world = self.world_storage();
             self.playable.restart_current_game(world, game_id)
+        }
+
+        fn use_extra_turn_boost(ref self: ContractState, game_id: u128) {
+            let world = self.world_storage();
+            self.playable.use_extra_turn_boost(world, game_id)
         }
     }
 

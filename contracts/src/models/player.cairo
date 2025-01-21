@@ -12,7 +12,9 @@ impl PlayerImpl of PlayerTrait {
             game_id,
             address,
             len_pits: 6,
-            restart_requested: false
+            boost_use_count: 0,
+            boost_extra_turn: false,
+            restart_requested: false,
         }
     }
 }

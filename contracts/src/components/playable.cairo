@@ -4,11 +4,12 @@ mod PlayableComponent {
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address, get_block_timestamp};
+    use starknet::info::{get_caller_address, get_contract_address, get_block_timestamp};
     use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
+    use mancala::models::boost::{BoostType};
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
@@ -17,12 +18,20 @@ mod PlayableComponent {
         restart_player_pits, initialize_player_seeds,
     };
     use mancala::types::task::{Task, TaskTrait};
+    use mancala::types::varient::Varient;
+
+    use mancala::interfaces::erc20::{BoostERC20Dispatcher, BoostERC20DispatcherTrait};
+
+    use mancala::constants::MAX_BOOSTS_COUNT;
 
     mod errors {
         const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
         const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
         const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
         const PLAYER_DID_NOT_REQUEST_RESTART: felt252 = 'Player did not request restart';
+        const GAME_BOOST_NOT_ALLOWED: felt252 = 'Game: Boost not allowed';
+        const MAX_BOOSTS_ALLOWED: felt252 = 'Boost limit reached';
+        const STILL_HAVE_PENDING_BOOST: felt252 = 'Still have unused boost';
     }
 
     #[storage]
@@ -42,7 +51,7 @@ mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn new_game(ref self: ComponentState<TState>, world: WorldStorage) {
+        fn new_game(ref self: ComponentState<TState>, world: WorldStorage, varient: Varient) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -50,7 +59,7 @@ mod PlayableComponent {
             let mut game_id = store.get_game_counter(1);
             let mut player_one: Player = PlayerTrait::new(game_id.count, player_one_address);
             let mancala_game: MancalaBoard = MancalaBoardTrait::new(
-                game_id.count, player_one_address,
+                game_id.count, varient, player_one_address,
             );
             restart_player_pits(world, @player_one, SeedColor::Green);
             game_id.increment();
@@ -108,6 +117,7 @@ mod PlayableComponent {
         fn create_private_game(
             ref self: ComponentState<TState>,
             world: WorldStorage,
+            varient: Varient,
             opponent_address: ContractAddress,
         ) {
             // [Setup] Datastore
@@ -118,7 +128,7 @@ mod PlayableComponent {
             let player_one: Player = PlayerTrait::new(game_id.count, player_one_address);
             let player_two: Player = PlayerTrait::new(game_id.count, opponent_address);
             let mut mancala_game: MancalaBoard = MancalaBoardTrait::private_mancala(
-                game_id.count, player_one_address, opponent_address,
+                game_id.count, varient, player_one_address, opponent_address,
             );
             game_id.increment();
 
@@ -213,7 +223,6 @@ mod PlayableComponent {
                 store.end_turn(mancala_game.game_id, current_player.address, opponent.address);
             }
 
-            // TODO: Validate last pit is not the opponent's pit
             if is_in_current_player_side {
                 let captured_seeds = capture_seeds(
                     world, last_pit, ref current_player, ref opponent,
@@ -274,9 +283,18 @@ mod PlayableComponent {
                     mancala_game.winner = opponent.address;
                 }
             }
+
+            let mut mancala_player: Player = store.get_player(mancala_game.game_id, player);
+            let extra_turn_boost = mancala_player.boost_extra_turn == true;
+            if extra_turn_boost {
+                mancala_game.current_player = player;
+                mancala_player.boost_extra_turn = false;
+            }
+
             store.set_mancala_board(mancala_game);
             store.set_player(current_player);
             store.set_player(opponent);
+            store.set_player(mancala_player);
 
             store.player_move(mancala_game.game_id, selected_pit, pit_seed_number);
         }
@@ -418,8 +436,13 @@ mod PlayableComponent {
             let mut player_two: Player = PlayerTrait::new(
                 mancala_game.game_id, mancala_game.player_two,
             );
+
             let mancala_game: MancalaBoard = MancalaBoardTrait::restart_game(
-                game_id, mancala_game.player_one, mancala_game.player_two, mancala_game.is_private,
+                game_id,
+                mancala_game.varient.into(),
+                mancala_game.player_one,
+                mancala_game.player_two,
+                mancala_game.is_private,
             );
             store.set_player(player_one);
             store.set_player(player_two);
@@ -427,6 +450,42 @@ mod PlayableComponent {
 
             restart_player_pits(world, @player_one, SeedColor::Green);
             restart_player_pits(world, @player_two, SeedColor::Blue);
+        }
+
+        fn use_extra_turn_boost(
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128,
+        ) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let player_address = get_caller_address();
+
+            let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
+            let mut player: Player = store.get_player(mancala_game.game_id, player_address);
+
+            assert(mancala_game.varient == 1, errors::GAME_BOOST_NOT_ALLOWED);
+            assert(player.boost_use_count <= MAX_BOOSTS_COUNT, errors::MAX_BOOSTS_ALLOWED);
+            assert(player.boost_extra_turn == false, errors::STILL_HAVE_PENDING_BOOST);
+            player.boost_use_count += 1;
+
+            self._burn_boost(world, BoostType::ExtraTurn);
+            player.boost_extra_turn = true;
+
+            store.set_player(player);
+        }
+
+        fn _burn_boost(ref self: ComponentState<TState>, world: WorldStorage, boost: BoostType) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let boost = store.get_boost(boost);
+
+            let dispatcher = BoostERC20Dispatcher { contract_address: boost.address };
+
+            let amount_with_decimals: u256 = 1000000000000000000;
+            dispatcher
+                .transfer_from(get_caller_address(), get_contract_address(), amount_with_decimals);
+            dispatcher.burn(amount_with_decimals);
         }
     }
 }

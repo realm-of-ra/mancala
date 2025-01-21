@@ -12,6 +12,8 @@ use mancala::models::mancala_board::MancalaBoard;
 use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
+use mancala::models::boost::{Boost, BoostType};
+
 
 use mancala::events::move::{
     PlayerMove, PlayerMoveTrait, PlayerExtraTurn, PlayerExtraTurnTrait, EndTurn, EndTurnTrait,
@@ -95,6 +97,11 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn set_boost(ref self: Store, boost: Boost) {
+        self.world.write_model(@boost);
+    }
+
+    #[inline]
     fn get_mancala_board(self: Store, game_id: u128) -> MancalaBoard {
         self.world.read_model(game_id)
     }
@@ -124,5 +131,10 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn get_pit(self: Store, game_id: u128, player_address: ContractAddress, pit_number: u8) -> Pit {
         self.world.read_model((game_id, player_address, pit_number))
+    }
+
+    #[inline]
+    fn get_boost(self: Store, boost: BoostType) -> Boost {
+        self.world.read_model(boost)
     }
 }

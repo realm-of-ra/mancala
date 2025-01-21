@@ -1,6 +1,13 @@
 use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
+pub enum BoostType {
+    None,
+    ExtraTurn,
+    PitFreeze,
+}
+
+#[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum SeedColor {
     None,
     Blue,
@@ -29,6 +36,7 @@ pub struct GameCounter {
 pub struct MancalaBoard {
     #[key]
     pub game_id: u128,
+    pub varient: u8,
     pub player_one: ContractAddress,
     pub player_two: ContractAddress,
     pub current_player: ContractAddress,
@@ -47,6 +55,8 @@ pub struct Player {
     #[key]
     pub address: ContractAddress,
     pub len_pits: u8,
+    pub boost_use_count: u8,
+    pub boost_extra_turn: bool,
     pub restart_requested: bool,
 }
 
@@ -86,4 +96,12 @@ pub struct Profile {
     pub profile_uri: ByteArray,
     pub is_initialized: bool,
     pub creation_time: u64,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Boost {
+    #[key]
+    pub boost: BoostType,
+    pub address: ContractAddress,
 }

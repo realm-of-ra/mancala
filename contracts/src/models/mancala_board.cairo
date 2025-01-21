@@ -3,6 +3,7 @@ use starknet::{get_block_number, ContractAddress, get_caller_address};
 use mancala::models::index::{MancalaBoard, GameStatus};
 use mancala::constants::AVERAGE_BLOCK_TIME;
 use mancala::models::player::{Player, PlayerTrait};
+use mancala::types::varient::Varient;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Error messages for various game conditions
@@ -27,17 +28,18 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// # Returns
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
-    fn new(game_id: u128, player_one: ContractAddress) -> MancalaBoard {
+    fn new(game_id: u128, varient: Varient, player_one: ContractAddress) -> MancalaBoard {
         MancalaBoard {
             game_id,
+            varient: varient.into(),
             player_one,
             player_two: core::num::traits::Zero::<ContractAddress>::zero(),
             last_move: get_block_number(),
-            max_block_between_move: 12,
+            max_block_between_move: 6,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
-            is_private: false
+            is_private: false,
         }
     }
 
@@ -51,18 +53,19 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
     fn private_mancala(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress
+        game_id: u128, varient: Varient, player_one: ContractAddress, player_two: ContractAddress,
     ) -> MancalaBoard {
         MancalaBoard {
             game_id,
+            varient: varient.into(),
             player_one,
             player_two,
             last_move: get_block_number(),
-            max_block_between_move: 12,
+            max_block_between_move: 6,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
-            is_private: true
+            is_private: true,
         }
     }
 
@@ -183,18 +186,23 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance for the restarted game
     #[inline]
     fn restart_game(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
+        game_id: u128,
+        varient: Varient,
+        player_one: ContractAddress,
+        player_two: ContractAddress,
+        private: bool,
     ) -> MancalaBoard {
         MancalaBoard {
-            game_id: game_id,
-            player_one: player_one,
-            player_two: player_two,
+            game_id,
+            varient: varient.into(),
+            player_one,
+            player_two,
             current_player: player_one,
             last_move: get_block_number(),
-            max_block_between_move: 12,
+            max_block_between_move: 6,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
-            status: GameStatus::Pending,
-            is_private: private
+            status: GameStatus::InProgress,
+            is_private: private,
         }
     }
 }

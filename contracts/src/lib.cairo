@@ -9,11 +9,16 @@ mod models {
     mod seed;
     mod game_counter;
     mod pit;
+    mod boost;
 }
 
 mod events {
     mod index;
     mod move;
+}
+
+mod interfaces {
+    mod erc20;
 }
 
 mod components {
@@ -49,6 +54,7 @@ mod systems {
 mod types {
     mod task;
     mod trophy;
+    mod varient;
 }
 
 mod utils {
