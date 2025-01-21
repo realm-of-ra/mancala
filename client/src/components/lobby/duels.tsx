@@ -205,14 +205,7 @@ export default function Duels({
                         </p>
                       </td>
                       <td className="flex flex-row w-[190px] h-16 items-center justify-center pr-5 bg-[#111419] border-y-2 border-[#1A1E25]">
-                        {games[index].node.player_two === "0x0" &&
-                        games[index].node.player_one ===
-                          account.account?.address ? (
-                          <Button className="text-[#299DF5] bg-[#171922] hover:bg-[#1d1f2a] transition-colors">
-                            Play With Eliza AI
-                          </Button>
-                        ) : (
-                          <Link
+                      <Link
                             to={
                               games[index].node.player_one ===
                                 account.account?.address ||
@@ -286,7 +279,6 @@ export default function Duels({
                               })()}
                             </Button>
                           </Link>
-                        )}
                       </td>
                       <td className="border-[#1A1E25] border-y-2 border-r-2 bg-[#111419] rounded-r-xl h-16 flex items-center justify-center w-[59px]">
                         {games[index].node.player_one != "0x0" &&
