@@ -73,7 +73,7 @@ export default function Header() {
     const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
       (player: any) => player.node.address === account?.address,
     );
-    if (!account?.address || !profile) {
+    if (!account || !profile) {
       setPlayerName("");
       return;
     }
@@ -82,7 +82,7 @@ export default function Header() {
       setPlayerName(shortString.decodeShortString(profile?.node?.name));
     }
   }, [
-    account?.address,
+    account,
     playerData?.mancalaAlphaProfileModels?.edges,
     playerData,
   ]);
@@ -144,7 +144,7 @@ export default function Header() {
 
   useEffect(() => {
     const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
-      (player: any) => player.node.address === account?.account?.address,
+      (player: any) => player.node.address === account?.address,
     );
     if (!account?.address || !profile) {
       setPlayerName("");
@@ -166,7 +166,7 @@ export default function Header() {
       setImageUrl(profileUri);
       setInitialImageUrl(profileUri);
     }
-  }, [account?.account?.address, account?.address, playerData]);
+  }, [account?.address, playerData]);
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<{ status: string; finished: boolean }>(
@@ -269,6 +269,11 @@ export default function Header() {
 
     fetchUsername();
   }, [controller, setUsername]);
+  
+  console.log({
+    playerName,
+    username
+  });
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
