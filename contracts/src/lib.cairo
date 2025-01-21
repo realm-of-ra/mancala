@@ -44,6 +44,29 @@ mod elements {
         mod victor;
         mod interface;
     }
+    mod boards {
+        mod interface;
+        mod afropolitan;
+        mod avnu;
+        mod blobert;
+        mod brother;
+        mod cartridge;
+        mod developer_dao;
+        mod ekubo;
+        mod eternum;
+        mod focus_tree;
+        mod influence;
+        mod loot_survivor;
+        mod nethermind;
+        mod nostra;
+        mod onlydust;
+        mod realm_of_ra;
+        mod realms_world;
+        mod sister;
+        mod starknet;
+        mod starknet_africa;
+        mod starknet_id;
+    }
 }
 
 mod systems {
@@ -55,6 +78,7 @@ mod types {
     mod task;
     mod trophy;
     mod varient;
+    mod board;
 }
 
 mod utils {
