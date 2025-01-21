@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GameBoard from "@/components/gameplay/game-board";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { useAccount, useConnect } from "@starknet-react/core";
+import { useAccount } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
 import {
   MancalaBoardModelQuery,
@@ -12,7 +12,6 @@ import {
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
-import LeaderboardButton from "@/components/gameplay/leaderboard-button";
 import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import GameNavigation from "@/components/gameplay/game-navigation";
@@ -52,12 +51,6 @@ export default function Gameplay() {
       .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
-  const { connect, connectors } = useConnect();
-  useEffect(() => {
-    if (!account?.account?.address) {
-      connect({ connector: connectors[0] });
-    }
-  }, [account, connect, connectors]);
   const [volume, setVolume] = useState(35);
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">

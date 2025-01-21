@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback, SetStateAction, useRef } from "react";
 import mancala from "../assets/logo.png";
 import { useAccount, useBalance, useConnect, useDisconnect } from "@starknet-react/core";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
-import { Cog8ToothIcon, SpeakerXMarkIcon, TrophyIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { Cog8ToothIcon, SpeakerXMarkIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
 import catridgeImage from "@/assets/controller.png";
@@ -21,6 +21,7 @@ import { useDojo } from "@/dojo/useDojo";
 import image from "@/assets/image-add.svg";
 import avatar from "@/assets/square-avatar.png";
 import clsx from "clsx";
+import CatridgeIcon from "./ui/svgs/catridge-icon";
 
 type SaveStatus = {
   status: 'idle' | 'saving' | 'success' | 'error';
@@ -94,8 +95,6 @@ export default function Header() {
     }
     connector?.controller.openProfile("achievements");
   }, [connector]);
-
-  const navigate = useNavigate();
 
   //Get user STRK balance
   const { data: balanceData, error } = useBalance({
@@ -269,11 +268,6 @@ export default function Header() {
 
     fetchUsername();
   }, [controller, setUsername]);
-  
-  console.log({
-    playerName,
-    username
-  });
 
   return (
     <div className="flex flex-row items-center justify-between space-x-12 w-full">
@@ -285,15 +279,15 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className={"flex-1 w-full"}>
+      <div className="flex-1 w-full">
         <div className="flex flex-row space-x-2.5 items-center justify-start">
               {
                 account?.address ? <Button
                 className="font-medium relative flex flex-col justify-center items-center bg-[#171922] w-fit text-sm rounded-full p-0"
                 onClick={handleTrophyClick}
               >
-                <div className="flex flex-row items-center justify-center p-1.5 pl-5 pr-7 -space-x-1">
-                  <img src={catridgeImage} className="w-12 h-12" />
+                <div className="flex flex-row items-center justify-center space-x-1.5 py-3 px-4">
+                  <CatridgeIcon />
                   <p className="text-[#FCE3AA]">
                     {playerName 
                       ? (playerName.length > 16 ? playerName.slice(0, 16) + "..." : playerName)
@@ -314,7 +308,7 @@ export default function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
-                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40"
+                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40 pr-1.5"
                 >
                   {
                     account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] p-0 font-medium" disabled>
@@ -322,7 +316,9 @@ export default function Header() {
                     <div className="mx-1 w-full pr-1.5 hover:cursor-pointer" onClick={() => setOpen(true)}>
                       <div className="flex flex-row items-center justify-between space-x-1">
                         <div className="flex flex-row items-center justify-start space-x-1">
-                          <UserCircleIcon className="w-7 h-7 text-[#BFC5D4]" />
+                          {
+                            playerImage ? <img src={playerImage} className="w-7 h-7 rounded-full" /> : <UserCircleIcon className="w-7 h-7 text-[#BFC5D4]" />
+                          }
                           <p className="text-[#BFC5D4]">{playerName 
                             ? (playerName.length > 10 ? playerName.slice(0, 10) + "..." : playerName)
                             : (username.length > 10 ? username.slice(0, 10) + "..." : username)}
@@ -340,10 +336,10 @@ export default function Header() {
                   </DropdownMenuItem>
                   }
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 pb-0 font-medium" disabled>
-                    <p className="px-3">Sounds</p>
+                    <p className="px-1.5">Sounds</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] p-0 font-medium" disabled>
-                    <div className="flex flex-row items-center justify-start space-x-1 mx-1 p-2 w-full">
+                    <div className="flex flex-row items-center justify-start space-x-1 px-1.5 py-2 w-full">
                       <div className="flex flex-row items-center justify-start space-x-1 w-full">
                         {volume > 0 ? <SpeakerWaveIcon className="w-5 h-5 text-white" /> : <SpeakerXMarkIcon className="w-5 h-5 text-white" />}
                         <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value: SetStateAction<number>[]) => setVolume(value[0])} />
@@ -352,14 +348,14 @@ export default function Header() {
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium">
                     <Link to="https://x.com/realm_of_ra" target="_blank">
-                      <div className="flex flex-row items-center justify-start space-x-2 px-3">
+                      <div className="flex flex-row items-center justify-start space-x-2 px-1.5">
                         <XIcon />
                         <p className="text-white">Follow on X</p>
                       </div>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" onClick={account?.address ? disconnectWallet : connectWallet}>
-                      <button className="flex flex-row items-center justify-start space-x-1 px-3 text-[#F58229]">
+                      <button className="flex flex-row items-center justify-start space-x-1 px-1.5 text-[#F58229]">
                         <Logout />
                         <p>{account?.address ? "Disconnect" : "Connect Wallet"}</p>
                     </button>
