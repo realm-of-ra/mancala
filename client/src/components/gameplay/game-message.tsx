@@ -226,7 +226,7 @@ export default function GameMessage({
         <Link to="/">
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
-        <div className="min-w-80 min-h-36 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
+        <div className="min-w-[350px] min-h-36 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
@@ -244,7 +244,7 @@ export default function GameMessage({
           }
         </div>
           <motion.div 
-            className="w-[295px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-3.5 flex flex-col"
+            className="w-[320px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-3.5 flex flex-col"
             initial={{ y: -40, opacity: 0 }}
             animate={(message || action?.message) ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
             transition={{
