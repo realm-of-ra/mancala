@@ -276,7 +276,7 @@ export default function Header() {
   });
 
   return (
-    <div className="flex flex-row items-center justify-between w-full">
+    <div className="flex flex-row items-center justify-between space-x-12 w-full">
       <div className="flex-1 w-full -mr-10" />
       <div className="h-[100px] w-[800px]">
         <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
@@ -285,17 +285,12 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className={"flex-1 w-full -ml-10"}>
+      <div className={"flex-1 w-full"}>
         <div className="flex flex-row space-x-2.5 items-center justify-start">
-          {
-            account?.address && <Button className="bg-[#171922] hover:bg-[#171922] border-none p-2.5 rounded-full shadow-none" onClick={handleTrophyClick}>
-            <TrophyIcon className="w-6 h-6 text-[#DB8534]" />
-          </Button>
-          }
               {
                 account?.address ? <Button
                 className="font-medium relative flex flex-col justify-center items-center bg-[#171922] w-fit text-sm rounded-full p-0"
-                onClick={() => navigate("/profile")}
+                onClick={handleTrophyClick}
               >
                 <div className="flex flex-row items-center justify-center p-1.5 pl-5 pr-7 -space-x-1">
                   <img src={catridgeImage} className="w-12 h-12" />
@@ -322,9 +317,9 @@ export default function Header() {
                   className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40"
                 >
                   {
-                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] p-0 font-medium" disabled>
                     <p className="px-1.5">Account</p>
-                    <div className="mx-1 w-full pr-1.5" onClick={() => setOpen(true)}>
+                    <div className="mx-1 w-full pr-1.5 hover:cursor-pointer" onClick={() => setOpen(true)}>
                       <div className="flex flex-row items-center justify-between space-x-1">
                         <div className="flex flex-row items-center justify-start space-x-1">
                           <UserCircleIcon className="w-7 h-7 text-[#BFC5D4]" />
@@ -344,10 +339,10 @@ export default function Header() {
                     </div>
                   </DropdownMenuItem>
                   }
-                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium" disabled>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 pb-0 font-medium" disabled>
                     <p className="px-3">Sounds</p>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] px-0 font-medium" disabled>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] p-0 font-medium" disabled>
                     <div className="flex flex-row items-center justify-start space-x-1 mx-1 p-2 w-full">
                       <div className="flex flex-row items-center justify-start space-x-1 w-full">
                         {volume > 0 ? <SpeakerWaveIcon className="w-5 h-5 text-white" /> : <SpeakerXMarkIcon className="w-5 h-5 text-white" />}
