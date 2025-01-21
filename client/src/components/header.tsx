@@ -22,6 +22,7 @@ import image from "@/assets/image-add.svg";
 import avatar from "@/assets/square-avatar.png";
 import clsx from "clsx";
 import CatridgeIcon from "./ui/svgs/catridge-icon";
+import EditPencil from "./ui/svgs/edit-pencil";
 
 type SaveStatus = {
   status: 'idle' | 'saving' | 'success' | 'error';
@@ -308,10 +309,10 @@ export default function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
-                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40 pr-1.5"
+                  className="bg-[#171922] hover:bg-[#171922] border-none text-[#BFC5D4] w-40 pr-1.5 space-y-1"
                 >
                   {
-                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] p-0 font-medium" disabled>
+                    account?.address && <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 font-medium space-y-1" disabled>
                     <p className="px-1.5">Account</p>
                     <div className="mx-1 w-full pr-1.5 hover:cursor-pointer" onClick={() => setOpen(true)}>
                       <div className="flex flex-row items-center justify-between space-x-1">
@@ -324,7 +325,7 @@ export default function Header() {
                             : (username.length > 10 ? username.slice(0, 10) + "..." : username)}
                           </p>
                         </div>
-                        <PencilIcon className="w-5 h-5 text-[#BFC5D4]" />
+                        <EditPencil />
                       </div>
                     </div>
                     <div className="bg-[#111419] mx-1 p-2 rounded-md flex flex-row items-center justify-start space-x-1">
@@ -335,7 +336,7 @@ export default function Header() {
                     </div>
                   </DropdownMenuItem>
                   }
-                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] px-0 pb-0 font-medium" disabled>
+                  <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#171922] bg-[#171922] p-0 font-medium" disabled>
                     <p className="px-1.5">Sounds</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] p-0 font-medium" disabled>
