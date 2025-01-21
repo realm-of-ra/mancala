@@ -14,15 +14,15 @@ export default function MessageArea({
   address,
   game_players,
   setMessage,
-  setAction
+  setAction,
 }: IMessageAreaProps) {
   const active_players_addrs =
-    game_players?.mancalaPlayerModels?.edges?.map(
+    game_players?.mancalaAlphaPlayerModels?.edges?.map(
       (item: any) => item?.node?.address,
     ) ?? [];
   const opponent_position = active_players_addrs.indexOf(address) === 0 ? 1 : 0;
   const opponent_requested_restart =
-    game_players?.mancalaPlayerModels?.edges?.filter(
+    game_players?.mancalaAlphaPlayerModels?.edges?.filter(
       (item: any) => item?.node?.restart_requested === true,
     )[opponent_position]?.node?.restart_requested;
   const account = useAccount();
@@ -31,9 +31,9 @@ export default function MessageArea({
   const { gameId } = useParams();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const restart_game = async () => {
-    if (account.account) {
+    if (account) {
       await system.restart_game(
-        account.account,
+        account as never,
         gameId || "",
         setRestarted,
         opponent_requested_restart,
@@ -42,7 +42,7 @@ export default function MessageArea({
   };
   useEffect(() => {
     if (opponent_requested_restart) {
-      setMessage("Click on the restart button to accept, or ignore to continue playing")
+      setMessage("Opponent requested a restart")
       setAction({ action: restart_game, message: "Restart" })
     }
   }, [opponent_requested_restart, game_players, restart_game, setMessage, setAction]);
