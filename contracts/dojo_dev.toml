@@ -13,12 +13,12 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_alpha"
+default = "mancala_beta"
 
 [writers]
-"mancala_alpha" = ["mancala_alpha-Mancala", "mancala_alpha-PlayerProfile"]
-"mancala_alpha-TrophyCreation" = ["mancala_alpha-Mancala"]
-"mancala_alpha-TrophyProgression" = ["mancala_alpha-Mancala"]
+"mancala_beta" = ["mancala_beta-Mancala", "mancala_beta-PlayerProfile"]
+"mancala_beta-TrophyCreation" = ["mancala_beta-Mancala"]
+"mancala_beta-TrophyProgression" = ["mancala_beta-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"
@@ -29,3 +29,6 @@ world_address = "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e17
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
+
+[init_call_args]
+"mancala_beta-Mancala" = ["0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"]

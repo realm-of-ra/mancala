@@ -8,6 +8,7 @@ mod ProfileComponent {
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::profile::{Profile, ProfileTrait};
+    use mancala::types::board::Board;
 
     mod errors {
         const PROFILE_EXISTS: felt252 = 'Player profile already exists';

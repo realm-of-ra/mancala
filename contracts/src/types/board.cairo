@@ -1,6 +1,6 @@
 use mancala::elements::boards;
 
-#[derive(Copy, Drop, Serde)]
+#[derive(Copy, Drop, Serde, Introspect)]
 enum Board {
     None,
     Cartridge,

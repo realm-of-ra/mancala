@@ -1,5 +1,6 @@
 use starknet::{ContractAddress, get_block_timestamp};
 use mancala::models::index::Profile;
+use mancala::types::board::Board;
 
 mod Errors {
     const INVALID_NAME: felt252 = 'Invalid Profile Name';
@@ -10,9 +11,18 @@ mod Errors {
 impl ProfileImpl of ProfileTrait {
     #[inline]
     fn new(address: ContractAddress, name: felt252) -> Profile {
+        let game_board: Board = Board::None;
+
         assert(name != 0, Errors::INVALID_NAME);
         let creation_time: u64 = get_block_timestamp();
-        Profile { address, name, profile_uri: "#", is_initialized: true, creation_time }
+        Profile {
+            address,
+            name,
+            profile_uri: "#",
+            is_initialized: true,
+            creation_time,
+            game_board: game_board.into(),
+        }
     }
 
     #[inline]

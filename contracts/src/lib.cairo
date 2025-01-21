@@ -15,6 +15,7 @@ mod models {
 mod events {
     mod index;
     mod move;
+    mod board_minted;
 }
 
 mod interfaces {

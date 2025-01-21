@@ -482,7 +482,7 @@ mod PlayableComponent {
 
             let dispatcher = BoostERC20Dispatcher { contract_address: boost.address };
 
-            let amount_with_decimals: u256 = 1000000000000000000;
+            let amount_with_decimals: u256 = 100000000000000000;
             dispatcher
                 .transfer_from(get_caller_address(), get_contract_address(), amount_with_decimals);
             dispatcher.burn(amount_with_decimals);

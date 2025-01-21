@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x73d5f249b9519777bcca407e74b7230c935abded8b1f21717f75a5a8ce962a5",
-      "class_hash": "0x3319df82e8073785d7fdf43ed7fd17b05e266554f84472df62a8aefec100c36",
+      "address": "0xf489144b10318ff49cd76c8cc71811d4aa10e3af779961de8b55340df7e34a",
+      "class_hash": "0x3a7ad6b76a518f748347f0491861d240ce830737346f11d8c0f1e2fd07d0da8",
       "abi": [
         {
           "type": "impl",
@@ -1308,7 +1308,12 @@
         {
           "type": "function",
           "name": "dojo_init",
-          "inputs": [],
+          "inputs": [
+            {
+              "name": "address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ],
           "outputs": [],
           "state_mutability": "view"
         },
@@ -1316,6 +1321,20 @@
           "type": "impl",
           "name": "MancalaImpl",
           "interface_name": "mancala::systems::mancala::IMancalaSystem"
+        },
+        {
+          "type": "enum",
+          "name": "mancala::types::varient::Varient",
+          "variants": [
+            {
+              "name": "Mancala",
+              "type": "()"
+            },
+            {
+              "name": "HouseMancala",
+              "type": "()"
+            }
+          ]
         },
         {
           "type": "enum",
@@ -1348,6 +1367,14 @@
               "type": "core::integer::u8"
             },
             {
+              "name": "boost_use_count",
+              "type": "core::integer::u8"
+            },
+            {
+              "name": "boost_extra_turn",
+              "type": "core::bool"
+            },
+            {
               "name": "restart_requested",
               "type": "core::bool"
             }
@@ -1360,7 +1387,12 @@
             {
               "type": "function",
               "name": "new_game",
-              "inputs": [],
+              "inputs": [
+                {
+                  "name": "varient",
+                  "type": "mancala::types::varient::Varient"
+                }
+              ],
               "outputs": [],
               "state_mutability": "external"
             },
@@ -1396,6 +1428,10 @@
               "type": "function",
               "name": "create_private_game",
               "inputs": [
+                {
+                  "name": "varient",
+                  "type": "mancala::types::varient::Varient"
+                },
                 {
                   "name": "opponent_address",
                   "type": "core::starknet::contract_address::ContractAddress"
@@ -1495,6 +1531,18 @@
             {
               "type": "function",
               "name": "restart_current_game",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u128"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
+              "name": "use_extra_turn_boost",
               "inputs": [
                 {
                   "name": "game_id",
@@ -1647,9 +1695,11 @@
           ]
         }
       ],
-      "init_calldata": [],
-      "tag": "mancala_alpha-Mancala",
-      "selector": "0x512fe9ba9510c04815804469cb65f6c096da0fa6e30ab0e6a97753410cc03bf",
+      "init_calldata": [
+        "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"
+      ],
+      "tag": "mancala_beta-Mancala",
+      "selector": "0x45479fc8e08fe4010ab314441504d89ee46dd3c86de7fb684bc91389cf1158d",
       "systems": [
         "new_game",
         "join_game",
@@ -1662,12 +1712,13 @@
         "forfeited",
         "request_restart_game",
         "restart_current_game",
+        "use_extra_turn_boost",
         "upgrade"
       ]
     },
     {
-      "address": "0x2bb1a728ffba3aa23001a8566a6044f8bcb0062743dc777dc35f782613bb5e1",
-      "class_hash": "0x745472c10892d817653891b8fa9d0c84f7ad75d275a8abbf1e71517e4b1e7e8",
+      "address": "0x64e2b18674370740e8d75fdc42610e6f22c0837594c277bd5053895fe068cea",
+      "class_hash": "0x6f1cd275709151449d1f763aaf5a768a1f2b8d5d14f0f40b508f852c4019d0",
       "abi": [
         {
           "type": "impl",
@@ -1885,8 +1936,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "mancala_alpha-PlayerProfile",
-      "selector": "0x216624c127683340f1627e61d13eaa68306764ba38dfb2a244b6fd20427943b",
+      "tag": "mancala_beta-PlayerProfile",
+      "selector": "0x13974d1d2f5a618905a73e090440f91b97941b51305e65b7d3b8843c1d209b1",
       "systems": [
         "upgrade"
       ]
@@ -1895,77 +1946,89 @@
   "models": [
     {
       "members": [],
-      "class_hash": "0x1e1240342fddd02b51ab99edbf05a09ac1114a6c53902685b3be5680e305825",
-      "tag": "mancala_alpha-GameCounter",
-      "selector": "0x11a70a6f6b6120ccc20b22ed4263a02215d371333dce0a7e3f8ab7b7b8aeafb"
+      "class_hash": "0x46ea40d00e730dc1a406e762d73e3ee76b8436e4117701f50a9a8d0f8b79601",
+      "tag": "mancala_beta-Boost",
+      "selector": "0x866d54c091d332d520824880e35f2a819c3eb4e35cfec09ae8d146172ee5a7"
     },
     {
       "members": [],
-      "class_hash": "0x710a5f1623497788fc2140a253036216960c9ac693d68a94799ab86a720f750",
-      "tag": "mancala_alpha-MancalaBoard",
-      "selector": "0x44c86f8e8f04ac961a519c19edfc9f90781678290472a8c919afd0bd224087b"
+      "class_hash": "0x1e1240342fddd02b51ab99edbf05a09ac1114a6c53902685b3be5680e305825",
+      "tag": "mancala_beta-GameCounter",
+      "selector": "0x76d6e6d19b4a5191d6d0ee9eb89b8f659c912b3226dddce53f08dd03b9797ba"
+    },
+    {
+      "members": [],
+      "class_hash": "0x187da8f5a1c2877c403256f23244c3a5b41189240cc84d11ea9b379f1ddcfc0",
+      "tag": "mancala_beta-MancalaBoard",
+      "selector": "0x1d22ae969d8664234ff4905915bf59cb7506203aebf25be0ba83e259ff5d40"
     },
     {
       "members": [],
       "class_hash": "0x4f978622482494ba19ac995f11c904648561252f4a5b3af328b2e44da62c932",
-      "tag": "mancala_alpha-Pit",
-      "selector": "0x5bdb1bb146fb381b9d8b81e90b4b48bfc6078c92049280e9c85f410ad26a999"
+      "tag": "mancala_beta-Pit",
+      "selector": "0x268f990fd7f3583a3aa8acc5ad5215783840c64bcc6cfe482bc5fe79c92a331"
     },
     {
       "members": [],
-      "class_hash": "0x5421477787f0fd37f442d42b02bb803d8e1d0108afa750e83d35c18f659a4c6",
-      "tag": "mancala_alpha-Player",
-      "selector": "0x269e79954206e9fcf1dbafd3474866cc2b7a5412d0f9a24e23aae1b4a924a7b"
+      "class_hash": "0x3bbe954352f9e27ded6fd9cb547cfc024d1daabb76b66c0dd62b7a340dc6dbf",
+      "tag": "mancala_beta-Player",
+      "selector": "0x3e594d51cc7f74cdc3fc2f25d262be3b6175dd28d3d623f9604304c5b4e7c5d"
     },
     {
       "members": [],
-      "class_hash": "0x4996e86ed67b3f0ff4a26d45448d02996c42c0fc3b9f34d783f80a0dcb4a7cc",
-      "tag": "mancala_alpha-Profile",
-      "selector": "0xb8e1edd53c335bb066ba5d0d6fd14a7de753cdaaeb8299a974e5900709cad2"
+      "class_hash": "0x1b82722d2237ffe2c8e9cdea79f1a4ea46ea9a566cb5977bd0f3365a730d97e",
+      "tag": "mancala_beta-Profile",
+      "selector": "0x566436ba6a67c59ee5ccc241f2d2b5011981f386a7e76375c239d87d95e9655"
     },
     {
       "members": [],
       "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
-      "tag": "mancala_alpha-Seed",
-      "selector": "0x463662a90920dca6dfabb730ed5c297dc475f4f1ef2bc424f274205f6084308"
+      "tag": "mancala_beta-Seed",
+      "selector": "0x2248061940cc4acc200715c1513324c6e0f342143566f5f5973919e1495cd1f"
     }
   ],
   "events": [
     {
       "members": [],
+      "class_hash": "0x3a670e077cebdc44ac86ef86f071bc5a4d7baaf846c276d7fb923bb1efffaa6",
+      "tag": "mancala_beta-BoardMinted",
+      "selector": "0x9d84ec823cf78090ac5f4c2a7123333931945b0e4c87e5b254b9b74450a3f6"
+    },
+    {
+      "members": [],
       "class_hash": "0x41b8c256c71fd189f2f4a46fc883903dfce72959d851807e61dc2e42361cb1f",
-      "tag": "mancala_alpha-Capture",
-      "selector": "0x243e04a48ea3ac1c68b5293c51d0efcbb773a49ccb747df1ecd4f195fc7ca7c"
+      "tag": "mancala_beta-Capture",
+      "selector": "0x2fd913b8063973c606644af9f684773bce9f223245ac6d6d9357a55924f2d73"
     },
     {
       "members": [],
       "class_hash": "0x6ad2c5b0a64992b068e6e3ada4f86d3ac692915006b60ac25f1d55b5e2f5c89",
-      "tag": "mancala_alpha-EndTurn",
-      "selector": "0x7a0761ab053f77d05ad99cec9ab84f9990f3635e4743898a7ba8b3d1655f78f"
+      "tag": "mancala_beta-EndTurn",
+      "selector": "0x3404abdfdce60d18b80c3c141797fca0e1c3d30647eb6b674bb1b03f0ac64f5"
     },
     {
       "members": [],
       "class_hash": "0x68aa78a7fe02585f67b17540762e5103c14c5d23fd94b5222200054e68ccc24",
-      "tag": "mancala_alpha-PlayerExtraTurn",
-      "selector": "0x5538dfa1efa2105d2c250981b86e9512e6f613e80ef2203810b629e93c608f6"
+      "tag": "mancala_beta-PlayerExtraTurn",
+      "selector": "0x9eae5dab8c7d38b78a84a315b6e4abbcc52cd1f54e79e06bf3aafcfe24f8a1"
     },
     {
       "members": [],
       "class_hash": "0x49fa2e09b02e37efe06209800c7fa4b07cd78e05559a83acfd3fcd4eb5e54e0",
-      "tag": "mancala_alpha-PlayerMove",
-      "selector": "0x3a826b859e43be526b7b2cc48c34fae5248b9fee7d84a144fe85c45e086829e"
+      "tag": "mancala_beta-PlayerMove",
+      "selector": "0x5b7cc548e3e5ad2bf2fea43245ffec1a975d8f814aa7644d1974a94c5cc7ff6"
     },
     {
       "members": [],
       "class_hash": "0x6b38999d987627835d4c20e7e571c73d32ddc856786d9790a131bdb3372a246",
-      "tag": "mancala_alpha-TrophyCreation",
-      "selector": "0x481fb6fa2efa2dce912eee1c4a3c614ba2a7046257c14c8b21a174f4dd6be0f"
+      "tag": "mancala_beta-TrophyCreation",
+      "selector": "0x26d7ec41012a8448baf3023826772c10175cf6d22e3e40f755efa9aacaa3e33"
     },
     {
       "members": [],
       "class_hash": "0xf05f290a704ad2671544b391f0c33d50d6d43d468d52791282852a833a00c7",
-      "tag": "mancala_alpha-TrophyProgression",
-      "selector": "0x296564101d8ed35028650e18a3f6395558a995d9d943b4bdbf8b43ed77be64e"
+      "tag": "mancala_beta-TrophyProgression",
+      "selector": "0x5f009c9f779dfc224dac4045ec953327235c988338b0db5984a54e1b90734ca"
     }
   ]
 }

@@ -10,7 +10,9 @@ allowed_origins = ["*"]
 pending = true
 transactions = true
 polling_interval = 1000
-contracts = []
+contracts = [
+  "erc20:0x00c5302ed74122c30b65aeba0e9b1909c293a87ec6024aa1f79488814d66085f" # boost potion
+]
 
 [events]
 raw = true

@@ -1,4 +1,5 @@
 use starknet::ContractAddress;
+use mancala::types::board::Board;
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::event(historical: true)]
@@ -34,4 +35,15 @@ struct Capture {
     player: ContractAddress,
     pit_number: u8,
     seed_count: u8,
+}
+
+#[derive(Clone, Drop, Serde)]
+#[dojo::event]
+pub struct BoardMinted {
+    #[key]
+    profile_id: felt252,
+    description: ByteArray,
+    address: felt252,
+    group: felt252,
+    board: Board,
 }

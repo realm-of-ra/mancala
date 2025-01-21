@@ -12,6 +12,9 @@ mod setup {
     use mancala::systems::mancala::{
         Mancala, IMancalaSystemDispatcher, IMancalaSystemDispatcherTrait,
     };
+    use mancala::systems::profile::{
+        PlayerProfile, IPlayerProfileDispatcher, IPlayerProfileDispatcherTrait,
+    };
     use mancala::models::{index as models};
     use mancala::events::{index as events};
 
@@ -30,6 +33,7 @@ mod setup {
     #[derive(Drop)]
     struct Systems {
         Mancala: IMancalaSystemDispatcher,
+        PlayerProfile: IPlayerProfileDispatcher,
     }
 
     #[inline]
@@ -41,16 +45,20 @@ mod setup {
                 TestResource::Model(models::m_MancalaBoard::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Pit::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Player::TEST_CLASS_HASH),
+                TestResource::Model(models::m_Profile::TEST_CLASS_HASH),
                 TestResource::Model(models::m_Seed::TEST_CLASS_HASH),
+                TestResource::Model(models::m_Boost::TEST_CLASS_HASH),
                 TestResource::Event(events::e_PlayerMove::TEST_CLASS_HASH),
                 TestResource::Event(events::e_PlayerExtraTurn::TEST_CLASS_HASH),
                 TestResource::Event(events::e_EndTurn::TEST_CLASS_HASH),
                 TestResource::Event(events::e_Capture::TEST_CLASS_HASH),
+                TestResource::Event(events::e_BoardMinted::TEST_CLASS_HASH),
                 TestResource::Event(achievement::events::index::e_TrophyCreation::TEST_CLASS_HASH),
                 TestResource::Event(
                     achievement::events::index::e_TrophyProgression::TEST_CLASS_HASH,
                 ),
                 TestResource::Contract(Mancala::TEST_CLASS_HASH),
+                TestResource::Contract(PlayerProfile::TEST_CLASS_HASH),
             ]
                 .span(),
         }
@@ -59,6 +67,8 @@ mod setup {
     fn setup_contracts() -> Span<ContractDef> {
         [
             ContractDefTrait::new(@NAMESPACE(), @"Mancala")
+                .with_writer_of([dojo::utils::bytearray_hash(@NAMESPACE())].span()),
+            ContractDefTrait::new(@NAMESPACE(), @"PlayerProfile")
                 .with_writer_of([dojo::utils::bytearray_hash(@NAMESPACE())].span()),
         ]
             .span()
@@ -72,8 +82,10 @@ mod setup {
         world.sync_perms_and_inits(setup_contracts());
         // [Setup] Systems
         let (mancala_address, _) = world.dns(@"Mancala").unwrap();
+        let (player_profile_address, _) = world.dns(@"PlayerProfile").unwrap();
         let systems = Systems {
             Mancala: IMancalaSystemDispatcher { contract_address: mancala_address },
+            PlayerProfile: IPlayerProfileDispatcher { contract_address: player_profile_address },
         };
 
         (world, systems)

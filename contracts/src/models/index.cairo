@@ -96,6 +96,7 @@ pub struct Profile {
     pub profile_uri: ByteArray,
     pub is_initialized: bool,
     pub creation_time: u64,
+    pub game_board: u8,
 }
 
 #[derive(Copy, Drop, Serde)]
