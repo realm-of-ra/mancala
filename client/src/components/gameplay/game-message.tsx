@@ -7,7 +7,6 @@ import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
 import { logo } from "@/lib/icons_store";
-import { ELIZA_ADDRESS } from "@/lib/constants";
 import { motion } from "framer-motion";
 
 export default function GameMessage({
@@ -50,7 +49,7 @@ export default function GameMessage({
     );
   }, [provider]);
   const [startTime, setStartTime] = useState<number | null>(null);
-  const [elizaState, setElizaState] = useState<'idle' | 'thinking' | 'error'>('idle');
+
   useEffect(() => {
     if (
       game_node?.status === "InProgress" &&
@@ -137,30 +136,6 @@ export default function GameMessage({
             (game_node?.current_player === game_node?.player_one
               ? player_one_name
               : player_two_name);
-
-          if (normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS)) {
-            if (elizaState === 'thinking') {
-              return React.createElement(
-                "div",
-                null,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  "Eliza is thinking..."
-                ),
-              );
-            } else if (elizaState === 'error') {
-              return React.createElement(
-                "div",
-                null,
-                React.createElement(
-                  "span",
-                  { className: "text-[#F58229]" },
-                  "Error calling Mancala, retrying..."
-                ),
-              );
-            }
-          }
 
           if (isCurrentUserTurn) {
             return React.createElement(

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GameBoard from "@/components/gameplay/game-board";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
-import { useAccount, useConnect } from "@starknet-react/core";
+import { useAccount } from "@starknet-react/core";
 import { useParams } from "react-router-dom";
 import {
   MancalaBoardModelQuery,
@@ -51,12 +51,6 @@ export default function Gameplay() {
       .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
-  const { connect, connectors } = useConnect();
-  useEffect(() => {
-    if (!account?.account?.address) {
-      connect({ connector: connectors[0] });
-    }
-  }, [account, connect, connectors]);
   const [volume, setVolume] = useState(35);
   const [message, setMessage] = useState("");
   const [action, setAction] = useState<{ action: any, message: string }>({ action: undefined, message: "" })
