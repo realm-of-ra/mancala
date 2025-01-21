@@ -8,6 +8,7 @@ import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
 import { logo } from "@/lib/icons_store";
 import { ELIZA_ADDRESS } from "@/lib/constants";
+import { motion } from "framer-motion";
 
 export default function GameMessage({
   game_node,
@@ -20,6 +21,8 @@ export default function GameMessage({
   timeRemaining,
   setTimeRemaining,
   setProfiles,
+  message,
+  action
 }: {
   game_node: any;
   game_players: any;
@@ -31,6 +34,8 @@ export default function GameMessage({
   timeRemaining: any;
   setTimeRemaining: any;
   setProfiles: any;
+  message: string;
+  action: { action: any, message: string }
 }) {
   const audioRef = useRef(new Audio(audio));
   const { provider } = useProvider();
@@ -203,81 +208,6 @@ export default function GameMessage({
       ? "00"
       : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
 
-  const constructElizaMessage = () => {
-    console.log({ game_node });
-    
-    const pits = game_players?.mancalaAlphaPitModels?.edges;
-    if (!pits || !game_node?.game_id || !game_players?.mancalaAlphaPlayerModels?.edges?.length) {
-      console.log("Missing required game data");
-      return null;
-    }
-
-    // Create arrays to store pit values for both players
-    const player1Address = game_players.mancalaAlphaPlayerModels.edges[0]?.node?.address;
-    const player1Pits = new Array(7).fill(0);
-    const player2Pits = new Array(7).fill(0);
-
-    // Fill the arrays with seed counts
-    pits.forEach(({ node }: { node: any }) => {
-      const { player, pit_number, seed_count } = node;
-      const pitArray = player === player1Address ? player1Pits : player2Pits;
-      // pit_number is 1-based, so we subtract 1 for array indexing
-      pitArray[pit_number - 1] = seed_count;
-    });
-
-    // Get regular pits (excluding Mancala) for both players
-    const playerPits = player1Pits.slice(0, 6);
-    const playerMancala = player1Pits[6];
-    const opponentPits = player2Pits.slice(0, 6);
-    const opponentMancala = player2Pits[6];
-
-    return `You are already a part of game with game id ${game_node.game_id}. This is the board state, Board state: Your pits (1-6): [${playerPits.join(',')}] Mancala(7): ${playerMancala} | Opponent pits (8-13): [${opponentPits.join(',')}] Mancala(14): ${opponentMancala}, make your move`;
-  };
-
-  const callElizaMove = async (retryCount = 0) => {
-    try {
-      const serverPort = import.meta.env.VITE_SERVER_PORT || "3000";
-      const message = constructElizaMessage();
-
-      console.log({
-        message
-      })
-
-      if (message) {      
-        console.log(`Attempting to call Eliza (attempt ${retryCount + 1})`);
-        setElizaState('thinking');
-  
-        const response = await fetch(`http://localhost:${serverPort}/Eliza/message`, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-          },
-          body: JSON.stringify({
-            text: message,
-            userId: "eliza",
-            userName: "Eliza",
-          }),
-        });
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-  
-        const data = await response.json();
-        console.log("Eliza's response:", data);
-        setElizaState('idle');
-        return data;
-      }
-    } catch (error) {
-      console.error("Error calling Eliza:", error);
-      setElizaState('error');
-      // Wait for 1 second before retrying
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return callElizaMove(retryCount + 1);
-    }
-  };
-
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
     const cleanAddress = address.toLowerCase().replace('0x', '');
@@ -285,51 +215,18 @@ export default function GameMessage({
     return cleanAddress.padStart(64, '0');
   };
 
-  useEffect(() => {
-    let isSubscribed = true;
-
-    const makeElizaMove = async () => {
-      if (
-        game_node?.status === "InProgress" &&
-        normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS) &&
-        game_node?.winner === "0x0"
-      ) {
-        console.log("Eliza turn");
-        try {
-          if (isSubscribed) {
-            await callElizaMove();
-            // Wait a short moment to let the game state update
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // If it's still Eliza's turn after the move, make another move
-            if (
-              game_node?.status === "InProgress" &&
-              normalizeAddress(game_node?.current_player) === normalizeAddress(ELIZA_ADDRESS) &&
-              game_node?.winner === "0x0"
-            ) {
-              makeElizaMove(); // Recursive call for consecutive turns
-            }
-          }
-        } catch (error) {
-          console.error("Failed to complete Eliza's move after all retries:", error);
-        }
-      }
-    };
-
-    makeElizaMove();
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [game_node?.current_player, game_node?.status, game_node?.winner]);
+  console.log({
+    message,
+    action
+  })
 
   return (
-    <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-      <div className="flex flex-col items-center justify-center mt-10 space-y-5">
+    <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">
+      <div className="flex flex-col items-center justify-center mt-10 space-y-5 relative">
         <Link to="/">
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
-        <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+        <div className="min-w-80 min-h-36 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
@@ -346,6 +243,24 @@ export default function GameMessage({
             </div>
           }
         </div>
+          <motion.div 
+            className="w-[295px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-3.5 flex flex-col"
+            initial={{ y: -40, opacity: 0 }}
+            animate={(message || action?.message) ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 100,
+              damping: 15,
+              duration: 5
+            }}
+          >
+            <div className="flex flex-row items-center justify-center w-full z-20 absolute bottom-2">
+              <div>
+                <p className="text-white">{message}</p>
+                { action?.action != undefined && action?.message && <p onClick={action?.action} className="text-[#F58229]">{action?.message}</p>}
+              </div>
+            </div>
+          </motion.div>
       </div>
     </div>
   );

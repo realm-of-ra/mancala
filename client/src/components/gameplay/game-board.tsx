@@ -8,7 +8,6 @@ import {
   MancalaExtraTurnQuery,
 } from "@/lib/constants";
 import Seed from "../seed";
-import { useToast } from "@/components/ui/use-toast";
 
 interface GameBoardProps {
   game_players: any;
@@ -20,6 +19,7 @@ interface GameBoardProps {
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   volume: number;
   setVolume: (volume: number) => void;
+  setMessage: any;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
@@ -32,8 +32,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setTimeRemaining,
   volume,
   setVolume,
+  setMessage
 }) => {
-  const { toast } = useToast();
 
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
@@ -68,16 +68,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const isPlayerCapture =
           latestCapture.player === account.account?.address;
 
-        toast({
-          title: isPlayerCapture ? "Seeds Captured!" : "Seeds Lost!",
-          description: isPlayerCapture
+          setMessage(isPlayerCapture
             ? `You captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`
-            : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`,
-          duration: 3000,
-        });
+            : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`)
+
+            const timeout = setTimeout(() => {
+              setMessage("")
+            }, 3000)
+            return () => clearTimeout(timeout)
       }
     }
-  }, [captureData, account.account?.address, toast, game_node?.status]);
+  }, [captureData, account.account?.address, game_node?.status, setMessage]);
 
   useEffect(() => {
     const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
@@ -88,16 +89,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const isPlayerExtraTurn =
           latestExtraTurn.player === account.account?.address;
 
-        toast({
-          title: isPlayerExtraTurn ? "Extra Turn!" : "Opponent Extra Turn",
-          description: isPlayerExtraTurn
+          setMessage(isPlayerExtraTurn
             ? "You get another turn!"
-            : "Opponent gets another turn",
-          duration: 3000,
-        });
+            : "Opponent gets another turn")
+
+            const timeout = setTimeout(() => {
+              setMessage("")
+            }, 3000)
+            return () => clearTimeout(timeout)
       }
     }
-  }, [extraTurnData, account.account?.address, toast, game_node?.status]);
+  }, [extraTurnData, account.account?.address, game_node?.status, setMessage]);
 
   const seeds = React.useMemo(() => {
     if (!data?.mancalaAlphaSeedModels?.edges) return [];

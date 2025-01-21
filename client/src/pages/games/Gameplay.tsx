@@ -12,7 +12,6 @@ import {
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
-import LeaderboardButton from "@/components/gameplay/leaderboard-button";
 import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import GameNavigation from "@/components/gameplay/game-navigation";
@@ -59,6 +58,8 @@ export default function Gameplay() {
     }
   }, [account, connect, connectors]);
   const [volume, setVolume] = useState(35);
+  const [message, setMessage] = useState("");
+  const [action, setAction] = useState<{ action: any, message: string }>({ action: undefined, message: "" })
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
@@ -69,15 +70,14 @@ export default function Gameplay() {
         gameId={gameId}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
+        message={message}
+        action={action}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
-          <RestartButton gameId={gameId || ""} game_players={game_players} />
-          <EndgameButton gameId={gameId || ""} game_players={game_players} />
-          <TimeoutButton
-            gameId={gameId || ""}
-            opposition_address={opposition_address}
-          />
+          <RestartButton gameId={gameId || ""} game_players={game_players} setMessage={setMessage} />
+          <EndgameButton gameId={gameId || ""} setMessage={setMessage} />
+          <TimeoutButton gameId={gameId || ""} opposition_address={opposition_address} setMessage={setMessage} />
         </div>
         <div className="flex-1 w-full h-full">
           <GameBoard
@@ -90,12 +90,15 @@ export default function Gameplay() {
             setTimeRemaining={setTimeRemaining}
             volume={volume}
             setVolume={setVolume}
+            setMessage={setMessage}
           />
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <AudioSection volume={volume} setVolume={setVolume} />
             <MessageArea
               address={account?.account?.address}
               game_players={game_players}
+              setMessage={setMessage}
+              setAction={setAction}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
               <GameChat />
