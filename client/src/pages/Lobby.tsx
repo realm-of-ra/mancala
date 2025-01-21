@@ -24,7 +24,6 @@ import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useQuery } from "@apollo/client";
 import {
-  ELIZA_ADDRESS,
   MancalaBoardModelsQuery,
   MancalaPlayerNames,
 } from "@/lib/constants";
@@ -59,13 +58,7 @@ export default function Lobby() {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      playWith === "Human"
-        ? await system.create_game(account.account, setGameId)
-        : await system.create_private_game(
-            account.account,
-            ELIZA_ADDRESS,
-            setGameId,
-          );
+      await system.create_game(account.account, setGameId)
       if (gameId) {
         setCreating(false);
       }
@@ -79,7 +72,7 @@ export default function Lobby() {
     if (account.account) {
       await system.create_private_game(
         account.account,
-        playWith === "Human" ? player2 : ELIZA_ADDRESS,
+        player2,
         setGameId,
       );
       if (gameId) {
@@ -385,42 +378,13 @@ export default function Lobby() {
                               </div>
                             </RadioGroup>
                           </div>
-                          <div className="flex flex-row items-center justify-center space-x-3.5">
-                            <button
-                              className="bg-[#15171E] hover:bg-[#1A1D25] border border-[#1D212B] font-medium hover:cursor-pointer rounded-lg py-3 px-5 text-[#F58229] text-sm"
-                              style={{
-                                color:
-                                  playWith == "Human" ? "#F58229" : "#4F5666",
-                                backgroundColor:
-                                  playWith == "Human" ? "#15171E" : "#1A1D25",
-                              }}
-                              onClick={() => setPlayWith("Human")}
-                            >
-                              Human Player
-                            </button>
-                            <button
-                              className="bg-[#15171E] hover:bg-[#1A1D25] border border-[#1D212B] font-medium hover:cursor-pointer rounded-lg py-3 px-5 text-[#F58229] text-sm"
-                              onClick={() => setPlayWith("AI")}
-                              style={{
-                                color: playWith == "AI" ? "#F58229" : "#4F5666",
-                                backgroundColor:
-                                  playWith == "AI" ? "#15171E" : "#1A1D25",
-                              }}
-                            >
-                              Play with Eliza AI
-                            </button>
-                          </div>
                           {type === "private" ? (
                             <div className="space-y-5">
-                              {playWith === "Human" && (
-                                <>
-                                  <input
+                              <input
                                     className="p-2.5 w-72 rounded-xl border border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666] placeholder:font-medium text-[#4F5666] font-medium"
                                     placeholder="0x..."
                                     onChange={(e) => setPlayer2(e.target.value)}
                                   />
-                                </>
-                              )}
                               <div className="flex flex-row items-center justify-center space-x-1">
                                 <InformationCircleIcon className="w-4 h-4 text-[#996E47]" />
                                 <p className="text-[#996E47] text-xs font-medium">
