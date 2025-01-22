@@ -12,6 +12,7 @@ mod setup {
     use mancala::systems::mancala::{
         Mancala, IMancalaSystemDispatcher, IMancalaSystemDispatcherTrait,
     };
+    use mancala::types::varient::Varient;
     use mancala::systems::profile::{
         PlayerProfile, IPlayerProfileDispatcher, IPlayerProfileDispatcherTrait,
     };

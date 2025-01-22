@@ -12,13 +12,15 @@ mod test_init_game {
     use mancala::models::seed::SeedColor;
     use mancala::models::index::GameStatus;
 
+    use mancala::types::varient::Varient;
+
     #[test]
     #[available_gas(300000000000)]
     fn test_new_game() {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
 
@@ -38,7 +40,7 @@ mod test_init_game {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -101,7 +103,7 @@ mod test_init_game {
         let mut store: Store = StoreTrait::new(world);
 
         let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
-        systems.Mancala.create_private_game(OPPONENT);
+        systems.Mancala.create_private_game(Varient::Mancala, OPPONENT);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -166,6 +168,7 @@ mod test_play {
     use mancala::tests::setup::setup;
     use mancala::models::seed::SeedColor;
     use mancala::models::index::GameStatus;
+    use mancala::types::varient::Varient;
 
     use mancala::tests::utils::{move_player_seeds_to_store};
 
@@ -176,7 +179,7 @@ mod test_play {
         let mut store: Store = StoreTrait::new(world);
 
         let OPPONENT = starknet::contract_address_const::<'ANYONE'>();
-        systems.Mancala.create_private_game(OPPONENT);
+        systems.Mancala.create_private_game(Varient::Mancala, OPPONENT);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -192,7 +195,7 @@ mod test_play {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -251,7 +254,7 @@ mod test_play {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
@@ -296,7 +299,7 @@ mod test_play {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;
 
@@ -322,7 +325,7 @@ mod test_play {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
 
-        systems.Mancala.new_game();
+        systems.Mancala.new_game(Varient::Mancala);
 
         let game_counter = store.get_game_counter(1);
         let game_id = game_counter.count - 1;

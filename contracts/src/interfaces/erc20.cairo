@@ -1,10 +1,11 @@
 use starknet::ContractAddress;
 
 #[starknet::interface]
-trait BoostERC20<TContractState> {
+trait BoostERC20<TState> {
+    fn balance_of(self: @TState, account: ContractAddress) -> u256;
     fn transfer_from(
-        ref self: TContractState, sender: ContractAddress, recipient: ContractAddress, amount: u256,
+        ref self: TState, sender: ContractAddress, recipient: ContractAddress, amount: u256,
     ) -> bool;
-    fn approve(ref self: TContractState, spender: ContractAddress, amount: u256);
-    fn burn(ref self: TContractState, amount: u256);
+    fn approve(ref self: TState, spender: ContractAddress, amount: u256);
+    fn burn(ref self: TState, amount: u256);
 }

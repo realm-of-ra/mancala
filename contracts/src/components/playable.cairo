@@ -483,6 +483,10 @@ mod PlayableComponent {
             let dispatcher = BoostERC20Dispatcher { contract_address: boost.address };
 
             let amount_with_decimals: u256 = 100000000000000000;
+            assert(
+                dispatcher.balance_of(get_caller_address()) >= amount_with_decimals,
+                'Insufficient balance',
+            );
             dispatcher
                 .transfer_from(get_caller_address(), get_contract_address(), amount_with_decimals);
             dispatcher.burn(amount_with_decimals);
