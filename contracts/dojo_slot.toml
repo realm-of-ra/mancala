@@ -30,5 +30,5 @@ ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
-raw = true
-historical = ["mancala_alpha-TrophyProgression"]
+[init_call_args]
+"mancala_beta-Mancala" = ["0x00c5302ed74122c30b65aeba0e9b1909c293a87ec6024aa1f79488814d66085f"]

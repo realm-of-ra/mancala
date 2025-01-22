@@ -59,7 +59,7 @@ mod PlayableComponent {
             let mut game_id = store.get_game_counter(1);
             let mut player_one: Player = PlayerTrait::new(game_id.count, player_one_address);
             let mancala_game: MancalaBoard = MancalaBoardTrait::new(
-                game_id.count, varient, player_one_address,
+                game_id.count, varient.into(), player_one_address,
             );
             restart_player_pits(world, @player_one, SeedColor::Green);
             game_id.increment();
@@ -128,7 +128,7 @@ mod PlayableComponent {
             let player_one: Player = PlayerTrait::new(game_id.count, player_one_address);
             let player_two: Player = PlayerTrait::new(game_id.count, opponent_address);
             let mut mancala_game: MancalaBoard = MancalaBoardTrait::private_mancala(
-                game_id.count, varient, player_one_address, opponent_address,
+                game_id.count, varient.into(), player_one_address, opponent_address,
             );
             game_id.increment();
 
@@ -284,17 +284,20 @@ mod PlayableComponent {
                 }
             }
 
-            let mut mancala_player: Player = store.get_player(mancala_game.game_id, player);
-            let extra_turn_boost = mancala_player.boost_extra_turn == true;
-            if extra_turn_boost {
-                mancala_game.current_player = player;
-                mancala_player.boost_extra_turn = false;
+            if mancala_game.varient == Varient::HouseMancala.into() {
+                let mut mancala_player: Player = store.get_player(mancala_game.game_id, player);
+                let extra_turn_boost = mancala_player.boost_extra_turn == true;
+                if extra_turn_boost {
+                    mancala_game.current_player = player;
+                    mancala_player.boost_extra_turn = false;
+                }
+
+                store.set_player(mancala_player);
             }
 
             store.set_mancala_board(mancala_game);
             store.set_player(current_player);
             store.set_player(opponent);
-            store.set_player(mancala_player);
 
             store.player_move(mancala_game.game_id, selected_pit, pit_seed_number);
         }
@@ -463,7 +466,10 @@ mod PlayableComponent {
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
             let mut player: Player = store.get_player(mancala_game.game_id, player_address);
 
-            assert(mancala_game.varient == 1, errors::GAME_BOOST_NOT_ALLOWED);
+            assert(
+                mancala_game.varient == Varient::HouseMancala.into(),
+                errors::GAME_BOOST_NOT_ALLOWED,
+            );
             assert(player.boost_use_count <= MAX_BOOSTS_COUNT, errors::MAX_BOOSTS_ALLOWED);
             assert(player.boost_extra_turn == false, errors::STILL_HAVE_PENDING_BOOST);
             player.boost_use_count += 1;
@@ -473,8 +479,12 @@ mod PlayableComponent {
 
             store.set_player(player);
         }
+    }
 
-        fn _burn_boost(ref self: ComponentState<TState>, world: WorldStorage, boost: BoostType) {
+    #[generate_trait]
+    impl PrivateImpl<TState, +HasComponent<TState>> of PrivateTrait<TState> {
+        #[inline]
+        fn _burn_boost(self: @ComponentState<TState>, world: WorldStorage, boost: BoostType) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
