@@ -44,6 +44,9 @@ export default function MessageArea({
     if (opponent_requested_restart) {
       setMessage("Opponent requested a restart")
       setAction({ action: restart_game, message: "Restart" })
+    } else {
+      setMessage("")
+      setAction({ action: undefined, message: "" })
     }
   }, [opponent_requested_restart, game_players, restart_game, setMessage, setAction]);
   return <></>;

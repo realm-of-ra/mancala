@@ -92,7 +92,7 @@ export default function Gameplay() {
           <div className="relative flex flex-row items-center justify-between w-full mt-10 h-[fit-content]">
             <AudioSection volume={volume} setVolume={setVolume} />
             <MessageArea
-              address={account?.address}
+              address={account?.account?.address}
               game_players={game_players}
               setMessage={setMessage}
               setAction={setAction}
