@@ -7,6 +7,7 @@ import { useProvider } from "@starknet-react/core";
 import { StarknetIdNavigator } from "starknetid.js";
 import { constants } from "starknet";
 import { logo } from "@/lib/icons_store";
+import { motion } from "framer-motion";
 
 export default function GameMessage({
   game_node,
@@ -19,6 +20,10 @@ export default function GameMessage({
   timeRemaining,
   setTimeRemaining,
   setProfiles,
+  message,
+  setMessage,
+  action,
+  setAction
 }: {
   game_node: any;
   game_players: any;
@@ -30,6 +35,10 @@ export default function GameMessage({
   timeRemaining: any;
   setTimeRemaining: any;
   setProfiles: any;
+  message: string;
+  setMessage: any;
+  action: { action: any, message: string };
+  setAction: any;
 }) {
   const audioRef = useRef(new Audio(audio));
   const { provider } = useProvider();
@@ -178,13 +187,22 @@ export default function GameMessage({
       ? "00"
       : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
 
+  const normalizeAddress = (address: string) => {
+    // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
+    const cleanAddress = address.toLowerCase().replace('0x', '');
+    // Pad to 64 characters (32 bytes) with leading zeros
+    return cleanAddress.padStart(64, '0');
+  };
+
+  const [close, setClose] = useState<boolean>()
+
   return (
-    <div className="absolute inset-x-0 top-0 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-      <div className="flex flex-col items-center justify-center mt-10 space-y-5">
+    <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">
+      <div className="flex flex-col items-center justify-center mt-14 space-y-5 relative">
         <Link to="/">
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
-        <div className="min-w-48 min-h-24 bg-[url('./assets/countdown_background.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5">
+        <div className="min-w-[400px] min-h-44 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
@@ -201,6 +219,35 @@ export default function GameMessage({
             </div>
           }
         </div>
+          <motion.div 
+            className="w-[390px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
+            initial={{ y: -40, opacity: 0 }}
+            animate={(message || action?.message) && !close ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 100,
+              damping: 15,
+              duration: 5
+            }}
+          >
+            <div className="flex flex-row items-center justify-center w-full z-20 absolute bottom-1">
+              <div className="flex flex-row items-center space-x-1.5">
+                <p className="text-white">{message}</p>
+                {
+                action?.action != undefined && action?.message && 
+                <div className="flex flex-row items-center space-x-1">
+                  <p onClick={action?.action} className="text-green-500 hover:cursor-pointer">Accept</p>
+                  <span className="text-white">or</span>
+                  <p className="text-red-500 hover:cursor-pointer" onClick={() => { 
+                    setAction({ action: undefined, messsage: '' })
+                    setMessage('');
+                    setClose(true)
+                  }}>Decline</p>
+                </div>
+                }
+              </div>
+            </div>
+          </motion.div>
       </div>
     </div>
   );
