@@ -3,14 +3,15 @@ import { restart } from "@/lib/icons_store";
 import { Button } from "@material-tailwind/react";
 import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
-import { useToast } from "../ui/use-toast";
 
 export default function RestartButton({
   gameId,
   game_players,
+  setMessage
 }: {
   gameId: string;
   game_players: any;
+  setMessage: any;
 }) {
   const account = useAccount();
   const { system } = useDojo();
@@ -35,16 +36,15 @@ export default function RestartButton({
       );
     }
   };
-  const { toast } = useToast();
   useEffect(() => {
     if (restarted) {
-      toast({
-        title: "Restart notification sent to opponent!",
-        description: "Waiting for opponent to accept the restart request",
-        duration: undefined,
-      });
+      setMessage("Restart notification sent to opponent!")
+      const timeout = setTimeout(() => {
+        setMessage("")
+      }, 3000)
+      return () => clearTimeout(timeout)
     }
-  }, [restarted, toast]);
+  }, [restarted, setMessage]);
   return (
     <div className="space-y-1">
       <Button

@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAccount } from "@starknet-react/core";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
-import { Twitter } from "lucide-react";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 export default function Duels({
   games,
@@ -91,7 +91,7 @@ export default function Duels({
     }
   };
 
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState('');
 
   if (loading) {
     return <DuelsSkeleton />;
@@ -205,14 +205,7 @@ export default function Duels({
                         </p>
                       </td>
                       <td className="flex flex-row w-[190px] h-16 items-center justify-center pr-5 bg-[#111419] border-y-2 border-[#1A1E25]">
-                        {games[index].node.player_two === "0x0" &&
-                        games[index].node.player_one ===
-                          account.account?.address ? (
-                          <Button className="text-[#299DF5] bg-[#171922] hover:bg-[#1d1f2a] transition-colors">
-                            Play With Eliza AI
-                          </Button>
-                        ) : (
-                          <Link
+                      <Link
                             to={
                               games[index].node.player_one ===
                                 account.account?.address ||
@@ -286,45 +279,35 @@ export default function Duels({
                               })()}
                             </Button>
                           </Link>
-                        )}
                       </td>
                       <td className="border-[#1A1E25] border-y-2 border-r-2 bg-[#111419] rounded-r-xl h-16 flex items-center justify-center w-[59px]">
                         {games[index].node.player_one != "0x0" &&
                         games[index].node.player_two !== "0x0" ? (
-                          <Link
-                            target="_blank"
-                            to={`https://x.com/intent/tweet?text=Check%20out%20this%20game%20on%20Dojo%20Duels!%20${window.location.origin}/${games[index].node.game_id}`}
-                          >
-                            <div className="flex flex-row items-center justify-center space-x-1 pr-10">
-                              <Twitter
-                                className="w-5 h-5 text-[#FAB580]"
-                                color="#FAB580"
-                                fill="#FAB580"
-                              />
-                              <p className="text-sm">Share</p>
-                            </div>
-                          </Link>
+                        <Link
+                          target="_blank"
+                          to={`https://x.com/intent/tweet?text=Check%20out%20this%20game%20on%20Dojo%20Duels!%20${window.location.origin}/games/${games[index].node.game_id}`}
+                          className="mr-10"
+                        >
+                          <ArrowTopRightOnSquareIcon className="w-5 h-5 text-[#C7CAD4]" />
+                        </Link>
                         ) : (
                           <div
-                            className="flex flex-row items-center justify-center space-x-1 pr-10 cursor-pointer"
+                            className="flex flex-row items-center justify-center space-x-1 pr-10"
                             onClick={() => {
-                              setCopied(true);
+                              setCopied(`${window.location.origin}/games/${games[index].node.game_id}`);
                               navigator.clipboard.writeText(
-                                `${window.location.origin}/${games[index].node.game_id}`,
+                                `${window.location.origin}/games/${games[index].node.game_id}`,
                               );
                               setTimeout(() => {
-                                setCopied(false);
+                                setCopied('');
                               }, 2000);
                             }}
                           >
-                            {copied ? (
-                              <ClipboardDocumentCheckIcon className="w-5 h-5 text-[#FAB580]" />
+                            {copied === `${window.location.origin}/games/${games[index].node.game_id}` ? (
+                              <ClipboardDocumentCheckIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
                             ) : (
-                              <ClipboardDocumentIcon className="w-5 h-5 text-[#FAB580]" />
+                              <ClipboardDocumentIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
                             )}
-                            <p className="text-sm">
-                              {copied ? "Copied!" : "Copy"}
-                            </p>
                           </div>
                         )}
                       </td>

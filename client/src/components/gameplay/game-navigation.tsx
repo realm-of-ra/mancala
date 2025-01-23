@@ -13,6 +13,10 @@ export default function GameNavigation({
   gameId,
   timeRemaining,
   setTimeRemaining,
+  message,
+  setMessage,
+  action,
+  setAction,
 }: {
   game_players: any;
   player_names: any;
@@ -21,6 +25,10 @@ export default function GameNavigation({
   gameId: any;
   timeRemaining: any;
   setTimeRemaining: any;
+  message: any;
+  setMessage: any;
+  action: { action: any, message: string };
+  setAction: any;
 }) {
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
   const games_data_two = game_players?.player_two?.edges?.[0]?.node;
@@ -94,6 +102,10 @@ export default function GameNavigation({
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
         setProfiles={setProfiles}
+        message={message}
+        setMessage={setMessage}
+        action={action}
+        setAction={setAction}
       />
     </nav>
   );

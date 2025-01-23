@@ -10,7 +10,7 @@ export function TopPit({ amount, pit }: { amount: number, pit: number }) {
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
-          className={clsx("w-[88px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-black/20",
+          className={clsx("w-[88px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-red-600/20",
             pit == 1 && "ml-1 -mt-1.5", pit == 2 && "ml-1 -mt-2", pit == 3 && "ml-1.5 -mt-2", pit == 4 && "ml-2 -mt-2", pit == 5 && "-mr-2.5 -mt-2", pit == 6 && "-mr-2.5 -mt-2")}
         />
       </div>
@@ -29,7 +29,8 @@ export function BottomPit({
   system,
   setTimeRemaining,
   max_block_between_move,
-  message,
+  setMoveMessage,
+  setMessage
 }: {
   amount: number;
   address: string;
@@ -39,30 +40,33 @@ export function BottomPit({
   status: string;
   userAccount?: UseAccountResult;
   system: any;
-  message: Dispatch<SetStateAction<string | undefined>>;
-  setTimeRemaining: Dispatch<SetStateAction<number>>;
   max_block_between_move: number;
+  setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
+  setTimeRemaining: Dispatch<SetStateAction<number>>;
+  setMessage: any;
 }) {
   const handleMove = async () => {
-    message(undefined);
+    setMoveMessage(undefined);
+    setMessage(`You have selected pit ${pit}`);
     if (
       address === userAccount?.account?.address &&
       status === "InProgress" &&
       winner === "0x0"
     ) {
-      message(undefined);
       await system.move(userAccount?.account, game_id, pit);
+      setMoveMessage(undefined);
+      setMessage(undefined)
       setTimeRemaining(max_block_between_move);
     } else {
       if (address !== userAccount?.account?.address) {
-        message("Not your pit");
+        setMoveMessage("Not your pit");
       } else if (status !== "InProgress") {
-        message("Game over");
+        setMoveMessage("Game over");
       } else {
         if (winner === userAccount?.account?.address) {
-          message("You won");
+          setMoveMessage("You won");
         } else {
-          message("You lost");
+          setMoveMessage("You lost");
         }
       }
     }

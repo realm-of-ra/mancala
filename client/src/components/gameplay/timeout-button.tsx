@@ -3,14 +3,15 @@ import { timeout } from "@/lib/icons_store";
 import { Button } from "@material-tailwind/react";
 import { useAccount } from "@starknet-react/core";
 import { useEffect, useState } from "react";
-import { useToast } from "../ui/use-toast";
 
 export default function TimeoutButton({
   gameId,
   opposition_address,
+  setMessage
 }: {
   gameId: string;
   opposition_address: string;
+  setMessage: any
 }) {
   const account = useAccount();
   const { system } = useDojo();
@@ -25,16 +26,15 @@ export default function TimeoutButton({
       );
     }
   };
-  const { toast } = useToast();
   useEffect(() => {
     if (hasTimeout) {
-      toast({
-        title: "Ending game",
-        description: "The game is ending...",
-        duration: undefined,
-      });
+      setMessage("Ending game...")
+      const timeout = setTimeout(() => {
+        setMessage("")
+      }, 3000)
+      return () => clearTimeout(timeout)
     }
-  }, [hasTimeout, toast]);
+  }, [hasTimeout, setMessage]);
   return (
     <div className="space-y-1">
       <Button
