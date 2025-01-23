@@ -115,14 +115,6 @@ export default function GameMessage({
           const currentPlayerAddress = game_node?.current_player;
           const found_profile_name = shortString.decodeShortString(findPlayerProfile(normalizeAddress(currentPlayerAddress)))
           const decodedName = found_profile_name === "0" ? undefined : found_profile_name;
-
-          console.log({
-            currentPlayerAddress,
-            players: profiles?.mancalaAlphaProfileModels?.edges?.map((item: any) => item.node.address),
-            player_one_name,
-            player_two_name,
-            found_profile_name
-          })
             
           const displayName = decodedName || (normalizeAddress(currentPlayerAddress) === normalizeAddress(game_node?.player_one)
               ? player_one_name
