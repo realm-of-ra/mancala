@@ -1,9 +1,7 @@
 import GameMessage from "@/components/gameplay/game-message";
-import { StarkProfile } from "starknet";
 import { formatPlayerName, getPlayer } from "@/lib/utils";
 import PlayerProfile from "@/components/gameplay/player-profile";
 import { gameStarted } from "@/lib/constants";
-import { useState } from "react";
 
 export default function GameNavigation({
   game_players,
@@ -99,7 +97,6 @@ export default function GameNavigation({
         gameStarted={started}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
-        setProfiles={setProfiles}
         message={message}
         setMessage={setMessage}
         action={action}

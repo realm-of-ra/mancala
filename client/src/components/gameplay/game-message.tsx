@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
-import { useProvider } from "@starknet-react/core";
-import { constants, shortString } from "starknet";
+import { shortString } from "starknet";
 import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
-import { truncateString } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 export default function GameMessage({
   game_node,
@@ -21,7 +18,6 @@ export default function GameMessage({
   gameStarted,
   timeRemaining,
   setTimeRemaining,
-  setProfiles,
   message,
   setMessage,
   action,
@@ -35,11 +31,6 @@ export default function GameMessage({
   gameStarted: any;
   timeRemaining: any;
   setTimeRemaining: any;
-  message: string;
-  setMessage: any;
-  action: { action: any, message: string };
-  setAction: any;
-  setProfiles: any;
   message: string;
   setMessage: any;
   action: { action: any, message: string };
