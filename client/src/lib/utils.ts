@@ -162,10 +162,6 @@ export async function uploadFile(file: File) {
 }
 
 export const formatPlayerName = (name: string, address: string, num?: number) => {
-  console.log({
-    name,
-    address,
-  })
   if (!name || name === "0x0" || name === address) {
     return truncateString(address, num);
   }
