@@ -425,7 +425,7 @@ export default function Header() {
                       </button>
                     </div>
                     <img
-                      src={selectedImage === "#" ? avatar : selectedImage}
+                      src={selectedImage === "#" ? avatar : selectedImage || ""}
                       width={100}
                       height={100}
                       className={`rounded-lg border-2 border-[#4B505C] w-28 h-28 ${
