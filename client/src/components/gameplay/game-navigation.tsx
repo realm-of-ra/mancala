@@ -33,7 +33,6 @@ export default function GameNavigation({
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
   const games_data_two = game_players?.player_two?.edges?.[0]?.node;
   const started = gameStarted(games_data_one, games_data_two);
-  const [profiles, setProfiles] = useState<StarkProfile[]>();
   const player_one = getPlayer(
     game_players?.player_one?.edges,
     game_players?.player_one?.edges?.[0]?.node?.address,
@@ -97,11 +96,9 @@ export default function GameNavigation({
         player_one_name={player_one_display.name}
         player_two_name={player_two_display.name}
         account={account}
-        profiles={profiles}
         gameStarted={started}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
-        setProfiles={setProfiles}
         message={message}
         setMessage={setMessage}
         action={action}

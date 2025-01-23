@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
 import { useProvider } from "@starknet-react/core";
-import { StarknetIdNavigator } from "starknetid.js";
-import { constants } from "starknet";
+import { constants, shortString } from "starknet";
 import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
+import { useQuery } from "@apollo/client";
+import { MancalaPlayerNames } from "@/lib/constants";
+import { truncateString } from "@/lib/utils";
 
 export default function GameMessage({
   game_node,
@@ -15,11 +17,9 @@ export default function GameMessage({
   player_one_name,
   player_two_name,
   account,
-  profiles,
   gameStarted,
   timeRemaining,
   setTimeRemaining,
-  setProfiles,
   message,
   setMessage,
   action,
@@ -30,25 +30,18 @@ export default function GameMessage({
   player_one_name: any;
   player_two_name: any;
   account: any;
-  profiles: any;
   gameStarted: any;
   timeRemaining: any;
   setTimeRemaining: any;
-  setProfiles: any;
   message: string;
   setMessage: any;
   action: { action: any, message: string };
   setAction: any;
 }) {
   const audioRef = useRef(new Audio(audio));
-  const { provider } = useProvider();
-  const starknetIdNavigator = useMemo(() => {
-    return new StarknetIdNavigator(
-      provider,
-      constants.StarknetChainId.SN_SEPOLIA,
-    );
-  }, [provider]);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const { data: profiles, startPolling: startPollingProfiles } = useQuery(MancalaPlayerNames);
+  startPollingProfiles(1000);
 
   useEffect(() => {
     if (
@@ -84,26 +77,11 @@ export default function GameMessage({
     };
 
     animationFrameId = requestAnimationFrame(updateTimer);
-
-    if (
-      !starknetIdNavigator ||
-      !game_players?.player_one?.edges?.[0]?.node?.address ||
-      !game_players?.player_two?.edges?.[0]?.node?.address
-    )
-      return;
-    (async () => {
-      const profileData = await starknetIdNavigator?.getStarkProfiles([
-        game_players?.player_one?.edges?.[0]?.node?.address,
-        game_players?.player_two?.edges?.[0]?.node?.address,
-      ]);
-      if (!profileData) return;
-      if (profileData) return setProfiles(profileData);
-    })();
     return () => {
       cancelAnimationFrame(animationFrameId);
       audioRef.current.pause();
     };
-  }, [game_players?.player_one?.edges, game_players?.player_two?.edges, game_node, gameStarted, startTime, starknetIdNavigator, setProfiles, setTimeRemaining]);
+  }, [game_players?.player_one?.edges, game_players?.player_two?.edges, game_node, gameStarted, startTime, setTimeRemaining]);
   const moveMessageOnTimer = (
     player: string,
     player_one_name: string,
@@ -127,13 +105,26 @@ export default function GameMessage({
       } else {
         if (game_node?.status !== "Pending") {
           const isCurrentUserTurn =
-            game_node?.current_player === account.account?.address;
-          const currentPlayerName = profiles?.find(
-            (item: any) => item.address === game_node?.current_player,
-          )?.name;
-          const displayName =
-            currentPlayerName ||
-            (game_node?.current_player === game_node?.player_one
+            normalizeAddress(game_node?.current_player) === normalizeAddress(account.account?.address);
+          const findPlayerProfile = (address: string) => {
+            return profiles?.mancalaAlphaProfileModels?.edges?.find(
+              (item: any) => normalizeAddress(item?.node.address) === normalizeAddress(address)
+            )?.node?.name || "";
+          };
+
+          const currentPlayerAddress = game_node?.current_player;
+          const found_profile_name = shortString.decodeShortString(findPlayerProfile(normalizeAddress(currentPlayerAddress)))
+          const decodedName = found_profile_name === "0" ? undefined : found_profile_name;
+
+          console.log({
+            currentPlayerAddress,
+            players: profiles?.mancalaAlphaProfileModels?.edges?.map((item: any) => item.node.address),
+            player_one_name,
+            player_two_name,
+            found_profile_name
+          })
+            
+          const displayName = decodedName || (normalizeAddress(currentPlayerAddress) === normalizeAddress(game_node?.player_one)
               ? player_one_name
               : player_two_name);
 
@@ -173,7 +164,7 @@ export default function GameMessage({
       return React.createElement(
         "div",
         null,
-        `${game_node?.winner === account.account?.address ? "You won the game!" : "You lost the game!"}`,
+        `${normalizeAddress(game_node?.winner) === normalizeAddress(account.account?.address) ? "You won the game!" : "You lost the game!"}`,
       );
     }
   };
@@ -189,9 +180,9 @@ export default function GameMessage({
 
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
-    const cleanAddress = address.toLowerCase().replace('0x', '');
+    const cleanAddress = address?.toLowerCase().replace('0x', '');
     // Pad to 64 characters (32 bytes) with leading zeros
-    return cleanAddress.padStart(64, '0');
+    return cleanAddress?.padStart(64, '0');
   };
 
   const [close, setClose] = useState<boolean>()
