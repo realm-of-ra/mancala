@@ -41,7 +41,7 @@ export default function Seed({
   }, [seed_number]);
 
   useEffect(() => {
-    // audio.volume = volume / 100;
+    audio.volume = 0.35;
     // if (volume <= 0) {
     //   audio.pause();
     // }
