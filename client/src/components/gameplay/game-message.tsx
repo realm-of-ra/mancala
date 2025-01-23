@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
 import { truncateString } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export default function GameMessage({
   game_node,
@@ -20,6 +21,7 @@ export default function GameMessage({
   gameStarted,
   timeRemaining,
   setTimeRemaining,
+  setProfiles,
   message,
   setMessage,
   action,
@@ -33,6 +35,11 @@ export default function GameMessage({
   gameStarted: any;
   timeRemaining: any;
   setTimeRemaining: any;
+  message: string;
+  setMessage: any;
+  action: { action: any, message: string };
+  setAction: any;
+  setProfiles: any;
   message: string;
   setMessage: any;
   action: { action: any, message: string };
@@ -172,9 +179,9 @@ export default function GameMessage({
 
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
-    const cleanAddress = address?.toLowerCase().replace('0x', '');
+    const cleanAddress = address.toLowerCase().replace('0x', '');
     // Pad to 64 characters (32 bytes) with leading zeros
-    return cleanAddress?.padStart(64, '0');
+    return cleanAddress.padStart(64, '0');
   };
 
   const [close, setClose] = useState<boolean>()

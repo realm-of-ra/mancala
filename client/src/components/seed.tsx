@@ -41,10 +41,10 @@ export default function Seed({
   }, [seed_number]);
 
   useEffect(() => {
-    audio.volume = volume / 100;
-    if (volume === 0) {
-      audio.pause();
-    }
+    // audio.volume = volume / 100;
+    // if (volume <= 0) {
+    //   audio.pause();
+    // }
     
     return () => {
       if (timerRef.current) {
@@ -57,9 +57,7 @@ export default function Seed({
 
   const play = () => {
     timerRef.current = setTimeout(
-      () => {
-        audio.play().catch(console.error);
-      },
+      () => audio.play().catch(console.error),
       animationDelay * 1000 + 600,
     );
   };

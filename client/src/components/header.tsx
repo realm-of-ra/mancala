@@ -341,8 +341,23 @@ export default function Header() {
                   <DropdownMenuItem className="flex flex-col items-start justify-start hover:bg-[#191b23] bg-[#171922] p-0 font-medium" disabled>
                     <div className="flex flex-row items-center justify-start space-x-1 px-1.5 py-2 w-full">
                       <div className="flex flex-row items-center justify-start space-x-1 w-full">
-                        {volume > 0 ? <SpeakerWaveIcon className="w-5 h-5 text-white" /> : <SpeakerXMarkIcon className="w-5 h-5 text-white" />}
-                        <Slider defaultValue={[volume]} max={100} step={5} color="#FFFFFF" onValueChange={(value: SetStateAction<number>[]) => setVolume(value[0])} />
+                        {volume > 0 ? (
+                          <SpeakerWaveIcon 
+                            className="w-5 h-5 text-white cursor-pointer" 
+                            onClick={() => {
+                              setVolume(0);
+                              audio.pause();
+                              setIsPlaying(false);
+                            }} 
+                          />
+                        ) : (
+                          <SpeakerXMarkIcon className="w-5 h-5 text-white" onClick={() => {
+                            setVolume(35);
+                            audio.play();
+                            setIsPlaying(true);
+                          }} />
+                        )}
+                        <Slider defaultValue={[volume]} max={100} step={5} value={[volume]} color="#FFFFFF" onValueChange={(value: SetStateAction<number>[]) => setVolume(value[0])} />
                       </div>
                     </div>
                   </DropdownMenuItem>

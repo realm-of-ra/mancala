@@ -21,7 +21,7 @@ export default function AudioSection({ volume, setVolume }: { volume: number, se
 
   useEffect(() => {
     audio.volume = volume / 100;
-    if (volume === 0) {
+    if (volume <= 0) {
       audio.pause();
     } else if (volume > 0) {
       audio.play().catch(console.error);
@@ -44,15 +44,6 @@ export default function AudioSection({ volume, setVolume }: { volume: number, se
       audio.currentTime = 0;
     };
   }, [audio]);
-
-  const togglePlay = () => {
-    if (volume > 0) {
-      audio.play().catch(console.error);
-    } else {
-      audio.pause();
-      setVolume(0)
-    }
-  };
 
   return (
     <div>

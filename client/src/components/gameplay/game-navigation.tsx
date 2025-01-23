@@ -99,6 +99,7 @@ export default function GameNavigation({
         gameStarted={started}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
+        setProfiles={setProfiles}
         message={message}
         setMessage={setMessage}
         action={action}
