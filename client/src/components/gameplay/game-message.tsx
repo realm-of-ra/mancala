@@ -170,9 +170,9 @@ export default function GameMessage({
 
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
-    const cleanAddress = address.toLowerCase().replace('0x', '');
+    const cleanAddress = address?.toLowerCase()?.replace('0x', '');
     // Pad to 64 characters (32 bytes) with leading zeros
-    return cleanAddress.padStart(64, '0');
+    return cleanAddress?.padStart(64, '0');
   };
 
   const [close, setClose] = useState<boolean>()
