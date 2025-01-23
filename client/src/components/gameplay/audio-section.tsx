@@ -78,7 +78,7 @@ export default function AudioSection({ volume, setVolume }: { volume: number, se
         />
       </div>
       {isDropdownOpen && (
-        <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
+        <div className="absolute bottom-20 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
           <div className="flex items-center justify-center space-x-1.5">
             <img
               src={playprevious}
