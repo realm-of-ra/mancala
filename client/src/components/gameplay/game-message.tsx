@@ -194,7 +194,7 @@ export default function GameMessage({
     return cleanAddress.padStart(64, '0');
   };
 
-  const [close, setClose] = useState<boolean>(false)
+  const [close, setClose] = useState<boolean>()
 
   return (
     <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">

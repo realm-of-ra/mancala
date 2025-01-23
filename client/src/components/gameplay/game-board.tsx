@@ -259,9 +259,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       userAccount={account}
                       system={system}
                       game_id={gameId}
-                      message={setMoveMessage}
+                      setMoveMessage={setMoveMessage}
                       status={game_node?.status}
                       winner={game_node?.winner}
+                      setMessage={setMessage}
                       setTimeRemaining={setTimeRemaining}
                       max_block_between_move={parseInt(
                         game_node?.max_block_between_move,
