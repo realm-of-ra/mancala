@@ -1,5 +1,5 @@
 import { useAccount } from "@starknet-react/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { useParams } from "react-router-dom";
 
@@ -29,8 +29,9 @@ export default function MessageArea({
   const { system } = useDojo();
   const [, setRestarted] = useState(false);
   const { gameId } = useParams();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const restart_game = async () => {
+  
+  // Move restart_game into useCallback to memoize it
+  const restart_game = useCallback(async () => {
     if (account) {
       await system.restart_game(
         account as never,
@@ -39,7 +40,8 @@ export default function MessageArea({
         opponent_requested_restart,
       );
     }
-  };
+  }, [account, gameId, system, opponent_requested_restart]); // Add dependencies
+
   useEffect(() => {
     if (opponent_requested_restart) {
       setMessage("Opponent requested a restart")
@@ -47,6 +49,6 @@ export default function MessageArea({
     } else {
       setAction({ action: undefined, message: "" })
     }
-  }, [opponent_requested_restart, game_players, restart_game, setMessage, setAction]);
+  }, [opponent_requested_restart, restart_game, setMessage, setAction]);
   return <></>;
 }
