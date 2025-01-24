@@ -6,44 +6,53 @@ import {
 } from "../../lib/icons_store";
 import unmuteFlat from "../../assets/unmute_flat.png";
 import muteFlat from "../../assets/mute_flat.png";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import audio_url from "@/music/audio_1.mp4";
 import { Slider } from "../ui/slider";
 
 export default function AudioSection({ volume, setVolume }: { volume: number, setVolume: Dispatch<SetStateAction<number>> }) {
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const [audio] = useState(new Audio(audio_url));
 
   useEffect(() => {
+    // Initialize audio only once
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audio_url);
+      audioRef.current.loop = true;
+    }
+
+    const audio = audioRef.current;
     audio.volume = volume / 100;
+
     if (volume <= 0) {
       audio.pause();
     } else if (volume > 0) {
       audio.play().catch(console.error);
     }
-  }, [volume, audio]);
+
+    // Cleanup function
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+        audioRef.current = null;
+      }
+    };
+  }, [volume]);
 
   useEffect(() => {
-    audio.loop = true;
-    
-    audio.addEventListener('ended', () => {
-      audio.play().catch(console.error);
+    audioRef.current?.addEventListener('ended', () => {
+      audioRef.current?.play().catch(console.error);
     });
 
-    audio.addEventListener('error', (e) => {
+    audioRef.current?.addEventListener('error', (e) => {
       console.error('Audio playback error:', e);
     });
-
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-    };
-  }, [audio]);
+  }, []);
 
   return (
     <div>
