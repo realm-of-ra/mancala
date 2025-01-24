@@ -143,11 +143,11 @@ export default function Header() {
   const [displayName, setDisplayName] = useState("");
   const [initialDisplayName, setInitialDisplayName] = useState("");
   const [initialImageUrl, setInitialImageUrl] = useState("");
+  const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
+    (player: any) => player.node.address === account?.address,
+  );
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
-      (player: any) => player.node.address === account?.address,
-    );
     if (!account?.address || !profile) {
       setPlayerName("");
       setPlayerImage("");
@@ -270,12 +270,12 @@ export default function Header() {
 
     fetchUsername();
   }, [controller, setUsername]);
-  
+
   useEffect(() => {
-    if (!playerName && account) {
-      setOpen(true)
+    if (!profile && account?.address !== undefined) {
+      setOpen(true);
     }
-  }, [account, playerName])
+  }, [account, profile]);
 
   return (
     <div className="flex flex-row items-center justify-between space-x-5 w-full">
