@@ -17,7 +17,7 @@ const options = {
   theme: "realm-of-ra",
   policies: POLICIES,
   namespace: "mancala_alpha",
-  slot: "mancala-e",
+  slot: "mancala-b",
   rpc: SLOT_RPC_URL,
 };
 
@@ -59,13 +59,13 @@ export default function App() {
       explorer={voyager}
       autoConnect
     >
-          <Router>
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path="/lobby" element={<Lobby />} />
-                <Route path="/games/:gameId" element={<Gameplay />} />
-            </Routes>
-          </Router>
+      <Router>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/lobby" element={<Lobby />} />
+          <Route path="/games/:gameId" element={<Gameplay />} />
+        </Routes>
+      </Router>
       {isSmallScreen && <SmallScreenWarning />}
     </StarknetConfig>
   );
