@@ -251,14 +251,14 @@ export default function Lobby() {
                   </TabsTrigger>
                 </TabsList>
                 <div className="flex flex-row items-center space-x-5 relative">
-                  <div
+                  {/* <div
                     className="flex flex-row items-center justify-center space-x-1 hover:cursor-pointer"
                     onClick={handleDropdownToggle}
                   >
                     <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                     <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
                   </div>
-                  {isDropdownOpen && <Dropdown />}
+                  {isDropdownOpen && <Dropdown />} */}
                   <Button
                     className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                     disabled={!isConnected}
@@ -478,7 +478,7 @@ export default function Lobby() {
         </div>
       </div>
       <Link to="https://docs.google.com/forms/d/e/1FAIpQLSerjYkAywGpu3dh3Q999cVUoEBAEGlDlt089Uc0BHRRf9uLnw/viewform?usp=header" target="_blank" className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">Give feedbacks and get a chance to win Lord of the Mancala</Button>
+          <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">Give feedbacks and get a chance to win LORDS</Button>
       </Link>
     </div>
   );
