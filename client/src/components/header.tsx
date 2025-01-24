@@ -7,9 +7,8 @@ import { Button } from "@material-tailwind/react";
 import { Cog8ToothIcon, SpeakerXMarkIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@apollo/client";
 import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
-import catridgeImage from "@/assets/controller.png";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { PencilIcon, SpeakerWaveIcon } from "@heroicons/react/24/outline";
+import { SpeakerWaveIcon } from "@heroicons/react/24/outline";
 import { Slider } from "@/components/ui/slider"
 import Logout from "./ui/svgs/logout";
 import audio_url from "@/music/audio_1.mp4";
@@ -23,6 +22,9 @@ import avatar from "@/assets/square-avatar.png";
 import clsx from "clsx";
 import CatridgeIcon from "./ui/svgs/catridge-icon";
 import EditPencil from "./ui/svgs/edit-pencil";
+import { Book } from "lucide-react";
+import { Dialog as ShadcnDialog, DialogTrigger as ShadcnDialogTrigger, DialogContent as ShadcnContent,  } from "@/components/ui/dialog"
+import logo from "@/assets/logo-icon.png"
 
 type SaveStatus = {
   status: 'idle' | 'saving' | 'success' | 'error';
@@ -169,7 +171,7 @@ export default function Header() {
   }, [account?.address, playerData]);
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState<{ status: string; finished: boolean }>(
+  const [, setLoading] = useState<{ status: string; finished: boolean }>(
     { status: "", finished: false },
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -270,7 +272,7 @@ export default function Header() {
   }, [controller, setUsername]);
 
   return (
-    <div className="flex flex-row items-center justify-between space-x-12 w-full">
+    <div className="flex flex-row items-center justify-between space-x-5 w-full">
       <div className="flex-1 w-full -mr-10" />
       <div className="h-[100px] w-[800px]">
         <div className="bg-[url('./assets/leaderboard-top.png')] w-[800px] h-[100px] bg-contain bg-no-repeat flex flex-col items-center justify-center">
@@ -279,8 +281,29 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex-1 w-full">
-        <div className="flex flex-row space-x-2.5 items-center justify-start">
+      <div className="flex-1 w-full relative">
+        <div className="flex flex-row space-x-2.5 items-center justify-start absolute right-10 -top-6">
+          <ShadcnDialog>
+            <ShadcnDialogTrigger asChild>
+              <Button className="bg-[#171922] hover:bg-[#171922] active:bg-[#171922] py-3 px-4 rounded-full">
+                <div className="flex flex-row items-center space-x-0.5 bg-[#171922] hover:bg-[#171922] active:bg-[#171922]">
+                  <Book className="w-5 h-5" color="#C7CAD4" />
+                  <p className="text-[#C7CAD4]">Tutorial</p>
+                </div>
+              </Button>
+            </ShadcnDialogTrigger>
+            <ShadcnContent className="border-0 p-0 w-fit">
+              <div className="w-80 h-72 bg-[#4920003D] rounded-lg flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center space-y-1.5">
+                  <img src={logo} className="w-32 h-32" />
+                  <h3 className="text-white font-bold text-2xl">Coming soon</h3>
+                  <Link to="https://www.youtube.com/watch?v=OX7rj93m6o8" target="_blank">
+                    <Button className="bg-[#F58229] hover:bg-[#F58229] text-xs white whitespace-nowrap rounded-full py-2.5 text-[#FCE3AA]">Watch on Youtube</Button>
+                  </Link>
+                </div>
+              </div>
+            </ShadcnContent>
+          </ShadcnDialog>
               {
                 account?.address ? <Button
                 className="font-medium relative flex flex-col justify-center items-center bg-[#171922] w-fit text-sm rounded-full p-0"
