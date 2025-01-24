@@ -8,6 +8,7 @@ import { useEffect, useState, useMemo } from "react";
 import apollo_client from "./lib/apollo-client.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
 import logo from "@/assets/logo-icon.png";
+import { HelmetProvider } from "react-helmet-async";
 
 const SETUP_STATUS_MESSAGES = {
   toriiClient: "Establishing connection to game network",
@@ -47,7 +48,13 @@ export default function AppWrapper() {
       <div className="grid w-full h-screen place-items-center bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center">
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex flex-col items-center justify-center space-y-1.5 w-[400px] h-[275px] rounded-lg bg-[#4920003D] backdrop-blur-md">
-            <img src={logo} width={126} height={126} alt="logo" className="animate-spin-slow" />
+            <img
+              src={logo}
+              width={126}
+              height={126}
+              alt="logo"
+              className="animate-spin-slow"
+            />
             <p className="text-white font-semibold">{currentLoadingMessage}</p>
           </div>
         </div>
@@ -59,7 +66,9 @@ export default function AppWrapper() {
   return (
     <ApolloProvider client={apollo_client}>
       <DojoProvider value={setupResult as never}>
+        <HelmetProvider>
           <App />
+        </HelmetProvider>
         <Toaster />
       </DojoProvider>
     </ApolloProvider>
