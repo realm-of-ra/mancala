@@ -283,6 +283,12 @@ export default function Header() {
     }
   }, [account, profile]);
 
+  useEffect(() => {
+    if (!profile && account?.address !== undefined) {
+      setOpen(true);
+    }
+  }, [account, profile]);
+
   return (
     <div className="flex flex-row items-center justify-between space-x-5 w-full">
       <div className="flex-1 w-full -mr-10" />
