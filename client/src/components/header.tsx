@@ -270,6 +270,12 @@ export default function Header() {
 
     fetchUsername();
   }, [controller, setUsername]);
+  
+  useEffect(() => {
+    if (!playerName && account) {
+      setOpen(true)
+    }
+  }, [account, playerName])
 
   return (
     <div className="flex flex-row items-center justify-between space-x-5 w-full">
@@ -340,7 +346,7 @@ export default function Header() {
                       <div className="flex flex-row items-center justify-between space-x-1">
                         <div className="flex flex-row items-center justify-start space-x-1">
                           {
-                            playerImage != "#" ? <img src={playerImage} className="w-7 h-7 rounded-full" /> : <UserCircleIcon className="w-7 h-7 text-[#BFC5D4]" />
+                            playerImage !== "" ? <img src={playerImage} className="w-7 h-7 rounded-full" /> : <UserCircleIcon className="w-7 h-7 text-[#BFC5D4]" />
                           }
                           <p className="text-[#BFC5D4]">{playerName 
                             ? (playerName.length > 10 ? playerName.slice(0, 10) + "..." : playerName)
@@ -463,7 +469,7 @@ export default function Header() {
                       </button>
                     </div>
                     <img
-                      src={selectedImage === "#" ? avatar : selectedImage || ""}
+                      src={selectedImage === "" ? avatar : selectedImage || ""}
                       width={100}
                       height={100}
                       className={`rounded-lg border-2 border-[#4B505C] w-28 h-28 ${
