@@ -1,7 +1,7 @@
 import React from "react";
 import { Dispatch, SetStateAction } from "react";
-import Seed from "../seed";
 import { TutorialBottomPit, TutorialTopPit } from "./tutorial-pits";
+import TutorialSeed from "./tutorial-seed";
 
 interface GameBoardProps {
   game_players: any;
@@ -112,7 +112,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
             const isPlayerSeed = seedDetails.player === 'user';
 
             return (
-              <Seed
+              <TutorialSeed
                 key={seed.seed_id}
                 color={seedDetails.color}
                 type={isPlayerSeed ? "player" : "opponent"}
