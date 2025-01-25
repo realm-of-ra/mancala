@@ -31,29 +31,31 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   // Initialize local state for seeds
   const [seeds, setSeeds] = React.useState(() => {
     const initialSeeds = [];
-    // User seeds (1-24): each pit has seeds numbered 1-4
+    // User seeds (1-24): each pit has seeds numbered 1-4 within each pit
     for (let pit = 1; pit <= 6; pit++) {
-      for (let seedNumber = 1; seedNumber <= 4; seedNumber++) {
+      for (let seedPosition = 1; seedPosition <= 4; seedPosition++) {
+        const seedId = (pit - 1) * 4 + seedPosition;
         initialSeeds.push({
-          seed_id: `0x${((pit - 1) * 4 + seedNumber).toString(16)}`,
+          seed_id: `0x${seedId.toString(16)}`,
           player: 'user',
           pit_number: pit,
           color: 'Green',
-          seed_number: seedNumber,
+          seed_number: seedPosition,  // Changed to use position 1-4 instead of seedId
           isNative: true
         });
       }
     }
     
-    // Opponent seeds (25-48): each pit has seeds numbered 1-4
+    // Opponent seeds (25-48): each pit has seeds numbered 1-4 within each pit
     for (let pit = 1; pit <= 6; pit++) {
-      for (let seedNumber = 1; seedNumber <= 4; seedNumber++) {
+      for (let seedPosition = 1; seedPosition <= 4; seedPosition++) {
+        const seedId = (pit - 1) * 4 + seedPosition + 24;
         initialSeeds.push({
-          seed_id: `0x${(24 + (pit - 1) * 4 + seedNumber).toString(16)}`,
+          seed_id: `0x${seedId.toString(16)}`,
           player: 'opponent',
           pit_number: pit,
           color: 'Blue',
-          seed_number: seedNumber,
+          seed_number: seedPosition,  // Changed to use position 1-4 instead of seedId
           isNative: true
         });
       }
@@ -103,21 +105,19 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 1 pot (opponent) */}
-          {Array.from({ length: 48 }, (_, i) => i + 1).map((seedNumber) => {
-            const seedDetails = getSeed(seedNumber);
+          {seeds.map((seed) => {
+            const seedDetails = seed;
             if (!seedDetails) return null;
 
-            const isPlayerSeed = (() => {
-              return seedDetails.player === 'user';
-            })();
+            const isPlayerSeed = seedDetails.player === 'user';
 
             return (
               <Seed
-                key={seedNumber}
-                color={seedDetails?.color || "Blue"}
+                key={seed.seed_id}
+                color={seedDetails.color}
                 type={isPlayerSeed ? "player" : "opponent"}
-                pit_number={seedDetails?.pit_number}
-                seed_number={seedDetails?.seed_number}
+                pit_number={seedDetails.pit_number}
+                seed_number={seedDetails.seed_number}
                 isNative={seedDetails.isNative}
                 volume={volume}
               />
