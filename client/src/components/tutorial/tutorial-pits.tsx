@@ -195,14 +195,14 @@ export function TutorialBottomPit({
       return;
     }
 
-    // Create copies of the state to modify
+    // Take a snapshot of current state
+    const currentSeeds = [...seeds];
     const newPits = [...pits];
-    const newSeeds = [...seeds];
     
-    // Get the seeds from the selected pit
-    const selectedPitSeeds = seeds.filter(
-      seed => seed.player === 'user' && seed.pit_number === pit
-    ).sort((a, b) => a.seed_number - b.seed_number);
+    // Get only the seeds we want to move from the selected pit
+    const selectedPitSeeds = currentSeeds
+      .filter(seed => seed.player === 'user' && seed.pit_number === pit)
+      .sort((a, b) => a.seed_number - b.seed_number);
     
     // Empty the selected pit
     const selectedPitIndex = newPits.findIndex(
@@ -211,13 +211,16 @@ export function TutorialBottomPit({
     newPits[selectedPitIndex].seed_count = 0;
 
     // Calculate total animation time based on number of seeds and path length
-    const totalAnimationTime = selectedPitSeeds.length * 750 + 1000; // Added extra buffer time
+    const totalAnimationTime = selectedPitSeeds.length * 750 + 1000;
 
     // Distribute seeds counter-clockwise
     let currentPit = pit;
     let currentPlayer = 'user';
     let lastSeedInStore = false;
     const seedsToDistribute = selectedPitSeeds.length;
+
+    // Create a map of seed updates
+    const seedUpdates = new Map();
 
     selectedPitSeeds.forEach((seed, index) => {
       // Move to next pit
@@ -247,7 +250,7 @@ export function TutorialBottomPit({
       );
       const currentSeedCount = newPits[targetPitIndex].seed_count;
 
-      // Update seed position and number
+      // Create updated seed
       const updatedSeed = {
         ...seed,
         player: currentPlayer,
@@ -256,8 +259,8 @@ export function TutorialBottomPit({
         isNative: currentPlayer === seed.player
       };
       
-      const seedIndex = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
-      newSeeds[seedIndex] = updatedSeed;
+      // Store the update in our map
+      seedUpdates.set(seed.seed_id, updatedSeed);
 
       // Update pit count
       newPits[targetPitIndex].seed_count++;
@@ -267,6 +270,11 @@ export function TutorialBottomPit({
         lastSeedInStore = currentPlayer === 'user' && currentPit === 7;
       }
     });
+
+    // Create new seeds array by only updating the moved seeds
+    const newSeeds = currentSeeds.map(seed => 
+      seedUpdates.has(seed.seed_id) ? seedUpdates.get(seed.seed_id) : seed
+    );
 
     // Update state
     setSeeds(newSeeds);
@@ -278,13 +286,11 @@ export function TutorialBottomPit({
         setMessage("Extra turn! Go again!");
       }, totalAnimationTime);
     } else {
-      // Wait for all seeds to reach their destination with added buffer
       setTimeout(() => {
         setMessage("Computer is thinking...");
-        // Add a longer delay before computer makes its move
         setTimeout(() => {
           makeComputerMove();
-        }, 1000); // Increased delay for computer's move
+        }, 1000);
       }, totalAnimationTime);
     }
   };
