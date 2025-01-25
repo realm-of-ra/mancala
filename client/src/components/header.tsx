@@ -6,7 +6,7 @@ import { shortString } from "starknet";
 import { Button } from "@material-tailwind/react";
 import { Cog8ToothIcon, SpeakerXMarkIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@apollo/client";
-import { MancalaHeaderQuery, MancalaPlayerNames } from "@/lib/constants";
+import { MancalaPlayerNames } from "@/lib/constants";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { SpeakerWaveIcon } from "@heroicons/react/24/outline";
 import { Slider } from "@/components/ui/slider"
@@ -64,9 +64,6 @@ export default function Header() {
       setUsername(""); // Reset username when disconnected
     }
   }, [account?.address, controller]);
-
-  const { data, startPolling } = useQuery(MancalaHeaderQuery);
-  startPolling(1000);
 
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
@@ -168,7 +165,7 @@ export default function Header() {
       setImageUrl(profileUri);
       setInitialImageUrl(profileUri);
     }
-  }, [account?.address, playerData]);
+  }, [account?.address, playerData, profile]);
 
   const [open, setOpen] = useState(false);
   const [, setLoading] = useState<{ status: string; finished: boolean }>(
