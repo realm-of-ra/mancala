@@ -34,7 +34,10 @@ export function TutorialBottomPit({
   seeds,
   setSeeds,
   pits,
-  setPits
+  setPits,
+  onMove,
+  currentStep,
+  isComputerTurn
 }: {
   amount: number;
   address: string;
@@ -52,6 +55,9 @@ export function TutorialBottomPit({
   setSeeds: (seeds: any[]) => void;
   pits: any[];
   setPits: (pits: any[]) => void;
+  onMove: (pit: number) => void;
+  currentStep: number;
+  isComputerTurn: boolean;
 }) {
   // Helper function to evaluate a move's score
   const evaluateMove = (testPits: any[], testSeeds: any[], pitNumber: number) => {
@@ -187,112 +193,12 @@ export function TutorialBottomPit({
   };
 
   const handleMove = async () => {
-    setMoveMessage(undefined);
-    setMessage(`You have selected pit ${pit}`);
-
-    if (amount === 0) {
-      setMoveMessage("Cannot move from empty pit");
+    if (isComputerTurn) {
+      setMoveMessage("Please wait for the computer's move");
       return;
     }
 
-    // Take a snapshot of current state
-    const currentSeeds = [...seeds];
-    const newPits = [...pits];
-    
-    // Get only the seeds we want to move from the selected pit
-    const selectedPitSeeds = currentSeeds
-      .filter(seed => seed.player === 'user' && seed.pit_number === pit)
-      .sort((a, b) => a.seed_number - b.seed_number);
-    
-    // Empty the selected pit
-    const selectedPitIndex = newPits.findIndex(
-      p => p.player === 'user' && p.pit_number === pit
-    );
-    newPits[selectedPitIndex].seed_count = 0;
-
-    // Calculate total animation time based on number of seeds and path length
-    const totalAnimationTime = selectedPitSeeds.length * 750 + 1000;
-
-    // Distribute seeds counter-clockwise
-    let currentPit = pit;
-    let currentPlayer = 'user';
-    let lastSeedInStore = false;
-    const seedsToDistribute = selectedPitSeeds.length;
-
-    // Create a map of seed updates
-    const seedUpdates = new Map();
-
-    selectedPitSeeds.forEach((seed, index) => {
-      // Move to next pit
-      if (currentPlayer === 'user') {
-        currentPit++;
-        if (currentPit > 7) {
-          currentPlayer = 'opponent';
-          currentPit = 1;
-        }
-      } else {
-        currentPit++;
-        if (currentPit > 6) {
-          currentPlayer = 'user';
-          currentPit = 1;
-        }
-      }
-
-      // Skip opponent's store
-      if (currentPlayer === 'opponent' && currentPit === 7) {
-        currentPlayer = 'user';
-        currentPit = 1;
-      }
-
-      // Find target pit's current seed count
-      const targetPitIndex = newPits.findIndex(
-        p => p.player === currentPlayer && p.pit_number === currentPit
-      );
-      const currentSeedCount = newPits[targetPitIndex].seed_count;
-
-      // Create updated seed
-      const updatedSeed = {
-        ...seed,
-        player: currentPlayer,
-        pit_number: currentPit,
-        seed_number: currentSeedCount + 1,
-        isNative: currentPlayer === seed.player
-      };
-      
-      // Store the update in our map
-      seedUpdates.set(seed.seed_id, updatedSeed);
-
-      // Update pit count
-      newPits[targetPitIndex].seed_count++;
-
-      // Check if last seed landed in store
-      if (index === seedsToDistribute - 1) {
-        lastSeedInStore = currentPlayer === 'user' && currentPit === 7;
-      }
-    });
-
-    // Create new seeds array by only updating the moved seeds
-    const newSeeds = currentSeeds.map(seed => 
-      seedUpdates.has(seed.seed_id) ? seedUpdates.get(seed.seed_id) : seed
-    );
-
-    // Update state
-    setSeeds(newSeeds);
-    setPits(newPits);
-
-    // Set appropriate message and trigger computer move after animations complete
-    if (lastSeedInStore) {
-      setTimeout(() => {
-        setMessage("Extra turn! Go again!");
-      }, totalAnimationTime);
-    } else {
-      setTimeout(() => {
-        setMessage("Computer is thinking...");
-        setTimeout(() => {
-          makeComputerMove();
-        }, 1000);
-      }, totalAnimationTime);
-    }
+    onMove(pit);
   };
 
   return (
