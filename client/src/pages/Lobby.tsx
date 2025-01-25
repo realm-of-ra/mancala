@@ -23,12 +23,10 @@ import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useQuery } from "@apollo/client";
-import {
-  MancalaBoardModelsQuery,
-  MancalaPlayerNames,
-} from "@/lib/constants";
+import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 import Dropdown from "@/components/dropdown";
 import clsx from "clsx";
+import { Helmet } from "react-helmet-async";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
@@ -58,7 +56,7 @@ export default function Lobby() {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      await system.create_game(account.account, setGameId)
+      await system.create_game(account.account, setGameId);
       if (gameId) {
         setCreating(false);
       }
@@ -70,11 +68,7 @@ export default function Lobby() {
   const create_private_game = async () => {
     setCreating(true);
     if (account.account) {
-      await system.create_private_game(
-        account.account,
-        player2,
-        setGameId,
-      );
+      await system.create_private_game(account.account, player2, setGameId);
       if (gameId) {
         setCreating(false);
       }
@@ -215,11 +209,43 @@ export default function Lobby() {
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
+      <Helmet>
+        <title>
+          Mancala Game Lobby | Find or Create Mancala Matches on Starknet
+        </title>
+        <meta
+          name="description"
+          content="Join active Mancala games or start new ones. Track live matches and player rankings in real-time."
+        />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="Mancala Lobby | Real-Time Game Browser"
+        />
+        <meta
+          property="og:description"
+          content="Browse active Mancala matches with smart contract verification and live player counts"
+        />
+        <meta property="og:url" content="https://mancala.xyz/lobby" />
+        <meta property="og:image" content="https://mancala.xyz/og-lobby.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:title" content="Live Mancala Game Lobby" />
+        <meta
+          name="twitter:description"
+          content="See active blockchain Mancala matches with verified smart contract status"
+        />
+      </Helmet>
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-row space-x-5">
           <div className="w-[928px]">
-            <Tabs defaultValue={tabValue} className="w-full space-y-10" onValueChange={(value) => setTabValue(value)}>
+            <Tabs
+              defaultValue={tabValue}
+              className="w-full space-y-10"
+              onValueChange={(value) => setTabValue(value)}
+            >
               <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] p-4 rounded-l-full rounded-r-full">
                 <TabsList className="bg-transparent space-x-1.5">
                   <TabsTrigger
@@ -245,7 +271,13 @@ export default function Lobby() {
                     className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
                   >
                     <div className="flex flex-row items-center space-x-1.5">
-                      <div className={clsx("bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat", tabValue === "leaderboard" && "bg-[url('./assets/cup.png')]")} />
+                      <div
+                        className={clsx(
+                          "bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat",
+                          tabValue === "leaderboard" &&
+                            "bg-[url('./assets/cup.png')]",
+                        )}
+                      />
                       <p>Leaderboard</p>
                     </div>
                   </TabsTrigger>
@@ -358,7 +390,11 @@ export default function Lobby() {
                                 <RadioGroupItem value="private" id="private" />
                                 <Label
                                   htmlFor="private"
-                                  className={type == "private" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
+                                  className={
+                                    type == "private"
+                                      ? "text-[#F58229] font-bold hover:cursor-pointer"
+                                      : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  }
                                 >
                                   Private
                                 </Label>
@@ -371,7 +407,11 @@ export default function Lobby() {
                                 />
                                 <Label
                                   htmlFor="public"
-                                  className={type == "public" ? "text-[#F58229] font-bold hover:cursor-pointer" : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"}
+                                  className={
+                                    type == "public"
+                                      ? "text-[#F58229] font-bold hover:cursor-pointer"
+                                      : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  }
                                 >
                                   Public
                                 </Label>
@@ -381,10 +421,10 @@ export default function Lobby() {
                           {type === "private" ? (
                             <div className="space-y-5">
                               <input
-                                    className="p-2.5 w-72 rounded-xl border border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666] placeholder:font-medium text-[#4F5666] font-medium"
-                                    placeholder="0x..."
-                                    onChange={(e) => setPlayer2(e.target.value)}
-                                  />
+                                className="p-2.5 w-72 rounded-xl border border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666] placeholder:font-medium text-[#4F5666] font-medium"
+                                placeholder="0x..."
+                                onChange={(e) => setPlayer2(e.target.value)}
+                              />
                               <div className="flex flex-row items-center justify-center space-x-1">
                                 <InformationCircleIcon className="w-4 h-4 text-[#996E47]" />
                                 <p className="text-[#996E47] text-xs font-medium">
@@ -477,8 +517,14 @@ export default function Lobby() {
           </div>
         </div>
       </div>
-      <Link to="https://docs.google.com/forms/d/e/1FAIpQLSerjYkAywGpu3dh3Q999cVUoEBAEGlDlt089Uc0BHRRf9uLnw/viewform?usp=header" target="_blank" className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">Give feedbacks and get a chance to win LORDS</Button>
+      <Link
+        to="https://docs.google.com/forms/d/e/1FAIpQLSerjYkAywGpu3dh3Q999cVUoEBAEGlDlt089Uc0BHRRf9uLnw/viewform?usp=header"
+        target="_blank"
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+      >
+        <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">
+          Give feedbacks and get a chance to win LORDS
+        </Button>
       </Link>
     </div>
   );

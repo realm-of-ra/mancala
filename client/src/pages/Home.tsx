@@ -25,7 +25,11 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <img src={small_logo} alt="logo" className="w-24 h-16 absolute bottom-5" />
+      <img
+        src={small_logo}
+        alt="logo"
+        className="w-24 h-16 absolute bottom-5"
+      />
     </div>
   );
 }
