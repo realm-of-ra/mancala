@@ -366,6 +366,14 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
       });
     });
 
+    const getAnimationDuration = (numSeeds: number) => {
+      const lastSeedDelay = numSeeds * 0.75; // Delay for the last seed
+      const transitionDuration = 2.5; // Animation duration from tutorial-seed.tsx
+      return (lastSeedDelay + transitionDuration) * 1000; // Convert to milliseconds
+    };
+
+    const animationDelay = getAnimationDuration(selectedPitSeeds.length);
+
     // Wait for seed animation to complete before proceeding
     setTimeout(() => {
       if (!landedInStore) {
@@ -387,7 +395,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
           setMessage(TUTORIAL_STEPS[currentStep + 1].description);
         }
       }
-    }, 1000);
+    }, animationDelay);
   };
 
   return (
