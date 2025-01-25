@@ -210,8 +210,8 @@ export function TutorialBottomPit({
     );
     newPits[selectedPitIndex].seed_count = 0;
 
-    // Calculate total animation time based on number of seeds
-    const totalAnimationTime = selectedPitSeeds.length * 750 + 600;
+    // Calculate total animation time based on number of seeds and path length
+    const totalAnimationTime = selectedPitSeeds.length * 750 + 1000; // Added extra buffer time
 
     // Distribute seeds counter-clockwise
     let currentPit = pit;
@@ -278,13 +278,13 @@ export function TutorialBottomPit({
         setMessage("Extra turn! Go again!");
       }, totalAnimationTime);
     } else {
-      // First wait for all seeds to reach their destination
+      // Wait for all seeds to reach their destination with added buffer
       setTimeout(() => {
         setMessage("Computer is thinking...");
-        // Then add a small delay before computer makes its move
+        // Add a longer delay before computer makes its move
         setTimeout(() => {
           makeComputerMove();
-        }, 500);
+        }, 1000); // Increased delay for computer's move
       }, totalAnimationTime);
     }
   };
