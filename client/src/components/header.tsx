@@ -270,24 +270,12 @@ export default function Header() {
 
     fetchUsername();
   }, [controller, setUsername]);
-  
-  useEffect(() => {
-    if (!playerName && account) {
-      setOpen(true)
-    }
-  }, [account, playerName])
 
   useEffect(() => {
-    if (!profile && account?.address !== undefined) {
+    if (profile === undefined && account?.address !== undefined) {
       setOpen(true);
     }
-  }, [account, profile]);
-
-  useEffect(() => {
-    if (!profile && account?.address !== undefined) {
-      setOpen(true);
-    }
-  }, [account, profile]);
+  }, [account?.address, profile]);
 
   return (
     <div className="flex flex-row items-center justify-between space-x-5 w-full">
@@ -481,7 +469,7 @@ export default function Header() {
                       </button>
                     </div>
                     <img
-                      src={selectedImage === "" ? avatar : selectedImage || ""}
+                      src={selectedImage || avatar}
                       width={100}
                       height={100}
                       className={`rounded-lg border-2 border-[#4B505C] w-28 h-28 ${
