@@ -57,6 +57,32 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   },
   {
     step: 2,
+    description: "Click on pit 3. When your last seed lands in an empty pit on your side, you capture the seeds from the opposite pit!",
+    seeds: [
+      { pit_number: 1, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 2, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 3, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(300 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 4, seeds: [{ seed_id: "0x309", seed_number: 9 }], seed_count: 1 },
+      { pit_number: 5, seeds: [{ seed_id: "0x30a", seed_number: 10 }], seed_count: 1 },
+      { pit_number: 6, seeds: [{ seed_id: "0x30b", seed_number: 11 }], seed_count: 1 },
+      { pit_number: 7, seeds: [{ seed_id: "0x30c", seed_number: 12 }], seed_count: 1 },
+      { pit_number: 8, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(800 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 9, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(900 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 10, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1000 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 11, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 12, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
+      { pit_number: 13, seeds: [], seed_count: 0 }
+    ],
+    captured: {
+      player: {
+        pit: 4,
+        captured_pit: 10,
+        seeds: [1, 2, 3, 4]
+      }
+    }
+  },
+  {
+    step: 3,
     description: "Click on pit 6. When your last seed lands in your store (pit 7), you get an extra turn!",
     seeds: [
       { pit_number: 1, seeds: [], seed_count: 0 },
@@ -87,32 +113,6 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     ],
     extraTurn: true
   },
-  {
-    step: 3,
-    description: "Click on pit 3. When your last seed lands in an empty pit on your side, you capture the seeds from the opposite pit!",
-    seeds: [
-      { pit_number: 1, seeds: [], seed_count: 0 },
-      { pit_number: 2, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 3, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(300 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 4, seeds: [], seed_count: 0 },
-      { pit_number: 5, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(500 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 6, seeds: [], seed_count: 0 },
-      { pit_number: 7, seeds: [Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(700 + i + 1).toString(16)}`, seed_number: i + 1 })).find(s => s.seed_number === 4)], seed_count: 1 },
-      { pit_number: 8, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(800 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 9, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(900 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 10, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1000 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 11, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 12, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 13, seeds: [], seed_count: 0 },
-    ],
-    captured: {
-      player: {
-        pit: 4,
-        captured_pit: 10,
-        seeds: [1, 2, 3, 4]
-      }
-    }
-  }
 ];
 
 // Helper function to convert tutorial step seeds to game seeds
@@ -251,51 +251,143 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   const player_pot_seed_count = pits.find(p => p.player === 'user' && p.pit_number === 7)?.seed_count || 0;
   const opponent_pot_seed_count = pits.find(p => p.player === 'opponent' && p.pit_number === 7)?.seed_count || 0;
 
-  // Handle tutorial moves with new step format
-  const handleTutorialMove = (pit: number) => {
-    if (isComputerTurn) return;
-
-    const currentTutorialStep = TUTORIAL_STEPS[currentStep];
-    const nextTutorialStep = TUTORIAL_STEPS[currentStep + 1];
+  const resetBoardToInitial = () => {
+    const initialSeeds: any[] = [];
     
-    // Check if this is the correct pit for the current step
-    const expectedPit = (() => {
-      if (currentStep === 0) return 1;
-      if (currentStep === 1) return 6;
-      if (currentStep === 2) return 3;
-      return null;
-    })();
+    // Initialize player pits (1-6)
+    for (let pit = 1; pit <= 6; pit++) {
+      for (let pos = 1; pos <= 4; pos++) {
+        initialSeeds.push({
+          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
+          player: 'user',
+          pit_number: pit,
+          seed_number: pos,
+          isNative: true,
+          color: 'Green'
+        });
+      }
+    }
     
-    if (pit !== expectedPit) return;
+    // Initialize opponent pits (8-13)
+    for (let pit = 8; pit <= 13; pit++) {
+      for (let pos = 1; pos <= 4; pos++) {
+        initialSeeds.push({
+          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
+          player: 'opponent',
+          pit_number: pit - 7,
+          seed_number: pos,
+          isNative: true,
+          color: 'Purple'
+        });
+      }
+    }
 
-    // Convert the next step's seeds configuration to our seeds format
-    const { playerSeeds, opponentSeeds } = convertTutorialStepToGameSeeds(nextTutorialStep);
-    
-    // Combine and set the new seeds
-    setSeeds([...playerSeeds, ...opponentSeeds]);
-
-    // Update pits state based on the new seeds
+    setSeeds(initialSeeds);
     setPits(prevPits => {
       return prevPits.map(pit => {
-        const seedCount = pit.player === 'user' 
-          ? playerSeeds.filter(s => s.pit_number === pit.pit_number).length
-          : opponentSeeds.filter(s => s.pit_number === pit.pit_number).length;
+        if (pit.pit_number === 7) return { ...pit, seed_count: 0 };
+        return { ...pit, seed_count: 4 };
+      });
+    });
+  };
+
+  const handleMove = (selectedPit: number) => {
+    if (isComputerTurn) return;
+
+    // Get seeds from selected pit
+    const selectedPitSeeds = seeds.filter(
+      seed => seed.player === 'user' && seed.pit_number === selectedPit
+    );
+    if (selectedPitSeeds.length === 0) return;
+
+    const newSeeds = [...seeds];
+    let currentPit = selectedPit;
+    let remainingSeeds = selectedPitSeeds.length;
+    let lastSeedPit = selectedPit;
+    let landedInStore = false;
+
+    // Remove seeds from selected pit
+    selectedPitSeeds.forEach(seed => {
+      const index = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
+      newSeeds.splice(index, 1);
+    });
+
+    // Distribute seeds counter-clockwise
+    while (remainingSeeds > 0) {
+      currentPit = (currentPit % 13) + 1;
+      
+      // Skip opponent's store (pit 13)
+      if (currentPit === 13) continue;
+
+      // Add seed to current pit
+      if (selectedPitSeeds[remainingSeeds - 1]) {
+        const seed = selectedPitSeeds[remainingSeeds - 1];
+        newSeeds.push({
+          ...seed,
+          pit_number: currentPit,
+          player: currentPit <= 7 ? 'user' : 'opponent'
+        });
+      }
+      
+      lastSeedPit = currentPit;
+      landedInStore = currentPit === 7;
+      remainingSeeds--;
+    }
+
+    // Check for capture
+    if (lastSeedPit <= 6 && // Landed on player's side
+        !landedInStore && // Not in store
+        newSeeds.filter(s => s.pit_number === lastSeedPit && s.player === 'user').length === 1) { // Empty pit before
+      
+      const oppositePit = 14 - lastSeedPit; // Calculate opposite pit
+      const capturedSeeds = newSeeds.filter(
+        s => s.pit_number === (oppositePit - 7) && s.player === 'opponent'
+      );
+
+      // Move captured seeds to player's store
+      capturedSeeds.forEach(seed => {
+        const index = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
+        newSeeds[index] = {
+          ...seed,
+          pit_number: 7,
+          player: 'user'
+        };
+      });
+    }
+
+    // Update seeds and pits state
+    setSeeds(newSeeds);
+    setPits(prevPits => {
+      return prevPits.map(pit => {
+        const seedCount = newSeeds.filter(
+          s => s.player === pit.player && s.pit_number === pit.pit_number
+        ).length;
         return { ...pit, seed_count: seedCount };
       });
     });
 
-    // Move to next step and update message
-    if (nextTutorialStep) {
-      setMessage(nextTutorialStep.description);
-      setCurrentStep(prev => prev + 1);
-      
-      if (!nextTutorialStep.extraTurn) {
+    // Wait for seed animation to complete before proceeding
+    setTimeout(() => {
+      if (!landedInStore) {
         setIsComputerTurn(true);
+        setMessage("Computer is thinking...");
+        
         setTimeout(() => {
+          resetBoardToInitial();
           setIsComputerTurn(false);
+          setCurrentStep(prev => prev + 1);
+          if (currentStep + 1 < TUTORIAL_STEPS.length) {
+            setMessage(TUTORIAL_STEPS[currentStep + 1].description);
+          }
         }, 2000);
+      } else {
+        resetBoardToInitial();
+        setCurrentStep(prev => prev + 1);
+        if (currentStep + 1 < TUTORIAL_STEPS.length) {
+          setMessage(TUTORIAL_STEPS[currentStep + 1].description);
+        }
       }
-    }
+    }, 1000);
   };
 
   return (
@@ -373,7 +465,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                     setSeeds={setSeeds}
                     pits={pits}
                     setPits={setPits}
-                    onMove={handleTutorialMove}
+                    onMove={handleMove}
                     currentStep={currentStep}
                     isComputerTurn={isComputerTurn}
                   />
