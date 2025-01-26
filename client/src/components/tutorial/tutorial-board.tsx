@@ -372,7 +372,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
     });
     
     setPits(newPits);
-  }, [step, state]);
+  }, [step, state, pits]);
 
   const seeds = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"] || [];
   const opponent_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"]?.filter(item => (item.pit_number === 7 && item.type === "opponent"))?.length;
@@ -438,6 +438,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                     key={i}
                     amount={pit.seed_count}
                     pit={pit.pit_number}
+                    state={state}
                     setMoveMessage={setMoveMessage}
                     setMessage={setMessage}
                     currentStep={step}

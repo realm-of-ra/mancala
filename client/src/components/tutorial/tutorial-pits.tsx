@@ -21,6 +21,7 @@ export function TutorialBottomPit({
   pit,
   currentStep,
   isComputerTurn,
+  state,
   setMessage,
   setMoveMessage,
   setStep,
@@ -30,6 +31,7 @@ export function TutorialBottomPit({
   pit: number;
   currentStep: number;
   isComputerTurn: boolean;
+  state: string;
   setMessage: (message: string) => void;
   setMoveMessage: (message: string | undefined) => void;
   setStep: (step: number) => void;
@@ -45,28 +47,21 @@ export function TutorialBottomPit({
     if (currentStep === 1 && pit === 1) {
       setState('result');
       setMessage("Great! You've learned how seeds move counter-clockwise.");
-      // Wait for all seeds to complete their animation (5.5 seconds) before showing next step
-      await new Promise(resolve => setTimeout(resolve, 5500));
-      setTimeout(() => {
-        setState('initial');
-        setStep(2);
-      }, 2000);
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setState('initial');
+      setStep(2);
     } else if (currentStep === 2 && pit === 6) {
       setState('result');
       setMessage("Excellent! You got an extra turn for landing in your store!");
-      await new Promise(resolve => setTimeout(resolve, 5500));
-      setTimeout(() => {
-        setState('initial');
-        setStep(3);
-      }, 2000);
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setState('initial');
+      setStep(3);
     } else if (currentStep === 3 && pit === 3) {
       setState('result');
       setMessage("Well done! You've captured your opponent's seeds!");
-      await new Promise(resolve => setTimeout(resolve, 5500));
-      setTimeout(() => {
-        setState('initial');
-        setStep(4);
-      }, 2000);
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setState('initial');
+      setStep(4);
     } else {
       setMessage("Try a different pit for this tutorial step.");
     }

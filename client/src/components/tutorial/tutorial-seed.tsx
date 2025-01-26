@@ -19,7 +19,7 @@ export default function TutorialSeed({
   isNative: boolean;
   volume: number;
 }) {
-  const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
+  const [animationDelay, setAnimationDelay] = useState(0); // Changed initial delay to 0
   const _positions = positions(type);
   const timerRef = useRef<NodeJS.Timeout>();
   const [audio] = useState(new Audio(audio_url));
@@ -37,7 +37,7 @@ export default function TutorialSeed({
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
-    setAnimationDelay(seed_number * 0.75);
+    setAnimationDelay(seed_number * 0.1); // Reduced delay between seeds
   }, [seed_number]);
 
   useEffect(() => {
@@ -62,6 +62,9 @@ export default function TutorialSeed({
     );
   };
 
+  // Calculate total animation duration including delay
+  const totalAnimationDuration = animationDelay + 2.5; // 2.5s is the animation duration
+
   return (
     <motion.div
       className={clsx(
@@ -81,18 +84,19 @@ export default function TutorialSeed({
           stiffness: 35,
           damping: 15,
           delay: animationDelay,
-          opacity: { duration: 0.8, delay: animationDelay },
+          opacity: { duration: 0.4, delay: animationDelay }, // Reduced duration
           scale: {
-            duration: 0.6,
+            duration: 0.3, // Reduced duration
             delay: animationDelay,
             type: "spring",
             stiffness: 100,
             damping: 12,
           },
-          duration: 2.5,
+          duration: 1.5, // Reduced overall duration
         },
       }}
       onAnimationStart={play}
+      data-animation-duration={totalAnimationDuration} // Add this for debugging if needed
     />
   );
 }
