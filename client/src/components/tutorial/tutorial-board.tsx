@@ -325,6 +325,8 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   const [step, setStep] = useState(1);
   const [state, setState] = useState('initial');
   const [isComputerTurn, setIsComputerTurn] = useState(false);
+  const [currentSeedIndex, setCurrentSeedIndex] = useState(-1);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [pits, setPits] = useState(() => {
     // Initialize pits based on the first tutorial step's initial seeds
     const initialPits = [
@@ -374,6 +376,24 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
     setPits(newPits);
   }, [step, state, pits]);
 
+  // Add this effect to handle sequential seed animations
+  useEffect(() => {
+    if (currentSeedIndex === -1) return;
+
+    const currentSeeds = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"] || [];
+    
+    if (currentSeedIndex < currentSeeds.length) {
+      const timer = setTimeout(() => {
+        setCurrentSeedIndex(prev => prev + 1);
+      }, 300); // Delay between each seed's animation start
+      
+      return () => clearTimeout(timer);
+    } else {
+      setCurrentSeedIndex(-1);
+      setIsAnimating(false);
+    }
+  }, [currentSeedIndex, step, state]);
+
   const seeds = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"] || [];
   const opponent_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"]?.filter(item => (item.pit_number === 7 && item.type === "opponent"))?.length;
   const player_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"]?.filter(item => (item.pit_number === 7 && item.type === "player"))?.length;
@@ -382,11 +402,12 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 1 pot (opponent) */}
-          {seeds.map((seed) => {
+          {seeds.map((seed, index) => {
             const seedDetails = seed;
             if (!seedDetails) return null;
 
             const isPlayerSeed = seedDetails.type === 'player';
+            const shouldAnimate = index <= currentSeedIndex;
 
             return (
               <TutorialSeed
@@ -397,6 +418,12 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                 seed_number={seedDetails.seed_number}
                 isNative={seedDetails.isNative}
                 volume={volume}
+                shouldAnimate={shouldAnimate}
+                onAnimationComplete={() => {
+                  if (index === seeds.length - 1) {
+                    setIsAnimating(false);
+                  }
+                }}
               />
             );
           })}
@@ -435,17 +462,18 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                 .sort((a, b) => a.pit_number - b.pit_number)
                 .map((pit, i) => (
                   <TutorialBottomPit
-                    key={i}
-                    amount={pit.seed_count}
-                    pit={pit.pit_number}
-                    state={state}
-                    setMoveMessage={setMoveMessage}
-                    setMessage={setMessage}
-                    currentStep={step}
-                    setStep={setStep}
-                    setState={setState}
-                    isComputerTurn={isComputerTurn}
-                  />
+                        key={i}
+                        amount={pit.seed_count}
+                        pit={pit.pit_number}
+                        state={state}
+                        setMoveMessage={setMoveMessage}
+                        setMessage={setMessage}
+                        currentStep={step}
+                        setStep={setStep}
+                        setState={setState}
+                        isComputerTurn={isComputerTurn} 
+                        setCurrentSeedIndex={setCurrentSeedIndex} 
+                        setIsAnimating={setIsAnimating} />
                 ))}
             </div>
           </div>

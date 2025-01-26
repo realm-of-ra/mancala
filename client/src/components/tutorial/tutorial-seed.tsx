@@ -11,6 +11,8 @@ export default function TutorialSeed({
   seed_number,
   isNative,
   volume,
+  shouldAnimate,
+  onAnimationComplete,
 }: {
   color?: string;
   type?: "player" | "opponent";
@@ -18,8 +20,10 @@ export default function TutorialSeed({
   seed_number: number;
   isNative: boolean;
   volume: number;
+  shouldAnimate: boolean;
+  onAnimationComplete?: () => void;
 }) {
-  const [animationDelay, setAnimationDelay] = useState(0); // Changed initial delay to 0
+  const [animationDelay, setAnimationDelay] = useState(0);
   const _positions = positions(type);
   const timerRef = useRef<NodeJS.Timeout>();
   const [audio] = useState(new Audio(audio_url));
@@ -37,7 +41,7 @@ export default function TutorialSeed({
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
-    setAnimationDelay(seed_number * 0.1); // Reduced delay between seeds
+    setAnimationDelay(seed_number * 0.3);
   }, [seed_number]);
 
   useEffect(() => {
@@ -62,9 +66,6 @@ export default function TutorialSeed({
     );
   };
 
-  // Calculate total animation duration including delay
-  const totalAnimationDuration = animationDelay + 2.5; // 2.5s is the animation duration
-
   return (
     <motion.div
       className={clsx(
@@ -73,30 +74,36 @@ export default function TutorialSeed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 100, y: 100, opacity: 0, scale: 0 }}
+      initial={shouldAnimate ? { 
+        x: position?.x - 50, 
+        y: position?.y - 50, 
+        opacity: 0, 
+        scale: 0 
+      } : { 
+        x: position?.x, 
+        y: position?.y, 
+        opacity: 1, 
+        scale: 1 
+      }}
       animate={{
         x: position?.x,
         y: position?.y,
         opacity: 1,
         scale: 1,
-        transition: {
-          type: "spring",
-          stiffness: 35,
-          damping: 15,
-          delay: animationDelay,
-          opacity: { duration: 0.4, delay: animationDelay }, // Reduced duration
-          scale: {
-            duration: 0.3, // Reduced duration
-            delay: animationDelay,
-            type: "spring",
-            stiffness: 100,
-            damping: 12,
-          },
-          duration: 1.5, // Reduced overall duration
-        },
       }}
-      onAnimationStart={play}
-      data-animation-duration={totalAnimationDuration} // Add this for debugging if needed
+      transition={{
+        type: "spring",
+        stiffness: 35,
+        damping: 15,
+        duration: 0.8,
+        delay: shouldAnimate ? animationDelay : 0,
+      }}
+      onAnimationComplete={() => {
+        if (shouldAnimate) {
+          play();
+          onAnimationComplete?.();
+        }
+      }}
     />
   );
 }

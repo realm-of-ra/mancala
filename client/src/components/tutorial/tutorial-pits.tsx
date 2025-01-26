@@ -25,7 +25,9 @@ export function TutorialBottomPit({
   setMessage,
   setMoveMessage,
   setStep,
-  setState
+  setState,
+  setCurrentSeedIndex,
+  setIsAnimating
 }: {
   amount: number;
   pit: number;
@@ -36,6 +38,8 @@ export function TutorialBottomPit({
   setMoveMessage: (message: string | undefined) => void;
   setStep: (step: number) => void;
   setState: (state: 'initial' | 'result') => void;
+  setCurrentSeedIndex: (index: number) => void;
+  setIsAnimating: (isAnimating: boolean) => void;
 }) {
   const handleMove = async () => {
     if (isComputerTurn) {
@@ -47,6 +51,8 @@ export function TutorialBottomPit({
     if (currentStep === 1 && pit === 1) {
       setState('result');
       setMessage("Great! You've learned how seeds move counter-clockwise.");
+      setCurrentSeedIndex(0); // Start the sequential animation
+      setIsAnimating(true);
       await new Promise(resolve => setTimeout(resolve, 4000));
       setState('initial');
       setStep(2);
