@@ -37,7 +37,7 @@ export function TutorialBottomPit({
   setMessage: (message: string) => void;
   setMoveMessage: (message: string | undefined) => void;
   setStep: (step: number) => void;
-  setState: (state: 'initial' | 'result') => void;
+  setState: (state: 'initial' | 'result' | 'final') => void;
   setCurrentSeedIndex: (index: number) => void;
   setIsAnimating: (isAnimating: boolean) => void;
 }) {
@@ -58,13 +58,20 @@ export function TutorialBottomPit({
       setStep(2);
     }
     else if (currentStep === 2 && pit === 3) {
-        setState('result');
-        setMessage("Excellent! You got an extra turn for landing in your store!");
-        await new Promise(resolve => setTimeout(resolve, 4000));
-        setCurrentSeedIndex(0);
-        setIsAnimating(true);
-        setState('initial');
-        setStep(3);
+      setState('result');
+      setMessage("Excellent! You got an extra turn for landing in your store!");
+      await new Promise(resolve => setTimeout(resolve, 4000));
+    }
+    else if (currentStep === 2 && pit === 1) {
+      setState('final');
+      setCurrentSeedIndex(0);
+      setIsAnimating(true);
+      // Wait for animation to complete before moving to next step
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setStep(3);
+      setState('initial');
+      setCurrentSeedIndex(0);
+      setIsAnimating(true);
     }
     else if (currentStep === 3 && pit === 1) {
       setState('result');
@@ -74,7 +81,7 @@ export function TutorialBottomPit({
       setIsAnimating(true);
       setState('initial');
       setStep(4);
-    }  else {
+    } else {
       setMessage("Try a different pit for this tutorial step.");
     }
   };
