@@ -73,9 +73,9 @@ export default function Tutorial() {
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
-          <RestartButton gameId={gameId || ""} game_players={game_players} setMessage={setMessage} />
-          <EndgameButton gameId={gameId || ""} setMessage={setMessage} />
-          <TimeoutButton gameId={gameId || ""} opposition_address={opposition_address} setMessage={setMessage} />
+          <RestartButton gameId={""} game_players={undefined} setMessage={() => undefined} />
+          <EndgameButton gameId={""} setMessage={() => undefined} />
+          <TimeoutButton gameId={""} opposition_address={""} setMessage={() => undefined} />
         </div>
         <div className="flex-1 w-full h-full">
           <TutorialGameBoard

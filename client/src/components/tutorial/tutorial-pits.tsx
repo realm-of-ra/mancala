@@ -54,7 +54,7 @@ export function TutorialBottomPit({
       setState('result');
       setMessage("Seed Movements");
       setMoveMessage("Seeds move one-by-one counter-clockwise");
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       setCurrentSeedIndex(0);
       setIsAnimating(true);
       setState('initial');
@@ -67,14 +67,14 @@ export function TutorialBottomPit({
       setState('result');
       setMessage("Get Extra Turns - Click on pit 1");
       setMoveMessage("Extra turn earned! Play again");
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
     else if (currentStep === 2 && pit === 1 && message !== "TUTORIAL COMPLETED") {
       setState('final');
     //   setMoveMessage("Now capture seeds from pit 1");
       setCurrentSeedIndex(0);
       setIsAnimating(true);
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       setStep(3);
       setState('initial');
       setMessage("Capture Seeds - Click on pit 1");
@@ -86,7 +86,7 @@ export function TutorialBottomPit({
     else if (currentStep === 3 && pit === 1 && message !== "TUTORIAL COMPLETED") {
       setState('result');
       setMoveMessage("Great capture! +5 seeds");
-      await new Promise(resolve => setTimeout(resolve, 4000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
       setState('final');
       setCurrentSeedIndex(0);
       setIsAnimating(true);
