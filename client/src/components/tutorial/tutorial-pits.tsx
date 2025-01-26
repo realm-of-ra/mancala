@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-import { UseAccountResult } from "@starknet-react/core";
 import clsx from "clsx";
 
 export function TutorialTopPit({ amount, pit }: { amount: number, pit: number }) {
@@ -20,185 +18,58 @@ export function TutorialTopPit({ amount, pit }: { amount: number, pit: number })
 
 export function TutorialBottomPit({
   amount,
-  address,
   pit,
-  game_id,
-  status,
-  winner,
-  userAccount,
-  system,
-  setTimeRemaining,
-  max_block_between_move,
-  setMoveMessage,
-  setMessage,
-  seeds,
-  setSeeds,
-  pits,
-  setPits,
-  onMove,
   currentStep,
-  isComputerTurn
+  isComputerTurn,
+  setMessage,
+  setMoveMessage,
+  setStep,
+  setState
 }: {
   amount: number;
-  address: string;
   pit: number;
-  winner: string;
-  game_id: string;
-  status: string;
-  userAccount?: UseAccountResult;
-  system: any;
-  max_block_between_move: number;
-  setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
-  setTimeRemaining: Dispatch<SetStateAction<number>>;
-  setMessage: any;
-  seeds: any[];
-  setSeeds: (seeds: any[]) => void;
-  pits: any[];
-  setPits: (pits: any[]) => void;
-  onMove: (pit: number) => void;
   currentStep: number;
   isComputerTurn: boolean;
+  setMessage: (message: string) => void;
+  setMoveMessage: (message: string | undefined) => void;
+  setStep: (step: number) => void;
+  setState: (state: 'initial' | 'result') => void;
 }) {
-  // Helper function to evaluate a move's score
-  const evaluateMove = (testPits: any[], testSeeds: any[], pitNumber: number) => {
-    let score = 0;
-    const currentPit = pitNumber;
-    const currentPlayer = 'opponent';
-    const seedCount = testPits.find(p => p.player === 'opponent' && p.pit_number === pitNumber)?.seed_count || 0;
-    
-    // Prioritize moves that end in store
-    if ((currentPit + seedCount) % 13 === 0) {
-      score += 5;
-    }
-    
-    // Prioritize moves that capture seeds
-    if ((currentPit + seedCount) <= 6) {
-      const landingPit = currentPit + seedCount;
-      const oppositePit = 7 - landingPit;
-      const oppositeSeeds = testPits.find(p => p.player === 'user' && p.pit_number === oppositePit)?.seed_count || 0;
-      if (oppositeSeeds > 0) {
-        score += oppositeSeeds;
-      }
-    }
-    
-    // Prioritize moves from pits with more seeds
-    score += seedCount * 0.5;
-    
-    return score;
-  };
-
-  // Computer move function
-  const makeComputerMove = async () => {
-    // Get all valid moves
-    const validMoves = pits
-      .filter(pit => pit.player === 'opponent' && pit.pit_number !== 7 && pit.seed_count > 0)
-      .map(pit => ({
-        pit: pit.pit_number,
-        score: evaluateMove(pits, seeds, pit.pit_number)
-      }))
-      .sort((a, b) => b.score - a.score);
-
-    if (validMoves.length === 0) return;
-
-    // Choose the best move
-    const bestMove = validMoves[0].pit;
-    
-    // Execute the move
-    const newPits = [...pits];
-    const newSeeds = [...seeds];
-    
-    // Get seeds from selected pit
-    const selectedPitSeeds = seeds
-      .filter(seed => seed.player === 'opponent' && seed.pit_number === bestMove)
-      .sort((a, b) => a.seed_number - b.seed_number);
-    
-    // Empty the selected pit
-    const selectedPitIndex = newPits.findIndex(
-      p => p.player === 'opponent' && p.pit_number === bestMove
-    );
-    newPits[selectedPitIndex].seed_count = 0;
-
-    // Calculate total animation time for computer move
-    const totalAnimationTime = selectedPitSeeds.length * 750 + 600;
-
-    // Distribute seeds
-    let currentPit = bestMove;
-    let currentPlayer = 'opponent';
-    let lastSeedInStore = false;
-    const seedsToDistribute = selectedPitSeeds.length;
-
-    selectedPitSeeds.forEach((seed, index) => {
-      if (currentPlayer === 'opponent') {
-        currentPit++;
-        if (currentPit > 7) {
-          currentPlayer = 'user';
-          currentPit = 1;
-        }
-      } else {
-        currentPit++;
-        if (currentPit > 6) {
-          currentPlayer = 'opponent';
-          currentPit = 1;
-        }
-      }
-
-      // Skip player's store
-      if (currentPlayer === 'user' && currentPit === 7) {
-        currentPlayer = 'opponent';
-        currentPit = 1;
-      }
-
-      // Find target pit's current seed count
-      const targetPitIndex = newPits.findIndex(
-        p => p.player === currentPlayer && p.pit_number === currentPit
-      );
-      const currentSeedCount = newPits[targetPitIndex].seed_count;
-
-      // Update seed position and number
-      const updatedSeed = {
-        ...seed,
-        player: currentPlayer,
-        pit_number: currentPit,
-        seed_number: currentSeedCount + 1,
-        isNative: currentPlayer === seed.player
-      };
-      
-      const seedIndex = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
-      newSeeds[seedIndex] = updatedSeed;
-
-      // Update pit count
-      newPits[targetPitIndex].seed_count++;
-
-      // Check if last seed landed in store
-      if (index === seedsToDistribute - 1) {
-        lastSeedInStore = currentPlayer === 'opponent' && currentPit === 7;
-      }
-    });
-
-    // Update state
-    setSeeds(newSeeds);
-    setPits(newPits);
-
-    // Set appropriate message
-    if (lastSeedInStore) {
-      setTimeout(() => {
-        setMessage("Computer gets another turn!");
-        makeComputerMove();
-      }, totalAnimationTime);
-    } else {
-      setTimeout(() => {
-        setMessage("Your turn!");
-      }, totalAnimationTime);
-    }
-  };
-
   const handleMove = async () => {
     if (isComputerTurn) {
       setMoveMessage("Please wait for the computer's move");
       return;
     }
 
-    onMove(pit);
+    // Tutorial-specific move handling
+    if (currentStep === 1 && pit === 1) {
+      setState('result');
+      setMessage("Great! You've learned how seeds move counter-clockwise.");
+      // Wait for all seeds to complete their animation (5.5 seconds) before showing next step
+      await new Promise(resolve => setTimeout(resolve, 5500));
+      setTimeout(() => {
+        setState('initial');
+        setStep(2);
+      }, 2000);
+    } else if (currentStep === 2 && pit === 6) {
+      setState('result');
+      setMessage("Excellent! You got an extra turn for landing in your store!");
+      await new Promise(resolve => setTimeout(resolve, 5500));
+      setTimeout(() => {
+        setState('initial');
+        setStep(3);
+      }, 2000);
+    } else if (currentStep === 3 && pit === 3) {
+      setState('result');
+      setMessage("Well done! You've captured your opponent's seeds!");
+      await new Promise(resolve => setTimeout(resolve, 5500));
+      setTimeout(() => {
+        setState('initial');
+        setStep(4);
+      }, 2000);
+    } else {
+      setMessage("Try a different pit for this tutorial step.");
+    }
   };
 
   return (
@@ -206,7 +77,12 @@ export function TutorialBottomPit({
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
           className={clsx("w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-black/20",
-            pit == 1 && "ml-0.5 -mt-1", pit == 2 && "ml-1 -mt-1", pit == 3 && "ml-1.5 -mt-1", pit == 4 && "ml-2 -mt-1", pit == 5 && "-mr-3 -mt-1", pit == 6 && "-mr-3.5 -mt-1")}
+            pit == 1 && "ml-0.5 -mt-1", 
+            pit == 2 && "ml-1 -mt-1", 
+            pit == 3 && "ml-1.5 -mt-1", 
+            pit == 4 && "ml-2 -mt-1", 
+            pit == 5 && "-mr-3 -mt-1", 
+            pit == 6 && "-mr-3.5 -mt-1")}
           onClick={handleMove}
         />
       </div>
