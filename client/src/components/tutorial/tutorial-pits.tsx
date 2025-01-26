@@ -43,45 +43,56 @@ export function TutorialBottomPit({
 }) {
   const handleMove = async () => {
     if (isComputerTurn) {
-      setMoveMessage("Please wait for the computer's move");
+      setMoveMessage("Wait for your turn");
       return;
     }
 
-    // Tutorial-specific move handling
+    // Step 1: Seed Movement Tutorial
     if (currentStep === 1 && pit === 1) {
       setState('result');
-      setMessage("Great! You've learned how seeds move counter-clockwise.");
+      setMessage("Seed Movements");
+      setMoveMessage("Moving seeds one by one...");
       await new Promise(resolve => setTimeout(resolve, 4000));
       setCurrentSeedIndex(0);
       setIsAnimating(true);
       setState('initial');
+      setMessage("Get Extra Turns");
+      setMoveMessage("End in store for extra turn");
       setStep(2);
     }
+    // Step 2: Extra Turns Tutorial
     else if (currentStep === 2 && pit === 3) {
       setState('result');
-      setMessage("Excellent! You got an extra turn for landing in your store!");
+      setMessage("Get Extra Turns");
+      setMoveMessage("Extra turn earned!");
       await new Promise(resolve => setTimeout(resolve, 4000));
+      setMoveMessage("Now capture seeds from pit 1");
     }
     else if (currentStep === 2 && pit === 1) {
       setState('final');
       setCurrentSeedIndex(0);
       setIsAnimating(true);
-      // Wait for animation to complete before moving to next step
       await new Promise(resolve => setTimeout(resolve, 4000));
       setStep(3);
       setState('initial');
+      setMessage("Capture Seeds");
+      setMoveMessage("End in empty pit to capture");
       setCurrentSeedIndex(0);
       setIsAnimating(true);
     }
+    // Step 3: Capture Seeds Tutorial
     else if (currentStep === 3 && pit === 1) {
       setState('result');
-      setMessage("Well done! You've captured your opponent's seeds!");
+      setMoveMessage("Great capture! +5 seeds");
       await new Promise(resolve => setTimeout(resolve, 4000));
       setState('final');
       setCurrentSeedIndex(0);
       setIsAnimating(true);
+      setMessage("TUTORIAL COMPLETED");
+      setMoveMessage("");
     } else {
-      setMessage("Try a different pit for this tutorial step.");
+      setMessage("Wrong Move");
+      setMoveMessage("Click highlighted pit");
     }
   };
 

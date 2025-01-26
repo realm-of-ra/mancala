@@ -13,9 +13,9 @@ import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
 import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
-import GameNavigation from "@/components/gameplay/game-navigation";
 import TimeoutButton from "@/components/gameplay/timeout-button";
 import TutorialGameBoard from "@/components/tutorial/tutorial-board";
+import TutorialGameNavigation from "@/components/tutorial/tutorial-game-navigation";
 
 export default function Tutorial() {
   const { gameId } = useParams();
@@ -32,7 +32,7 @@ export default function Tutorial() {
   const game_node =
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [, setMoveMessage] = useState<string | undefined>();
+  const [moveMessage, setMoveMessage] = useState<string | undefined>("Click pit 1 to start");
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
     game_players?.mancalaAlphaPlayerModels.edges.filter(
@@ -52,12 +52,12 @@ export default function Tutorial() {
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("Seed Movements");
   const [action, setAction] = useState<{ action: any, message: string }>({ action: undefined, message: "" })
 
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
-      <GameNavigation
+      <TutorialGameNavigation
         game_players={game_players}
         player_names={player_names}
         game_node={game_node}
@@ -69,6 +69,7 @@ export default function Tutorial() {
         setMessage={setMessage}
         action={action}
         setAction={setAction}
+        moveMessage={moveMessage}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
