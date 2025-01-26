@@ -181,11 +181,11 @@ export default function TutorialGameMessage({
 
   return (
     <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-      <div className="flex flex-col items-center justify-center mt-14 space-y-5 relative">
+      <div className="flex flex-col items-center justify-center mt-14 space-y-2 relative">
         <Link to="/">
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
-        <div className="min-w-[400px] min-h-44 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
+        <div className="min-w-[440px] min-h-48 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
@@ -196,9 +196,9 @@ export default function TutorialGameMessage({
           }
         </div>
           <motion.div 
-            className="w-[390px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
+            className="w-[500px] h-[88px] bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
             initial={{ y: -40, opacity: 0 }}
-            animate={(message || action?.message) && !close ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
+            animate={moveMessage && !close ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
             transition={{
               type: "spring",
               stiffness: 100,

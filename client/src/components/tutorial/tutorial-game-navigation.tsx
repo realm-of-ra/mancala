@@ -74,7 +74,7 @@ export default function TutorialGameNavigation({
       <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
-            name={player_one_display.name}
+            name={"Computer"}
             address={player_one_display.address}
             wins={player_one_display.wins}
             isLeftSide={true}
@@ -84,7 +84,7 @@ export default function TutorialGameNavigation({
       <div className="bg-[url('./assets/right-entry.png')] h-40 w-[45%] bg-cover bg-center absolute top-0 right-0 bg-no-repeat">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
-            name={player_two_display.name}
+            name={"Player"}
             address={player_two_display.address}
             wins={player_two_display.wins}
             isLeftSide={false}

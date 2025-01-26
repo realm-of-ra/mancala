@@ -32,7 +32,7 @@ export default function Tutorial() {
   const game_node =
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [moveMessage, setMoveMessage] = useState<string | undefined>("Click pit 1 to start");
+  const [moveMessage, setMoveMessage] = useState<string | undefined>("Click on pit 1 to start");
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
     game_players?.mancalaAlphaPlayerModels.edges.filter(
@@ -69,7 +69,7 @@ export default function Tutorial() {
         setMessage={setMessage}
         action={action}
         setAction={setAction}
-        moveMessage={moveMessage}
+        moveMessage={moveMessage || ""}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
@@ -84,9 +84,10 @@ export default function Tutorial() {
             system={system}
             account={account}
             gameId={gameId || ""}
+            volume={volume}
+            message={message}
             setMoveMessage={setMoveMessage}
             setTimeRemaining={setTimeRemaining}
-            volume={volume}
             setVolume={setVolume}
             setMessage={setMessage}
           />
