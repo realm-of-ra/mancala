@@ -28,7 +28,6 @@ export function TutorialBottomPit({
   setStep,
   setState,
   setCurrentSeedIndex,
-  setIsAnimating
 }: {
   amount: number;
   pit: number;
@@ -41,7 +40,6 @@ export function TutorialBottomPit({
   setStep: (step: number) => void;
   setState: (state: 'initial' | 'result' | 'final') => void;
   setCurrentSeedIndex: (index: number) => void;
-  setIsAnimating: (isAnimating: boolean) => void;
 }) {
   const handleMove = async () => {
     if (isComputerTurn) {
@@ -56,7 +54,6 @@ export function TutorialBottomPit({
       setMoveMessage("Seeds move one-by-one counter-clockwise");
       await new Promise(resolve => setTimeout(resolve, 3000));
       setCurrentSeedIndex(0);
-      setIsAnimating(true);
       setState('initial');
       setMessage("Get Extra Turns - Click on pit 3");
       setMoveMessage("Seeds that end in store get an extra turn");
@@ -73,14 +70,12 @@ export function TutorialBottomPit({
       setState('final');
     //   setMoveMessage("Now capture seeds from pit 1");
       setCurrentSeedIndex(0);
-      setIsAnimating(true);
       await new Promise(resolve => setTimeout(resolve, 3000));
       setStep(3);
       setState('initial');
       setMessage("Capture Seeds - Click on pit 1");
       setMoveMessage("Last seed in your empty pit takes opposite seeds");
       setCurrentSeedIndex(0);
-      setIsAnimating(true);
     }
     // Step 3: Capture Seeds Tutorial
     else if (currentStep === 3 && pit === 1 && message !== "TUTORIAL COMPLETED") {
@@ -89,12 +84,11 @@ export function TutorialBottomPit({
       await new Promise(resolve => setTimeout(resolve, 3000));
       setState('final');
       setCurrentSeedIndex(0);
-      setIsAnimating(true);
       setMessage("TUTORIAL COMPLETED");
       setMoveMessage("");
     } else {
       setMessage("Wrong Move");
-      setMoveMessage("Click highlighted pit");
+      setMoveMessage("Click the highlighted pit");
     }
   };
 

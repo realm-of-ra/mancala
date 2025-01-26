@@ -11,11 +11,15 @@ interface GameBoardProps {
   account: any;
   gameId: string;
   message: string;
+  volume: number;
+  setMessage: any;
+  step: number;
+  setStep: any;
+  state: string;
+  setState: any;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
-  volume: number;
   setVolume: (volume: number) => void;
-  setMessage: any;
 }
 
 const TutorialGameBoard: React.FC<GameBoardProps> = ({
@@ -29,13 +33,14 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   volume,
   setVolume,
   message,
-  setMessage
+  setMessage,
+  setStep,
+  step,
+  state,
+  setState
 }) => {
-  const [step, setStep] = useState(1);
-  const [state, setState] = useState('initial');
   const [isComputerTurn, setIsComputerTurn] = useState(false);
   const [currentSeedIndex, setCurrentSeedIndex] = useState(-1);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [pits, setPits] = useState(() => {
     // Initialize pits based on the first tutorial step's initial seeds
     const initialPits = [
@@ -64,7 +69,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
     setIsComputerTurn(false);
   }, [step, state]);
 
-  // Update pits when step or state changes
+  // Modify the useEffect to force immediate update
   useEffect(() => {
     const currentSeeds = TUTORIAL_STEPS[step - 1]?.[
       state === 'initial' 
@@ -74,7 +79,9 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
           : "result_seeds"
     ] || [];
     
-    // Count seeds in each pit
+    // Reset currentSeedIndex when step or state changes
+    setCurrentSeedIndex(-1);
+    
     const newPits = pits.map(pit => {
       const seedCount = currentSeeds.filter(seed => 
         seed.pit_number === pit.pit_number && 
@@ -105,7 +112,6 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
       return () => clearTimeout(timer);
     } else {
       setCurrentSeedIndex(-1);
-      setIsAnimating(false);
     }
   }, [currentSeedIndex, step, state]);
 
@@ -152,11 +158,6 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                 isNative={seedDetails.isNative}
                 volume={volume}
                 shouldAnimate={shouldAnimate}
-                onAnimationComplete={() => {
-                  if (index === seeds.length - 1) {
-                    setIsAnimating(false);
-                  }
-                }}
               />
             );
           })}
@@ -206,8 +207,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
                         setState={setState}
                         message={message}
                         isComputerTurn={isComputerTurn} 
-                        setCurrentSeedIndex={setCurrentSeedIndex} 
-                        setIsAnimating={setIsAnimating} />
+                        setCurrentSeedIndex={setCurrentSeedIndex} />
                 ))}
             </div>
           </div>
