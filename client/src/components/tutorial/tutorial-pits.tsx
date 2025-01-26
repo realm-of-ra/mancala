@@ -56,23 +56,25 @@ export function TutorialBottomPit({
       setIsAnimating(true);
       setState('initial');
       setStep(2);
-    } else if (currentStep === 3 && pit === 3) {
+    }
+    else if (currentStep === 2 && pit === 3) {
         setState('result');
-        setMessage("Well done! You've captured your opponent's seeds!");
+        setMessage("Excellent! You got an extra turn for landing in your store!");
         await new Promise(resolve => setTimeout(resolve, 4000));
         setCurrentSeedIndex(0);
         setIsAnimating(true);
         setState('initial');
-        setStep(4);
-    } else if (currentStep === 2 && pit === 6) {
+        setStep(3);
+    }
+    else if (currentStep === 3 && pit === 6) {
       setState('result');
-      setMessage("Excellent! You got an extra turn for landing in your store!");
+      setMessage("Well done! You've captured your opponent's seeds!");
       await new Promise(resolve => setTimeout(resolve, 4000));
       setCurrentSeedIndex(0);
       setIsAnimating(true);
       setState('initial');
-      setStep(3);
-    } else {
+      setStep(4);
+    }  else {
       setMessage("Try a different pit for this tutorial step.");
     }
   };
