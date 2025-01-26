@@ -12,7 +12,7 @@ export default function TutorialSeed({
   isNative,
   volume,
   shouldAnimate,
-  onAnimationComplete,
+  onAnimationComplete
 }: {
   color?: string;
   type?: "player" | "opponent";

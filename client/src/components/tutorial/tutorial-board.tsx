@@ -533,6 +533,84 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     
     // Opponent's store (Pit 7) (1 seed)
     { seed_id: "0x48", color: "Purple", type: "opponent", pit_number: 7, seed_number: 1, isNative: true, volume: 1 }
+  ],
+  final_move_seeds: [
+    // Player seeds (bottom)
+    // Pit 2 (1 seed)
+    { seed_id: "0x1", color: "Green", type: "player", pit_number: 7, seed_number: 2, isNative: true, volume: 1 },
+    
+    // Pit 3 (4 seeds)
+    { seed_id: "0x2", color: "Green", type: "player", pit_number: 3, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x3", color: "Green", type: "player", pit_number: 3, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x4", color: "Green", type: "player", pit_number: 3, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x5", color: "Green", type: "player", pit_number: 3, seed_number: 4, isNative: true, volume: 1 },
+    
+    // Pit 4 (6 seeds)
+    { seed_id: "0x6", color: "Green", type: "player", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x7", color: "Green", type: "player", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x8", color: "Green", type: "player", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x9", color: "Green", type: "player", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x10", color: "Green", type: "player", pit_number: 4, seed_number: 5, isNative: true, volume: 1 },
+    { seed_id: "0x11", color: "Green", type: "player", pit_number: 4, seed_number: 6, isNative: true, volume: 1 },
+    
+    // Pit 5 (5 seeds)
+    { seed_id: "0x12", color: "Green", type: "player", pit_number: 5, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x13", color: "Green", type: "player", pit_number: 5, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x14", color: "Green", type: "player", pit_number: 5, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x15", color: "Green", type: "player", pit_number: 5, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x16", color: "Green", type: "player", pit_number: 5, seed_number: 5, isNative: true, volume: 1 },
+    
+    // Pit 6 (5 seeds)
+    { seed_id: "0x17", color: "Green", type: "player", pit_number: 6, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x18", color: "Green", type: "player", pit_number: 6, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x19", color: "Green", type: "player", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x20", color: "Green", type: "player", pit_number: 6, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x21", color: "Green", type: "player", pit_number: 6, seed_number: 5, isNative: true, volume: 1 },
+    
+    // Player's store (Pit 7) (1 seed)
+    { seed_id: "0x22", color: "Green", type: "player", pit_number: 7, seed_number: 1, isNative: true, volume: 1 },
+    
+    // Opponent seeds (top)
+    // Pit 6 (2 non-native seeds)
+    { seed_id: "0x23", color: "Purple", type: "opponent", pit_number: 6, seed_number: 1, isNative: false, volume: 1 },
+    { seed_id: "0x24", color: "Purple", type: "opponent", pit_number: 6, seed_number: 2, isNative: false, volume: 1 },
+    
+    // Pit 6 (3 native seeds)
+    { seed_id: "0x25", color: "Purple", type: "opponent", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x26", color: "Purple", type: "opponent", pit_number: 6, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x27", color: "Purple", type: "opponent", pit_number: 6, seed_number: 5, isNative: true, volume: 1 },
+    
+    // Pit 5 (5 seeds)
+    { seed_id: "0x28", color: "Purple", type: "player", pit_number: 7, seed_number: 3, isNative: false, volume: 1 },
+    { seed_id: "0x29", color: "Purple", type: "player", pit_number: 7, seed_number: 4, isNative: false, volume: 1 },
+    { seed_id: "0x30", color: "Purple", type: "player", pit_number: 7, seed_number: 5, isNative: false, volume: 1 },
+    { seed_id: "0x31", color: "Purple", type: "player", pit_number: 7, seed_number: 6, isNative: false, volume: 1 },
+    { seed_id: "0x32", color: "Purple", type: "player", pit_number: 7, seed_number: 7, isNative: false, volume: 1 },
+    
+    // Pit 4 (5 seeds)
+    { seed_id: "0x33", color: "Purple", type: "opponent", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x34", color: "Purple", type: "opponent", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x35", color: "Purple", type: "opponent", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x36", color: "Purple", type: "opponent", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x37", color: "Purple", type: "opponent", pit_number: 4, seed_number: 5, isNative: true, volume: 1 },
+    
+    
+    // Pit 2 (5 seeds)
+    { seed_id: "0x38", color: "Purple", type: "opponent", pit_number: 2, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x39", color: "Purple", type: "opponent", pit_number: 2, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x40", color: "Purple", type: "opponent", pit_number: 2, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x41", color: "Purple", type: "opponent", pit_number: 2, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x42", color: "Purple", type: "opponent", pit_number: 2, seed_number: 5, isNative: true, volume: 1 },
+    
+    // Pit 1 (5 seeds)
+    { seed_id: "0x43", color: "Purple", type: "opponent", pit_number: 1, seed_number: 1, isNative: true, volume: 1 },
+    { seed_id: "0x44", color: "Purple", type: "opponent", pit_number: 1, seed_number: 2, isNative: true, volume: 1 },
+    { seed_id: "0x45", color: "Purple", type: "opponent", pit_number: 1, seed_number: 3, isNative: true, volume: 1 },
+    { seed_id: "0x46", color: "Purple", type: "opponent", pit_number: 1, seed_number: 4, isNative: true, volume: 1 },
+    { seed_id: "0x47", color: "Purple", type: "opponent", pit_number: 1, seed_number: 5, isNative: true, volume: 1 },
+    
+    // Opponent's store (Pit 7) (1 seed)
+    { seed_id: "0x48", color: "Purple", type: "opponent", pit_number: 7, seed_number: 1, isNative: true, volume: 1 }
   ]
   }
 ];
@@ -634,8 +712,20 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
         ? "final_move_seeds" 
         : "result_seeds"
   ] || [];
-  const opponent_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"]?.filter(item => (item.pit_number === 7 && item.type === "opponent"))?.length;
-  const player_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"]?.filter(item => (item.pit_number === 7 && item.type === "player"))?.length;
+  const opponent_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[
+    state === 'initial' 
+      ? "initial_seeds" 
+      : state === "final" 
+        ? "final_move_seeds" 
+        : "result_seeds"
+  ]?.filter(item => (item.pit_number === 7 && item.type === "opponent"))?.length;
+  const player_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[
+    state === 'initial' 
+      ? "initial_seeds" 
+      : state === "final" 
+        ? "final_move_seeds" 
+        : "result_seeds"
+  ]?.filter(item => (item.pit_number === 7 && item.type === "player"))?.length;
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">

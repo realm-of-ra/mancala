@@ -77,10 +77,9 @@ export function TutorialBottomPit({
       setState('result');
       setMessage("Well done! You've captured your opponent's seeds!");
       await new Promise(resolve => setTimeout(resolve, 4000));
-    //   setCurrentSeedIndex(0);
-    //   setIsAnimating(true);
-    //   setState('initial');
-    //   setStep(4);
+      setState('final');
+      setCurrentSeedIndex(0);
+      setIsAnimating(true);
     } else {
       setMessage("Try a different pit for this tutorial step.");
     }
