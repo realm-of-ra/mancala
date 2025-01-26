@@ -16,132 +16,254 @@ interface GameBoardProps {
   setMessage: any;
 }
 
-// New Tutorial Step interface
+// Updated Tutorial Step interface
 interface TutorialStep {
   step: number;
   description: string;
-  seeds: {
+  message: string;
+  initial_seeds: {
+    seed_id: string;
+    color: string;
+    type: "player" | "opponent";
     pit_number: number;
-    seeds: Array<{ seed_id: string; seed_number: number }>;
-    seed_count: number;
+    seed_number: number;
+    isNative: boolean;
+    volume: number;
   }[];
-  extraTurn?: boolean;
-  captured?: {
-    player: {
-      pit: number;
-      captured_pit: number;
-      seeds: number[];
-    };
-  };
+  result_seeds: {
+    seed_id: string;
+    color: string;
+    type: "player" | "opponent";
+    pit_number: number;
+    seed_number: number;
+    isNative: boolean;
+    volume: number;
+  }[];
 }
 
 const TUTORIAL_STEPS: TutorialStep[] = [
   {
     step: 1,
-    description: "Click on pit 1 to distribute its seeds counter-clockwise.",
-    seeds: [
-      { pit_number: 1, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 2, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 3, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(300 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 4, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(400 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 5, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(500 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 6, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(600 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 7, seeds: [], seed_count: 0 },
-      { pit_number: 8, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(800 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 9, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(900 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 10, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1000 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 11, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 12, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 13, seeds: [], seed_count: 0 }
-    ]
+    description: "Click on pit 1 to see how seeds move counter-clockwise around the board.",
+    message: "Let's start with a simple move. Click pit 1 to distribute its seeds.",
+    initial_seeds: [
+      // Player's seeds (24 total, 4 in each pit 1-6)
+      { seed_id: "0x1", color: "Green", type: "player", pit_number: 1, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x2", color: "Green", type: "player", pit_number: 1, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x3", color: "Green", type: "player", pit_number: 1, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x4", color: "Green", type: "player", pit_number: 1, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x5", color: "Green", type: "player", pit_number: 2, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x6", color: "Green", type: "player", pit_number: 2, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x7", color: "Green", type: "player", pit_number: 2, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x8", color: "Green", type: "player", pit_number: 2, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x9", color: "Green", type: "player", pit_number: 3, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0xa", color: "Green", type: "player", pit_number: 3, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0xb", color: "Green", type: "player", pit_number: 3, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0xc", color: "Green", type: "player", pit_number: 3, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0xd", color: "Green", type: "player", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0xe", color: "Green", type: "player", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0xf", color: "Green", type: "player", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x10", color: "Green", type: "player", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x11", color: "Green", type: "player", pit_number: 5, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x12", color: "Green", type: "player", pit_number: 5, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x13", color: "Green", type: "player", pit_number: 5, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x14", color: "Green", type: "player", pit_number: 5, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x15", color: "Green", type: "player", pit_number: 6, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x16", color: "Green", type: "player", pit_number: 6, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x17", color: "Green", type: "player", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x18", color: "Green", type: "player", pit_number: 6, seed_number: 4, isNative: true, volume: 1 },
+      
+      // Opponent's seeds (24 total, 4 in each pit 1-6)
+      { seed_id: "0x19", color: "Purple", type: "opponent", pit_number: 1, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x1a", color: "Purple", type: "opponent", pit_number: 1, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x1b", color: "Purple", type: "opponent", pit_number: 1, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x1c", color: "Purple", type: "opponent", pit_number: 1, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x1d", color: "Purple", type: "opponent", pit_number: 2, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x1e", color: "Purple", type: "opponent", pit_number: 2, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x1f", color: "Purple", type: "opponent", pit_number: 2, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x20", color: "Purple", type: "opponent", pit_number: 2, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x21", color: "Purple", type: "opponent", pit_number: 3, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x22", color: "Purple", type: "opponent", pit_number: 3, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x23", color: "Purple", type: "opponent", pit_number: 3, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x24", color: "Purple", type: "opponent", pit_number: 3, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x25", color: "Purple", type: "opponent", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x26", color: "Purple", type: "opponent", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x27", color: "Purple", type: "opponent", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x28", color: "Purple", type: "opponent", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x29", color: "Purple", type: "opponent", pit_number: 5, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x2a", color: "Purple", type: "opponent", pit_number: 5, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x2b", color: "Purple", type: "opponent", pit_number: 5, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x2c", color: "Purple", type: "opponent", pit_number: 5, seed_number: 4, isNative: true, volume: 1 },
+      
+      { seed_id: "0x2d", color: "Purple", type: "opponent", pit_number: 6, seed_number: 1, isNative: true, volume: 1 },
+      { seed_id: "0x2e", color: "Purple", type: "opponent", pit_number: 6, seed_number: 2, isNative: true, volume: 1 },
+      { seed_id: "0x2f", color: "Purple", type: "opponent", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+      { seed_id: "0x30", color: "Purple", type: "opponent", pit_number: 6, seed_number: 4, isNative: true, volume: 1 }
+    ],
+    result_seeds: [
+        // Player's seeds (24 total, 4 in each pit 1-6)
+        { seed_id: "0x1", color: "Green", type: "player", pit_number: 2, seed_number: 5, isNative: true, volume: 1 },
+        { seed_id: "0x2", color: "Green", type: "player", pit_number: 3, seed_number: 5, isNative: true, volume: 1 },
+        { seed_id: "0x3", color: "Green", type: "player", pit_number: 4, seed_number: 5, isNative: true, volume: 1 },
+        { seed_id: "0x4", color: "Green", type: "player", pit_number: 5, seed_number: 5, isNative: true, volume: 1 },
+        
+        { seed_id: "0x5", color: "Green", type: "player", pit_number: 2, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x6", color: "Green", type: "player", pit_number: 2, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x7", color: "Green", type: "player", pit_number: 2, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x8", color: "Green", type: "player", pit_number: 2, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x9", color: "Green", type: "player", pit_number: 3, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0xa", color: "Green", type: "player", pit_number: 3, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0xb", color: "Green", type: "player", pit_number: 3, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0xc", color: "Green", type: "player", pit_number: 3, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0xd", color: "Green", type: "player", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0xe", color: "Green", type: "player", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0xf", color: "Green", type: "player", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x10", color: "Green", type: "player", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x11", color: "Green", type: "player", pit_number: 5, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x12", color: "Green", type: "player", pit_number: 5, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x13", color: "Green", type: "player", pit_number: 5, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x14", color: "Green", type: "player", pit_number: 5, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x15", color: "Green", type: "player", pit_number: 6, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x16", color: "Green", type: "player", pit_number: 6, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x17", color: "Green", type: "player", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x18", color: "Green", type: "player", pit_number: 6, seed_number: 4, isNative: true, volume: 1 },
+        
+        // Opponent's seeds (24 total, 4 in each pit 1-6)
+        { seed_id: "0x19", color: "Purple", type: "opponent", pit_number: 1, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x1a", color: "Purple", type: "opponent", pit_number: 1, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x1b", color: "Purple", type: "opponent", pit_number: 1, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x1c", color: "Purple", type: "opponent", pit_number: 1, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x1d", color: "Purple", type: "opponent", pit_number: 2, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x1e", color: "Purple", type: "opponent", pit_number: 2, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x1f", color: "Purple", type: "opponent", pit_number: 2, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x20", color: "Purple", type: "opponent", pit_number: 2, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x21", color: "Purple", type: "opponent", pit_number: 3, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x22", color: "Purple", type: "opponent", pit_number: 3, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x23", color: "Purple", type: "opponent", pit_number: 3, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x24", color: "Purple", type: "opponent", pit_number: 3, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x25", color: "Purple", type: "opponent", pit_number: 4, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x26", color: "Purple", type: "opponent", pit_number: 4, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x27", color: "Purple", type: "opponent", pit_number: 4, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x28", color: "Purple", type: "opponent", pit_number: 4, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x29", color: "Purple", type: "opponent", pit_number: 5, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x2a", color: "Purple", type: "opponent", pit_number: 5, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x2b", color: "Purple", type: "opponent", pit_number: 5, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x2c", color: "Purple", type: "opponent", pit_number: 5, seed_number: 4, isNative: true, volume: 1 },
+        
+        { seed_id: "0x2d", color: "Purple", type: "opponent", pit_number: 6, seed_number: 1, isNative: true, volume: 1 },
+        { seed_id: "0x2e", color: "Purple", type: "opponent", pit_number: 6, seed_number: 2, isNative: true, volume: 1 },
+        { seed_id: "0x2f", color: "Purple", type: "opponent", pit_number: 6, seed_number: 3, isNative: true, volume: 1 },
+        { seed_id: "0x30", color: "Purple", type: "opponent", pit_number: 6, seed_number: 4, isNative: true, volume: 1 }
+      ]
   },
   {
     step: 2,
-    description: "Click on pit 3. When your last seed lands in an empty pit on your side, you capture the seeds from the opposite pit!",
-    seeds: [
-      { pit_number: 1, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 2, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 3, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(300 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 4, seeds: [{ seed_id: "0x309", seed_number: 9 }], seed_count: 1 },
-      { pit_number: 5, seeds: [{ seed_id: "0x30a", seed_number: 10 }], seed_count: 1 },
-      { pit_number: 6, seeds: [{ seed_id: "0x30b", seed_number: 11 }], seed_count: 1 },
-      { pit_number: 7, seeds: [{ seed_id: "0x30c", seed_number: 12 }], seed_count: 1 },
-      { pit_number: 8, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(800 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 9, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(900 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 10, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1000 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 11, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 12, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 13, seeds: [], seed_count: 0 }
-    ],
-    captured: {
-      player: {
-        pit: 4,
-        captured_pit: 10,
-        seeds: [1, 2, 3, 4]
+    description: "Click on pit 6. When your last seed lands in your store (pit 7), you get an extra turn!",
+    message: "Now try getting an extra turn by landing in your store.",
+    initial_seeds: [
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 2, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 3, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 4, isNative: true, volume: 1,
+          seed_id: ""
       }
-    }
+    ],
+    result_seeds: [
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 2, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 3, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Green", type: "player", pit_number: 6, seed_number: 4, isNative: true, volume: 1,
+          seed_id: ""
+      }
+    ]
   },
   {
     step: 3,
-    description: "Click on pit 6. When your last seed lands in your store (pit 7), you get an extra turn!",
-    seeds: [
-      { pit_number: 1, seeds: [], seed_count: 0 },
-      { pit_number: 2, seeds: [
-        ...Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(200 + i + 1).toString(16)}`, seed_number: i + 1 })),
-        { seed_id: `0x${(100 + 1).toString(16)}`, seed_number: 5 }
-      ], seed_count: 5 },
-      { pit_number: 3, seeds: [
-        ...Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(300 + i + 1).toString(16)}`, seed_number: i + 1 })),
-        { seed_id: `0x${(100 + 2).toString(16)}`, seed_number: 5 }
-      ], seed_count: 5 },
-      { pit_number: 4, seeds: [
-        ...Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(400 + i + 1).toString(16)}`, seed_number: i + 1 })),
-        { seed_id: `0x${(100 + 3).toString(16)}`, seed_number: 5 }
-      ], seed_count: 5 },
-      { pit_number: 5, seeds: [
-        ...Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(500 + i + 1).toString(16)}`, seed_number: i + 1 })),
-        { seed_id: `0x${(100 + 4).toString(16)}`, seed_number: 5 }
-      ], seed_count: 5 },
-      { pit_number: 6, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(600 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 7, seeds: [], seed_count: 0 },
-      { pit_number: 8, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(800 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 9, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(900 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 10, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1000 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 11, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1100 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 12, seeds: Array.from({length: 4}, (_, i) => ({ seed_id: `0x${(1200 + i + 1).toString(16)}`, seed_number: i + 1 })), seed_count: 4 },
-      { pit_number: 13, seeds: [], seed_count: 0 }
-    ],
-    extraTurn: true
-  },
-];
-
-// Helper function to convert tutorial step seeds to game seeds
-const convertTutorialStepToGameSeeds = (step: TutorialStep) => {
-  const playerSeeds: any[] = [];
-  const opponentSeeds: any[] = [];
-  
-  step.seeds.forEach(pit => {
-    pit.seeds.forEach(seed => {
-      const isPlayerPit = pit.pit_number <= 7;
-      const gameSeed = {
-        seed_id: seed.seed_id,
-        player: isPlayerPit ? 'user' : 'opponent',
-        pit_number: isPlayerPit ? pit.pit_number : pit.pit_number - 7,
-        seed_number: seed.seed_number,
-        isNative: true,
-        color: isPlayerPit ? 'Green' : 'Purple'
-      };
-      
-      if (isPlayerPit) {
-        playerSeeds.push(gameSeed);
-      } else {
-        opponentSeeds.push(gameSeed);
+    description: "Click on pit 3. When your last seed lands in an empty pit on your side, you capture the seeds from the opposite pit!",
+    message: "Let's try capturing some seeds from your opponent.",
+    initial_seeds: [
+      {
+          color: "Green", type: "player", pit_number: 3, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 2, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 3, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 4, isNative: true, volume: 1,
+          seed_id: ""
       }
-    });
-  });
-  
-  return { playerSeeds, opponentSeeds };
-};
+    ],
+    result_seeds: [
+      {
+          color: "Green", type: "player", pit_number: 3, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 1, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 2, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 3, isNative: true, volume: 1,
+          seed_id: ""
+      },
+      {
+          color: "Purple", type: "opponent", pit_number: 4, seed_number: 4, isNative: true, volume: 1,
+          seed_id: ""
+      }
+    ]
+  }
+];
 
 const TutorialGameBoard: React.FC<GameBoardProps> = ({
   game_players,
@@ -158,37 +280,21 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   const [currentStep, setCurrentStep] = React.useState(0);
   const [isComputerTurn, setIsComputerTurn] = React.useState(false);
 
-  // Initialize seeds with 4 seeds in each pit except pit 7s
+  // Initialize seeds based on current tutorial step
   const [seeds, setSeeds] = React.useState(() => {
     const initialSeeds: any[] = [];
+    const currentTutorialStep = TUTORIAL_STEPS[0];
     
-    // Initialize player pits (1-6)
-    for (let pit = 1; pit <= 6; pit++) {
-      for (let pos = 1; pos <= 4; pos++) {
-        initialSeeds.push({
-          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
-          player: 'user',
-          pit_number: pit,
-          seed_number: pos,
-          isNative: true,
-          color: 'Green'
-        });
-      }
-    }
-    
-    // Initialize opponent pits (8-13)
-    for (let pit = 8; pit <= 13; pit++) {
-      for (let pos = 1; pos <= 4; pos++) {
-        initialSeeds.push({
-          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
-          player: 'opponent',
-          pit_number: pit - 7,
-          seed_number: pos,
-          isNative: true,
-          color: 'Purple'
-        });
-      }
-    }
+    currentTutorialStep.initial_seeds.forEach((seedConfig) => {
+      initialSeeds.push({
+        seed_id: seedConfig.seed_id,
+        player: seedConfig.type === 'player' ? 'user' : 'opponent',
+        pit_number: seedConfig.pit_number,
+        seed_number: seedConfig.seed_number,
+        isNative: seedConfig.isNative,
+        color: seedConfig.color
+      });
+    });
     
     return initialSeeds;
   });
@@ -201,7 +307,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
     ).length;
   };
 
-  // Update pits initialization to be more concise
+  // Update pits initialization to match the correct order
   const [pits, setPits] = React.useState(() => {
     const initialPits = [];
     // User pits (1-7)
@@ -214,8 +320,8 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
         seed_numbers: pitSeeds.map(s => s.seed_number).sort((a, b) => a - b)
       });
     }
-    // Opponent pits (1-7)
-    for (let i = 1; i <= 7; i++) {
+    // Opponent pits (6-1, 7)
+    for (let i = 6; i >= 1; i--) {
       const pitSeeds = seeds.filter(s => s.player === 'opponent' && s.pit_number === i);
       initialPits.push({
         player: 'opponent',
@@ -224,6 +330,13 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
         seed_numbers: pitSeeds.map(s => s.seed_number).sort((a, b) => a - b)
       });
     }
+    // Add opponent's store (pit 7)
+    initialPits.push({
+      player: 'opponent',
+      pit_number: 7,
+      seed_count: 0,
+      seed_numbers: []
+    });
     return initialPits;
   });
 
@@ -252,41 +365,30 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   const opponent_pot_seed_count = pits.find(p => p.player === 'opponent' && p.pit_number === 7)?.seed_count || 0;
 
   const resetBoardToInitial = () => {
-    const initialSeeds: any[] = [];
-    
-    // Initialize player pits (1-6)
-    for (let pit = 1; pit <= 6; pit++) {
-      for (let pos = 1; pos <= 4; pos++) {
-        initialSeeds.push({
-          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
-          player: 'user',
-          pit_number: pit,
-          seed_number: pos,
-          isNative: true,
-          color: 'Green'
-        });
-      }
-    }
-    
-    // Initialize opponent pits (8-13)
-    for (let pit = 8; pit <= 13; pit++) {
-      for (let pos = 1; pos <= 4; pos++) {
-        initialSeeds.push({
-          seed_id: `0x${(pit * 100 + pos).toString(16)}`,
-          player: 'opponent',
-          pit_number: pit - 7,
-          seed_number: pos,
-          isNative: true,
-          color: 'Purple'
-        });
-      }
-    }
+    const nextStep = currentStep + 1;
+    if (nextStep >= TUTORIAL_STEPS.length) return;
 
+    const initialSeeds: any[] = [];
+    const nextTutorialStep = TUTORIAL_STEPS[nextStep];
+    
+    nextTutorialStep.initial_seeds.forEach((seedConfig) => {
+      initialSeeds.push({
+        seed_id: seedConfig.seed_id,
+        player: seedConfig.type === 'player' ? 'user' : 'opponent',
+        pit_number: seedConfig.pit_number,
+        seed_number: seedConfig.seed_number,
+        isNative: seedConfig.isNative,
+        color: seedConfig.color
+      });
+    });
+    
     setSeeds(initialSeeds);
     setPits(prevPits => {
       return prevPits.map(pit => {
-        if (pit.pit_number === 7) return { ...pit, seed_count: 0 };
-        return { ...pit, seed_count: 4 };
+        const seedCount = initialSeeds.filter(
+          s => s.player === pit.player && s.pit_number === pit.pit_number
+        ).length;
+        return { ...pit, seed_count: seedCount };
       });
     });
   };
@@ -294,66 +396,18 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   const handleMove = (selectedPit: number) => {
     if (isComputerTurn) return;
 
-    // Get seeds from selected pit
-    const selectedPitSeeds = seeds.filter(
-      seed => seed.player === 'user' && seed.pit_number === selectedPit
-    );
-    if (selectedPitSeeds.length === 0) return;
-
-    const newSeeds = [...seeds];
-    let currentPit = selectedPit;
-    let remainingSeeds = selectedPitSeeds.length;
-    let lastSeedPit = selectedPit;
-    let landedInStore = false;
-
-    // Remove seeds from selected pit
-    selectedPitSeeds.forEach(seed => {
-      const index = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
-      newSeeds.splice(index, 1);
-    });
-
-    // Distribute seeds counter-clockwise
-    while (remainingSeeds > 0) {
-      currentPit = (currentPit % 13) + 1;
-      
-      // Skip opponent's store (pit 13)
-      if (currentPit === 13) continue;
-
-      // Add seed to current pit
-      if (selectedPitSeeds[remainingSeeds - 1]) {
-        const seed = selectedPitSeeds[remainingSeeds - 1];
-        newSeeds.push({
-          ...seed,
-          pit_number: currentPit,
-          player: currentPit <= 7 ? 'user' : 'opponent'
-        });
-      }
-      
-      lastSeedPit = currentPit;
-      landedInStore = currentPit === 7;
-      remainingSeeds--;
-    }
-
-    // Check for capture
-    if (lastSeedPit <= 6 && // Landed on player's side
-        !landedInStore && // Not in store
-        newSeeds.filter(s => s.pit_number === lastSeedPit && s.player === 'user').length === 1) { // Empty pit before
-      
-      const oppositePit = 14 - lastSeedPit; // Calculate opposite pit
-      const capturedSeeds = newSeeds.filter(
-        s => s.pit_number === (oppositePit - 7) && s.player === 'opponent'
-      );
-
-      // Move captured seeds to player's store
-      capturedSeeds.forEach(seed => {
-        const index = newSeeds.findIndex(s => s.seed_id === seed.seed_id);
-        newSeeds[index] = {
-          ...seed,
-          pit_number: 7,
-          player: 'user'
-        };
-      });
-    }
+    // Get the result seeds for the current step
+    const currentStepResult = TUTORIAL_STEPS[currentStep].result_seeds;
+    
+    // Convert result seeds to the format used by the game
+    const newSeeds = currentStepResult.map(seedConfig => ({
+      seed_id: seedConfig.seed_id,
+      player: seedConfig.type === 'player' ? 'user' : 'opponent',
+      pit_number: seedConfig.pit_number,
+      seed_number: seedConfig.seed_number,
+      isNative: seedConfig.isNative,
+      color: seedConfig.color
+    }));
 
     // Update seeds and pits state
     setSeeds(newSeeds);
@@ -372,29 +426,21 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
       return (lastSeedDelay + transitionDuration) * 1000; // Convert to milliseconds
     };
 
-    const animationDelay = getAnimationDuration(selectedPitSeeds.length);
+    const animationDelay = getAnimationDuration(currentStepResult.length);
 
     // Wait for seed animation to complete before proceeding
     setTimeout(() => {
-      if (!landedInStore) {
-        setIsComputerTurn(true);
-        setMessage("Computer is thinking...");
-        
-        setTimeout(() => {
-          resetBoardToInitial();
-          setIsComputerTurn(false);
-          setCurrentStep(prev => prev + 1);
-          if (currentStep + 1 < TUTORIAL_STEPS.length) {
-            setMessage(TUTORIAL_STEPS[currentStep + 1].description);
-          }
-        }, 2000);
-      } else {
+      setIsComputerTurn(true);
+      setMessage("Computer is thinking...");
+      
+      setTimeout(() => {
         resetBoardToInitial();
+        setIsComputerTurn(false);
         setCurrentStep(prev => prev + 1);
         if (currentStep + 1 < TUTORIAL_STEPS.length) {
           setMessage(TUTORIAL_STEPS[currentStep + 1].description);
         }
-      }
+      }, 2000);
     }, animationDelay);
   };
 
