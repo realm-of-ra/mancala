@@ -66,7 +66,7 @@ export function TutorialBottomPit({
         setState('initial');
         setStep(3);
     }
-    else if (currentStep === 3 && pit === 6) {
+    else if (currentStep === 3 && pit === 1) {
       setState('result');
       setMessage("Well done! You've captured your opponent's seeds!");
       await new Promise(resolve => setTimeout(resolve, 4000));
