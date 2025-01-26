@@ -20,7 +20,7 @@ export function ErrorFallback({
           <img src={logo} width={126} height={126} alt="logo" />
           <h2 className="text-white font-semibold">Ouch, an error occurred</h2>
           <div className="text-white/80 text-center px-4">{error.message}</div>
-          <Button 
+          <Button
             onClick={resetErrorBoundary}
             className="bg-[#F58229] hover:bg-[#F58229] mt-4"
           >

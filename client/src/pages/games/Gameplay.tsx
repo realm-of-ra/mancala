@@ -53,7 +53,10 @@ export default function Gameplay() {
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
   const [message, setMessage] = useState("");
-  const [action, setAction] = useState<{ action: any, message: string }>({ action: undefined, message: "" })
+  const [action, setAction] = useState<{ action: any; message: string }>({
+    action: undefined,
+    message: "",
+  });
 
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
@@ -72,9 +75,17 @@ export default function Gameplay() {
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
-          <RestartButton gameId={gameId || ""} game_players={game_players} setMessage={setMessage} />
+          <RestartButton
+            gameId={gameId || ""}
+            game_players={game_players}
+            setMessage={setMessage}
+          />
           <EndgameButton gameId={gameId || ""} setMessage={setMessage} />
-          <TimeoutButton gameId={gameId || ""} opposition_address={opposition_address} setMessage={setMessage} />
+          <TimeoutButton
+            gameId={gameId || ""}
+            opposition_address={opposition_address}
+            setMessage={setMessage}
+          />
         </div>
         <div className="flex-1 w-full h-full">
           <GameBoard

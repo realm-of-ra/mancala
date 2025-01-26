@@ -45,7 +45,7 @@ export default function Seed({
     // if (volume <= 0) {
     //   audio.pause();
     // }
-    
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

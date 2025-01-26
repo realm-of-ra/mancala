@@ -22,7 +22,7 @@ export default function TutorialGameMessage({
   setMessage,
   action,
   setAction,
-  moveMessage
+  moveMessage,
 }: {
   game_node: any;
   game_players: any;
@@ -34,13 +34,14 @@ export default function TutorialGameMessage({
   setTimeRemaining: any;
   message: string;
   setMessage: any;
-  action: { action: any, message: string };
+  action: { action: any; message: string };
   setAction: any;
-  moveMessage: string
+  moveMessage: string;
 }) {
   const audioRef = useRef(new Audio(audio));
   const [startTime, setStartTime] = useState<number | null>(null);
-  const { data: profiles, startPolling: startPollingProfiles } = useQuery(MancalaPlayerNames);
+  const { data: profiles, startPolling: startPollingProfiles } =
+    useQuery(MancalaPlayerNames);
   startPollingProfiles(1000);
 
   useEffect(() => {
@@ -81,7 +82,14 @@ export default function TutorialGameMessage({
       cancelAnimationFrame(animationFrameId);
       audioRef.current.pause();
     };
-  }, [game_players?.player_one?.edges, game_players?.player_two?.edges, game_node, gameStarted, startTime, setTimeRemaining]);
+  }, [
+    game_players?.player_one?.edges,
+    game_players?.player_two?.edges,
+    game_node,
+    gameStarted,
+    startTime,
+    setTimeRemaining,
+  ]);
   const moveMessageOnTimer = (
     player: string,
     player_one_name: string,
@@ -105,18 +113,29 @@ export default function TutorialGameMessage({
       } else {
         if (game_node?.status !== "Pending") {
           const isCurrentUserTurn =
-            normalizeAddress(game_node?.current_player) === normalizeAddress(account.account?.address);
+            normalizeAddress(game_node?.current_player) ===
+            normalizeAddress(account.account?.address);
           const findPlayerProfile = (address: string) => {
-            return profiles?.mancalaAlphaProfileModels?.edges?.find(
-              (item: any) => normalizeAddress(item?.node.address) === normalizeAddress(address)
-            )?.node?.name || "";
+            return (
+              profiles?.mancalaAlphaProfileModels?.edges?.find(
+                (item: any) =>
+                  normalizeAddress(item?.node.address) ===
+                  normalizeAddress(address),
+              )?.node?.name || ""
+            );
           };
 
           const currentPlayerAddress = game_node?.current_player;
-          const found_profile_name = shortString.decodeShortString(findPlayerProfile(normalizeAddress(currentPlayerAddress)))
-          const decodedName = found_profile_name === "0" ? undefined : found_profile_name;
-            
-          const displayName = decodedName || (normalizeAddress(currentPlayerAddress) === normalizeAddress(game_node?.player_one)
+          const found_profile_name = shortString.decodeShortString(
+            findPlayerProfile(normalizeAddress(currentPlayerAddress)),
+          );
+          const decodedName =
+            found_profile_name === "0" ? undefined : found_profile_name;
+
+          const displayName =
+            decodedName ||
+            (normalizeAddress(currentPlayerAddress) ===
+            normalizeAddress(game_node?.player_one)
               ? player_one_name
               : player_two_name);
 
@@ -172,12 +191,12 @@ export default function TutorialGameMessage({
 
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
-    const cleanAddress = address?.toLowerCase()?.replace('0x', '');
+    const cleanAddress = address?.toLowerCase()?.replace("0x", "");
     // Pad to 64 characters (32 bytes) with leading zeros
-    return cleanAddress?.padStart(64, '0');
+    return cleanAddress?.padStart(64, "0");
   };
 
-  const [close, setClose] = useState<boolean>()
+  const [close, setClose] = useState<boolean>();
 
   return (
     <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">
@@ -189,41 +208,52 @@ export default function TutorialGameMessage({
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
-              <div className="text-white">
-                {message}
-              </div>
+              <div className="text-white">{message}</div>
             </div>
           }
         </div>
-          <motion.div 
-            className="w-[500px] h-[88px] bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
-            initial={{ y: -40, opacity: 0 }}
-            animate={moveMessage && !close ? { y: 0, opacity: 1 } : { y: -40, opacity: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 100,
-              damping: 15,
-              duration: 5
-            }}
-          >
-            <div className="flex flex-row items-center justify-center w-full z-20 absolute bottom-1">
-              <div className="flex flex-row items-center space-x-1.5">
-                <p className="text-white">{moveMessage}</p>
-                {
-                action?.action != undefined && action?.message && 
+        <motion.div
+          className="w-[500px] h-[88px] bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
+          initial={{ y: -40, opacity: 0 }}
+          animate={
+            moveMessage && !close
+              ? { y: 0, opacity: 1 }
+              : { y: -40, opacity: 0 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 100,
+            damping: 15,
+            duration: 5,
+          }}
+        >
+          <div className="flex flex-row items-center justify-center w-full z-20 absolute bottom-1">
+            <div className="flex flex-row items-center space-x-1.5">
+              <p className="text-white">{moveMessage}</p>
+              {action?.action != undefined && action?.message && (
                 <div className="flex flex-row items-center space-x-1">
-                  <p onClick={action?.action} className="text-green-500 hover:cursor-pointer">Accept</p>
+                  <p
+                    onClick={action?.action}
+                    className="text-green-500 hover:cursor-pointer"
+                  >
+                    Accept
+                  </p>
                   <span className="text-white">or</span>
-                  <p className="text-red-500 hover:cursor-pointer" onClick={() => { 
-                    setAction({ action: undefined, messsage: '' })
-                    setMessage('');
-                    setClose(true)
-                  }}>Decline</p>
+                  <p
+                    className="text-red-500 hover:cursor-pointer"
+                    onClick={() => {
+                      setAction({ action: undefined, messsage: "" });
+                      setMessage("");
+                      setClose(true);
+                    }}
+                  >
+                    Decline
+                  </p>
                 </div>
-                }
-              </div>
+              )}
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

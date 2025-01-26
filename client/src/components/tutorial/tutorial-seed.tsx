@@ -12,7 +12,7 @@ export default function TutorialSeed({
   isNative,
   volume,
   shouldAnimate,
-  onAnimationComplete
+  onAnimationComplete,
 }: {
   color?: string;
   type?: "player" | "opponent";
@@ -49,7 +49,7 @@ export default function TutorialSeed({
     // if (volume <= 0) {
     //   audio.pause();
     // }
-    
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
@@ -74,17 +74,21 @@ export default function TutorialSeed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={shouldAnimate ? { 
-        x: position?.x - 50, 
-        y: position?.y - 50, 
-        opacity: 0, 
-        scale: 0 
-      } : { 
-        x: position?.x, 
-        y: position?.y, 
-        opacity: 1, 
-        scale: 1 
-      }}
+      initial={
+        shouldAnimate
+          ? {
+              x: position?.x - 50,
+              y: position?.y - 50,
+              opacity: 0,
+              scale: 0,
+            }
+          : {
+              x: position?.x,
+              y: position?.y,
+              opacity: 1,
+              scale: 1,
+            }
+      }
       animate={{
         x: position?.x,
         y: position?.y,

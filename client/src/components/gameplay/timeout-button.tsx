@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 export default function TimeoutButton({
   gameId,
   opposition_address,
-  setMessage
+  setMessage,
 }: {
   gameId: string;
   opposition_address: string;
-  setMessage: any
+  setMessage: any;
 }) {
   const account = useAccount();
   const { system } = useDojo();
@@ -28,11 +28,11 @@ export default function TimeoutButton({
   };
   useEffect(() => {
     if (hasTimeout) {
-      setMessage("Ending game...")
+      setMessage("Ending game...");
       const timeout = setTimeout(() => {
-        setMessage("")
-      }, 3000)
-      return () => clearTimeout(timeout)
+        setMessage("");
+      }, 3000);
+      return () => clearTimeout(timeout);
     }
   }, [hasTimeout, setMessage]);
   return (

@@ -25,7 +25,7 @@ export default function GameNavigation({
   setTimeRemaining: any;
   message: any;
   setMessage: any;
-  action: { action: any, message: string };
+  action: { action: any; message: string };
   setAction: any;
 }) {
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
@@ -53,18 +53,38 @@ export default function GameNavigation({
   );
 
   // Determine if the current user is one of the players
-  const isCurrentUserPlaying = account?.account?.address && (account?.account?.address === game_node?.player_one || account?.account?.address === game_node?.player_two);
-  
+  const isCurrentUserPlaying =
+    account?.account?.address &&
+    (account?.account?.address === game_node?.player_one ||
+      account?.account?.address === game_node?.player_two);
+
   // If current user is playing, they should be player_two_display
-  const [player_one_display, player_two_display] = isCurrentUserPlaying && account?.account?.address === game_node?.player_one
-    ? [
-        { name: player_two_name, address: game_node?.player_two, wins: player_two?.[0]?.wins },
-        { name: player_one_name, address: game_node?.player_one, wins: player_one?.[0]?.wins }
-      ]
-    : [
-        { name: player_one_name, address: game_node?.player_one, wins: player_one?.[0]?.wins },
-        { name: player_two_name, address: game_node?.player_two, wins: player_two?.[0]?.wins }
-      ];
+  const [player_one_display, player_two_display] =
+    isCurrentUserPlaying && account?.account?.address === game_node?.player_one
+      ? [
+          {
+            name: player_two_name,
+            address: game_node?.player_two,
+            wins: player_two?.[0]?.wins,
+          },
+          {
+            name: player_one_name,
+            address: game_node?.player_one,
+            wins: player_one?.[0]?.wins,
+          },
+        ]
+      : [
+          {
+            name: player_one_name,
+            address: game_node?.player_one,
+            wins: player_one?.[0]?.wins,
+          },
+          {
+            name: player_two_name,
+            address: game_node?.player_two,
+            wins: player_two?.[0]?.wins,
+          },
+        ];
 
   return (
     <nav className="relative w-full h-40">

@@ -32,9 +32,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setTimeRemaining,
   volume,
   setVolume,
-  setMessage
+  setMessage,
 }) => {
-
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
@@ -68,35 +67,43 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const isPlayerCapture =
           latestCapture.player === account.account?.address;
 
-          setMessage(isPlayerCapture
+        setMessage(
+          isPlayerCapture
             ? `You captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`
-            : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`)
+            : `Opponent captured ${latestCapture.seed_count} seeds from pit ${latestCapture.pit_number}`,
+        );
 
-            const timeout = setTimeout(() => {
-              setMessage("")
-            }, 3000)
-            return () => clearTimeout(timeout)
+        const timeout = setTimeout(() => {
+          setMessage("");
+        }, 3000);
+        return () => clearTimeout(timeout);
       }
     }
   }, [captureData, account.account?.address, game_node?.status, setMessage]);
 
   useEffect(() => {
     const extraTurns = extraTurnData?.mancalaAlphaPlayerExtraTurnModels?.edges;
-    if (extraTurns && extraTurns.length > 0 && game_node?.status !== "Finished") {
+    if (
+      extraTurns &&
+      extraTurns.length > 0 &&
+      game_node?.status !== "Finished"
+    ) {
       const latestExtraTurn = extraTurns[extraTurns.length - 1]?.node;
 
       if (latestExtraTurn) {
         const isPlayerExtraTurn =
           latestExtraTurn.player === account.account?.address;
 
-          setMessage(isPlayerExtraTurn
+        setMessage(
+          isPlayerExtraTurn
             ? "You get another turn!"
-            : "Opponent gets another turn")
+            : "Opponent gets another turn",
+        );
 
-            const timeout = setTimeout(() => {
-              setMessage("")
-            }, 3000)
-            return () => clearTimeout(timeout)
+        const timeout = setTimeout(() => {
+          setMessage("");
+        }, 3000);
+        return () => clearTimeout(timeout);
       }
     }
   }, [extraTurnData, account.account?.address, game_node?.status, setMessage]);
@@ -211,9 +218,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
             }
           />
-          <div
-            className="h-[160px] flex flex-col items-center justify-center ml-[135px]"
-          >
+          <div className="h-[160px] flex flex-col items-center justify-center ml-[135px]">
             <p className="text-white text-center">{opponent_pot_seed_count}</p>
           </div>
         </div>
@@ -232,7 +237,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
                 .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
                 .map((pit: any, i: number) => (
-                  <TopPit key={i} amount={pit.node.seed_count} pit={pit.node.pit_number} />
+                  <TopPit
+                    key={i}
+                    amount={pit.node.seed_count}
+                    pit={pit.node.pit_number}
+                  />
                 ))}
             </div>
           </div>
@@ -277,11 +286,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot (player) */}
           <div
-            className={"w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"}
+            className={
+              "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
+            }
           />
-          <div
-            className="h-[160px] flex flex-col items-center justify-center mr-[135px]"
-          >
+          <div className="h-[160px] flex flex-col items-center justify-center mr-[135px]">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>

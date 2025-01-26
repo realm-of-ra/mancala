@@ -37,27 +37,27 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   setStep,
   step,
   state,
-  setState
+  setState,
 }) => {
   const [isComputerTurn, setIsComputerTurn] = useState(false);
   const [currentSeedIndex, setCurrentSeedIndex] = useState(-1);
   const [pits, setPits] = useState(() => {
     // Initialize pits based on the first tutorial step's initial seeds
     const initialPits = [
-      { player: 'opponent', pit_number: 1, seed_count: 4 },
-      { player: 'opponent', pit_number: 2, seed_count: 4 },
-      { player: 'opponent', pit_number: 3, seed_count: 4 },
-      { player: 'opponent', pit_number: 4, seed_count: 4 },
-      { player: 'opponent', pit_number: 5, seed_count: 4 },
-      { player: 'opponent', pit_number: 6, seed_count: 4 },
-      { player: 'opponent', pit_number: 7, seed_count: 0 }, // opponent's store
-      { player: 'user', pit_number: 1, seed_count: 4 },
-      { player: 'user', pit_number: 2, seed_count: 4 },
-      { player: 'user', pit_number: 3, seed_count: 4 },
-      { player: 'user', pit_number: 4, seed_count: 4 },
-      { player: 'user', pit_number: 5, seed_count: 4 },
-      { player: 'user', pit_number: 6, seed_count: 4 },
-      { player: 'user', pit_number: 7, seed_count: 0 }, // player's store
+      { player: "opponent", pit_number: 1, seed_count: 4 },
+      { player: "opponent", pit_number: 2, seed_count: 4 },
+      { player: "opponent", pit_number: 3, seed_count: 4 },
+      { player: "opponent", pit_number: 4, seed_count: 4 },
+      { player: "opponent", pit_number: 5, seed_count: 4 },
+      { player: "opponent", pit_number: 6, seed_count: 4 },
+      { player: "opponent", pit_number: 7, seed_count: 0 }, // opponent's store
+      { player: "user", pit_number: 1, seed_count: 4 },
+      { player: "user", pit_number: 2, seed_count: 4 },
+      { player: "user", pit_number: 3, seed_count: 4 },
+      { player: "user", pit_number: 4, seed_count: 4 },
+      { player: "user", pit_number: 5, seed_count: 4 },
+      { player: "user", pit_number: 6, seed_count: 4 },
+      { player: "user", pit_number: 7, seed_count: 0 }, // player's store
     ];
     return initialPits;
   });
@@ -71,30 +71,32 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
 
   // Modify the useEffect to force immediate update
   useEffect(() => {
-    const currentSeeds = TUTORIAL_STEPS[step - 1]?.[
-      state === 'initial' 
-        ? "initial_seeds" 
-        : state === "final"
-          ? "final_move_seeds"
-          : "result_seeds"
-    ] || [];
-    
+    const currentSeeds =
+      TUTORIAL_STEPS[step - 1]?.[
+        state === "initial"
+          ? "initial_seeds"
+          : state === "final"
+            ? "final_move_seeds"
+            : "result_seeds"
+      ] || [];
+
     // Reset currentSeedIndex when step or state changes
     setCurrentSeedIndex(-1);
-    
-    const newPits = pits.map(pit => {
-      const seedCount = currentSeeds.filter(seed => 
-        seed.pit_number === pit.pit_number && 
-        ((seed.type === 'player' && pit.player === 'user') || 
-         (seed.type === 'opponent' && pit.player === 'opponent'))
+
+    const newPits = pits.map((pit) => {
+      const seedCount = currentSeeds.filter(
+        (seed) =>
+          seed.pit_number === pit.pit_number &&
+          ((seed.type === "player" && pit.player === "user") ||
+            (seed.type === "opponent" && pit.player === "opponent")),
       ).length;
-      
+
       return {
         ...pit,
-        seed_count: seedCount
+        seed_count: seedCount,
       };
     });
-    
+
     setPits(newPits);
   }, [step, state]);
 
@@ -102,40 +104,46 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
   useEffect(() => {
     if (currentSeedIndex === -1) return;
 
-    const currentSeeds = TUTORIAL_STEPS[step - 1]?.[state === 'initial' ? "initial_seeds" : "result_seeds"] || [];
-    
+    const currentSeeds =
+      TUTORIAL_STEPS[step - 1]?.[
+        state === "initial" ? "initial_seeds" : "result_seeds"
+      ] || [];
+
     if (currentSeedIndex < currentSeeds.length) {
       const timer = setTimeout(() => {
-        setCurrentSeedIndex(prev => prev + 1);
+        setCurrentSeedIndex((prev) => prev + 1);
       }, 300); // Delay between each seed's animation start
-      
+
       return () => clearTimeout(timer);
     } else {
       setCurrentSeedIndex(-1);
     }
   }, [currentSeedIndex, step, state]);
 
-  const seeds = TUTORIAL_STEPS[step - 1]?.[
-    state === 'initial' 
-      ? "initial_seeds" 
-      : state === "final" 
-        ? "final_move_seeds" 
-        : "result_seeds"
-  ] || [];
+  const seeds =
+    TUTORIAL_STEPS[step - 1]?.[
+      state === "initial"
+        ? "initial_seeds"
+        : state === "final"
+          ? "final_move_seeds"
+          : "result_seeds"
+    ] || [];
   const opponent_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[
-    state === 'initial' 
-      ? "initial_seeds" 
-      : state === "final" 
-        ? "final_move_seeds" 
+    state === "initial"
+      ? "initial_seeds"
+      : state === "final"
+        ? "final_move_seeds"
         : "result_seeds"
-  ]?.filter(item => (item.pit_number === 7 && item.type === "opponent"))?.length;
+  ]?.filter(
+    (item) => item.pit_number === 7 && item.type === "opponent",
+  )?.length;
   const player_pot_seed_count = TUTORIAL_STEPS[step - 1]?.[
-    state === 'initial' 
-      ? "initial_seeds" 
-      : state === "final" 
-        ? "final_move_seeds" 
+    state === "initial"
+      ? "initial_seeds"
+      : state === "final"
+        ? "final_move_seeds"
         : "result_seeds"
-  ]?.filter(item => (item.pit_number === 7 && item.type === "player"))?.length;
+  ]?.filter((item) => item.pit_number === 7 && item.type === "player")?.length;
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -145,7 +153,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
             const seedDetails = seed;
             if (!seedDetails) return null;
 
-            const isPlayerSeed = seedDetails.type === 'player';
+            const isPlayerSeed = seedDetails.type === "player";
             const shouldAnimate = index <= currentSeedIndex;
 
             return (
@@ -166,9 +174,7 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
               "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
             }
           />
-          <div
-            className="h-[160px] flex flex-col items-center justify-center ml-[135px]"
-          >
+          <div className="h-[160px] flex flex-col items-center justify-center ml-[135px]">
             <p className="text-white text-center">{opponent_pot_seed_count}</p>
           </div>
         </div>
@@ -177,13 +183,15 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
               {pits
-                .filter(pit => pit.player === 'opponent' && pit.pit_number !== 7)
+                .filter(
+                  (pit) => pit.player === "opponent" && pit.pit_number !== 7,
+                )
                 .sort((a, b) => b.pit_number - a.pit_number)
                 .map((pit, i) => (
-                  <TutorialTopPit 
-                    key={i} 
-                    amount={pit.seed_count} 
-                    pit={pit.pit_number} 
+                  <TutorialTopPit
+                    key={i}
+                    amount={pit.seed_count}
+                    pit={pit.pit_number}
                   />
                 ))}
             </div>
@@ -192,22 +200,23 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
               {pits
-                .filter(pit => pit.player === 'user' && pit.pit_number !== 7)
+                .filter((pit) => pit.player === "user" && pit.pit_number !== 7)
                 .sort((a, b) => a.pit_number - b.pit_number)
                 .map((pit, i) => (
                   <TutorialBottomPit
-                        key={i}
-                        amount={pit.seed_count}
-                        pit={pit.pit_number}
-                        state={state}
-                        setMoveMessage={setMoveMessage}
-                        setMessage={setMessage}
-                        currentStep={step}
-                        setStep={setStep}
-                        setState={setState}
-                        message={message}
-                        isComputerTurn={isComputerTurn} 
-                        setCurrentSeedIndex={setCurrentSeedIndex} />
+                    key={i}
+                    amount={pit.seed_count}
+                    pit={pit.pit_number}
+                    state={state}
+                    setMoveMessage={setMoveMessage}
+                    setMessage={setMessage}
+                    currentStep={step}
+                    setStep={setStep}
+                    setState={setState}
+                    message={message}
+                    isComputerTurn={isComputerTurn}
+                    setCurrentSeedIndex={setCurrentSeedIndex}
+                  />
                 ))}
             </div>
           </div>
@@ -215,11 +224,11 @@ const TutorialGameBoard: React.FC<GameBoardProps> = ({
         <div className="w-fit h-[220px] mt-14 relative">
           {/* Player 2 pot (player) */}
           <div
-            className={"w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"}
+            className={
+              "w-fit max-w-14 h-fit max-h-40 flex flex-col flex-wrap -mt-2.5"
+            }
           />
-          <div
-            className="h-[160px] flex flex-col items-center justify-center mr-[135px]"
-          >
+          <div className="h-[160px] flex flex-col items-center justify-center mr-[135px]">
             <p className="text-white text-center h-full flex flex-col items-center justify-center">
               {player_pot_seed_count}
             </p>

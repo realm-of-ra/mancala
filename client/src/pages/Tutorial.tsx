@@ -32,19 +32,24 @@ export default function Tutorial() {
   const game_node =
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [moveMessage, setMoveMessage] = useState<string | undefined>("Click on pit 1 to start");
+  const [moveMessage, setMoveMessage] = useState<string | undefined>(
+    "Click on pit 1 to start",
+  );
   const [timeRemaining, setTimeRemaining] = useState(0);
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
   const [message, setMessage] = useState("Seed Movements");
-  const [action, setAction] = useState<{ action: any, message: string }>({ action: undefined, message: "" })
+  const [action, setAction] = useState<{ action: any; message: string }>({
+    action: undefined,
+    message: "",
+  });
   const [step, setStep] = useState(1);
-  const [state, setState] = useState('initial');
+  const [state, setState] = useState("initial");
 
   const handleReset = () => {
     setStep(1);
-    setState('initial');
+    setState("initial");
     setMessage("Seed Movements");
     setMoveMessage("Click on pit 1 to start");
     setAction({ action: undefined, message: "" });
@@ -70,7 +75,11 @@ export default function Tutorial() {
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <TutorialRestartButton onReset={handleReset} />
           <EndgameButton gameId={""} setMessage={() => undefined} />
-          <TimeoutButton gameId={""} opposition_address={""} setMessage={() => undefined} />
+          <TimeoutButton
+            gameId={""}
+            opposition_address={""}
+            setMessage={() => undefined}
+          />
         </div>
         <div className="flex-1 w-full h-full">
           <TutorialGameBoard

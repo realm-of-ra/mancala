@@ -91,7 +91,7 @@ export default function Duels({
     }
   };
 
-  const [copied, setCopied] = useState('');
+  const [copied, setCopied] = useState("");
 
   if (loading) {
     return <DuelsSkeleton />;
@@ -205,105 +205,107 @@ export default function Duels({
                         </p>
                       </td>
                       <td className="flex flex-row w-[190px] h-16 items-center justify-center pr-5 bg-[#111419] border-y-2 border-[#1A1E25]">
-                      <Link
-                            to={
-                              games[index].node.player_one ===
-                                account.account?.address ||
-                              games[index].node.player_two ===
-                                account.account?.address ||
-                              (games[index].node.player_one !== "0x0" &&
-                                games[index].node.player_two !== "0x0")
-                                ? `/games/${games[index].node.game_id}`
-                                : ""
-                            }
+                        <Link
+                          to={
+                            games[index].node.player_one ===
+                              account.account?.address ||
+                            games[index].node.player_two ===
+                              account.account?.address ||
+                            (games[index].node.player_one !== "0x0" &&
+                              games[index].node.player_two !== "0x0")
+                              ? `/games/${games[index].node.game_id}`
+                              : ""
+                          }
+                        >
+                          <Button
+                            className="text-[#F58229] bg-[#171922] hover:bg-[#1d1f2a] transition-colors"
+                            onClick={() => runGameAction(index)}
                           >
-                            <Button
-                              className="text-[#F58229] bg-[#171922] hover:bg-[#1d1f2a] transition-colors"
-                              onClick={() => runGameAction(index)}
-                            >
-                              {(() => {
-                                const game = games[index].node;
-                                const isMyGame =
-                                  game.player_one ===
-                                    account.account?.address ||
-                                  game.player_two === account.account?.address;
+                            {(() => {
+                              const game = games[index].node;
+                              const isMyGame =
+                                game.player_one === account.account?.address ||
+                                game.player_two === account.account?.address;
 
-                                if (isMyGame) return "Go to game";
-                                if (
-                                  joinStatus?.status === "JOINING" &&
-                                  joinStatus.index === index
-                                ) {
-                                  return (
-                                    <div className="flex flex-row items-center justify-center space-x-1">
-                                      <svg
-                                        className="text-white animate-spin-slow w-fit"
-                                        viewBox="0 0 64 64"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                      >
-                                        <path
-                                          d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-                                          stroke="#F58229"
-                                          strokeWidth="5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        ></path>
-                                        <path
-                                          d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-                                          stroke="#FCE3AA"
-                                          strokeWidth="5"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          className="text-gray-900"
-                                        ></path>
-                                      </svg>
-                                      <p className="text-[#FCE3AA] font-semibold">
-                                        Joining...
-                                      </p>
-                                    </div>
-                                  );
-                                }
-                                if (
-                                  joinStatus?.status === "ERROR" &&
-                                  joinStatus.index === index
-                                )
-                                  return "Cannot join game";
-                                if (
-                                  game.player_one !== "0x0" &&
-                                  game.player_two !== "0x0"
-                                )
-                                  return "Spectate game";
-                                return "Join game";
-                              })()}
-                            </Button>
-                          </Link>
+                              if (isMyGame) return "Go to game";
+                              if (
+                                joinStatus?.status === "JOINING" &&
+                                joinStatus.index === index
+                              ) {
+                                return (
+                                  <div className="flex flex-row items-center justify-center space-x-1">
+                                    <svg
+                                      className="text-white animate-spin-slow w-fit"
+                                      viewBox="0 0 64 64"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                    >
+                                      <path
+                                        d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+                                        stroke="#F58229"
+                                        strokeWidth="5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      ></path>
+                                      <path
+                                        d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+                                        stroke="#FCE3AA"
+                                        strokeWidth="5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="text-gray-900"
+                                      ></path>
+                                    </svg>
+                                    <p className="text-[#FCE3AA] font-semibold">
+                                      Joining...
+                                    </p>
+                                  </div>
+                                );
+                              }
+                              if (
+                                joinStatus?.status === "ERROR" &&
+                                joinStatus.index === index
+                              )
+                                return "Cannot join game";
+                              if (
+                                game.player_one !== "0x0" &&
+                                game.player_two !== "0x0"
+                              )
+                                return "Spectate game";
+                              return "Join game";
+                            })()}
+                          </Button>
+                        </Link>
                       </td>
                       <td className="border-[#1A1E25] border-y-2 border-r-2 bg-[#111419] rounded-r-xl h-16 flex items-center justify-center w-[59px]">
                         {games[index].node.player_one != "0x0" &&
                         games[index].node.player_two !== "0x0" ? (
-                        <Link
-                          target="_blank"
-                          to={`https://x.com/intent/tweet?text=Check%20out%20this%20game%20on%20Dojo%20Duels!%20${window.location.origin}/games/${games[index].node.game_id}`}
-                          className="mr-10"
-                        >
-                          <ArrowTopRightOnSquareIcon className="w-5 h-5 text-[#C7CAD4]" />
-                        </Link>
+                          <Link
+                            target="_blank"
+                            to={`https://x.com/intent/tweet?text=Check%20out%20this%20game%20on%20Dojo%20Duels!%20${window.location.origin}/games/${games[index].node.game_id}`}
+                            className="mr-10"
+                          >
+                            <ArrowTopRightOnSquareIcon className="w-5 h-5 text-[#C7CAD4]" />
+                          </Link>
                         ) : (
                           <div
                             className="flex flex-row items-center justify-center space-x-1 pr-10"
                             onClick={() => {
-                              setCopied(`${window.location.origin}/games/${games[index].node.game_id}`);
+                              setCopied(
+                                `${window.location.origin}/games/${games[index].node.game_id}`,
+                              );
                               navigator.clipboard.writeText(
                                 `${window.location.origin}/games/${games[index].node.game_id}`,
                               );
                               setTimeout(() => {
-                                setCopied('');
+                                setCopied("");
                               }, 2000);
                             }}
                           >
-                            {copied === `${window.location.origin}/games/${games[index].node.game_id}` ? (
+                            {copied ===
+                            `${window.location.origin}/games/${games[index].node.game_id}` ? (
                               <ClipboardDocumentCheckIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
                             ) : (
                               <ClipboardDocumentIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
