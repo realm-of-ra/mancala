@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
@@ -62,6 +62,12 @@ export default function Tutorial() {
     setMoveMessage("Pick up all seeds from a selected pit and drop one in each pit counter-clockwise");
     setAction({ action: undefined, message: "" });
   };
+
+  useEffect(() => {
+    if (step === 1 || message !== "MOVEMENTS OF SEEDS" || moveMessage !== "Pick up all seeds from a selected pit and drop one in each pit counter-clockwise") {
+      setIsOverlayVisible(true);
+    }
+  }, [step, message, moveMessage]);
 
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
