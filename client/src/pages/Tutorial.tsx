@@ -8,7 +8,7 @@ import {
   MancalaPlayerNames,
   MancalaPlayQuery,
 } from "@/lib/constants";
-import { useQuery } from "@apollo/client";
+import { from, useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
 import EndgameButton from "@/components/gameplay/end-game-button";
@@ -16,6 +16,13 @@ import TimeoutButton from "@/components/gameplay/timeout-button";
 import TutorialGameBoard from "@/components/tutorial/tutorial-board";
 import TutorialGameNavigation from "@/components/tutorial/tutorial-game-navigation";
 import TutorialRestartButton from "@/components/tutorial/tutorial-restart-button";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 export default function Tutorial() {
   const { gameId } = useParams();
@@ -33,25 +40,26 @@ export default function Tutorial() {
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>(
-    "Click on pit 1 to start",
+    "Pick up all seeds from a selected pit and drop one in each pit counter-clockwise",
   );
   const [timeRemaining, setTimeRemaining] = useState(0);
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
-  const [message, setMessage] = useState("Seed Movements");
+  const [message, setMessage] = useState("MOVEMENTS OF SEEDS");
   const [action, setAction] = useState<{ action: any; message: string }>({
     action: undefined,
     message: "",
   });
   const [step, setStep] = useState(1);
   const [state, setState] = useState("initial");
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
 
   const handleReset = () => {
     setStep(1);
     setState("initial");
-    setMessage("Seed Movements");
-    setMoveMessage("Click on pit 1 to start");
+    setMessage("MOVEMENTS OF SEEDS");
+    setMoveMessage("Pick up all seeds from a selected pit and drop one in each pit counter-clockwise");
     setAction({ action: undefined, message: "" });
   };
 
@@ -80,6 +88,31 @@ export default function Tutorial() {
             opposition_address={""}
             setMessage={() => undefined}
           />
+        </div>
+        <div>
+          <div 
+            className={`fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-300 ${
+              isOverlayVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsOverlayVisible(false);
+              }
+            }}
+          >
+            <div className="bg-[#0F1116]/60 p-6 rounded-lg w-96 space-y-1 flex flex-col items-center justify-center">
+              <h5 className="text-white text-center text-xl font-medium">{message}</h5>
+              <p className="text-white text-center">
+                {moveMessage}
+              </p>
+              <Button 
+                className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2" 
+                onClick={() => setIsOverlayVisible(false)}
+              >
+                Play
+              </Button>
+            </div>
+          </div>
         </div>
         <div className="flex-1 w-full h-full">
           <TutorialGameBoard

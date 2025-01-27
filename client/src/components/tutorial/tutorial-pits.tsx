@@ -63,8 +63,8 @@ export function TutorialBottomPit({
     // Step 1: Seed Movement Tutorial
     if (currentStep === 1 && pit === 1 && message !== "TUTORIAL COMPLETED") {
       setState("result");
-      setMessage("Seed Movements");
-      setMoveMessage("Seeds move one-by-one counter-clockwise");
+      setMessage("MOVEMENTS OF SEEDS");
+      setMoveMessage("Pick up all seeds from a selected pit and drop one in each pit counter-clockwise");
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setCurrentSeedIndex(0);
       setState("initial");

@@ -43,12 +43,6 @@ import clsx from "clsx";
 import CatridgeIcon from "./ui/svgs/catridge-icon";
 import EditPencil from "./ui/svgs/edit-pencil";
 import { Book } from "lucide-react";
-import {
-  Dialog as ShadcnDialog,
-  DialogTrigger as ShadcnDialogTrigger,
-  DialogContent as ShadcnContent,
-} from "@/components/ui/dialog";
-import logo from "@/assets/logo-icon.png";
 
 type SaveStatus = {
   status: "idle" | "saving" | "success" | "error";
