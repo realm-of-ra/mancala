@@ -1,7 +1,7 @@
 use starknet::ContractAddress;
 
 #[starknet::interface]
-trait BoostERC20<TState> {
+pub trait IBoostERC20<TState> {
     fn balance_of(self: @TState, account: ContractAddress) -> u256;
     fn transfer_from(
         ref self: TState, sender: ContractAddress, recipient: ContractAddress, amount: u256,

@@ -20,7 +20,7 @@ mod PlayableComponent {
     use mancala::types::task::{Task, TaskTrait};
     use mancala::types::varient::Varient;
 
-    use mancala::interfaces::erc20::{BoostERC20Dispatcher, BoostERC20DispatcherTrait};
+    use mancala::interfaces::erc20::{IBoostERC20Dispatcher, IBoostERC20DispatcherTrait};
 
     use mancala::constants::MAX_BOOSTS_COUNT;
 
@@ -490,7 +490,7 @@ mod PlayableComponent {
 
             let boost = store.get_boost(boost);
 
-            let dispatcher = BoostERC20Dispatcher { contract_address: boost.address };
+            let dispatcher = IBoostERC20Dispatcher { contract_address: boost.address };
 
             let amount_with_decimals: u256 = 100000000000000000;
             assert(
