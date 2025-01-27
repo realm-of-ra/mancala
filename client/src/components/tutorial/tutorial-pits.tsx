@@ -63,13 +63,17 @@ export function TutorialBottomPit({
     // Step 1: Seed Movement Tutorial
     if (currentStep === 1 && pit === 1 && message !== "TUTORIAL COMPLETED") {
       setState("result");
-      setMessage("MOVEMENTS OF SEEDS");
-      setMoveMessage("Pick up all seeds from a selected pit and drop one in each pit counter-clockwise");
+      setMessage("SEED DISTRIBUTION BASICS");
+      setMoveMessage(
+        "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise",
+      );
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setCurrentSeedIndex(0);
       setState("initial");
-      setMessage("Get Extra Turns - Click on pit 3");
-      setMoveMessage("Seeds that end in store get an extra turn");
+      setMessage("BONUS MOVES: LANDING IN STORE");
+      setMoveMessage(
+        "When your last seed lands in your store, you get another turn! Try pit 3",
+      );
       setStep(2);
     }
     // Step 2: Extra Turns Tutorial
@@ -79,8 +83,10 @@ export function TutorialBottomPit({
       message !== "TUTORIAL COMPLETED"
     ) {
       setState("result");
-      setMessage("Get Extra Turns - Click on pit 1");
-      setMoveMessage("Extra turn earned! Play again");
+      setMessage("BONUS MOVE EARNED!");
+      setMoveMessage(
+        "Excellent! Your last seed landed in your store. Take another turn using pit 1",
+      );
       await new Promise((resolve) => setTimeout(resolve, 3000));
     } else if (
       currentStep === 2 &&
@@ -88,13 +94,14 @@ export function TutorialBottomPit({
       message !== "TUTORIAL COMPLETED"
     ) {
       setState("final");
-      //   setMoveMessage("Now capture seeds from pit 1");
       setCurrentSeedIndex(0);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setStep(3);
       setState("initial");
-      setMessage("Capture Seeds - Click on pit 1");
-      setMoveMessage("Last seed in your empty pit takes opposite seeds");
+      setMessage("CAPTURING SEEDS: EMPTY PIT RULE");
+      setMoveMessage(
+        "Special move: When your last seed lands in your empty pit, you capture all seeds from the opposite pit!",
+      );
       setCurrentSeedIndex(0);
     }
     // Step 3: Capture Seeds Tutorial
@@ -104,15 +111,19 @@ export function TutorialBottomPit({
       message !== "TUTORIAL COMPLETED"
     ) {
       setState("result");
-      setMoveMessage("Great capture! +5 seeds");
+      setMoveMessage(
+        "Excellent capture! You've collected all 5 seeds from the opposite pit",
+      );
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setState("final");
       setCurrentSeedIndex(0);
-      setMessage("TUTORIAL COMPLETED");
-      setMoveMessage("");
+      setMessage("TUTORIAL COMPLETE!");
+      setMoveMessage("You're ready to play Mancala! Good luck!");
     } else {
-      setMessage("Wrong Move");
-      setMoveMessage("Click the highlighted pit");
+      setMessage("INCORRECT MOVE");
+      setMoveMessage(
+        "Please click the highlighted pit to continue the tutorial",
+      );
     }
   };
 

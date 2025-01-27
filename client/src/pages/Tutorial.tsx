@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   MancalaBoardModelQuery,
   MancalaPlayerNames,
   MancalaPlayQuery,
 } from "@/lib/constants";
-import { from, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
 import GameChat from "@/components/gameplay/game-chat";
 import EndgameButton from "@/components/gameplay/end-game-button";
@@ -16,13 +16,7 @@ import TimeoutButton from "@/components/gameplay/timeout-button";
 import TutorialGameBoard from "@/components/tutorial/tutorial-board";
 import TutorialGameNavigation from "@/components/tutorial/tutorial-game-navigation";
 import TutorialRestartButton from "@/components/tutorial/tutorial-restart-button";
-import {
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 
 export default function Tutorial() {
   const { gameId } = useParams();
@@ -40,13 +34,13 @@ export default function Tutorial() {
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>(
-    "Pick up all seeds from a selected pit and drop one in each pit counter-clockwise",
+    "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise",
   );
   const [timeRemaining, setTimeRemaining] = useState(0);
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
-  const [message, setMessage] = useState("MOVEMENTS OF SEEDS");
+  const [message, setMessage] = useState("SEED DISTRIBUTION BASICS");
   const [action, setAction] = useState<{ action: any; message: string }>({
     action: undefined,
     message: "",
@@ -58,13 +52,20 @@ export default function Tutorial() {
   const handleReset = () => {
     setStep(1);
     setState("initial");
-    setMessage("MOVEMENTS OF SEEDS");
-    setMoveMessage("Pick up all seeds from a selected pit and drop one in each pit counter-clockwise");
+    setMessage("SEED DISTRIBUTION BASICS");
+    setMoveMessage(
+      "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise",
+    );
     setAction({ action: undefined, message: "" });
   };
 
   useEffect(() => {
-    if (step === 1 || message !== "MOVEMENTS OF SEEDS" || moveMessage !== "Pick up all seeds from a selected pit and drop one in each pit counter-clockwise") {
+    if (
+      step === 1 ||
+      message !== "SEED DISTRIBUTION BASICS" ||
+      moveMessage !==
+        "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise"
+    ) {
       setIsOverlayVisible(true);
     }
   }, [step, message, moveMessage]);
@@ -79,11 +80,11 @@ export default function Tutorial() {
         gameId={gameId}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
-        message={message}
-        setMessage={setMessage}
+        message={""}
+        setMessage={() => undefined}
         action={action}
         setAction={setAction}
-        moveMessage={moveMessage || ""}
+        moveMessage={""}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
@@ -96,9 +97,9 @@ export default function Tutorial() {
           />
         </div>
         <div>
-          <div 
+          <div
             className={`fixed inset-0 flex items-center justify-center z-50 transition-opacity duration-300 ${
-              isOverlayVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              isOverlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
@@ -107,16 +108,26 @@ export default function Tutorial() {
             }}
           >
             <div className="bg-[#0F1116]/60 p-6 rounded-lg w-96 space-y-1 flex flex-col items-center justify-center">
-              <h5 className="text-white text-center text-xl font-medium">{message}</h5>
-              <p className="text-white text-center">
-                {moveMessage}
-              </p>
-              <Button 
-                className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2" 
-                onClick={() => setIsOverlayVisible(false)}
-              >
-                Play
-              </Button>
+              <h5 className="text-white text-center text-xl font-medium">
+                {message}
+              </h5>
+              <p className="text-white text-center">{moveMessage}</p>
+              {message !== "TUTORIAL COMPLETE!" ? (
+                <Button
+                  className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2"
+                  onClick={() => setIsOverlayVisible(false)}
+                >
+                  Play
+                </Button>
+              ) : (
+                <Link to="/lobby">
+                  <Button
+                    className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2"
+                  >
+                    GO TO LOBBY
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
