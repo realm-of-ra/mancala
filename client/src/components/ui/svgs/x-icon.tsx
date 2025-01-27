@@ -19,5 +19,5 @@ export function XIcon() {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }

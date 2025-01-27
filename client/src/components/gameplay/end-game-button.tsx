@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function EndgameButton({
   gameId,
-  setMessage
+  setMessage,
 }: {
   gameId: string;
   setMessage: any;
@@ -22,11 +22,11 @@ export default function EndgameButton({
   };
   useEffect(() => {
     if (ending) {
-      setMessage("Game is currently ending...")
+      setMessage("Game is currently ending...");
       const timeout = setTimeout(() => {
-        setMessage("")
-      }, 3000)
-      return () => clearTimeout(timeout)
+        setMessage("");
+      }, 3000);
+      return () => clearTimeout(timeout);
     }
   }, [ending, setMessage]);
   return (

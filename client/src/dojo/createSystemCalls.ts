@@ -59,7 +59,8 @@ export function createSystemCalls(
           retryInterval: 100,
         }),
       );
-      const transaction: any = await account.getTransactionReceipt(transaction_hash);
+      const transaction: any =
+        await account.getTransactionReceipt(transaction_hash);
       setGameId(transaction?.events[0]?.data[1]);
       return transaction?.events[0]?.data[1];
     } catch (e) {

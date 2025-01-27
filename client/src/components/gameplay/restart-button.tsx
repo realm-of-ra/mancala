@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function RestartButton({
   gameId,
   game_players,
-  setMessage
+  setMessage,
 }: {
   gameId: string;
   game_players: any;
@@ -38,11 +38,11 @@ export default function RestartButton({
   };
   useEffect(() => {
     if (restarted) {
-      setMessage("Restart notification sent to opponent!")
+      setMessage("Restart notification sent to opponent!");
       const timeout = setTimeout(() => {
-        setMessage("")
-      }, 3000)
-      return () => clearTimeout(timeout)
+        setMessage("");
+      }, 3000);
+      return () => clearTimeout(timeout);
     }
   }, [restarted, setMessage]);
   return (

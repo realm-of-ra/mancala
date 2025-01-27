@@ -29,7 +29,7 @@ export default function MessageArea({
   const { system } = useDojo();
   const [, setRestarted] = useState(false);
   const { gameId } = useParams();
-  
+
   // Move restart_game into useCallback to memoize it
   const restart_game = useCallback(async () => {
     if (account) {
@@ -44,10 +44,10 @@ export default function MessageArea({
 
   useEffect(() => {
     if (opponent_requested_restart) {
-      setMessage("Opponent requested a restart")
-      setAction({ action: restart_game, message: "Restart" })
+      setMessage("Opponent requested a restart");
+      setAction({ action: restart_game, message: "Restart" });
     } else {
-      setAction({ action: undefined, message: "" })
+      setAction({ action: undefined, message: "" });
     }
   }, [opponent_requested_restart, restart_game, setMessage, setAction]);
   return <></>;

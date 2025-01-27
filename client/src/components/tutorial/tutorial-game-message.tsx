@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
 
-export default function GameMessage({
+export default function TutorialGameMessage({
   game_node,
   game_players,
   player_one_name,
@@ -22,6 +22,7 @@ export default function GameMessage({
   setMessage,
   action,
   setAction,
+  moveMessage,
 }: {
   game_node: any;
   game_players: any;
@@ -35,6 +36,7 @@ export default function GameMessage({
   setMessage: any;
   action: { action: any; message: string };
   setAction: any;
+  moveMessage: string;
 }) {
   const audioRef = useRef(new Audio(audio));
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -198,32 +200,23 @@ export default function GameMessage({
 
   return (
     <div className="absolute inset-x-0 top-5 flex flex-col items-center justify-center w-full h-40 bg-transparent">
-      <div className="flex flex-col items-center justify-center mt-14 space-y-5 relative">
+      <div className="flex flex-col items-center justify-center mt-14 space-y-2 relative">
         <Link to="/">
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
-        <div className="min-w-[400px] min-h-44 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
+        <div className="min-w-[440px] min-h-48 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
           <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
-              {game_node?.status !== "Pending" && (
-                <AlarmClock className="w-6 h-6 text-white" />
-              )}
-              <div className="text-white">
-                {moveMessageOnTimer(
-                  game_node?.current_player,
-                  player_one_name,
-                  player_two_name,
-                )}
-              </div>
+              <div className="text-white">{message}</div>
             </div>
           }
         </div>
         <motion.div
-          className="w-[390px] h-20 bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
+          className="w-[500px] h-[88px] bg-[url('./assets/message-slide.png')] bg-center bg-contain bg-no-repeat absolute -bottom-1.5 flex flex-col"
           initial={{ y: -40, opacity: 0 }}
           animate={
-            (message || action?.message) && !close
+            moveMessage && !close
               ? { y: 0, opacity: 1 }
               : { y: -40, opacity: 0 }
           }
@@ -236,7 +229,7 @@ export default function GameMessage({
         >
           <div className="flex flex-row items-center justify-center w-full z-20 absolute bottom-1">
             <div className="flex flex-row items-center space-x-1.5">
-              <p className="text-white">{message}</p>
+              <p className="text-white">{moveMessage}</p>
               {action?.action != undefined && action?.message && (
                 <div className="flex flex-row items-center space-x-1">
                   <p

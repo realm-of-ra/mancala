@@ -85,8 +85,8 @@ export default function GameHistory({
                       : head.id === 3
                         ? "text-center -ml-6"
                         : head.id === 4 && "-ml-16",
-                        head.id === 5 && "hidden",
-                    "w-[175px] p-4 text-start"
+                    head.id === 5 && "hidden",
+                    "w-[175px] p-4 text-start",
                   )}
                 >
                   <Typography
@@ -108,14 +108,14 @@ export default function GameHistory({
                   const challengerColor = colors[index % colors.length];
                   const challengedColor = colors[(index + 3) % colors.length];
                   const date = new Date(item.date);
-                  
+
                   return (
                     <tr
                       key={index}
                       className={clsx(
                         "w-full mx-5 bg-[#0F1116] flex flex-row items-center",
                         isLast && "pb-2",
-                        isFirst && "pt-2"
+                        isFirst && "pt-2",
                       )}
                     >
                       <td className="flex flex-row items-center px-6 h-16 space-x-5 w-[230px] justify-start bg-[#111419] rounded-l-xl border-r-0 border-2 border-[#1A1E25]">
@@ -124,9 +124,15 @@ export default function GameHistory({
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            <UserIcon color="#F58229" className="w-5 h-5 text-white" />
+                            <UserIcon
+                              color="#F58229"
+                              className="w-5 h-5 text-white"
+                            />
                           </div>
-                          <Typography variant="paragraph" className="font-medium leading-none text-white">
+                          <Typography
+                            variant="paragraph"
+                            className="font-medium leading-none text-white"
+                          >
                             {truncateString(item.challenger)}
                           </Typography>
                         </div>
@@ -138,9 +144,15 @@ export default function GameHistory({
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              <UserIcon color="#F58229" className="w-5 h-5 text-white" />
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
                             </div>
-                            <Typography variant="paragraph" className="font-medium leading-none text-white">
+                            <Typography
+                              variant="paragraph"
+                              className="font-medium leading-none text-white"
+                            >
                               {truncateString(item.challenged)}
                             </Typography>
                           </div>

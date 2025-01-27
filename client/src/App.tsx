@@ -12,6 +12,7 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
+import Tutorial from "./pages/Tutorial";
 
 const options = {
   theme: "realm-of-ra",
@@ -64,6 +65,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/games/:gameId" element={<Gameplay />} />
+          <Route path="/tutorial" element={<Tutorial />} />
         </Routes>
       </Router>
       {isSmallScreen && <SmallScreenWarning />}

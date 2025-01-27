@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import audio_url from "@/music/seed-drop.mp3";
 
-export default function Seed({
+export default function TutorialSeed({
   color,
   type,
   pit_number,
   seed_number,
   isNative,
   volume,
+  shouldAnimate,
+  onAnimationComplete,
 }: {
   color?: string;
   type?: "player" | "opponent";
@@ -18,8 +20,10 @@ export default function Seed({
   seed_number: number;
   isNative: boolean;
   volume: number;
+  shouldAnimate: boolean;
+  onAnimationComplete?: () => void;
 }) {
-  const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
+  const [animationDelay, setAnimationDelay] = useState(0);
   const _positions = positions(type);
   const timerRef = useRef<NodeJS.Timeout>();
   const [audio] = useState(new Audio(audio_url));
@@ -37,7 +41,7 @@ export default function Seed({
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
-    setAnimationDelay(seed_number * 0.75);
+    setAnimationDelay(seed_number * 0.3);
   }, [seed_number]);
 
   useEffect(() => {
@@ -70,29 +74,40 @@ export default function Seed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 100, y: 100, opacity: 0, scale: 0 }}
+      initial={
+        shouldAnimate
+          ? {
+              x: position?.x - 50,
+              y: position?.y - 50,
+              opacity: 0,
+              scale: 0,
+            }
+          : {
+              x: position?.x,
+              y: position?.y,
+              opacity: 1,
+              scale: 1,
+            }
+      }
       animate={{
         x: position?.x,
         y: position?.y,
         opacity: 1,
         scale: 1,
-        transition: {
-          type: "spring",
-          stiffness: 35,
-          damping: 15,
-          delay: animationDelay,
-          opacity: { duration: 0.8, delay: animationDelay },
-          scale: {
-            duration: 0.6,
-            delay: animationDelay,
-            type: "spring",
-            stiffness: 100,
-            damping: 12,
-          },
-          duration: 2.5,
-        },
       }}
-      onAnimationStart={play}
+      transition={{
+        type: "spring",
+        stiffness: 35,
+        damping: 15,
+        duration: 0.8,
+        delay: shouldAnimate ? animationDelay : 0,
+      }}
+      onAnimationComplete={() => {
+        if (shouldAnimate) {
+          play();
+          onAnimationComplete?.();
+        }
+      }}
     />
   );
 }

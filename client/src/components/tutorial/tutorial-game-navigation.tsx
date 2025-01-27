@@ -2,8 +2,9 @@ import GameMessage from "@/components/gameplay/game-message";
 import { formatPlayerName, getPlayer } from "@/lib/utils";
 import PlayerProfile from "@/components/gameplay/player-profile";
 import { gameStarted } from "@/lib/constants";
+import TutorialGameMessage from "./tutorial-game-message";
 
-export default function GameNavigation({
+export default function TutorialGameNavigation({
   game_players,
   player_names,
   game_node,
@@ -15,6 +16,7 @@ export default function GameNavigation({
   setMessage,
   action,
   setAction,
+  moveMessage,
 }: {
   game_players: any;
   player_names: any;
@@ -27,6 +29,7 @@ export default function GameNavigation({
   setMessage: any;
   action: { action: any; message: string };
   setAction: any;
+  moveMessage: string;
 }) {
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
   const games_data_two = game_players?.player_two?.edges?.[0]?.node;
@@ -91,7 +94,7 @@ export default function GameNavigation({
       <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
-            name={player_one_display.name}
+            name={"Computer"}
             address={player_one_display.address}
             wins={player_one_display.wins}
             isLeftSide={true}
@@ -101,14 +104,14 @@ export default function GameNavigation({
       <div className="bg-[url('./assets/right-entry.png')] h-40 w-[45%] bg-cover bg-center absolute top-0 right-0 bg-no-repeat">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
-            name={player_two_display.name}
+            name={"Player"}
             address={player_two_display.address}
             wins={player_two_display.wins}
             isLeftSide={false}
           />
         </div>
       </div>
-      <GameMessage
+      <TutorialGameMessage
         game_node={game_node}
         game_players={game_players}
         player_one_name={player_one_display.name}
@@ -119,6 +122,7 @@ export default function GameNavigation({
         setTimeRemaining={setTimeRemaining}
         message={message}
         setMessage={setMessage}
+        moveMessage={moveMessage}
         action={action}
         setAction={setAction}
       />
