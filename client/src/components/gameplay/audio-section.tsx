@@ -10,13 +10,7 @@ import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
 import audio_url from "@/music/audio_1.mp4";
 import { Slider } from "../ui/slider";
 
-export default function AudioSection({
-  volume,
-  setVolume,
-}: {
-  volume: number;
-  setVolume: Dispatch<SetStateAction<number>>;
-}) {
+export default function AudioSection({ volume, setVolume }: { volume: number, setVolume: Dispatch<SetStateAction<number>> }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -51,12 +45,12 @@ export default function AudioSection({
   }, [volume]);
 
   useEffect(() => {
-    audioRef.current?.addEventListener("ended", () => {
+    audioRef.current?.addEventListener('ended', () => {
       audioRef.current?.play().catch(console.error);
     });
 
-    audioRef.current?.addEventListener("error", (e) => {
-      console.error("Audio playback error:", e);
+    audioRef.current?.addEventListener('error', (e) => {
+      console.error('Audio playback error:', e);
     });
   }, []);
 
@@ -66,7 +60,9 @@ export default function AudioSection({
         className="flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-full cursor-pointer bg-[url('./assets/brown-bg.png')] bg-cover bg-center bg-no-repeat"
         onClick={toggleDropdown}
       >
-        <button className="p-0 bg-transparent rounded-full cursor-pointer">
+        <button
+          className="p-0 bg-transparent rounded-full cursor-pointer"
+        >
           <img
             src={volume > 0 ? unmuteFlat : muteFlat}
             width={55}
@@ -124,16 +120,10 @@ export default function AudioSection({
               alt="toggle play"
               className="rounded-full"
             />
-            <Slider
-              value={[volume]}
-              onValueChange={([value]: any) => setVolume(value)}
-              className="w-full"
-              track="bg-[#E48D32]"
-              thumb="bg-[#FCE3AA]"
-              range="bg-[#FCE3AA]"
-              hideThumb={false}
-            />
-            <span className="flex text-sm text-[#FCE3AA]">{volume}</span>
+            <Slider value={[volume]} onValueChange={([value]: any) => setVolume(value)} className="w-full" track="bg-[#E48D32]" thumb="bg-[#FCE3AA]" range="bg-[#FCE3AA]" hideThumb={false} />
+            <span className="flex text-sm text-[#FCE3AA]">
+              {volume}
+            </span>
           </div>
         </div>
       )}

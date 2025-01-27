@@ -10,9 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function truncateString(str?: string, num?: number) {
   if (str) {
-    return str.length > (num || 6)
-      ? str.slice(0, num || 6) + "..." + str.slice(-(num || 6))
-      : str;
+    return str.length > (num || 6) ? str.slice(0, num || 6) + "..." + str.slice(-(num || 6)) : str;
   }
 }
 
@@ -78,7 +76,7 @@ export function getPlayers(data: any[] | undefined) {
   }, []);
 
   // Sort players by score (wins * 50) in descending order
-  return players.sort((a: any, b: any) => b.wins * 50 - a.wins * 50);
+  return players.sort((a: any, b: any) => (b.wins * 50) - (a.wins * 50));
 }
 
 export function getPlayer(data: any[] | undefined, address: string) {
@@ -163,11 +161,7 @@ export async function uploadFile(file: File) {
   }
 }
 
-export const formatPlayerName = (
-  name: string,
-  address: string,
-  num?: number,
-) => {
+export const formatPlayerName = (name: string, address: string, num?: number) => {
   if (!name || name === "0x0" || name === address) {
     return truncateString(address, num);
   }

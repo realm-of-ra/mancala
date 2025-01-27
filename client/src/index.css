@@ -143,6 +143,6 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-.animate-spin-slow {
+.animate-spin-slow{
   animation: spin-slow 2.5s linear infinite;
 }

@@ -5,7 +5,11 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import image from "@/assets/image-add.svg";
 import avatar from "@/assets/square-avatar.png";
 import { useDojo } from "@/dojo/useDojo";
-import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+} from "@headlessui/react";
 import UsersPlus from "../ui/svgs/users-plus";
 import { Twitter } from "lucide-react";
 import { useQuery } from "@apollo/client";
@@ -16,7 +20,7 @@ import clsx from "clsx";
 
 // Add a new type for save status
 type SaveStatus = {
-  status: "idle" | "saving" | "success" | "error";
+  status: 'idle' | 'saving' | 'success' | 'error';
   message: string;
 };
 
@@ -33,8 +37,7 @@ export default function UserSection({
   total: number;
   profiles: any;
 }) {
-  const { data: playerData, startPolling: startPollingPlayerData } =
-    useQuery(MancalaPlayerNames);
+  const { data: playerData, startPolling: startPollingPlayerData } = useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
   const [playerName, setPlayerName] = useState("");
   const [playerImage, setPlayerImage] = useState("");
@@ -57,13 +60,8 @@ export default function UserSection({
     }
 
     if (profile?.node?.name) {
-      const decodedName = shortString.decodeShortString(
-        profile?.node?.name || "",
-      );
-      const truncatedName =
-        decodedName.length > 25
-          ? `${decodedName.slice(0, 25)}...`
-          : decodedName;
+      const decodedName = shortString.decodeShortString(profile?.node?.name || "");
+      const truncatedName = decodedName.length > 25 ? `${decodedName.slice(0, 25)}...` : decodedName;
       setPlayerName(truncatedName);
       setDisplayName(truncatedName);
       setInitialDisplayName(truncatedName);
@@ -89,8 +87,8 @@ export default function UserSection({
 
   // Add save status state
   const [saveStatus, setSaveStatus] = useState<SaveStatus>({
-    status: "idle",
-    message: "",
+    status: 'idle',
+    message: ''
   });
 
   const handleOpen = () => {
@@ -134,7 +132,7 @@ export default function UserSection({
   const handleSaveProfile = async () => {
     if (!account.account) return;
 
-    setSaveStatus({ status: "saving", message: "Saving changes..." });
+    setSaveStatus({ status: 'saving', message: 'Saving changes...' });
 
     try {
       const userExists = profiles.mancalaAlphaProfileModels.edges.some(
@@ -150,27 +148,28 @@ export default function UserSection({
         );
       } else {
         await system.create_player_profile(
-          account.account,
+          account.account, 
           displayName.toString(),
-          setLoading,
+          setLoading
         );
       }
 
-      setSaveStatus({
-        status: "success",
-        message: "Profile updated successfully!",
+      setSaveStatus({ 
+        status: 'success', 
+        message: 'Profile updated successfully!' 
       });
-
+      
       // Close dialog after successful save (after a brief delay to show success)
       setTimeout(() => {
         setOpen(false);
-        setSaveStatus({ status: "idle", message: "" });
+        setSaveStatus({ status: 'idle', message: '' });
       }, 1500);
+
     } catch (error) {
-      console.error("Save failed:", error);
-      setSaveStatus({
-        status: "error",
-        message: "Failed to save changes. Please try again.",
+      console.error('Save failed:', error);
+      setSaveStatus({ 
+        status: 'error', 
+        message: 'Failed to save changes. Please try again.' 
       });
     }
   };
@@ -198,7 +197,7 @@ export default function UserSection({
   const { connectors } = useConnect();
   const controller = connectors[0] as ControllerConnector;
   const [username, setUsername] = useState("");
-
+  
   useEffect(() => {
     const fetchUsername = async () => {
       const name = await controller?.username();
@@ -292,6 +291,8 @@ export default function UserSection({
             <p className="font-medium text-[#BFC5D4] text-sm">Share</p>
           </button>
         </div>
+
+        
       </div>
     </div>
   );

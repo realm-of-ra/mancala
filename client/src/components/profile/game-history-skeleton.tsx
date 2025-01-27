@@ -20,7 +20,7 @@ export function GameHistorySkeleton() {
                         ? "text-center -ml-6"
                         : head.id === 4 && "-ml-16",
                     head.id === 5 && "hidden",
-                    "w-[175px] p-4 text-start",
+                    "w-[175px] p-4 text-start"
                   )}
                 >
                   <Typography
@@ -45,7 +45,7 @@ export function GameHistorySkeleton() {
                       className={clsx(
                         "w-full mx-5 bg-[#0F1116] flex flex-row items-center",
                         isLast && "pb-2",
-                        isFirst && "pt-2",
+                        isFirst && "pt-2"
                       )}
                     >
                       <td className="flex flex-row items-center px-6 h-16 space-x-5 w-[230px] justify-start bg-[#111419] rounded-l-xl border-r-0 border-2 border-[#1A1E25]">
