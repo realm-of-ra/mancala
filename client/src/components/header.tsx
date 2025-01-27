@@ -290,6 +290,12 @@ export default function Header() {
     fetchUsername();
   }, [controller, setUsername]);
 
+  console.log({
+    playerData,
+    profile,
+    address: account?.address,
+  });
+
   useEffect(() => {
     if (profile === undefined && account?.address !== undefined) {
       setOpen(true);
