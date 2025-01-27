@@ -748,7 +748,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaAlphaGameModels {
+    mancalaAlphaGameModels(limit: 1000000000) {
       edges {
         node {
           game_id
@@ -766,7 +766,7 @@ export const MancalaHeaderQuery = gql`
 
 export const MancalaPlayerNames = gql`
   query mancalaAlphaPlayerNames {
-    mancalaAlphaProfileModels {
+    mancalaAlphaProfileModels(limit: 1000000000) {
       edges {
         node {
           name
