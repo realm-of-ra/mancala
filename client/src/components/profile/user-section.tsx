@@ -121,7 +121,7 @@ export default function UserSection({
 
       try {
         const url = await uploadFile(file as File);
-        setImageUrl(url);
+        setImageUrl(url?.original);
       } catch (error) {
         console.error("Error uploading image:", error);
         // Optionally handle error state here
