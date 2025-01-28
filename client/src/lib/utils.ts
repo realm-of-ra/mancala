@@ -201,17 +201,38 @@ export async function uploadFile(file: File) {
   }
 }
 
+let addressLookupCache: Map<string, string> = new Map();
+
+export const updateAddressCache = (newCache: Map<string, string>) => {
+  addressLookupCache = newCache;
+};
+
 export const formatPlayerName = (
   name: string,
   address: string,
   num?: number,
 ) => {
+  console.log({
+    name,
+    address,
+    num
+  })
   if (!name || name === "0x0" || name === address) {
+    // Try to get the looked-up name first
+    const lookedUpName = addressLookupCache.get(address);
+    if (lookedUpName) {
+      return lookedUpName;
+    }
     return truncateString(address, num);
   }
   try {
     return shortString.decodeShortString(name);
   } catch (e) {
+    // Try to get the looked-up name first
+    const lookedUpName = addressLookupCache.get(address);
+    if (lookedUpName) {
+      return lookedUpName;
+    }
     return truncateString(address);
   }
 };

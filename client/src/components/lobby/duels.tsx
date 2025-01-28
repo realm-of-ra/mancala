@@ -1,7 +1,7 @@
 import { duels_header, colors } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
-import { formatPlayerName } from "@/lib/utils.ts";
+import { formatPlayerName, updateAddressCache } from "@/lib/utils.ts";
 import { DuelsSkeleton } from "./duels-skeleton.tsx";
 import {
   ClipboardDocumentCheckIcon,
@@ -12,9 +12,12 @@ import EmptyDuels from "./empty-duels.tsx";
 import { Button } from "../ui/button.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccount } from "@starknet-react/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { lookupAddresses } from '@cartridge/controller';
+import { shortString } from "starknet";
+
 
 export default function Duels({
   games,
@@ -30,6 +33,32 @@ export default function Duels({
     status: string;
     index: number;
   }>();
+  const [lookedUpNames, setLookedUpNames] = useState<Map<string, string>>(new Map());
+
+  const lookupMissingNames = async (addresses: string[]) => {
+    try {
+      const uniqueAddresses = [...new Set(addresses)].filter(addr => addr !== "0x0");
+      const addressMap = await lookupAddresses(uniqueAddresses);
+      setLookedUpNames(addressMap);
+      updateAddressCache(addressMap);
+    } catch (error) {
+      console.error('Error looking up addresses:', error);
+    }
+  };
+
+  useEffect(() => {
+    const addresses = games?.flatMap((game: any) => [
+      game.node.player_one,
+      game.node.player_two,
+      game.node.winner
+    ]);
+    lookupMissingNames(addresses);
+  }, [games]);
+
+  console.log({
+    games
+  })
+
   const data = games?.map((data: any, index: number) => {
     return {
       challenger: data.node.player_one,
@@ -37,22 +66,25 @@ export default function Duels({
       challenger_image: data.node.player_one_image,
       challenged_image: data.node.player_two_image,
       challenger_name:
-        data.node.player_one === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_one_name, data.node.player_one),
+        data.node.player_one === "0x0" || data.node.player_one_name === undefined
+          ? formatPlayerName(data.node.player_one, data.node.player_one)
+          : shortString.decodeShortString(data.node.player_one_name),
       challenged_name:
-        data.node.player_two === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_two_name, data.node.player_two),
+        data.node.player_two === "0x0" || data.node.player_two_name === undefined
+          ? formatPlayerName(data.node.player_two, data.node.player_two)
+          : shortString.decodeShortString(data.node.player_two_name),
       winner_image: data.node.winner_image,
       winner:
-        data.node.winner === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.winner, data.node.winner, 4),
+        data.node.winner === "0x0" || data.node.winner_name === undefined
+          ? formatPlayerName(data.node.winner, data.node.winner, 4)
+          : shortString.decodeShortString(data.node.winner_name),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
   });
+  console.log({
+    data
+  })
   const { system } = useDojo();
   const account = useAccount();
   const join_game = async (game_id: string, index: number) => {
