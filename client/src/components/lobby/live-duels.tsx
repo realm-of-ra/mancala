@@ -6,6 +6,7 @@ import { formatPlayerName } from "@/lib/utils.ts";
 import { useNavigate } from "react-router-dom";
 import { UserIcon } from "@heroicons/react/24/solid";
 import EmptyDuels from "./empty-duels.tsx";
+import { shortString } from "starknet";
 
 export default function LiveDuels({ games }: { games: any }) {
   const navigate = useNavigate();
@@ -20,14 +21,12 @@ export default function LiveDuels({ games }: { games: any }) {
         challenged: data.node.player_two,
         challenger_image: data.node.player_one_image,
         challenged_image: data.node.player_two_image,
-        challenger_name: formatPlayerName(
-          data.node.player_one_name,
-          data.node.player_one,
-        ),
-        challenged_name: formatPlayerName(
-          data.node.player_two_name,
-          data.node.player_two,
-        ),
+        challenger_name: data.node.player_one === "0x0" || data.node.player_one_name === undefined || data.node.player_one_name === "#"
+          ? formatPlayerName(data.node.player_one, data.node.player_one)
+          : shortString.decodeShortString(data.node.player_one_name),
+        challenged_name: data.node.player_two === "0x0" || data.node.player_two_name === undefined || data.node.player_two_name === "#"
+          ? formatPlayerName(data.node.player_two, data.node.player_two)
+          : shortString.decodeShortString(data.node.player_two_name),
         date: data?.node.entity?.executedAt,
       };
     });

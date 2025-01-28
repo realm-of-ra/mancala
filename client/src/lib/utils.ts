@@ -32,7 +32,7 @@ export function getPlayers(data: any[] | undefined) {
 
   // Extracting player_one and player_two from the data object
   const players = data.reduce((acc: any, edge: any) => {
-    const { player_one, player_two, winner, player_one_name, player_one_image, player_two_image } = edge.node;
+    const { player_one, player_two, winner, player_one_name, player_two_name, player_one_image, player_two_image } = edge.node;
 
     // Update player_one
     const playerOneIndex = acc.findIndex(
@@ -81,6 +81,7 @@ export function getPlayers(data: any[] | undefined) {
         wins: winner === player_two ? 1 : 0,
         losses: winner !== player_two ? 1 : 0,
         totalAppearances: 1,
+        name: formatPlayerName(player_two_name, player_two),
         profile_uri: player_two_image || null,
       });
     }
@@ -201,7 +202,7 @@ export async function uploadFile(file: File) {
   }
 }
 
-let addressLookupCache: Map<string, string> = new Map();
+export let addressLookupCache: Map<string, string> = new Map();
 
 export const updateAddressCache = (newCache: Map<string, string>) => {
   addressLookupCache = newCache;
@@ -212,11 +213,6 @@ export const formatPlayerName = (
   address: string,
   num?: number,
 ) => {
-  console.log({
-    name,
-    address,
-    num
-  })
   if (!name || name === "0x0" || name === address) {
     // Try to get the looked-up name first
     const lookedUpName = addressLookupCache.get(address);

@@ -1,12 +1,11 @@
 import { player_header, colors } from "../../lib/constants";
-import { getPlayers, truncateString } from "../../lib/utils";
+import { formatPlayerName, getPlayers, truncateString } from "../../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Leaderboard({ data }: { data: any[] | undefined }) {
   const players = getPlayers(data);
-  console.log("players: ", players)
   return (
     <div className="bg-[#0F1116] bg-contain bg-center bg-no-repeat border-2 border-[#272A32] rounded-2xl w-[928px] h-[437px] flex flex-col items-center justify-center px-8 pt-16">
       <div className="w-[928px] rounded-t-xl rounded-b-xl fixed h-[500px] overflow-y-scroll hide-scrollbar pb-4">
@@ -72,9 +71,7 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                             </div>
 
                             <p className="font-normal text-white">
-                              {players[index]?.name
-                                ? players[index]?.name
-                                : truncateString(address)}
+                              {players[index]?.name}
                             </p>
                           </div>
                         </div>
