@@ -6,6 +6,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function Leaderboard({ data }: { data: any[] | undefined }) {
   const players = getPlayers(data);
+  console.log("players: ", players)
   return (
     <div className="bg-[#0F1116] bg-contain bg-center bg-no-repeat border-2 border-[#272A32] rounded-2xl w-[928px] h-[437px] flex flex-col items-center justify-center px-8 pt-16">
       <div className="w-[928px] rounded-t-xl rounded-b-xl fixed h-[500px] overflow-y-scroll hide-scrollbar pb-4">
@@ -60,10 +61,14 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengerColor }}
                             >
-                              <UserIcon
-                                color="#F58229"
-                                className="w-5 h-5 text-white"
-                              />
+                              {players[index]?.profile_uri != "#" && players[index]?.profile_uri != undefined ? (
+                                <img src={players[index]?.profile_uri} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              )}
                             </div>
 
                             <p className="font-normal text-white">

@@ -18,6 +18,8 @@ export default function LiveDuels({ games }: { games: any }) {
       return {
         challenger: data.node.player_one,
         challenged: data.node.player_two,
+        challenger_image: data.node.player_one_image,
+        challenged_image: data.node.player_two_image,
         challenger_name: formatPlayerName(
           data.node.player_one_name,
           data.node.player_one,
@@ -115,10 +117,14 @@ export default function LiveDuels({ games }: { games: any }) {
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            <UserIcon
-                              color="#F58229"
-                              className="w-5 h-5 text-white"
-                            />
+                            {data.challenger_image != "#" && data.challenger_image != undefined ? (
+                              <img src={data.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
+                            )}
                           </div>
                           <Typography
                             variant="paragraph"
@@ -135,10 +141,14 @@ export default function LiveDuels({ games }: { games: any }) {
                               className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              <UserIcon
-                                color="#F58229"
-                                className="w-5 h-5 text-white"
-                              />
+                              {data.challenged_image != "#" && data.challenged_image != undefined ? (
+                                <img src={data.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              )}
                             </div>
                             <Typography
                               variant="paragraph"

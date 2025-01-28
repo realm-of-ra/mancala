@@ -34,6 +34,8 @@ export default function Duels({
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
+      challenger_image: data.node.player_one_image,
+      challenged_image: data.node.player_two_image,
       challenger_name:
         data.node.player_one === "0x0"
           ? "0x0"
@@ -42,6 +44,7 @@ export default function Duels({
         data.node.player_two === "0x0"
           ? "0x0"
           : formatPlayerName(data.node.player_two_name, data.node.player_two),
+      winner_image: data.node.winner_image,
       winner:
         data.node.winner === "0x0"
           ? "0x0"
@@ -154,10 +157,14 @@ export default function Duels({
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            <UserIcon
-                              color="#F58229"
-                              className="w-5 h-5 text-white"
-                            />
+                            {item.challenger_image != "#" && item.challenger_image != undefined ? (
+                              <img src={item.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
+                            )}
                           </div>
                           <Typography
                             variant="paragraph"
@@ -174,10 +181,14 @@ export default function Duels({
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              <UserIcon
-                                color="#F58229"
-                                className="w-5 h-5 text-white"
-                              />
+                              {item.challenged_image != "#" && item.challenged_image != undefined ? (
+                                <img src={item.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              )}
                             </div>
                             <Typography
                               variant="paragraph"

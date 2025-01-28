@@ -24,7 +24,7 @@ import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useQuery } from "@apollo/client";
 import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
-import Dropdown from "@/components/dropdown";
+// import Dropdown from "@/components/dropdown";
 import clsx from "clsx";
 import { Helmet } from "react-helmet-async";
 // import audio from "../music/audio_1.mp4";
@@ -130,7 +130,10 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
           winner: winner?.node?.name || game.node.winner,
+          winner_image: winner?.node?.profile_uri,
         },
       };
     });
@@ -190,6 +193,8 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
         },
       };
     })
