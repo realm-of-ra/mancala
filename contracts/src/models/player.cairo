@@ -13,6 +13,8 @@ impl PlayerImpl of PlayerTrait {
             address,
             len_pits: 6,
             boost_use_count: 0,
+            xp: 0,
+            season_id: 0,
             boost_extra_turn: false,
             restart_requested: false,
         }

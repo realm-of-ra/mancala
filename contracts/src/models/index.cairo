@@ -56,6 +56,8 @@ pub struct Player {
     pub address: ContractAddress,
     pub len_pits: u8,
     pub boost_use_count: u8,
+    pub xp: u32,
+    pub season_id: u32,
     pub boost_extra_turn: bool,
     pub restart_requested: bool,
 }
@@ -105,4 +107,41 @@ pub struct Boost {
     #[key]
     pub boost: BoostType,
     pub address: ContractAddress,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Season {
+    #[key]
+    season_id: u32,
+    season_address: ContractAddress,
+    settings_id: u32,
+    start: u64,
+    end: u64,
+    entry_amount: u256,
+    reward_pool: u256,
+    finalized: bool,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Leaderboard {
+    #[key]
+    season_id: u32,
+    #[key]
+    rank: u8,
+    game_id: u128,
+    score: u16,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Donation {
+    #[key]
+    season_id: u32,
+    #[key]
+    address: ContractAddress,
+    name: felt252,
+    social: felt252,
+    amount: u256,
 }

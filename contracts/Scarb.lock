@@ -32,7 +32,7 @@ source = "git+https://github.com/dojoengine/dojo?tag=v1.0.12#5f74aaef06a7900b1a6
 
 [[package]]
 name = "mancala"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "achievement",
  "dojo",

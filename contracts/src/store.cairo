@@ -13,6 +13,9 @@ use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
 use mancala::models::boost::{Boost, BoostType};
+use mancala::models::leaderboard::Leaderboard;
+use mancala::models::donation::Donation;
+use mancala::models::season::Season;
 
 
 use mancala::events::move::{
@@ -102,6 +105,21 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn set_leaderboard(ref self: Store, leaderboard: Leaderboard) {
+        self.world.write_model(@leaderboard);
+    }
+
+    #[inline]
+    fn set_donation(ref self: Store, donation: Donation) {
+        self.world.write_model(@donation);
+    }
+
+    #[inline]
+    fn set_season(ref self: Store, season: Season) {
+        self.world.write_model(@season);
+    }
+
+    #[inline]
     fn get_mancala_board(self: Store, game_id: u128) -> MancalaBoard {
         self.world.read_model(game_id)
     }
@@ -136,5 +154,20 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn get_boost(self: Store, boost: BoostType) -> Boost {
         self.world.read_model(boost)
+    }
+
+    #[inline]
+    fn get_season(self: Store, season_id: u32) -> Season {
+        self.world.read_model(season_id)
+    }
+
+    #[inline]
+    fn get_leaderboard(self: Store, season_id: u32, rank: u8) -> Leaderboard {
+        self.world.read_model((season_id, rank))
+    }
+
+    #[inline]
+    fn get_donation(self: Store, season_id: u32, address: ContractAddress) -> Donation {
+        self.world.read_model((season_id, address))
     }
 }

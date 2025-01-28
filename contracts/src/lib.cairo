@@ -10,6 +10,9 @@ mod models {
     mod game_counter;
     mod pit;
     mod boost;
+    mod donation;
+    mod leaderboard;
+    mod season;
 }
 
 mod events {
@@ -25,6 +28,7 @@ mod interfaces {
 mod components {
     mod playable;
     mod initializable;
+    mod payable;
     mod profile;
 }
 
@@ -37,6 +41,7 @@ mod elements {
         mod mastering;
         mod reigning;
     }
+
     mod trophies {
         mod collector;
         mod dominator;
@@ -45,6 +50,7 @@ mod elements {
         mod victor;
         mod interface;
     }
+
     mod boards {
         mod interface;
         mod afropolitan;
@@ -84,6 +90,7 @@ mod types {
 
 mod utils {
     mod board;
+    mod leader_board;
 }
 
 #[cfg(test)]

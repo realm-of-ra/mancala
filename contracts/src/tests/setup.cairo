@@ -12,10 +12,6 @@ mod setup {
     use mancala::systems::mancala::{
         Mancala, IMancalaSystemDispatcher, IMancalaSystemDispatcherTrait,
     };
-    //use mancala::tests::mocks::erc20::{
-    //    IERC20Dispatcher, IERC20DispatcherTrait, IERC20FaucetDispatcher,
-    //    IERC20FaucetDispatcherTrait, ERC20,
-    //};
     use mancala::types::varient::Varient;
     use mancala::systems::profile::{
         PlayerProfile, IPlayerProfileDispatcher, IPlayerProfileDispatcherTrait,
@@ -30,21 +26,14 @@ mod setup {
         starknet::contract_address_const::<0x0>()
     }
 
+    pub fn EXTRA_TURN_BOOST() -> ContractAddress {
+        starknet::contract_address_const::<0x0>()
+    }
+
     #[starknet::interface]
     trait IDojoInit<ContractState> {
         fn dojo_init(self: @ContractState);
     }
-
-    //fn deploy_erc20() -> IERC20Dispatcher {
-    //    let (address, _) = starknet::deploy_syscall(
-    //        ERC20::TEST_CLASS_HASH.try_into().expect('Class hash conversion failed'),
-    //        0,
-    //        array![].span(),
-    //        false,
-    //    )
-    //        .expect('ERC20 deploy failed');
-    //    IERC20Dispatcher { contract_address: address }
-    //}
 
     #[derive(Drop)]
     struct Systems {
@@ -97,7 +86,7 @@ mod setup {
 
         let namespace_def = setup_namespace();
         let world = spawn_test_world([namespace_def].span());
-        world.sync_perms_and_inits(setup_contracts(OWNER().into()));
+        world.sync_perms_and_inits(setup_contracts(EXTRA_TURN_BOOST().into()));
         // [Setup] Systems
         let (mancala_address, _) = world.dns(@"Mancala").unwrap();
         let (player_profile_address, _) = world.dns(@"PlayerProfile").unwrap();
