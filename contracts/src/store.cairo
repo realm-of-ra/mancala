@@ -14,9 +14,9 @@ use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
 use mancala::models::boost::{Boost, BoostType};
 use mancala::models::leaderboard::Leaderboard;
+use mancala::models::settings::Settings;
 use mancala::models::sponsor::Sponsor;
 use mancala::models::season::Season;
-
 
 use mancala::events::move::{
     PlayerMove, PlayerMoveTrait, PlayerExtraTurn, PlayerExtraTurnTrait, EndTurn, EndTurnTrait,
@@ -120,6 +120,11 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
+    fn set_settings(ref self: Store, settings: Settings) {
+        self.world.write_model(@settings);
+    }
+
+    #[inline]
     fn get_mancala_board(self: Store, game_id: u128) -> MancalaBoard {
         self.world.read_model(game_id)
     }
@@ -169,5 +174,10 @@ impl StoreImpl of StoreTrait {
     #[inline]
     fn get_sponsor(self: Store, season_id: u32, address: ContractAddress) -> Sponsor {
         self.world.read_model((season_id, address))
+    }
+
+    #[inline]
+    fn get_settings(self: Store, settings_id: u32) -> Settings {
+        self.world.read_model(settings_id)
     }
 }

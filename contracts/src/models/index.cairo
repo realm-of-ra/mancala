@@ -56,7 +56,7 @@ pub struct Player {
     pub address: ContractAddress,
     pub len_pits: u8,
     pub boost_use_count: u8,
-    pub xp: u32,
+    pub xp: u16,
     pub season_id: u32,
     pub boost_extra_turn: bool,
     pub restart_requested: bool,
@@ -144,4 +144,12 @@ pub struct Sponsor {
     name: felt252,
     social: felt252,
     amount: u256,
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::model]
+pub struct Settings {
+    #[key]
+    settings_id: u32,
+    game_pass_address: ContractAddress,
 }

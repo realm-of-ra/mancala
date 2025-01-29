@@ -3,6 +3,7 @@ cairo-version = "=2.8.4"
 name = "mancala"
 version = "0.3.2"
 authors = ["Okhai <okhaio@protonmail.com>"]
+# edition = "2024_07"
 
 [cairo]
 sierra-replace-ids = true

@@ -13,10 +13,12 @@ mod models {
     mod sponsor;
     mod leaderboard;
     mod season;
+    mod settings;
 }
 
 mod helpers {
     mod address_resolver;
+    mod prize_distribution;
 }
 
 mod events {
@@ -27,6 +29,7 @@ mod events {
 
 mod interfaces {
     mod erc20;
+    mod erc721;
 }
 
 mod components {
@@ -95,7 +98,7 @@ mod types {
 
 mod utils {
     mod board;
-    //mod leader_board;
+    mod leaderboard;
 }
 
 #[cfg(test)]

@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0xf489144b10318ff49cd76c8cc71811d4aa10e3af779961de8b55340df7e34a",
-      "class_hash": "0x3a7ad6b76a518f748347f0491861d240ce830737346f11d8c0f1e2fd07d0da8",
+      "address": "0x520920552fa2944aa49e8ec87b33f6839ccad94120d79920c461d2110f2cf15",
+      "class_hash": "0x16b76c414938aabbae739722651de786c07a2b33856bc77903544a922adecb1",
       "abi": [
         {
           "type": "impl",
@@ -1369,6 +1369,14 @@
             {
               "name": "boost_use_count",
               "type": "core::integer::u8"
+            },
+            {
+              "name": "xp",
+              "type": "core::integer::u32"
+            },
+            {
+              "name": "season_id",
+              "type": "core::integer::u32"
             },
             {
               "name": "boost_extra_turn",
@@ -1696,7 +1704,7 @@
         }
       ],
       "init_calldata": [
-        "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"
+        "0x00c5302ed74122c30b65aeba0e9b1909c293a87ec6024aa1f79488814d66085f"
       ],
       "tag": "mancala_beta-Mancala",
       "selector": "0x45479fc8e08fe4010ab314441504d89ee46dd3c86de7fb684bc91389cf1158d",
@@ -1717,8 +1725,8 @@
       ]
     },
     {
-      "address": "0x64e2b18674370740e8d75fdc42610e6f22c0837594c277bd5053895fe068cea",
-      "class_hash": "0x6f1cd275709151449d1f763aaf5a768a1f2b8d5d14f0f40b508f852c4019d0",
+      "address": "0x1df281c40394c0092464184cef39bf00609b33423731c347775a32146b0ef8f",
+      "class_hash": "0x300df628a520886e602d1a9fe01cfb098b06aa4ad32abff8a063f178f91b0c",
       "abi": [
         {
           "type": "impl",
@@ -1958,6 +1966,12 @@
     },
     {
       "members": [],
+      "class_hash": "0x27d9a891106fc6775f630557dd77fae478dee846dea62de23f53a78753af545",
+      "tag": "mancala_beta-Leaderboard",
+      "selector": "0x4603f0a5c5e4540b5637ba32088837a676ef536ee5355f76891a07a6cd710bd"
+    },
+    {
+      "members": [],
       "class_hash": "0x187da8f5a1c2877c403256f23244c3a5b41189240cc84d11ea9b379f1ddcfc0",
       "tag": "mancala_beta-MancalaBoard",
       "selector": "0x1d22ae969d8664234ff4905915bf59cb7506203aebf25be0ba83e259ff5d40"
@@ -1970,7 +1984,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x3bbe954352f9e27ded6fd9cb547cfc024d1daabb76b66c0dd62b7a340dc6dbf",
+      "class_hash": "0x6dc5052cd4137a691bc49e19eb0d0b15d67ab78ec9c6a9174f8f1755fae46d5",
       "tag": "mancala_beta-Player",
       "selector": "0x3e594d51cc7f74cdc3fc2f25d262be3b6175dd28d3d623f9604304c5b4e7c5d"
     },
@@ -1982,15 +1996,27 @@
     },
     {
       "members": [],
+      "class_hash": "0x608e1b9a21a70e4903f9d94ba887c62fc12ff6ca1caa7a223df659b7fcd2de6",
+      "tag": "mancala_beta-Season",
+      "selector": "0x56352b4c6c137a8b0b22325c5c0583634e6688e3e2f4703e5fd45745ff2b16d"
+    },
+    {
+      "members": [],
       "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
       "tag": "mancala_beta-Seed",
       "selector": "0x2248061940cc4acc200715c1513324c6e0f342143566f5f5973919e1495cd1f"
+    },
+    {
+      "members": [],
+      "class_hash": "0x26723c52f267b0892be2d1d655b3a3d78c261378148a719b0f380eff6509266",
+      "tag": "mancala_beta-Sponsor",
+      "selector": "0xc0ece9592944bc5fc1e6cb3db519e332f6a4e909c4b93dea9f1e6cbc278a88"
     }
   ],
   "events": [
     {
       "members": [],
-      "class_hash": "0x3a670e077cebdc44ac86ef86f071bc5a4d7baaf846c276d7fb923bb1efffaa6",
+      "class_hash": "0x425257d64f2bd78ab2099778bdf1c82430132ba7e8161a1fc94dfb695e42475",
       "tag": "mancala_beta-BoardMinted",
       "selector": "0x9d84ec823cf78090ac5f4c2a7123333931945b0e4c87e5b254b9b74450a3f6"
     },

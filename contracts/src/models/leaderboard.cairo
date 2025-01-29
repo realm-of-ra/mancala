@@ -6,8 +6,8 @@ mod errors {}
 #[generate_trait]
 impl LeaderboardImpl of LeaderboardTrait {
     #[inline]
-    fn new(season_id: u32, rank: u8, game_id: u128) -> Leaderboard {
+    fn new(season_id: u32, rank: u8, game_id: u128, score: u16) -> Leaderboard {
         // [Return] Leaderboard
-        Leaderboard { season_id, rank, game_id, score: 0 }
+        Leaderboard { season_id, rank, game_id, score }
     }
 }
