@@ -1,5 +1,5 @@
 import { player_header, colors } from "../../lib/constants";
-import { getPlayers, truncateString } from "../../lib/utils";
+import { formatPlayerName, getPlayers, truncateString } from "../../lib/utils";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -60,16 +60,18 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengerColor }}
                             >
-                              <UserIcon
-                                color="#F58229"
-                                className="w-5 h-5 text-white"
-                              />
+                              {players[index]?.profile_uri != "#" && players[index]?.profile_uri != undefined ? (
+                                <img src={players[index]?.profile_uri} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              )}
                             </div>
 
                             <p className="font-normal text-white">
-                              {players[index]?.name
-                                ? players[index]?.name
-                                : truncateString(address)}
+                              {players[index]?.name}
                             </p>
                           </div>
                         </div>

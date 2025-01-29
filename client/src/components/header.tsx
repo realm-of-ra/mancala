@@ -227,7 +227,7 @@ export default function Header() {
 
       try {
         const url = await uploadFile(file as File);
-        setImageUrl(url);
+        setImageUrl(url?.original);
       } catch (error) {
         console.error("Error uploading image:", error);
         // Optionally handle error state here
@@ -290,17 +290,19 @@ export default function Header() {
     fetchUsername();
   }, [controller, setUsername]);
 
+
   console.log({
-    playerData,
     profile,
     address: account?.address,
   });
 
   useEffect(() => {
-    if (profile === undefined && account?.address !== undefined) {
+    if (account?.address && 
+        playerData?.mancalaAlphaProfileModels?.edges && 
+        !profile) {
       setOpen(true);
     }
-  }, [account?.address, profile]);
+  }, [account?.address, playerData, profile]);
 
   return (
     <div className="flex flex-row items-center justify-between space-x-5 w-full">

@@ -15,6 +15,7 @@ import { useAccount } from "@starknet-react/core";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { shortString } from "starknet";
 
 export default function Duels({
   games,
@@ -34,18 +35,21 @@ export default function Duels({
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
+      challenger_image: data.node.player_one_image,
+      challenged_image: data.node.player_two_image,
       challenger_name:
-        data.node.player_one === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_one_name, data.node.player_one),
+        data.node.player_one === "0x0" || data.node.player_one_name === undefined || data.node.player_one_name === "#"
+          ? formatPlayerName(data.node.player_one, data.node.player_one)
+          : shortString.decodeShortString(data.node.player_one_name),
       challenged_name:
-        data.node.player_two === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_two_name, data.node.player_two),
+        data.node.player_two === "0x0" || data.node.player_two_name === undefined || data.node.player_two_name === "#"
+          ? formatPlayerName(data.node.player_two, data.node.player_two)
+          : shortString.decodeShortString(data.node.player_two_name),
+      winner_image: data.node.winner_image,
       winner:
-        data.node.winner === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.winner, data.node.winner, 4),
+        data.node.winner === "0x0" || data.node.winner_name === undefined
+          ? formatPlayerName(data.node.winner, data.node.winner, 4)
+          : shortString.decodeShortString(data.node.winner_name),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
@@ -154,10 +158,14 @@ export default function Duels({
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            <UserIcon
-                              color="#F58229"
-                              className="w-5 h-5 text-white"
-                            />
+                            {item.challenger_image != "#" && item.challenger_image != undefined ? (
+                              <img src={item.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
+                            )}
                           </div>
                           <Typography
                             variant="paragraph"
@@ -174,10 +182,14 @@ export default function Duels({
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              <UserIcon
-                                color="#F58229"
-                                className="w-5 h-5 text-white"
-                              />
+                              {item.challenged_image != "#" && item.challenged_image != undefined ? (
+                                <img src={item.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <UserIcon
+                                  color="#F58229"
+                                  className="w-5 h-5 text-white"
+                                />
+                              )}
                             </div>
                             <Typography
                               variant="paragraph"

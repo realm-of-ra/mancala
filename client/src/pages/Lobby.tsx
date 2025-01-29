@@ -24,9 +24,11 @@ import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
 import { useQuery } from "@apollo/client";
 import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
-import Dropdown from "@/components/dropdown";
+// import Dropdown from "@/components/dropdown";
 import clsx from "clsx";
 import { Helmet } from "react-helmet-async";
+import { lookupAddresses } from "@cartridge/controller";
+import { updateAddressCache } from "@/lib/utils";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
@@ -39,6 +41,7 @@ export default function Lobby() {
   const [creating, setCreating] = useState(false);
   const [player2, setPlayer2] = useState("");
   const [playWith, setPlayWith] = useState("AI");
+  const [addressLookupCache, setAddressLookupCache] = useState<Map<string, string>>(new Map());
   const handleOpen = () => {
     setGameUrl(undefined);
     setCreating(false);
@@ -130,7 +133,10 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
           winner: winner?.node?.name || game.node.winner,
+          winner_image: winner?.node?.profile_uri,
         },
       };
     });
@@ -190,6 +196,8 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
         },
       };
     })
@@ -206,6 +214,29 @@ export default function Lobby() {
   }, [gameId, creating, open, type, playWith]);
 
   const [tabValue, setTabValue] = useState("duels");
+
+  const lookupMissingNames = async (addresses: string[]) => {
+    try {
+      const uniqueAddresses = [...new Set(addresses)].filter(addr => addr !== "0x0");
+      const addressMap = await lookupAddresses(uniqueAddresses);
+      setAddressLookupCache(addressMap);
+      updateAddressCache(addressMap);
+    } catch (error) {
+      console.error('Error looking up addresses:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.mancalaAlphaMancalaBoardModels?.edges) {
+      const allAddresses = data.mancalaAlphaMancalaBoardModels.edges.flatMap((game: any) => [
+        game.node.player_one,
+        game.node.player_two,
+        game.node.winner
+      ]).filter(Boolean);
+      
+      lookupMissingNames(allAddresses);
+    }
+  }, [data?.mancalaAlphaMancalaBoardModels?.edges]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">

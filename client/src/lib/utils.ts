@@ -2,7 +2,8 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
-import axios from "axios";
+import axios from 'axios';
+import crypto from 'crypto';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -31,7 +32,7 @@ export function getPlayers(data: any[] | undefined) {
 
   // Extracting player_one and player_two from the data object
   const players = data.reduce((acc: any, edge: any) => {
-    const { player_one, player_two, winner, player_one_name } = edge.node;
+    const { player_one, player_two, winner, player_one_name, player_two_name, player_one_image, player_two_image } = edge.node;
 
     // Update player_one
     const playerOneIndex = acc.findIndex(
@@ -44,6 +45,10 @@ export function getPlayers(data: any[] | undefined) {
         acc[playerOneIndex].losses++;
       }
       acc[playerOneIndex].totalAppearances++;
+      // Update profile_uri if available
+      if (player_one_image) {
+        acc[playerOneIndex].profile_uri = player_one_image;
+      }
     } else {
       acc.push({
         address: player_one,
@@ -51,6 +56,7 @@ export function getPlayers(data: any[] | undefined) {
         losses: winner !== player_one ? 1 : 0,
         totalAppearances: 1,
         name: formatPlayerName(player_one_name, player_one),
+        profile_uri: player_one_image || null,
       });
     }
 
@@ -65,12 +71,18 @@ export function getPlayers(data: any[] | undefined) {
         acc[playerTwoIndex].losses++;
       }
       acc[playerTwoIndex].totalAppearances++;
+      // Update profile_uri if available
+      if (player_two_image) {
+        acc[playerTwoIndex].profile_uri = player_two_image;
+      }
     } else {
       acc.push({
         address: player_two,
         wins: winner === player_two ? 1 : 0,
         losses: winner !== player_two ? 1 : 0,
         totalAppearances: 1,
+        name: formatPlayerName(player_two_name, player_two),
+        profile_uri: player_two_image || null,
       });
     }
 
@@ -142,26 +154,59 @@ export function getColorOfTheDay(walletAddress: string, date: Date) {
 
 export async function uploadFile(file: File) {
   try {
-    const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
+    const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const API_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
+    const API_SECRET = import.meta.env.VITE_CLOUDINARY_API_SECRET;
+    
+    if (!CLOUD_NAME || !API_KEY || !API_SECRET) {
+      throw new Error('Cloudinary configuration is missing');
+    }
+
+    const timestamp = Math.round(new Date().getTime() / 1000);
+    
+    // Generate signature using Web Crypto API from window.crypto
+    const msgBuffer = new TextEncoder().encode(`timestamp=${timestamp}${API_SECRET}`);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const signature = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append('file', file);
+    formData.append('timestamp', timestamp.toString());
+    formData.append('api_key', API_KEY);
+    formData.append('signature', signature);
 
     const response = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      formData
     );
-    // Return the direct image URL
-    return response.data.data.url;
+
+    if (!response.data?.secure_url) {
+      throw new Error('Upload failed: No secure URL received');
+    }
+
+    return {
+      original: response.data.secure_url,
+      thumbnail: response.data.secure_url.replace(
+        '/upload/',
+        '/upload/c_fill,h_200,w_200/'
+      )
+    };
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error('Error uploading file:', error);
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.error?.message || error.message;
+      throw new Error(`Upload Error: ${message}`);
+    }
     throw error;
   }
 }
+
+export let addressLookupCache: Map<string, string> = new Map();
+
+export const updateAddressCache = (newCache: Map<string, string>) => {
+  addressLookupCache = newCache;
+};
 
 export const formatPlayerName = (
   name: string,
@@ -169,11 +214,21 @@ export const formatPlayerName = (
   num?: number,
 ) => {
   if (!name || name === "0x0" || name === address) {
+    // Try to get the looked-up name first
+    const lookedUpName = addressLookupCache.get(address);
+    if (lookedUpName) {
+      return lookedUpName;
+    }
     return truncateString(address, num);
   }
   try {
     return shortString.decodeShortString(name);
   } catch (e) {
+    // Try to get the looked-up name first
+    const lookedUpName = addressLookupCache.get(address);
+    if (lookedUpName) {
+      return lookedUpName;
+    }
     return truncateString(address);
   }
 };
