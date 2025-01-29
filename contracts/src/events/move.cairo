@@ -8,7 +8,7 @@ pub mod errors {}
 impl PlayerMoveImpl of PlayerMoveTrait {
     #[inline]
     fn new(game_id: u128, pit_number: u8, seed_number: u8) -> PlayerMove {
-        PlayerMove { game_id, pit_number, seed_number, }
+        PlayerMove { game_id, pit_number, seed_number }
     }
 }
 
@@ -24,7 +24,7 @@ impl PlayerExtraTurnImpl of PlayerExtraTurnTrait {
 impl EndTurnImpl of EndTurnTrait {
     #[inline]
     fn new(
-        game_id: u128, current_player: ContractAddress, next_player: ContractAddress
+        game_id: u128, current_player: ContractAddress, next_player: ContractAddress,
     ) -> EndTurn {
         EndTurn { game_id, current_player, next_player }
     }

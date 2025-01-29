@@ -1,7 +1,11 @@
 use starknet::{ContractAddress, get_block_timestamp};
 use mancala::models::index::Season;
 
-mod errors {}
+mod errors {
+    const SEASON_NOT_OVER: felt252 = 'Season not over';
+    const SEASON_HAS_BEEN_FINALIZED: felt252 = 'Season has been finalized';
+    const MIN_SPONSORSHIP: felt252 = 'Min sponsorship is 10 $LORDS';
+}
 
 #[generate_trait]
 impl SeasonImpl of SeasonTrait {
@@ -37,12 +41,12 @@ impl SeasonAssert of AssertTrait {
 
     fn assert_end_season(self: Season) {
         let current_time = get_block_timestamp();
-        assert(current_time > self.end, 'Season not over');
-        assert(!self.finalized, 'Season has been finalized');
+        assert(current_time > self.end, errors::SEASON_NOT_OVER);
+        assert(!self.finalized, errors::SEASON_HAS_BEEN_FINALIZED);
     }
 
     fn assert_sponsor(self: Season, amount: u256) {
-        assert(!self.finalized, 'Season has been finalized');
-        assert(amount >= 10, 'Min sponsorship is 10 $LORDS');
+        assert(!self.finalized, errors::SEASON_HAS_BEEN_FINALIZED);
+        assert(amount >= 10, errors::MIN_SPONSORSHIP);
     }
 }
