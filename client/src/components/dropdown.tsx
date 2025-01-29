@@ -3,16 +3,17 @@ import { Label } from "./ui/label";
 
 const filters = ["Duel requests", "Duels created", "Games won", "Games lost"];
 
+const calcRoundedStyle = (i: number, filterLength: number): string => {
+  if (i === 0) return "rounded-t-xl";
+  if (i === filterLength - 1) return "rounded-b-xl";
+  return "rounded-none";
+}
+
 export default function Dropdown() {
   return (
     <div className="absolute top-1/2 right-8 font-medium transform translate-y-6 w-[200px] mt-2 border border-[#272A32] bg-[#171922] text-[#BFC5D4] rounded-xl shadow-xl z-20">
       {filters.map((filter, i) => {
-        const rounded =
-          i === 0
-            ? "rounded-t-xl"
-            : i === filters.length - 1
-              ? "rounded-b-xl"
-              : "rounded-none";
+        const rounded = calcRoundedStyle(i, filters.length)
         return (
           <button
             key={i}

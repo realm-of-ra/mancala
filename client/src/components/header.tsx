@@ -42,7 +42,7 @@ export default function Header() {
     disconnect();
   };
 
-  const { account, connector } = useAccount() as any;
+  const { account, connector } = useAccount();
   const controller = connectors[0] as ControllerConnector;
   const [username, setUsername] = useState("");
 
@@ -59,7 +59,7 @@ export default function Header() {
     };
 
     if (account?.address) {
-      fetchUsername();
+      fetchUsername().then();
     } else {
       setUsername(""); // Reset username when disconnected
     }
