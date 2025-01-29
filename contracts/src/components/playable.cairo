@@ -4,7 +4,7 @@ mod PlayableComponent {
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address, get_contract_address, get_block_timestamp};
+    use starknet::info::{get_caller_address, get_contract_address, get_block_timestamp, get_tx_info};
     use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
 
     use mancala::store::{Store, StoreTrait};
@@ -13,14 +13,19 @@ mod PlayableComponent {
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
     use mancala::models::game_counter::{GameCounter, GameCounterTrait};
     use mancala::models::seed::SeedColor;
+    use mancala::models::settings::{Settings, SettingsTrait, SettingsAssert};
     use mancala::utils::board::{
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
         restart_player_pits, initialize_player_seeds,
     };
+    use mancala::models::season::{Season, SeasonTrait, SeasonAssert};
+    use mancala::helpers::address_resolver::AddressResolver;
     use mancala::types::task::{Task, TaskTrait};
     use mancala::types::varient::Varient;
-
+    use mancala::interfaces::erc721::{ISeasonERC721Dispatcher, ISeasonERC721DispatcherTrait};
     use mancala::interfaces::erc20::{IBoostERC20Dispatcher, IBoostERC20DispatcherTrait};
+
+    use openzeppelin_token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
 
     use mancala::constants::MAX_BOOSTS_COUNT;
 
@@ -500,6 +505,33 @@ mod PlayableComponent {
             dispatcher
                 .transfer_from(get_caller_address(), get_contract_address(), amount_with_decimals);
             dispatcher.burn(amount_with_decimals);
+        }
+
+        // Season Pass should get you 10 games?
+        #[inline]
+        fn _mint_season_pass(ref self: ComponentState<TState>, world: WorldStorage, game_id: u128, settings_id: u32, season_id: u32) {
+            // [Setup] Datastore
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut settings: Settings = store.get_settings(settings_id);
+            let mut season: Season = store.get_season(season_id);
+            assert(season.assert_is_active(), 'Season not active');
+
+            let fee_distribution = season.entry_amount / 100 * 10;
+            let season_distribution = season.entry_amount / 100 * 90;
+
+            let chain_id = get_tx_info().unbox().chain_id;
+            let payment_dispatcher = IERC20Dispatcher { contract_address: AddressResolver::get_lords_address(chain_id) };
+            payment_dispatcher.transfer_from(get_caller_address(), AddressResolver::get_ror_address(chain_id), fee_distribution);
+            payment_dispatcher.transfer_from(get_caller_address(), season.season_address, season_distribution);
+
+            season.reward_pool += season_distribution;
+            store.set_season(season);
+
+            let game_token = ISeasonERC721Dispatcher { contract_address: settings.game_pass_address };
+            game_token.mint(get_caller_address());
+
+            // TODO: [Achievement] Player
         }
     }
 }
