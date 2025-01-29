@@ -14,7 +14,7 @@ use mancala::models::pit::Pit;
 use mancala::models::game_counter::GameCounter;
 use mancala::models::boost::{Boost, BoostType};
 use mancala::models::leaderboard::Leaderboard;
-use mancala::models::donation::Donation;
+use mancala::models::sponsor::Sponsor;
 use mancala::models::season::Season;
 
 
@@ -110,8 +110,8 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn set_donation(ref self: Store, donation: Donation) {
-        self.world.write_model(@donation);
+    fn set_sponsor(ref self: Store, sponsor: Sponsor) {
+        self.world.write_model(@sponsor);
     }
 
     #[inline]
@@ -167,7 +167,7 @@ impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_donation(self: Store, season_id: u32, address: ContractAddress) -> Donation {
+    fn get_sponsor(self: Store, season_id: u32, address: ContractAddress) -> Sponsor {
         self.world.read_model((season_id, address))
     }
 }

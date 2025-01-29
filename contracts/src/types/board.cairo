@@ -23,6 +23,7 @@ enum Board {
     Influence,
     StarknetAfrica,
     StarknetID,
+    Akash,
 }
 
 #[generate_trait]
@@ -50,6 +51,7 @@ impl BoardImpl of BoardTrait {
             Board::Influence => boards::influence::Influence::description(),
             Board::StarknetAfrica => boards::starknet_africa::StarknetAfrica::description(),
             Board::StarknetID => boards::starknet_id::StarknetID::description(),
+            Board::Akash => boards::akash::Akash::description(),
         }
     }
 
@@ -76,6 +78,7 @@ impl BoardImpl of BoardTrait {
             Board::Influence => boards::influence::Influence::address(address),
             Board::StarknetAfrica => boards::starknet_africa::StarknetAfrica::address(address),
             Board::StarknetID => boards::starknet_id::StarknetID::address(address),
+            Board::Akash => boards::akash::Akash::address(address),
         }
     }
 
@@ -102,6 +105,7 @@ impl BoardImpl of BoardTrait {
             Board::Influence => boards::influence::Influence::group(),
             Board::StarknetAfrica => boards::starknet_africa::StarknetAfrica::group(),
             Board::StarknetID => boards::starknet_id::StarknetID::group(),
+            Board::Akash => boards::akash::Akash::group(),
         }
     }
 }
@@ -131,6 +135,7 @@ impl IntoBoardU8 of core::Into<Board, u8> {
             Board::Influence => 18,
             Board::StarknetAfrica => 19,
             Board::StarknetID => 20,
+            Board::Akash => 21,
         }
     }
 }
@@ -160,6 +165,7 @@ impl IntoU8Board of core::Into<u8, Board> {
             18 => Board::Influence,
             19 => Board::StarknetAfrica,
             20 => Board::StarknetID,
+            21 => Board::Akash,
             _ => Board::None,
         }
     }

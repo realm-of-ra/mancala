@@ -136,7 +136,7 @@ pub struct Leaderboard {
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]
-pub struct Donation {
+pub struct Sponsor {
     #[key]
     season_id: u32,
     #[key]
