@@ -244,3 +244,36 @@ export const formatPlayerName = (
     return truncateString(address);
   }
 };
+
+interface MancalaSeed {
+  seed_id: string;
+  color: string;
+  player: string;
+  pit_number: number;
+  seed_number: number;
+  isNative: boolean;
+}
+
+export function calculateMancalaMove(seeds: any[], selectedPit: number | null, player: string, opponent: string) {
+  const seeds_array = seeds.map((seed) => ({
+    seed_id: seed.seed_id,
+    color: seed.color,
+    player: seed.player,
+    pit_number: seed.pit_number,
+    seed_number: seed.seed_number,
+    isNative: seed.isNative
+  }));
+  const selected_seeds = seeds_array.filter((seed) => seed.pit_number === selectedPit);
+  const update_seeds = seeds_array.map((seed) => {
+    if (seed.pit_number === selectedPit) {
+      return {
+        ...seed,
+        player: seed.pit_number + 1 > 7 ? seed.player === player ? opponent : player : seed.player,
+        pit_number: seed.pit_number + 1 > 7 ? 1 : seed.pit_number + 1,
+        seed_number: seed.seed_number + selected_seeds.reduce((acc, s) => acc + s.seed_number, 0)
+      };
+    }
+    return seed;
+  });
+  return update_seeds;
+}

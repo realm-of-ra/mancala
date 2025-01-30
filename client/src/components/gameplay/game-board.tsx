@@ -8,6 +8,7 @@ import {
   MancalaExtraTurnQuery,
 } from "@/lib/constants";
 import Seed from "../seed";
+import { calculateMancalaMove } from "@/lib/utils";
 
 interface GameBoardProps {
   game_players: any;
@@ -34,6 +35,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   setVolume,
   setMessage,
 }) => {
+  const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
+  const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
@@ -129,9 +132,39 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return Array.from(uniqueSeeds.values());
   }, [data]);
 
+  useEffect(() => {
+    if (seeds.length > 0 && selectedPit !== null) {
+      const formattedSeeds = seeds.map(seed => ({
+        seed_id: seed.seed_id,
+        color: seed.color || "Blue",
+        player: seed.player,
+        pit_number: seed.pit_number,
+        seed_number: seed.seed_number,
+        isNative: seed.isNative,
+        volume: volume
+      }));
+      
+      // Extract the seeds array from the MancalaMoveResult
+      const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, game_node?.player_one, game_node?.player_two);
+      setSimulatedSeeds(simulatedMove || []);
+    } else {
+      setSimulatedSeeds([]);
+    }
+  }, [seeds, account.account.address, volume, selectedPit, game_node?.player_one, game_node?.player_two]);
+
   const getSeed = (seedId: string | number) => {
-    const hexSeedId =
-      typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
+    const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
+    
+    // Check simulated seeds first
+    const simulatedSeed = simulatedSeeds.find(seed => seed.seed_id === hexSeedId);
+    if (simulatedSeed) {
+      return {
+        ...simulatedSeed,
+        isNative: simulatedSeed.isNative
+      };
+    }
+
+    // Fall back to actual seeds if no simulation
     const seed = seeds.find((seed) => seed.seed_id === hexSeedId);
     if (!seed) return null;
 
@@ -241,6 +274,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     key={i}
                     amount={pit.node.seed_count}
                     pit={pit.node.pit_number}
+                    isSelected={selectedPit === pit.node.pit_number}
                   />
                 ))}
             </div>
@@ -265,6 +299,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       amount={pit.node.seed_count}
                       address={pit.node.player}
                       pit={pit.node.pit_number}
+                      isSelected={selectedPit === pit.node.pit_number}
+                      onPitSelect={setSelectedPit}
                       userAccount={account}
                       system={system}
                       game_id={gameId}
