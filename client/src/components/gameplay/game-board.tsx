@@ -37,6 +37,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
 }) => {
   const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
   const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
+  const involved = game_players?.mancalaAlphaPlayerModels.edges.some(
+    (item: any) =>
+      item?.node.address ===
+      (account.account?.address || game_node?.player_one),
+  );
+  const player_position = involved
+    ? game_players?.mancalaAlphaPlayerModels.edges.findIndex(
+        (item: any) =>
+          item?.node.address ===
+          (account.account?.address || game_node?.player_one),
+      )
+    : 0;
+  const opponent_position = player_position === 0 ? 1 : 0;
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
@@ -143,56 +156,45 @@ const GameBoard: React.FC<GameBoardProps> = ({
         isNative: seed.isNative,
         volume: volume
       }));
+
+      const player = game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node.address;
+      const opponent = game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address;
       
-      // Extract the seeds array from the MancalaMoveResult
-      const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, game_node?.player_one, game_node?.player_two);
-      setSimulatedSeeds(simulatedMove || []);
+      const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, player, opponent);
+      console.log({
+        simulatedMove
+      })
+      setSimulatedSeeds(simulatedMove);
     } else {
       setSimulatedSeeds([]);
     }
-  }, [seeds, account.account.address, volume, selectedPit, game_node?.player_one, game_node?.player_two]);
+  }, [seeds, selectedPit, player_position, opponent_position, game_players, volume]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
     
-    // Check simulated seeds first
-    const simulatedSeed = simulatedSeeds.find(seed => seed.seed_id === hexSeedId);
-    if (simulatedSeed) {
-      return {
-        ...simulatedSeed,
-        isNative: simulatedSeed.isNative
-      };
+    // If there's a simulation active, use simulated seeds
+    if (selectedPit !== null && simulatedSeeds.length > 0) {
+      const simulatedSeed = simulatedSeeds.find(seed => seed.seed_id === hexSeedId);
+      if (simulatedSeed) {
+        return {
+          ...simulatedSeed,
+          isNative: simulatedSeed.isNative
+        };
+      }
     }
 
-    // Fall back to actual seeds if no simulation
+    // Otherwise use actual seeds from the poll data
     const seed = seeds.find((seed) => seed.seed_id === hexSeedId);
     if (!seed) return null;
 
     const seedNumber = parseInt(seed.seed_id, 16);
     const isNative =
-      (seed.player === game_node?.player_one &&
-        seedNumber >= 1 &&
-        seedNumber <= 24) ||
-      (seed.player === game_node?.player_two &&
-        seedNumber >= 25 &&
-        seedNumber <= 48);
+      (seed.player === game_node?.player_one && seedNumber >= 1 && seedNumber <= 24) ||
+      (seed.player === game_node?.player_two && seedNumber >= 25 && seedNumber <= 48);
 
     return { ...seed, isNative };
   };
-
-  const involved = game_players?.mancalaAlphaPlayerModels.edges.some(
-    (item: any) =>
-      item?.node.address ===
-      (account.account?.address || game_node?.player_one),
-  );
-  const player_position = involved
-    ? game_players?.mancalaAlphaPlayerModels.edges.findIndex(
-        (item: any) =>
-          item?.node.address ===
-          (account.account?.address || game_node?.player_one),
-      )
-    : 0;
-  const opponent_position = player_position === 0 ? 1 : 0;
   const player_pot_seed_count =
     game_players?.mancalaAlphaPitModels.edges
       .filter(

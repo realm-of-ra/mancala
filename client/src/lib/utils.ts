@@ -254,26 +254,50 @@ interface MancalaSeed {
   isNative: boolean;
 }
 
-export function calculateMancalaMove(seeds: any[], selectedPit: number | null, player: string, opponent: string) {
-  const seeds_array = seeds.map((seed) => ({
-    seed_id: seed.seed_id,
-    color: seed.color,
-    player: seed.player,
-    pit_number: seed.pit_number,
-    seed_number: seed.seed_number,
-    isNative: seed.isNative
-  }));
-  const selected_seeds = seeds_array.filter((seed) => seed.pit_number === selectedPit);
-  const update_seeds = seeds_array.map((seed) => {
-    if (seed.pit_number === selectedPit) {
-      return {
-        ...seed,
-        player: seed.pit_number + 1 > 7 ? seed.player === player ? opponent : player : seed.player,
-        pit_number: seed.pit_number + 1 > 7 ? 1 : seed.pit_number + 1,
-        seed_number: seed.seed_number + selected_seeds.reduce((acc, s) => acc + s.seed_number, 0)
-      };
+export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, player: string, opponent: string) {
+  // Get seeds from selected pit while preserving their original properties
+  const seedsToMove = seeds.filter(seed => 
+    seed.pit_number === selectedPit && 
+    seed.player === player
+  );
+
+  if (seedsToMove.length === 0) return seeds;
+
+  // Keep all seeds that are not being moved
+  const unchangedSeeds = seeds.filter(seed => 
+    !(seed.pit_number === selectedPit && seed.player === player)
+  );
+
+  // Distribute the seeds
+  let currentPit = selectedPit;
+  let currentPlayer = player;
+  
+  const movedSeeds = seedsToMove.map((seed, index) => {
+    currentPit++;
+    
+    // Handle pit transitions
+    if (currentPlayer === player && currentPit > 7) {
+      currentPit = 1;
+      currentPlayer = opponent;
+    } else if (currentPlayer === opponent && currentPit > 6) { // Skip opponent's pit 7
+      currentPit = 1;
+      currentPlayer = player;
     }
-    return seed;
+
+    // Get the highest seed number in the destination pit
+    const lastSeedNumber = seeds
+      .filter(s => s.pit_number === currentPit && s.player === currentPlayer)
+      .reduce((acc, s) => Math.max(acc, s.seed_number), 0);
+
+    // Return the moved seed with updated position
+    return {
+      ...seed,
+      pit_number: currentPit,
+      player: currentPlayer,
+      seed_number: lastSeedNumber + 1
+    };
   });
-  return update_seeds;
+
+  // Combine unchanged seeds with moved seeds
+  return [...unchangedSeeds, ...movedSeeds];
 }
