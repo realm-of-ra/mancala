@@ -2,15 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { UseAccountResult } from "@starknet-react/core";
 import clsx from "clsx";
 
-export function TopPit({ 
-  amount, 
-  pit,
-  isSelected 
-}: { 
-  amount: number; 
-  pit: number;
-  isSelected?: boolean;
-}) {
+export function TopPit({ amount, pit }: { amount: number; pit: number }) {
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-6">
       <div className="rounded-lg w-fit">
@@ -19,8 +11,7 @@ export function TopPit({
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
           className={clsx(
-            "w-[88px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40",
-            isSelected ? "bg-blue-600/20" : "hover:bg-red-600/20",
+            "w-[88px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-red-600/20",
             pit == 1 && "ml-1 -mt-1.5",
             pit == 2 && "ml-1 -mt-2",
             pit == 3 && "ml-1.5 -mt-2",
@@ -47,8 +38,7 @@ export function BottomPit({
   max_block_between_move,
   setMoveMessage,
   setMessage,
-  isSelected,
-  onPitSelect,
+  setSelectedPit,
 }: {
   amount: number;
   address: string;
@@ -62,25 +52,18 @@ export function BottomPit({
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   setMessage: any;
-  isSelected?: boolean;
-  onPitSelect?: (pit: number | null) => void;
+  setSelectedPit: Dispatch<SetStateAction<number | null>>;
 }) {
   const handleMove = async () => {
-    if (onPitSelect) {
-      onPitSelect(pit);
-    }
     setMoveMessage(undefined);
     setMessage(`You have selected pit ${pit}`);
-    
     if (
       address === userAccount?.account?.address &&
       status === "InProgress" &&
       winner === "0x0"
     ) {
+      setSelectedPit(pit);
       await system.move(userAccount?.account, game_id, pit);
-      if (onPitSelect) {
-        onPitSelect(null);
-      }
       setMoveMessage(undefined);
       setMessage(undefined);
       setTimeRemaining(max_block_between_move);
@@ -98,13 +81,13 @@ export function BottomPit({
       }
     }
   };
+
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-3">
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
           className={clsx(
-            "w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40",
-            isSelected ? "bg-blue-600/20" : "hover:bg-black/20",
+            "w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-black/20",
             pit == 1 && "ml-0.5 -mt-1",
             pit == 2 && "ml-1 -mt-1",
             pit == 3 && "ml-1.5 -mt-1",

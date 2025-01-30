@@ -256,10 +256,13 @@ interface MancalaSeed {
 
 export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, player: string, opponent: string) {
   // Get seeds from selected pit while preserving their original properties
-  const seedsToMove = seeds.filter(seed => 
-    seed.pit_number === selectedPit && 
-    seed.player === player
-  );
+  // Sort by seed_number to ensure we move original seeds first
+  const seedsToMove = seeds
+    .filter(seed => 
+      seed.pit_number === selectedPit && 
+      seed.player === player
+    )
+    .sort((a, b) => a.seed_number - b.seed_number);
 
   if (seedsToMove.length === 0) return seeds;
 

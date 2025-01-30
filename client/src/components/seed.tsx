@@ -11,6 +11,7 @@ export default function Seed({
   seed_number,
   isNative,
   volume,
+  seed_id,
 }: {
   color?: string;
   type?: "player" | "opponent";
@@ -18,6 +19,7 @@ export default function Seed({
   seed_number: number;
   isNative: boolean;
   volume: number;
+  seed_id: string;
 }) {
   const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
   const _positions = positions(type);

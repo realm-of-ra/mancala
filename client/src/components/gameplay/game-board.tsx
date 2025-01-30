@@ -37,6 +37,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 }) => {
   const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
   const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
+  const [isSimulating, setIsSimulating] = React.useState(false);
   const involved = game_players?.mancalaAlphaPlayerModels.edges.some(
     (item: any) =>
       item?.node.address ===
@@ -147,6 +148,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   useEffect(() => {
     if (seeds.length > 0 && selectedPit !== null) {
+      setIsSimulating(true);
       const formattedSeeds = seeds.map(seed => ({
         seed_id: seed.seed_id,
         color: seed.color || "Blue",
@@ -161,20 +163,24 @@ const GameBoard: React.FC<GameBoardProps> = ({
       const opponent = game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address;
       
       const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, player, opponent);
-      console.log({
-        simulatedMove
-      })
       setSimulatedSeeds(simulatedMove);
     } else {
       setSimulatedSeeds([]);
+      setIsSimulating(false);
     }
   }, [seeds, selectedPit, player_position, opponent_position, game_players, volume]);
+
+  useEffect(() => {
+    if (data?.mancalaAlphaSeedModels?.edges) {
+      setIsSimulating(false);
+      setSelectedPit(null);
+    }
+  }, [data]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
     
-    // If there's a simulation active, use simulated seeds
-    if (selectedPit !== null && simulatedSeeds.length > 0) {
+    if (isSimulating && simulatedSeeds.length > 0) {
       const simulatedSeed = simulatedSeeds.find(seed => seed.seed_id === hexSeedId);
       if (simulatedSeed) {
         return {
@@ -184,7 +190,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }
     }
 
-    // Otherwise use actual seeds from the poll data
     const seed = seeds.find((seed) => seed.seed_id === hexSeedId);
     if (!seed) return null;
 
@@ -239,6 +244,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             return (
               <Seed
                 key={seedNumber}
+                seed_id={seedDetails?.seed_id}
                 color={seedDetails?.color || "Blue"}
                 type={isPlayerSeed ? "player" : "opponent"}
                 pit_number={seedDetails?.pit_number}
@@ -276,7 +282,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     key={i}
                     amount={pit.node.seed_count}
                     pit={pit.node.pit_number}
-                    isSelected={selectedPit === pit.node.pit_number}
+                    // isSelected={selectedPit === pit.node.pit_number}
                   />
                 ))}
             </div>
@@ -301,8 +307,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       amount={pit.node.seed_count}
                       address={pit.node.player}
                       pit={pit.node.pit_number}
-                      isSelected={selectedPit === pit.node.pit_number}
-                      onPitSelect={setSelectedPit}
+                      // isSelected={selectedPit === pit.node.pit_number}
+                      // onPitSelect={setSelectedPit}
                       userAccount={account}
                       system={system}
                       game_id={gameId}
@@ -311,9 +317,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       winner={game_node?.winner}
                       setMessage={setMessage}
                       setTimeRemaining={setTimeRemaining}
+                      setSelectedPit={setSelectedPit}
                       max_block_between_move={parseInt(
                         game_node?.max_block_between_move,
-                        16,
+                        16
                       )}
                     />
                   );
