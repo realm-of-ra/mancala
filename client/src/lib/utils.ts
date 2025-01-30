@@ -4,6 +4,7 @@ import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
 import axios from 'axios';
 import crypto from 'crypto';
+import { lookupAddresses } from "@cartridge/controller";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -201,6 +202,17 @@ export async function uploadFile(file: File) {
     throw error;
   }
 }
+
+export const lookupMissingNames = async (addresses: string[], setAddressLookupCache: any) => {
+  try {
+    const uniqueAddresses = [...new Set(addresses)].filter(addr => addr !== "0x0");
+    const addressMap = await lookupAddresses(uniqueAddresses);
+    setAddressLookupCache(addressMap);
+    updateAddressCache(addressMap);
+  } catch (error) {
+    console.error('Error looking up addresses:', error);
+  }
+};
 
 export let addressLookupCache: Map<string, string> = new Map();
 
