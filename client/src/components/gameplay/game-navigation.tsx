@@ -1,7 +1,8 @@
 import GameMessage from "@/components/gameplay/game-message";
-import { formatPlayerName, getPlayer } from "@/lib/utils";
+import { formatPlayerName, getPlayer, lookupMissingNames } from "@/lib/utils";
 import PlayerProfile from "@/components/gameplay/player-profile";
 import { gameStarted } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 export default function GameNavigation({
   game_players,
@@ -39,12 +40,30 @@ export default function GameNavigation({
     game_players?.player_two?.edges,
     game_players?.player_two?.edges?.[0]?.node?.address,
   );
+  
+  // Add state for address lookup cache
+  const [, setAddressLookupCache] = useState<Map<string, string>>(new Map());
+
+  // Update useEffect to use lookupMissingNames
+  useEffect(() => {
+    if (game_node) {
+      const addresses = [
+        game_node.player_one,
+        game_node.player_two,
+        game_node.winner
+      ].filter(Boolean);
+      
+      lookupMissingNames(addresses, setAddressLookupCache);
+    }
+  }, [game_node]);
+
   const player_one_name = formatPlayerName(
     player_names?.mancalaAlphaProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_one,
     )?.node.name,
     game_node?.player_one,
   );
+
   const player_two_name = formatPlayerName(
     player_names?.mancalaAlphaProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_two,

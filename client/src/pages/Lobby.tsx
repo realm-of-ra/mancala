@@ -27,8 +27,7 @@ import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
 // import Dropdown from "@/components/dropdown";
 import clsx from "clsx";
 import { Helmet } from "react-helmet-async";
-import { lookupAddresses } from "@cartridge/controller";
-import { updateAddressCache } from "@/lib/utils";
+import { lookupMissingNames } from "@/lib/utils";
 // import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
@@ -41,7 +40,7 @@ export default function Lobby() {
   const [creating, setCreating] = useState(false);
   const [player2, setPlayer2] = useState("");
   const [playWith, setPlayWith] = useState("AI");
-  const [addressLookupCache, setAddressLookupCache] = useState<Map<string, string>>(new Map());
+  const [, setAddressLookupCache] = useState<Map<string, string>>(new Map());
   const handleOpen = () => {
     setGameUrl(undefined);
     setCreating(false);
@@ -215,17 +214,6 @@ export default function Lobby() {
 
   const [tabValue, setTabValue] = useState("duels");
 
-  const lookupMissingNames = async (addresses: string[]) => {
-    try {
-      const uniqueAddresses = [...new Set(addresses)].filter(addr => addr !== "0x0");
-      const addressMap = await lookupAddresses(uniqueAddresses);
-      setAddressLookupCache(addressMap);
-      updateAddressCache(addressMap);
-    } catch (error) {
-      console.error('Error looking up addresses:', error);
-    }
-  };
-
   useEffect(() => {
     if (data?.mancalaAlphaMancalaBoardModels?.edges) {
       const allAddresses = data.mancalaAlphaMancalaBoardModels.edges.flatMap((game: any) => [
@@ -234,7 +222,7 @@ export default function Lobby() {
         game.node.winner
       ]).filter(Boolean);
       
-      lookupMissingNames(allAddresses);
+      lookupMissingNames(allAddresses, setAddressLookupCache);
     }
   }, [data?.mancalaAlphaMancalaBoardModels?.edges]);
 
