@@ -4,7 +4,9 @@ mod PlayableComponent {
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address, get_contract_address, get_block_timestamp, get_tx_info};
+    use starknet::info::{
+        get_caller_address, get_contract_address, get_block_timestamp, get_tx_info,
+    };
     use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
 
     use mancala::store::{Store, StoreTrait};
@@ -509,7 +511,13 @@ mod PlayableComponent {
 
         // Season Pass should get you 10 games?
         #[inline]
-        fn _mint_season_pass(ref self: ComponentState<TState>, world: WorldStorage, game_id: u128, settings_id: u32, season_id: u32) {
+        fn _mint_season_pass(
+            ref self: ComponentState<TState>,
+            world: WorldStorage,
+            game_id: u128,
+            settings_id: u32,
+            season_id: u32,
+        ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
 
@@ -521,16 +529,25 @@ mod PlayableComponent {
             let season_distribution = season.entry_amount / 100 * 90;
 
             let chain_id = get_tx_info().unbox().chain_id;
-            let payment_dispatcher = IERC20Dispatcher { contract_address: AddressResolver::get_lords_address(chain_id) };
-            payment_dispatcher.transfer_from(get_caller_address(), AddressResolver::get_ror_address(chain_id), fee_distribution);
-            payment_dispatcher.transfer_from(get_caller_address(), season.season_address, season_distribution);
+            let payment_dispatcher = IERC20Dispatcher {
+                contract_address: AddressResolver::get_lords_address(chain_id),
+            };
+            payment_dispatcher
+                .transfer_from(
+                    get_caller_address(),
+                    AddressResolver::get_ror_address(chain_id),
+                    fee_distribution,
+                );
+            payment_dispatcher
+                .transfer_from(get_caller_address(), season.season_address, season_distribution);
 
             season.reward_pool += season_distribution;
             store.set_season(season);
 
-            let game_token = ISeasonERC721Dispatcher { contract_address: settings.game_pass_address };
+            let game_token = ISeasonERC721Dispatcher {
+                contract_address: settings.game_pass_address,
+            };
             game_token.mint(get_caller_address());
-
             // TODO: [Achievement] Player
         }
     }

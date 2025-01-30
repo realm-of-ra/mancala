@@ -52,7 +52,9 @@ mod SeasonComponent {
             store.set_season(season);
         }
 
-        fn end_season(self: @ComponentState<TState>, world: WorldStorage, settings_id: u32, season_id: u32) {
+        fn end_season(
+            self: @ComponentState<TState>, world: WorldStorage, settings_id: u32, season_id: u32,
+        ) {
             let mut store: Store = StoreTrait::new(world);
 
             let settings = store.get_settings(settings_id);

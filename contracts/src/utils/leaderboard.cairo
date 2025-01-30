@@ -38,7 +38,9 @@ impl LeaderboardUtilsImpl of LeaderboardUtilsTrait {
         let mut previous_position: Leaderboard = store.get_leaderboard(player.season_id, i);
 
         // Incorrect logic, player.xp has to be associated w/  individual mancala game
-        let mut leaderboard: Leaderboard = LeaderboardTrait::new(player.season_id, rank, player.game_id, score: player.xp);
+        let mut leaderboard: Leaderboard = LeaderboardTrait::new(
+            player.season_id, rank, player.game_id, score: player.xp,
+        );
         store.set_leaderboard(leaderboard);
 
         while true {

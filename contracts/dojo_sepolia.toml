@@ -16,7 +16,7 @@ telegram = "https://t.me/dojoengine"
 default = "mancala_beta"
 
 [writers]
-"mancala_beta" = ["mancala_beta-Mancala", "mancala_beta-PlayerProfile"]
+"mancala_beta" = ["mancala_beta-Mancala", "mancala_beta-PlayerProfile", "mancala_beta-SeasonSystems"]
 "mancala_beta-TrophyCreation" = ["mancala_beta-Mancala"]
 "mancala_beta-TrophyProgression" = ["mancala_beta-Mancala"]
 

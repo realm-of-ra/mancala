@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x520920552fa2944aa49e8ec87b33f6839ccad94120d79920c461d2110f2cf15",
-      "class_hash": "0x16b76c414938aabbae739722651de786c07a2b33856bc77903544a922adecb1",
+      "address": "0x18c694dd500dae900644283bd8d761ddca5bbec5587289190f223d493fbb834",
+      "class_hash": "0x5f4df54f2f8d6126a05c941ce39df3430d6f9f974ce5be2aee34652b91765ad",
       "abi": [
         {
           "type": "impl",
@@ -1372,7 +1372,7 @@
             },
             {
               "name": "xp",
-              "type": "core::integer::u32"
+              "type": "core::integer::u16"
             },
             {
               "name": "season_id",
@@ -1949,6 +1949,282 @@
       "systems": [
         "upgrade"
       ]
+    },
+    {
+      "address": "0xdc8e2ff55b5963b270e3c944f9ba1f9ac2e02f75ad50c6170899de0cdc568d",
+      "class_hash": "0xd87d8ce2c8f63c47e050dddd373f749f5d7ad67b9e9c1f9ca539a0b3da307",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "SeasonSystems__ContractImpl",
+          "interface_name": "dojo::contract::interface::IContract"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::interface::IContract",
+          "items": []
+        },
+        {
+          "type": "impl",
+          "name": "SeasonSystems__DeployedContractImpl",
+          "interface_name": "dojo::meta::interface::IDeployedResource"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::meta::interface::IDeployedResource",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "SeasonSystemsImpl",
+          "interface_name": "mancala::systems::season::IMancalaSeason"
+        },
+        {
+          "type": "struct",
+          "name": "core::integer::u256",
+          "members": [
+            {
+              "name": "low",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "high",
+              "type": "core::integer::u128"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "mancala::systems::season::IMancalaSeason",
+          "items": [
+            {
+              "type": "function",
+              "name": "new_season",
+              "inputs": [
+                {
+                  "name": "start_time",
+                  "type": "core::integer::u64"
+                },
+                {
+                  "name": "duration",
+                  "type": "core::integer::u64"
+                },
+                {
+                  "name": "entry_amount",
+                  "type": "core::integer::u256"
+                },
+                {
+                  "name": "settings_id",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "end_season",
+              "inputs": [
+                {
+                  "name": "settings_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "season_id",
+                  "type": "core::integer::u32"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            },
+            {
+              "type": "function",
+              "name": "sponsor_season",
+              "inputs": [
+                {
+                  "name": "season_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "amount",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "name",
+                  "type": "core::felt252"
+                },
+                {
+                  "name": "social",
+                  "type": "core::felt252"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "dojo_init",
+          "inputs": [],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::contract::components::world_provider::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::iworld::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::world_provider::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world_dispatcher",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::iworld::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradeableImpl",
+          "interface_name": "dojo::contract::components::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "constructor",
+          "name": "constructor",
+          "inputs": []
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::components::season::SeasonComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::systems::season::SeasonSystems::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "WorldProviderEvent",
+              "type": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "SeasonEvent",
+              "type": "mancala::components::season::SeasonComponent::Event",
+              "kind": "flat"
+            }
+          ]
+        }
+      ],
+      "init_calldata": [],
+      "tag": "mancala_beta-SeasonSystems",
+      "selector": "0x345120435205d03fe0cd633db8dd46492a96ccb4a9992c96ea51deb3cf86a98",
+      "systems": [
+        "upgrade"
+      ]
     }
   ],
   "models": [
@@ -1984,7 +2260,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x6dc5052cd4137a691bc49e19eb0d0b15d67ab78ec9c6a9174f8f1755fae46d5",
+      "class_hash": "0x5a1e00f86a98d93da1e45296f839a673e755c0784ff72230327bb8f47f29299",
       "tag": "mancala_beta-Player",
       "selector": "0x3e594d51cc7f74cdc3fc2f25d262be3b6175dd28d3d623f9604304c5b4e7c5d"
     },
@@ -1996,7 +2272,7 @@
     },
     {
       "members": [],
-      "class_hash": "0x608e1b9a21a70e4903f9d94ba887c62fc12ff6ca1caa7a223df659b7fcd2de6",
+      "class_hash": "0x3848989d59889e3c4a563a4438321aa404a7399cd90e76414886a1bd7b70226",
       "tag": "mancala_beta-Season",
       "selector": "0x56352b4c6c137a8b0b22325c5c0583634e6688e3e2f4703e5fd45745ff2b16d"
     },
@@ -2005,6 +2281,12 @@
       "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
       "tag": "mancala_beta-Seed",
       "selector": "0x2248061940cc4acc200715c1513324c6e0f342143566f5f5973919e1495cd1f"
+    },
+    {
+      "members": [],
+      "class_hash": "0x15a00e3fccafc231cc5853b4959a3c24e3cde4f81cd09ff13b03d5d2702035a",
+      "tag": "mancala_beta-Settings",
+      "selector": "0x7fa6ddfce50b2bdc89e3c72e0edae7996caf0438ab4fba81b884f235ad8ff9b"
     },
     {
       "members": [],

@@ -87,6 +87,7 @@ mod elements {
 mod systems {
     mod mancala;
     mod profile;
+    mod season;
 }
 
 mod types {
