@@ -11,6 +11,7 @@ export default function Seed({
   seed_number,
   isNative,
   volume,
+  simulated,
   seed_id,
 }: {
   color?: string;
@@ -19,9 +20,10 @@ export default function Seed({
   seed_number: number;
   isNative: boolean;
   volume: number;
+  simulated: boolean;
   seed_id: string;
 }) {
-  const [animationDelay, setAnimationDelay] = useState(seed_number * 0.75);
+  const [animationDelay, setAnimationDelay] = useState(0);
   const _positions = positions(type);
   const timerRef = useRef<NodeJS.Timeout>();
   const [audio] = useState(new Audio(audio_url));
@@ -39,8 +41,12 @@ export default function Seed({
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
-    setAnimationDelay(seed_number * 0.75);
-  }, [seed_number]);
+    if (simulated) {
+      setAnimationDelay(seed_number * 0.75);
+    } else {
+      setAnimationDelay(0);
+    }
+  }, [seed_number, simulated]);
 
   useEffect(() => {
     audio.volume = 0.35;
@@ -58,10 +64,12 @@ export default function Seed({
   }, [volume, audio]);
 
   const play = () => {
-    timerRef.current = setTimeout(
-      () => audio.play().catch(console.error),
-      animationDelay * 1000 + 600,
-    );
+    if (simulated) {
+      timerRef.current = setTimeout(
+        () => audio.play().catch(console.error),
+        animationDelay * 1000 + 600,
+      );
+    }
   };
 
   return (
@@ -72,7 +80,7 @@ export default function Seed({
           : "bg-[url('./assets/purple-seed.png')]",
         "w-[15px] h-[15px] bg-center bg-cover bg-no-repeat absolute",
       )}
-      initial={{ x: 100, y: 100, opacity: 0, scale: 0 }}
+      initial={false}
       animate={{
         x: position?.x,
         y: position?.y,
@@ -91,7 +99,7 @@ export default function Seed({
             stiffness: 100,
             damping: 12,
           },
-          duration: 2.5,
+          duration: simulated ? 2.5 : 0.5,
         },
       }}
       onAnimationStart={play}

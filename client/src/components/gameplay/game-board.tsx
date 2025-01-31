@@ -264,6 +264,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 seed_number={seedDetails?.seed_number}
                 isNative={seedDetails.isNative}
                 volume={volume}
+                simulated={isSimulating}
               />
             );
           })}
