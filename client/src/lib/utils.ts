@@ -244,3 +244,106 @@ export const formatPlayerName = (
     return truncateString(address);
   }
 };
+
+export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, player: string, opponent: string) {
+  // Get seeds from selected pit while preserving their original properties
+  // Sort by seed_number to ensure we move original seeds first
+  const seedsToMove = seeds
+    .filter(seed => 
+      seed.pit_number === selectedPit && 
+      seed.player === player
+    )
+    .sort((a, b) => a.seed_number - b.seed_number);
+
+  if (seedsToMove.length === 0) return seeds;
+
+  // Keep all seeds that are not being moved
+  const unchangedSeeds = seeds.filter(seed => 
+    !(seed.pit_number === selectedPit && seed.player === player)
+  );
+
+  // Distribute the seeds
+  let currentPit = selectedPit;
+  let currentPlayer = player;
+  let lastSeedPosition = { pit: 0, player: player };
+  
+  const movedSeeds = seedsToMove.map((seed, index) => {
+    currentPit++;
+    
+    // Handle pit transitions
+    if (currentPlayer === player && currentPit > 7) {
+      currentPit = 1;
+      currentPlayer = opponent;
+    } else if (currentPlayer === opponent && currentPit > 6) { // Skip opponent's pit 7
+      currentPit = 1;
+      currentPlayer = player;
+    }
+
+    // Track the last seed's position
+    if (index === seedsToMove.length - 1) {
+      lastSeedPosition = { pit: currentPit, player: currentPlayer };
+    }
+
+    // Get the highest seed number in the destination pit
+    const lastSeedNumber = seeds
+      .filter(s => s.pit_number === currentPit && s.player === currentPlayer)
+      .reduce((acc, s) => Math.max(acc, s.seed_number), 0);
+
+    // Return the moved seed with updated position
+    return {
+      ...seed,
+      pit_number: currentPit,
+      player: currentPlayer,
+      seed_number: lastSeedNumber + 1
+    };
+  });
+
+  // Check for capture condition
+  if (lastSeedPosition.player === player && lastSeedPosition.pit !== 7) {
+    // Count seeds in the last pit after the move
+    const lastPitSeeds = [...unchangedSeeds, ...movedSeeds].filter(
+      seed => seed.pit_number === lastSeedPosition.pit && 
+             seed.player === player
+    ).length;
+
+    // If this was the only seed in the pit (meaning it was empty before)
+    if (lastPitSeeds === 1) {
+      // Get the opposite pit number (7 - pit number)
+      const oppositePit = 7 - lastSeedPosition.pit;
+      
+      // Get seeds from the opposite pit
+      const oppositeSeeds = [...unchangedSeeds, ...movedSeeds].filter(
+        seed => seed.pit_number === oppositePit && 
+               seed.player === opponent
+      );
+
+      if (oppositeSeeds.length > 0) {
+        // Remove the captured seeds and the capturing seed from their current positions
+        const remainingSeeds = [...unchangedSeeds, ...movedSeeds].filter(
+          seed => !(
+            (seed.pit_number === lastSeedPosition.pit && seed.player === player) ||
+            (seed.pit_number === oppositePit && seed.player === opponent)
+          )
+        );
+
+        // Get the highest seed number in player's pit 7
+        const lastPit7SeedNumber = [...unchangedSeeds, ...movedSeeds]
+          .filter(s => s.pit_number === 7 && s.player === player)
+          .reduce((acc, s) => Math.max(acc, s.seed_number), 0);
+
+        // Move all captured seeds and the capturing seed to player's pit 7
+        const capturedSeeds = [...oppositeSeeds, movedSeeds[movedSeeds.length - 1]].map((seed, index) => ({
+          ...seed,
+          pit_number: 7,
+          player: player,
+          seed_number: lastPit7SeedNumber + index + 1 // Stack on top of existing seeds
+        }));
+
+        return [...remainingSeeds, ...capturedSeeds];
+      }
+    }
+  }
+
+  // If no capture occurred, return the normal move
+  return [...unchangedSeeds, ...movedSeeds];
+}

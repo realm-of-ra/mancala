@@ -34,10 +34,12 @@ export function BottomPit({
   winner,
   userAccount,
   system,
+  isPlayerTurn,
   setTimeRemaining,
   max_block_between_move,
   setMoveMessage,
   setMessage,
+  setSelectedPit,
 }: {
   amount: number;
   address: string;
@@ -45,14 +47,20 @@ export function BottomPit({
   winner: string;
   game_id: string;
   status: string;
+  isPlayerTurn: boolean;
   userAccount?: UseAccountResult;
   system: any;
   max_block_between_move: number;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   setMessage: any;
+  setSelectedPit: Dispatch<SetStateAction<number | null>>;
 }) {
   const handleMove = async () => {
+    if (!isPlayerTurn) {
+      setMoveMessage("It's not your turn!");
+      return;
+    }
     setMoveMessage(undefined);
     setMessage(`You have selected pit ${pit}`);
     if (
@@ -60,6 +68,7 @@ export function BottomPit({
       status === "InProgress" &&
       winner === "0x0"
     ) {
+      setSelectedPit(pit);
       await system.move(userAccount?.account, game_id, pit);
       setMoveMessage(undefined);
       setMessage(undefined);
@@ -78,6 +87,7 @@ export function BottomPit({
       }
     }
   };
+
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-3">
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
