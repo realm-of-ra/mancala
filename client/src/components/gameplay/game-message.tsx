@@ -8,6 +8,7 @@ import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
+import { formatPlayerName } from "@/lib/utils";
 
 export default function GameMessage({
   game_node,
@@ -110,33 +111,11 @@ export default function GameMessage({
         );
       } else {
         if (game_node?.status !== "Pending") {
-          const isCurrentUserTurn =
-            normalizeAddress(game_node?.current_player) ===
-            normalizeAddress(account.account?.address);
-          const findPlayerProfile = (address: string) => {
-            return (
-              profiles?.mancalaAlphaProfileModels?.edges?.find(
-                (item: any) =>
-                  normalizeAddress(item?.node.address) ===
-                  normalizeAddress(address),
-              )?.node?.name || ""
-            );
-          };
+          const isCurrentUserTurn = normalizeAddress(game_node?.current_player) === normalizeAddress(account.account?.address);
 
-          const currentPlayerAddress = game_node?.current_player;
-          const found_profile_name = shortString.decodeShortString(
-            findPlayerProfile(normalizeAddress(currentPlayerAddress)),
-          );
-          const decodedName =
-            found_profile_name === "0" ? undefined : found_profile_name;
-
-          const displayName =
-            decodedName ||
-            (normalizeAddress(currentPlayerAddress) ===
-            normalizeAddress(game_node?.player_one)
-              ? player_one_name
-              : player_two_name);
-
+          const user_position = game_players?.mancalaAlphaPlayerModels?.edges?.find((item: any) => item.node.address === normalizeAddress(game_node?.current_player));
+          const user_name = user_position === 0 ? player_one_name : player_two_name;
+          const opponent_name = user_position === 0 ? player_two_name : player_one_name;
           if (isCurrentUserTurn) {
             return React.createElement(
               "div",
@@ -145,7 +124,7 @@ export default function GameMessage({
               React.createElement(
                 "span",
                 { className: "text-[#F58229]" },
-                displayName,
+                user_name,
               ),
             );
           } else {
@@ -156,7 +135,7 @@ export default function GameMessage({
               React.createElement(
                 "span",
                 { className: "text-[#F58229]" },
-                displayName,
+                opponent_name,
               ),
               ` move`,
             );
