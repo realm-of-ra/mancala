@@ -34,6 +34,7 @@ export function BottomPit({
   winner,
   userAccount,
   system,
+  isPlayerTurn,
   setTimeRemaining,
   max_block_between_move,
   setMoveMessage,
@@ -46,6 +47,7 @@ export function BottomPit({
   winner: string;
   game_id: string;
   status: string;
+  isPlayerTurn: boolean;
   userAccount?: UseAccountResult;
   system: any;
   max_block_between_move: number;
@@ -55,6 +57,10 @@ export function BottomPit({
   setSelectedPit: Dispatch<SetStateAction<number | null>>;
 }) {
   const handleMove = async () => {
+    if (!isPlayerTurn) {
+      setMoveMessage("It's not your turn!");
+      return;
+    }
     setMoveMessage(undefined);
     setMessage(`You have selected pit ${pit}`);
     if (

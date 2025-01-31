@@ -146,8 +146,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return Array.from(uniqueSeeds.values());
   }, [data]);
 
+  // Add function to check if it's player's turn
+  const isPlayerTurn = React.useMemo(() => {
+    if (!game_node || !account.account?.address) return false;
+    
+    // Get current turn from game_node
+    const currentTurn = game_node.current_player;
+    const playerAddress = account.account.address;
+
+    // Check if it's player's turn
+    return currentTurn === playerAddress;
+  }, [game_node, account.account?.address]);
+
+  // Modify useEffect for simulation to include turn check
   useEffect(() => {
-    if (seeds.length > 0 && selectedPit !== null) {
+    if (seeds.length > 0 && selectedPit !== null && isPlayerTurn) {
       setIsSimulating(true);
       const formattedSeeds = seeds.map(seed => ({
         seed_id: seed.seed_id,
@@ -168,7 +181,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       setSimulatedSeeds([]);
       setIsSimulating(false);
     }
-  }, [seeds, selectedPit, player_position, opponent_position, game_players, volume]);
+  }, [seeds, selectedPit, player_position, opponent_position, game_players, volume, isPlayerTurn]);
 
   useEffect(() => {
     if (data?.mancalaAlphaSeedModels?.edges) {
@@ -307,8 +320,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       amount={pit.node.seed_count}
                       address={pit.node.player}
                       pit={pit.node.pit_number}
-                      // isSelected={selectedPit === pit.node.pit_number}
-                      // onPitSelect={setSelectedPit}
                       userAccount={account}
                       system={system}
                       game_id={gameId}
@@ -317,11 +328,20 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       winner={game_node?.winner}
                       setMessage={setMessage}
                       setTimeRemaining={setTimeRemaining}
-                      setSelectedPit={setSelectedPit}
+                      setSelectedPit={(pit) => {
+                        // Only allow setting selected pit if it's player's turn
+                        if (isPlayerTurn) {
+                          setSelectedPit(pit);
+                        } else {
+                          setMessage("It's not your turn!");
+                          setTimeout(() => setMessage(""), 3000);
+                        }
+                      }}
                       max_block_between_move={parseInt(
                         game_node?.max_block_between_move,
                         16
                       )}
+                      isPlayerTurn={isPlayerTurn}
                     />
                   );
                 })}
