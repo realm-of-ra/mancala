@@ -333,9 +333,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                         // Only allow setting selected pit if it's player's turn
                         if (isPlayerTurn) {
                           setSelectedPit(pit);
-                        } else {
-                          setMessage("It's not your turn!");
-                          setTimeout(() => setMessage(""), 3000);
                         }
                       }}
                       max_block_between_move={parseInt(

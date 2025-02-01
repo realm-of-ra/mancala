@@ -12,6 +12,7 @@ export default function GameNavigation({
   gameId,
   timeRemaining,
   setTimeRemaining,
+  moveMessage,
   message,
   setMessage,
   action,
@@ -26,6 +27,7 @@ export default function GameNavigation({
   setTimeRemaining: any;
   message: any;
   setMessage: any;
+  moveMessage: any;
   action: { action: any; message: string };
   setAction: any;
 }) {
@@ -140,6 +142,7 @@ export default function GameNavigation({
         setMessage={setMessage}
         action={action}
         setAction={setAction}
+        moveMessage={moveMessage}
       />
     </nav>
   );

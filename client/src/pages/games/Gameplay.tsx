@@ -32,7 +32,7 @@ export default function Gameplay() {
   const game_node =
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [, setMoveMessage] = useState<string | undefined>();
+  const [moveMessage, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
     game_players?.mancalaAlphaPlayerModels.edges.filter(
@@ -68,6 +68,7 @@ export default function Gameplay() {
         gameId={gameId}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
+        moveMessage={moveMessage}
         message={message}
         setMessage={setMessage}
         action={action}
