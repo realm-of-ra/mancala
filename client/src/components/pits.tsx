@@ -58,7 +58,6 @@ export function BottomPit({
 }) {
   const handleMove = async () => {
     if (!isPlayerTurn) {
-      setMoveMessage("It's not your turn!");
       return;
     }
     setMoveMessage(undefined);
@@ -69,6 +68,7 @@ export function BottomPit({
       winner === "0x0"
     ) {
       setSelectedPit(pit);
+      setMoveMessage('Confirming move on the blockchain...');
       await system.move(userAccount?.account, game_id, pit);
       setMoveMessage(undefined);
       setMessage(undefined);
@@ -87,6 +87,7 @@ export function BottomPit({
       }
     }
   };
+
 
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-3">

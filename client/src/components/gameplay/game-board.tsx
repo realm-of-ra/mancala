@@ -146,7 +146,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return Array.from(uniqueSeeds.values());
   }, [data]);
 
-  // Add function to check if it's player's turn
   const isPlayerTurn = React.useMemo(() => {
     if (!game_node || !account.account?.address) return false;
     
@@ -158,7 +157,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     return currentTurn === playerAddress;
   }, [game_node, account.account?.address]);
 
-  // Modify useEffect for simulation to include turn check
   useEffect(() => {
     if (seeds.length > 0 && selectedPit !== null && isPlayerTurn) {
       setIsSimulating(true);
@@ -213,26 +211,41 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     return { ...seed, isNative };
   };
-  const player_pot_seed_count =
-    game_players?.mancalaAlphaPitModels.edges
-      .filter(
-        (item: any) =>
-          item?.node.player ===
-          game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node
-            .address,
+
+  const calculatePitAmount = (seeds: any[], pitNumber: number, playerAddress: string) => {
+    return seeds.filter(seed => 
+      seed.player === playerAddress && 
+      seed.pit_number === pitNumber
+    ).length;
+  };
+
+  const player_pot_seed_count = isSimulating && simulatedSeeds.length > 0
+    ? calculatePitAmount(
+        simulatedSeeds,
+        7,
+        game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node.address
       )
-      .filter((item: any) => item?.node.pit_number === 7)[0]?.node
-      ?.seed_count || 0;
-  const opponent_pot_seed_count =
-    game_players?.mancalaAlphaPitModels.edges
-      .filter(
-        (item: any) =>
-          item?.node.player ===
-          game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node
-            .address,
+    : game_players?.mancalaAlphaPitModels.edges
+        .filter(
+          (item: any) =>
+            item?.node.player ===
+            game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node.address,
+        )
+        .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
+
+  const opponent_pot_seed_count = isSimulating && simulatedSeeds.length > 0
+    ? calculatePitAmount(
+        simulatedSeeds,
+        7,
+        game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address
       )
-      .filter((item: any) => item?.node.pit_number === 7)[0]?.node
-      ?.seed_count || 0;
+    : game_players?.mancalaAlphaPitModels.edges
+        .filter(
+          (item: any) =>
+            item?.node.player ===
+            game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address,
+        )
+        .filter((item: any) => item?.node.pit_number === 7)[0]?.node?.seed_count || 0;
 
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
@@ -289,16 +302,25 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       opponent_position
                     ]?.node.address,
                 )
-                .filter((item: any) => item?.node.pit_number !== 7) // Exclude the scoring pit
-                .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number) // Sort in descending order
-                .map((pit: any, i: number) => (
-                  <TopPit
-                    key={i}
-                    amount={pit.node.seed_count}
-                    pit={pit.node.pit_number}
-                    // isSelected={selectedPit === pit.node.pit_number}
-                  />
-                ))}
+                .filter((item: any) => item?.node.pit_number !== 7)
+                .sort((a: any, b: any) => b.node.pit_number - a.node.pit_number)
+                .map((pit: any, i: number) => {
+                  const pitAmount = isSimulating && simulatedSeeds.length > 0
+                    ? calculatePitAmount(
+                        simulatedSeeds,
+                        pit.node.pit_number,
+                        game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address
+                      )
+                    : pit.node.seed_count;
+
+                  return (
+                    <TopPit
+                      key={i}
+                      amount={pitAmount}
+                      pit={pit.node.pit_number}
+                    />
+                  );
+                })}
             </div>
           </div>
           {/* Player 2 */}
@@ -315,10 +337,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 .filter((item: any) => item?.node.pit_number !== 7)
                 .sort((a: any, b: any) => a.node.pit_number - b.node.pit_number)
                 .map((pit: any, i: number) => {
+                  const pitAmount = isSimulating && simulatedSeeds.length > 0
+                    ? calculatePitAmount(
+                        simulatedSeeds,
+                        pit.node.pit_number,
+                        game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node.address
+                      )
+                    : pit.node.seed_count;
+
                   return (
                     <BottomPit
                       key={i}
-                      amount={pit.node.seed_count}
+                      amount={pitAmount}
                       address={pit.node.player}
                       pit={pit.node.pit_number}
                       userAccount={account}
@@ -329,19 +359,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       winner={game_node?.winner}
                       setMessage={setMessage}
                       setTimeRemaining={setTimeRemaining}
-                      setSelectedPit={(pit) => {
-                        // Only allow setting selected pit if it's player's turn
-                        if (isPlayerTurn) {
-                          setSelectedPit(pit);
-                        } else {
-                          setMessage("It's not your turn!");
-                          setTimeout(() => setMessage(""), 3000);
-                        }
-                      }}
-                      max_block_between_move={parseInt(
-                        game_node?.max_block_between_move,
-                        16
-                      )}
+                      setSelectedPit={setSelectedPit}
+                      max_block_between_move={parseInt(game_node?.max_block_between_move, 16)}
                       isPlayerTurn={isPlayerTurn}
                     />
                   );

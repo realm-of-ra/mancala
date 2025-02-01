@@ -32,7 +32,7 @@ export default function Gameplay() {
   const game_node =
     game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
-  const [, setMoveMessage] = useState<string | undefined>();
+  const [moveMessage, setMoveMessage] = useState<string | undefined>();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
     game_players?.mancalaAlphaPlayerModels.edges.filter(
@@ -72,6 +72,7 @@ export default function Gameplay() {
         setMessage={setMessage}
         action={action}
         setAction={setAction}
+        moveMessage={moveMessage}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
