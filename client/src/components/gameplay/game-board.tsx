@@ -51,6 +51,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
+  const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
+  const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
+  const [isSimulating, setIsSimulating] = React.useState(false);
+  const involved = game_players?.mancalaAlphaPlayerModels.edges.some(
+    (item: any) =>
+      item?.node.address ===
+      (account.account?.address || game_node?.player_one),
+  );
+  const player_position = involved
+    ? game_players?.mancalaAlphaPlayerModels.edges.findIndex(
+        (item: any) =>
+          item?.node.address ===
+          (account.account?.address || game_node?.player_one),
+      )
+    : 0;
+  const opponent_position = player_position === 0 ? 1 : 0;
   const { data, startPolling } = useQuery(MancalaSeedQuery, {
     variables: { gameId: gameId },
   });
@@ -190,7 +206,63 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   }, [data]);
 
+  // Add function to check if it's player's turn
+  const isPlayerTurn = React.useMemo(() => {
+    if (!game_node || !account.account?.address) return false;
+    
+    // Get current turn from game_node
+    const currentTurn = game_node.current_player;
+    const playerAddress = account.account.address;
+
+    // Check if it's player's turn
+    return currentTurn === playerAddress;
+  }, [game_node, account.account?.address]);
+
+  // Modify useEffect for simulation to include turn check
+  useEffect(() => {
+    if (seeds.length > 0 && selectedPit !== null && isPlayerTurn) {
+      setIsSimulating(true);
+      const formattedSeeds = seeds.map(seed => ({
+        seed_id: seed.seed_id,
+        color: seed.color || "Blue",
+        player: seed.player,
+        pit_number: seed.pit_number,
+        seed_number: seed.seed_number,
+        isNative: seed.isNative,
+        volume: volume
+      }));
+
+      const player = game_players?.mancalaAlphaPlayerModels.edges[player_position]?.node.address;
+      const opponent = game_players?.mancalaAlphaPlayerModels.edges[opponent_position]?.node.address;
+      
+      const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, player, opponent);
+      setSimulatedSeeds(simulatedMove);
+    } else {
+      setSimulatedSeeds([]);
+      setIsSimulating(false);
+    }
+  }, [seeds, selectedPit, player_position, opponent_position, game_players, volume, isPlayerTurn]);
+
+  useEffect(() => {
+    if (data?.mancalaAlphaSeedModels?.edges) {
+      setIsSimulating(false);
+      setSelectedPit(null);
+    }
+  }, [data]);
+
   const getSeed = (seedId: string | number) => {
+    const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
+    
+    if (isSimulating && simulatedSeeds.length > 0) {
+      const simulatedSeed = simulatedSeeds.find(seed => seed.seed_id === hexSeedId);
+      if (simulatedSeed) {
+        return {
+          ...simulatedSeed,
+          isNative: simulatedSeed.isNative
+        };
+      }
+    }
+
     const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
     
     if (isSimulating && simulatedSeeds.length > 0) {
@@ -208,6 +280,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     const seedNumber = parseInt(seed.seed_id, 16);
     const isNative =
+      (seed.player === game_node?.player_one && seedNumber >= 1 && seedNumber <= 24) ||
+      (seed.player === game_node?.player_two && seedNumber >= 25 && seedNumber <= 48);
       (seed.player === game_node?.player_one && seedNumber >= 1 && seedNumber <= 24) ||
       (seed.player === game_node?.player_two && seedNumber >= 25 && seedNumber <= 48);
 
@@ -258,12 +332,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
               <Seed
                 key={seedNumber}
                 seed_id={seedDetails?.seed_id}
+                seed_id={seedDetails?.seed_id}
                 color={seedDetails?.color || "Blue"}
                 type={isPlayerSeed ? "player" : "opponent"}
                 pit_number={seedDetails?.pit_number}
                 seed_number={seedDetails?.seed_number}
                 isNative={seedDetails.isNative}
                 volume={volume}
+                simulated={isSimulating}
                 simulated={isSimulating}
               />
             );
@@ -296,6 +372,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     key={i}
                     amount={pit.node.seed_count}
                     pit={pit.node.pit_number}
+                    // isSelected={selectedPit === pit.node.pit_number}
                     // isSelected={selectedPit === pit.node.pit_number}
                   />
                 ))}
@@ -338,7 +415,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       max_block_between_move={parseInt(
                         game_node?.max_block_between_move,
                         16
+                        16
                       )}
+                      isPlayerTurn={isPlayerTurn}
                       isPlayerTurn={isPlayerTurn}
                     />
                   );

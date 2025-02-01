@@ -7,6 +7,7 @@ import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
 import { MancalaPlayerNames } from "@/lib/constants";
+import { formatPlayerName } from "@/lib/utils";
 
 export default function GameMessage({
   game_node,
