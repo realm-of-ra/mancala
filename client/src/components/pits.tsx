@@ -65,6 +65,7 @@ export function BottomPit({
       setMoveMessage("It's not your turn!");
       return;
     }
+    setMoveMessage(undefined);
     setMessage(`You have selected pit ${pit}`);
     if (
       address === userAccount?.account?.address &&
@@ -72,7 +73,6 @@ export function BottomPit({
       winner === "0x0"
     ) {
       setSelectedPit(pit);
-      setMoveMessage('Confirming move on the blockchain...');
       await system.move(userAccount?.account, game_id, pit);
       setMoveMessage(undefined);
       setMessage(undefined);
