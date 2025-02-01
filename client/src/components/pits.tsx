@@ -58,7 +58,6 @@ export function BottomPit({
 }) {
   const handleMove = async () => {
     if (!isPlayerTurn) {
-      setMoveMessage("It's not your turn!");
       return;
     }
     setMoveMessage(undefined);
