@@ -10,6 +10,7 @@ export default function GameNavigation({
   game_node,
   account,
   gameId,
+  moveMessage,
   timeRemaining,
   setTimeRemaining,
   message,
@@ -22,6 +23,7 @@ export default function GameNavigation({
   game_node: any;
   account: any;
   gameId: any;
+  moveMessage: any;
   timeRemaining: any;
   setTimeRemaining: any;
   message: any;
@@ -136,6 +138,7 @@ export default function GameNavigation({
         gameStarted={started}
         timeRemaining={timeRemaining}
         setTimeRemaining={setTimeRemaining}
+        moveMessage={moveMessage}
         message={message}
         setMessage={setMessage}
         action={action}

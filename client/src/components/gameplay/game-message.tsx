@@ -3,12 +3,8 @@ import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import audio from "../../music/audio_1.mp4";
-import { shortString } from "starknet";
 import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
-import { useQuery } from "@apollo/client";
-import { MancalaPlayerNames } from "@/lib/constants";
-import { formatPlayerName } from "@/lib/utils";
 
 export default function GameMessage({
   game_node,
@@ -19,6 +15,7 @@ export default function GameMessage({
   gameStarted,
   timeRemaining,
   setTimeRemaining,
+  moveMessage,
   message,
   setMessage,
   action,
@@ -32,6 +29,7 @@ export default function GameMessage({
   gameStarted: any;
   timeRemaining: any;
   setTimeRemaining: any;
+  moveMessage: any;
   message: string;
   setMessage: any;
   action: { action: any; message: string };
@@ -39,9 +37,6 @@ export default function GameMessage({
 }) {
   const audioRef = useRef(new Audio(audio));
   const [startTime, setStartTime] = useState<number | null>(null);
-  const { data: profiles, startPolling: startPollingProfiles } =
-    useQuery(MancalaPlayerNames);
-  startPollingProfiles(1000);
 
   useEffect(() => {
     if (
@@ -189,7 +184,7 @@ export default function GameMessage({
                 <AlarmClock className="w-6 h-6 text-white" />
               )}
               <div className="text-white">
-                {moveMessageOnTimer(
+                {moveMessage ? moveMessage : moveMessageOnTimer(
                   game_node?.current_player,
                   player_one_name,
                   player_two_name,

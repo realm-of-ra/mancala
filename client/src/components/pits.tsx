@@ -35,12 +35,10 @@ export function BottomPit({
   userAccount,
   system,
   isPlayerTurn,
-  isPlayerTurn,
   setTimeRemaining,
   max_block_between_move,
   setMoveMessage,
   setMessage,
-  setSelectedPit,
   setSelectedPit,
 }: {
   amount: number;
@@ -50,14 +48,12 @@ export function BottomPit({
   game_id: string;
   status: string;
   isPlayerTurn: boolean;
-  isPlayerTurn: boolean;
   userAccount?: UseAccountResult;
   system: any;
   max_block_between_move: number;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
   setTimeRemaining: Dispatch<SetStateAction<number>>;
   setMessage: any;
-  setSelectedPit: Dispatch<SetStateAction<number | null>>;
   setSelectedPit: Dispatch<SetStateAction<number | null>>;
 }) {
   const handleMove = async () => {
@@ -73,6 +69,7 @@ export function BottomPit({
       winner === "0x0"
     ) {
       setSelectedPit(pit);
+      setMoveMessage('Confirming move on the blockchain...');
       await system.move(userAccount?.account, game_id, pit);
       setMoveMessage(undefined);
       setMessage(undefined);
