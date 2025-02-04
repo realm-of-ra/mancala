@@ -64,7 +64,7 @@ export default function Seed({
   }, [volume, audio]);
 
   const play = () => {
-    if (simulated) {
+    if ((simulated && type === "player") || (!simulated && type === "opponent")) {
       timerRef.current = setTimeout(
         () => audio.play().catch(console.error),
         animationDelay * 1000 + 600,
