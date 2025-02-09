@@ -25,13 +25,14 @@ export default function MessageArea({
     game_players?.mancalaAlphaPlayerModels?.edges?.filter(
       (item: any) => item?.node?.restart_requested === true,
     )[opponent_position]?.node?.restart_requested;
-  const account = useAccount();
+  const { account } = useAccount();
   const { system } = useDojo();
   const [, setRestarted] = useState(false);
   const { gameId } = useParams();
 
   // Move restart_game into useCallback to memoize it
   const restart_game = useCallback(async () => {
+    console.log('clicked: ')
     if (account) {
       await system.restart_game(
         account as never,

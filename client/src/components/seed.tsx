@@ -41,12 +41,8 @@ export default function Seed({
   }, [isNative, type, _positions, pit_number, seed_number]);
 
   useEffect(() => {
-    if (simulated) {
-      setAnimationDelay(seed_number * 0.75);
-    } else {
-      setAnimationDelay(0);
-    }
-  }, [seed_number, simulated]);
+    setAnimationDelay(seed_number * 0.75);
+  }, [seed_number]);
 
   useEffect(() => {
     audio.volume = 0.35;
