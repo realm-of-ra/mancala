@@ -175,18 +175,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
       
       const simulatedMove = calculateMancalaMove(formattedSeeds, selectedPit, player, opponent);
       setSimulatedSeeds(simulatedMove);
-    } else {
-      setSimulatedSeeds([]);
-      setIsSimulating(false);
     }
   }, [seeds, selectedPit, player_position, opponent_position, game_players, volume, isPlayerTurn]);
 
-  useEffect(() => {
-    if (data?.mancalaAlphaSeedModels?.edges) {
-      setIsSimulating(false);
-      setSelectedPit(null);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.mancalaAlphaSeedModels?.edges) {
+  //     setIsSimulating(false);
+  //     setSelectedPit(null);
+  //   }
+  // }, [data]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId = typeof seedId === "number" ? `0x${seedId.toString(16)}` : seedId;
