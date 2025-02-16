@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
 import axios from 'axios';
-import crypto from 'crypto';
 import { lookupAddresses } from "@cartridge/controller";
 
 export function cn(...inputs: ClassValue[]) {

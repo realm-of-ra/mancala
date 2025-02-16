@@ -1,4 +1,4 @@
-const IS_MAINNET = import.meta.env.VITE_BLOCKCHAIN_TYPE === "mainnet"
+export const IS_MAINNET = import.meta.env.VITE_BLOCKCHAIN_TYPE === "mainnet"
 const MANCALA_ADDRESS = IS_MAINNET ? "" : "0x5920638dd022083587d85417b642e85a16dc08bfe9ce8a536e17462cb332fd3"
 const RPC_URL = IS_MAINNET ? "" : "https://api.cartridge.gg/x/starknet/sepolia"
 const TORII_URL = IS_MAINNET ? "" : "https://api.cartridge.gg/x/mancala-b/torii"

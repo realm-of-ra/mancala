@@ -1,5 +1,5 @@
 import ControllerConnector from "@cartridge/connector/controller";
-import { sepolia } from "@starknet-react/chains";
+import { mainnet, sepolia } from "@starknet-react/chains";
 import {
   Connector,
   StarknetConfig,
@@ -12,7 +12,7 @@ import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import Tutorial from "./pages/Tutorial";
-import CONFIG from "./lib/config";
+import CONFIG, { IS_MAINNET } from "./lib/config";
 
 const options = {
   theme: "realm-of-ra",
@@ -54,7 +54,7 @@ export default function App() {
 
   return (
     <StarknetConfig
-      chains={[sepolia]}
+      chains={[IS_MAINNET ? mainnet : sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}
       explorer={voyager}
