@@ -604,57 +604,6 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
-export const SLOT_RPC_URL = "https://api.cartridge.gg/x/starknet/sepolia";
-
-const MANCALA_ADDRESS =
-  "0x5920638dd022083587d85417b642e85a16dc08bfe9ce8a536e17462cb332fd3";
-
-const PROFILE_ADDRESS =
-  "0x3714f8b523e83a41c722a8c6f21da9b6d9aee178bc7ed3daeeb2d4649ebf4bd";
-
-export const POLICIES = [
-  {
-    target: MANCALA_ADDRESS,
-    method: "new_game",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "join_game",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "timeout",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "create_private_game",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "move",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "forfeited",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "request_restart_game",
-  },
-  {
-    target: MANCALA_ADDRESS,
-    method: "restart_current_game",
-  },
-  {
-    target: PROFILE_ADDRESS,
-    method: "create_player_profile",
-  },
-  {
-    target: PROFILE_ADDRESS,
-    method: "update_player_profile",
-  },
-];
-
 export const MancalaBoardModelsQuery = gql`
   query mancalaAlphaMancalaBoardModels {
     mancalaAlphaMancalaBoardModels {
