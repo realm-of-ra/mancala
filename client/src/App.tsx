@@ -1,5 +1,5 @@
 import ControllerConnector from "@cartridge/connector/controller";
-import { sepolia } from "@starknet-react/chains";
+import { mainnet, sepolia } from "@starknet-react/chains";
 import {
   Connector,
   StarknetConfig,
@@ -11,15 +11,15 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
-import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
 import Tutorial from "./pages/Tutorial";
+import CONFIG, { IS_MAINNET } from "./lib/config";
 
 const options = {
   theme: "realm-of-ra",
-  policies: POLICIES,
+  policies: CONFIG.POLICIES,
   namespace: "mancala_alpha",
   slot: "mancala-b",
-  rpc: SLOT_RPC_URL,
+  rpc: CONFIG.SLOT_RPC_URL,
 };
 
 const SmallScreenWarning = () => (
@@ -49,12 +49,12 @@ export default function App() {
   const connectors = [new ControllerConnector(options) as never as Connector];
 
   const rpc = useCallback(() => {
-    return { nodeUrl: SLOT_RPC_URL };
+    return { nodeUrl: CONFIG.SLOT_RPC_URL };
   }, []);
 
   return (
     <StarknetConfig
-      chains={[sepolia]}
+      chains={[IS_MAINNET ? mainnet : sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}
       explorer={voyager}
