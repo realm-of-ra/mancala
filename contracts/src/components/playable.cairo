@@ -1,10 +1,10 @@
 #[starknet::component]
-mod PlayableComponent {
-    use core::debug::PrintTrait;
+pub mod PlayableComponent {
+    //use core::debug::PrintTrait;
 
     use dojo::world::WorldStorage;
     use starknet::ContractAddress;
-    use starknet::info::{get_caller_address, get_block_timestamp};
+    use starknet::{get_caller_address, get_block_timestamp};
     use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
 
     use mancala::store::{Store, StoreTrait};
@@ -18,22 +18,22 @@ mod PlayableComponent {
     };
     use mancala::types::task::{Task, TaskTrait};
 
-    mod errors {
-        const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
-        const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
-        const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
-        const PLAYER_DID_NOT_REQUEST_RESTART: felt252 = 'Player did not request restart';
+    pub mod errors {
+        pub const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
+        pub const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
+        pub const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
+        pub const PLAYER_DID_NOT_REQUEST_RESTART: felt252 = 'Player did not request restart';
     }
 
     #[storage]
-    struct Storage {}
+    pub struct Storage {}
 
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {}
+    pub enum Event {}
 
     #[generate_trait]
-    impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
+    pub impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
         /// Creates a new game
         ///
         /// # Arguments

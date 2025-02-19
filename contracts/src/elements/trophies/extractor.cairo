@@ -1,6 +1,6 @@
 use mancala::elements::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Extractor of TrophyTrait {
+pub impl Extractor of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'EXTRACTOR'

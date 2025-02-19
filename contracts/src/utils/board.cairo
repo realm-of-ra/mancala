@@ -6,7 +6,7 @@ use mancala::models::seed::{Seed, SeedColor, SeedTrait};
 use mancala::models::pit::Pit;
 use mancala::store::{Store, StoreTrait};
 
-fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Array<Seed> {
+pub fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Array<Seed> {
     assert(pit_number <= *player.len_pits, 'Pit number out of bounds');
 
     let mut store: Store = StoreTrait::new(world);
@@ -25,7 +25,7 @@ fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Array<
     result
 }
 
-fn add_seed_to_pit(
+pub fn add_seed_to_pit(
     world: WorldStorage, ref seed: Seed, player_address: ContractAddress, pit_number: u8,
 ) {
     let mut store: Store = StoreTrait::new(world);
@@ -42,7 +42,7 @@ fn add_seed_to_pit(
     store.set_seed(seed);
 }
 
-fn distribute_seeds(
+pub fn distribute_seeds(
     world: WorldStorage, ref current_player: Player, ref opponent: Player, selected_pit: u8,
 ) -> (u8, bool) {
     let mut store: Store = StoreTrait::new(world);
@@ -132,7 +132,7 @@ fn distribute_seeds(
     (last_pit, is_current_player)
 }
 
-fn capture_seeds(
+pub fn capture_seeds(
     world: WorldStorage, last_pit: u8, ref current_player: Player, ref opponent: Player,
 ) -> u8 {
     let mut store: Store = StoreTrait::new(world);
@@ -175,7 +175,7 @@ fn capture_seeds(
     captured_seeds
 }
 
-fn get_player_seeds(world: WorldStorage, player: @Player) -> Array<Seed> {
+pub fn get_player_seeds(world: WorldStorage, player: @Player) -> Array<Seed> {
     let mut idx = 1;
     let mut result = array![];
     loop {
@@ -196,7 +196,7 @@ fn get_player_seeds(world: WorldStorage, player: @Player) -> Array<Seed> {
     result
 }
 
-fn remove_player_seeds(world: WorldStorage, player: @Player) {
+pub fn remove_player_seeds(world: WorldStorage, player: @Player) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut idx = 1;
@@ -211,7 +211,7 @@ fn remove_player_seeds(world: WorldStorage, player: @Player) {
     };
 }
 
-fn capture_remaining_seeds(world: WorldStorage, ref player: Player) -> u32 {
+pub fn capture_remaining_seeds(world: WorldStorage, ref player: Player) -> u32 {
     let mut store: Store = StoreTrait::new(world);
     let mut store_pit = store.get_pit(player.game_id, player.address, 7);
     let store_start_count: u8 = store_pit.seed_count;
@@ -243,7 +243,7 @@ fn capture_remaining_seeds(world: WorldStorage, ref player: Player) -> u32 {
     total_seeds_remaining
 }
 
-fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
+pub fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedColor) {
     let mut store: Store = StoreTrait::new(world);
 
     let mut idx = 1;
@@ -277,7 +277,7 @@ fn restart_player_pits(world: WorldStorage, player: @Player, seed_color: SeedCol
     store.set_pit(store_pit);
 }
 
-fn verify_seed_counts(world: WorldStorage, game_id: u128) {
+pub fn verify_seed_counts(world: WorldStorage, game_id: u128) {
     let mut store: Store = StoreTrait::new(world);
     let game = store.get_mancala_board(game_id);
 
@@ -332,7 +332,7 @@ fn verify_seed_counts(world: WorldStorage, game_id: u128) {
     };
 }
 
-fn initialize_player_seeds(
+pub fn initialize_player_seeds(
     world: WorldStorage, player: @Player, start_seed_id: u128, color: SeedColor,
 ) {
     let mut store: Store = StoreTrait::new(world);

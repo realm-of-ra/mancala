@@ -1,6 +1,6 @@
 use mancala::elements::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Strategist of TrophyTrait {
+pub impl Strategist of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         match level {

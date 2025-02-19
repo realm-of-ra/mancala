@@ -1,6 +1,6 @@
 use mancala::elements::tasks::interface::TaskTrait;
 
-impl Mastering of TaskTrait {
+pub impl Mastering of TaskTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'MASTERING'

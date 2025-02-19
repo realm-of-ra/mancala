@@ -1,23 +1,24 @@
+use core::num::traits::Zero;
 use starknet::{get_block_number, ContractAddress, get_caller_address};
 
-use mancala::models::index::{MancalaBoard, GameStatus};
+pub use mancala::models::index::{MancalaBoard, GameStatus};
 use mancala::constants::AVERAGE_BLOCK_TIME;
 use mancala::models::player::{Player, PlayerTrait};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 
 // Error messages for various game conditions
-mod errors {
-    const GAME_NOT_PENDING: felt252 = 'MancalaBoard: not pending';
-    const PLAYER_TWO_ALREADY_JOINED: felt252 = 'MancalaBoard: already joined';
-    const NOT_PLAYER_TURN: felt252 = 'MancalaBoard: not your turn';
-    const INVALID_PIT: felt252 = 'MancalaBoard: invalid pit';
-    const NOT_TIMEOUT: felt252 = 'MancalaBoard: invalid timeout';
-    const CANNOT_PLAY_SELF: felt252 = 'MancalaBoard: cannot play self';
+pub mod errors {
+    pub const GAME_NOT_PENDING: felt252 = 'MancalaBoard: not pending';
+    pub const PLAYER_TWO_ALREADY_JOINED: felt252 = 'MancalaBoard: already joined';
+    pub const NOT_PLAYER_TURN: felt252 = 'MancalaBoard: not your turn';
+    pub const INVALID_PIT: felt252 = 'MancalaBoard: invalid pit';
+    pub const NOT_TIMEOUT: felt252 = 'MancalaBoard: invalid timeout';
+    pub const CANNOT_PLAY_SELF: felt252 = 'MancalaBoard: cannot play self';
 }
 
 /// Trait implementation for MancalaBoard operations
 #[generate_trait]
-impl MancalaBoardImpl of MancalaBoardTrait {
+pub impl MancalaBoardImpl of MancalaBoardTrait {
     /// Creates a new MancalaBoard instance
     ///
     /// # Arguments
@@ -37,7 +38,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
-            is_private: false
+            is_private: false,
         }
     }
 
@@ -51,7 +52,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance with initial settings
     #[inline]
     fn private_mancala(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress,
     ) -> MancalaBoard {
         MancalaBoard {
             game_id,
@@ -62,7 +63,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
-            is_private: true
+            is_private: true,
         }
     }
 
@@ -183,7 +184,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
     /// * `MancalaBoard` - A new MancalaBoard instance for the restarted game
     #[inline]
     fn restart_game(
-        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool
+        game_id: u128, player_one: ContractAddress, player_two: ContractAddress, private: bool,
     ) -> MancalaBoard {
         MancalaBoard {
             game_id: game_id,
@@ -194,7 +195,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::InProgress,
-            is_private: private
+            is_private: private,
         }
     }
 }

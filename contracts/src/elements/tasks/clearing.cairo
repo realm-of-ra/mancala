@@ -1,6 +1,6 @@
 use mancala::elements::tasks::interface::TaskTrait;
 
-impl Clearing of TaskTrait {
+pub impl Clearing of TaskTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'CLEARING'

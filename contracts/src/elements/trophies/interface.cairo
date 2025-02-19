@@ -1,7 +1,7 @@
-use achievement::types::task::{Task as BushidoTask};
-use mancala::types::task::{Task, TaskTrait};
+pub use achievement::types::task::{Task as BushidoTask};
+pub use mancala::types::task::{Task, TaskTrait};
 
-trait TrophyTrait {
+pub trait TrophyTrait {
     fn identifier(level: u8) -> felt252;
     fn hidden(level: u8) -> bool;
     fn index(level: u8) -> u8;

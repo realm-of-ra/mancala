@@ -106,11 +106,20 @@ export default function GameMessage({
         );
       } else {
         if (game_node?.status !== "Pending") {
-          const isCurrentUserTurn = normalizeAddress(game_node?.current_player) === normalizeAddress(account.account?.address);
+          const isCurrentUserTurn =
+            normalizeAddress(game_node?.current_player) ===
+            normalizeAddress(account.account?.address);
 
-          const user_position = game_players?.mancalaAlphaPlayerModels?.edges?.find((item: any) => item.node.address === normalizeAddress(game_node?.current_player));
-          const user_name = user_position === 0 ? player_one_name : player_two_name;
-          const opponent_name = user_position === 0 ? player_two_name : player_one_name;
+          const user_position =
+            game_players?.mancalaSaltPlayerModels?.edges?.find(
+              (item: any) =>
+                item.node.address ===
+                normalizeAddress(game_node?.current_player),
+            );
+          const user_name =
+            user_position === 0 ? player_one_name : player_two_name;
+          const opponent_name =
+            user_position === 0 ? player_two_name : player_one_name;
           if (isCurrentUserTurn) {
             return React.createElement(
               "div",
@@ -184,11 +193,13 @@ export default function GameMessage({
                 <AlarmClock className="w-6 h-6 text-white" />
               )}
               <div className="text-white">
-                {moveMessage ? moveMessage : moveMessageOnTimer(
-                  game_node?.current_player,
-                  player_one_name,
-                  player_two_name,
-                )}
+                {moveMessage
+                  ? moveMessage
+                  : moveMessageOnTimer(
+                      game_node?.current_player,
+                      player_one_name,
+                      player_two_name,
+                    )}
               </div>
             </div>
           }

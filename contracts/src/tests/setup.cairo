@@ -1,5 +1,5 @@
-mod setup {
-    use core::debug::PrintTrait;
+pub mod setup {
+    //use core::debug::PrintTrait;
 
     use dojo::model::{ModelStorage, ModelValueStorage, ModelStorageTest};
     use dojo::world::{WorldStorage, WorldStorageTrait};
@@ -28,8 +28,8 @@ mod setup {
     }
 
     #[derive(Drop)]
-    struct Systems {
-        Mancala: IMancalaSystemDispatcher,
+    pub struct Systems {
+        pub Mancala: IMancalaSystemDispatcher,
     }
 
     #[inline]
@@ -64,7 +64,7 @@ mod setup {
             .span()
     }
 
-    fn spawn_game() -> (WorldStorage, Systems) {
+    pub fn spawn_game() -> (WorldStorage, Systems) {
         // [Setup] World
         set_contract_address(OWNER());
         let namespace_def = setup_namespace();

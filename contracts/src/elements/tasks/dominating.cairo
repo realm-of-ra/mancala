@@ -1,6 +1,6 @@
 use mancala::elements::tasks::interface::TaskTrait;
 
-impl Dominating of TaskTrait {
+pub impl Dominating of TaskTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'DOMINATING'

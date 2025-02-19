@@ -31,7 +31,7 @@ export default function Tutorial() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaAlphaMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaSaltMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>(
     "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise",
@@ -121,9 +121,7 @@ export default function Tutorial() {
                 </Button>
               ) : (
                 <Link to="/lobby">
-                  <Button
-                    className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2"
-                  >
+                  <Button className="bg-[#F582290D] text-[#F58229] text-sm font-medium rounded-md px-4 py-2">
                     GO TO LOBBY
                   </Button>
                 </Link>
