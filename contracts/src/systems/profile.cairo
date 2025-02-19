@@ -5,7 +5,7 @@ pub(crate) trait IPlayerProfile<TState> {
 }
 
 #[dojo::contract]
-mod PlayerProfile {
+pub mod PlayerProfile {
     use super::{IPlayerProfile};
     use dojo::world::IWorldDispatcher;
 
@@ -34,7 +34,7 @@ mod PlayerProfile {
     }
 
     #[abi(embed_v0)]
-    impl PlayerProfileImpl of IPlayerProfile<ContractState> {
+    pub impl PlayerProfileImpl of IPlayerProfile<ContractState> {
         fn create_player_profile(self: @ContractState, name: felt252) {
             let world = self.world_storage();
             self.profile.new_profile(world, name)

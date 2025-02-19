@@ -4,7 +4,7 @@ use mancala::store::{Store, StoreTrait};
 use mancala::models::player::Player;
 
 
-fn move_player_seeds_to_store(world: WorldStorage, player: @Player) {
+pub fn move_player_seeds_to_store(world: WorldStorage, player: @Player) {
     let mut store: Store = StoreTrait::new(world);
     let mut player_store = store.get_pit(*player.game_id, *player.address, 7);
     let store_start_count = player_store.seed_count;

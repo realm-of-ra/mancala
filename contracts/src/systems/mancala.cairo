@@ -19,7 +19,7 @@ pub(crate) trait IMancalaSystem<TState> {
 }
 
 #[dojo::contract]
-mod Mancala {
+pub mod Mancala {
     use super::{ContractAddress, Player, IMancalaSystem};
     use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
@@ -88,7 +88,7 @@ mod Mancala {
     }
 
     #[abi(embed_v0)]
-    impl MancalaImpl of IMancalaSystem<ContractState> {
+    pub impl MancalaImpl of IMancalaSystem<ContractState> {
         fn new_game(ref self: ContractState) {
             let world = self.world_storage();
             self.playable.new_game(world);
