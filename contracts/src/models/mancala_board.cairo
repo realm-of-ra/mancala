@@ -193,7 +193,7 @@ impl MancalaBoardImpl of MancalaBoardTrait {
             last_move: get_block_number(),
             max_block_between_move: 12,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
-            status: GameStatus::Pending,
+            status: GameStatus::InProgress,
             is_private: private
         }
     }

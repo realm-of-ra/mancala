@@ -1,26 +1,25 @@
 import ControllerConnector from "@cartridge/connector/controller";
-import { ControllerOptions } from "@cartridge/controller";
-import { sepolia } from "@starknet-react/chains";
+import { mainnet, sepolia } from "@starknet-react/chains";
 import {
   Connector,
   StarknetConfig,
   jsonRpcProvider,
   voyager,
 } from "@starknet-react/core";
-import { Provider as JotaiProvider } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
-import Leaderboard from "./pages/Leaderboard";
 import Lobby from "./pages/Lobby";
-import { POLICIES, SLOT_RPC_URL } from "./lib/constants";
-import Profile from "./pages/Profile";
+import Tutorial from "./pages/Tutorial";
+import CONFIG, { IS_MAINNET } from "./lib/config";
 
-const options: ControllerOptions = {
-  rpc: SLOT_RPC_URL,
+const options = {
   theme: "realm-of-ra",
-  policies: POLICIES,
+  policies: CONFIG.POLICIES,
+  namespace: "mancala_alpha",
+  slot: "mancala-b",
+  rpc: CONFIG.SLOT_RPC_URL,
 };
 
 const SmallScreenWarning = () => (
@@ -50,28 +49,25 @@ export default function App() {
   const connectors = [new ControllerConnector(options) as never as Connector];
 
   const rpc = useCallback(() => {
-    return { nodeUrl: SLOT_RPC_URL };
+    return { nodeUrl: CONFIG.SLOT_RPC_URL };
   }, []);
 
   return (
     <StarknetConfig
-      chains={[sepolia]}
+      chains={[IS_MAINNET ? mainnet : sepolia]}
       provider={jsonRpcProvider({ rpc })}
       connectors={connectors}
       explorer={voyager}
       autoConnect
     >
-      <JotaiProvider>
-        <Router>
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="/lobby" element={<Lobby />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/games/:gameId" element={<Gameplay />} />
-          </Routes>
-        </Router>
-      </JotaiProvider>
+      <Router>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/lobby" element={<Lobby />} />
+          <Route path="/games/:gameId" element={<Gameplay />} />
+          <Route path="/tutorial" element={<Tutorial />} />
+        </Routes>
+      </Router>
       {isSmallScreen && <SmallScreenWarning />}
     </StarknetConfig>
   );

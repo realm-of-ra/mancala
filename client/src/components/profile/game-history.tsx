@@ -66,132 +66,122 @@ export default function GameHistory({
 
   if (loading) {
     return <GameHistorySkeleton />;
-  } else {
-    if (data?.length === 0) {
-      return <EmptyGameHistory id={id} />;
-    } else {
-      return (
-        <div className="w-[874px] h-[874px] bg-[url('./assets/wide-box.png')] bg-contain bg-no-repeat p-8 overflow-x-hidden">
-          <Card className="w-full h-full bg-transparent">
-            <div className="w-full text-left bg-transparent table-auto">
-              <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
-                <div className="flex flex-row items-center justify-between w-full">
-                  {duels_header.map((head) => (
-                    <div key={head.id} className="p-4 mr-10">
-                      <Typography
-                        variant="small"
-                        className="font-medium leading-none text-[#BDC2CC]"
-                      >
-                        {head.name}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="absolute h-[275px] w-[814px] overflow-y-scroll scrollbar-hidden">
-                <table className="w-full text-left table-auto">
-                  <thead className="border-b border-[#313640] hidden">
-                    <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
-                      {duels_header.map((head) => (
-                        <th key={head.id} className="p-4">
-                          <Typography
-                            variant="small"
-                            className="font-medium leading-none text-[#BDC2CC]"
-                          >
-                            {head.name}
-                          </Typography>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="w-full max-h-[450px] overflow-y-scroll">
-                    {data?.map((item: any, index: number) => {
-                      const isLast = index === data?.length - 1;
-                      const date = new Date(item.date);
-                      const challengerColor = colors[index % colors.length];
-                      const challengedColor =
-                        colors[(index + 3) % colors.length];
-                      return (
-                        <tr
-                          key={index}
-                          className={clsx(
-                            !isLast && "border-b border-[#23272F]",
-                            "w-[814px] flex flex-row items-center",
-                          )}
-                        >
-                          <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
-                            {/* <div className="flex flex-row items-center space-x-5 w-fit"> */}
-                            <div className="flex flex-row items-center space-x-2.5 w-fit">
-                              {/* <img src={item.challenger.profilePicture} width={35} height={35} alt={`${item.challenger.name} profile picture`} className="rounded-full" /> */}
-                              <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                <div
-                                  className="w-8 h-8 flex items-center justify-center rounded-full"
-                                  style={{ backgroundColor: challengerColor }}
-                                >
-                                  <UserIcon
-                                    color="#F58229"
-                                    className="w-5 h-5 text-white"
-                                  />
-                                </div>
-                              </div>
-                              <p className="font-normal text-white">
-                                {item.challenger.name
-                                  ? item.challenger.name
-                                  : truncateString(
-                                      games[index].node.player_one,
-                                    )}
-                              </p>
-                            </div>
-                          </td>
-                          <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-center">
-                            {games[index].node.player_two !== "0x0" ? (
-                              <div className="flex flex-row items-center space-x-2.5 w-fit">
-                                {/* <img src={item.challenged.profilePicture} width={35} height={35} alt={`${item.challenged.name} profile picture`} className="rounded-full" /> */}
-                                <div className="p-1 rounded-full bg-gradient-to-r bg-[#15181E] from-[#2E323A] via-[#4B505C] to-[#1D2026] relative">
-                                  <div
-                                    className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
-                                    style={{ backgroundColor: challengedColor }}
-                                  >
-                                    <UserIcon
-                                      color="#F58229"
-                                      className="w-5 h-5 text-white"
-                                    />
-                                  </div>
-                                </div>
-                                <p className="font-normal text-white">
-                                  {item.challenged.name
-                                    ? item.challenged.name
-                                    : truncateString(
-                                        games[index].node.player_two,
-                                      )}
-                                </p>
-                              </div>
-                            ) : (
-                              <p className="text-white">Matchmaking</p>
-                            )}
-                          </td>
-                          <td className="w-[200px] text-center ml-8">
-                            <p className="font-normal text-[#FAB580]">
-                              {item.winner.name
-                                ? item.winner.name
-                                : truncateString(games[index].node.winner)}
-                            </p>
-                          </td>
-                          <td className="w-[200px] text-end pr-12">
-                            <p className="font-normal text-[#F97E22]">
-                              {date.toLocaleDateString()}
-                            </p>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </Card>
-        </div>
-      );
-    }
+  } else if (data?.length === 0) {
+    return <EmptyGameHistory id={id} />;
   }
+
+  return (
+    <div className="w-full">
+      <Card className="w-full h-full bg-transparent">
+        <div className="w-full text-left bg-transparent table-auto">
+          <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] pt-2 rounded-t-xl px-2.5">
+            <div className="flex flex-row items-center justify-between w-full">
+              {duels_header.map((head) => (
+                <div
+                  key={head.id}
+                  className={clsx(
+                    head.id === 2
+                      ? "text-center ml-20"
+                      : head.id === 3
+                        ? "text-center -ml-6"
+                        : head.id === 4 && "-ml-16",
+                    head.id === 5 && "hidden",
+                    "w-[175px] p-4 text-start",
+                  )}
+                >
+                  <Typography
+                    variant="small"
+                    className="font-semibold leading-none text-[#BDC2CC]"
+                  >
+                    {head.name === "Winner" ? "Result" : head.name}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute h-[450px] w-full overflow-x-clip overflow-y-scroll scrollbar rounded-b-xl">
+            <table className="w-full text-left table-auto px-2.5">
+              <tbody className="h-[450px] w-[800px] rounded-b-xl fixed overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
+                {data?.map((item: any, index: number) => {
+                  const isLast = index === data?.length - 1;
+                  const isFirst = index === 0;
+                  const challengerColor = colors[index % colors.length];
+                  const challengedColor = colors[(index + 3) % colors.length];
+                  const date = new Date(item.date);
+
+                  return (
+                    <tr
+                      key={index}
+                      className={clsx(
+                        "w-full mx-5 bg-[#0F1116] flex flex-row items-center",
+                        isLast && "pb-2",
+                        isFirst && "pt-2",
+                      )}
+                    >
+                      <td className="flex flex-row items-center px-6 h-16 space-x-5 w-[230px] justify-start bg-[#111419] rounded-l-xl border-r-0 border-2 border-[#1A1E25]">
+                        <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
+                          <div
+                            className="w-8 h-8 flex items-center justify-center rounded-full"
+                            style={{ backgroundColor: challengerColor }}
+                          >
+                            <UserIcon
+                              color="#F58229"
+                              className="w-5 h-5 text-white"
+                            />
+                          </div>
+                          <Typography
+                            variant="paragraph"
+                            className="font-medium leading-none text-white"
+                          >
+                            {truncateString(item.challenger)}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className="flex flex-row px-4 h-16 space-x-5 w-[200px] text-center border-y-2 border-[#1A1E25] bg-[#111419]">
+                        {item.challenged !== "0x0" ? (
+                          <div className="flex flex-row items-center space-x-2.5 w-fit">
+                            <div
+                              className="w-8 h-8 flex items-center justify-center rounded-full"
+                              style={{ backgroundColor: challengedColor }}
+                            >
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
+                            </div>
+                            <Typography
+                              variant="paragraph"
+                              className="font-medium leading-none text-white"
+                            >
+                              {truncateString(item.challenged)}
+                            </Typography>
+                          </div>
+                        ) : (
+                          <div className="flex flex-row items-center justify-center w-full h-16">
+                            <p className="text-[#646976] font-semibold text-center w-full">
+                              Matchmaking...
+                            </p>
+                          </div>
+                        )}
+                      </td>
+                      <td className="w-[125px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
+                        <p className="font-normal text-[#FAB580]">
+                          {truncateString(item.winner)}
+                        </p>
+                      </td>
+                      <td className="w-[200px] px-4 text-end h-16 flex flex-col items-start justify-center bg-[#111419] border-y-2 border-r-2 border-[#1A1E25] rounded-r-xl">
+                        <p className="font-normal text-[#F97E22] ml-2.5">
+                          {date.toLocaleDateString().replace(/\//g, "-")}
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
 }

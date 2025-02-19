@@ -1,15 +1,21 @@
 import { duels_header, colors } from "@/lib/constants.ts";
 import { Card, Typography } from "@material-tailwind/react";
 import clsx from "clsx";
-import { formatPlayerName, truncateString } from "@/lib/utils.ts";
+import { formatPlayerName } from "@/lib/utils.ts";
 import { DuelsSkeleton } from "./duels-skeleton.tsx";
-import { UserIcon } from "@heroicons/react/24/solid";
+import {
+  ClipboardDocumentCheckIcon,
+  ClipboardDocumentIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 import EmptyDuels from "./empty-duels.tsx";
 import { Button } from "../ui/button.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useAccount } from "@starknet-react/core";
 import { useState } from "react";
 import { useDojo } from "@/dojo/useDojo.tsx";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { shortString } from "starknet";
 
 export default function Duels({
   games,
@@ -29,18 +35,21 @@ export default function Duels({
     return {
       challenger: data.node.player_one,
       challenged: data.node.player_two,
+      challenger_image: data.node.player_one_image,
+      challenged_image: data.node.player_two_image,
       challenger_name:
-        data.node.player_one === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_one_name, data.node.player_one),
+        data.node.player_one === "0x0" || data.node.player_one_name === undefined || data.node.player_one_name === "#"
+          ? formatPlayerName(data.node.player_one, data.node.player_one)
+          : shortString.decodeShortString(data.node.player_one_name),
       challenged_name:
-        data.node.player_two === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.player_two_name, data.node.player_two),
+        data.node.player_two === "0x0" || data.node.player_two_name === undefined || data.node.player_two_name === "#"
+          ? formatPlayerName(data.node.player_two, data.node.player_two)
+          : shortString.decodeShortString(data.node.player_two_name),
+      winner_image: data.node.winner_image,
       winner:
-        data.node.winner === "0x0"
-          ? "0x0"
-          : formatPlayerName(data.node.winner, data.node.winner),
+        data.node.winner === "0x0" || data.node.winner_name === undefined
+          ? formatPlayerName(data.node.winner, data.node.winner, 4)
+          : shortString.decodeShortString(data.node.winner_name),
       date: transactions[index].executedAt,
       status: data.node.status,
     };
@@ -86,164 +95,159 @@ export default function Duels({
     }
   };
 
+  const [copied, setCopied] = useState("");
+
   if (loading) {
     return <DuelsSkeleton />;
-  } else {
-    if (data?.length === 0) {
-      return <EmptyDuels />;
-    } else {
-      return (
-        <div className="w-[874px] h-[874px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
-          <Card className="w-full h-full bg-transparent">
-            <div className="w-full text-left bg-transparent table-auto">
-              <div className="border-b border-[#313640] flex flex-row items-center justify-between w-full">
-                <div className="flex flex-row items-center justify-between w-full">
-                  {duels_header.map((head) => (
-                    <div
-                      key={head.id}
+  } else if (data?.length === 0) {
+    return <EmptyDuels message="" />;
+  }
+
+  return (
+    <div className="w-full">
+      <Card className="w-full h-full bg-transparent">
+        <div className="w-full text-left bg-transparent table-auto">
+          <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] pt-2 rounded-t-xl px-2.5">
+            <div className="flex flex-row items-center justify-between w-full">
+              {duels_header.map((head) => (
+                <div
+                  key={head.id}
+                  className={clsx(
+                    head.id === 2
+                      ? "text-center ml-20"
+                      : head.id === 3
+                        ? "text-center -ml-6"
+                        : head.id === 4 && "-ml-16",
+                    "w-[175px] p-4 text-start",
+                  )}
+                >
+                  <Typography
+                    variant="small"
+                    className={clsx(
+                      head.id === 5 && "hidden",
+                      "font-semibold leading-none text-[#BDC2CC]",
+                    )}
+                  >
+                    {head.name}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute h-[450px] w-full overflow-x-clip overflow-y-scroll scrollbar rounded-b-xl">
+            <table className="w-full text-left table-auto px-2.5">
+              <tbody className="h-[450px] w-[928px] rounded-b-xl fixed overflow-y-scroll overflow-x-clip space-y-2 bg-[#0F1116]">
+                {data?.map((item: any, index: number) => {
+                  const isLast = index === data?.length - 1;
+                  const isFirst = index === 0;
+                  const challengerColor = colors[index % colors.length];
+                  const challengedColor = colors[(index + 3) % colors.length];
+                  const date = new Date(item.date);
+                  return (
+                    <tr
+                      key={index}
                       className={clsx(
-                        head.id === 2
-                          ? "text-center"
-                          : head.id === 3
-                            ? "text-center"
-                            : head.id === 4
-                              ? "text-end"
-                              : "text-start",
-                        "w-[200px] p-4",
+                        "w-full mx-5 bg-[#0F1116] flex flex-row items-center",
+                        isLast && "pb-2",
+                        isFirst && "pt-2",
                       )}
                     >
-                      <Typography
-                        variant="small"
-                        className={clsx(
-                          head.id === 4 && "hidden",
-                          "font-medium leading-none text-[#BDC2CC]",
-                        )}
-                      >
-                        {head.name}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="absolute h-[450px] w-[814px] overflow-y-auto overflow-x-hidden scrollbar">
-                <table className="w-full text-left table-auto">
-                  <thead className="border-b border-[#313640] hidden">
-                    <tr className="w-full bg-[#0F1116] flex flex-row items-center justify-between">
-                      {duels_header.map((head) => (
-                        <th key={head.id} className="p-4">
-                          <Typography
-                            variant="small"
-                            className="font-medium leading-none text-[#BDC2CC]"
+                      <td className="flex flex-row items-center px-6 h-16 space-x-5 w-[200px] justify-start bg-[#111419] rounded-l-xl border-r-0 border-2 border-[#1A1E25]">
+                        <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
+                          <div
+                            className="w-8 h-8 flex items-center justify-center rounded-full"
+                            style={{ backgroundColor: challengerColor }}
                           >
-                            {head.name}
+                            {item.challenger_image != "#" && item.challenger_image != undefined ? (
+                              <img src={item.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                              <UserIcon
+                                color="#F58229"
+                                className="w-5 h-5 text-white"
+                              />
+                            )}
+                          </div>
+                          <Typography
+                            variant="paragraph"
+                            className="font-medium leading-none text-white"
+                          >
+                            {item.challenger_name}
                           </Typography>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="max-h-[450px] overflow-y-scroll">
-                    {data?.map((item: any, index: number) => {
-                      const isLast = index === data?.length - 1;
-                      const challengerColor = colors[index % colors.length];
-                      const challengedColor =
-                        colors[(index + 3) % colors.length];
-                      return (
-                        <tr
-                          key={index}
-                          className={clsx(
-                            !isLast && "border-b border-[#23272F]",
-                            "w-full bg-[#0F1116] flex flex-row items-center",
-                          )}
-                        >
-                          <td className="flex flex-row items-center p-4 space-x-5 w-[200px] justify-start">
-                            <div className="flex flex-row items-center justify-center space-x-2.5 w-fit">
-                              <div
-                                className="w-8 h-8 flex items-center justify-center rounded-full"
-                                style={{ backgroundColor: challengerColor }}
-                              >
+                        </div>
+                      </td>
+                      <td className="flex flex-row px-4 h-16 space-x-5 w-[200px] text-center border-y-2 border-[#1A1E25] bg-[#111419]">
+                        {games[index].node.player_two !== "0x0" ? (
+                          <div className="flex flex-row items-center space-x-2.5 w-fit">
+                            <div
+                              className="w-8 h-8 flex items-center justify-center rounded-full"
+                              style={{ backgroundColor: challengedColor }}
+                            >
+                              {item.challenged_image != "#" && item.challenged_image != undefined ? (
+                                <img src={item.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              ) : (
                                 <UserIcon
                                   color="#F58229"
                                   className="w-5 h-5 text-white"
                                 />
-                              </div>
-
-                              <p className="font-normal text-white">
-                                {item.challenger_name
-                                  ? item.challenger_name
-                                  : truncateString(
-                                      games[index].node.player_one,
-                                    )}
-                              </p>
+                              )}
                             </div>
-                          </td>
-                          <td className="flex flex-row items-center p-4 space-x-5 w-[200px]">
-                            {games[index].node.player_two !== "0x0" ? (
-                              <div className="flex flex-row items-center space-x-2.5 w-fit">
-                                <div
-                                  className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
-                                  style={{ backgroundColor: challengedColor }}
-                                >
-                                  <UserIcon
-                                    color="#F58229"
-                                    className="w-5 h-5 text-white"
-                                  />
-                                </div>
-                                <p className="font-normal text-white">
-                                  {item.challenged_name
-                                    ? item.challenged_name
-                                    : truncateString(
-                                        games[index].node.player_two,
-                                      )}
-                                </p>
-                              </div>
-                            ) : (
-                              <p className="text-[#646976] font-medium w-full text-center">
-                                Matchmaking
-                              </p>
-                            )}
-                          </td>
-                          <td className="w-[210px] text-center">
-                            <p className="font-normal text-[#FAB580]">
-                              {item.winner.name
-                                ? item.winner.name
-                                : truncateString(games[index].node.winner)}
-                            </p>
-                          </td>
-                          {/* <td className="w-[200px] text-end pr-12">
-                            <p className="font-normal text-[#F97E22]">
-                              {date.toLocaleDateString()}
-                            </p>
-                          </td> */}
-                          <td className="flex flex-row justify-center w-[200px]">
-                            <Link
-                              to={
-                                games[index].node.player_one ===
-                                  account.account?.address ||
-                                games[index].node.player_two ===
-                                  account.account?.address
-                                  ? `/games/${games[index].node.game_id}`
-                                  : games[index].node.player_one !== "0x0" &&
-                                      games[index].node.player_two !== "0x0"
-                                    ? `/games/${games[index].node.game_id}`
-                                    : ""
-                              }
+                            <Typography
+                              variant="paragraph"
+                              className="font-medium leading-none text-white"
                             >
-                              <Button
-                                className={
-                                  "text-[#F58229] bg-transparent active:bg-transparent hover:bg-transparent"
-                                }
-                                onClick={() => runGameAction(index)}
-                              >
-                                {games[index].node.player_one ===
-                                  account.account?.address ||
-                                games[index].node.player_two ===
-                                  account.account?.address ? (
-                                  "Go to game"
-                                ) : joinStatus?.status === "JOINING" &&
-                                  joinStatus.index == index ? (
+                              {item.challenged_name}
+                            </Typography>
+                          </div>
+                        ) : (
+                          <div className="flex flex-row items-center justify-center w-full h-16">
+                            <p className="text-[#646976] font-semibold text-center w-full">
+                              Matchmaking...
+                            </p>
+                          </div>
+                        )}
+                      </td>
+                      <td className="w-[115px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
+                        <p className="font-normal text-[#FAB580]">
+                          {item.winner !== "0x0" ? item.winner : "nil"}
+                        </p>
+                      </td>
+                      <td className="w-[115px] px-4 text-center h-16 flex flex-col justify-center bg-[#111419] border-y-2 border-[#1A1E25]">
+                        <p className="font-normal text-[#FAB580]">
+                          {date?.toLocaleDateString().replace(/\//g, "-")}
+                        </p>
+                      </td>
+                      <td className="flex flex-row w-[190px] h-16 items-center justify-center pr-5 bg-[#111419] border-y-2 border-[#1A1E25]">
+                        <Link
+                          to={
+                            games[index].node.player_one ===
+                              account.account?.address ||
+                            games[index].node.player_two ===
+                              account.account?.address ||
+                            (games[index].node.player_one !== "0x0" &&
+                              games[index].node.player_two !== "0x0")
+                              ? `/games/${games[index].node.game_id}`
+                              : ""
+                          }
+                        >
+                          <Button
+                            className="text-[#F58229] bg-[#171922] hover:bg-[#1d1f2a] transition-colors"
+                            onClick={() => runGameAction(index)}
+                          >
+                            {(() => {
+                              const game = games[index].node;
+                              const isMyGame =
+                                game.player_one === account.account?.address ||
+                                game.player_two === account.account?.address;
+
+                              if (isMyGame) return "Go to game";
+                              if (
+                                joinStatus?.status === "JOINING" &&
+                                joinStatus.index === index
+                              ) {
+                                return (
                                   <div className="flex flex-row items-center justify-center space-x-1">
                                     <svg
-                                      className="text-white animate-spin w-fit"
+                                      className="text-white animate-spin-slow w-fit"
                                       viewBox="0 0 64 64"
                                       fill="none"
                                       xmlns="http://www.w3.org/2000/svg"
@@ -270,31 +274,65 @@ export default function Duels({
                                       Joining...
                                     </p>
                                   </div>
-                                ) : joinStatus?.status === "ERROR" &&
-                                  joinStatus.index === index ? (
-                                  "Cannot join game"
-                                ) : joinStatus?.status === "SUCCESS" &&
-                                  joinStatus.index === index ? (
-                                  "Go to game"
-                                ) : games[index].node.player_one !== "0x0" &&
-                                  games[index].node.player_two !== "0x0" ? (
-                                  "Spectate game"
-                                ) : (
-                                  "Join game"
-                                )}
-                              </Button>
-                            </Link>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </Card>
+                                );
+                              }
+                              if (
+                                joinStatus?.status === "ERROR" &&
+                                joinStatus.index === index
+                              )
+                                return "Cannot join game";
+                              if (
+                                game.player_one !== "0x0" &&
+                                game.player_two !== "0x0"
+                              )
+                                return "Spectate game";
+                              return "Join game";
+                            })()}
+                          </Button>
+                        </Link>
+                      </td>
+                      <td className="border-[#1A1E25] border-y-2 border-r-2 bg-[#111419] rounded-r-xl h-16 flex items-center justify-center w-[59px]">
+                        {games[index].node.player_one != "0x0" &&
+                        games[index].node.player_two !== "0x0" ? (
+                          <Link
+                            target="_blank"
+                            to={`https://x.com/intent/tweet?text=Check%20out%20this%20game%20on%20Dojo%20Duels!%20${window.location.origin}/games/${games[index].node.game_id}`}
+                            className="mr-10"
+                          >
+                            <ArrowTopRightOnSquareIcon className="w-5 h-5 text-[#C7CAD4]" />
+                          </Link>
+                        ) : (
+                          <div
+                            className="flex flex-row items-center justify-center space-x-1 pr-10"
+                            onClick={() => {
+                              setCopied(
+                                `${window.location.origin}/games/${games[index].node.game_id}`,
+                              );
+                              navigator.clipboard.writeText(
+                                `${window.location.origin}/games/${games[index].node.game_id}`,
+                              );
+                              setTimeout(() => {
+                                setCopied("");
+                              }, 2000);
+                            }}
+                          >
+                            {copied ===
+                            `${window.location.origin}/games/${games[index].node.game_id}` ? (
+                              <ClipboardDocumentCheckIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
+                            ) : (
+                              <ClipboardDocumentIcon className="w-5 h-5 text-[#C7CAD4] cursor-pointer" />
+                            )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      );
-    }
-  }
+      </Card>
+    </div>
+  );
 }

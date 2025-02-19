@@ -6,23 +6,59 @@ import {
 } from "../../lib/icons_store";
 import unmuteFlat from "../../assets/unmute_flat.png";
 import muteFlat from "../../assets/mute_flat.png";
-import { useAudioControl } from "@/hooks/useAudioControl";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from "react";
+import audio_url from "@/music/audio_1.mp4";
+import { Slider } from "../ui/slider";
 
-export default function AudioSection() {
-  const {
-    isPlaying,
-    togglePlay,
-    volume,
-    volumeDisplayValue,
-    handleVolumeChange,
-  } = useAudioControl();
-
+export default function AudioSection({
+  volume,
+  setVolume,
+}: {
+  volume: number;
+  setVolume: Dispatch<SetStateAction<number>>;
+}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(() => {
+    // Initialize audio only once
+    if (!audioRef.current) {
+      audioRef.current = new Audio(audio_url);
+      audioRef.current.loop = true;
+    }
+
+    const audio = audioRef.current;
+    audio.volume = volume / 100;
+
+    if (volume <= 0) {
+      audio.pause();
+    } else if (volume > 0) {
+      audio.play().catch(console.error);
+    }
+
+    // Cleanup function
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+        audioRef.current = null;
+      }
+    };
+  }, [volume]);
+
+  useEffect(() => {
+    audioRef.current?.addEventListener("ended", () => {
+      audioRef.current?.play().catch(console.error);
+    });
+
+    audioRef.current?.addEventListener("error", (e) => {
+      console.error("Audio playback error:", e);
+    });
+  }, []);
 
   return (
     <div>
@@ -30,12 +66,9 @@ export default function AudioSection() {
         className="flex flex-row items-center justify-center gap-2 px-4 py-2 rounded-full cursor-pointer bg-[url('./assets/brown-bg.png')] bg-cover bg-center bg-no-repeat"
         onClick={toggleDropdown}
       >
-        <button
-          className="p-0 bg-transparent rounded-full cursor-pointer"
-          onClick={togglePlay}
-        >
+        <button className="p-0 bg-transparent rounded-full cursor-pointer">
           <img
-            src={isPlaying ? unmuteFlat : muteFlat}
+            src={volume > 0 ? unmuteFlat : muteFlat}
             width={55}
             height={35}
             alt="toggle play"
@@ -58,7 +91,7 @@ export default function AudioSection() {
         />
       </div>
       {isDropdownOpen && (
-        <div className="absolute bottom-24 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
+        <div className="absolute bottom-20 left-[1%] bg-transparent backdrop-blur-md rounded-md shadow-lg px-6 py-4 z-50 w-[300px]">
           <div className="flex items-center justify-center space-x-1.5">
             <img
               src={playprevious}
@@ -68,12 +101,12 @@ export default function AudioSection() {
               className="rounded-full cursor-pointer"
             />
             <img
-              src={isPlaying ? unmuteFlat : muteFlat}
+              src={volume > 0 ? unmuteFlat : muteFlat}
               width={50}
               height={50}
               alt="toggle play"
               className="rounded-full cursor-pointer"
-              onClick={togglePlay}
+              onClick={() => setVolume(volume > 0 ? 0 : 35)}
             />
             <img
               src={playnext}
@@ -91,29 +124,16 @@ export default function AudioSection() {
               alt="toggle play"
               className="rounded-full"
             />
-            <input
-              type="range"
-              name="volume"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={handleVolumeChange}
-              style={{
-                // Custom track styling
-                background: `linear-gradient(to right, #FCE3AA 0%, #FCE3AA ${volume * 100}%, #E48D32  ${volume * 100}%, #E48D32 100%)`,
-                // Hide the thumb by making it transparent and very small
-                WebkitAppearance: "none",
-                appearance: "none",
-                width: "100%",
-                height: "12px",
-                borderRadius: "full",
-              }}
-              className="w-20 h-4 rounded-full cursor-grab"
+            <Slider
+              value={[volume]}
+              onValueChange={([value]: any) => setVolume(value)}
+              className="w-full"
+              track="bg-[#E48D32]"
+              thumb="bg-[#FCE3AA]"
+              range="bg-[#FCE3AA]"
+              hideThumb={false}
             />
-            <span className="flex text-sm text-[#FCE3AA]">
-              {volumeDisplayValue}
-            </span>
+            <span className="flex text-sm text-[#FCE3AA]">{volume}</span>
           </div>
         </div>
       )}

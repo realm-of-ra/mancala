@@ -1,7 +1,5 @@
-import { gameIdAtom, isPlayingAtom } from "@/atom/atoms";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAtom } from "jotai";
 import connectionIcon from "../assets/connect.png";
 import Leaderboard from "@/components/lobby/leaderboard.tsx";
 import Duels from "@/components/lobby/duels.tsx";
@@ -13,7 +11,7 @@ import {
   ClipboardDocumentCheckIcon,
   CheckBadgeIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import createIcon from "../assets/createIcon.png";
 import gotoIcon from "../assets/goto.png";
@@ -24,13 +22,13 @@ import { useDojo } from "@/dojo/useDojo";
 import { Link } from "react-router-dom";
 import CreateLoaderSVG from "@/components/ui/svgs/create-loader.tsx";
 import { useAccount, useConnect } from "@starknet-react/core";
-import controller from "@/assets/controller.png";
 import { useQuery } from "@apollo/client";
 import { MancalaBoardModelsQuery, MancalaPlayerNames } from "@/lib/constants";
-import Dropdown from "@/components/dropdown";
-import audio from "../music/audio_1.mp4";
-import muteImage from "../assets/mute.png";
-import unmuteImage from "../assets/unmute.png";
+// import Dropdown from "@/components/dropdown";
+import clsx from "clsx";
+import { Helmet } from "react-helmet-async";
+import { lookupMissingNames } from "@/lib/utils";
+// import audio from "../music/audio_1.mp4";
 
 export default function Lobby() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,9 +36,11 @@ export default function Lobby() {
   const [type, setType] = useState("private");
   const [gameUrl, setGameUrl] = useState<string>();
   const [clipped, setClipped] = useState<string | undefined>();
-  const [gameId, setGameId] = useAtom(gameIdAtom);
+  const [gameId, setGameId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [player2, setPlayer2] = useState("");
+  const [playWith, setPlayWith] = useState("AI");
+  const [, setAddressLookupCache] = useState<Map<string, string>>(new Map());
   const handleOpen = () => {
     setGameUrl(undefined);
     setCreating(false);
@@ -53,25 +53,13 @@ export default function Lobby() {
   };
   const { system } = useDojo();
   const account = useAccount();
-  const create_initial_game_id = async () => {
-    if (account.account) {
-      await system.create_initial_game_id(account.account);
-    }
-  };
-  const runOnceForever = () => {
-    const hasRunOnce = localStorage.getItem("hasRunOnce");
-    if (hasRunOnce === null) {
-      create_initial_game_id();
-      localStorage.setItem("hasRunOnce", "true");
-    }
-  };
   const isConnected = account.account != null;
   const create_game = async () => {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      const res = await system.create_game(account.account, setGameId);
-      if (!res) {
+      await system.create_game(account.account, setGameId);
+      if (gameId) {
         setCreating(false);
       }
     } else {
@@ -82,12 +70,8 @@ export default function Lobby() {
   const create_private_game = async () => {
     setCreating(true);
     if (account.account) {
-      const res = await system.create_private_game(
-        account.account,
-        player2,
-        setGameId,
-      );
-      if (!res) {
+      await system.create_private_game(account.account, player2, setGameId);
+      if (gameId) {
         setCreating(false);
       }
     }
@@ -96,12 +80,6 @@ export default function Lobby() {
   const { data, startPolling, loading } = useQuery(MancalaBoardModelsQuery);
 
   startPolling(1000);
-  useEffect(() => {
-    runOnceForever();
-    if (gameId != null) {
-      setGameUrl(`${window.location.origin}/games/${gameId}`);
-    }
-  }, [gameId]);
 
   const { connect, connectors } = useConnect();
 
@@ -112,21 +90,40 @@ export default function Lobby() {
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
-  const filteredGames = data?.mancalaDevMancalaBoardModels?.edges
+  const filteredGames = data?.mancalaAlphaMancalaBoardModels?.edges
     ?.filter(
       (game: any) =>
         game?.node?.player_one === account.account?.address ||
-        game?.node?.player_two === account.account?.address,
+        game?.node?.player_two === account.account?.address ||
+        game?.node?.player_two === "0x0",
     )
+    .sort((a: any, b: any) => {
+      // First priority: Games without player two (excluding 0x0)
+      const aHasNoPlayerTwo = !a.node.player_two || a.node.player_two === "";
+      const bHasNoPlayerTwo = !b.node.player_two || b.node.player_two === "";
+      if (aHasNoPlayerTwo !== bHasNoPlayerTwo) {
+        return aHasNoPlayerTwo ? -1 : 1;
+      }
+
+      // Second priority: Games with player_two = 0x0
+      const aHasZeroPlayerTwo = a.node.player_two === "0x0";
+      const bHasZeroPlayerTwo = b.node.player_two === "0x0";
+      if (aHasZeroPlayerTwo !== bHasZeroPlayerTwo) {
+        return aHasZeroPlayerTwo ? -1 : 1;
+      }
+
+      // Third priority: Games with both players
+      return 0;
+    })
     .map((game: any) => {
-      const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
       );
-      const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player2Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_two,
       );
 
-      const winner = playerData?.mancalaDevProfileModels?.edges?.find(
+      const winner = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.winner,
       );
       return {
@@ -135,18 +132,21 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
           winner: winner?.node?.name || game.node.winner,
+          winner_image: winner?.node?.profile_uri,
         },
       };
     });
 
   const filteredTransactions =
-    data?.mancalaDevMancalaBoardModels?.edges?.reduce(
+    data?.mancalaAlphaMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
-          (game?.node?.player_one === account.account?.address ||
-            game?.node?.player_two === account.account?.address) &&
-          game?.node?.entity.executedAt
+          game?.node?.player_one === account.account?.address ||
+          game?.node?.player_two === account.account?.address ||
+          (game?.node?.entity.executedAt && game?.node?.player_two === "0x0")
         ) {
           acc.push({
             ...game.node,
@@ -162,35 +162,31 @@ export default function Lobby() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
+  // const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
 
-  const audioRef = useRef(new Audio(audio));
-  useEffect(() => {
-    if (isPlaying) {
-      try {
-        audioRef.current.play();
-        audioRef.current.loop = true;
-      } catch (error) {
-        console.error("Error playing the audio", error);
-      }
-    } else {
-      audioRef.current.pause();
-    }
-    return () => {
-      audioRef.current.pause();
-    };
-  }, [isPlaying]);
+  // const audioRef = useRef(new Audio(audio));
+  // useEffect(() => {
+  //   if (isPlaying) {
+  //     try {
+  //       audioRef.current.play();
+  //       audioRef.current.loop = true;
+  //     } catch (error) {
+  //       console.error("Error playing the audio", error);
+  //     }
+  //   } else {
+  //     audioRef.current.pause();
+  //   }
+  //   return () => {
+  //     audioRef.current.pause();
+  //   };
+  // }, [isPlaying]);
 
-  const togglePlay = () => {
-    setPlaying(!isPlaying);
-  };
-
-  const gamesWithPlayerNames = data?.mancalaDevMancalaBoardModels?.edges?.map(
-    (game: any) => {
-      const player1Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+  const gamesWithPlayerNames = data?.mancalaAlphaMancalaBoardModels?.edges
+    ?.map((game: any) => {
+      const player1Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_one,
       );
-      const player2Profile = playerData?.mancalaDevProfileModels?.edges?.find(
+      const player2Profile = playerData?.mancalaAlphaProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.player_two,
       );
       return {
@@ -199,37 +195,87 @@ export default function Lobby() {
           ...game.node,
           player_one_name: player1Profile?.node?.name,
           player_two_name: player2Profile?.node?.name,
+          player_one_image: player1Profile?.node?.profile_uri,
+          player_two_image: player2Profile?.node?.profile_uri,
         },
       };
-    },
-  );
+    })
+    .filter(
+      (game: any) =>
+        game.node.player_one !== "0x0" && game.node.player_two !== "0x0",
+    );
+
+  useEffect(() => {
+    if (gameId) {
+      setGameUrl(`${window.location.origin}/games/${gameId}`);
+      setCreating(false);
+    }
+  }, [gameId, creating, open, type, playWith]);
+
+  const [tabValue, setTabValue] = useState("duels");
+
+  useEffect(() => {
+    if (data?.mancalaAlphaMancalaBoardModels?.edges) {
+      const allAddresses = data.mancalaAlphaMancalaBoardModels.edges.flatMap((game: any) => [
+        game.node.player_one,
+        game.node.player_two,
+        game.node.winner
+      ]).filter(Boolean);
+      
+      lookupMissingNames(allAddresses, setAddressLookupCache);
+    }
+  }, [data?.mancalaAlphaMancalaBoardModels?.edges]);
 
   return (
-    <div className="w-full h-screen bg-[#15181E] space-y-8 fixed">
+    <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
+      <Helmet>
+        <title>
+          Mancala Game Lobby | Find or Create Mancala Matches on Starknet
+        </title>
+        <meta
+          name="description"
+          content="Join active Mancala games or start new ones. Track live matches and player rankings in real-time."
+        />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="Mancala Lobby | Real-Time Game Browser"
+        />
+        <meta
+          property="og:description"
+          content="Browse active Mancala matches with smart contract verification and live player counts"
+        />
+        <meta property="og:url" content="https://mancala.xyz/lobby" />
+        <meta property="og:image" content="https://mancala.xyz/og-lobby.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:title" content="Live Mancala Game Lobby" />
+        <meta
+          name="twitter:description"
+          content="See active blockchain Mancala matches with verified smart contract status"
+        />
+      </Helmet>
       <Header />
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-row space-x-5">
-          <Button
-            className="p-0 bg-transparent rounded-full"
-            onClick={togglePlay}
-          >
-            <img
-              src={isPlaying ? unmuteImage : muteImage}
-              width={65}
-              height={65}
-              alt="restart"
-              className="rounded-full"
-            />
-          </Button>
-          <div className="w-[920px]">
-            <Tabs defaultValue="live" className="w-full space-y-10">
-              <div className="flex flex-row items-center justify-between w-full">
+          <div className="w-[928px]">
+            <Tabs
+              defaultValue={tabValue}
+              className="w-full space-y-10"
+              onValueChange={(value) => setTabValue(value)}
+            >
+              <div className="flex flex-row items-center justify-between w-full bg-[#0F1116] p-4 rounded-l-full rounded-r-full">
                 <TabsList className="bg-transparent space-x-1.5">
                   <TabsTrigger
+                    value="duels"
+                    className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
+                  >
+                    Duels
+                  </TabsTrigger>
+                  <TabsTrigger
                     value="live"
-                    className="data-[state=active]:bg-[#1A1D25]
-                              data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                              data-[state=active]:text-[#F58229]"
+                    className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
                   >
                     <div className="flex flex-row items-center space-x-1.5">
                       <div>
@@ -240,22 +286,18 @@ export default function Lobby() {
                     </div>
                   </TabsTrigger>
                   <TabsTrigger
-                    value="duels"
-                    className="data-[state=active]:bg-[#1A1D25]
-                              data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                              data-[state=active]:text-[#F58229]"
-                  >
-                    Duels
-                  </TabsTrigger>
-                  <TabsTrigger
                     value="leaderboard"
-                    className="data-[state=active]:bg-[#1A1D25]
-                              data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full
-                              data-[state=active]:text-[#F58229]"
+                    className="data-[state=active]:bg-[#1A1D25] data-[state=active]:rounded-l-full data-[state=active]:rounded-r-full text-[#BDC2CC]/50 data-[state=active]:text-[#F58229] px-4 py-2.5"
                   >
                     <div className="flex flex-row items-center space-x-1.5">
-                      <div className="bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat" />
-                      <p className="text-base">Leaderboard</p>
+                      <div
+                        className={clsx(
+                          "bg-[url('./assets/champion.svg')] w-4 h-4 bg-cover bg-no-repeat",
+                          tabValue === "leaderboard" &&
+                            "bg-[url('./assets/cup.png')]",
+                        )}
+                      />
+                      <p>Leaderboard</p>
                     </div>
                   </TabsTrigger>
                 </TabsList>
@@ -266,8 +308,8 @@ export default function Lobby() {
                   >
                     <div className="bg-[url('./assets/filter.svg')] w-4 h-4 bg-cover bg-no-repeat" />
                     <h4 className="text-[#FCE3AA] font-medium">Filter</h4>
-                  </div> */}
-                  {/* {isDropdownOpen && <Dropdown />} */}
+                  </div>
+                  {isDropdownOpen && <Dropdown />} */}
                   <Button
                     className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                     disabled={!isConnected}
@@ -285,8 +327,8 @@ export default function Lobby() {
                 handler={handleOpen}
                 className="flex flex-col items-center justify-center bg-transparent"
               >
-                <div className="w-[700px] bg-[url('./assets/lobby-box-long.png')] bg-contain bg-no-repeat p-8">
-                  <div className="w-full h-[500px]">
+                <div className="w-[700px] bg-[#0F1116] border-2 border-[#272A32] rounded-2xl p-8">
+                  <div className="w-full h-[350px]">
                     <div className="flex flex-row items-center justify-end w-full">
                       <Button
                         className="p-0 bg-transparent rounded-full"
@@ -301,16 +343,16 @@ export default function Lobby() {
                         />
                       </Button>
                     </div>
-                    {gameUrl ? (
+                    {gameId ? (
                       <div className="flex flex-col items-center justify-center w-full h-full">
-                        <div className="flex flex-col items-center justify-center space-y-5 -mt-36">
+                        <div className="flex flex-col items-center justify-center space-y-5 -mt-20">
                           <img src={clip} className="w-20 h-20" />
                           <h3 className="text-[#BDC2CC] text-2xl font-bold">
                             Share Invite
                           </h3>
                           <div
                             className="flex flex-row items-center justify-center space-x-1.5"
-                            onClick={() => handleClip(gameUrl)}
+                            onClick={() => handleClip(gameUrl || "")}
                           >
                             {clipped ? (
                               <button className="bg-[#F582291A]/10 p-1 rounded-md">
@@ -339,8 +381,8 @@ export default function Lobby() {
                       </div>
                     ) : (
                       <div className="flex flex-col items-center justify-center w-full h-full">
-                        <div className="flex flex-col items-center justify-center space-y-5 -mt-36">
-                          <div className="space-y-1 text-center">
+                        <div className="flex flex-col items-center justify-center space-y-5 -mt-20">
+                          <div className="space-y-1.5 text-center">
                             <h3 className="text-[#BDC2CC] text-2xl font-bold">
                               Create Game
                             </h3>
@@ -357,6 +399,8 @@ export default function Lobby() {
                                 //prevent clip value from persisting when switching between private and public
                                 if (type != value) {
                                   setClipped(undefined);
+                                  setGameId(null);
+                                  setGameUrl(undefined);
                                 }
                                 setType(value);
                               }}
@@ -365,7 +409,11 @@ export default function Lobby() {
                                 <RadioGroupItem value="private" id="private" />
                                 <Label
                                   htmlFor="private"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={
+                                    type == "private"
+                                      ? "text-[#F58229] font-bold hover:cursor-pointer"
+                                      : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  }
                                 >
                                   Private
                                 </Label>
@@ -378,7 +426,11 @@ export default function Lobby() {
                                 />
                                 <Label
                                   htmlFor="public"
-                                  className="text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  className={
+                                    type == "public"
+                                      ? "text-[#F58229] font-bold hover:cursor-pointer"
+                                      : "text-[#BDC2CC]/50 font-bold hover:cursor-pointer"
+                                  }
                                 >
                                   Public
                                 </Label>
@@ -388,8 +440,7 @@ export default function Lobby() {
                           {type === "private" ? (
                             <div className="space-y-5">
                               <input
-                                className="p-2.5 w-72 rounded-xl border-2 border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666]
-                                                  placeholder:font-medium text-[#4F5666] font-medium"
+                                className="p-2.5 w-72 rounded-xl border border-[#1D212B] bg-transparent outline-none placeholder:text-[#4F5666] placeholder:font-medium text-[#4F5666] font-medium"
                                 placeholder="0x..."
                                 onChange={(e) => setPlayer2(e.target.value)}
                               />
@@ -409,7 +460,7 @@ export default function Lobby() {
                               </p>
                             </div>
                           )}
-                          {gameId == null && creating == false ? (
+                          {gameId === null && creating === false ? (
                             <Button
                               className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                               onClick={() =>
@@ -444,7 +495,7 @@ export default function Lobby() {
 
               {isConnected ? (
                 <>
-                  <TabsContent value="live">
+                  <TabsContent value="live" className="px-0">
                     <LiveDuels games={gamesWithPlayerNames} />
                   </TabsContent>
                   <TabsContent value="duels">
@@ -459,10 +510,7 @@ export default function Lobby() {
                   </TabsContent>
                 </>
               ) : (
-                <div
-                  className="bg-[url('./assets/lobby-box.png')] bg-contain bg-center bg-no-repeat w-[874px] h-[437px]
-                                          flex flex-col items-center justify-center"
-                >
+                <div className="bg-[#0F1116] bg-contain bg-center bg-no-repeat border-2 border-[#272A32] rounded-2xl w-[928px] h-[437px] flex flex-col items-center justify-center">
                   <div className="flex flex-col items-center space-y-1.5">
                     <img
                       src={connectionIcon}
@@ -472,17 +520,13 @@ export default function Lobby() {
                     <h6 className="text-[#BDC2CC] font-bold text-lg">
                       Connect Wallet
                     </h6>
-                    <p className="text-[#4F5666] pb-1.5">Connect your wallet</p>
+                    <p className="text-[#4F5666] pb-1.5 text-sm">
+                      Connect your wallet to play
+                    </p>
                     <Button
-                      className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F18F01] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
+                      className="flex justify-center items-center font-medium mx-auto relative bg-[#F58229] hover:bg-[#F58229] text-lg white whitespace-nowrap rounded-full py-4 px-5 text-[#FCE3AA]"
                       onClick={connectWallet}
                     >
-                      <img
-                        src={controller}
-                        width={30}
-                        height={30}
-                        alt="wallet"
-                      />{" "}
                       Connect Wallet
                     </Button>
                   </div>
@@ -492,6 +536,15 @@ export default function Lobby() {
           </div>
         </div>
       </div>
+      <Link
+        to="https://docs.google.com/forms/d/e/1FAIpQLSerjYkAywGpu3dh3Q999cVUoEBAEGlDlt089Uc0BHRRf9uLnw/viewform?usp=header"
+        target="_blank"
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+      >
+        <Button className="bg-[#0F1116] hover:bg-[#0F1116] text-[#C7CAD4] font-medium hover:cursor-pointer rounded-xl">
+          Give feedbacks and get a chance to win LORDS
+        </Button>
+      </Link>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x45575a88cc5cef1e444c77ce60b7b4c9e73a01cbbe20926d5a4c72a94011410",
-    "address": "0x7e6333cfb9768d94ffa94daf40d8261b27a245a154e180e8ed052781a2e1779",
-    "seed": "mancala",
+    "address": "0x3ca20a73360b4f7c6d49a52b7fb72c10a63004abcb9c5158e2c5fef92334486",
+    "seed": "mancala-init",
     "name": "Mancala",
     "entrypoints": [
       "uuid",
@@ -1252,12 +1252,12 @@
   },
   "contracts": [
     {
-      "address": "0x39e885bb49e7002da73d0b77efee67ac3801cada2767eb382e4dc63755def20",
-      "class_hash": "0x48dc9a86cb8adbe69982cdd63a571efe14e61b042be46ef771d5dbb065fec0f",
+      "address": "0x5920638dd022083587d85417b642e85a16dc08bfe9ce8a536e17462cb332fd3",
+      "class_hash": "0x4841cd2b6377e99e48153bb8ee1292f560362fca45ac09f46ae66649af99fcd",
       "abi": [
         {
           "type": "impl",
-          "name": "actions__ContractImpl",
+          "name": "Mancala__ContractImpl",
           "interface_name": "dojo::contract::interface::IContract"
         },
         {
@@ -1267,7 +1267,7 @@
         },
         {
           "type": "impl",
-          "name": "actions__DeployedContractImpl",
+          "name": "Mancala__DeployedContractImpl",
           "interface_name": "dojo::meta::interface::IDeployedResource"
         },
         {
@@ -1306,9 +1306,16 @@
           ]
         },
         {
+          "type": "function",
+          "name": "dojo_init",
+          "inputs": [],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
           "type": "impl",
-          "name": "ActionsImpl",
-          "interface_name": "mancala::systems::actions::IActions"
+          "name": "MancalaImpl",
+          "interface_name": "mancala::systems::mancala::IMancalaSystem"
         },
         {
           "type": "enum",
@@ -1348,21 +1355,14 @@
         },
         {
           "type": "interface",
-          "name": "mancala::systems::actions::IActions",
+          "name": "mancala::systems::mancala::IMancalaSystem",
           "items": [
-            {
-              "type": "function",
-              "name": "initialize_game_counter",
-              "inputs": [],
-              "outputs": [],
-              "state_mutability": "view"
-            },
             {
               "type": "function",
               "name": "new_game",
               "inputs": [],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1374,7 +1374,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1390,7 +1390,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1402,7 +1402,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1418,7 +1418,7 @@
                   "type": "(mancala::models::index::Player, mancala::models::index::Player)"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1434,7 +1434,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1450,7 +1450,7 @@
                   "type": "(core::integer::u8, core::integer::u8)"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1466,7 +1466,7 @@
                   "type": "core::bool"
                 }
               ],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1478,7 +1478,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1490,7 +1490,7 @@
                 }
               ],
               "outputs": [],
-              "state_mutability": "view"
+              "state_mutability": "external"
             },
             {
               "type": "function",
@@ -1502,8 +1502,232 @@
                 }
               ],
               "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::contract::components::world_provider::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::iworld::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::world_provider::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world_dispatcher",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::iworld::IWorldDispatcher"
+                }
+              ],
               "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradeableImpl",
+          "interface_name": "dojo::contract::components::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "constructor",
+          "name": "constructor",
+          "inputs": []
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::components::initializable::InitializableComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::components::playable::PlayableComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "achievement::components::achievable::AchievableComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::systems::mancala::Mancala::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+              "kind": "nested"
             },
+            {
+              "name": "WorldProviderEvent",
+              "type": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "InitializableEvent",
+              "type": "mancala::components::initializable::InitializableComponent::Event",
+              "kind": "flat"
+            },
+            {
+              "name": "PlayableEvent",
+              "type": "mancala::components::playable::PlayableComponent::Event",
+              "kind": "flat"
+            },
+            {
+              "name": "AchievableEvent",
+              "type": "achievement::components::achievable::AchievableComponent::Event",
+              "kind": "flat"
+            }
+          ]
+        }
+      ],
+      "init_calldata": [],
+      "tag": "mancala_alpha-Mancala",
+      "selector": "0x512fe9ba9510c04815804469cb65f6c096da0fa6e30ab0e6a97753410cc03bf",
+      "systems": [
+        "new_game",
+        "join_game",
+        "timeout",
+        "create_private_game",
+        "get_players",
+        "move",
+        "get_score",
+        "is_game_over",
+        "forfeited",
+        "request_restart_game",
+        "restart_current_game",
+        "upgrade"
+      ]
+    },
+    {
+      "address": "0x3714f8b523e83a41c722a8c6f21da9b6d9aee178bc7ed3daeeb2d4649ebf4bd",
+      "class_hash": "0x745472c10892d817653891b8fa9d0c84f7ad75d275a8abbf1e71517e4b1e7e8",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "PlayerProfile__ContractImpl",
+          "interface_name": "dojo::contract::interface::IContract"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::interface::IContract",
+          "items": []
+        },
+        {
+          "type": "impl",
+          "name": "PlayerProfile__DeployedContractImpl",
+          "interface_name": "dojo::meta::interface::IDeployedResource"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::meta::interface::IDeployedResource",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "PlayerProfileImpl",
+          "interface_name": "mancala::systems::profile::IPlayerProfile"
+        },
+        {
+          "type": "interface",
+          "name": "mancala::systems::profile::IPlayerProfile",
+          "items": [
             {
               "type": "function",
               "name": "create_player_profile",
@@ -1633,13 +1857,13 @@
         },
         {
           "type": "event",
-          "name": "mancala::components::playable::PlayableComponent::Event",
+          "name": "mancala::components::profile::ProfileComponent::Event",
           "kind": "enum",
           "variants": []
         },
         {
           "type": "event",
-          "name": "mancala::systems::actions::actions::Event",
+          "name": "mancala::systems::profile::PlayerProfile::Event",
           "kind": "enum",
           "variants": [
             {
@@ -1653,16 +1877,16 @@
               "kind": "nested"
             },
             {
-              "name": "PlayableEvent",
-              "type": "mancala::components::playable::PlayableComponent::Event",
+              "name": "ProfileEvent",
+              "type": "mancala::components::profile::ProfileComponent::Event",
               "kind": "flat"
             }
           ]
         }
       ],
       "init_calldata": [],
-      "tag": "mancala_dev-actions",
-      "selector": "0x7b930635503779ecdfcfa8527ac681171727ab74a0315e32138325eb255fc89",
+      "tag": "mancala_alpha-PlayerProfile",
+      "selector": "0x216624c127683340f1627e61d13eaa68306764ba38dfb2a244b6fd20427943b",
       "systems": [
         "upgrade"
       ]
@@ -1672,64 +1896,76 @@
     {
       "members": [],
       "class_hash": "0x1e1240342fddd02b51ab99edbf05a09ac1114a6c53902685b3be5680e305825",
-      "tag": "mancala_dev-GameCounter",
-      "selector": "0xa72ca36686b646219722771c82efeaa2e1bf885cf52d99d23319c4f270f76c"
+      "tag": "mancala_alpha-GameCounter",
+      "selector": "0x11a70a6f6b6120ccc20b22ed4263a02215d371333dce0a7e3f8ab7b7b8aeafb"
     },
     {
       "members": [],
       "class_hash": "0x710a5f1623497788fc2140a253036216960c9ac693d68a94799ab86a720f750",
-      "tag": "mancala_dev-MancalaBoard",
-      "selector": "0xe654654582cc52a35856b352933037060ae548d0e104b87566e868002d8359"
+      "tag": "mancala_alpha-MancalaBoard",
+      "selector": "0x44c86f8e8f04ac961a519c19edfc9f90781678290472a8c919afd0bd224087b"
     },
     {
       "members": [],
       "class_hash": "0x4f978622482494ba19ac995f11c904648561252f4a5b3af328b2e44da62c932",
-      "tag": "mancala_dev-Pit",
-      "selector": "0x40612c9777bf479fa18608945f9b5f0017c54d08c9e2451759d90f986943ba0"
+      "tag": "mancala_alpha-Pit",
+      "selector": "0x5bdb1bb146fb381b9d8b81e90b4b48bfc6078c92049280e9c85f410ad26a999"
     },
     {
       "members": [],
       "class_hash": "0x5421477787f0fd37f442d42b02bb803d8e1d0108afa750e83d35c18f659a4c6",
-      "tag": "mancala_dev-Player",
-      "selector": "0x56d593e815a053f232060a111bcf5c2c343ae4c387fb246ce2e0598229301f9"
+      "tag": "mancala_alpha-Player",
+      "selector": "0x269e79954206e9fcf1dbafd3474866cc2b7a5412d0f9a24e23aae1b4a924a7b"
     },
     {
       "members": [],
       "class_hash": "0x4996e86ed67b3f0ff4a26d45448d02996c42c0fc3b9f34d783f80a0dcb4a7cc",
-      "tag": "mancala_dev-Profile",
-      "selector": "0x3181f9856a896cca1e8c3a07579f1c2eef237cd5d3c505ca6893ae8f42f7bcd"
+      "tag": "mancala_alpha-Profile",
+      "selector": "0xb8e1edd53c335bb066ba5d0d6fd14a7de753cdaaeb8299a974e5900709cad2"
     },
     {
       "members": [],
       "class_hash": "0x7bf294dc864759b8fb65c521876aae47112b6413d0469e0c94b50f1fccac78e",
-      "tag": "mancala_dev-Seed",
-      "selector": "0x7f64d026d3332544f82a51373d6fbc84eb49d8044521438a28da765183eb95d"
+      "tag": "mancala_alpha-Seed",
+      "selector": "0x463662a90920dca6dfabb730ed5c297dc475f4f1ef2bc424f274205f6084308"
     }
   ],
   "events": [
     {
       "members": [],
       "class_hash": "0x41b8c256c71fd189f2f4a46fc883903dfce72959d851807e61dc2e42361cb1f",
-      "tag": "mancala_dev-Capture",
-      "selector": "0x2175cd85d5a79972caa3628ea9120e043a9fa13f3b060894787bb6da6d53ca1"
+      "tag": "mancala_alpha-Capture",
+      "selector": "0x243e04a48ea3ac1c68b5293c51d0efcbb773a49ccb747df1ecd4f195fc7ca7c"
     },
     {
       "members": [],
       "class_hash": "0x6ad2c5b0a64992b068e6e3ada4f86d3ac692915006b60ac25f1d55b5e2f5c89",
-      "tag": "mancala_dev-EndTurn",
-      "selector": "0x6937c3219a52af46c8fb910d9e8d9ed336ded46914bb5b2964d9c5260396b80"
+      "tag": "mancala_alpha-EndTurn",
+      "selector": "0x7a0761ab053f77d05ad99cec9ab84f9990f3635e4743898a7ba8b3d1655f78f"
     },
     {
       "members": [],
       "class_hash": "0x68aa78a7fe02585f67b17540762e5103c14c5d23fd94b5222200054e68ccc24",
-      "tag": "mancala_dev-PlayerExtraTurn",
-      "selector": "0x62fc6400a546df71a316b746e004aff337aa756d2946eec17455703bf2afd6d"
+      "tag": "mancala_alpha-PlayerExtraTurn",
+      "selector": "0x5538dfa1efa2105d2c250981b86e9512e6f613e80ef2203810b629e93c608f6"
     },
     {
       "members": [],
       "class_hash": "0x49fa2e09b02e37efe06209800c7fa4b07cd78e05559a83acfd3fcd4eb5e54e0",
-      "tag": "mancala_dev-PlayerMove",
-      "selector": "0x2b84d1877304c85899fb2e4712b1bf439aa918efabfeff947d217c7be752f87"
+      "tag": "mancala_alpha-PlayerMove",
+      "selector": "0x3a826b859e43be526b7b2cc48c34fae5248b9fee7d84a144fe85c45e086829e"
+    },
+    {
+      "members": [],
+      "class_hash": "0x6b38999d987627835d4c20e7e571c73d32ddc856786d9790a131bdb3372a246",
+      "tag": "mancala_alpha-TrophyCreation",
+      "selector": "0x481fb6fa2efa2dce912eee1c4a3c614ba2a7046257c14c8b21a174f4dd6be0f"
+    },
+    {
+      "members": [],
+      "class_hash": "0xf05f290a704ad2671544b391f0c33d50d6d43d468d52791282852a833a00c7",
+      "tag": "mancala_alpha-TrophyProgression",
+      "selector": "0x296564101d8ed35028650e18a3f6395558a995d9d943b4bdbf8b43ed77be64e"
     }
   ]
 }

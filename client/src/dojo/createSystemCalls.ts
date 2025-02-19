@@ -61,8 +61,8 @@ export function createSystemCalls(
       );
       const transaction: any =
         await account.getTransactionReceipt(transaction_hash);
-      setGameId(transaction.events[1].data[1]);
-      return transaction.events[1].data[1];
+      setGameId(transaction?.events[0]?.data[1]);
+      return transaction?.events[0]?.data[1];
     } catch (e) {
       console.log(e);
     }

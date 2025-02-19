@@ -1,11 +1,9 @@
-import { BurnerAccount, useBurnerManager } from "@dojoengine/create-burner";
 import { ReactNode, createContext, useContext, useMemo } from "react";
 import { Account } from "starknet";
 import { SetupResult } from "./generated/setup";
 
 interface DojoContextType extends SetupResult {
   masterAccount: Account;
-  account: BurnerAccount;
 }
 
 export const DojoContext = createContext<DojoContextType | null>(null);
@@ -22,8 +20,8 @@ export const DojoProvider = ({
 
   const {
     config: { masterAddress, masterPrivateKey },
-    burnerManager,
     dojoProvider,
+    client,
   } = value;
 
   const masterAccount = useMemo(
@@ -32,44 +30,12 @@ export const DojoProvider = ({
     [masterAddress, masterPrivateKey, dojoProvider.provider],
   );
 
-  const {
-    create,
-    list,
-    get,
-    select,
-    deselect,
-    remove,
-    clear,
-    account,
-    isDeploying,
-    count,
-    copyToClipboard,
-    applyFromClipboard,
-    checkIsDeployed,
-  } = useBurnerManager({
-    burnerManager,
-  });
-
   return (
     <DojoContext.Provider
       value={{
         ...value,
         masterAccount,
-        account: {
-          create,
-          list,
-          get,
-          select,
-          deselect,
-          remove,
-          clear,
-          account: account ? account : masterAccount,
-          isDeploying,
-          count,
-          copyToClipboard,
-          applyFromClipboard,
-          checkIsDeployed,
-        },
+        client,
       }}
     >
       {children}
