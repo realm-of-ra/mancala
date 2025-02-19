@@ -1,6 +1,5 @@
 use starknet::ContractAddress;
 
-use dojo::world::IWorldDispatcher;
 use mancala::models::player::Player;
 
 #[starknet::interface]
@@ -21,11 +20,9 @@ pub(crate) trait IMancalaSystem<TState> {
 #[dojo::contract]
 pub mod Mancala {
     use super::{ContractAddress, Player, IMancalaSystem};
-    use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
     use mancala::components::initializable::InitializableComponent;
     use achievement::components::achievable::AchievableComponent;
-    use mancala::types::task::{Task, TaskTrait};
     use mancala::types::trophy::{Trophy, TrophyTrait, TROPHY_COUNT};
     use mancala::constants::NAMESPACE;
 

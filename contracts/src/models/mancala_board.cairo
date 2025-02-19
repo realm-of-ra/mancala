@@ -1,10 +1,9 @@
 use core::num::traits::Zero;
-use starknet::{get_block_number, ContractAddress, get_caller_address};
+use starknet::{get_block_number, ContractAddress};
 
 pub use mancala::models::index::{MancalaBoard, GameStatus};
 use mancala::constants::AVERAGE_BLOCK_TIME;
-use mancala::models::player::{Player, PlayerTrait};
-use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use mancala::models::player::{Player};
 
 // Error messages for various game conditions
 pub mod errors {

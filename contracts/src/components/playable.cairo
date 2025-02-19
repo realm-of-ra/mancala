@@ -10,7 +10,7 @@ pub mod PlayableComponent {
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
-    use mancala::models::game_counter::{GameCounter, GameCounterTrait};
+    use mancala::models::game_counter::{GameCounterTrait};
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,

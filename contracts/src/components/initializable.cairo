@@ -28,7 +28,7 @@ pub mod InitializableComponent {
         /// * Sets up the initial game counter in the world state
         fn initialize(self: @ComponentState<TState>, world: WorldStorage) {
             // [Effect] Initialize component
-            let mut store = StoreTrait::new(world);
+            let mut store: Store = StoreTrait::new(world);
             let current_game_counter = store.get_game_counter(1);
 
             assert(current_game_counter.count == 0, 'Counter already initialized');
