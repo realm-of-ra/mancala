@@ -1,63 +1,63 @@
-mod constants;
-mod store;
+pub mod constants;
+pub mod store;
 
-mod models {
-    mod index;
-    mod mancala_board;
-    mod player;
-    mod profile;
-    mod seed;
-    mod game_counter;
-    mod pit;
+pub mod models {
+    pub mod index;
+    pub mod mancala_board;
+    pub mod player;
+    pub mod profile;
+    pub mod seed;
+    pub mod game_counter;
+    pub mod pit;
 }
 
-mod events {
-    mod index;
-    mod move;
+pub mod events {
+    pub mod index;
+    pub mod move;
 }
 
-mod components {
-    mod playable;
-    mod initializable;
-    mod profile;
+pub mod components {
+    pub mod playable;
+    pub mod initializable;
+    pub mod profile;
 }
 
-mod elements {
-    mod tasks {
-        mod clearing;
-        mod collecting;
-        mod dominating;
-        mod interface;
-        mod mastering;
-        mod reigning;
+pub mod elements {
+    pub mod tasks {
+        pub mod clearing;
+        pub mod collecting;
+        pub mod dominating;
+        pub mod interface;
+        pub mod mastering;
+        pub mod reigning;
     }
-    mod trophies {
-        mod collector;
-        mod dominator;
-        mod extractor;
-        mod strategist;
-        mod victor;
-        mod interface;
+    pub mod trophies {
+        pub mod collector;
+        pub mod dominator;
+        pub mod extractor;
+        pub mod strategist;
+        pub mod victor;
+        pub mod interface;
     }
 }
 
-mod systems {
-    mod mancala;
-    mod profile;
+pub mod systems {
+    pub mod mancala;
+    pub mod profile;
 }
 
-mod types {
-    mod task;
-    mod trophy;
+pub mod types {
+    pub mod task;
+    pub mod trophy;
 }
 
-mod utils {
-    mod board;
+pub mod utils {
+    pub mod board;
 }
 
 #[cfg(test)]
-mod tests {
-    mod setup;
-    mod test_world;
-    mod utils;
+pub mod tests {
+    pub mod setup;
+    pub mod test_world;
+    pub mod utils;
 }

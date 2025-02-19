@@ -1,5 +1,5 @@
 use starknet::ContractAddress;
-use mancala::models::index::Pit;
+pub use mancala::models::index::Pit;
 
 mod errors {}
 

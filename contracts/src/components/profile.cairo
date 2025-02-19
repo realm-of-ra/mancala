@@ -1,29 +1,28 @@
 #[starknet::component]
-mod ProfileComponent {
-    use core::debug::PrintTrait;
+pub mod ProfileComponent {
+    //use core::debug::PrintTrait;
 
     use dojo::world::WorldStorage;
-    use starknet::ContractAddress;
-    use starknet::info::{get_caller_address};
+    use starknet::{get_caller_address};
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::profile::{Profile, ProfileTrait};
 
-    mod errors {
-        const PROFILE_EXISTS: felt252 = 'Player profile already exists';
-        const PROFILE_NOT_FOUND: felt252 = 'Player profile does not exist';
-        const NOT_PROFILE_OWNER: felt252 = 'Not profile owner';
+    pub mod errors {
+        pub const PROFILE_EXISTS: felt252 = 'Player profile already exists';
+        pub const PROFILE_NOT_FOUND: felt252 = 'Player profile does not exist';
+        pub const NOT_PROFILE_OWNER: felt252 = 'Not profile owner';
     }
 
     #[storage]
-    struct Storage {}
+    pub struct Storage {}
 
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {}
+    pub enum Event {}
 
     #[generate_trait]
-    impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
+    pub impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
         fn new_profile(self: @ComponentState<TState>, world: WorldStorage, name: felt252) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);

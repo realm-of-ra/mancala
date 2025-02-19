@@ -1,6 +1,6 @@
 use mancala::elements::trophies::interface::{TrophyTrait, BushidoTask, Task, TaskTrait};
 
-impl Victor of TrophyTrait {
+pub impl Victor of TrophyTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'VICTOR'

@@ -1,5 +1,5 @@
 #[starknet::component]
-mod InitializableComponent {
+pub mod InitializableComponent {
     // Dojo imports
     use dojo::world::WorldStorage;
 
@@ -9,15 +9,15 @@ mod InitializableComponent {
 
     // Storage
     #[storage]
-    struct Storage {}
+    pub struct Storage {}
 
     // Events
     #[event]
     #[derive(Drop, starknet::Event)]
-    enum Event {}
+    pub enum Event {}
 
     #[generate_trait]
-    impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
+    pub impl InternalImpl<TState, +HasComponent<TState>> of InternalTrait<TState> {
         /// Initializes the game counter
         ///
         /// # Arguments

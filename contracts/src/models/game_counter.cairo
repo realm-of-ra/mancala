@@ -1,8 +1,8 @@
-use mancala::models::index::GameCounter;
+pub use mancala::models::index::GameCounter;
 
 // Trait implementation for GameCounter
 #[generate_trait]
-impl GameCounterImpl of GameCounterTrait {
+pub impl GameCounterImpl of GameCounterTrait {
     /// Creates a new GameCounter instance
     /// Returns: A GameCounter with id set to 1 and count set to 0
     #[inline]

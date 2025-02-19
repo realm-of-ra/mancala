@@ -9,9 +9,9 @@ mod PlayerProfile {
     use super::{IPlayerProfile};
     use dojo::world::IWorldDispatcher;
 
-    use starknet::ContractAddress;
+    //use starknet::ContractAddress;
 
-    use mancala::models::profile::Profile;
+    //use mancala::models::profile::Profile;
     use mancala::components::profile::ProfileComponent;
     use mancala::constants::NAMESPACE;
 

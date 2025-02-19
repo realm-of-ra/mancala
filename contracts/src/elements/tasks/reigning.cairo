@@ -1,6 +1,6 @@
 use mancala::elements::tasks::interface::TaskTrait;
 
-impl Reigning of TaskTrait {
+pub impl Reigning of TaskTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'REIGNING'

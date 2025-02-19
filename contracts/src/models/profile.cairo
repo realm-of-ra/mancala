@@ -1,13 +1,13 @@
 use starknet::{ContractAddress, get_block_timestamp};
-use mancala::models::index::Profile;
+pub use mancala::models::index::Profile;
 
-mod Errors {
-    const INVALID_NAME: felt252 = 'Invalid Profile Name';
-    const INVALID_URI: felt252 = 'Invalid Profile URI';
+pub mod Errors {
+    pub const INVALID_NAME: felt252 = 'Invalid Profile Name';
+    pub const INVALID_URI: felt252 = 'Invalid Profile URI';
 }
 
 #[generate_trait]
-impl ProfileImpl of ProfileTrait {
+pub impl ProfileImpl of ProfileTrait {
     #[inline]
     fn new(address: ContractAddress, name: felt252) -> Profile {
         assert(name != 0, Errors::INVALID_NAME);
@@ -39,7 +39,7 @@ mod tests {
 
     #[test]
     fn test_new_profile() {
-        let profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
+        let profile: Profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
 
         assert(profile.address == ADDRESS(), 'Invalid address');
         assert_eq!(profile.name, PLAYER_NAME);
@@ -55,7 +55,7 @@ mod tests {
     fn test_update_profile() {
         let new_uri: ByteArray = "ipfs://QmTest";
 
-        let mut profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
+        let mut profile: Profile = ProfileTrait::new(ADDRESS(), PLAYER_NAME);
         profile.update_profile(PlAYER_NEW_NAME, new_uri.clone());
 
         assert(profile.profile_uri == new_uri, Errors::INVALID_URI);

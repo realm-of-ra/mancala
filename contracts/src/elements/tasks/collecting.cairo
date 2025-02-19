@@ -1,6 +1,6 @@
 use mancala::elements::tasks::interface::TaskTrait;
 
-impl Collecting of TaskTrait {
+pub impl Collecting of TaskTrait {
     #[inline]
     fn identifier(level: u8) -> felt252 {
         'COLLECTING'

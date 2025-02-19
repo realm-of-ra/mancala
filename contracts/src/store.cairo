@@ -20,14 +20,14 @@ use mancala::events::move::{
 
 // Structs
 #[derive(Copy, Drop)]
-struct Store {
+pub struct Store {
     world: WorldStorage,
 }
 
 // Implementations
 
 #[generate_trait]
-impl StoreImpl of StoreTrait {
+pub impl StoreImpl of StoreTrait {
     #[inline]
     fn new(world: WorldStorage) -> Store {
         Store { world: world }

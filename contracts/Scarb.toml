@@ -1,7 +1,8 @@
 [package]
-cairo-version = "=2.8.4"
+cairo-version = "=2.9.2"
 name = "mancala"
-version = "0.3.0"
+version = "0.3.1"
+edition = "2024_07"
 
 [cairo]
 sierra-replace-ids = true
@@ -10,11 +11,11 @@ sierra-replace-ids = true
 dev = "sozo clean && sozo build --typescript && sozo migrate"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.9" }
-achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.0.9" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.1.2" }
+achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.1.2" }
 
 [dev-dependencies]
-dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.9" }
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.1.2" }
 
 [[target.starknet-contract]]
 build-external-contracts = [

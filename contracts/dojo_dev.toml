@@ -13,12 +13,12 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_alpha"
+default = "mancala_salt"
 
 [writers]
-"mancala_alpha" = ["mancala_alpha-Mancala", "mancala_alpha-PlayerProfile"]
-"mancala_alpha-TrophyCreation" = ["mancala_alpha-Mancala"]
-"mancala_alpha-TrophyProgression" = ["mancala_alpha-Mancala"]
+"mancala_salt" = ["mancala_salt-Mancala", "mancala_salt-PlayerProfile"]
+"mancala_salt-TrophyCreation" = ["mancala_salt-Mancala"]
+"mancala_salt-TrophyProgression" = ["mancala_salt-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"
