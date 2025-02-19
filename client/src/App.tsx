@@ -17,8 +17,8 @@ import CONFIG, { IS_MAINNET } from "./lib/config";
 const options = {
   theme: "realm-of-ra",
   policies: CONFIG.POLICIES,
-  namespace: "mancala_alpha",
-  slot: "mancala-b",
+  namespace: "mancala_salt",
+  slot: "mancala-alpha",
   rpc: CONFIG.SLOT_RPC_URL,
 };
 

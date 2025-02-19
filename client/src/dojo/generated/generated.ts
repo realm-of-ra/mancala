@@ -3,7 +3,7 @@
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 
-export const NAMESPACE = "mancala_alpha";
+export const NAMESPACE = "mancala_salt";
 export const contractName = "Mancala";
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;

@@ -89,7 +89,7 @@ export default function Header() {
   const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
+    const profile: any = playerData?.mancalaSaltProfileModels?.edges.find(
       (player: any) => player.node.address === account?.address,
     );
     if (!account || !profile) {
@@ -100,7 +100,7 @@ export default function Header() {
     if (profile?.node?.name) {
       setPlayerName(shortString.decodeShortString(profile?.node?.name));
     }
-  }, [account, playerData?.mancalaAlphaProfileModels?.edges, playerData]);
+  }, [account, playerData?.mancalaSaltProfileModels?.edges, playerData]);
 
   const handleTrophyClick = useCallback(() => {
     if (!connector?.controller) {
@@ -157,7 +157,7 @@ export default function Header() {
   const [displayName, setDisplayName] = useState("");
   const [initialDisplayName, setInitialDisplayName] = useState("");
   const [initialImageUrl, setInitialImageUrl] = useState("");
-  const profile: any = playerData?.mancalaAlphaProfileModels?.edges.find(
+  const profile: any = playerData?.mancalaSaltProfileModels?.edges.find(
     (player: any) => player.node.address === account?.address,
   );
 
@@ -243,7 +243,7 @@ export default function Header() {
     setSaveStatus({ status: "saving", message: "Saving changes..." });
 
     try {
-      const userExists = profiles.mancalaAlphaProfileModels.edges.some(
+      const userExists = profiles.mancalaSaltProfileModels.edges.some(
         (profile: any) => profile.node.address === account?.address,
       );
 
@@ -290,16 +290,17 @@ export default function Header() {
     fetchUsername();
   }, [controller, setUsername]);
 
-
   console.log({
     profile,
     address: account?.address,
   });
 
   useEffect(() => {
-    if (account?.address && 
-        playerData?.mancalaAlphaProfileModels?.edges && 
-        !profile) {
+    if (
+      account?.address &&
+      playerData?.mancalaSaltProfileModels?.edges &&
+      !profile
+    ) {
       setOpen(true);
     }
   }, [account?.address, playerData, profile]);
