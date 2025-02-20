@@ -273,7 +273,8 @@ export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, play
     if (currentPlayer === player && currentPit > 7) {
       currentPit = 1;
       currentPlayer = opponent;
-    } else if (currentPlayer === opponent && currentPit > 6) { // Skip opponent's pit 7
+    } else if (currentPlayer === opponent && currentPit > 6) { 
+      // Skip opponent's pit 7
       currentPit = 1;
       currentPlayer = player;
     }

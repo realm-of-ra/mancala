@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Lobby from "./pages/Lobby";
 import Tutorial from "./pages/Tutorial";
 import CONFIG, { IS_MAINNET } from "./lib/config";
+import { constants } from "starknet";
 
 const options = {
   theme: "realm-of-ra",
@@ -20,6 +21,11 @@ const options = {
   namespace: "mancala_salt",
   slot: "mancala-alpha",
   rpc: CONFIG.SLOT_RPC_URL,
+  chains: [
+    { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
+    { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
+  ],
+  defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
 };
 
 const SmallScreenWarning = () => (
@@ -46,7 +52,7 @@ export default function App() {
     };
   }, []);
 
-  const connectors = [new ControllerConnector(options) as never as Connector];
+  const connectors = [new ControllerConnector(options as never) as never as Connector];
 
   const rpc = useCallback(() => {
     return { nodeUrl: CONFIG.SLOT_RPC_URL };
