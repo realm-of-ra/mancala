@@ -195,12 +195,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
     isPlayerTurn,
   ]);
 
-  // useEffect(() => {
-  //   if (data?.mancalaSaltSeedModels?.edges) {
-  //     setIsSimulating(false);
-  //     setSelectedPit(null);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data?.mancalaSaltSeedModels?.edges) {
+      setIsSimulating(false);
+      setSelectedPit(null);
+    }
+  }, [data]);
 
   const getSeed = (seedId: string | number) => {
     const hexSeedId =
