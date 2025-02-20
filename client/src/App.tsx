@@ -14,6 +14,7 @@ import Lobby from "./pages/Lobby";
 import Tutorial from "./pages/Tutorial";
 import CONFIG, { IS_MAINNET } from "./lib/config";
 import { constants } from "starknet";
+import Boards from "./pages/Boards";
 
 const options = {
   theme: "realm-of-ra",
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/lobby" element={<Lobby />} />
           <Route path="/games/:gameId" element={<Gameplay />} />
           <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="/boards" element={<Boards />} />
         </Routes>
       </Router>
       {isSmallScreen && <SmallScreenWarning />}
