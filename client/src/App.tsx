@@ -52,7 +52,7 @@ export default function App() {
     };
   }, []);
 
-  const connectors = [new ControllerConnector(options) as never as Connector];
+  const connectors = [new ControllerConnector(options as never) as never as Connector];
 
   const rpc = useCallback(() => {
     return { nodeUrl: CONFIG.SLOT_RPC_URL };
