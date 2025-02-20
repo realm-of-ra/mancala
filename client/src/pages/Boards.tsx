@@ -1,19 +1,21 @@
 import BoardBlock from "@/components/boards/board-block";
 import Header from "@/components/header";
 import { Helmet } from "react-helmet-async";
+import default_board_image from "@/assets/default_board_sample.png";
+import starknet_board_image from "@/assets/starknet_board_sample.png";
 
 export default function Boards() {
     const boards = [
         {
             id: 1,
-            image_path: './assets/default_board_sample.png',
+            image: default_board_image,
             name: 'Default Board',
             description: 'Story about it that you can make mention of to have like a description',
             owned: true
         },
         {
             id: 2,
-            image_path: './assets/starknet_board_sample.png',
+            image: starknet_board_image,
             name: 'Starknet Board',
             description: 'Story about it that you can make mention of to have like a description',
             owned: false
@@ -57,7 +59,7 @@ export default function Boards() {
                     </div>
                     <div className="grid grid-cols-2 gap-5 overflow-y-scroll h-[calc(100vh-250px)] scrollbar-hidden">
                         {
-                            boards.map(board => <BoardBlock key={board.id} image_path={board.image_path} name={board.name} description={board.description} owned={board.owned} />)
+                            boards.map(board => <BoardBlock key={board.id} image={board.image} name={board.name} description={board.description} owned={board.owned} />)
                         }
                     </div>
                 </div>

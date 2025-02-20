@@ -1,12 +1,12 @@
 import { Button } from "../ui/button";
 
 export default function BoardBlock({
-   image_path,
+    image,
    name,
    description,
    owned
 }: {
-    image_path: string;
+    image: string;
     name: string;
     description: string;
     owned: boolean;
@@ -14,7 +14,7 @@ export default function BoardBlock({
     return(
         <div className="w-[630px] h-[400px] bg-[#0F111680] rounded-xl">
             <div className="w-full h-full p-4 space-y-1">
-                <div className={`w-full h-64 bg-contain bg-center bg-no-repeat bg-[url('${image_path}')]`} />
+                <img src={image} className="w-full h-64" draggable={false} />
                 <h3 className="text-white text-2xl font-semibold">{name}</h3>
                 <p className="text-[#C7CAD4] text-lg">{description}</p>
                 {
