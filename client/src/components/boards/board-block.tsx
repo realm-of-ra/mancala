@@ -12,7 +12,7 @@ export default function BoardBlock({
     owned: boolean;
 }) {
     return(
-        <div className="w-[630px] h-[400px] bg-[#0F111680] rounded-xl">
+        <div className="w-[630px] h-[400px] bg-[#0F111680] rounded-xl hover:border-2 hover:border-[#F58229] hover:cursor-pointer">
             <div className="w-full h-full p-4 space-y-1">
                 <img src={image} className="w-full h-64" draggable={false} />
                 <h3 className="text-white text-2xl font-semibold">{name}</h3>
