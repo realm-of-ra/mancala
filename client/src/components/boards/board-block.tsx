@@ -19,7 +19,7 @@ export default function BoardBlock({
                 <p className="text-[#C7CAD4] text-lg">{description}</p>
                 {
                     owned ? <Button className="p-5 rounded-3xl bg-[#171922]">Owned</Button> : 
-                    <Button className="p-5 rounded-3xl bg-[#F58229]">Buy Board</Button>
+                    <Button className="p-5 rounded-3xl bg-[#F58229] hover:bg-[#F58229] active:bg-[#F58229]">Buy Board</Button>
                 }
             </div>
         </div>
