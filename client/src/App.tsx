@@ -8,6 +8,7 @@ import {
   useBalance,
   useConnect,
   voyager,
+  publicProvider
 } from "@starknet-react/core";
 import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
