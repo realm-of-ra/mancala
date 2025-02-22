@@ -7,7 +7,7 @@ import { shortString } from "starknet";
 import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
 import { useQuery } from "@apollo/client";
-import { MancalaPlayerNames } from "@/lib/constants";
+import { MancalaPlayerNames, normalizeAddress } from "@/lib/constants";
 
 export default function TutorialGameMessage({
   game_node,
@@ -188,13 +188,6 @@ export default function TutorialGameMessage({
     game_node?.status != "InProgress"
       ? "00"
       : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
-
-  const normalizeAddress = (address: string) => {
-    // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
-    const cleanAddress = address?.toLowerCase()?.replace("0x", "");
-    // Pad to 64 characters (32 bytes) with leading zeros
-    return cleanAddress?.padStart(64, "0");
-  };
 
   const [close, setClose] = useState<boolean>();
 

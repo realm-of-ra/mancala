@@ -1,5 +1,4 @@
 import { useState } from "react";
-import GameBoard from "@/components/gameplay/game-board";
 import MessageArea from "@/components/message-area.tsx";
 import { useDojo } from "@/dojo/useDojo";
 import { useAccount } from "@starknet-react/core";
@@ -8,7 +7,6 @@ import {
   MancalaBoardModelQuery,
   MancalaPlayerNames,
   MancalaPlayQuery,
-  normalizeAddress,
 } from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
@@ -17,14 +15,10 @@ import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import GameNavigation from "@/components/gameplay/game-navigation";
 import TimeoutButton from "@/components/gameplay/timeout-button";
+import StarknetGameBoard from "@/components/gameplay/starknet-board/starknet-game-board";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import winner from "@/assets/win.png";
-import lose from "@/assets/lose.png";
-import end from "@/assets/end.png";
-import createIcon from "@/assets/createIcon.png";
-import { Button } from "@/components/ui/button";
 
-export default function Gameplay() {
+export default function Board() {
   const { gameId } = useParams();
   const { data: game_metadata, startPolling: startMetadataPolling } = useQuery(
     MancalaBoardModelQuery,
@@ -53,7 +47,9 @@ export default function Gameplay() {
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
-  const opposition_address = game_players?.mancalaSaltPlayerModels.edges[opponent_position]?.node.address;
+  const opposition_address =
+    game_players?.mancalaSaltPlayerModels.edges[opponent_position]?.node
+      .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
@@ -63,13 +59,6 @@ export default function Gameplay() {
     message: "",
   });
 
-  const is_finished = involved && game_node?.status === "Finished";
-  const [open, setOpen] = useState(is_finished);
-  const handleClose = () => {
-    setOpen(false)
-  };
-  const user_won = normalizeAddress(game_node?.winner) === normalizeAddress(account.account?.address || "");
-  const [players, setPlayers] = useState<{ name: string, address: string }[]>()
   return (
     <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
       <GameNavigation
@@ -85,7 +74,6 @@ export default function Gameplay() {
         action={action}
         setAction={setAction}
         moveMessage={moveMessage}
-        setPlayers={setPlayers}
       />
       <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
         <div className="flex flex-col justify-center space-y-5 w-fit">
@@ -102,7 +90,7 @@ export default function Gameplay() {
           />
         </div>
         <div className="flex-1 w-full h-full">
-          <GameBoard
+          <StarknetGameBoard
             game_players={game_players}
             game_node={game_node}
             system={system}
@@ -127,54 +115,6 @@ export default function Gameplay() {
             </div>
           </div>
         </div>
-          <div>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              className="fixed inset-0 z-50 bg-transparent shadow-none flex items-center justify-center"
-            >
-              <DialogBackdrop
-                transition
-                className="fixed inset-0 backdrop-blur-sm transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-              />
-              <DialogPanel
-                transition
-                className="relative flex flex-col items-center justify-center transform overflow-hidden rounded-lg text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-              >
-                <div className="bg-[#0F1116] border-2 border-[#272A32] rounded-2xl w-[800px] h-[560px] px-16">
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-row items-center justify-end w-full">
-                      <Button
-                        className="p-0 bg-transparent rounded-full absolute top-8 right-5"
-                        onClick={handleClose}
-                      >
-                        <img
-                          src={end}
-                          width={50}
-                          height={50}
-                          alt="cancel"
-                          className="rounded-full"
-                        />
-                      </Button>
-                    </div>
-                    <div className="flex flex-col items-center justify-center space-y-3.5">
-                      <img src={user_won ? winner : lose} className="w-40 h-52" /> 
-                      <h3 className="text-2xl text-white font-semibold">{user_won ? "You Won" : "You Lost"}</h3>
-                      <p className="text-[#4F5666] text-lg">{user_won ? `Congratulations you beat ${players?.[opponent_position].name || ""}` : `You couldn't beat ${players?.[opponent_position].name || ""}`}</p>
-                      <Button
-                        className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                      >
-                        <div className="flex flex-row items-center space-x-1">
-                          <img src={createIcon} className="w-5 h-5" />
-                          <p className="text-[#FCE3AA] font-medium">Share</p>
-                        </div>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                </DialogPanel>
-            </Dialog>
-          </div>
       </div>
     </main>
   );
