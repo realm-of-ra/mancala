@@ -27,7 +27,7 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const create_game = async (account: AccountInterface) => {
+    const create_game = async (account: AccountInterface, settings_id: number) => {
       console.log("account: ", account);
       try {
         return await provider.execute(
@@ -35,7 +35,7 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName,
             entrypoint: "new_game",
-            calldata: [],
+            calldata: [settings_id],
           },
           NAMESPACE,
         );
@@ -48,6 +48,7 @@ export async function setupWorld(provider: DojoProvider) {
     const create_private_game = async (
       account: AccountInterface,
       player_2: string,
+      settings_id: number,
     ) => {
       try {
         return await provider.execute(
@@ -55,7 +56,7 @@ export async function setupWorld(provider: DojoProvider) {
           {
             contractName,
             entrypoint: "create_private_game",
-            calldata: [player_2],
+            calldata: [player_2, settings_id],
           },
           NAMESPACE,
         );
@@ -65,14 +66,14 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const join_game = async (account: AccountInterface, game_id: string) => {
+    const join_game = async (account: AccountInterface, game_id: string, settings_id: number) => {
       try {
         return await provider.execute(
           account,
           {
             contractName,
             entrypoint: "join_game",
-            calldata: [game_id],
+            calldata: [game_id, settings_id],
           },
           NAMESPACE,
         );

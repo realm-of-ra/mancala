@@ -56,7 +56,7 @@ export default function Duels({
   });
   const { system } = useDojo();
   const account = useAccount();
-  const join_game = async (game_id: string, index: number) => {
+  const join_game = async (game_id: string, index: number, seed_number: number) => {
     setJoinStatus({
       status: "JOINING",
       index: index,
@@ -69,6 +69,7 @@ export default function Duels({
         player_2_address,
         setJoinStatus,
         index,
+        seed_number
       );
     }
   };
@@ -89,7 +90,7 @@ export default function Duels({
     if (isPlayerInGame || isGameFull) {
       navigate(`/games/${game.game_id}`);
     } else {
-      join_game(game.game_id, index)
+      join_game(game.game_id, index, 1)
         .then((res) => console.info(res))
         .catch((errorJoiningGame) => console.error(errorJoiningGame));
     }

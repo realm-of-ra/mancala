@@ -54,11 +54,11 @@ export default function Lobby() {
   const { system } = useDojo();
   const account = useAccount();
   const isConnected = account.account != null;
-  const create_game = async () => {
+  const create_game = async (settings_id: number) => {
     setCreating(true);
     if (account.account) {
       //using account from cartridge
-      await system.create_game(account.account, setGameId);
+      await system.create_game(account.account, setGameId, settings_id);
       if (gameId) {
         setCreating(false);
       }
@@ -67,10 +67,10 @@ export default function Lobby() {
     }
   };
 
-  const create_private_game = async () => {
+  const create_private_game = async (settings_id: number) => {
     setCreating(true);
     if (account.account) {
-      await system.create_private_game(account.account, player2, setGameId);
+      await system.create_private_game(account.account, player2, setGameId, settings_id);
       if (gameId) {
         setCreating(false);
       }
@@ -467,8 +467,8 @@ export default function Lobby() {
                               className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
                               onClick={() =>
                                 type == "private"
-                                  ? create_private_game()
-                                  : create_game()
+                                  ? create_private_game(1)
+                                  : create_game(1)
                               }
                             >
                               <div className="flex flex-row items-center space-x-1">
