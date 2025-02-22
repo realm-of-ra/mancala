@@ -2,7 +2,6 @@ use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum SeedColor {
-    None,
     Blue,
     Green,
 }

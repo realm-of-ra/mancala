@@ -4,10 +4,10 @@ use mancala::models::player::Player;
 
 #[starknet::interface]
 pub(crate) trait IMancalaSystem<TState> {
-    fn new_game(ref self: TState);
-    fn join_game(ref self: TState, game_id: u128);
+    fn new_game(ref self: TState, settings_id: u8);
+    fn join_game(ref self: TState, game_id: u128, settings_id: u8);
     fn timeout(ref self: TState, game_id: u128, opponent_address: ContractAddress);
-    fn create_private_game(ref self: TState, opponent_address: ContractAddress);
+    fn create_private_game(ref self: TState, opponent_address: ContractAddress, settings_id: u8);
     fn get_players(ref self: TState, game_id: u128) -> (Player, Player);
     fn move(ref self: TState, game_id: u128, selected_pit: u8);
     fn get_score(ref self: TState, game_id: u128) -> (u8, u8);
@@ -92,14 +92,14 @@ pub mod Mancala {
 
     #[abi(embed_v0)]
     pub impl MancalaImpl of IMancalaSystem<ContractState> {
-        fn new_game(ref self: ContractState) {
+        fn new_game(ref self: ContractState, settings_id: u8) {
             let world = self.world_storage();
-            self.playable.new_game(world);
+            self.playable.new_game(world, settings_id);
         }
 
-        fn join_game(ref self: ContractState, game_id: u128) {
+        fn join_game(ref self: ContractState, game_id: u128, settings_id: u8) {
             let world = self.world_storage();
-            self.playable.join_game(world, game_id)
+            self.playable.join_game(world, game_id, settings_id)
         }
 
         fn timeout(ref self: ContractState, game_id: u128, opponent_address: ContractAddress) {
@@ -107,9 +107,11 @@ pub mod Mancala {
             self.playable.timeout(world, game_id, opponent_address)
         }
 
-        fn create_private_game(ref self: ContractState, opponent_address: ContractAddress) {
+        fn create_private_game(
+            ref self: ContractState, opponent_address: ContractAddress, settings_id: u8,
+        ) {
             let world = self.world_storage();
-            self.playable.create_private_game(world, opponent_address)
+            self.playable.create_private_game(world, opponent_address, settings_id)
         }
 
         fn get_players(ref self: ContractState, game_id: u128) -> (Player, Player) {

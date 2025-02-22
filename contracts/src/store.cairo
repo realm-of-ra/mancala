@@ -132,7 +132,7 @@ pub impl StoreImpl of StoreTrait {
     }
 
     #[inline]
-    fn get_settings(self: Store, game_id: u128) -> Settings {
+    fn get_settings(self: Store, game_id: u8) -> Settings {
         self.world.read_model(game_id)
     }
 }
