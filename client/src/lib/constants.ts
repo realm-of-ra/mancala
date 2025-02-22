@@ -604,6 +604,14 @@ export const gameStarted = (games_data_one: any, games_data_two: any) =>
     games_data_two?.pit6 == 4
   );
 
+
+export const normalizeAddress = (address: string) => {
+  // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
+  const cleanAddress = address?.toLowerCase()?.replace("0x", "");
+  // Pad to 64 characters (32 bytes) with leading zeros
+  return cleanAddress?.padStart(64, "0");
+};
+
 export const MancalaBoardModelsQuery = gql`
   query mancalaSaltMancalaBoardModels {
     mancalaSaltMancalaBoardModels {
@@ -4685,3 +4693,4 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     ],
   },
 ];
+

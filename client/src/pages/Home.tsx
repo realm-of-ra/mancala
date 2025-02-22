@@ -3,19 +3,29 @@ import link from "../assets/link-out.png";
 import { Link } from "react-router-dom";
 import Bubble from "@/components/ui/svgs/bubble";
 import small_logo from "@/assets/small-logo.png";
+import { useAccount, useConnect } from "@starknet-react/core";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const { isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
   return (
     <div className="bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center w-full h-full min-h-screen flex flex-col items-center justify-center">
       <div className="bg-[url('./assets/home-box.png')] bg-cover bg-center bg-no-repeat w-[874px] h-[486px] flex flex-col items-center justify-center space-y-20">
         <img src={logo} alt="logo" className="w-56 h-16" />
         <div className="flex flex-col space-y-5 text-center">
-          <Link to="/lobby">
+          {
+            isConnected ? <Link to="/lobby">
             <button className="bg-[#1A1D25] text-[#F58229] py-2.5 px-7 rounded-full flex flex-row items-center justify-center space-x-1">
               <Bubble />
               <p>Go to lobby</p>
             </button>
-          </Link>
+          </Link> : <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl" onClick={() => connect({ connector: connectors[0] })}>
+            <div className="flex flex-row items-center space-x-1">
+              <p className="text-[#FCE3AA] font-medium">Connect Wallet</p>
+            </div>
+          </Button>
+          }
           <Link
             to="/"
             className="flex flex-row items-center justify-center space-x-1"
