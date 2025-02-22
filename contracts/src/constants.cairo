@@ -1,5 +1,5 @@
 pub fn NAMESPACE() -> ByteArray {
-    "mancala_salt"
+    "mancala_water"
 }
 
 pub const AVERAGE_BLOCK_TIME: u64 = 30;

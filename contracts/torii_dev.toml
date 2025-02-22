@@ -10,10 +10,12 @@ allowed_origins = ["*"]
 pending = true
 transactions = true
 polling_interval = 1000
-contracts = []
+contracts = [
+    "erc721:0x07f413bd3ce6d349dd9efcd208894b9cd7b646979834ed771ffd62d160e25835"
+]
 
 [events]
 raw = true
 historical = [
-    "mancala_salt-TrophyProgression",
+    "mancala_water-TrophyProgression",
 ]
