@@ -1,6 +1,7 @@
-import { useAccount, useBalance, useConnect } from "@starknet-react/core";
+import { useAccount, useBalance, useConnect, useProvider } from "@starknet-react/core";
 import NotEnough from "@/components/not-enough";
 import { useEffect, useState } from "react";
+import { AccountInterface, Contract } from "starknet";
 
 
 const SmallScreenWarning = () => (
@@ -14,12 +15,30 @@ const SmallScreenWarning = () => (
 );
 
 export default function Checks({ children }: { children: React.ReactNode }) {
-    const { isConnected } = useAccount();
+    const { account, address, isConnected } = useAccount();
     const { connect, connectors } = useConnect();
-    const { data } = useBalance({
-      address: "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+    const { provider } = useProvider();
+    const [amountOfTokens, setAmountOfTokens] = useState<number>();
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!isConnected) {
+                connect({ connector: connectors[0] });
+            }
+            const contract_address = "0x07f413bd3ce6d349dd9efcd208894b9cd7b646979834ed771ffd62d160e25835";
+            const { abi } = await provider.getClassAt(contract_address);
+            const contract = new Contract(abi, contract_address, provider);
+            contract.connect(account as AccountInterface);
+            const contract_call = contract.populate('balance_of', [address?.toString() || '']);
+            const data = await contract.balance_of(contract_call.calldata);
+            setAmountOfTokens(Number(data))
+        };
+        fetchData();
+    }, [account, address, connect, connectors, isConnected, provider]);
+    const isEnough = Math.round(amountOfTokens || 0) >= 1;
+    console.log({
+        amountOfTokens,
+        isEnough
     })
-    const isEnough = Math.round(Number(data?.formatted)) >= 10;
     const [isSmallScreen, setIsSmallScreen] = useState(false);
   
     useEffect(() => {

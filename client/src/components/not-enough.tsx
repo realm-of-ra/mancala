@@ -9,7 +9,7 @@ export default function NotEnough({ isEnough }: { isEnough: boolean }) {
     return(
         <div className="">
             <Dialog
-                open={false}
+                open={open}
                 handler={handleOpen}
                 className="flex flex-col items-center justify-center bg-transparent"
             >
