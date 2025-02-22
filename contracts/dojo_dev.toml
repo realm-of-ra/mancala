@@ -29,3 +29,9 @@ world_address = "0x542a349cdda6f2518a2b159fe3de19429f43233053464b44a25167a5be92c
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
+
+[init_call_args]
+"mancala_salt-Mancala" = [
+  "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # TOKEN_PASS_ADDRESS
+  "0x07c4d03b35e224ac19247c429a203c36ca40653e12d28e696d2674ee61a60fa3", # GATEKEEPER_ADDRESS
+]

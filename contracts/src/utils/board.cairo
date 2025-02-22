@@ -2,7 +2,7 @@ use dojo::world::WorldStorage;
 use starknet::ContractAddress;
 
 use mancala::models::player::Player;
-use mancala::models::seed::{Seed, SeedColor, SeedTrait};
+use mancala::models::seed::{Seed, SeedColor};
 use mancala::models::pit::Pit;
 use mancala::store::{Store, StoreTrait};
 
@@ -10,7 +10,7 @@ pub fn get_pit_seeds(world: WorldStorage, player: @Player, pit_number: u8) -> Ar
     assert(pit_number <= *player.len_pits, 'Pit number out of bounds');
 
     let mut store: Store = StoreTrait::new(world);
-    let pit = store.get_pit(*player.game_id, *player.address, pit_number);
+    let pit: Pit = store.get_pit(*player.game_id, *player.address, pit_number);
 
     let mut result = array![];
     let mut idx = 1;
