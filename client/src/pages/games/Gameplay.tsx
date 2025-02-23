@@ -23,6 +23,7 @@ import lose from "@/assets/lose.png";
 import end from "@/assets/end.png";
 import createIcon from "@/assets/createIcon.png";
 import { Button } from "@/components/ui/button";
+import backgroundVideo from "@/assets/background-video.mp4";
 
 export default function Gameplay() {
   const { gameId } = useParams();
@@ -71,7 +72,10 @@ export default function Gameplay() {
   const user_won = normalizeAddress(game_node?.winner) === normalizeAddress(account.account?.address || "");
   const [players, setPlayers] = useState<{ name: string, address: string }[]>()
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/villagers.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
+      <video id="background-video" className="z-10 w-full h-screen absolute object-cover" loop autoPlay>
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
       <GameNavigation
         game_players={game_players}
         player_names={player_names}
@@ -87,7 +91,7 @@ export default function Gameplay() {
         moveMessage={moveMessage}
         setPlayers={setPlayers}
       />
-      <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
+      <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10 z-20">
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <RestartButton
             gameId={gameId || ""}
