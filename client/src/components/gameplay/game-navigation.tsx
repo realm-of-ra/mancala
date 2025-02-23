@@ -17,7 +17,7 @@ export default function GameNavigation({
   setMessage,
   action,
   setAction,
-  setPlayers
+  setPlayers,
 }: {
   game_players: any;
   player_names: any;
@@ -31,7 +31,9 @@ export default function GameNavigation({
   setMessage: any;
   action: { action: any; message: string };
   setAction: any;
-  setPlayers:  Dispatch<SetStateAction<{ name: string, address: string }[] | undefined>>
+  setPlayers: Dispatch<
+    SetStateAction<{ name: string; address: string }[] | undefined>
+  >;
 }) {
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
   const games_data_two = game_players?.player_two?.edges?.[0]?.node;
@@ -62,14 +64,14 @@ export default function GameNavigation({
   }, [game_node]);
 
   const player_one_name = formatPlayerName(
-    player_names?.mancalaSaltProfileModels.edges.find(
+    player_names?.mancalaFireProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_one,
     )?.node.name,
     game_node?.player_one,
   );
 
   const player_two_name = formatPlayerName(
-    player_names?.mancalaSaltProfileModels.edges.find(
+    player_names?.mancalaFireProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_two,
     )?.node.name,
     game_node?.player_two,
@@ -109,21 +111,21 @@ export default function GameNavigation({
           },
         ];
 
-        useEffect(() => {
-          // Ensure game_node and player displays are available before setting players
-          if (game_node && player_one_display && player_two_display) {
-            setPlayers([
-              {
-                name: player_one_display?.name || "",
-                address: player_one_display?.address || ""
-              },
-              {
-                name: player_two_display?.name || "",
-                address: player_two_display?.address || ""
-              }
-            ]);
-          }
-        }, [game_node, player_one_display, player_two_display, setPlayers]);
+  useEffect(() => {
+    // Ensure game_node and player displays are available before setting players
+    if (game_node && player_one_display && player_two_display) {
+      setPlayers([
+        {
+          name: player_one_display?.name || "",
+          address: player_one_display?.address || "",
+        },
+        {
+          name: player_two_display?.name || "",
+          address: player_two_display?.address || "",
+        },
+      ]);
+    }
+  }, [game_node, player_one_display, player_two_display, setPlayers]);
 
   return (
     <nav className="relative w-full h-40 z-20">

@@ -38,13 +38,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
   const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
   const [isSimulating, setIsSimulating] = React.useState(false);
-  const involved = game_players?.mancalaSaltPlayerModels.edges.some(
+  const involved = game_players?.mancalaFirePlayerModels.edges.some(
     (item: any) =>
       item?.node.address ===
       (account.account?.address || game_node?.player_one),
   );
   const player_position = involved
-    ? game_players?.mancalaSaltPlayerModels.edges.findIndex(
+    ? game_players?.mancalaFirePlayerModels.edges.findIndex(
         (item: any) =>
           item?.node.address ===
           (account.account?.address || game_node?.player_one),
@@ -76,7 +76,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [startCapturePolling, startExtraTurnPolling]);
 
   useEffect(() => {
-    const captures = captureData?.mancalaSaltCaptureModels?.edges;
+    const captures = captureData?.mancalaFireCaptureModels?.edges;
     if (captures && captures.length > 0 && game_node?.status !== "Finished") {
       const latestCapture = captures[captures.length - 1]?.node;
 
@@ -99,7 +99,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [captureData, account.account?.address, game_node?.status, setMessage]);
 
   useEffect(() => {
-    const extraTurns = extraTurnData?.mancalaSaltPlayerExtraTurnModels?.edges;
+    const extraTurns = extraTurnData?.mancalaFirePlayerExtraTurnModels?.edges;
     if (
       extraTurns &&
       extraTurns.length > 0 &&
@@ -126,11 +126,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [extraTurnData, account.account?.address, game_node?.status, setMessage]);
 
   const seeds = React.useMemo(() => {
-    if (!data?.mancalaSaltSeedModels?.edges) return [];
+    if (!data?.mancalaFireSeedModels?.edges) return [];
     const uniqueSeeds = new Map();
 
     // Sort edges by timestamp in descending order (newest first)
-    const sortedEdges = [...data.mancalaSaltSeedModels.edges].sort((a, b) => {
+    const sortedEdges = [...data.mancalaFireSeedModels.edges].sort((a, b) => {
       const timeA = new Date(a.node.entity.updatedAt).getTime();
       const timeB = new Date(b.node.entity.updatedAt).getTime();
       return timeB - timeA; // Descending order
@@ -171,10 +171,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }));
 
       const player =
-        game_players?.mancalaSaltPlayerModels.edges[player_position]?.node
+        game_players?.mancalaFirePlayerModels.edges[player_position]?.node
           .address;
       const opponent =
-        game_players?.mancalaSaltPlayerModels.edges[opponent_position]?.node
+        game_players?.mancalaFirePlayerModels.edges[opponent_position]?.node
           .address;
 
       const simulatedMove = calculateMancalaMove(
@@ -196,7 +196,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   ]);
 
   useEffect(() => {
-    if (data?.mancalaSaltSeedModels?.edges) {
+    if (data?.mancalaFireSeedModels?.edges) {
       setIsSimulating(false);
       setSelectedPit(null);
     }
@@ -248,14 +248,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaSaltPlayerModels.edges[player_position]?.node
+          game_players?.mancalaFirePlayerModels.edges[player_position]?.node
             .address,
         )
-      : game_players?.mancalaSaltPitModels.edges
+      : game_players?.mancalaFirePitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaSaltPlayerModels.edges[player_position]?.node
+              game_players?.mancalaFirePlayerModels.edges[player_position]?.node
                 .address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
@@ -266,14 +266,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaSaltPlayerModels.edges[opponent_position]?.node
+          game_players?.mancalaFirePlayerModels.edges[opponent_position]?.node
             .address,
         )
-      : game_players?.mancalaSaltPitModels.edges
+      : game_players?.mancalaFirePitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaSaltPlayerModels.edges[opponent_position]
+              game_players?.mancalaFirePlayerModels.edges[opponent_position]
                 ?.node.address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
@@ -326,11 +326,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 1 */}
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
-              {game_players?.mancalaSaltPitModels.edges
+              {game_players?.mancalaFirePitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaSaltPlayerModels.edges[
+                    game_players?.mancalaFirePlayerModels.edges[
                       opponent_position
                     ]?.node.address,
                 )
@@ -342,7 +342,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       ? calculatePitAmount(
                           simulatedSeeds,
                           pit.node.pit_number,
-                          game_players?.mancalaSaltPlayerModels.edges[
+                          game_players?.mancalaFirePlayerModels.edges[
                             opponent_position
                           ]?.node.address,
                         )
@@ -361,11 +361,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 2 */}
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
-              {game_players?.mancalaSaltPitModels.edges
+              {game_players?.mancalaFirePitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaSaltPlayerModels.edges[player_position]
+                    game_players?.mancalaFirePlayerModels.edges[player_position]
                       ?.node.address,
                 )
                 .filter((item: any) => item?.node.pit_number !== 7)
@@ -376,7 +376,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       ? calculatePitAmount(
                           simulatedSeeds,
                           pit.node.pit_number,
-                          game_players?.mancalaSaltPlayerModels.edges[
+                          game_players?.mancalaFirePlayerModels.edges[
                             player_position
                           ]?.node.address,
                         )
