@@ -55,7 +55,7 @@ export default function Lobby() {
   const { account, isConnected } = useAccount();
   const create_game = async (settings_id: number) => {
     setCreating(true);
-    if (account) {
+    if (account && isConnected) {
       //using account from cartridge
       await system.create_game(account, setGameId, settings_id);
       if (gameId) {
@@ -217,12 +217,6 @@ export default function Lobby() {
   }, [gameId, creating, open, type, playWith]);
 
   const [tabValue, setTabValue] = useState("duels");
-
-  useEffect(() => {
-    console.log({
-      address: account?.address
-    })
-  }, [account?.address])
 
   useEffect(() => {
     if (data?.mancalaFireMancalaBoardModels?.edges) {

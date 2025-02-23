@@ -4,7 +4,7 @@ import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
 import CONFIG from "@/lib/config";
 
-export const contractName = "Mancala";
+const contractName = CONFIG.CONTRACT_NAME;
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -29,6 +29,12 @@ export async function setupWorld(provider: DojoProvider) {
 
     const create_game = async (account: AccountInterface, settings_id: number) => {
       try {
+        console.log({
+          name: "step-2",
+          account,
+          address: account.address,
+          provider
+        })
         return await provider.execute(
           account,
           {

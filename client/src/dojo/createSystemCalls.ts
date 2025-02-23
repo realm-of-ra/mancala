@@ -29,11 +29,6 @@ export function createSystemCalls(
 
   const create_game = async (account: AccountInterface, setGameId: any, settings_id: number) => {
     try {
-      console.log({
-        name: "step-1",
-        account,
-        address: account.address
-      })
       const { transaction_hash } = await client.actions.create_game(account, settings_id);
       getEvents(
         await account.waitForTransaction(transaction_hash, {

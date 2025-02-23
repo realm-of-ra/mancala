@@ -6,7 +6,7 @@ import {
   jsonRpcProvider,
   voyager,
 } from "@starknet-react/core";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Gameplay from "./pages/games/Gameplay";
 import Home from "./pages/Home";
@@ -20,8 +20,8 @@ import Checks from "./Checks";
 const options = {
   theme: "realm-of-ra",
   policies: CONFIG.POLICIES,
-  namespace: CONFIG.NAMESPACE,
-  slot: CONFIG.SLOT,
+  namespace: "mancala_fire",
+  slot: "mancala-fire",
   rpc: CONFIG.SLOT_RPC_URL,
   chains: [
     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
@@ -30,7 +30,30 @@ const options = {
   defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
 };
 
+const SmallScreenWarning = () => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-75 backdrop-blur-sm">
+    <div className="p-4 text-center">
+      <h1 className="text-2xl font-bold">
+        This game is not optimized for this device screen!
+      </h1>
+    </div>
+  </div>
+);
+
 export default function App() {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1280);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const connectors = [
     new ControllerConnector(options as never) as never as Connector,
   ];
