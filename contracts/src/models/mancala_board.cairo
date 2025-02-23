@@ -1,8 +1,8 @@
 use core::num::traits::Zero;
-use starknet::{get_block_number, ContractAddress};
+use starknet::{ContractAddress, get_block_timestamp};
 
 pub use mancala::models::index::{MancalaBoard, GameStatus};
-use mancala::constants::AVERAGE_BLOCK_TIME;
+use mancala::constants::TIMEOUT_DURATION;
 use mancala::models::player::{Player};
 
 // Error messages for various game conditions
@@ -13,6 +13,7 @@ pub mod errors {
     pub const INVALID_PIT: felt252 = 'MancalaBoard: invalid pit';
     pub const NOT_TIMEOUT: felt252 = 'MancalaBoard: invalid timeout';
     pub const CANNOT_PLAY_SELF: felt252 = 'MancalaBoard: cannot play self';
+    pub const NOT_IN_PROGRESS: felt252 = 'MancalaBoard: not in progress';
 }
 
 /// Trait implementation for MancalaBoard operations
@@ -32,8 +33,7 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
             game_id,
             player_one,
             player_two: core::num::traits::Zero::<ContractAddress>::zero(),
-            last_move: get_block_number(),
-            max_block_between_move: 12,
+            last_turn_change_timestamp: 0,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -57,8 +57,7 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
             game_id,
             player_one,
             player_two,
-            last_move: get_block_number(),
-            max_block_between_move: 12,
+            last_turn_change_timestamp: 0,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             current_player: player_one.into(),
             status: GameStatus::Pending,
@@ -87,21 +86,22 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
 
     #[inline]
     fn timeout_opponent(ref self: MancalaBoard, player: ContractAddress) {
-        let current_block = get_block_number();
-        let elapsed_seconds = self._block_number_to_seconds(self.last_move, current_block);
-        let time_limit_seconds = self.max_block_between_move * AVERAGE_BLOCK_TIME;
-
+        assert(self.status == GameStatus::InProgress, errors::NOT_IN_PROGRESS);
         assert(self.current_player == player, errors::NOT_PLAYER_TURN);
-        assert(elapsed_seconds > time_limit_seconds, errors::NOT_TIMEOUT);
 
-        if player == self.player_one {
-            self.status = GameStatus::TimeOut;
-            self.winner = self.player_two;
-        }
-        if player == self.player_two {
-            self.status = GameStatus::TimeOut;
-            self.winner = self.player_one;
-        }
+        let last_turn_change_timestamp = self.last_turn_change_timestamp;
+        let current_timestamp = get_block_timestamp();
+
+        assert(
+            current_timestamp > last_turn_change_timestamp + TIMEOUT_DURATION, errors::NOT_TIMEOUT,
+        );
+
+        self.status = GameStatus::TimeOut;
+        self.winner = if player == self.player_one {
+            self.player_two
+        } else {
+            self.player_one
+        };
     }
 
     /// Validates if a move is legal according to the game rules
@@ -140,20 +140,6 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
         }
     }
 
-    /// Gets the timestamp of the last move
-    ///
-    /// # Arguments
-    /// * `self` - Reference to the MancalaBoard
-    /// * `player_one` - Player one
-    /// * `player_two` - Player two
-    ///
-    /// # Returns
-    /// * `u64` - Timestamp of the last move
-    #[inline]
-    fn get_last_move(self: MancalaBoard, player_one: Player, player_two: Player) -> u64 {
-        self.last_move
-    }
-
     /// Handles game forfeit by a player
     ///
     /// # Arguments
@@ -190,19 +176,10 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
             player_one: player_one,
             player_two: player_two,
             current_player: player_one,
-            last_move: get_block_number(),
-            max_block_between_move: 12,
+            last_turn_change_timestamp: 0,
             winner: core::num::traits::Zero::<ContractAddress>::zero(),
             status: GameStatus::InProgress,
             is_private: private,
         }
-    }
-}
-
-#[generate_trait]
-impl PrivateFunctions of PrivateFunctionsTrait {
-    fn _block_number_to_seconds(self: MancalaBoard, start_block: u64, end_block: u64) -> u64 {
-        let block_difference = end_block - start_block;
-        block_difference * AVERAGE_BLOCK_TIME
     }
 }

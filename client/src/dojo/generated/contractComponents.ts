@@ -64,7 +64,7 @@ export function defineContractComponents(world: typeof World) {
           player_one: RecsType.BigInt,
           player_two: RecsType.BigInt,
           current_player: RecsType.BigInt,
-          last_move: RecsType.BigInt,
+          last_move_timestamp: RecsType.BigInt,
           max_block_between_move: RecsType.BigInt,
           winner: RecsType.BigInt,
           status: RecsType.Number,
