@@ -126,7 +126,7 @@ export default function GameNavigation({
         }, [game_node, player_one_display, player_two_display, setPlayers]);
 
   return (
-    <nav className="relative w-full h-40">
+    <nav className="relative w-full h-40 z-20">
       <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
