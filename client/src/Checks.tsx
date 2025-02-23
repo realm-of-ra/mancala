@@ -1,4 +1,4 @@
-import { useAccount, useBalance, useConnect, useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useProvider } from "@starknet-react/core";
 import NotEnough from "@/components/not-enough";
 import { useEffect, useState } from "react";
 import { AccountInterface, Contract } from "starknet";

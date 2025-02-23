@@ -52,13 +52,12 @@ export default function Lobby() {
     setClipped(url);
   };
   const { system } = useDojo();
-  const account = useAccount();
-  const isConnected = account.account != null;
+  const { account, isConnected } = useAccount();
   const create_game = async (settings_id: number) => {
     setCreating(true);
-    if (account.account) {
+    if (account) {
       //using account from cartridge
-      await system.create_game(account.account, setGameId, settings_id);
+      await system.create_game(account, setGameId, settings_id);
       if (gameId) {
         setCreating(false);
       }
@@ -69,9 +68,9 @@ export default function Lobby() {
 
   const create_private_game = async (settings_id: number) => {
     setCreating(true);
-    if (account.account) {
+    if (account) {
       await system.create_private_game(
-        account.account,
+        account,
         player2,
         setGameId,
         settings_id,
@@ -98,8 +97,8 @@ export default function Lobby() {
   const filteredGames = data?.mancalaFireMancalaBoardModels?.edges
     ?.filter(
       (game: any) =>
-        game?.node?.player_one === account.account?.address ||
-        game?.node?.player_two === account.account?.address ||
+        game?.node?.player_one === account?.address ||
+        game?.node?.player_two === account?.address ||
         game?.node?.player_two === "0x0",
     )
     .sort((a: any, b: any) => {
@@ -149,8 +148,8 @@ export default function Lobby() {
     data?.mancalaFireMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
-          game?.node?.player_one === account.account?.address ||
-          game?.node?.player_two === account.account?.address ||
+          game?.node?.player_one === account?.address ||
+          game?.node?.player_two === account?.address ||
           (game?.node?.entity.executedAt && game?.node?.player_two === "0x0")
         ) {
           acc.push({
@@ -220,8 +219,14 @@ export default function Lobby() {
   const [tabValue, setTabValue] = useState("duels");
 
   useEffect(() => {
+    console.log({
+      address: account?.address
+    })
+  }, [account?.address])
+
+  useEffect(() => {
     if (data?.mancalaFireMancalaBoardModels?.edges) {
-      const allAddresses = data.mancalaFireMancalaBoardModels.edges
+      const allAddresses = data?.mancalaFireMancalaBoardModels.edges
         .flatMap((game: any) => [
           game.node.player_one,
           game.node.player_two,
@@ -231,7 +236,7 @@ export default function Lobby() {
 
       lookupMissingNames(allAddresses, setAddressLookupCache);
     }
-  }, [data?.mancalaFireMancalaBoardModels?.edges]);
+  }, [data?.mancalaFireMancalaBoardModels.edges]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">
