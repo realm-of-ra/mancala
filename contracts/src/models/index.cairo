@@ -2,10 +2,14 @@ use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum SeedColor {
-    None,
     Blue,
     Green,
 }
+
+//pub enum MancalaGateToken {
+//    Unrestricted,
+//    Token(ContractAddress),
+//}
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum GameStatus {
@@ -86,4 +90,13 @@ pub struct Profile {
     pub profile_uri: ByteArray,
     pub is_initialized: bool,
     pub creation_time: u64,
+}
+
+#[derive(Drop, Serde)]
+#[dojo::model]
+pub struct Settings {
+    #[key]
+    pub id: u8,
+    pub mancala_pass_address: ContractAddress,
+    pub gate_keeper_address: ContractAddress,
 }

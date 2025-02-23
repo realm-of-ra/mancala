@@ -11,6 +11,7 @@ use mancala::models::profile::Profile;
 use mancala::models::mancala_board::MancalaBoard;
 use mancala::models::seed::Seed;
 use mancala::models::pit::Pit;
+use mancala::models::settings::Settings;
 use mancala::models::game_counter::GameCounter;
 
 use mancala::events::move::{
@@ -89,6 +90,10 @@ pub impl StoreImpl of StoreTrait {
         self.world.write_model(@count);
     }
 
+    fn set_settings(ref self: Store, settings: Settings) {
+        self.world.write_model(@settings);
+    }
+
     #[inline]
     fn set_pit(ref self: Store, pit: Pit) {
         self.world.write_model(@pit);
@@ -124,5 +129,10 @@ pub impl StoreImpl of StoreTrait {
     #[inline]
     fn get_pit(self: Store, game_id: u128, player_address: ContractAddress, pit_number: u8) -> Pit {
         self.world.read_model((game_id, player_address, pit_number))
+    }
+
+    #[inline]
+    fn get_settings(self: Store, game_id: u8) -> Settings {
+        self.world.read_model(game_id)
     }
 }

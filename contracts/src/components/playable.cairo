@@ -9,8 +9,9 @@ pub mod PlayableComponent {
 
     use mancala::store::{Store, StoreTrait};
     use mancala::models::player::{Player, PlayerTrait};
+    use mancala::models::settings::{SettingsAsset};
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
-    use mancala::models::game_counter::{GameCounter, GameCounterTrait};
+    use mancala::models::game_counter::{GameCounterTrait};
     use mancala::models::seed::SeedColor;
     use mancala::utils::board::{
         get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
@@ -42,9 +43,11 @@ pub mod PlayableComponent {
         ///
         /// # Returns
         /// * `MancalaBoard` - The newly created MancalaBoard instance
-        fn new_game(ref self: ComponentState<TState>, world: WorldStorage) {
+        fn new_game(ref self: ComponentState<TState>, world: WorldStorage, settings_id: u8) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+
+            SettingsAsset::assert_is_pass_holder(world, settings_id);
 
             let player_one_address = get_caller_address();
             let mut game_id = store.get_game_counter(1);
@@ -67,9 +70,13 @@ pub mod PlayableComponent {
         /// * `self` - Reference to the component state
         /// * `world` - The World dispatcher
         /// * `game_id` - The ID of the game to join
-        fn join_game(ref self: ComponentState<TState>, world: WorldStorage, game_id: u128) {
+        fn join_game(
+            ref self: ComponentState<TState>, world: WorldStorage, game_id: u128, settings_id: u8,
+        ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+
+            SettingsAsset::assert_is_pass_holder(world, settings_id);
 
             let player_two_address = get_caller_address();
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
@@ -109,9 +116,12 @@ pub mod PlayableComponent {
             ref self: ComponentState<TState>,
             world: WorldStorage,
             opponent_address: ContractAddress,
+            settings_id: u8,
         ) {
             // [Setup] Datastore
             let mut store: Store = StoreTrait::new(world);
+
+            SettingsAsset::assert_is_pass_holder(world, settings_id);
 
             let player_one_address = get_caller_address();
             let mut game_id = store.get_game_counter(1);

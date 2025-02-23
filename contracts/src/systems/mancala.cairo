@@ -1,14 +1,13 @@
 use starknet::ContractAddress;
 
-use dojo::world::IWorldDispatcher;
 use mancala::models::player::Player;
 
 #[starknet::interface]
 pub(crate) trait IMancalaSystem<TState> {
-    fn new_game(ref self: TState);
-    fn join_game(ref self: TState, game_id: u128);
+    fn new_game(ref self: TState, settings_id: u8);
+    fn join_game(ref self: TState, game_id: u128, settings_id: u8);
     fn timeout(ref self: TState, game_id: u128, opponent_address: ContractAddress);
-    fn create_private_game(ref self: TState, opponent_address: ContractAddress);
+    fn create_private_game(ref self: TState, opponent_address: ContractAddress, settings_id: u8);
     fn get_players(ref self: TState, game_id: u128) -> (Player, Player);
     fn move(ref self: TState, game_id: u128, selected_pit: u8);
     fn get_score(ref self: TState, game_id: u128) -> (u8, u8);
@@ -21,11 +20,9 @@ pub(crate) trait IMancalaSystem<TState> {
 #[dojo::contract]
 pub mod Mancala {
     use super::{ContractAddress, Player, IMancalaSystem};
-    use mancala::models::mancala_board::MancalaBoard;
     use mancala::components::playable::PlayableComponent;
     use mancala::components::initializable::InitializableComponent;
     use achievement::components::achievable::AchievableComponent;
-    use mancala::types::task::{Task, TaskTrait};
     use mancala::types::trophy::{Trophy, TrophyTrait, TROPHY_COUNT};
     use mancala::constants::NAMESPACE;
 
@@ -59,8 +56,14 @@ pub mod Mancala {
         AchievableEvent: AchievableComponent::Event,
     }
 
-    fn dojo_init(self: @ContractState) {
-        self.initializable.initialize(self.world_storage());
+    fn dojo_init(
+        self: @ContractState,
+        mancala_pass_address: ContractAddress,
+        gate_keeper_address: ContractAddress,
+    ) {
+        self
+            .initializable
+            .initialize(self.world_storage(), mancala_pass_address, gate_keeper_address);
         // [Event] Emit all Trophy events
         let world = self.world(@NAMESPACE());
         let mut trophy_id: u8 = TROPHY_COUNT;
@@ -89,14 +92,14 @@ pub mod Mancala {
 
     #[abi(embed_v0)]
     pub impl MancalaImpl of IMancalaSystem<ContractState> {
-        fn new_game(ref self: ContractState) {
+        fn new_game(ref self: ContractState, settings_id: u8) {
             let world = self.world_storage();
-            self.playable.new_game(world);
+            self.playable.new_game(world, settings_id);
         }
 
-        fn join_game(ref self: ContractState, game_id: u128) {
+        fn join_game(ref self: ContractState, game_id: u128, settings_id: u8) {
             let world = self.world_storage();
-            self.playable.join_game(world, game_id)
+            self.playable.join_game(world, game_id, settings_id)
         }
 
         fn timeout(ref self: ContractState, game_id: u128, opponent_address: ContractAddress) {
@@ -104,9 +107,11 @@ pub mod Mancala {
             self.playable.timeout(world, game_id, opponent_address)
         }
 
-        fn create_private_game(ref self: ContractState, opponent_address: ContractAddress) {
+        fn create_private_game(
+            ref self: ContractState, opponent_address: ContractAddress, settings_id: u8,
+        ) {
             let world = self.world_storage();
-            self.playable.create_private_game(world, opponent_address)
+            self.playable.create_private_game(world, opponent_address, settings_id)
         }
 
         fn get_players(ref self: ContractState, game_id: u128) -> (Player, Player) {

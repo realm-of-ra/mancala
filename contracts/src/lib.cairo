@@ -9,6 +9,7 @@ pub mod models {
     pub mod seed;
     pub mod game_counter;
     pub mod pit;
+    pub mod settings;
 }
 
 pub mod events {

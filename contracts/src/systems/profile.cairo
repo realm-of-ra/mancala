@@ -7,7 +7,6 @@ pub(crate) trait IPlayerProfile<TState> {
 #[dojo::contract]
 pub mod PlayerProfile {
     use super::{IPlayerProfile};
-    use dojo::world::IWorldDispatcher;
 
     //use starknet::ContractAddress;
 
