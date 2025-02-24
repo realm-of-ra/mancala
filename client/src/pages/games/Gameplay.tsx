@@ -38,23 +38,23 @@ export default function Gameplay() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaFireMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaWindMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>();
   const involved =
-    game_players?.mancalaFirePlayerModels.edges.filter(
+    game_players?.mancalaWindPlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaFirePlayerModels.edges.findIndex(
+    ? game_players?.mancalaWindPlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
   const opposition_address =
-    game_players?.mancalaFirePlayerModels.edges[opponent_position]?.node
+    game_players?.mancalaWindPlayerModels.edges[opponent_position]?.node
       .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
@@ -108,8 +108,8 @@ export default function Gameplay() {
             gameId={gameId || ""}
             opposition_address={opposition_address}
             setMessage={setMessage}
-            game_node={game_node} 
-            game_players={game_players}          
+            game_node={game_node}
+            game_players={game_players}
           />
         </div>
         <div className="flex-1 w-full h-full">

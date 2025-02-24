@@ -31,7 +31,7 @@ export default function Tutorial() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaFireMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaWindMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>(
     "Great! Now watch how seeds are distributed: Pick up all seeds from your pit and sow them one by one counter-clockwise",
@@ -93,8 +93,8 @@ export default function Tutorial() {
           <TimeoutButton
             gameId={""}
             opposition_address={""}
-            setMessage={() => undefined} 
-            game_node={game_node} 
+            setMessage={() => undefined}
+            game_node={game_node}
             game_players={game_players}
           />
         </div>

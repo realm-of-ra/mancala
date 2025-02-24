@@ -58,14 +58,14 @@ export default function GameNavigation({
   }, [game_node]);
 
   const player_one_name = formatPlayerName(
-    player_names?.mancalaFireProfileModels.edges.find(
+    player_names?.mancalaWindProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_one,
     )?.node.name,
     game_node?.player_one,
   );
 
   const player_two_name = formatPlayerName(
-    player_names?.mancalaFireProfileModels.edges.find(
+    player_names?.mancalaWindProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_two,
     )?.node.name,
     game_node?.player_two,
