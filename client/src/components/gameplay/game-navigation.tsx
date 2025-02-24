@@ -9,10 +9,7 @@ export default function GameNavigation({
   player_names,
   game_node,
   account,
-  gameId,
   moveMessage,
-  timeRemaining,
-  setTimeRemaining,
   message,
   setMessage,
   action,
@@ -23,10 +20,7 @@ export default function GameNavigation({
   player_names: any;
   game_node: any;
   account: any;
-  gameId: any;
   moveMessage: any;
-  timeRemaining: any;
-  setTimeRemaining: any;
   message: any;
   setMessage: any;
   action: { action: any; message: string };
@@ -112,18 +106,28 @@ export default function GameNavigation({
         ];
 
   useEffect(() => {
-    // Ensure game_node and player displays are available before setting players
     if (game_node && player_one_display && player_two_display) {
-      setPlayers([
-        {
-          name: player_one_display?.name || "",
-          address: player_one_display?.address || "",
-        },
-        {
-          name: player_two_display?.name || "",
-          address: player_two_display?.address || "",
-        },
-      ]);
+      setPlayers((prevPlayers) => {
+        const newPlayers = [
+          {
+            name: player_one_display?.name || "",
+            address: player_one_display?.address || "",
+          },
+          {
+            name: player_two_display?.name || "",
+            address: player_two_display?.address || "",
+          },
+        ];
+        if (
+          prevPlayers?.[0]?.name !== newPlayers[0].name ||
+          prevPlayers?.[0]?.address !== newPlayers[0].address ||
+          prevPlayers?.[1]?.name !== newPlayers[1].name ||
+          prevPlayers?.[1]?.address !== newPlayers[1].address
+        ) {
+          return newPlayers;
+        }
+        return prevPlayers;
+      });
     }
   }, [game_node, player_one_display, player_two_display, setPlayers]);
 
@@ -156,8 +160,6 @@ export default function GameNavigation({
         player_two_name={player_two_display.name}
         account={account}
         gameStarted={started}
-        timeRemaining={timeRemaining}
-        setTimeRemaining={setTimeRemaining}
         moveMessage={moveMessage}
         message={message}
         setMessage={setMessage}

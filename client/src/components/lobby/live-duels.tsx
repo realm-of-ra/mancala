@@ -21,12 +21,18 @@ export default function LiveDuels({ games }: { games: any }) {
         challenged: data.node.player_two,
         challenger_image: data.node.player_one_image,
         challenged_image: data.node.player_two_image,
-        challenger_name: data.node.player_one === "0x0" || data.node.player_one_name === undefined || data.node.player_one_name === "#"
-          ? formatPlayerName(data.node.player_one, data.node.player_one)
-          : shortString.decodeShortString(data.node.player_one_name),
-        challenged_name: data.node.player_two === "0x0" || data.node.player_two_name === undefined || data.node.player_two_name === "#"
-          ? formatPlayerName(data.node.player_two, data.node.player_two)
-          : shortString.decodeShortString(data.node.player_two_name),
+        challenger_name:
+          data.node.player_one === "0x0" ||
+          data.node.player_one_name === undefined ||
+          data.node.player_one_name === "#"
+            ? formatPlayerName(data.node.player_one, data.node.player_one)
+            : shortString.decodeShortString(data.node.player_one_name),
+        challenged_name:
+          data.node.player_two === "0x0" ||
+          data.node.player_two_name === undefined ||
+          data.node.player_two_name === "#"
+            ? formatPlayerName(data.node.player_two, data.node.player_two)
+            : shortString.decodeShortString(data.node.player_two_name),
         date: data?.node.entity?.executedAt,
       };
     });
@@ -116,8 +122,13 @@ export default function LiveDuels({ games }: { games: any }) {
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            {data.challenger_image != "#" && data.challenger_image != undefined ? (
-                              <img src={data.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            {data.challenger_image != "#" &&
+                            data.challenger_image != undefined ? (
+                              <img
+                                src={data.challenger_image}
+                                alt="Challenger"
+                                className="w-full h-full object-cover rounded-full"
+                              />
                             ) : (
                               <UserIcon
                                 color="#F58229"
@@ -140,8 +151,13 @@ export default function LiveDuels({ games }: { games: any }) {
                               className="bg-[#FFE600] w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              {data.challenged_image != "#" && data.challenged_image != undefined ? (
-                                <img src={data.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              {data.challenged_image != "#" &&
+                              data.challenged_image != undefined ? (
+                                <img
+                                  src={data.challenged_image}
+                                  alt="Challenged"
+                                  className="w-full h-full object-cover rounded-full"
+                                />
                               ) : (
                                 <UserIcon
                                   color="#F58229"

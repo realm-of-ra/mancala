@@ -35,8 +35,6 @@ export function BottomPit({
   userAccount,
   system,
   isPlayerTurn,
-  setTimeRemaining,
-  max_block_between_move,
   setMoveMessage,
   setMessage,
   setSelectedPit,
@@ -50,9 +48,7 @@ export function BottomPit({
   isPlayerTurn: boolean;
   userAccount?: UseAccountResult;
   system: any;
-  max_block_between_move: number;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
-  setTimeRemaining: Dispatch<SetStateAction<number>>;
   setMessage: any;
   setSelectedPit: Dispatch<SetStateAction<number | null>>;
 }) {
@@ -68,11 +64,10 @@ export function BottomPit({
       winner === "0x0"
     ) {
       setSelectedPit(pit);
-      setMoveMessage('Confirming move on the blockchain...');
+      setMoveMessage("Confirming move on the blockchain...");
       await system.move(userAccount?.account, game_id, pit);
       setMoveMessage(undefined);
       setMessage(undefined);
-      setTimeRemaining(max_block_between_move);
     } else {
       if (address !== userAccount?.account?.address) {
         setMoveMessage("Not your pit");
@@ -87,7 +82,6 @@ export function BottomPit({
       }
     }
   };
-
 
   return (
     <div className="flex-col h-[125px] w-full flex justify-between items-center space-y-4 -mt-12 ml-3">

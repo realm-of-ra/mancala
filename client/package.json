@@ -62,6 +62,7 @@
     "react-helmet-async": "^2.0.5",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.26.0",
+    "react-timer-hook": "^3.0.8",
     "rxjs": "^7.8.1",
     "starknet": "6.11.0",
     "starknetid.js": "^3.2.2",

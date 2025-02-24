@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { shortString, BigNumberish } from "starknet";
 import { colors } from "./constants";
-import axios from 'axios';
+import axios from "axios";
 import { lookupAddresses } from "@cartridge/controller";
 
 export function cn(...inputs: ClassValue[]) {
@@ -32,7 +32,15 @@ export function getPlayers(data: any[] | undefined) {
 
   // Extracting player_one and player_two from the data object
   const players = data.reduce((acc: any, edge: any) => {
-    const { player_one, player_two, winner, player_one_name, player_two_name, player_one_image, player_two_image } = edge.node;
+    const {
+      player_one,
+      player_two,
+      winner,
+      player_one_name,
+      player_two_name,
+      player_one_image,
+      player_two_image,
+    } = edge.node;
 
     // Update player_one
     const playerOneIndex = acc.findIndex(
@@ -157,43 +165,47 @@ export async function uploadFile(file: File) {
     const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const API_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
     const API_SECRET = import.meta.env.VITE_CLOUDINARY_API_SECRET;
-    
+
     if (!CLOUD_NAME || !API_KEY || !API_SECRET) {
-      throw new Error('Cloudinary configuration is missing');
+      throw new Error("Cloudinary configuration is missing");
     }
 
     const timestamp = Math.round(new Date().getTime() / 1000);
-    
+
     // Generate signature using Web Crypto API from window.crypto
-    const msgBuffer = new TextEncoder().encode(`timestamp=${timestamp}${API_SECRET}`);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+    const msgBuffer = new TextEncoder().encode(
+      `timestamp=${timestamp}${API_SECRET}`,
+    );
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const signature = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    const signature = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('timestamp', timestamp.toString());
-    formData.append('api_key', API_KEY);
-    formData.append('signature', signature);
+    formData.append("file", file);
+    formData.append("timestamp", timestamp.toString());
+    formData.append("api_key", API_KEY);
+    formData.append("signature", signature);
 
     const response = await axios.post(
       `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      formData
+      formData,
     );
 
     if (!response.data?.secure_url) {
-      throw new Error('Upload failed: No secure URL received');
+      throw new Error("Upload failed: No secure URL received");
     }
 
     return {
       original: response.data.secure_url,
       thumbnail: response.data.secure_url.replace(
-        '/upload/',
-        '/upload/c_fill,h_200,w_200/'
-      )
+        "/upload/",
+        "/upload/c_fill,h_200,w_200/",
+      ),
     };
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.error("Error uploading file:", error);
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.error?.message || error.message;
       throw new Error(`Upload Error: ${message}`);
@@ -202,14 +214,19 @@ export async function uploadFile(file: File) {
   }
 }
 
-export const lookupMissingNames = async (addresses: string[], setAddressLookupCache: any) => {
+export const lookupMissingNames = async (
+  addresses: string[],
+  setAddressLookupCache: any,
+) => {
   try {
-    const uniqueAddresses = [...new Set(addresses)].filter(addr => addr !== "0x0");
+    const uniqueAddresses = [...new Set(addresses)].filter(
+      (addr) => addr !== "0x0",
+    );
     const addressMap = await lookupAddresses(uniqueAddresses);
     setAddressLookupCache(addressMap);
     updateAddressCache(addressMap);
   } catch (error) {
-    console.error('Error looking up addresses:', error);
+    console.error("Error looking up addresses:", error);
   }
 };
 
@@ -244,36 +261,38 @@ export const formatPlayerName = (
   }
 };
 
-export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, player: string, opponent: string) {
+export function calculateMancalaMove(
+  seeds: any[],
+  selectedPit: number | 0,
+  player: string,
+  opponent: string,
+) {
   // Get seeds from selected pit while preserving their original properties
   // Sort by seed_number to ensure we move original seeds first
   const seedsToMove = seeds
-    .filter(seed => 
-      seed.pit_number === selectedPit && 
-      seed.player === player
-    )
+    .filter((seed) => seed.pit_number === selectedPit && seed.player === player)
     .sort((a, b) => a.seed_number - b.seed_number);
 
   if (seedsToMove.length === 0) return seeds;
 
   // Keep all seeds that are not being moved
-  const unchangedSeeds = seeds.filter(seed => 
-    !(seed.pit_number === selectedPit && seed.player === player)
+  const unchangedSeeds = seeds.filter(
+    (seed) => !(seed.pit_number === selectedPit && seed.player === player),
   );
 
   // Distribute the seeds
   let currentPit = selectedPit;
   let currentPlayer = player;
   let lastSeedPosition = { pit: 0, player: player };
-  
+
   const movedSeeds = seedsToMove.map((seed, index) => {
     currentPit++;
-    
+
     // Handle pit transitions
     if (currentPlayer === player && currentPit > 7) {
       currentPit = 1;
       currentPlayer = opponent;
-    } else if (currentPlayer === opponent && currentPit > 6) { 
+    } else if (currentPlayer === opponent && currentPit > 6) {
       // Skip opponent's pit 7
       currentPit = 1;
       currentPlayer = player;
@@ -286,7 +305,7 @@ export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, play
 
     // Get the highest seed number in the destination pit
     const lastSeedNumber = seeds
-      .filter(s => s.pit_number === currentPit && s.player === currentPlayer)
+      .filter((s) => s.pit_number === currentPit && s.player === currentPlayer)
       .reduce((acc, s) => Math.max(acc, s.seed_number), 0);
 
     // Return the moved seed with updated position
@@ -294,7 +313,7 @@ export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, play
       ...seed,
       pit_number: currentPit,
       player: currentPlayer,
-      seed_number: lastSeedNumber + 1
+      seed_number: lastSeedNumber + 1,
     };
   });
 
@@ -302,41 +321,45 @@ export function calculateMancalaMove(seeds: any[], selectedPit: number | 0, play
   if (lastSeedPosition.player === player && lastSeedPosition.pit !== 7) {
     // Count seeds in the last pit after the move
     const lastPitSeeds = [...unchangedSeeds, ...movedSeeds].filter(
-      seed => seed.pit_number === lastSeedPosition.pit && 
-             seed.player === player
+      (seed) =>
+        seed.pit_number === lastSeedPosition.pit && seed.player === player,
     ).length;
 
     // If this was the only seed in the pit (meaning it was empty before)
     if (lastPitSeeds === 1) {
       // Get the opposite pit number (7 - pit number)
       const oppositePit = 7 - lastSeedPosition.pit;
-      
+
       // Get seeds from the opposite pit
       const oppositeSeeds = [...unchangedSeeds, ...movedSeeds].filter(
-        seed => seed.pit_number === oppositePit && 
-               seed.player === opponent
+        (seed) => seed.pit_number === oppositePit && seed.player === opponent,
       );
 
       if (oppositeSeeds.length > 0) {
         // Remove the captured seeds and the capturing seed from their current positions
         const remainingSeeds = [...unchangedSeeds, ...movedSeeds].filter(
-          seed => !(
-            (seed.pit_number === lastSeedPosition.pit && seed.player === player) ||
-            (seed.pit_number === oppositePit && seed.player === opponent)
-          )
+          (seed) =>
+            !(
+              (seed.pit_number === lastSeedPosition.pit &&
+                seed.player === player) ||
+              (seed.pit_number === oppositePit && seed.player === opponent)
+            ),
         );
 
         // Get the highest seed number in player's pit 7
         const lastPit7SeedNumber = [...unchangedSeeds, ...movedSeeds]
-          .filter(s => s.pit_number === 7 && s.player === player)
+          .filter((s) => s.pit_number === 7 && s.player === player)
           .reduce((acc, s) => Math.max(acc, s.seed_number), 0);
 
         // Move all captured seeds and the capturing seed to player's pit 7
-        const capturedSeeds = [...oppositeSeeds, movedSeeds[movedSeeds.length - 1]].map((seed, index) => ({
+        const capturedSeeds = [
+          ...oppositeSeeds,
+          movedSeeds[movedSeeds.length - 1],
+        ].map((seed, index) => ({
           ...seed,
           pit_number: 7,
           player: player,
-          seed_number: lastPit7SeedNumber + index + 1 // Stack on top of existing seeds
+          seed_number: lastPit7SeedNumber + index + 1, // Stack on top of existing seeds
         }));
 
         return [...remainingSeeds, ...capturedSeeds];

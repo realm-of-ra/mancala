@@ -633,7 +633,7 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaFireMancalaBoardModel($gameId: u128) {
+  query mancalaFireMancalaBoardModels($gameId: u128) {
     mancalaFireMancalaBoardModels(
       where: { game_id: $gameId }
       limit: 1000000000
@@ -647,7 +647,7 @@ export const MancalaBoardModelQuery = gql`
           winner
           status
           is_private
-          max_block_between_move
+          last_turn_change_timestamp
           entity {
             executedAt
           }

@@ -41,7 +41,6 @@ export default function Gameplay() {
     game_metadata?.mancalaFireMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>();
-  const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
     game_players?.mancalaFirePlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
@@ -90,9 +89,6 @@ export default function Gameplay() {
         player_names={player_names}
         game_node={game_node}
         account={account}
-        gameId={gameId}
-        timeRemaining={timeRemaining}
-        setTimeRemaining={setTimeRemaining}
         message={message}
         setMessage={setMessage}
         action={action}
@@ -122,7 +118,6 @@ export default function Gameplay() {
             account={account}
             gameId={gameId || ""}
             setMoveMessage={setMoveMessage}
-            setTimeRemaining={setTimeRemaining}
             volume={volume}
             setVolume={setVolume}
             setMessage={setMessage}

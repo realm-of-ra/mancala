@@ -27,14 +27,17 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const create_game = async (account: AccountInterface, settings_id: number) => {
+    const create_game = async (
+      account: AccountInterface,
+      settings_id: number,
+    ) => {
       try {
         console.log({
           name: "step-2",
           account,
           address: account.address,
-          provider
-        })
+          provider,
+        });
         return await provider.execute(
           account,
           {
@@ -71,7 +74,11 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const join_game = async (account: AccountInterface, game_id: string, settings_id: number) => {
+    const join_game = async (
+      account: AccountInterface,
+      game_id: string,
+      settings_id: number,
+    ) => {
       try {
         return await provider.execute(
           account,
@@ -135,7 +142,7 @@ export async function setupWorld(provider: DojoProvider) {
                 entrypoint: "request_restart_game",
                 calldata: [game_id],
               },
-            CONFIG.NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing restart_game:", error);

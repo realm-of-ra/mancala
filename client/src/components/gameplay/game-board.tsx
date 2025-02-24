@@ -17,7 +17,6 @@ interface GameBoardProps {
   account: any;
   gameId: string;
   setMoveMessage: Dispatch<SetStateAction<string | undefined>>;
-  setTimeRemaining: Dispatch<SetStateAction<number>>;
   volume: number;
   setVolume: (volume: number) => void;
   setMessage: any;
@@ -30,7 +29,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
   account,
   gameId,
   setMoveMessage,
-  setTimeRemaining,
   volume,
   setVolume,
   setMessage,
@@ -395,12 +393,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       status={game_node?.status}
                       winner={game_node?.winner}
                       setMessage={setMessage}
-                      setTimeRemaining={setTimeRemaining}
                       setSelectedPit={setSelectedPit}
-                      max_block_between_move={parseInt(
-                        game_node?.max_block_between_move,
-                        16,
-                      )}
                       isPlayerTurn={isPlayerTurn}
                     />
                   );

@@ -60,8 +60,13 @@ export default function Leaderboard({ data }: { data: any[] | undefined }) {
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengerColor }}
                             >
-                              {players[index]?.profile_uri != "#" && players[index]?.profile_uri != undefined ? (
-                                <img src={players[index]?.profile_uri} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                              {players[index]?.profile_uri != "#" &&
+                              players[index]?.profile_uri != undefined ? (
+                                <img
+                                  src={players[index]?.profile_uri}
+                                  alt="Challenger"
+                                  className="w-full h-full object-cover rounded-full"
+                                />
                               ) : (
                                 <UserIcon
                                   color="#F58229"

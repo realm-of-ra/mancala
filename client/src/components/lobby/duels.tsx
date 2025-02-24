@@ -38,11 +38,15 @@ export default function Duels({
       challenger_image: data.node.player_one_image,
       challenged_image: data.node.player_two_image,
       challenger_name:
-        data.node.player_one === "0x0" || data.node.player_one_name === undefined || data.node.player_one_name === "#"
+        data.node.player_one === "0x0" ||
+        data.node.player_one_name === undefined ||
+        data.node.player_one_name === "#"
           ? formatPlayerName(data.node.player_one, data.node.player_one)
           : shortString.decodeShortString(data.node.player_one_name),
       challenged_name:
-        data.node.player_two === "0x0" || data.node.player_two_name === undefined || data.node.player_two_name === "#"
+        data.node.player_two === "0x0" ||
+        data.node.player_two_name === undefined ||
+        data.node.player_two_name === "#"
           ? formatPlayerName(data.node.player_two, data.node.player_two)
           : shortString.decodeShortString(data.node.player_two_name),
       winner_image: data.node.winner_image,
@@ -56,7 +60,11 @@ export default function Duels({
   });
   const { system } = useDojo();
   const account = useAccount();
-  const join_game = async (game_id: string, index: number, seed_number: number) => {
+  const join_game = async (
+    game_id: string,
+    index: number,
+    seed_number: number,
+  ) => {
     setJoinStatus({
       status: "JOINING",
       index: index,
@@ -69,7 +77,7 @@ export default function Duels({
         player_2_address,
         setJoinStatus,
         index,
-        seed_number
+        seed_number,
       );
     }
   };
@@ -159,8 +167,13 @@ export default function Duels({
                             className="w-8 h-8 flex items-center justify-center rounded-full"
                             style={{ backgroundColor: challengerColor }}
                           >
-                            {item.challenger_image != "#" && item.challenger_image != undefined ? (
-                              <img src={item.challenger_image} alt="Challenger" className="w-full h-full object-cover rounded-full" />
+                            {item.challenger_image != "#" &&
+                            item.challenger_image != undefined ? (
+                              <img
+                                src={item.challenger_image}
+                                alt="Challenger"
+                                className="w-full h-full object-cover rounded-full"
+                              />
                             ) : (
                               <UserIcon
                                 color="#F58229"
@@ -183,8 +196,13 @@ export default function Duels({
                               className="w-8 h-8 flex items-center justify-center rounded-full"
                               style={{ backgroundColor: challengedColor }}
                             >
-                              {item.challenged_image != "#" && item.challenged_image != undefined ? (
-                                <img src={item.challenged_image} alt="Challenged" className="w-full h-full object-cover rounded-full" />
+                              {item.challenged_image != "#" &&
+                              item.challenged_image != undefined ? (
+                                <img
+                                  src={item.challenged_image}
+                                  alt="Challenged"
+                                  className="w-full h-full object-cover rounded-full"
+                                />
                               ) : (
                                 <UserIcon
                                   color="#F58229"
