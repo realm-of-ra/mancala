@@ -117,7 +117,7 @@ export default function TutorialGameMessage({
             normalizeAddress(account.account?.address);
           const findPlayerProfile = (address: string) => {
             return (
-              profiles?.mancalaWindProfileModels?.edges?.find(
+              profiles?.mancalaStoneProfileModels?.edges?.find(
                 (item: any) =>
                   normalizeAddress(item?.node.address) ===
                   normalizeAddress(address),

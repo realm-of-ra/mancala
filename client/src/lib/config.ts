@@ -26,7 +26,7 @@ const CONFIG = {
     : import.meta.env.VITE_SEPOLIA_MASTER_PRIVATE_KEY,
   MANCALA_ADDRESS,
   PROFILE_ADDRESS,
-  NAMESPACE: "mancala_wind",
+  NAMESPACE: "mancala_stone",
   CONTRACT_NAME: "Mancala",
   POLICIES: [
     {

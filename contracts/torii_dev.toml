@@ -2,7 +2,7 @@ rpc = "https://api.cartridge.gg/x/starknet/sepolia"
 
 allowed_origins = ["*"]
 # The World address to index.
-world_address = "0x07ccd70cdd217d66a7b6d2bf0a4ac6aecb9243996c2e55d21c8626f177860028"
+world_address = "0x015963c226a157f6bfb85406f192ffd34fab5aaff678689136699200099e60fd"
 
 # Indexing Options
 [indexing]
@@ -17,5 +17,5 @@ contracts = [
 [events]
 raw = true
 historical = [
-    "mancala_wind-TrophyProgression",
+    "mancala_stone-TrophyProgression",
 ]
