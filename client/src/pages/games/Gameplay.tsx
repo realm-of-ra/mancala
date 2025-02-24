@@ -108,6 +108,8 @@ export default function Gameplay() {
             gameId={gameId || ""}
             opposition_address={opposition_address}
             setMessage={setMessage}
+            game_node={game_node} 
+            game_players={game_players}          
           />
         </div>
         <div className="flex-1 w-full h-full">
