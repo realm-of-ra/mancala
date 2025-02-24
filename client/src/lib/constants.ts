@@ -612,8 +612,8 @@ export const normalizeAddress = (address: string) => {
 };
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaFireMancalaBoardModels {
-    mancalaFireMancalaBoardModels {
+  query mancalaWindMancalaBoardModels {
+    mancalaWindMancalaBoardModels {
       edges {
         node {
           game_id
@@ -633,8 +633,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaFireMancalaBoardModels($gameId: u128) {
-    mancalaFireMancalaBoardModels(
+  query mancalaWindMancalaBoardModels($gameId: u128) {
+    mancalaWindMancalaBoardModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {
@@ -658,8 +658,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaFirePlayerModels($gameId: u128) {
-    mancalaFirePlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaWindPlayerModels($gameId: u128) {
+    mancalaWindPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -669,7 +669,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaFirePitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaWindPitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -683,8 +683,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaFireSeedModels($gameId: u128) {
-    mancalaFireSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaWindSeedModels($gameId: u128) {
+    mancalaWindSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -704,7 +704,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaFireGameModels(limit: 1000000000) {
+    mancalaWindGameModels(limit: 1000000000) {
       edges {
         node {
           game_id
@@ -721,8 +721,8 @@ export const MancalaHeaderQuery = gql`
 `;
 
 export const MancalaPlayerNames = gql`
-  query mancalaFirePlayerNames {
-    mancalaFireProfileModels(limit: 1000000000) {
+  query mancalaWindPlayerNames {
+    mancalaWindProfileModels(limit: 1000000000) {
       edges {
         node {
           name
@@ -735,8 +735,8 @@ export const MancalaPlayerNames = gql`
 `;
 
 export const MancalaCaptureQuery = gql`
-  query mancalaFireCaptureModels($gameId: u128) {
-    mancalaFireCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaWindCaptureModels($gameId: u128) {
+    mancalaWindCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -750,8 +750,8 @@ export const MancalaCaptureQuery = gql`
 `;
 
 export const MancalaExtraTurnQuery = gql`
-  query mancalaFirePlayerExtraTurnModels($gameId: u128) {
-    mancalaFirePlayerExtraTurnModels(
+  query mancalaWindPlayerExtraTurnModels($gameId: u128) {
+    mancalaWindPlayerExtraTurnModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {

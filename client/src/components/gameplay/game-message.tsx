@@ -79,7 +79,7 @@ export default function GameMessage({
             normalizeAddress(account.account?.address);
 
           const user_position =
-            game_players?.mancalaFirePlayerModels?.edges?.find(
+            game_players?.mancalaWindPlayerModels?.edges?.find(
               (item: any) =>
                 item.node.address ===
                 normalizeAddress(game_node?.current_player),

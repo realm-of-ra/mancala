@@ -20,8 +20,8 @@ import Checks from "./Checks";
 const options = {
   theme: "realm-of-ra",
   policies: CONFIG.POLICIES,
-  namespace: "mancala_fire",
-  slot: "mancala-fire",
+  namespace: "mancala_wind",
+  slot: "mancala-wind",
   rpc: CONFIG.SLOT_RPC_URL,
   chains: [
     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },

@@ -4,7 +4,7 @@ description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo.
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
 website = "https://github.com/realm-of-ra/mancala"
-seed = "mancala-fire"
+seed = "mancala-wind"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
@@ -13,25 +13,25 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_fire"
+default = "mancala_wind"
 
 [writers]
-"mancala_fire" = ["mancala_fire-Mancala", "mancala_fire-PlayerProfile"]
-"mancala_fire-TrophyCreation" = ["mancala_fire-Mancala"]
-"mancala_fire-TrophyProgression" = ["mancala_fire-Mancala"]
+"mancala_wind" = ["mancala_wind-Mancala", "mancala_wind-PlayerProfile"]
+"mancala_wind-TrophyCreation" = ["mancala_wind-Mancala"]
+"mancala_wind-TrophyProgression" = ["mancala_wind-Mancala"]
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
 # Default account for katana with seed = 0
 account_address = "0x02A54eFf65D55a2E7D2fC7E23eF0F0e6030dB0313b16c8F0eaD0b4a83807f6d6"
 private_key = "0x0396533b7a1182ef03da483eca82e9dd2b17bee9c7fec07ac6cbbeb8bfd573cb"
-world_address = "0xce27bfce81edb0d913ee4956e52d7000ac48a1dccf9dc5b8140653dd2257a9"  # Uncomment and update this line with your world address.
+world_address = "0x07ccd70cdd217d66a7b6d2bf0a4ac6aecb9243996c2e55d21c8626f177860028"  # Uncomment and update this line with your world address.
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 [init_call_args]
-"mancala_fire-Mancala" = [
+"mancala_wind-Mancala" = [
   "0x07f413bd3ce6d349dd9efcd208894b9cd7b646979834ed771ffd62d160e25835",  # TOKEN_PASS_ADDRESS
   "0x07837a565c98505A88338Ceb8245494af97C6caC2d0A23D9B08db5C052d7afA9", # GATEKEEPER_ADDRESS
 ]

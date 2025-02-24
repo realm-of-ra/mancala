@@ -47,7 +47,7 @@ export default function UserSection({
   const account = useAccount();
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaFireProfileModels?.edges.find(
+    const profile: any = playerData?.mancalaWindProfileModels?.edges.find(
       (player: any) => player.node.address === account?.account?.address,
     );
     if (!account?.address || !profile) {
@@ -137,7 +137,7 @@ export default function UserSection({
     setSaveStatus({ status: "saving", message: "Saving changes..." });
 
     try {
-      const userExists = profiles.mancalaFireProfileModels.edges.some(
+      const userExists = profiles.mancalaWindProfileModels.edges.some(
         (profile: any) => profile.node.address === account.account?.address,
       );
 
