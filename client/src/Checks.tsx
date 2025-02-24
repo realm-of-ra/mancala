@@ -24,7 +24,7 @@ export default function Checks({ children }: { children: React.ReactNode }) {
         connect({ connector: connectors[0] });
       }
       const contract_address =
-        "0x07f413bd3ce6d349dd9efcd208894b9cd7b646979834ed771ffd62d160e25835";
+        "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf";
       const { abi } = await provider.getClassAt(contract_address);
       const contract = new Contract(abi, contract_address, provider);
       contract.connect(account as AccountInterface);
