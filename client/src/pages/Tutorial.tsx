@@ -93,7 +93,9 @@ export default function Tutorial() {
           <TimeoutButton
             gameId={""}
             opposition_address={""}
-            setMessage={() => undefined}
+            setMessage={() => undefined} 
+            game_node={game_node} 
+            game_players={game_players}
           />
         </div>
         <div>
