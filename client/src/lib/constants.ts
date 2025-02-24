@@ -612,8 +612,8 @@ export const normalizeAddress = (address: string) => {
 };
 
 export const MancalaBoardModelsQuery = gql`
-  query mancalaWindMancalaBoardModels {
-    mancalaWindMancalaBoardModels {
+  query mancalaStoneMancalaBoardModels {
+    mancalaStoneMancalaBoardModels {
       edges {
         node {
           game_id
@@ -633,8 +633,8 @@ export const MancalaBoardModelsQuery = gql`
 `;
 
 export const MancalaBoardModelQuery = gql`
-  query mancalaWindMancalaBoardModels($gameId: u128) {
-    mancalaWindMancalaBoardModels(
+  query mancalaStoneMancalaBoardModels($gameId: u128) {
+    mancalaStoneMancalaBoardModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {
@@ -658,8 +658,8 @@ export const MancalaBoardModelQuery = gql`
 `;
 
 export const MancalaPlayQuery = gql`
-  query mancalaWindPlayerModels($gameId: u128) {
-    mancalaWindPlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaStonePlayerModels($gameId: u128) {
+    mancalaStonePlayerModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           address
@@ -669,7 +669,7 @@ export const MancalaPlayQuery = gql`
         }
       }
     }
-    mancalaWindPitModels(where: { game_id: $gameId }, limit: 1000000000) {
+    mancalaStonePitModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -683,8 +683,8 @@ export const MancalaPlayQuery = gql`
 `;
 
 export const MancalaSeedQuery = gql`
-  query mancalaWindSeedModels($gameId: u128) {
-    mancalaWindSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaStoneSeedModels($gameId: u128) {
+    mancalaStoneSeedModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -704,7 +704,7 @@ export const MancalaSeedQuery = gql`
 
 export const MancalaHeaderQuery = gql`
   query FetchModelsForHeader {
-    mancalaWindGameModels(limit: 1000000000) {
+    mancalaStoneGameModels(limit: 1000000000) {
       edges {
         node {
           game_id
@@ -721,8 +721,8 @@ export const MancalaHeaderQuery = gql`
 `;
 
 export const MancalaPlayerNames = gql`
-  query mancalaWindPlayerNames {
-    mancalaWindProfileModels(limit: 1000000000) {
+  query mancalaStonePlayerNames {
+    mancalaStoneProfileModels(limit: 1000000000) {
       edges {
         node {
           name
@@ -735,8 +735,8 @@ export const MancalaPlayerNames = gql`
 `;
 
 export const MancalaCaptureQuery = gql`
-  query mancalaWindCaptureModels($gameId: u128) {
-    mancalaWindCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
+  query mancalaStoneCaptureModels($gameId: u128) {
+    mancalaStoneCaptureModels(where: { game_id: $gameId }, limit: 1000000000) {
       edges {
         node {
           game_id
@@ -750,8 +750,8 @@ export const MancalaCaptureQuery = gql`
 `;
 
 export const MancalaExtraTurnQuery = gql`
-  query mancalaWindPlayerExtraTurnModels($gameId: u128) {
-    mancalaWindPlayerExtraTurnModels(
+  query mancalaStonePlayerExtraTurnModels($gameId: u128) {
+    mancalaStonePlayerExtraTurnModels(
       where: { game_id: $gameId }
       limit: 1000000000
     ) {

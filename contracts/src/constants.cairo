@@ -1,5 +1,5 @@
 pub fn NAMESPACE() -> ByteArray {
-    "mancala_wind"
+    "mancala_stone"
 }
 
 pub const TIMEOUT_DURATION: u64 = 360;
