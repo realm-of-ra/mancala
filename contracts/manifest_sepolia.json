@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x4b767fda48530353c2e44e4b9433f4d75c6c9974aaff43ecc00de9455eb71b8",
-    "address": "0x8fb1bf2a0525b8c79ecfac766fa62933e26725effd8741a007f50896ea97d1",
-    "seed": "mancala-init",
+    "address": "0xce27bfce81edb0d913ee4956e52d7000ac48a1dccf9dc5b8140653dd2257a9",
+    "seed": "mancala-fire",
     "name": "Mancala",
     "entrypoints": [
       "uuid",
@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x76e2329cb0b3e01b08ee9a87e4fc228214bd4bd1bb2bae44ba1f2419540c98e",
-      "class_hash": "0x17758be7f70cb40889004586b6907a38dd80a2fda727203792df565e8a72ac6",
+      "address": "0x7a72d73fda2ba047378588bdd35a5ae7e9fa13fcd796bfda5c237ed43031385",
+      "class_hash": "0x6fe74f47d48dac42c8a27edc8dda63157a4ea60c54a0841657f10ae612fd7cd",
       "abi": [
         {
           "type": "impl",
@@ -1673,8 +1673,8 @@
         "0x07f413bd3ce6d349dd9efcd208894b9cd7b646979834ed771ffd62d160e25835",
         "0x07837a565c98505A88338Ceb8245494af97C6caC2d0A23D9B08db5C052d7afA9"
       ],
-      "tag": "mancala_water-Mancala",
-      "selector": "0x13d960812a770ffd55061d9f9a413902a84fedfaa25f35b65ff537a8ee0a43c",
+      "tag": "mancala_fire-Mancala",
+      "selector": "0x64759b7238bc58d9bd7071ae2fa5986ba136cb89c63cf19852c1ee8b4569e70",
       "systems": [
         "new_game",
         "join_game",
@@ -1691,8 +1691,8 @@
       ]
     },
     {
-      "address": "0x2c09aff1a94776f786937ab05ffdc1b2ccefdebf0e72ebfa53b13469adee239",
-      "class_hash": "0x4777ce94efdbd7444b946c70b1d26c58932e9dbf94e3b25bb6062189dca755f",
+      "address": "0x25c143777d1cb2796dd58a135999b611d52bea4459c401e9247e957497a848c",
+      "class_hash": "0x5c1f32929f9505ddeaa3a50b3428fdcb92d25ded254156ee8456ba4efdf5140",
       "abi": [
         {
           "type": "impl",
@@ -1910,8 +1910,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "mancala_water-PlayerProfile",
-      "selector": "0x5e371f1574af7946c0b6bbf887e412079bf3a6d9d446a588af48b17e3af19fd",
+      "tag": "mancala_fire-PlayerProfile",
+      "selector": "0x2871895c46899885a6fb29b9c74e92ab6537136ff88275198db7166021d86f5",
       "systems": [
         "upgrade"
       ]
@@ -1921,82 +1921,82 @@
     {
       "members": [],
       "class_hash": "0x39d434cc48c89f159e80e7a733ec593e1ad5e3bfa0a6c8e0ebe01c9ebad0fd5",
-      "tag": "mancala_water-GameCounter",
-      "selector": "0x15a7935680f6203eb4693133afa0896b29f2e7c7e8958c72f64afd53187703"
+      "tag": "mancala_fire-GameCounter",
+      "selector": "0xa062d2d8508fa8524c005335c7bf7f885eaf3f29f759600a9c0c1af3c6bbb6"
     },
     {
       "members": [],
-      "class_hash": "0x1214d69732462297bdfe701c11d59d31095177af617dfe88071d25be4c07cd8",
-      "tag": "mancala_water-MancalaBoard",
-      "selector": "0x349ef6e9fd5dfbe85d156d1402d7f637086c2b227b15b813862e995e8b3287d"
+      "class_hash": "0xdb4d28863ca84e283fd7b920277da2bf7b56e6792e2ca9968f02079965604a",
+      "tag": "mancala_fire-MancalaBoard",
+      "selector": "0x51f6df0c2fdeff6ca5b28d4d42ebd90603d9f96920ccc85633a22438938f9fe"
     },
     {
       "members": [],
       "class_hash": "0x17ddda187cf4cba8dd6611e905ee16fa14727991a723b1aed5b514dabed287c",
-      "tag": "mancala_water-Pit",
-      "selector": "0x2c6935a765e8e05d7549ced89299cc249b37639129ea8e24d3d6ef75a496642"
+      "tag": "mancala_fire-Pit",
+      "selector": "0x74214d9654da302c8c0fc1eae80e0b0a3ce105d3fdcdc5d5117e576fbd41405"
     },
     {
       "members": [],
       "class_hash": "0x1ddd10a6c17739d88d338693c5bfe20c1c80d76c97c9f1b6da5d2183573305",
-      "tag": "mancala_water-Player",
-      "selector": "0x19715eb8a877900585d4bdf0d85015d0cd71d446e6e8e98a9e39606c29e2f00"
+      "tag": "mancala_fire-Player",
+      "selector": "0x5d8d6db9b9225bf9a53e309573fa4a9b4ebd47008c27d7a66710ace0f676178"
     },
     {
       "members": [],
       "class_hash": "0x6615b3f6b9338efd6e41fd19384a5c0766f9845112b4f3c9c32e1bb40d3af76",
-      "tag": "mancala_water-Profile",
-      "selector": "0x5865abc13b2482691123fcd738862329228ee87d5d24eab167454b0d3ea706f"
+      "tag": "mancala_fire-Profile",
+      "selector": "0x786fb8c7475e92f9e68e3592dbd63c004095d9bbadbb7ca98a09afa03c96bd4"
     },
     {
       "members": [],
       "class_hash": "0x57ccb5b2b68104683c3f66c08776b1bcf4c2f79a09b61efd045d2e84ca734ac",
-      "tag": "mancala_water-Seed",
-      "selector": "0x5ba7bf14da0b8de368aaa7802b7e70b33a07a0f2defed9163c76c6c0b760f75"
+      "tag": "mancala_fire-Seed",
+      "selector": "0x222112f56a10459d79f5bb4c9678bf6a2ec798e56ef843fb7d1a9b3f5b83786"
     },
     {
       "members": [],
       "class_hash": "0x3efdc22892bbbb9756ecc37fc9fd2f3a7e00f35deaad873d005e474fd30e942",
-      "tag": "mancala_water-Settings",
-      "selector": "0x237ee0c12debb6dbc9de151742ca9203ca657e1a99a8f83ab4dc53d3fa8b275"
+      "tag": "mancala_fire-Settings",
+      "selector": "0x5516ec0ab99582fbcf4f442654057a7729d317f6f529fd359a46d4469d01df"
     }
   ],
   "events": [
     {
       "members": [],
       "class_hash": "0x4ffd5921ec24f70cb0068582335940c4a7c0c0c6e0f71b2105e7a5f9a0deb35",
-      "tag": "mancala_water-Capture",
-      "selector": "0x55308ae1b9f4e3ffb654595e1342e0057438abc7c1e20ef6a36a56bc6907ced"
+      "tag": "mancala_fire-Capture",
+      "selector": "0x9336ce0e5ffa774a5c3a6a13f863f1090892d90782a768b74e947aab047ee6"
     },
     {
       "members": [],
       "class_hash": "0x4100bbf73eba04fbc06379b8bf9cf5c207b81611df9e66ec794b95848a0fb93",
-      "tag": "mancala_water-EndTurn",
-      "selector": "0x1bdf508f9f97fc4b981134bd03baf0f7cb9cf67549ba11a2c6266de9fde8ced"
+      "tag": "mancala_fire-EndTurn",
+      "selector": "0x26478f5ce04154e73ec5bf1cad2d9591250bfbd077918822e9a0aabcd83b9b7"
     },
     {
       "members": [],
       "class_hash": "0x746c4bda40c5d410f56296ae6623c13f9fa8b8b4ff36b5243e46c6c914b2f4f",
-      "tag": "mancala_water-PlayerExtraTurn",
-      "selector": "0x75792e50fbd3057b5fb11888e89620f11dbd909f94bd810742172de249a9378"
+      "tag": "mancala_fire-PlayerExtraTurn",
+      "selector": "0x127a81caf31981f0bbd6a60446826c917b0d2e6dd31ba13271350ecc720de95"
     },
     {
       "members": [],
       "class_hash": "0x677e435979661e9e26aefb7cf8734a5019e825082019075fe5c16aef1c4be62",
-      "tag": "mancala_water-PlayerMove",
-      "selector": "0x764c7cb14a16d35371fddc1a1e131324b056fbfc1d7508400959d365fea424c"
+      "tag": "mancala_fire-PlayerMove",
+      "selector": "0x1d495215e527a188dd1e5988719100c06688a893cf84e4278daa9c20afe5efa"
     },
     {
       "members": [],
       "class_hash": "0x19a5c06b3a8417ff3f9883be3acb0e33c835795bd81fb87a5a47e6ed7d2d3af",
-      "tag": "mancala_water-TrophyCreation",
-      "selector": "0xede8b7309f7446faf452591c6a9573592c27400e9576320fc742b5c84508aa"
+      "tag": "mancala_fire-TrophyCreation",
+      "selector": "0x59bb5f857643aa3a53e33986f2d4a8c058a27722bfc7e0600b539e9e01ed5ee"
     },
     {
       "members": [],
       "class_hash": "0x1922d2cd8b63eccf66321673234a52126cd9f0ab1bf6298c5abee6ee80c8990",
-      "tag": "mancala_water-TrophyProgression",
-      "selector": "0x41e722a3c90f5f4adb31c0929d63ecf37fc28d99231851603178226074b891f"
+      "tag": "mancala_fire-TrophyProgression",
+      "selector": "0x1a39af05bab4ba5329eb94147ccad983199cc8ea6103a08f1a82ceadbd0c7be"
     }
   ]
 }

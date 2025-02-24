@@ -2,9 +2,9 @@
 
 import { AccountInterface } from "starknet";
 import { DojoProvider } from "@dojoengine/core";
+import CONFIG from "@/lib/config";
 
-export const NAMESPACE = "mancala_salt";
-export const contractName = "Mancala";
+const contractName = CONFIG.CONTRACT_NAME;
 
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
@@ -19,7 +19,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "create_initial_game_id",
             calldata: [],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing create_initial_game_id:", error);
@@ -27,9 +27,17 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const create_game = async (account: AccountInterface, settings_id: number) => {
-      console.log("account: ", account);
+    const create_game = async (
+      account: AccountInterface,
+      settings_id: number,
+    ) => {
       try {
+        console.log({
+          name: "step-2",
+          account,
+          address: account.address,
+          provider,
+        });
         return await provider.execute(
           account,
           {
@@ -37,7 +45,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "new_game",
             calldata: [settings_id],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing create_game:", error);
@@ -58,7 +66,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "create_private_game",
             calldata: [player_2, settings_id],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing create_private_game:", error);
@@ -66,7 +74,11 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const join_game = async (account: AccountInterface, game_id: string, settings_id: number) => {
+    const join_game = async (
+      account: AccountInterface,
+      game_id: string,
+      settings_id: number,
+    ) => {
       try {
         return await provider.execute(
           account,
@@ -75,7 +87,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "join_game",
             calldata: [game_id, settings_id],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing join_game:", error);
@@ -96,7 +108,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "move",
             calldata: [game_id, selected_pit],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing move:", error);
@@ -130,7 +142,7 @@ export async function setupWorld(provider: DojoProvider) {
                 entrypoint: "request_restart_game",
                 calldata: [game_id],
               },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing restart_game:", error);
@@ -147,7 +159,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "forfeited",
             calldata: [game_id],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing end_game:", error);
@@ -168,7 +180,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "timeout",
             calldata: [game_id, opposition_address],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing timeout:", error);
@@ -188,7 +200,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "create_player_profile",
             calldata: [name],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing create_player_profile:", error);
@@ -209,7 +221,7 @@ export async function setupWorld(provider: DojoProvider) {
             entrypoint: "update_player_profile",
             calldata: [name, new_uri],
           },
-          NAMESPACE,
+          CONFIG.NAMESPACE,
         );
       } catch (error) {
         console.error("Error executing update_player_profile:", error);

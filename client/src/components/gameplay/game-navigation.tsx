@@ -9,29 +9,25 @@ export default function GameNavigation({
   player_names,
   game_node,
   account,
-  gameId,
   moveMessage,
-  timeRemaining,
-  setTimeRemaining,
   message,
   setMessage,
   action,
   setAction,
-  setPlayers
+  setPlayers,
 }: {
   game_players: any;
   player_names: any;
   game_node: any;
   account: any;
-  gameId: any;
   moveMessage: any;
-  timeRemaining: any;
-  setTimeRemaining: any;
   message: any;
   setMessage: any;
   action: { action: any; message: string };
   setAction: any;
-  setPlayers:  Dispatch<SetStateAction<{ name: string, address: string }[] | undefined>>
+  setPlayers: Dispatch<
+    SetStateAction<{ name: string; address: string }[] | undefined>
+  >;
 }) {
   const games_data_one = game_players?.player_one?.edges?.[0]?.node;
   const games_data_two = game_players?.player_two?.edges?.[0]?.node;
@@ -62,14 +58,14 @@ export default function GameNavigation({
   }, [game_node]);
 
   const player_one_name = formatPlayerName(
-    player_names?.mancalaSaltProfileModels.edges.find(
+    player_names?.mancalaFireProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_one,
     )?.node.name,
     game_node?.player_one,
   );
 
   const player_two_name = formatPlayerName(
-    player_names?.mancalaSaltProfileModels.edges.find(
+    player_names?.mancalaFireProfileModels.edges.find(
       (item: any) => item.node.address === game_node?.player_two,
     )?.node.name,
     game_node?.player_two,
@@ -109,24 +105,34 @@ export default function GameNavigation({
           },
         ];
 
-        useEffect(() => {
-          // Ensure game_node and player displays are available before setting players
-          if (game_node && player_one_display && player_two_display) {
-            setPlayers([
-              {
-                name: player_one_display?.name || "",
-                address: player_one_display?.address || ""
-              },
-              {
-                name: player_two_display?.name || "",
-                address: player_two_display?.address || ""
-              }
-            ]);
-          }
-        }, [game_node, player_one_display, player_two_display, setPlayers]);
+  useEffect(() => {
+    if (game_node && player_one_display && player_two_display) {
+      setPlayers((prevPlayers) => {
+        const newPlayers = [
+          {
+            name: player_one_display?.name || "",
+            address: player_one_display?.address || "",
+          },
+          {
+            name: player_two_display?.name || "",
+            address: player_two_display?.address || "",
+          },
+        ];
+        if (
+          prevPlayers?.[0]?.name !== newPlayers[0].name ||
+          prevPlayers?.[0]?.address !== newPlayers[0].address ||
+          prevPlayers?.[1]?.name !== newPlayers[1].name ||
+          prevPlayers?.[1]?.address !== newPlayers[1].address
+        ) {
+          return newPlayers;
+        }
+        return prevPlayers;
+      });
+    }
+  }, [game_node, player_one_display, player_two_display, setPlayers]);
 
   return (
-    <nav className="relative w-full h-40">
+    <nav className="relative w-full h-40 z-20">
       <div className="bg-[url('./assets/left-entry.png')] h-40 w-[45%] bg-cover bg-center bg-no-repeat absolute top-0 left-0">
         <div className="relative flex flex-col items-center justify-center w-full h-full -mt-5">
           <PlayerProfile
@@ -154,8 +160,6 @@ export default function GameNavigation({
         player_two_name={player_two_display.name}
         account={account}
         gameStarted={started}
-        timeRemaining={timeRemaining}
-        setTimeRemaining={setTimeRemaining}
         moveMessage={moveMessage}
         message={message}
         setMessage={setMessage}

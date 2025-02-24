@@ -23,6 +23,7 @@ import lose from "@/assets/lose.png";
 import end from "@/assets/end.png";
 import createIcon from "@/assets/createIcon.png";
 import { Button } from "@/components/ui/button";
+import backgroundVideo from "@/assets/background-video.mp4";
 
 export default function Gameplay() {
   const { gameId } = useParams();
@@ -37,23 +38,24 @@ export default function Gameplay() {
   const { data: player_names } = useQuery(MancalaPlayerNames);
   const { system } = useDojo();
   const game_node =
-    game_metadata?.mancalaSaltMancalaBoardModels?.edges?.[0]?.node;
+    game_metadata?.mancalaFireMancalaBoardModels?.edges?.[0]?.node;
   const account = useAccount();
   const [moveMessage, setMoveMessage] = useState<string | undefined>();
-  const [timeRemaining, setTimeRemaining] = useState(0);
   const involved =
-    game_players?.mancalaSaltPlayerModels.edges.filter(
+    game_players?.mancalaFirePlayerModels.edges.filter(
       (item: any) => item?.node.address === account.address,
     ).length > 0
       ? true
       : false;
   const player_position = involved
-    ? game_players?.mancalaSaltPlayerModels.edges.findIndex(
+    ? game_players?.mancalaFirePlayerModels.edges.findIndex(
         (item: any) => item?.node.address === account.address,
       )
     : 0;
   const opponent_position = player_position === 0 ? 1 : 0;
-  const opposition_address = game_players?.mancalaSaltPlayerModels.edges[opponent_position]?.node.address;
+  const opposition_address =
+    game_players?.mancalaFirePlayerModels.edges[opponent_position]?.node
+      .address;
   startMetadataPolling(100);
   startPlayersPolling(100);
   const [volume, setVolume] = useState(35);
@@ -66,20 +68,27 @@ export default function Gameplay() {
   const is_finished = involved && game_node?.status === "Finished";
   const [open, setOpen] = useState(is_finished);
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
   };
-  const user_won = normalizeAddress(game_node?.winner) === normalizeAddress(account.account?.address || "");
-  const [players, setPlayers] = useState<{ name: string, address: string }[]>()
+  const user_won =
+    normalizeAddress(game_node?.winner) ===
+    normalizeAddress(account.account?.address || "");
+  const [players, setPlayers] = useState<{ name: string; address: string }[]>();
   return (
-    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
+    <main className="min-h-screen w-full bg-[#0F1116] bg-[url('./assets/villagers.png')] bg-cover bg-center bg-no-repeat flex flex-col items-center overflow-y-scroll">
+      <video
+        id="background-video"
+        className="z-10 w-full h-screen absolute object-cover"
+        loop
+        autoPlay
+      >
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
       <GameNavigation
         game_players={game_players}
         player_names={player_names}
         game_node={game_node}
         account={account}
-        gameId={gameId}
-        timeRemaining={timeRemaining}
-        setTimeRemaining={setTimeRemaining}
         message={message}
         setMessage={setMessage}
         action={action}
@@ -87,7 +96,7 @@ export default function Gameplay() {
         moveMessage={moveMessage}
         setPlayers={setPlayers}
       />
-      <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10">
+      <div className="w-full h-[calc(100vh-200px)] max-w-7xl flex flex-row items-start space-x-10 z-20">
         <div className="flex flex-col justify-center space-y-5 w-fit">
           <RestartButton
             gameId={gameId || ""}
@@ -99,6 +108,8 @@ export default function Gameplay() {
             gameId={gameId || ""}
             opposition_address={opposition_address}
             setMessage={setMessage}
+            game_node={game_node} 
+            game_players={game_players}          
           />
         </div>
         <div className="flex-1 w-full h-full">
@@ -109,7 +120,6 @@ export default function Gameplay() {
             account={account}
             gameId={gameId || ""}
             setMoveMessage={setMoveMessage}
-            setTimeRemaining={setTimeRemaining}
             volume={volume}
             setVolume={setVolume}
             setMessage={setMessage}
@@ -127,54 +137,58 @@ export default function Gameplay() {
             </div>
           </div>
         </div>
-          <div>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              className="fixed inset-0 z-50 bg-transparent shadow-none flex items-center justify-center"
+        <div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            className="fixed inset-0 z-50 bg-transparent shadow-none flex items-center justify-center"
+          >
+            <DialogBackdrop
+              transition
+              className="fixed inset-0 backdrop-blur-sm transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+            />
+            <DialogPanel
+              transition
+              className="relative flex flex-col items-center justify-center transform overflow-hidden rounded-lg text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
-              <DialogBackdrop
-                transition
-                className="fixed inset-0 backdrop-blur-sm transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-              />
-              <DialogPanel
-                transition
-                className="relative flex flex-col items-center justify-center transform overflow-hidden rounded-lg text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-              >
-                <div className="bg-[#0F1116] border-2 border-[#272A32] rounded-2xl w-[800px] h-[560px] px-16">
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <div className="flex flex-row items-center justify-end w-full">
-                      <Button
-                        className="p-0 bg-transparent rounded-full absolute top-8 right-5"
-                        onClick={handleClose}
-                      >
-                        <img
-                          src={end}
-                          width={50}
-                          height={50}
-                          alt="cancel"
-                          className="rounded-full"
-                        />
-                      </Button>
-                    </div>
-                    <div className="flex flex-col items-center justify-center space-y-3.5">
-                      <img src={user_won ? winner : lose} className="w-40 h-52" /> 
-                      <h3 className="text-2xl text-white font-semibold">{user_won ? "You Won" : "You Lost"}</h3>
-                      <p className="text-[#4F5666] text-lg">{user_won ? `Congratulations you beat ${players?.[opponent_position].name || ""}` : `You couldn't beat ${players?.[opponent_position].name || ""}`}</p>
-                      <Button
-                        className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-                      >
-                        <div className="flex flex-row items-center space-x-1">
-                          <img src={createIcon} className="w-5 h-5" />
-                          <p className="text-[#FCE3AA] font-medium">Share</p>
-                        </div>
-                      </Button>
-                    </div>
+              <div className="bg-[#0F1116] border-2 border-[#272A32] rounded-2xl w-[800px] h-[560px] px-16">
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  <div className="flex flex-row items-center justify-end w-full">
+                    <Button
+                      className="p-0 bg-transparent rounded-full absolute top-8 right-5"
+                      onClick={handleClose}
+                    >
+                      <img
+                        src={end}
+                        width={50}
+                        height={50}
+                        alt="cancel"
+                        className="rounded-full"
+                      />
+                    </Button>
+                  </div>
+                  <div className="flex flex-col items-center justify-center space-y-3.5">
+                    <img src={user_won ? winner : lose} className="w-40 h-52" />
+                    <h3 className="text-2xl text-white font-semibold">
+                      {user_won ? "You Won" : "You Lost"}
+                    </h3>
+                    <p className="text-[#4F5666] text-lg">
+                      {user_won
+                        ? `Congratulations you beat ${players?.[opponent_position].name || ""}`
+                        : `You couldn't beat ${players?.[opponent_position].name || ""}`}
+                    </p>
+                    <Button className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl">
+                      <div className="flex flex-row items-center space-x-1">
+                        <img src={createIcon} className="w-5 h-5" />
+                        <p className="text-[#FCE3AA] font-medium">Share</p>
+                      </div>
+                    </Button>
                   </div>
                 </div>
-                </DialogPanel>
-            </Dialog>
-          </div>
+              </div>
+            </DialogPanel>
+          </Dialog>
+        </div>
       </div>
     </main>
   );

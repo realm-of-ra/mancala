@@ -1,5 +1,5 @@
 pub fn NAMESPACE() -> ByteArray {
-    "mancala_water"
+    "mancala_fire"
 }
 
-pub const AVERAGE_BLOCK_TIME: u64 = 30;
+pub const TIMEOUT_DURATION: u64 = 360;

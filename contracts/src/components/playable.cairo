@@ -220,6 +220,7 @@ pub mod PlayableComponent {
                 store.player_extra_turn(mancala_game.game_id, current_player.address);
             } else {
                 // Emit end turn event when player switches
+                mancala_game.last_turn_change_timestamp = get_block_timestamp();
                 store.end_turn(mancala_game.game_id, current_player.address, opponent.address);
             }
 

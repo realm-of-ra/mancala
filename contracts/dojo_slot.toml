@@ -13,12 +13,12 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_water"
+default = "mancala_fire"
 
 [writers]
-"mancala_water" = ["mancala_water-Mancala", "mancala_water-PlayerProfile"]
-"mancala_water-TrophyCreation" = ["mancala_water-Mancala"]
-"mancala_water-TrophyProgression" = ["mancala_water-Mancala"]
+"mancala_fire" = ["mancala_fire-Mancala", "mancala_fire-PlayerProfile"]
+"mancala_fire-TrophyCreation" = ["mancala_fire-Mancala"]
+"mancala_fire-TrophyProgression" = ["mancala_fire-Mancala"]
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
@@ -31,4 +31,4 @@ ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 raw = true
-historical = ["mancala_water-TrophyProgression"]
+historical = ["mancala_fire-TrophyProgression"]

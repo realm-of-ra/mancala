@@ -20,8 +20,8 @@ import Checks from "./Checks";
 const options = {
   theme: "realm-of-ra",
   policies: CONFIG.POLICIES,
-  namespace: "mancala_salt",
-  slot: "mancala-alpha",
+  namespace: "mancala_fire",
+  slot: "mancala-fire",
   rpc: CONFIG.SLOT_RPC_URL,
   chains: [
     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
@@ -54,7 +54,9 @@ export default function App() {
     };
   }, []);
 
-  const connectors = [new ControllerConnector(options as never) as never as Connector];
+  const connectors = [
+    new ControllerConnector(options as never) as never as Connector,
+  ];
 
   const rpc = useCallback(() => {
     return { nodeUrl: CONFIG.SLOT_RPC_URL };

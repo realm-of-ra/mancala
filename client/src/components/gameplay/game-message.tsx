@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AlarmClock } from "lucide-react";
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
-import audio from "../../music/audio_1.mp4";
+import React, { useEffect, useState } from "react";
 import { logo } from "@/lib/icons_store";
 import { motion } from "framer-motion";
+import { useTimer } from "react-timer-hook";
 
 export default function GameMessage({
   game_node,
@@ -13,8 +13,6 @@ export default function GameMessage({
   player_two_name,
   account,
   gameStarted,
-  timeRemaining,
-  setTimeRemaining,
   moveMessage,
   message,
   setMessage,
@@ -27,16 +25,20 @@ export default function GameMessage({
   player_two_name: any;
   account: any;
   gameStarted: any;
-  timeRemaining: any;
-  setTimeRemaining: any;
   moveMessage: any;
   message: string;
   setMessage: any;
   action: { action: any; message: string };
   setAction: any;
 }) {
-  const audioRef = useRef(new Audio(audio));
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const startTime = parseInt(game_node?.last_turn_change_timestamp, 16) * 1000;
+  const expiryTimestamp = new Date(startTime);
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 360);
+
+  const { seconds, minutes, restart } = useTimer({
+    expiryTimestamp,
+    onExpire: () => console.warn("Timer expired"),
+  });
 
   useEffect(() => {
     if (
@@ -44,46 +46,12 @@ export default function GameMessage({
       gameStarted &&
       game_node?.winner === "0x0"
     ) {
-      const initialTime = parseInt(game_node?.max_block_between_move, 16);
-      setStartTime(Date.now());
-      setTimeRemaining(initialTime);
+      const newExpiryTimestamp = new Date(startTime);
+      newExpiryTimestamp.setSeconds(newExpiryTimestamp.getSeconds() + 360);
+      restart(newExpiryTimestamp);
     }
+  }, [game_node?.status, gameStarted, restart, startTime]);
 
-    let animationFrameId: number;
-
-    const updateTimer = () => {
-      if (
-        game_node?.status === "InProgress" &&
-        gameStarted &&
-        game_node?.winner === "0x0" &&
-        startTime !== null
-      ) {
-        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-        const newTimeRemaining = Math.max(
-          Number(game_node?.max_block_between_move * 30) - elapsedTime,
-          0,
-        );
-        setTimeRemaining(newTimeRemaining);
-
-        if (newTimeRemaining > 0) {
-          animationFrameId = requestAnimationFrame(updateTimer);
-        }
-      }
-    };
-
-    animationFrameId = requestAnimationFrame(updateTimer);
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      audioRef.current.pause();
-    };
-  }, [
-    game_players?.player_one?.edges,
-    game_players?.player_two?.edges,
-    game_node,
-    gameStarted,
-    startTime,
-    setTimeRemaining,
-  ]);
   const moveMessageOnTimer = (
     player: string,
     player_one_name: string,
@@ -111,7 +79,7 @@ export default function GameMessage({
             normalizeAddress(account.account?.address);
 
           const user_position =
-            game_players?.mancalaSaltPlayerModels?.edges?.find(
+            game_players?.mancalaFirePlayerModels?.edges?.find(
               (item: any) =>
                 item.node.address ===
                 normalizeAddress(game_node?.current_player),
@@ -160,15 +128,6 @@ export default function GameMessage({
       );
     }
   };
-  const minutes =
-    game_node?.status != "InProgress"
-      ? "00"
-      : (Math.floor(timeRemaining % 3600) / 60 < 10 ? "0" : "") +
-        Math.floor((timeRemaining % 3600) / 60);
-  const seconds =
-    game_node?.status != "InProgress"
-      ? "00"
-      : (timeRemaining % 60 < 10 ? "0" : "") + Math.floor(timeRemaining % 60);
 
   const normalizeAddress = (address: string) => {
     // Remove '0x' prefix, convert to lowercase, and pad with leading zeros if needed
@@ -186,7 +145,10 @@ export default function GameMessage({
           <img src={logo} width={150} height={150} alt="Logo" />
         </Link>
         <div className="min-w-[400px] min-h-44 bg-[url('./assets/main-message-section.png')] bg-center bg-cover bg-no-repeat rounded-xl py-2.5 px-3.5 flex flex-col items-center justify-center space-y-1.5 z-20">
-          <p className="text-4xl font-bold text-white">{`${minutes} : ${seconds}`}</p>
+          <p className="text-4xl font-bold text-white">
+            {String(minutes).padStart(2, "0")} :{" "}
+            {String(seconds).padStart(2, "0")}
+          </p>
           {
             <div className="flex flex-row items-center justify-center space-x-1">
               {game_node?.status !== "Pending" && (
