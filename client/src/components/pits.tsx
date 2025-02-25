@@ -88,7 +88,7 @@ export function BottomPit({
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         <div
           className={clsx(
-            "w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-40 hover:bg-black/20",
+            "w-[90px] h-[80px] flex flex-col items-center justify-center hover:cursor-pointer rounded-full z-30 hover:bg-black/20",
             pit == 1 && "ml-0.5 -mt-1",
             pit == 2 && "ml-1 -mt-1",
             pit == 3 && "ml-1.5 -mt-1",
