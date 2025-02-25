@@ -13,12 +13,12 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_fire"
+default = "mancala_stone"
 
 [writers]
-"mancala_fire" = ["mancala_fire-Mancala", "mancala_fire-PlayerProfile"]
-"mancala_fire-TrophyCreation" = ["mancala_fire-Mancala"]
-"mancala_fire-TrophyProgression" = ["mancala_fire-Mancala"]
+"mancala_stone" = ["mancala_stone-Mancala", "mancala_stone-PlayerProfile"]
+"mancala_stone-TrophyCreation" = ["mancala_stone-Mancala"]
+"mancala_stone-TrophyProgression" = ["mancala_stone-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"
@@ -31,7 +31,7 @@ ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 [init_call_args]
-"mancala_fire-Mancala" = [
+"mancala_stone-Mancala" = [
   "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # TOKEN_PASS_ADDRESS
   "0x07c4d03b35e224ac19247c429a203c36ca40653e12d28e696d2674ee61a60fa3", # GATEKEEPER_ADDRESS
 ]

@@ -15,7 +15,7 @@ const PROFILE_ADDRESS = IS_MAINNET
 const CONFIG = {
   GRAPHQL_ENDPOINT: `${TORII_URL}/graphql`,
   SLOT_RPC_URL: RPC_URL,
-  SLOT: "mancala-fire",
+  SLOT: "mancala-wind",
   RPC_URL,
   TORII_URL,
   MASTER_ADDRESS: IS_MAINNET
@@ -26,7 +26,7 @@ const CONFIG = {
     : import.meta.env.VITE_SEPOLIA_MASTER_PRIVATE_KEY,
   MANCALA_ADDRESS,
   PROFILE_ADDRESS,
-  NAMESPACE: "mancala_fire",
+  NAMESPACE: "mancala_stone",
   CONTRACT_NAME: "Mancala",
   POLICIES: [
     {
