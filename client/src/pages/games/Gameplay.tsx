@@ -12,7 +12,7 @@ import {
 } from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
-import GameChat from "@/components/gameplay/game-chat";
+import QuickTutorial from "@/components/gameplay/quick-tutorial";
 import RestartButton from "@/components/gameplay/restart-button";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import GameNavigation from "@/components/gameplay/game-navigation";
@@ -133,7 +133,7 @@ export default function Gameplay() {
               setAction={setAction}
             />
             <div className="flex flex-row items-start justify-center pb-5 space-x-5">
-              <GameChat />
+              <QuickTutorial />
             </div>
           </div>
         </div>
