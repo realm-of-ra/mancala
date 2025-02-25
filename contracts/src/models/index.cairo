@@ -8,7 +8,7 @@ pub enum SeedColor {
 
 //pub enum MancalaGateToken {
 //    Unrestricted,
-//    Token(ContractAddress),
+//    Token: ContractAddress,
 //}
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]

@@ -4,7 +4,7 @@ description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo.
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
 website = "https://github.com/realm-of-ra/mancala"
-seed = "mancala"
+seed = "mancala-denstwo"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
@@ -21,14 +21,17 @@ default = "mancala_denstwo"
 "mancala_denstwo-TrophyProgression" = ["mancala_denstwo-Mancala"]
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
+rpc_url = "https://api.cartridge.gg/x/starknet/mainnet"
 # Default account for katana with seed = 0
-account_address = "0x7c7e6bcfcb1b408dcef95241681739207d3d8eff5439c9301847222e12dc053"
-private_key = "0x3eb97d72f148146d534d7e6dabdeba45c5bd62c4355db2a41735f847967db1b"
-world_address = "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3"  # Uncomment and update this line with your world address.
+account_address = "0x07C28a0Cb8ef410c5B6fe30397A09636763F67909103b8225c6C04060B4258C5"
+private_key = "0x064ddb1260b4a1281c7c03cc2ee4ef5d836ed1f4424ed988dbba9bd7da531d6f"
+world_address = "0x07b8e34ccb602915d91d32ede9cc6b51cc253ae5a5066cb0c688219b595a3417"  # Uncomment and update this line with your world address.
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
-raw = true
-historical = ["mancala_denstwo-TrophyProgression"]
+[init_call_args]
+"mancala_denstwo-Mancala" = [
+  "0x0158160018d590d93528995b340260e65aedd76d28a686e9daa5c4e8fad0c5dd",  # TOKEN_PASS_ADDRESS
+  "0x07C28a0Cb8ef410c5B6fe30397A09636763F67909103b8225c6C04060B4258C5", # GATEKEEPER_ADDRESS
+]

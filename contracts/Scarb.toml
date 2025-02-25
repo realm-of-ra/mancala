@@ -28,3 +28,4 @@ build-external-contracts = [
 
 [profile.slot]
 [profile.sepolia]
+[profile.mainnet]
