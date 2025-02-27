@@ -10,7 +10,7 @@ import {
 } from "@/lib/constants";
 import { useQuery } from "@apollo/client";
 import AudioSection from "@/components/gameplay/audio-section";
-import GameChat from "@/components/gameplay/game-chat";
+import GameChat from "@/components/gameplay/quick-tutorial";
 import EndgameButton from "@/components/gameplay/end-game-button";
 import TimeoutButton from "@/components/gameplay/timeout-button";
 import TutorialGameBoard from "@/components/tutorial/tutorial-board";
