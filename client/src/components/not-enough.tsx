@@ -41,7 +41,7 @@ export default function NotEnough({ isEnough, refetch }: { isEnough: boolean, re
           <div className="w-full h-full flex flex-col items-center justify-center space-y-5">
             <h3 className="text-white font-semibold text-2xl">Missing Token</h3>
             <p className="text-center text-white text-lg font-medium">
-              This Game is currently available to Mancala Holder, Click the mint token button.
+              "This game is currently available to Mancala Pass NFT holders, click the "Mint Mancala Pass" button to mint a testnet pass.
             </p>
             <Button
               className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
