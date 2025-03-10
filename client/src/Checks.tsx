@@ -1,7 +1,7 @@
-import { useAccount, useConnect, useProvider } from "@starknet-react/core";
+import { useAccount, useConnect, useReadContract } from "@starknet-react/core";
 import NotEnough from "@/components/not-enough";
 import { useEffect, useState } from "react";
-import { AccountInterface, Contract } from "starknet";
+import { nft_abi } from "@/abi"
 
 const SmallScreenWarning = () => (
   <div className="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-75 backdrop-blur-sm">
@@ -14,33 +14,16 @@ const SmallScreenWarning = () => (
 );
 
 export default function Checks({ children }: { children: React.ReactNode }) {
-  const { account, address, isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
-  const { provider } = useProvider();
-  const [amountOfTokens, setAmountOfTokens] = useState<number>();
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!isConnected) {
-        connect({ connector: connectors[0] });
-      }
-      const contract_address =
-        "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf";
-      const { abi } = await provider.getClassAt(contract_address);
-      const contract = new Contract(abi, contract_address, provider);
-      contract.connect(account as AccountInterface);
-      const contract_call = contract.populate("balance_of", [
-        address?.toString() || "",
-      ]);
-      const data = await contract.balance_of(contract_call.calldata);
-      setAmountOfTokens(Number(data));
-    };
-    fetchData();
-  }, [account, address, connect, connectors, isConnected, provider]);
-  const isEnough = Math.round(amountOfTokens || 0) >= 1;
-  console.log({
-    amountOfTokens,
-    isEnough,
+  const nft_contract_address = "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf";
+  const { data: nft_data, refetch } = useReadContract({
+    abi: nft_abi,
+    functionName: "balance_of",
+    address: nft_contract_address,
+    args: [address || ""]
   });
+  const isEnough = Math.round(Number(nft_data) || 0) >= 1;
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
@@ -55,10 +38,10 @@ export default function Checks({ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [connect, connectors, isConnected]);
   return (
     <div>
-      {isConnected && !isEnough && <NotEnough isEnough={isEnough} />}
+      {isConnected && !isEnough && <NotEnough isEnough={isEnough} refetch={refetch} />}
       {isSmallScreen && <SmallScreenWarning />}
       {children}
     </div>
