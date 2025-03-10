@@ -1,11 +1,35 @@
 import { Dialog } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { BellIcon } from "@heroicons/react/24/solid";
+import MintIcon from "./ui/svgs/mint";
+import { useAccount, useContract, useSendTransaction } from "@starknet-react/core";
+import { nft_abi } from "@/abi"
 
-export default function NotEnough({ isEnough }: { isEnough: boolean }) {
+export default function NotEnough({ isEnough, refetch }: { isEnough: boolean, refetch: any }) {
   const [open, setOpen] = useState(!isEnough);
   const handleOpen = () => setOpen(open);
+  const nft_contract_address = "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf";
+  const { address } = useAccount();
+  const { contract } = useContract({ 
+    abi: nft_abi, 
+    address: nft_contract_address, 
+  }); 
+  const { data: mint_response, send } = useSendTransaction({
+    calls: contract && address 
+    ? [contract.populate("mint_pass", [address])] 
+    : undefined,
+  });
+
+  const handleMint = () => {
+    setOpen(true);
+    send();
+  }
+
+  useEffect(() => {
+    if (mint_response?.transaction_hash) {
+      refetch();
+    }
+  }, [mint_response, refetch]);
   return (
     <div className="">
       <Dialog
@@ -17,27 +41,15 @@ export default function NotEnough({ isEnough }: { isEnough: boolean }) {
           <div className="w-full h-full flex flex-col items-center justify-center space-y-5">
             <h3 className="text-white font-semibold text-2xl">Missing Token</h3>
             <p className="text-center text-white text-lg font-medium">
-              This Game is currently available to the general public, Input an
-              email address to be notified when available to all users
+              This Game is currently available to Mancala Holder, Click the mint token button.
             </p>
-            <input
-              placeholder="Input Email Address"
-              className="w-full p-3.5 bg-[#1A1E25] rounded-lg outline-none text-white"
-            />
             <Button
               className="bg-[#F58229] hover:bg-[#F58229] font-medium hover:cursor-pointer rounded-3xl"
-              onClick={() => {
-                setOpen(true);
-                if (window.location.pathname === "/") {
-                  setOpen(true);
-                } else {
-                  window.location.href === "/";
-                }
-              }}
+              onClick={handleMint}
             >
               <div className="flex flex-row items-center space-x-1">
-                <BellIcon className="text-[#FCE3AA] w-6 h-6" />
-                <p className="text-[#FCE3AA] font-semibold">Get Notified</p>
+                <MintIcon />
+                <p className="text-[#FCE3AA] font-semibold">Mint Token</p>
               </div>
             </Button>
           </div>
