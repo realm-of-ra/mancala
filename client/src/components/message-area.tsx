@@ -17,12 +17,12 @@ export default function MessageArea({
   setAction,
 }: IMessageAreaProps) {
   const active_players_addrs =
-    game_players?.mancalaStonePlayerModels?.edges?.map(
+    game_players?.mancalaMondayPlayerModels?.edges?.map(
       (item: any) => item?.node?.address,
     ) ?? [];
   const opponent_position = active_players_addrs.indexOf(address) === 0 ? 1 : 0;
   const opponent_requested_restart =
-    game_players?.mancalaStonePlayerModels?.edges?.filter(
+    game_players?.mancalaMondayPlayerModels?.edges?.filter(
       (item: any) => item?.node?.restart_requested === true,
     )[opponent_position]?.node?.restart_requested;
   const { account } = useAccount();

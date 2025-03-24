@@ -94,7 +94,7 @@ export default function Lobby() {
   const { data: playerData, startPolling: startPollingPlayerData } =
     useQuery(MancalaPlayerNames);
   startPollingPlayerData(1000);
-  const filteredGames = data?.mancalaStoneMancalaBoardModels?.edges
+  const filteredGames = data?.mancalaMondayMancalaBoardModels?.edges
     ?.filter(
       (game: any) =>
         game?.node?.player_one === account?.address ||
@@ -120,14 +120,16 @@ export default function Lobby() {
       return 0;
     })
     .map((game: any) => {
-      const player1Profile = playerData?.mancalaStoneProfileModels?.edges?.find(
-        (profile: any) => profile.node.address === game.node.player_one,
-      );
-      const player2Profile = playerData?.mancalaStoneProfileModels?.edges?.find(
-        (profile: any) => profile.node.address === game.node.player_two,
-      );
+      const player1Profile =
+        playerData?.mancalaMondayProfileModels?.edges?.find(
+          (profile: any) => profile.node.address === game.node.player_one,
+        );
+      const player2Profile =
+        playerData?.mancalaMondayProfileModels?.edges?.find(
+          (profile: any) => profile.node.address === game.node.player_two,
+        );
 
-      const winner = playerData?.mancalaStoneProfileModels?.edges?.find(
+      const winner = playerData?.mancalaMondayProfileModels?.edges?.find(
         (profile: any) => profile.node.address === game.node.winner,
       );
       return {
@@ -145,7 +147,7 @@ export default function Lobby() {
     });
 
   const filteredTransactions =
-    data?.mancalaStoneMancalaBoardModels?.edges?.reduce(
+    data?.mancalaMondayMancalaBoardModels?.edges?.reduce(
       (acc: any[], game: any) => {
         if (
           game?.node?.player_one === account?.address ||
@@ -185,14 +187,16 @@ export default function Lobby() {
   //   };
   // }, [isPlaying]);
 
-  const gamesWithPlayerNames = data?.mancalaStoneMancalaBoardModels?.edges
+  const gamesWithPlayerNames = data?.mancalaMondayMancalaBoardModels?.edges
     ?.map((game: any) => {
-      const player1Profile = playerData?.mancalaStoneProfileModels?.edges?.find(
-        (profile: any) => profile.node.address === game.node.player_one,
-      );
-      const player2Profile = playerData?.mancalaStoneProfileModels?.edges?.find(
-        (profile: any) => profile.node.address === game.node.player_two,
-      );
+      const player1Profile =
+        playerData?.mancalaMondayProfileModels?.edges?.find(
+          (profile: any) => profile.node.address === game.node.player_one,
+        );
+      const player2Profile =
+        playerData?.mancalaMondayProfileModels?.edges?.find(
+          (profile: any) => profile.node.address === game.node.player_two,
+        );
       return {
         ...game,
         node: {
@@ -219,8 +223,8 @@ export default function Lobby() {
   const [tabValue, setTabValue] = useState("duels");
 
   useEffect(() => {
-    if (data?.mancalaStoneMancalaBoardModels?.edges) {
-      const allAddresses = data?.mancalaStoneMancalaBoardModels.edges
+    if (data?.mancalaMondayMancalaBoardModels?.edges) {
+      const allAddresses = data?.mancalaMondayMancalaBoardModels.edges
         .flatMap((game: any) => [
           game.node.player_one,
           game.node.player_two,
@@ -230,7 +234,7 @@ export default function Lobby() {
 
       lookupMissingNames(allAddresses, setAddressLookupCache);
     }
-  }, [data?.mancalaStoneMancalaBoardModels.edges]);
+  }, [data?.mancalaMondayMancalaBoardModels.edges]);
 
   return (
     <div className="w-full h-screen bg-[#0F1116] bg-[url('./assets/bg.png')] bg-cover bg-center space-y-8 fixed">

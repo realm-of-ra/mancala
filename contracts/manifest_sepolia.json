@@ -1,8 +1,8 @@
 {
   "world": {
     "class_hash": "0x4b767fda48530353c2e44e4b9433f4d75c6c9974aaff43ecc00de9455eb71b8",
-    "address": "0x15963c226a157f6bfb85406f192ffd34fab5aaff678689136699200099e60fd",
-    "seed": "mancala-stone",
+    "address": "0x5c3670ff9b8fb35cf7104631f247114248ebeebd3cf48736e17c4b743cea348",
+    "seed": "mancala-monday",
     "name": "Mancala",
     "entrypoints": [
       "uuid",
@@ -1252,8 +1252,8 @@
   },
   "contracts": [
     {
-      "address": "0x28de22cb949ca8864814170bf327afe2e1086c9e78530a62bc23e5bb156237b",
-      "class_hash": "0x709de1ae6745df56af0dfa50a84e42b3adf0b763fd88e85038f9ab568749e02",
+      "address": "0x5a6771554b82ab1f47a846a725dc561cc2f2de5098c3fe14dff1df82eaacc44",
+      "class_hash": "0x17bc5702dff64367a1b614a1bc5bbf6d90b1bb634699445c236d4da93b499cc",
       "abi": [
         {
           "type": "impl",
@@ -1673,8 +1673,8 @@
         "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf",
         "0x07837a565c98505A88338Ceb8245494af97C6caC2d0A23D9B08db5C052d7afA9"
       ],
-      "tag": "mancala_stone-Mancala",
-      "selector": "0x12cbd2c4e4a6b65a12496440e6b4bead435102bc5bf39a13a582c1980478f69",
+      "tag": "mancala_monday-Mancala",
+      "selector": "0x76e0604eff325e5e21946acddafb6d8001b59ce30b2cbe02db4b423959b84e5",
       "systems": [
         "new_game",
         "join_game",
@@ -1691,8 +1691,8 @@
       ]
     },
     {
-      "address": "0x25796161881c4c3fabf11e78a33498e385abae829cfd37379f44bb27c0374a",
-      "class_hash": "0x5ba63c3e6c71d487f86470b1c1998f2d8918e4ec0aac5fe2325e0903fe15451",
+      "address": "0x786b4852313fffb819835e633e61783a670337bdc2c6aaed3478a6fce740a11",
+      "class_hash": "0x6bb4372efc0fec29b90723a4e754f9fe49d9d06f5211751d09c4d9575e5d09",
       "abi": [
         {
           "type": "impl",
@@ -1910,8 +1910,8 @@
         }
       ],
       "init_calldata": [],
-      "tag": "mancala_stone-PlayerProfile",
-      "selector": "0x4dc031cc0e677e39854852d6edf7c5dbe87449f914ddb3f8689f756b771b0b7",
+      "tag": "mancala_monday-PlayerProfile",
+      "selector": "0x491ca4e0baee7d8176468d8152714420c70d4dacf1fb358ccd65a5100d8dbd2",
       "systems": [
         "upgrade"
       ]
@@ -1921,82 +1921,82 @@
     {
       "members": [],
       "class_hash": "0x39d434cc48c89f159e80e7a733ec593e1ad5e3bfa0a6c8e0ebe01c9ebad0fd5",
-      "tag": "mancala_stone-GameCounter",
-      "selector": "0xaac075bd18b482f57202f09a8c6c95914c59ce4da0297118e385f47550a400"
+      "tag": "mancala_monday-GameCounter",
+      "selector": "0x7ae7a1dafcc9f917cc8365d9e26e297741a0bf5e2b44ceac85fa70566c221f9"
     },
     {
       "members": [],
       "class_hash": "0xdb4d28863ca84e283fd7b920277da2bf7b56e6792e2ca9968f02079965604a",
-      "tag": "mancala_stone-MancalaBoard",
-      "selector": "0x5ffb8085bc20f3d1d29ba4b3b8232f0e4b102365094bd90dde0da55e4b70bea"
+      "tag": "mancala_monday-MancalaBoard",
+      "selector": "0x8c16f5d247729a6a3c904135704fbf049fc31ee728076144354def0d386aa7"
     },
     {
       "members": [],
       "class_hash": "0x17ddda187cf4cba8dd6611e905ee16fa14727991a723b1aed5b514dabed287c",
-      "tag": "mancala_stone-Pit",
-      "selector": "0x36d2cf27e2acc84753d5bbfbc2be99aa011bc82abc195151d043a95ddffd607"
+      "tag": "mancala_monday-Pit",
+      "selector": "0xcde716b8adb37b8bbb45b9dc7512be3483ed2920d9a0dc7e2f962fad5ae50c"
     },
     {
       "members": [],
       "class_hash": "0x1ddd10a6c17739d88d338693c5bfe20c1c80d76c97c9f1b6da5d2183573305",
-      "tag": "mancala_stone-Player",
-      "selector": "0x59ce33b52a21b6efc486e9c8497d0b78ff3fc59a9940007179a52d64f40f49a"
+      "tag": "mancala_monday-Player",
+      "selector": "0xe083f975a18d4d94e825471c8329cf46a7f59db90945974215b0e94d8b109"
     },
     {
       "members": [],
       "class_hash": "0x6615b3f6b9338efd6e41fd19384a5c0766f9845112b4f3c9c32e1bb40d3af76",
-      "tag": "mancala_stone-Profile",
-      "selector": "0x5fefcf9f6b2b5817743fccfd96eabf473fd34e229cffde3c60089d9557d7407"
+      "tag": "mancala_monday-Profile",
+      "selector": "0x36b815984e974f38cdf289a2fb047d935af5696afc26c97a993173eb64dcb53"
     },
     {
       "members": [],
       "class_hash": "0x57ccb5b2b68104683c3f66c08776b1bcf4c2f79a09b61efd045d2e84ca734ac",
-      "tag": "mancala_stone-Seed",
-      "selector": "0x238012003324c82a8fc8bb5a0f6804de2fcea6eed9ba7aea13a6ec561a2dfc"
+      "tag": "mancala_monday-Seed",
+      "selector": "0x715e283a6065921b5738a1dac9b946e1f814d1e79c2cad8eec7f69345b69378"
     },
     {
       "members": [],
       "class_hash": "0x3efdc22892bbbb9756ecc37fc9fd2f3a7e00f35deaad873d005e474fd30e942",
-      "tag": "mancala_stone-Settings",
-      "selector": "0x352661b02bead7dac266c398a554b24ca690f5dcba68ede80ffc91fe694e7b6"
+      "tag": "mancala_monday-Settings",
+      "selector": "0x282d8fb377268774eb0de79f6763e60bbfd421f94ec8d0dda0101f57258242c"
     }
   ],
   "events": [
     {
       "members": [],
       "class_hash": "0x4ffd5921ec24f70cb0068582335940c4a7c0c0c6e0f71b2105e7a5f9a0deb35",
-      "tag": "mancala_stone-Capture",
-      "selector": "0x6f7a443e884c76fce46b4c04a2a18f4d34a9d87022e61860ff42d6310e10031"
+      "tag": "mancala_monday-Capture",
+      "selector": "0x12eea3cdd3fe0133769b9b364be5a2bd7dc781bfe28f37898025f47db67131d"
     },
     {
       "members": [],
       "class_hash": "0x4100bbf73eba04fbc06379b8bf9cf5c207b81611df9e66ec794b95848a0fb93",
-      "tag": "mancala_stone-EndTurn",
-      "selector": "0x75419b9730615f0155edd9eb23010f39b3965e049d7ea99700d7c45ff1f7008"
+      "tag": "mancala_monday-EndTurn",
+      "selector": "0xb891de5fedc77771b61c2baee499e390ec3ff1f5cdd101ab649e649c996360"
     },
     {
       "members": [],
       "class_hash": "0x746c4bda40c5d410f56296ae6623c13f9fa8b8b4ff36b5243e46c6c914b2f4f",
-      "tag": "mancala_stone-PlayerExtraTurn",
-      "selector": "0x468d4d5d02c893f2e42fdabcd5693d29a44ce9e0a54bc13b8bf9158c0b9f964"
+      "tag": "mancala_monday-PlayerExtraTurn",
+      "selector": "0x3ade509ea71a114c33e1cafbd81c2ced74e92c82524b0174bf30d05d8c3ea48"
     },
     {
       "members": [],
       "class_hash": "0x677e435979661e9e26aefb7cf8734a5019e825082019075fe5c16aef1c4be62",
-      "tag": "mancala_stone-PlayerMove",
-      "selector": "0x24b9e76703f6a8097929c69de446e23dd706b9545de3dfa24a4142309c75886"
+      "tag": "mancala_monday-PlayerMove",
+      "selector": "0x41ae336c44b98424297825593b4a27dbac0aea8e2a7acc7b36ffc1e52eb9f79"
     },
     {
       "members": [],
       "class_hash": "0x19a5c06b3a8417ff3f9883be3acb0e33c835795bd81fb87a5a47e6ed7d2d3af",
-      "tag": "mancala_stone-TrophyCreation",
-      "selector": "0x2bdc140fdfd872013d1e11d3cac1cbb7ebb29eb1d395359db56e6d2c8caf1d3"
+      "tag": "mancala_monday-TrophyCreation",
+      "selector": "0x62111a533e902d5e1ded0e0388614cda2b9b7dbc167b0bd6cd1a7842ff36a0"
     },
     {
       "members": [],
       "class_hash": "0x1922d2cd8b63eccf66321673234a52126cd9f0ab1bf6298c5abee6ee80c8990",
-      "tag": "mancala_stone-TrophyProgression",
-      "selector": "0x98bdf6268aa83d39b26367efbb9f3a1640b16c0b7f60c3dd739dc5489dc27f"
+      "tag": "mancala_monday-TrophyProgression",
+      "selector": "0x662e4bf38c8e7ffef27c14ce17857d933513b33645027af8dbc6f75f79098af"
     }
   ]
 }
