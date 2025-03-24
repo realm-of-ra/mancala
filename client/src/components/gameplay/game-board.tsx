@@ -246,14 +246,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaStonePlayerModels.edges[player_position]?.node
+          game_players?.mancalaStonePlayerModels.edges[involved ? player_position : opponent_position]?.node
             .address,
         )
       : game_players?.mancalaStonePitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaStonePlayerModels.edges[player_position]
+              game_players?.mancalaStonePlayerModels.edges[involved ? player_position : opponent_position]
                 ?.node.address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
@@ -264,19 +264,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaStonePlayerModels.edges[opponent_position]?.node
+          game_players?.mancalaStonePlayerModels.edges[involved ? opponent_position : player_position]?.node
             .address,
         )
       : game_players?.mancalaStonePitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaStonePlayerModels.edges[opponent_position]
+              game_players?.mancalaStonePlayerModels.edges[involved ? opponent_position : player_position]
                 ?.node.address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
           ?.seed_count || 0;
-
+          
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
