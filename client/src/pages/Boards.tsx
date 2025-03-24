@@ -29,7 +29,7 @@ export default function Boards() {
         <title>Buy Mancala Boards | Purchase High-Quality Mancala Sets</title>
         <meta
           name="description"
-          content="Explore and purchase a variety of high-quality Mancala boards. Find the perfect set for your game collection."
+          content="Explore and purchase a variety of high-quality Mancala boards. Find your perfect set for the game collection."
         />
 
         {/* Open Graph */}
