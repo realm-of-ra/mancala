@@ -2,13 +2,13 @@ pub mod constants;
 pub mod store;
 
 pub mod models {
+    pub mod game_counter;
     pub mod index;
     pub mod mancala_board;
+    pub mod pit;
     pub mod player;
     pub mod profile;
     pub mod seed;
-    pub mod game_counter;
-    pub mod pit;
     pub mod settings;
 }
 
@@ -18,8 +18,8 @@ pub mod events {
 }
 
 pub mod components {
-    pub mod playable;
     pub mod initializable;
+    pub mod playable;
     pub mod profile;
 }
 
@@ -36,9 +36,9 @@ pub mod elements {
         pub mod collector;
         pub mod dominator;
         pub mod extractor;
+        pub mod interface;
         pub mod strategist;
         pub mod victor;
-        pub mod interface;
     }
 }
 
@@ -54,6 +54,8 @@ pub mod types {
 
 pub mod utils {
     pub mod board;
+    pub mod cartridge;
+    pub mod random;
 }
 
 #[cfg(test)]
