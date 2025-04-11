@@ -13,25 +13,25 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_stone"
+default = "mancala_chi"
 
 [writers]
-"mancala_stone" = ["mancala_stone-Mancala", "mancala_stone-PlayerProfile"]
-"mancala_stone-TrophyCreation" = ["mancala_stone-Mancala"]
-"mancala_stone-TrophyProgression" = ["mancala_stone-Mancala"]
+"mancala_chi" = ["mancala_chi-Mancala", "mancala_chi-PlayerProfile"]
+"mancala_chi-TrophyCreation" = ["mancala_chi-Mancala"]
+"mancala_chi-TrophyProgression" = ["mancala_chi-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"
 # Default account for katana with seed = 0
 account_address = "0x127fd5f1fe78a71f8bcd1fec63e3fe2f0486b6ecd5c86a0466c3a21fa5cfcec"
 private_key = "0xc5b2fcab997346f3ea1c00b002ecf6f382c5f9c9659a3894eb783c5320f912"
-world_address = "0x542a349cdda6f2518a2b159fe3de19429f43233053464b44a25167a5be92cbd"  # Uncomment and update this line with your world address.
+world_address = "0x00fdf8c53bf4fb59c62e8abf9e0c2520113ac8f77119a0c2d016f9b635e1a530"  # Uncomment and update this line with your world address.
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 [init_call_args]
-"mancala_stone-Mancala" = [
+"mancala_chi-Mancala" = [
   "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # TOKEN_PASS_ADDRESS
   "0x07c4d03b35e224ac19247c429a203c36ca40653e12d28e696d2674ee61a60fa3", # GATEKEEPER_ADDRESS
 ]

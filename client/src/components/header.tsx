@@ -89,7 +89,7 @@ export default function Header() {
   const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
-    const profile: any = playerData?.mancalaStoneProfileModels?.edges.find(
+    const profile: any = playerData?.mancalaChiProfileModels?.edges.find(
       (player: any) => player.node.address === account?.address,
     );
     if (!account || !profile) {
@@ -100,7 +100,7 @@ export default function Header() {
     if (profile?.node?.name) {
       setPlayerName(shortString.decodeShortString(profile?.node?.name));
     }
-  }, [account, playerData?.mancalaStoneProfileModels?.edges, playerData]);
+  }, [account, playerData?.mancalaChiProfileModels?.edges, playerData]);
 
   const handleTrophyClick = useCallback(() => {
     if (!connector?.controller) {
@@ -157,7 +157,7 @@ export default function Header() {
   const [displayName, setDisplayName] = useState("");
   const [initialDisplayName, setInitialDisplayName] = useState("");
   const [initialImageUrl, setInitialImageUrl] = useState("");
-  const profile: any = playerData?.mancalaStoneProfileModels?.edges.find(
+  const profile: any = playerData?.mancalaChiProfileModels?.edges.find(
     (player: any) => player.node.address === account?.address,
   );
 
@@ -243,7 +243,7 @@ export default function Header() {
     setSaveStatus({ status: "saving", message: "Saving changes..." });
 
     try {
-      const userExists = profiles.mancalaStoneProfileModels.edges.some(
+      const userExists = profiles.mancalaChiProfileModels.edges.some(
         (profile: any) => profile.node.address === account?.address,
       );
 
@@ -298,7 +298,7 @@ export default function Header() {
   useEffect(() => {
     if (
       account?.address &&
-      playerData?.mancalaStoneProfileModels?.edges &&
+      playerData?.mancalaChiProfileModels?.edges &&
       !profile
     ) {
       setOpen(true);
