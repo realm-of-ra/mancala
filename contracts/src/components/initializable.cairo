@@ -2,12 +2,12 @@
 pub mod InitializableComponent {
     // Dojo imports
     use dojo::world::WorldStorage;
-    use starknet::ContractAddress;
+    use mancala::models::game_counter::GameCounterTrait;
+    use mancala::models::settings::{Settings, SettingsTrait};
 
     // Internal imports
     use mancala::store::{Store, StoreTrait};
-    use mancala::models::game_counter::GameCounterTrait;
-    use mancala::models::settings::{SettingsTrait, Settings};
+    use starknet::ContractAddress;
 
     // Storage
     #[storage]
@@ -43,7 +43,7 @@ pub mod InitializableComponent {
             // [Effect] Create GameCounter
             let mut game_counter = GameCounterTrait::new();
             let settings: Settings = SettingsTrait::initialize(
-                1, mancala_pass_address, gate_keeper_address,
+                1, mancala_pass_address.into(), gate_keeper_address,
             );
 
             // [Effect] GameCounter increment

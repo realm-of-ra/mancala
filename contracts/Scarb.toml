@@ -1,23 +1,27 @@
 [package]
-cairo-version = "=2.9.2"
-name = "mancala"
-version = "0.3.1"
+cairo-version = "=2.9.4"
 edition = "2024_07"
+name = "mancala"
+version = "0.4.0"
+
+keywords = [
+    "starknet",
+    "contracts",
+    "fully-on-chain-game",
+    "FOCG"
+]
 
 [cairo]
 sierra-replace-ids = true
 
-[scripts]
-dev = "sozo clean && sozo build --typescript && sozo migrate"
-
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.1.2" }
-achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.1.2" }
-openzeppelin_token = "0.19.0"
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.4.0" }
+achievement = { git = "https://github.com/cartridge-gg/arcade", rev = "0b4670c886386ae7838ea45bdc2a5be452062e0e" }
+openzeppelin_token = "0.20.0"
 
 [dev-dependencies]
-cairo_test = "2.9.2"
-dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.1.2" }
+cairo_test = "2.9.4"
+dojo_cairo_test = { git = "https://github.com/dojoengine/dojo", tag = "v1.4.0" }
 
 [[target.starknet-contract]]
 build-external-contracts = [

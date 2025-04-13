@@ -2,13 +2,13 @@ pub mod constants;
 pub mod store;
 
 pub mod models {
+    pub mod game_counter;
     pub mod index;
     pub mod mancala_board;
+    pub mod pit;
     pub mod player;
     pub mod profile;
     pub mod seed;
-    pub mod game_counter;
-    pub mod pit;
     pub mod settings;
 }
 
@@ -18,8 +18,9 @@ pub mod events {
 }
 
 pub mod components {
-    pub mod playable;
+    pub mod config;
     pub mod initializable;
+    pub mod playable;
     pub mod profile;
 }
 
@@ -36,18 +37,20 @@ pub mod elements {
         pub mod collector;
         pub mod dominator;
         pub mod extractor;
+        pub mod interface;
         pub mod strategist;
         pub mod victor;
-        pub mod interface;
     }
 }
 
 pub mod systems {
+    pub mod config;
     pub mod mancala;
     pub mod profile;
 }
 
 pub mod types {
+    pub mod gate_type;
     pub mod task;
     pub mod trophy;
 }

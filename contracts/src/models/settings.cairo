@@ -1,10 +1,10 @@
-use starknet::{ContractAddress, get_caller_address};
-use openzeppelin_token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
 use dojo::world::WorldStorage;
 
-use mancala::store::{Store, StoreTrait};
-
 pub use mancala::models::index::Settings;
+use mancala::store::{Store, StoreTrait};
+use mancala::types::gate_type::GateType;
+use openzeppelin_token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
+use starknet::{ContractAddress, get_caller_address};
 
 pub mod errors {
     pub const NOT_PASS_HOLDER: felt252 = 'You do not have a pass';
@@ -15,15 +15,16 @@ pub mod errors {
 pub impl SettingsImpl of SettingsTrait {
     #[inline]
     fn initialize(
-        id: u8, mancala_pass_address: ContractAddress, gate_keeper_address: ContractAddress,
+        id: u8, gate_address: ContractAddress, gate_keeper_address: ContractAddress,
     ) -> Settings {
-        Settings { id, mancala_pass_address, gate_keeper_address }
+        let gate_address: GateType = GateType::Token(gate_address);
+        Settings { id, gate_address, gate_keeper_address }
     }
 
     #[inline]
-    fn update_pass_address(ref self: Settings, new_address: ContractAddress) {
+    fn update_gate_pass(ref self: Settings, gate_address: ContractAddress) {
         assert(self.gate_keeper_address == get_caller_address(), errors::NOT_GATE_KEEPER);
-        self.mancala_pass_address = new_address;
+        self.gate_address = gate_address.into();
     }
 }
 
@@ -34,7 +35,7 @@ pub impl SettingsAsset of AssertTrait {
         let store: Store = StoreTrait::new(world);
         let settings: Settings = store.get_settings(settings_id);
 
-        let mancala_pass_address = settings.mancala_pass_address;
+        let mancala_pass_address: ContractAddress = settings.gate_address.into();
         let erc721_dispatcher = IERC721Dispatcher { contract_address: mancala_pass_address };
 
         assert(erc721_dispatcher.balance_of(get_caller_address()) > 0, errors::NOT_PASS_HOLDER);

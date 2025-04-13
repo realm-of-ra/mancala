@@ -1,8 +1,8 @@
 {
   "world": {
-    "class_hash": "0x4b767fda48530353c2e44e4b9433f4d75c6c9974aaff43ecc00de9455eb71b8",
-    "address": "0x15963c226a157f6bfb85406f192ffd34fab5aaff678689136699200099e60fd",
-    "seed": "mancala-stone",
+    "class_hash": "0x75fc75bcd1a7f8b4bf64b74978b0f89c8cee44bb755c1dae6f82284756451ec",
+    "address": "0x1d984f01b05c4ffc310ec60a4fd6c30ad670dff8d56be2bf2ed1fe4b2b76ca3",
+    "seed": "mancala-cale",
     "name": "Mancala",
     "entrypoints": [
       "uuid",
@@ -11,6 +11,7 @@
       "register_event",
       "register_model",
       "register_contract",
+      "register_library",
       "init_contract",
       "upgrade_event",
       "upgrade_model",
@@ -78,6 +79,10 @@
           {
             "name": "Unregistered",
             "type": "()"
+          },
+          {
+            "name": "Library",
+            "type": "(core::starknet::class_hash::ClassHash, core::felt252)"
           }
         ]
       },
@@ -358,6 +363,34 @@
             "outputs": [
               {
                 "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "register_library",
+            "inputs": [
+              {
+                "name": "namespace",
+                "type": "core::byte_array::ByteArray"
+              },
+              {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash"
+              },
+              {
+                "name": "name",
+                "type": "core::byte_array::ByteArray"
+              },
+              {
+                "name": "version",
+                "type": "core::byte_array::ByteArray"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::starknet::class_hash::ClassHash"
               }
             ],
             "state_mutability": "external"
@@ -967,6 +1000,28 @@
       },
       {
         "type": "event",
+        "name": "dojo::world::world_contract::world::LibraryRegistered",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "name",
+            "type": "core::byte_array::ByteArray",
+            "kind": "key"
+          },
+          {
+            "name": "namespace",
+            "type": "core::byte_array::ByteArray",
+            "kind": "key"
+          },
+          {
+            "name": "class_hash",
+            "type": "core::starknet::class_hash::ClassHash",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
         "name": "dojo::world::world_contract::world::EventEmitted",
         "kind": "struct",
         "members": [
@@ -1207,6 +1262,11 @@
             "kind": "nested"
           },
           {
+            "name": "LibraryRegistered",
+            "type": "dojo::world::world_contract::world::LibraryRegistered",
+            "kind": "nested"
+          },
+          {
             "name": "EventEmitted",
             "type": "dojo::world::world_contract::world::EventEmitted",
             "kind": "nested"
@@ -1252,8 +1312,8 @@
   },
   "contracts": [
     {
-      "address": "0x28de22cb949ca8864814170bf327afe2e1086c9e78530a62bc23e5bb156237b",
-      "class_hash": "0x709de1ae6745df56af0dfa50a84e42b3adf0b763fd88e85038f9ab568749e02",
+      "address": "0x4a2cd155e6f9be25bfc6f690afeb53596160dd616a1366ee8140ff2c439474e",
+      "class_hash": "0x6b465e133e0e492d2b700f50fba8b5273ba52b2ac64424d4b97025b5046a236",
       "abi": [
         {
           "type": "impl",
@@ -1673,8 +1733,8 @@
         "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf",
         "0x07837a565c98505A88338Ceb8245494af97C6caC2d0A23D9B08db5C052d7afA9"
       ],
-      "tag": "mancala_stone-Mancala",
-      "selector": "0x12cbd2c4e4a6b65a12496440e6b4bead435102bc5bf39a13a582c1980478f69",
+      "tag": "mancala_cale-Mancala",
+      "selector": "0x40957b7a84ab994ba194d4e4beca3f84004426b248bd3522397cb788bf3aabd",
       "systems": [
         "new_game",
         "join_game",
@@ -1691,8 +1751,223 @@
       ]
     },
     {
-      "address": "0x25796161881c4c3fabf11e78a33498e385abae829cfd37379f44bb27c0374a",
-      "class_hash": "0x5ba63c3e6c71d487f86470b1c1998f2d8918e4ec0aac5fe2325e0903fe15451",
+      "address": "0x53650ac867485365dd45dd44397a4e13e6f127fbe19f3ac9c75a54ba9e9fe9f",
+      "class_hash": "0x6b4b14f80edf61bcea93239eee9936f7b25578f07aa82ebac17eac78e74494f",
+      "abi": [
+        {
+          "type": "impl",
+          "name": "MancalaConfig__ContractImpl",
+          "interface_name": "dojo::contract::interface::IContract"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::interface::IContract",
+          "items": []
+        },
+        {
+          "type": "impl",
+          "name": "MancalaConfig__DeployedContractImpl",
+          "interface_name": "dojo::meta::interface::IDeployedResource"
+        },
+        {
+          "type": "struct",
+          "name": "core::byte_array::ByteArray",
+          "members": [
+            {
+              "name": "data",
+              "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+              "name": "pending_word",
+              "type": "core::felt252"
+            },
+            {
+              "name": "pending_word_len",
+              "type": "core::integer::u32"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::meta::interface::IDeployedResource",
+          "items": [
+            {
+              "type": "function",
+              "name": "dojo_name",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "core::byte_array::ByteArray"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "MancalaConfigImpl",
+          "interface_name": "mancala::systems::config::IConfig"
+        },
+        {
+          "type": "interface",
+          "name": "mancala::systems::config::IConfig",
+          "items": [
+            {
+              "type": "function",
+              "name": "update_gate_pass",
+              "inputs": [
+                {
+                  "name": "settings_id",
+                  "type": "core::integer::u8"
+                },
+                {
+                  "name": "mancala_pass_address",
+                  "type": "core::starknet::contract_address::ContractAddress"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "dojo_init",
+          "inputs": [],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "impl",
+          "name": "WorldProviderImpl",
+          "interface_name": "dojo::contract::components::world_provider::IWorldProvider"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::iworld::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::world_provider::IWorldProvider",
+          "items": [
+            {
+              "type": "function",
+              "name": "world_dispatcher",
+              "inputs": [],
+              "outputs": [
+                {
+                  "type": "dojo::world::iworld::IWorldDispatcher"
+                }
+              ],
+              "state_mutability": "view"
+            }
+          ]
+        },
+        {
+          "type": "impl",
+          "name": "UpgradeableImpl",
+          "interface_name": "dojo::contract::components::upgradeable::IUpgradeable"
+        },
+        {
+          "type": "interface",
+          "name": "dojo::contract::components::upgradeable::IUpgradeable",
+          "items": [
+            {
+              "type": "function",
+              "name": "upgrade",
+              "inputs": [
+                {
+                  "name": "new_class_hash",
+                  "type": "core::starknet::class_hash::ClassHash"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            }
+          ]
+        },
+        {
+          "type": "constructor",
+          "name": "constructor",
+          "inputs": []
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+          "kind": "struct",
+          "members": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash",
+              "kind": "data"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "Upgraded",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Upgraded",
+              "kind": "nested"
+            }
+          ]
+        },
+        {
+          "type": "event",
+          "name": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::components::config::ConfigComponent::Event",
+          "kind": "enum",
+          "variants": []
+        },
+        {
+          "type": "event",
+          "name": "mancala::systems::config::MancalaConfig::Event",
+          "kind": "enum",
+          "variants": [
+            {
+              "name": "UpgradeableEvent",
+              "type": "dojo::contract::components::upgradeable::upgradeable_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "WorldProviderEvent",
+              "type": "dojo::contract::components::world_provider::world_provider_cpt::Event",
+              "kind": "nested"
+            },
+            {
+              "name": "ConfigEvent",
+              "type": "mancala::components::config::ConfigComponent::Event",
+              "kind": "flat"
+            }
+          ]
+        }
+      ],
+      "init_calldata": [],
+      "tag": "mancala_cale-MancalaConfig",
+      "selector": "0x180fac6b2b92e2a40fdbcb94a779d70f24f19f13542bb046b9b08d9bb34fd3a",
+      "systems": [
+        "update_gate_pass",
+        "upgrade"
+      ]
+    },
+    {
+      "address": "0x1f5eb26769d3222348bfbf34d0f397d464b4a2b2906e5f5817f42682599a207",
+      "class_hash": "0x5a44d8b095d68f43d13522c8f4e551564d78f218ed5672b810f3b2b4bb04190",
       "abi": [
         {
           "type": "impl",
@@ -1910,93 +2185,95 @@
         }
       ],
       "init_calldata": [],
-      "tag": "mancala_stone-PlayerProfile",
-      "selector": "0x4dc031cc0e677e39854852d6edf7c5dbe87449f914ddb3f8689f756b771b0b7",
+      "tag": "mancala_cale-PlayerProfile",
+      "selector": "0x60e50d248a6c5ce5a11f69ddefdc3aaa024debe75c8078bf74a35efc0375aa7",
       "systems": [
         "upgrade"
       ]
     }
   ],
+  "libraries": [],
   "models": [
     {
       "members": [],
-      "class_hash": "0x39d434cc48c89f159e80e7a733ec593e1ad5e3bfa0a6c8e0ebe01c9ebad0fd5",
-      "tag": "mancala_stone-GameCounter",
-      "selector": "0xaac075bd18b482f57202f09a8c6c95914c59ce4da0297118e385f47550a400"
+      "class_hash": "0x1abfe6bad46e880210ec5630d20da6b358eef2134b1f42a4a5769b9a1de9ef7",
+      "tag": "mancala_cale-GameCounter",
+      "selector": "0x352079a407b885a20fbb95d2dda707df3ee88ba8b4d8ad48c5195e3a085351c"
     },
     {
       "members": [],
-      "class_hash": "0xdb4d28863ca84e283fd7b920277da2bf7b56e6792e2ca9968f02079965604a",
-      "tag": "mancala_stone-MancalaBoard",
-      "selector": "0x5ffb8085bc20f3d1d29ba4b3b8232f0e4b102365094bd90dde0da55e4b70bea"
+      "class_hash": "0x7ef1ded0cb16ee608fbfcb8b621598f79646427aecc4b12f8615e366b8abadf",
+      "tag": "mancala_cale-MancalaBoard",
+      "selector": "0x6a8d72451526c0ddde2cc78734343500c56603fa849c766d9d3f4b0a9d4d03a"
     },
     {
       "members": [],
-      "class_hash": "0x17ddda187cf4cba8dd6611e905ee16fa14727991a723b1aed5b514dabed287c",
-      "tag": "mancala_stone-Pit",
-      "selector": "0x36d2cf27e2acc84753d5bbfbc2be99aa011bc82abc195151d043a95ddffd607"
+      "class_hash": "0x1f9ff9d4216669f67cece97ed893c919e2e2a1902600876581af84fd6907f08",
+      "tag": "mancala_cale-Pit",
+      "selector": "0x37cc13fb5a587364e02ddf669eaa82b742e40b3d6de2ec891053d10868486af"
     },
     {
       "members": [],
-      "class_hash": "0x1ddd10a6c17739d88d338693c5bfe20c1c80d76c97c9f1b6da5d2183573305",
-      "tag": "mancala_stone-Player",
-      "selector": "0x59ce33b52a21b6efc486e9c8497d0b78ff3fc59a9940007179a52d64f40f49a"
+      "class_hash": "0x32b678083abf75bac125417fbd42317bb701bc5ac055e3a5a7e14fa10687259",
+      "tag": "mancala_cale-Player",
+      "selector": "0x411e88571a96a9ffa89779c66a51908a008e24f5abee933affd2af0cb77b588"
     },
     {
       "members": [],
-      "class_hash": "0x6615b3f6b9338efd6e41fd19384a5c0766f9845112b4f3c9c32e1bb40d3af76",
-      "tag": "mancala_stone-Profile",
-      "selector": "0x5fefcf9f6b2b5817743fccfd96eabf473fd34e229cffde3c60089d9557d7407"
+      "class_hash": "0x578adbeb8f7a47d3f9e0ce9523460a581f5aadc130fe203d74b6e6c89bbb354",
+      "tag": "mancala_cale-Profile",
+      "selector": "0x399e88de86b3f8411b95e339214a4375f4591f6c85305ee7f81b1dbaa2a108f"
     },
     {
       "members": [],
-      "class_hash": "0x57ccb5b2b68104683c3f66c08776b1bcf4c2f79a09b61efd045d2e84ca734ac",
-      "tag": "mancala_stone-Seed",
-      "selector": "0x238012003324c82a8fc8bb5a0f6804de2fcea6eed9ba7aea13a6ec561a2dfc"
+      "class_hash": "0x4b0569fc7c1d2cb9a535a7b898cbab6c0ec9abab77e7fcb1b08d4cb590f0d7c",
+      "tag": "mancala_cale-Seed",
+      "selector": "0x6623bb8736d4e40e1d6d5218d9563b753ac73476ccc0efaf75d18777694b41b"
     },
     {
       "members": [],
-      "class_hash": "0x3efdc22892bbbb9756ecc37fc9fd2f3a7e00f35deaad873d005e474fd30e942",
-      "tag": "mancala_stone-Settings",
-      "selector": "0x352661b02bead7dac266c398a554b24ca690f5dcba68ede80ffc91fe694e7b6"
+      "class_hash": "0x4407e29f084cbe4720642c749c26d0db2efab1b45ef7e097c76906a29238dae",
+      "tag": "mancala_cale-Settings",
+      "selector": "0x4be1d3d2d2f7c2a24bef2357728e39d1c6d4c56b011ea7fb246f321e03b8082"
     }
   ],
   "events": [
     {
       "members": [],
-      "class_hash": "0x4ffd5921ec24f70cb0068582335940c4a7c0c0c6e0f71b2105e7a5f9a0deb35",
-      "tag": "mancala_stone-Capture",
-      "selector": "0x6f7a443e884c76fce46b4c04a2a18f4d34a9d87022e61860ff42d6310e10031"
+      "class_hash": "0x5ce186e0f1cdbd166b309510bf8c9e785066aa33f53c5b813bee3d33fbbc70e",
+      "tag": "mancala_cale-Capture",
+      "selector": "0x5448fa07dafa7979caf2cac19bde25c3692dbbd690d1e3b75f75519a486fe0b"
     },
     {
       "members": [],
-      "class_hash": "0x4100bbf73eba04fbc06379b8bf9cf5c207b81611df9e66ec794b95848a0fb93",
-      "tag": "mancala_stone-EndTurn",
-      "selector": "0x75419b9730615f0155edd9eb23010f39b3965e049d7ea99700d7c45ff1f7008"
+      "class_hash": "0x6ddd12d438696b95a947586bf7cec51c73f4db0b48a6ca7153b21e46d8ff86d",
+      "tag": "mancala_cale-EndTurn",
+      "selector": "0x371e69b7fac5f4dd05775cda6166352c496036c15ba39a2f01ccb22766a7d55"
     },
     {
       "members": [],
-      "class_hash": "0x746c4bda40c5d410f56296ae6623c13f9fa8b8b4ff36b5243e46c6c914b2f4f",
-      "tag": "mancala_stone-PlayerExtraTurn",
-      "selector": "0x468d4d5d02c893f2e42fdabcd5693d29a44ce9e0a54bc13b8bf9158c0b9f964"
+      "class_hash": "0x4226d71e9f28d73b070b40d98bee219d44006bc498708ae86d3cf6e6acdd45f",
+      "tag": "mancala_cale-PlayerExtraTurn",
+      "selector": "0x6b5b31420051a100ff2224453e118bb7d3a5df8eb8a498ac440a52c074d0be7"
     },
     {
       "members": [],
-      "class_hash": "0x677e435979661e9e26aefb7cf8734a5019e825082019075fe5c16aef1c4be62",
-      "tag": "mancala_stone-PlayerMove",
-      "selector": "0x24b9e76703f6a8097929c69de446e23dd706b9545de3dfa24a4142309c75886"
+      "class_hash": "0x15abcb7223423ac721b921194e457c87e0fe2a50613672219ac3305b2a00c6",
+      "tag": "mancala_cale-PlayerMove",
+      "selector": "0x3b6b512298f78babd290d65a1bab242a0aa61f03a2f4373a84f43f11085fe83"
     },
     {
       "members": [],
-      "class_hash": "0x19a5c06b3a8417ff3f9883be3acb0e33c835795bd81fb87a5a47e6ed7d2d3af",
-      "tag": "mancala_stone-TrophyCreation",
-      "selector": "0x2bdc140fdfd872013d1e11d3cac1cbb7ebb29eb1d395359db56e6d2c8caf1d3"
+      "class_hash": "0x5139e06eeffddd491a7563f9e4c10799f98fddfd6f26047e94413e374a19fcf",
+      "tag": "mancala_cale-TrophyCreation",
+      "selector": "0x46e35bace7ae24798dbe2e90113eb47eb180db74c73e0eb778e9863933a9399"
     },
     {
       "members": [],
-      "class_hash": "0x1922d2cd8b63eccf66321673234a52126cd9f0ab1bf6298c5abee6ee80c8990",
-      "tag": "mancala_stone-TrophyProgression",
-      "selector": "0x98bdf6268aa83d39b26367efbb9f3a1640b16c0b7f60c3dd739dc5489dc27f"
+      "class_hash": "0x95f31367acd360680f16e74f712470bd3faf98aede3393644dad7d6d9c12cb",
+      "tag": "mancala_cale-TrophyProgression",
+      "selector": "0x40a33cebe198694f6cdd22fb8a73b4965920006a6472a5f43c6a40559a168bb"
     }
-  ]
+  ],
+  "external_contracts": []
 }

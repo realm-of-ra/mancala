@@ -1,3 +1,4 @@
+use mancala::types::gate_type::GateType;
 use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
@@ -5,11 +6,6 @@ pub enum SeedColor {
     Blue,
     Green,
 }
-
-//pub enum MancalaGateToken {
-//    Unrestricted,
-//    Token(ContractAddress),
-//}
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
 pub enum GameStatus {
@@ -96,6 +92,6 @@ pub struct Profile {
 pub struct Settings {
     #[key]
     pub id: u8,
-    pub mancala_pass_address: ContractAddress,
+    pub gate_address: GateType,
     pub gate_keeper_address: ContractAddress,
 }
