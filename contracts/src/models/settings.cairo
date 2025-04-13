@@ -6,7 +6,7 @@ use mancala::types::gate_type::GateType;
 use openzeppelin_token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
 use starknet::{ContractAddress, get_caller_address};
 
-pub mod errors {
+pub mod Errors {
     pub const NOT_PASS_HOLDER: felt252 = 'You do not have a pass';
     pub const NOT_GATE_KEEPER: felt252 = 'You are not the gate keeper';
 }
@@ -23,7 +23,7 @@ pub impl SettingsImpl of SettingsTrait {
 
     #[inline]
     fn update_gate_pass(ref self: Settings, gate_address: ContractAddress) {
-        assert(self.gate_keeper_address == get_caller_address(), errors::NOT_GATE_KEEPER);
+        assert(self.gate_keeper_address == get_caller_address(), Errors::NOT_GATE_KEEPER);
         self.gate_address = gate_address.into();
     }
 }
@@ -38,6 +38,6 @@ pub impl SettingsAsset of AssertTrait {
         let mancala_pass_address: ContractAddress = settings.gate_address.into();
         let erc721_dispatcher = IERC721Dispatcher { contract_address: mancala_pass_address };
 
-        assert(erc721_dispatcher.balance_of(get_caller_address()) > 0, errors::NOT_PASS_HOLDER);
+        assert(erc721_dispatcher.balance_of(get_caller_address()) > 0, Errors::NOT_PASS_HOLDER);
     }
 }

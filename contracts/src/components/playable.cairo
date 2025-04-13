@@ -2,24 +2,23 @@
 pub mod PlayableComponent {
     //use core::debug::PrintTrait;
 
-    use dojo::world::WorldStorage;
-    use starknet::ContractAddress;
-    use starknet::{get_caller_address, get_block_timestamp};
     use achievement::store::{Store as ArcadeStore, StoreTrait as ArcadeStoreTrait};
-
-    use mancala::store::{Store, StoreTrait};
-    use mancala::models::player::{Player, PlayerTrait};
-    use mancala::models::settings::{SettingsAsset};
+    use dojo::world::WorldStorage;
+    use mancala::models::game_counter::GameCounterTrait;
     use mancala::models::mancala_board::{GameStatus, MancalaBoard, MancalaBoardTrait};
-    use mancala::models::game_counter::{GameCounterTrait};
+    use mancala::models::player::{Player, PlayerTrait};
     use mancala::models::seed::SeedColor;
-    use mancala::utils::board::{
-        get_player_seeds, distribute_seeds, capture_seeds, capture_remaining_seeds,
-        restart_player_pits, initialize_player_seeds,
-    };
+    use mancala::models::settings::SettingsAsset;
+    use mancala::store::{Store, StoreTrait};
     use mancala::types::task::{Task, TaskTrait};
+    use mancala::utils::board::{
+        capture_remaining_seeds, capture_seeds, distribute_seeds, get_player_seeds,
+        initialize_player_seeds, restart_player_pits,
+    };
+    use mancala::utils::random;
+    use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    pub mod errors {
+    pub mod Errors {
         pub const GAME_NOT_IN_PROGRESS: felt252 = 'Game: not in progress';
         pub const GAME_PLAYER_TWO_NOT_SET: felt252 = 'Game: player two not set';
         pub const PLAYER_NOT_IN_GAME: felt252 = 'Not a game player';
@@ -83,6 +82,14 @@ pub mod PlayableComponent {
             let mut player_two: Player = PlayerTrait::new(mancala_game.game_id, player_two_address);
             mancala_game.join_game(player_two);
 
+            let bit: u8 = random::get_pseudorandom_bit();
+            if bit == 0 {
+                let player_one_address = mancala_game.player_one;
+                mancala_game.player_one = player_two.address;
+                mancala_game.player_two = player_one_address;
+            }
+
+            // [Setup] Player
             restart_player_pits(world, @player_two, SeedColor::Blue);
             store.set_mancala_board(mancala_game);
             store.set_player(player_two);
@@ -189,10 +196,10 @@ pub mod PlayableComponent {
 
             let mut mancala_game: MancalaBoard = store.get_mancala_board(game_id);
 
-            assert(mancala_game.status == GameStatus::InProgress, errors::GAME_NOT_IN_PROGRESS);
+            assert(mancala_game.status == GameStatus::InProgress, Errors::GAME_NOT_IN_PROGRESS);
             assert(
                 mancala_game.player_two != core::num::traits::Zero::<ContractAddress>::zero(),
-                errors::GAME_PLAYER_TWO_NOT_SET,
+                Errors::GAME_PLAYER_TWO_NOT_SET,
             );
             assert(mancala_game.status == GameStatus::InProgress, 'Game is not in progress');
 
@@ -358,7 +365,7 @@ pub mod PlayableComponent {
             let player_address: ContractAddress = get_caller_address();
             let is_player: bool = mancala_game.player_one == player_address
                 || mancala_game.player_two == player_address;
-            assert(is_player == true, errors::PLAYER_NOT_IN_GAME);
+            assert(is_player == true, Errors::PLAYER_NOT_IN_GAME);
 
             // Determine the winner (the player who didn't forfeit)
             let winner_address: ContractAddress = if player_address == mancala_game.player_one {
@@ -416,10 +423,10 @@ pub mod PlayableComponent {
             let player_two: Player = store
                 .get_player(mancala_game.game_id, mancala_game.player_two);
 
-            assert(player_one.restart_requested == true, errors::PLAYER_DID_NOT_REQUEST_RESTART);
+            assert(player_one.restart_requested == true, Errors::PLAYER_DID_NOT_REQUEST_RESTART);
             if (player_two.address != core::num::traits::Zero::<ContractAddress>::zero()) {
                 assert(
-                    player_two.restart_requested == true, errors::PLAYER_DID_NOT_REQUEST_RESTART,
+                    player_two.restart_requested == true, Errors::PLAYER_DID_NOT_REQUEST_RESTART,
                 );
             }
 

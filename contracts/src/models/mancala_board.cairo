@@ -1,12 +1,12 @@
 use core::num::traits::Zero;
+use mancala::constants::TIMEOUT_DURATION;
+
+pub use mancala::models::index::{GameStatus, MancalaBoard};
+use mancala::models::player::Player;
 use starknet::{ContractAddress, get_block_timestamp};
 
-pub use mancala::models::index::{MancalaBoard, GameStatus};
-use mancala::constants::TIMEOUT_DURATION;
-use mancala::models::player::{Player};
-
 // Error messages for various game conditions
-pub mod errors {
+pub mod Errors {
     pub const GAME_NOT_PENDING: felt252 = 'MancalaBoard: not pending';
     pub const PLAYER_TWO_ALREADY_JOINED: felt252 = 'MancalaBoard: already joined';
     pub const NOT_PLAYER_TURN: felt252 = 'MancalaBoard: not your turn';
@@ -77,23 +77,23 @@ pub impl MancalaBoardImpl of MancalaBoardTrait {
     /// * If player_two is the same as player_one
     #[inline]
     fn join_game(ref self: MancalaBoard, player_two: Player) {
-        assert(self.status == GameStatus::Pending, errors::GAME_NOT_PENDING);
-        assert(self.player_two.is_zero(), errors::PLAYER_TWO_ALREADY_JOINED);
-        assert(player_two.address != self.player_one, errors::CANNOT_PLAY_SELF);
+        assert(self.status == GameStatus::Pending, Errors::GAME_NOT_PENDING);
+        assert(self.player_two.is_zero(), Errors::PLAYER_TWO_ALREADY_JOINED);
+        assert(player_two.address != self.player_one, Errors::CANNOT_PLAY_SELF);
         self.player_two = player_two.address;
         self.status = GameStatus::InProgress;
     }
 
     #[inline]
     fn timeout_opponent(ref self: MancalaBoard, player: ContractAddress) {
-        assert(self.status == GameStatus::InProgress, errors::NOT_IN_PROGRESS);
-        assert(self.current_player == player, errors::NOT_PLAYER_TURN);
+        assert(self.status == GameStatus::InProgress, Errors::NOT_IN_PROGRESS);
+        assert(self.current_player == player, Errors::NOT_PLAYER_TURN);
 
         let last_turn_change_timestamp = self.last_turn_change_timestamp;
         let current_timestamp = get_block_timestamp();
 
         assert(
-            current_timestamp > last_turn_change_timestamp + TIMEOUT_DURATION, errors::NOT_TIMEOUT,
+            current_timestamp > last_turn_change_timestamp + TIMEOUT_DURATION, Errors::NOT_TIMEOUT,
         );
 
         self.status = GameStatus::TimeOut;

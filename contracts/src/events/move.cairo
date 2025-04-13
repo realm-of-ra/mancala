@@ -1,8 +1,7 @@
+pub use mancala::events::index::{Capture, EndTurn, PlayerExtraTurn, PlayerMove};
 use starknet::ContractAddress;
 
-pub use mancala::events::index::{PlayerMove, PlayerExtraTurn, EndTurn, Capture};
-
-pub mod errors {}
+pub mod Errors {}
 
 #[generate_trait]
 pub impl PlayerMoveImpl of PlayerMoveTrait {

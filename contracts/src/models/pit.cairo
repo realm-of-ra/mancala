@@ -1,7 +1,7 @@
-use starknet::ContractAddress;
 pub use mancala::models::index::Pit;
+use starknet::ContractAddress;
 
-mod errors {}
+mod Errors {}
 
 #[generate_trait]
 impl PitImpl of PitTrait {

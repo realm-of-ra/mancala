@@ -1,7 +1,7 @@
-use starknet::ContractAddress;
 pub use mancala::models::index::{Seed, SeedColor};
+use starknet::ContractAddress;
 
-mod errors {}
+mod Errors {}
 
 #[generate_trait]
 pub impl SeedImpl of SeedTrait {

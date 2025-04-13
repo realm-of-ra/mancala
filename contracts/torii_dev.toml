@@ -17,5 +17,5 @@ contracts = [
 [events]
 raw = true
 historical = [
-    "mancala_cale-TrophyProgression",
+    "mancala_suit-TrophyProgression",
 ]

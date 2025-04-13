@@ -13,12 +13,12 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_cale"
+default = "mancala_suit"
 
 [writers]
-"mancala_cale" = ["mancala_cale-Mancala", "mancala_cale-PlayerProfile"]
-"mancala_cale-TrophyCreation" = ["mancala_cale-Mancala"]
-"mancala_cale-TrophyProgression" = ["mancala_cale-Mancala"]
+"mancala_suit" = ["mancala_suit-Mancala", "mancala_suit-PlayerProfile"]
+"mancala_suit-TrophyCreation" = ["mancala_suit-Mancala"]
+"mancala_suit-TrophyProgression" = ["mancala_suit-Mancala"]
 
 [env]
 rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
@@ -31,4 +31,4 @@ ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 raw = true
-historical = ["mancala_cale-TrophyProgression"]
+historical = ["mancala_suit-TrophyProgression"]

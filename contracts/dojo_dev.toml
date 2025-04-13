@@ -1,10 +1,10 @@
 [world]
-name = "RealmOfRa: Mancala"
+name = "Mancala"
 description = "Mancala is a fully on-chain PvP strategy boardgame built on Dojo."
 cover_uri = "file://assets/cover.png"
 icon_uri = "file://assets/icon.png"
 website = "https://github.com/realm-of-ra/mancala"
-seed = "mancala"
+seed = "mancala-suit"
 
 [world.socials]
 x = "https://x.com/realm_of_ra"
@@ -13,25 +13,25 @@ github = "https://github.com/realm-of-ra/mancala"
 telegram = "https://t.me/dojoengine"
 
 [namespace]
-default = "mancala_cale"
+default = "mancala_suit"
 
 [writers]
-"mancala_cale" = ["mancala_cale-Mancala", "mancala_cale-PlayerProfile", "mancala_cale-MancalaConfig"]
-"mancala_cale-TrophyCreation" = ["mancala_cale-Mancala"]
-"mancala_cale-TrophyProgression" = ["mancala_cale-Mancala"]
+"mancala_suit" = ["mancala_suit-Mancala", "mancala_suit-PlayerProfile", "mancala_suit-MancalaConfig"]
+"mancala_suit-TrophyCreation" = ["mancala_suit-Mancala"]
+"mancala_suit-TrophyProgression" = ["mancala_suit-Mancala"]
 
 [env]
 rpc_url = "http://localhost:5050"
 # Default account for katana with seed = 0
 account_address = "0x127fd5f1fe78a71f8bcd1fec63e3fe2f0486b6ecd5c86a0466c3a21fa5cfcec"
 private_key = "0xc5b2fcab997346f3ea1c00b002ecf6f382c5f9c9659a3894eb783c5320f912"
-world_address = "0x542a349cdda6f2518a2b159fe3de19429f43233053464b44a25167a5be92cbd"  # Uncomment and update this line with your world address.
+world_address = "0x07d4d50bc91042322bd161c981b40494feb38c81752d945242ac29e4c54d9bd2"  # Uncomment and update this line with your world address.
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 [init_call_args]
-"mancala_cale-Mancala" = [
-  "0x6daf2a924fab727ae5409f0743de4869850f988b6f8545268016ad1107fd2cd",  # TOKEN_PASS_ADDRESS
-  "0x07c4d03b35e224ac19247c429a203c36ca40653e12d28e696d2674ee61a60fa3", # GATEKEEPER_ADDRESS
+"mancala_suit-Mancala" = [
+  "0x127fd5f1fe78a71f8bcd1fec63e3fe2f0486b6ecd5c86a0466c3a21fa5cfcec",  # TOKEN_PASS_ADDRESS
+  "0x127fd5f1fe78a71f8bcd1fec63e3fe2f0486b6ecd5c86a0466c3a21fa5cfcec", # GATEKEEPER_ADDRESS
 ]

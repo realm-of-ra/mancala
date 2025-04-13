@@ -57,6 +57,8 @@ pub mod types {
 
 pub mod utils {
     pub mod board;
+    pub mod cartridge_vrf;
+    pub mod random;
 }
 
 #[cfg(test)]
