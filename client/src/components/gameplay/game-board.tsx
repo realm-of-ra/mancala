@@ -36,13 +36,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [selectedPit, setSelectedPit] = React.useState<number | null>(null);
   const [simulatedSeeds, setSimulatedSeeds] = React.useState<any[]>([]);
   const [isSimulating, setIsSimulating] = React.useState(false);
-  const involved = game_players?.mancalaStonePlayerModels.edges.some(
+  const involved = game_players?.mancalaAvalonPlayerModels.edges.some(
     (item: any) =>
       item?.node.address ===
       (account.account?.address || game_node?.player_one),
   );
   const player_position = involved
-    ? game_players?.mancalaStonePlayerModels.edges.findIndex(
+    ? game_players?.mancalaAvalonPlayerModels.edges.findIndex(
         (item: any) =>
           item?.node.address ===
           (account.account?.address || game_node?.player_one),
@@ -74,7 +74,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [startCapturePolling, startExtraTurnPolling]);
 
   useEffect(() => {
-    const captures = captureData?.mancalaStoneCaptureModels?.edges;
+    const captures = captureData?.mancalaAvalonCaptureModels?.edges;
     if (captures && captures.length > 0 && game_node?.status !== "Finished") {
       const latestCapture = captures[captures.length - 1]?.node;
 
@@ -97,7 +97,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [captureData, account.account?.address, game_node?.status, setMessage]);
 
   useEffect(() => {
-    const extraTurns = extraTurnData?.mancalaStonePlayerExtraTurnModels?.edges;
+    const extraTurns = extraTurnData?.mancalaAvalonPlayerExtraTurnModels?.edges;
     if (
       extraTurns &&
       extraTurns.length > 0 &&
@@ -124,11 +124,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [extraTurnData, account.account?.address, game_node?.status, setMessage]);
 
   const seeds = React.useMemo(() => {
-    if (!data?.mancalaStoneSeedModels?.edges) return [];
+    if (!data?.mancalaAvalonSeedModels?.edges) return [];
     const uniqueSeeds = new Map();
 
     // Sort edges by timestamp in descending order (newest first)
-    const sortedEdges = [...data.mancalaStoneSeedModels.edges].sort((a, b) => {
+    const sortedEdges = [...data.mancalaAvalonSeedModels.edges].sort((a, b) => {
       const timeA = new Date(a.node.entity.updatedAt).getTime();
       const timeB = new Date(b.node.entity.updatedAt).getTime();
       return timeB - timeA; // Descending order
@@ -169,10 +169,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
       }));
 
       const player =
-        game_players?.mancalaStonePlayerModels.edges[player_position]?.node
+        game_players?.mancalaAvalonPlayerModels.edges[player_position]?.node
           .address;
       const opponent =
-        game_players?.mancalaStonePlayerModels.edges[opponent_position]?.node
+        game_players?.mancalaAvalonPlayerModels.edges[opponent_position]?.node
           .address;
 
       const simulatedMove = calculateMancalaMove(
@@ -194,7 +194,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   ]);
 
   useEffect(() => {
-    if (data?.mancalaStoneSeedModels?.edges) {
+    if (data?.mancalaAvalonSeedModels?.edges) {
       setIsSimulating(false);
       setSelectedPit(null);
     }
@@ -246,15 +246,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaStonePlayerModels.edges[involved ? player_position : opponent_position]?.node
-            .address,
+          game_players?.mancalaAvalonPlayerModels.edges[
+            involved ? player_position : opponent_position
+          ]?.node.address,
         )
-      : game_players?.mancalaStonePitModels.edges
+      : game_players?.mancalaAvalonPitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaStonePlayerModels.edges[involved ? player_position : opponent_position]
-                ?.node.address,
+              game_players?.mancalaAvalonPlayerModels.edges[
+                involved ? player_position : opponent_position
+              ]?.node.address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
           ?.seed_count || 0;
@@ -264,19 +266,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
       ? calculatePitAmount(
           simulatedSeeds,
           7,
-          game_players?.mancalaStonePlayerModels.edges[involved ? opponent_position : player_position]?.node
-            .address,
+          game_players?.mancalaAvalonPlayerModels.edges[
+            involved ? opponent_position : player_position
+          ]?.node.address,
         )
-      : game_players?.mancalaStonePitModels.edges
+      : game_players?.mancalaAvalonPitModels.edges
           .filter(
             (item: any) =>
               item?.node.player ===
-              game_players?.mancalaStonePlayerModels.edges[involved ? opponent_position : player_position]
-                ?.node.address,
+              game_players?.mancalaAvalonPlayerModels.edges[
+                involved ? opponent_position : player_position
+              ]?.node.address,
           )
           .filter((item: any) => item?.node.pit_number === 7)[0]?.node
           ?.seed_count || 0;
-          
+
   return (
     <div className="w-full h-[400px] flex flex-col items-center justify-center mt-24">
       <div className="w-[1170px] h-[400px] flex flex-row items-center justify-between space-x-5 relative bg-[url('./assets/game_board.png')] bg-contain bg-center bg-no-repeat">
@@ -324,11 +328,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 1 */}
           <div className="h-[175px] w-full flex flex-row justify-center items-center ml-3.5">
             <div className="flex flex-row justify-center flex-1 items-center w-[100px] space-x-5">
-              {game_players?.mancalaStonePitModels.edges
+              {game_players?.mancalaAvalonPitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaStonePlayerModels.edges[
+                    game_players?.mancalaAvalonPlayerModels.edges[
                       opponent_position
                     ]?.node.address,
                 )
@@ -340,7 +344,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       ? calculatePitAmount(
                           simulatedSeeds,
                           pit.node.pit_number,
-                          game_players?.mancalaStonePlayerModels.edges[
+                          game_players?.mancalaAvalonPlayerModels.edges[
                             opponent_position
                           ]?.node.address,
                         )
@@ -359,11 +363,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           {/* Player 2 */}
           <div className="h-[175px] w-full flex flex-row justify-between items-center">
             <div className="flex flex-row justify-center flex-1 space-x-5">
-              {game_players?.mancalaStonePitModels.edges
+              {game_players?.mancalaAvalonPitModels.edges
                 .filter(
                   (item: any) =>
                     item?.node.player ===
-                    game_players?.mancalaStonePlayerModels.edges[
+                    game_players?.mancalaAvalonPlayerModels.edges[
                       player_position
                     ]?.node.address,
                 )
@@ -375,7 +379,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                       ? calculatePitAmount(
                           simulatedSeeds,
                           pit.node.pit_number,
-                          game_players?.mancalaStonePlayerModels.edges[
+                          game_players?.mancalaAvalonPlayerModels.edges[
                             player_position
                           ]?.node.address,
                         )
