@@ -55,6 +55,36 @@ pub enum ChampionshipStatus {
 
 #[generate_trait]
 impl ChampionshipImpl of ChampionshipTrait {
+    fn new(
+        id: u32,
+        created_by: ContractAddress,
+        metadata: Metadata,
+        schedule: Schedule,
+        entry_fee: Option<EntryFee>,
+        entry_requirement: Option<EntryRequirement>,
+    ) -> Championship {
+        // Get current timestamp for created_at field
+        let current_time = starknet::get_block_timestamp();
+
+        // Initialize stats with zero values
+        let stats = ChampionshipStats {
+            total_matches: 0, completed_matches: 0, registered_players: 0, total_stake_amount: 0,
+        };
+
+        Championship {
+            id,
+            created_at: current_time,
+            created_by,
+            metadata,
+            schedule,
+            entry_fee,
+            entry_requirement,
+            status: ChampionshipStatus::Registration, // New championships start in registration phase
+            stats,
+        }
+    }
+
+    #[inline(always)]
     fn is_registration_open(self: Championship) -> bool {
         match self.status {
             ChampionshipStatus::Registration => {
@@ -72,6 +102,7 @@ impl ChampionshipImpl of ChampionshipTrait {
         }
     }
 
+    #[inline(always)]
     fn can_start(self: Championship) -> bool {
         // Championship can only start if it's in Registration status
         match self.status {
@@ -86,6 +117,12 @@ impl ChampionshipImpl of ChampionshipTrait {
             ChampionshipStatus::Completed => false,
             ChampionshipStatus::Cancelled => false,
         }
+    }
+
+    #[inline(always)]
+    fn has_minimum_players(self: Championship) -> bool {
+        // Check if the number of registered players meets or exceeds the minimum requirement
+        self.stats.registered_players >= self.metadata.min_players
     }
 
     #[inline(always)]
