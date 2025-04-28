@@ -42,7 +42,7 @@ pub struct ChampionshipStats {
     pub total_matches: u32,
     pub completed_matches: u32,
     pub registered_players: u32,
-    pub total_stake_amount: u128,
+    pub total_ticket_amount: u128,
 }
 
 #[derive(Serde, Copy, Drop, Introspect, PartialEq)]
@@ -68,7 +68,7 @@ impl ChampionshipImpl of ChampionshipTrait {
 
         // Initialize stats with zero values
         let stats = ChampionshipStats {
-            total_matches: 0, completed_matches: 0, registered_players: 0, total_stake_amount: 0,
+            total_matches: 0, completed_matches: 0, registered_players: 0, total_ticket_amount: 0,
         };
 
         Championship {
