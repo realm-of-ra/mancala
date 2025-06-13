@@ -46,7 +46,7 @@ pub impl TaskImpl of TaskTrait {
     fn tasks(self: Task, level: u8, count: u32, total: u32) -> Span<ArcadeTask> {
         let task_id: felt252 = self.identifier(level);
         let description: ByteArray = self.description(count);
-        array![ArcadeTaskTrait::new(task_id, total, description)].span()
+        array![ArcadeTaskTrait::new(task_id, total.into(), description)].span()
     }
 }
 

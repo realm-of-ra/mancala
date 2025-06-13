@@ -21,14 +21,20 @@ default = "mancala_stone"
 "mancala_stone-TrophyProgression" = ["mancala_stone-Mancala"]
 
 [env]
-rpc_url = "https://api.cartridge.gg/x/mancala-alpha-v0-2-0/katana"
+rpc_url = "https://api.cartridge.gg/x/mancala-v0/katana"
 # Default account for katana with seed = 0
-account_address = "0x7c7e6bcfcb1b408dcef95241681739207d3d8eff5439c9301847222e12dc053"
-private_key = "0x3eb97d72f148146d534d7e6dabdeba45c5bd62c4355db2a41735f847967db1b"
-world_address = "0x4068272626b01237de6009110492f508fb9de4d9358b6ecf15ffb02a1c7e0a3"  # Uncomment and update this line with your world address.
+account_address = "0x6677fe62ee39c7b07401f754138502bab7fac99d2d3c5d37df7d1c6fab10819"
+private_key = "0x3e3979c1ed728490308054fe357a9f49cf67f80f9721f44cc57235129e090f4"
+world_address = "0x476a549cd91505bc0f6256a462f2f0352c636dc18bddaed97eb3f5803088120"  # Uncomment and update this line with your world address.
 ipfs_config.url = "https://ipfs.infura.io:5001"
 ipfs_config.username = "2EBrzr7ZASQZKH32sl2xWauXPSA"
 ipfs_config.password = "12290b883db9138a8ae3363b6739d220"
 
 raw = true
 historical = ["mancala_stone-TrophyProgression"]
+
+[init_call_args]
+"mancala_stone-Mancala" = [
+  "0x00c489b121fdc7bf7aa71167d603de7d41184576b6ed1bae87dd7b448c4ac8cf",  # TOKEN_PASS_ADDRESS
+  "0x07837a565c98505A88338Ceb8245494af97C6caC2d0A23D9B08db5C052d7afA9", # GATEKEEPER_ADDRESS
+]

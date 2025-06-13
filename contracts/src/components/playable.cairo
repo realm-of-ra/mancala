@@ -257,7 +257,7 @@ pub mod PlayableComponent {
                     let task_id = Task::Collecting.identifier(0);
                     let extractor_task_id = Task::Clearing.identifier(0);
                     let time = get_block_timestamp();
-                    arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store.progress(player.into(), task_id, captured_seeds.into(), time);
                     arcade_store
                         .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
@@ -270,7 +270,7 @@ pub mod PlayableComponent {
                     let task_id = Task::Collecting.identifier(0);
                     let extractor_task_id = Task::Clearing.identifier(0);
                     let time = get_block_timestamp();
-                    arcade_store.progress(player.into(), task_id, captured_seeds, time);
+                    arcade_store.progress(player.into(), task_id, captured_seeds.into(), time);
                     arcade_store
                         .progress(player.into(), extractor_task_id, captured_seeds.into(), time);
                 }
